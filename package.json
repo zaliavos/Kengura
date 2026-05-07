@@ -1,0 +1,10 @@
+{
+  "name": "kengura-treniruoklis",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kengūros treniruoklis (Bičiulis) — static HTML app with optional Netlify function for AI help.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.50.0"
+  }
+}

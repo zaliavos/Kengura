@@ -1,0 +1,29 @@
+# Node / Netlify
+node_modules/
+.netlify/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Secrets — never commit
+.env
+.env.local
+.env.*.local
+
+# Local Netlify dev state
+.netlify/
