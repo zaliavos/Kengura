@@ -10,6 +10,11 @@
   to = "/.netlify/functions/help"
   status = 200
 
+[[redirects]]
+  from = "/"
+  to = "/kengura.html"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]
