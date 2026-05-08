@@ -158,7 +158,7 @@
           ],
           "figure": "figures/2000-q8.png",
           "mechanic": "arith-compute",
-          "correct": "A"
+          "correct": null
         },
         {
           "num": 9,
@@ -293,7 +293,7 @@
           "figure": "figures/2000-q15.png",
           "mechanic": "geometry-misc",
           "imageOnlyOptions": true,
-          "correct": "C"
+          "correct": null
         },
         {
           "num": 16,
@@ -466,7 +466,7 @@
           ],
           "figure": "figures/2000-q24.png",
           "mechanic": "area-decomp",
-          "correct": "C"
+          "correct": null
         },
         {
           "num": 25,
@@ -787,7 +787,7 @@
           ],
           "figure": "figures/2001-q10.png",
           "mechanic": "geometry-misc",
-          "correct": "C"
+          "correct": null
         },
         {
           "num": 11,
