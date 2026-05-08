@@ -89,7 +89,12 @@ better practice than a wrong-band random.
 - Years 2006, 2014–2017 have no figures (no usable source PDF was found at
   build time). Those years still have prompt+options+solution text.
 - 2010, 2011, 2012, 2016 have 29 questions instead of 30.
-- 2019 has 31 (extra question slipped through extraction; not investigated).
+- Contest-eligibility (year has key for every Q): **26 of 26** as of
+  2026-05-08. The contest sim now offers every archived year. Two passes:
+  (1) hand-filled 2000-Q8/10/15/24, 2001-Q10, 2008-Q2/27, dropped the
+  2019 phantom Q66; (2) parsed `Solutions/2006kengura.pdf` (multi-grade
+  table — Bičiulis is the 2nd column, M is empty for rows 25-30 since
+  Mažylis has only 24 Qs) and `Solutions/spGDPRB*.pdf` (2014/2015/2016/2017).
 
 ## Methodology / playlist mode (2026-05-06)
 
