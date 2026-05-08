@@ -3112,7 +3112,11 @@ function renderHome(){
       </div>` : ''}
       <p style="margin-bottom:6px"><b>Pasirink metus:</b></p>
       <div class="row" id="contestYears">
-        ${ARCHIVE.filter(t => t.questions.length >= 28 && t.questions.every(q => q.correct)).map(t =>
+        ${ARCHIVE.filter(t =>
+          t.year !== '2006' &&                                      // 2006 source PDF is Mažylis (3-4 grade), not Bičiulis — wrong contest tier
+          t.questions.length >= 28 &&
+          t.questions.every(q => q.correct)                         // null `correct` = unverified key; better to skip year than risk grading kid wrong
+        ).map(t =>
           `<button class="btn small" data-contest-year="${t.year}">${t.year}</button>`
         ).join('')}
       </div>

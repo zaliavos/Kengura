@@ -86,15 +86,28 @@ better practice than a wrong-band random.
   these were re-extracted on 2026-05-06 because the original build had
   pulled the strips from solution PDFs / wrong-grade sections — see
   `_refigure.py`.
-- Years 2006, 2014–2017 have no figures (no usable source PDF was found at
-  build time). Those years still have prompt+options+solution text.
+- Figures: all 26 years × all questions have a `q.figure` (re-extraction
+  passes on 2026-05-06; details under "Contest simulator + final figure
+  pass" further down).
 - 2010, 2011, 2012, 2016 have 29 questions instead of 30.
-- Contest-eligibility (year has key for every Q): **26 of 26** as of
-  2026-05-08. The contest sim now offers every archived year. Two passes:
-  (1) hand-filled 2000-Q8/10/15/24, 2001-Q10, 2008-Q2/27, dropped the
-  2019 phantom Q66; (2) parsed `Solutions/2006kengura.pdf` (multi-grade
-  table — Bičiulis is the 2nd column, M is empty for rows 25-30 since
-  Mažylis has only 24 Qs) and `Solutions/spGDPRB*.pdf` (2014/2015/2016/2017).
+- Contest-sim eligibility (kengura.html ~line 3115): year passes only if
+  every Q has a `correct` letter AND year is not 2006. Reason 2006 is
+  excluded: the 2006 source PDF is **Mažylis (3-4 grade), not Bičiulis**
+  — every Q is 3-point, so a kid scoring 30/30 on it would walk away
+  with a false sense of contest readiness. With these gates: **23 of 26
+  years surface** (excluded: 2000, 2001, 2006).
+- Four 2000/2001 answer keys (2000-Q8/15/24, 2001-Q10) are intentionally
+  `correct: null`. These were hand-guessed at ~60-70 % confidence on
+  2026-05-08; until a Mažylis-section solution PDF for 2000/2001 is
+  located (or a math teacher verifies), the keys stay null. With one or
+  more unkeyed Qs, those years can't be graded fairly in contest mode.
+- Note on `q.hasMissingOptionText`: PDF extraction failed on some option
+  text in roughly half the years, but the contest UI handles this fine
+  (letter-only buttons + the figure shows the real options). Don't filter
+  these years out of the contest picker — pedagogical value of variety
+  outweighs presentation friction. A separate `q.contestExclude` flag
+  could be added later for individual questions whose **prompt** itself
+  is garbled (the user has flagged a few of these manually); deferred.
 
 ## Methodology / playlist mode (2026-05-06)
 
