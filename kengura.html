@@ -2507,18 +2507,18 @@ function growthOpenerFor(q){
   const band = q && (q.points || q.difficulty) || 3;
   if(band >= 5){
     return [
-      "Ši užduotis su gudrybe – nepataikai iš pirmo karto, ir tai normalu.",
-      "5 taškų užduotys retai sprendžiamos „skaičiavimu" – reikia pamatyti triuką.",
-      "Net olimpiadų laimėtojai šitų neatspėja iškart. Pažiūrėk sprendimą atidžiai.",
+      'Ši užduotis su gudrybe – nepataikai iš pirmo karto, ir tai normalu.',
+      'Penkių taškų užduotys retai sprendžiamos vien skaičiavimu – reikia pamatyti triuką.',
+      'Net olimpiadų laimėtojai šitų neatspėja iškart. Pažiūrėk sprendimą atidžiai.',
     ][Math.floor(Math.random() * 3)];
   }
   if(band === 4){
     return [
-      "Beveik. Pažiūrėk, kur kelias pasuko – tai dažna klaida.",
-      "Šitas reikalauja dviejų žingsnių. Pažiūrėk, kurio trūko.",
+      'Beveik. Pažiūrėk, kur kelias pasuko – tai dažna klaida.',
+      'Šitas reikalauja dviejų žingsnių. Pažiūrėk, kurio trūko.',
     ][Math.floor(Math.random() * 2)];
   }
-  return "Ne tas atsakymas, bet idėja arti. Pažiūrėk sprendimą.";
+  return 'Ne tas atsakymas, bet idėja arti. Pažiūrėk sprendimą.';
 }
 
 /* Spaced-repetition intervals (in days). Each consecutive correct answer
