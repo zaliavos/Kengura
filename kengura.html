@@ -96,8 +96,10 @@
   .opt.selected{border-color:var(--accent);background:var(--accent-soft)}
   .opt.correct{border-color:var(--good);background:var(--good-soft)}
   .opt.correct .letter{background:var(--good);color:#fff}
+  .opt.correct::after{content:"\2713";font-weight:700;color:var(--good);margin-left:auto;font-size:18px;line-height:1} /* ✓ */
   .opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
   .opt.wrong .letter{background:var(--bad);color:#fff}
+  .opt.wrong::after{content:"\2715";font-weight:700;color:var(--bad);margin-left:auto;font-size:18px;line-height:1} /* ✗ */
   .timer-bar{
     display:flex;align-items:center;gap:10px;flex-wrap:wrap;
     background:#fff4e8;border:1px solid var(--accent-soft);border-radius:12px;
@@ -183,6 +185,8 @@
   .step-pip.now{background:var(--accent);color:#fff}
   .playlist-steps{display:flex;align-items:center;gap:6px;margin:6px 0 14px}
   .playlist-steps span{color:var(--muted);font-size:12px}
+  .pl-countdown{display:inline-block;padding:2px 8px;border-radius:10px;background:#f1ecdf;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;margin-left:6px}
+  .pl-countdown.warn{background:var(--bad-soft);color:var(--bad)}
   .methodology{padding:14px;background:#fff7ec;border:1px solid var(--line);border-radius:10px;margin-bottom:12px}
   .methodology h4{margin:0 0 6px;font-size:14px;color:var(--accent)}
   .methodology p{margin:6px 0;font-size:14px;line-height:1.5}
@@ -2458,7 +2462,27 @@ function weakestMechanics(limit){
   rows.sort((a,b)=>b.rate - a.rate);
   return rows.slice(0, limit);
 }
-function saveStore(s){ try{ localStorage.setItem(LS_KEY, JSON.stringify(s)); }catch(e){} }
+let _saveWarned = false;
+function saveStore(s){
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(s));
+  } catch(e) {
+    // Most common: QuotaExceededError. Warn once per session so the kid
+    // (or parent) knows their progress isn't being persisted.
+    if(!_saveWarned){
+      _saveWarned = true;
+      console.warn("kengura: localStorage save failed", e);
+      try {
+        const banner = document.createElement("div");
+        banner.setAttribute("role", "alert");
+        banner.style.cssText = "position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;padding:10px 14px;background:#fee;border:1px solid #c33;border-radius:8px;color:#600;font-size:14px";
+        banner.textContent = "⚠ Nepavyko išsaugoti progreso (atminties limitas). Pasakyk tėvams – gali tekti iškrauti seną istoriją.";
+        document.body.appendChild(banner);
+        setTimeout(()=> banner.remove(), 12000);
+      } catch(_){}
+    }
+  }
+}
 
 const store = loadStore();
 
@@ -2516,6 +2540,7 @@ function stopTimer(){
    VII. ARCHIVE (real Kangaroo tests, parsed from PDFs)
    ============================================================ */
 const ARCHIVE = (window.KENGURA_ARCHIVE && window.KENGURA_ARCHIVE.archive) || [];
+const ARCHIVE_LOAD_FAILED = !window.KENGURA_ARCHIVE || !Array.isArray(window.KENGURA_ARCHIVE.archive) || window.KENGURA_ARCHIVE.archive.length === 0;
 
 // Pattern label → user-facing Lithuanian label
 const PATTERN_LABEL = {
@@ -2993,9 +3018,9 @@ function renderArchiveCard(year, q){
       ${figureHtml}
       <div class="options">${optionsHtml}</div>
       ${bottom}
-      ${showConfidence ? `<div class="confidence-row">
+      ${showConfidence ? `<div class="confidence-row" role="radiogroup" aria-label="Kiek esi tikras?">
         <span class="help-bar" style="margin:0 8px 0 0">Kiek esi tikras?</span>
-        ${["a","b","c"].map(c => `<button class="btn small ghost" data-conf="${c}">${confLabels[c]}</button>`).join("")}
+        ${["a","b","c"].map(c => `<button class="btn small ghost" role="radio" aria-checked="false" data-conf="${c}">${confLabels[c]}</button>`).join("")}
       </div>` : ''}
       ${conf ? `<div class="help-bar">Pasitikėjimas: <b>${confLabels[conf]}</b></div>` : ''}
       <div class="footer-actions">
@@ -3049,6 +3074,11 @@ function renderHome(){
     });
 
   $app.innerHTML = `
+    ${ARCHIVE_LOAD_FAILED ? `
+    <section class="card" style="background:var(--bad-soft);border:1px solid var(--bad)">
+      <h3 style="margin-top:0">⚠ Duomenų failas nepasiekiamas</h3>
+      <p>Nepavyko įkelti <code>kengura-archive.js</code>. Archyvas, kontestai ir mechanikos – išjungti, kol failas nebus rastas. Patikrink, ar failas yra šalia <code>kengura.html</code> ir ar puslapis perkrautas „kietai" (Ctrl+Shift+R).</p>
+    </section>` : ``}
     <section class="card">
       <h2>Sveikas, kengūrininke!</h2>
       <p>Tai matematikos „Kengūros“ stiliaus treniruoklis – 5–6 klasei. Spręsk uždavinius, naudok užuominas, peržiūrėk klaidas ir mokykis spręsti panašius.</p>
@@ -3374,11 +3404,11 @@ function renderQuiz(){
       ${showResult ? `<div class="explain"><b>Paaiškinimas:</b> ${escapeHTML(q.explain)}</div>`:``}
 
       ${!showResult && state._chosen != null && !state._confidence ? `
-        <div class="confidence-row">
+        <div class="confidence-row" role="radiogroup" aria-label="Kiek esi tikras?">
           <span class="help-bar" style="margin:0 8px 0 0">Kiek esi tikras?</span>
-          <button class="btn small ghost" data-q-conf="a">Tikrai žinau</button>
-          <button class="btn small ghost" data-q-conf="b">Spėju iš dviejų</button>
-          <button class="btn small ghost" data-q-conf="c">Atsitiktinai</button>
+          <button class="btn small ghost" role="radio" aria-checked="false" data-q-conf="a">Tikrai žinau</button>
+          <button class="btn small ghost" role="radio" aria-checked="false" data-q-conf="b">Spėju iš dviejų</button>
+          <button class="btn small ghost" role="radio" aria-checked="false" data-q-conf="c">Atsitiktinai</button>
         </div>
       ` : ''}
       ${!showResult && state._confidence ? `<div class="help-bar">Pasitikėjimas: <b>${({a:'Tikrai žinau',b:'Spėju iš dviejų',c:'Atsitiktinai'})[state._confidence]}</b></div>` : ''}
@@ -3494,20 +3524,21 @@ function submitAnswer(){
   const correct = state._chosen === q.correctIndex;
   const now = Date.now();
   const timeMs = state._questionStartedAt ? (now - state._questionStartedAt) : 0;
+  const confidence = state._confidence || null;
   state.answers[idx] = {
     chosen: state._chosen,
     correct,
     hintUsed: !!state._hintShown,
-    confidence: state._confidence || null,
+    confidence,
     timeMs,
   };
+  // confidence stats — must read confidence BEFORE we reset the state field
+  if(confidence && store.confStats[confidence]){
+    store.confStats[confidence].attempts++;
+    if(!correct) store.confStats[confidence].wrong++;
+  }
   state._confidence = null;
   state._questionStartedAt = now;
-  // confidence stats
-  if(state._confidence && store.confStats[state._confidence]){
-    store.confStats[state._confidence].attempts++;
-    if(!correct) store.confStats[state._confidence].wrong++;
-  }
   logActivity(correct);
   // record per-category and per-subtopic stats
   const c = store.catStats[q.category] = store.catStats[q.category] || {attempts:0, wrong:0};
@@ -4170,7 +4201,17 @@ function pickPlaylistContent(mech){
   return {sourceBand, worked, tryQ, mastery};
 }
 
+const PLAYLIST_MASTERY_MS = 5 * 60 * 1000;
+
+function stopPlaylistTimer(){
+  if(state.playlistTimerInterval){
+    clearInterval(state.playlistTimerInterval);
+    state.playlistTimerInterval = null;
+  }
+}
+
 function openPlaylist(mech){
+  stopPlaylistTimer();
   state.view = "playlist";
   state.playlistMech = mech;
   state.playlistStep = 0;
@@ -4179,6 +4220,7 @@ function openPlaylist(mech){
   state.playlistSubmitted = {}; // key -> bool
   state.playlistHintShown = {}; // key -> bool
   state.playlistTimerStart = 0;
+  state.playlistTimeExpired = false;
   renderPlaylist();
 }
 
@@ -4196,6 +4238,7 @@ function openDueQueue(){
     items.push({year:d.year, q});
   }
   if(!items.length) return;
+  stopPlaylistTimer();
   state.view = "playlist";
   state.playlistMech = "__due__";
   state.playlistStep = 3;       // jump straight to mastery step (just answers)
@@ -4203,6 +4246,8 @@ function openDueQueue(){
   state.playlistAns = {};
   state.playlistSubmitted = {};
   state.playlistHintShown = {};
+  state.playlistTimerStart = 0;
+  state.playlistTimeExpired = false;
   renderPlaylist();
 }
 
@@ -4257,9 +4302,15 @@ function renderPlaylist(){
       return state.playlistSubmitted[k] && state.playlistAns[k] === it.q.correct;
     }).length;
     const allDone = submittedCount === items.length;
+    const timerHtml = isDue ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ 5:00</span>`;
     body = `
-      <p><b>${isDue ? 'Pakartojimo eilė' : 'Įvaldymo testas'}:</b> ${items.length} užduotys, ${isDue?'be laiko':'5 min, be užuominų'}.${allDone ? '' : ' Atsakyk į visas, paskui paspausk „Baigti".'}</p>
-      ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`], mode:"mastery"})).join('')}
+      <p><b>${isDue ? 'Pakartojimo eilė' : 'Įvaldymo testas'}:</b> ${items.length} užduotys, ${isDue?'be laiko':'be užuominų'}. ${timerHtml}${allDone ? '' : ' Atsakyk į visas, paskui paspausk „Baigti".'}</p>
+      ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery"})).join('')}
+      ${state.playlistTimeExpired && !allDone ? `
+        <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
+          <b>Laikas baigėsi.</b> Neatsakytos užduotys lieka kaip neteisingos. Spausk „Baigti", kad pamatytum rezultatą.
+        </div>
+      ` : ``}
       ${allDone ? `
         <div class="explain" style="background:${correctCount >= 2 ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${correctCount >= 2 ? 'var(--good)' : 'var(--bad)'};">
           <b>${correctCount >= 2 ? 'Šaunu!' : 'Reikia padirbėti.'}</b>
@@ -4269,7 +4320,7 @@ function renderPlaylist(){
       ` : ``}
       <div class="footer-actions">
         <button class="btn ghost" id="plBack">← Į pradžią</button>
-        ${allDone ? `<button class="btn primary" id="plDone">Baigti</button>` : ''}
+        ${(allDone || state.playlistTimeExpired) ? `<button class="btn primary" id="plDone">Baigti</button>` : ''}
       </div>
     `;
   } else {
@@ -4288,13 +4339,14 @@ function renderPlaylist(){
 
   // Wire common controls
   const backTop = document.getElementById("plBackTop");
-  if(backTop) backTop.addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+  if(backTop) backTop.addEventListener("click", ()=>{ stopPlaylistTimer(); state.view="home"; renderHome(); });
   const back = document.getElementById("plBack");
-  if(back) back.addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+  if(back) back.addEventListener("click", ()=>{ stopPlaylistTimer(); state.view="home"; renderHome(); });
   const next = document.getElementById("plNext");
   if(next) next.addEventListener("click", ()=>{ state.playlistStep++; renderPlaylist(); });
   const done = document.getElementById("plDone");
   if(done) done.addEventListener("click", ()=>{
+    stopPlaylistTimer();
     // Compute mastery and persist
     if(!isDue){
       const items = content.mastery || [];
@@ -4317,6 +4369,30 @@ function renderPlaylist(){
     renderHome();
   });
 
+  // Mastery-step countdown: tick the visible timer, expire at 5 min.
+  // (isDue uses the same step 3 but with no time pressure — skip timer.)
+  stopPlaylistTimer();
+  if(step === 3 && !isDue && !state.playlistTimeExpired && state.playlistTimerStart){
+    const tick = () => {
+      const remainingMs = PLAYLIST_MASTERY_MS - (Date.now() - state.playlistTimerStart);
+      const span = document.getElementById("plCountdown");
+      if(remainingMs <= 0){
+        state.playlistTimeExpired = true;
+        stopPlaylistTimer();
+        renderPlaylist();
+        return;
+      }
+      if(span){
+        const m = Math.floor(remainingMs / 60000);
+        const s = Math.floor((remainingMs % 60000) / 1000);
+        span.textContent = `⏱ ${m}:${String(s).padStart(2,'0')}`;
+        if(remainingMs < 60000) span.classList.add("warn");
+      }
+    };
+    tick();
+    state.playlistTimerInterval = setInterval(tick, 1000);
+  }
+
   // Wire each playlist question's option clicks + check buttons
   $app.querySelectorAll(".playlist-q").forEach(card => {
     const yr = card.dataset.year;
@@ -4325,6 +4401,7 @@ function renderPlaylist(){
     card.querySelectorAll(".opt[data-letter]").forEach(opt => {
       opt.addEventListener("click", ()=>{
         if(state.playlistSubmitted[k]) return;
+        if(state.playlistTimeExpired) return;
         state.playlistAns[k] = opt.dataset.letter;
         renderPlaylist();
       });
@@ -4332,6 +4409,7 @@ function renderPlaylist(){
     const checkBtn = card.querySelector("[data-pl-check]");
     if(checkBtn) checkBtn.addEventListener("click", ()=>{
       if(state.playlistAns[k] == null) return;
+      if(state.playlistTimeExpired) return;
       state.playlistSubmitted[k] = true;
       // For try/worked steps (not mastery), record one answer right away
       if(state.playlistStep !== 3){
