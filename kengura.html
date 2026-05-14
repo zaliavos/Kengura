@@ -148,6 +148,42 @@
   .empty{color:var(--muted);font-style:italic}
   .top-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
   .top-stats .pill{font-size:12px}
+
+  /* Hero block: streak + activity strip + mission card */
+  .hero-card{padding:18px}
+  .hero-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+  .hero-streak{display:flex;align-items:baseline;gap:4px;background:#fff4e8;border:1px solid var(--accent-soft);
+    border-radius:14px;padding:8px 12px}
+  .streak-flame{font-size:18px;line-height:1}
+  .streak-num{font-size:22px;font-weight:800;color:var(--accent)}
+  .streak-label{font-size:12px;color:var(--muted)}
+  .hero-activity{display:flex;gap:3px;align-items:center}
+  .act-cell{width:14px;height:14px;border-radius:3px;background:#efe6d2;display:inline-block;border:1px solid transparent}
+  .act-cell.lvl1{background:#ffe1b8}
+  .act-cell.lvl2{background:#ffb766}
+  .act-cell.lvl3{background:#f08a1c}
+  .act-cell.today{border-color:#5e3300}
+  .mission{padding:14px;border-radius:12px;margin-bottom:8px}
+  .mission-primary{background:linear-gradient(180deg, #fff4d8 0%, #ffe6a8 100%);border:1px solid var(--accent)}
+  .mission-warm{background:#fff1ec;border:1px dashed #e5704a}
+  .mission-meta{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  .mission-title{margin:4px 0 6px;font-size:20px;line-height:1.25}
+  .mission-body{margin:0 0 12px;font-size:14px;color:#3a2c11}
+  .recent-mastery{background:var(--good-soft);border:1px solid var(--good);padding:8px 12px;border-radius:10px;margin-top:8px;font-size:14px}
+  .muted.small{font-size:12px;color:var(--muted)}
+
+  /* Mastery celebration — used on the playlist mastery-pass message */
+  @keyframes mastery-pop{
+    0%   {transform:scale(0.85);opacity:0}
+    60%  {transform:scale(1.15);opacity:1}
+    100% {transform:scale(1);opacity:1}
+  }
+  .mastery-pass{animation:mastery-pop 600ms ease-out both}
+  .mastery-pass .star{font-size:24px;display:inline-block;margin-right:6px}
+
+  /* Mechanic decay pill in playlist menu */
+  .mech-stale-pill{display:inline-block;background:#fff;border:1px solid var(--accent);
+    color:var(--accent);font-size:11px;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:600}
   kbd{
     background:#f1ecdf;border:1px solid var(--line);border-bottom-width:2px;
     border-radius:6px;padding:1px 6px;font-size:12px;font-family:inherit;color:#444;
@@ -2349,7 +2385,8 @@ function loadStore(){
     confStats:{a:{attempts:0,wrong:0}, b:{attempts:0,wrong:0}, c:{attempts:0,wrong:0}},
     activity:{},       // { "YYYY-MM-DD": {answered, correct, secondsOnTask} }
     contests:[],       // [{when, year, points, scoreWithPenalty, maxPoints, correct, total, answered, byBand}]
-    settings:{count:15, difficulties:[3,4,5], useTimer:true, kenguraMode:false, negativeScore:false}
+    settings:{count:15, difficulties:[3,4,5], useTimer:true, kenguraMode:false, negativeScore:false, askConfidence:false},
+    streak:{count:0, lastDay:null, freezesUsed:0, freezeMonth:null}
   };
   try{
     const raw = localStorage.getItem(LS_KEY);
@@ -2368,6 +2405,7 @@ function loadStore(){
     o.activity = o.activity || {};
     o.contests = o.contests || [];
     o.settings = Object.assign({}, defaults.settings, o.settings || {});
+    o.streak = Object.assign({}, defaults.streak, o.streak || {});
     return o;
   }catch(e){
     return defaults;
@@ -2380,12 +2418,107 @@ function todayKey(){
   const da = String(d.getDate()).padStart(2,"0");
   return `${d.getFullYear()}-${m}-${da}`;
 }
+function dateKeyOffset(daysBack){
+  const d = new Date(Date.now() - daysBack * 24*60*60*1000);
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const da = String(d.getDate()).padStart(2,"0");
+  return `${d.getFullYear()}-${m}-${da}`;
+}
+function monthKey(){
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+}
+function daysSinceLastActivity(){
+  // Returns null if no activity ever recorded.
+  const keys = Object.keys(store.activity || {});
+  if(!keys.length) return null;
+  keys.sort();
+  const last = keys[keys.length - 1];
+  // crude day delta (ok for our purposes — DST/timezone differences off by ≤1 day)
+  const [y,m,d] = last.split('-').map(Number);
+  const lastTs = Date.UTC(y, m-1, d);
+  const now = new Date();
+  const nowTs = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((nowTs - lastTs) / (24*60*60*1000));
+}
+
+// Update streak when the kid actually answers something today.
+// Rules:
+//   * same day as lastDay → no change
+//   * yesterday → count++
+//   * gap of 1 day (i.e. missed yesterday) → use a freeze (max 2/month) and count++
+//   * larger gap → streak resets to 1
+function bumpStreakForToday(){
+  const today = todayKey();
+  const s = store.streak;
+  if(s.lastDay === today) return;
+  // Reset the freeze counter at the start of a new month
+  const mk = monthKey();
+  if(s.freezeMonth !== mk){
+    s.freezeMonth = mk;
+    s.freezesUsed = 0;
+  }
+  if(!s.lastDay){
+    s.count = 1;
+    s.lastDay = today;
+    return;
+  }
+  // Compute gap between lastDay and today in days
+  const [ly,lm,ld] = s.lastDay.split('-').map(Number);
+  const [ty,tm,td] = today.split('-').map(Number);
+  const lastTs = Date.UTC(ly, lm-1, ld);
+  const todayTs = Date.UTC(ty, tm-1, td);
+  const gap = Math.round((todayTs - lastTs) / (24*60*60*1000));
+  if(gap === 1){
+    s.count++;
+  } else if(gap === 2 && s.freezesUsed < 2){
+    s.freezesUsed++;
+    s.count++;   // a single missed day, freeze covers it
+  } else if(gap >= 2){
+    s.count = 1; // reset
+  }
+  s.lastDay = today;
+}
 
 function logActivity(correct){
   const k = todayKey();
   const a = store.activity[k] = store.activity[k] || {answered:0, correct:0};
   a.answered++;
   if(correct) a.correct++;
+  bumpStreakForToday();
+}
+
+// Mastery decay: a mechanic flagged mastered > N days ago is "stale".
+// Used to show a "Pakartoti" CTA in the playlist menu.
+const MASTERY_DECAY_DAYS = 60;
+function mechMasteryAgeDays(mech){
+  const t = (store.masteredMech || {})[mech];
+  if(!t) return null;
+  return Math.floor((Date.now() - t) / (24*60*60*1000));
+}
+function isMechMasteryStale(mech){
+  const age = mechMasteryAgeDays(mech);
+  return age !== null && age >= MASTERY_DECAY_DAYS;
+}
+
+// Growth-mindset openers for the wrong-answer explain box.
+// Keyed loosely by band so the framing matches the difficulty.
+function growthOpenerFor(q){
+  const band = q && (q.points || q.difficulty) || 3;
+  if(band >= 5){
+    return [
+      "Ši užduotis su gudrybe – nepataikai iš pirmo karto, ir tai normalu.",
+      "5 taškų užduotys retai sprendžiamos „skaičiavimu" – reikia pamatyti triuką.",
+      "Net olimpiadų laimėtojai šitų neatspėja iškart. Pažiūrėk sprendimą atidžiai.",
+    ][Math.floor(Math.random() * 3)];
+  }
+  if(band === 4){
+    return [
+      "Beveik. Pažiūrėk, kur kelias pasuko – tai dažna klaida.",
+      "Šitas reikalauja dviejų žingsnių. Pažiūrėk, kurio trūko.",
+    ][Math.floor(Math.random() * 2)];
+  }
+  return "Ne tas atsakymas, bet idėja arti. Pažiūrėk sprendimą.";
 }
 
 /* Spaced-repetition intervals (in days). Each consecutive correct answer
@@ -2590,10 +2723,13 @@ function findSimilarArchive(q, sourceYear, limit){
      {kind:"generator", gen:"keyName"}            — open a generator
      {kind:"archive",   items:[{year,q},...]}     — open one of these archive Qs
      {kind:"fallback",  gen:"keyName"}            — last-resort random gen
+     {kind:"none"}                                — explicitly suppress
+                                                    (5-pt source with no
+                                                    band-matched practice)
 */
 function pickPracticeFor(q, sourceYear){
+  const band = q && (q.points || 3);
   if(q && q.mechanic){
-    const band = q.points || 3;
     const gen = pickGenForMechBand(q.mechanic, band);
     if(gen) return {kind:"generator", gen};
     // also try ±1 band before giving up on generators
@@ -2605,8 +2741,15 @@ function pickPracticeFor(q, sourceYear){
     }
     const items = findSimilarArchive(q, sourceYear, 4);
     if(items.length) return {kind:"archive", items};
+    // For 5-pt sources, refuse to offer a random fallback — better to
+    // show nothing than wrong-band content. Per CLAUDE.md: practicing
+    // a 3-pt arithmetic problem after a 5-pt parity puzzle erodes
+    // contest stamina.
+    if(band === 5) return {kind:"none"};
   }
-  // last resort: pure random generator
+  // last resort: pure random generator (only for ≤4 pt questions or for
+  // generator-produced questions without a mechanic)
+  if(band === 5) return {kind:"none"};
   const key = GENERATOR_KEYS[Math.floor(Math.random()*GENERATOR_KEYS.length)];
   return {kind:"fallback", gen:key};
 }
@@ -2971,9 +3114,11 @@ function renderArchiveCard(year, q){
     const miscIsAi = !miscText && !!aiMiscText;
     const finalSolutionText = q.solutionKid || aiSolutionText || q.solution;
     const solutionIsAi = !q.solutionKid && !!aiSolutionText;
+    const opener = right ? '' : growthOpenerFor(q);
     bottom = `<div class="explain" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
         <b>${right ? "Teisingai!" : "Klaida."}</b>
         ${q.correct ? ` Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.` : ''}
+        ${opener ? `<div class="opener" style="margin-top:6px;font-size:13px;font-style:italic">${escapeHTML(opener)}</div>` : ''}
         ${finalMiscText ? `<div class="misconception" style="margin-top:6px;font-size:13px"><b>Tavo klaida:</b>${miscIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalMiscText)}</div>` : ''}
       </div>
       ${finalSolutionText ? `<div class="explain"><b>Sprendimas:</b>${solutionIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalSolutionText)}</div>` : ''}
@@ -3003,8 +3148,12 @@ function renderArchiveCard(year, q){
     practiceBtn = `<button class="btn small" data-practice="${practice.gen}" title="Sugeneruotas to paties tipo uždavinys">Praktikuotis šio tipo</button>`;
   } else if(practice.kind === "archive"){
     practiceBtn = `<button class="btn small" data-practice-archive="1" title="Panašus uždavinys iš archyvo (to paties mechanikos ir to paties sudėtingumo)">Panaši užduotis iš archyvo (${practice.items.length})</button>`;
-  } else {
+  } else if(practice.kind === "fallback"){
     practiceBtn = `<button class="btn small ghost" data-practice="${practice.gen}" title="Tikslaus to paties tipo generatoriaus dar nėra – tai tik kitas šio sudėtingumo uždavinys">Praktikuotis (kito tipo)</button>`;
+  } else {
+    // kind: "none" — 5-pt source with no in-band practice available.
+    // Show a small explanation instead of a misleading random suggestion.
+    practiceBtn = `<span class="help-bar" title="Šio tipo 5 t. generatoriaus dar nėra. Pasirink kitą mechaniką ar archyvo metus.">Atskiro to paties tipo užduotinio nėra – pasirink mokytis šios mechanikos.</span>`;
   }
   return `
     <section class="card archive-card" data-year="${year}" data-qnum="${q.num}">
@@ -3054,6 +3203,87 @@ function renderHome(){
   const kengura = store.settings.count === 30;
   const minutes = Math.round(store.settings.count * 2.5);
 
+  // 14-day activity grid (kid-facing)
+  const activityCells = [];
+  for(let i = 13; i >= 0; i--){
+    const k = dateKeyOffset(i);
+    const a = store.activity[k];
+    let lvl = 0;
+    if(a){
+      if(a.answered >= 20) lvl = 3;
+      else if(a.answered >= 10) lvl = 2;
+      else if(a.answered >= 1) lvl = 1;
+    }
+    const isToday = (i === 0);
+    activityCells.push(`<span class="act-cell lvl${lvl}${isToday?' today':''}" title="${k}: ${a?(a.answered+' atsakyta'):'tuščia'}"></span>`);
+  }
+
+  // Mission card priority:
+  //   1) Long absence (> 14 days gap since last activity) → grace warm-up
+  //   2) Due-queue items → review queue
+  //   3) Weakest mechanic → playlist
+  //   4) Fallback → new test
+  const gapDays = daysSinceLastActivity();
+  const longAbsence = (gapDays !== null && gapDays >= 14);
+  let mission;
+  if(ARCHIVE_LOAD_FAILED){
+    mission = null;
+  } else if(longAbsence){
+    mission = {
+      tag: 'Sugrįžimas',
+      title: `Pasveikinam atgal — ${gapDays} d. nematėm`,
+      body: 'Pradėk lengvai: 3 paprasti uždaviniai prieš grįžtant prie pakartojimų.',
+      cta: 'Pradėti šiltai',
+      action: 'graceWarmup',
+      style: 'warm',
+    };
+  } else if(due.length){
+    mission = {
+      tag: 'Pakartojimo eilė',
+      title: `Šiandien laukia ${due.length} ${due.length===1?'uždavinys':'užduočių'}`,
+      body: 'Tu jau juos esi sprendęs — pažiūrim, ar dar pameni.',
+      cta: 'Pradėti pakartojimą',
+      action: 'due',
+      style: 'primary',
+    };
+  } else if(weakMechs && weakMechs.length){
+    const w = weakMechs[0];
+    mission = {
+      tag: 'Silpniausia vieta',
+      title: MECHANIC_LABEL[w.mech] || w.mech,
+      body: `Klaidų: ${Math.round(100*w.rate)} %. Vienos serijos užteks padaryti šio tipo lengvesnį.`,
+      cta: 'Praktikuotis šio tipo',
+      action: 'playlist',
+      actionData: w.mech,
+      style: 'primary',
+    };
+  } else if(totalAns === 0){
+    mission = {
+      tag: 'Pradžia',
+      title: 'Pirmas testas',
+      body: 'Greitas 15 klausimų rinkinys, kad pradėtum.',
+      cta: 'Pradėti',
+      action: 'newTest',
+      style: 'primary',
+    };
+  } else {
+    mission = {
+      tag: 'Toliau',
+      title: 'Pakartoti gerai pavyksta',
+      body: 'Pakartojimo eilė tuščia. Pabandyk naują testą arba pasirink mechaniką žemiau.',
+      cta: 'Pradėti testą',
+      action: 'newTest',
+      style: 'ghost',
+    };
+  }
+  // Recent mastery — show today's mastered mechanics if any
+  const todayMastered = Object.entries(store.masteredMech || {})
+    .filter(([m, t]) => {
+      const d = new Date(t);
+      return d.toISOString().slice(0,10) === todayKey();
+    })
+    .map(([m]) => m);
+
   // Mechanics ordered for the playlist menu: 5-point-bearing mechanics
   // first (the contest's hard block), then 4pt, then 3pt-only.
   const mechBands = {};
@@ -3079,15 +3309,31 @@ function renderHome(){
       <h3 style="margin-top:0">⚠ Duomenų failas nepasiekiamas</h3>
       <p>Nepavyko įkelti <code>kengura-archive.js</code>. Archyvas, kontestai ir mechanikos – išjungti, kol failas nebus rastas. Patikrink, ar failas yra šalia <code>kengura.html</code> ir ar puslapis perkrautas „kietai" (Ctrl+Shift+R).</p>
     </section>` : ``}
-    <section class="card">
-      <h2>Sveikas, kengūrininke!</h2>
-      <p>Tai matematikos „Kengūros“ stiliaus treniruoklis – 5–6 klasei. Spręsk uždavinius, naudok užuominas, peržiūrėk klaidas ir mokykis spręsti panašius.</p>
-      <div class="top-stats">
-        <span class="pill">${store.sessions.length} testų atlikta</span>
-        <span class="pill muted">${totalAns} klausimų iš viso</span>
-        ${totalAns ? `<span class="pill good">${Math.round(100*totalRight/totalAns)} % teisingų</span>`:``}
-        ${due.length ? `<button class="btn small primary" id="dueBtn" style="margin-left:auto">Pasikartoti laukia (${due.length})</button>` : `<span style="margin-left:auto"></span>`}
-        <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas">👁 Tėvams</button>
+    <section class="card hero-card">
+      <div class="hero-row">
+        <div class="hero-streak" aria-label="Dienų iš eilės">
+          <span class="streak-flame">${store.streak.count>0?'🔥':'·'}</span>
+          <span class="streak-num">${store.streak.count||0}</span>
+          <span class="streak-label">d. iš eilės</span>
+        </div>
+        <div class="hero-activity" aria-label="Pastarosios 14 dienų aktyvumo">
+          ${activityCells.join('')}
+        </div>
+        <button class="btn small ghost" id="parentBtn" style="margin-left:auto" title="Tėvų rodinys – vaiko progresas">👁 Tėvams</button>
+      </div>
+      ${mission ? `
+        <div class="mission ${mission.style==='warm'?'mission-warm':'mission-primary'}">
+          <div class="mission-meta">${mission.tag}</div>
+          <h2 class="mission-title">${escapeHTML(mission.title)}</h2>
+          <p class="mission-body">${escapeHTML(mission.body)}</p>
+          <button class="btn primary" id="missionBtn" data-action="${mission.action}" data-act-arg="${mission.actionData||''}">${escapeHTML(mission.cta)} →</button>
+        </div>
+      `:''}
+      ${todayMastered.length ? `
+        <div class="recent-mastery">⭐ Šiandien įvaldyta: ${todayMastered.map(m=>`<b>${escapeHTML(MECHANIC_LABEL[m]||m)}</b>`).join(', ')}</div>
+      `:''}
+      <div class="muted small" style="margin-top:8px">
+        ${store.sessions.length} testų · ${totalAns} klausimų${totalAns?` · ${Math.round(100*totalRight/totalAns)}% teisingų`:''}
       </div>
     </section>
 
@@ -3126,6 +3372,10 @@ function renderHome(){
           <input type="checkbox" id="negScoreToggle" ${store.settings.negativeScore?"checked":""}/>
           „−25 %" už klaidą (kaip realiame konkurse)
         </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Po atsakymo klausti, kiek esi tikras. Praleisk, jei nenori — nebūtina.">
+          <input type="checkbox" id="askConfToggle" ${store.settings.askConfidence?"checked":""}/>
+          Klausti pasitikėjimo
+        </label>
       </div>
       <div class="footer-actions">
         <span class="help-bar">Klausimai sugeneruojami iš šablonų – kaskart kiti.</span>
@@ -3163,14 +3413,17 @@ function renderHome(){
           for(const b of [3,4,5]){ if(mst[b]){ attempts += mst[b].attempts; wrong += mst[b].wrong; }}
           const ratePct = attempts ? Math.round(100*wrong/attempts) : null;
           const mastered = !!store.masteredMech[m];
+          const stale = isMechMasteryStale(m);
+          const ageDays = mechMasteryAgeDays(m);
           return `<div class="mech-row">
             <div class="mech-head">
               <span class="mech-title">${escapeHTML(MECHANIC_LABEL[m]||m)}</span>
               ${has5 ? `<span class="pill bad">5 t.</span>` : `<span class="pill muted">${mechBands[m].has(4)?'4 t.':'3 t.'}</span>`}
-              ${mastered ? `<span class="pill good">įvaldyta ✓</span>` : ``}
+              ${mastered && !stale ? `<span class="pill good">įvaldyta ✓</span>` : ``}
+              ${stale ? `<span class="mech-stale-pill" title="Įvaldyta prieš ${ageDays} d. – verta pakartoti">? po ${ageDays} d.</span>` : ``}
               ${ratePct != null ? `<span class="pill ${ratePct>40?"bad":(ratePct>20?"muted":"good")}">${ratePct} % klaidų</span>` : ``}
             </div>
-            <button class="btn small primary" data-mech-playlist="${m}">Mokytis</button>
+            <button class="btn small primary" data-mech-playlist="${m}">${stale ? 'Pakartoti' : 'Mokytis'}</button>
           </div>`;
         }).join("")}
       </div>
@@ -3247,6 +3500,11 @@ function renderHome(){
     store.settings.negativeScore = !!e.target.checked;
     saveStore(store); renderHome();
   });
+  const askConfToggle = document.getElementById("askConfToggle");
+  if(askConfToggle) askConfToggle.addEventListener("change", e=>{
+    store.settings.askConfidence = !!e.target.checked;
+    saveStore(store); renderHome();
+  });
   $app.querySelectorAll("[data-practice-sub]").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       state._returnTo = "home";
@@ -3261,6 +3519,22 @@ function renderHome(){
   const dueBtn = document.getElementById("dueBtn");
   if(dueBtn) dueBtn.addEventListener("click", ()=>{
     openDueQueue();
+  });
+  const missionBtn = document.getElementById("missionBtn");
+  if(missionBtn) missionBtn.addEventListener("click", ()=>{
+    const act = missionBtn.dataset.action;
+    const arg = missionBtn.dataset.actArg;
+    if(act === "due"){
+      openDueQueue();
+    } else if(act === "playlist" && arg){
+      openPlaylist(arg);
+    } else if(act === "graceWarmup"){
+      startGraceWarmup();
+    } else {
+      // newTest — scroll user down to the new-test section
+      const target = $app.querySelector("#startBtn");
+      if(target) target.scrollIntoView({behavior:"smooth", block:"center"});
+    }
   });
   const parentBtn = document.getElementById("parentBtn");
   if(parentBtn) parentBtn.addEventListener("click", openParent);
@@ -3310,6 +3584,23 @@ function startQuiz(){
   } else {
     stopTimer();
   }
+  renderQuiz();
+}
+
+// Soft re-entry after a long absence (mission action: graceWarmup).
+// Generates 3 light (3-point) questions, timer off, hints available —
+// avoids drowning the kid in a flooded spaced-rep queue on day one back.
+function startGraceWarmup(){
+  state.questions = generateQuiz(3, [3]);
+  state.current = 0;
+  state.answers = [];
+  state.hintsUsedThis = 0;
+  state._chosen = null; state._hintShown = false; state._firstStepShown = false;
+  state._confidence = null;
+  state._questionStartedAt = Date.now();
+  state.view = "quiz";
+  state._graceMode = true;
+  stopTimer();
   renderQuiz();
 }
 
@@ -3401,9 +3692,17 @@ function renderQuiz(){
 
       ${state._firstStepShown && !showResult && q.firstStep ? `<div class="firststep"><b>Pirmas žingsnis:</b> ${escapeHTML(q.firstStep)}</div>`:``}
       ${state._hintShown && !showResult ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(q.hint)}</div>`:``}
-      ${showResult ? `<div class="explain"><b>Paaiškinimas:</b> ${escapeHTML(q.explain)}</div>`:``}
+      ${showResult ? (() => {
+        const ans = state.answers[idx];
+        const wasWrong = ans && !ans.correct;
+        const opener = wasWrong ? growthOpenerFor(q) : '';
+        return `<div class="explain">
+          ${opener ? `<div style="font-size:13px;font-style:italic;color:#634b18;margin-bottom:6px">${escapeHTML(opener)}</div>` : ''}
+          <b>Paaiškinimas:</b> ${escapeHTML(q.explain)}
+        </div>`;
+      })() : ``}
 
-      ${!showResult && state._chosen != null && !state._confidence ? `
+      ${store.settings.askConfidence && !showResult && state._chosen != null && !state._confidence ? `
         <div class="confidence-row" role="radiogroup" aria-label="Kiek esi tikras?">
           <span class="help-bar" style="margin:0 8px 0 0">Kiek esi tikras?</span>
           <button class="btn small ghost" role="radio" aria-checked="false" data-q-conf="a">Tikrai žinau</button>
@@ -3411,7 +3710,7 @@ function renderQuiz(){
           <button class="btn small ghost" role="radio" aria-checked="false" data-q-conf="c">Atsitiktinai</button>
         </div>
       ` : ''}
-      ${!showResult && state._confidence ? `<div class="help-bar">Pasitikėjimas: <b>${({a:'Tikrai žinau',b:'Spėju iš dviejų',c:'Atsitiktinai'})[state._confidence]}</b></div>` : ''}
+      ${store.settings.askConfidence && !showResult && state._confidence ? `<div class="help-bar">Pasitikėjimas: <b>${({a:'Tikrai žinau',b:'Spėju iš dviejų',c:'Atsitiktinai'})[state._confidence]}</b></div>` : ''}
 
       <div class="footer-actions">
         <div class="row">
@@ -3420,7 +3719,7 @@ function renderQuiz(){
           ${idx>0 ? `<button class="btn ghost small" id="prevBtn">← Ankstesnis</button>`:``}
         </div>
         <div class="row">
-          ${!showResult ? `<button class="btn primary" id="submitBtn" ${state._chosen==null||!state._confidence?"disabled":""}>Atsakyti</button>` : ``}
+          ${!showResult ? `<button class="btn primary" id="submitBtn" ${state._chosen==null || (store.settings.askConfidence && !state._confidence) ? "disabled":""}>Atsakyti</button>` : ``}
           ${showResult && idx<total-1 ? `<button class="btn primary" id="nextBtn">Kitas →</button>`:``}
           ${showResult && idx===total-1 ? `<button class="btn primary" id="finishBtn">Užbaigti</button>`:``}
         </div>
@@ -4311,13 +4610,19 @@ function renderPlaylist(){
           <b>Laikas baigėsi.</b> Neatsakytos užduotys lieka kaip neteisingos. Spausk „Baigti", kad pamatytum rezultatą.
         </div>
       ` : ``}
-      ${allDone ? `
-        <div class="explain" style="background:${correctCount >= 2 ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${correctCount >= 2 ? 'var(--good)' : 'var(--bad)'};">
-          <b>${correctCount >= 2 ? 'Šaunu!' : 'Reikia padirbėti.'}</b>
-          Iš ${items.length} užduočių teisingai atsakyta ${correctCount}.
-          ${correctCount >= 2 && !isDue ? 'Mechanika pažymėta kaip įvaldyta.' : (isDue ? '' : 'Pabandyk dar kartą po kelių dienų.')}
-        </div>
-      ` : ``}
+      ${allDone ? (
+        correctCount >= 2
+          ? `<div class="explain mastery-pass" style="background:var(--good-soft);border:1px solid var(--good)">
+              <span class="star">⭐</span><b>${isDue ? 'Pakartojimas atliktas!' : 'Šaunu! Mechanika įvaldyta.'}</b>
+              ${isDue ? '' : ' Pažymėjom kaip įvaldytą — pasimatysime vėl po 60 d.'}
+              <br><span class="muted small">Iš ${items.length} užduočių teisingai atsakyta ${correctCount}.</span>
+             </div>`
+          : `<div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
+              <b>Reikia padirbėti.</b>
+              Iš ${items.length} užduočių teisingai atsakyta ${correctCount}.
+              ${isDue ? '' : ' Pabandyk dar kartą po kelių dienų.'}
+             </div>`
+      ) : ``}
       <div class="footer-actions">
         <button class="btn ghost" id="plBack">← Į pradžią</button>
         ${(allDone || state.playlistTimeExpired) ? `<button class="btn primary" id="plDone">Baigti</button>` : ''}
