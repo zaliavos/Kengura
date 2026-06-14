@@ -234,6 +234,25 @@
     body{background:#fff}
     .btn,.footer-actions,header.brand{display:none}
   }
+  /* ---- Rewards / achievements ---- */
+  .reward-card{background:linear-gradient(180deg,#fff 0%,#fff7ee 100%)}
+  .ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+  .ach-badge{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;
+    border:1px solid var(--line);border-radius:12px;background:#faf6ec;opacity:.45;
+    filter:grayscale(1);text-align:center;transition:transform .12s}
+  .ach-badge.on{opacity:1;filter:none;background:var(--accent-soft);border-color:var(--accent)}
+  .ach-badge.on:hover{transform:translateY(-2px)}
+  .ach-ico{font-size:26px;line-height:1}
+  .ach-name{font-size:11px;font-weight:600;color:var(--ink);line-height:1.15}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+  .opt.wrong .letter{background:var(--bad);color:#fff}
+  /* ---- Racing minigame ---- */
+  .race-hud{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0}
+  .race-canvas-wrap{display:flex;justify-content:center}
+  #raceCanvas{width:100%;max-width:360px;height:auto;border-radius:14px;
+    border:3px solid #2a2e34;box-shadow:0 6px 18px rgba(0,0,0,.18);touch-action:none}
+  .race-controls{display:flex;gap:14px;justify-content:center;margin-top:12px}
+  .race-ctrl{font-size:26px;min-width:88px;padding:14px 0;user-select:none}
 </style>
 </head>
 <body>
@@ -2386,7 +2405,14 @@ function loadStore(){
     activity:{},       // { "YYYY-MM-DD": {answered, correct, secondsOnTask} }
     contests:[],       // [{when, year, points, scoreWithPenalty, maxPoints, correct, total, answered, byBand}]
     settings:{count:15, difficulties:[3,4,5], useTimer:true, kenguraMode:false, negativeScore:false, askConfidence:false},
-    streak:{count:0, lastDay:null, freezesUsed:0, freezeMonth:null}
+    streak:{count:0, lastDay:null, freezesUsed:0, freezeMonth:null},
+    // Star economy — motivational reward currency.
+    // total = fromQ + fromTime; _timeSecRem carries sub-minute remainder.
+    stars:{total:0, fromQ:0, fromTime:0, _timeSecRem:0},
+    // Racing reward minigame records.
+    games:{plays:0, bestByDiff:{easy:0, medium:0, hard:0}, best:0, hardUnlocked:false},
+    // Unlocked achievements: { achievementId: timestamp }
+    achievements:{}
   };
   try{
     const raw = localStorage.getItem(LS_KEY);
@@ -2406,6 +2432,10 @@ function loadStore(){
     o.contests = o.contests || [];
     o.settings = Object.assign({}, defaults.settings, o.settings || {});
     o.streak = Object.assign({}, defaults.streak, o.streak || {});
+    o.stars = Object.assign({}, defaults.stars, o.stars || {});
+    o.games = Object.assign({}, defaults.games, o.games || {});
+    o.games.bestByDiff = Object.assign({}, defaults.games.bestByDiff, o.games.bestByDiff || {});
+    o.achievements = o.achievements || {};
     return o;
   }catch(e){
     return defaults;
@@ -2486,6 +2516,48 @@ function logActivity(correct){
   a.answered++;
   if(correct) a.correct++;
   bumpStreakForToday();
+  awardStars("fromQ", 1);   // 1 star per question answered (any mode)
+}
+
+/* ============================================================
+   STAR ECONOMY — motivational currency.
+   Earned two ways:
+     • fromQ   — +1 per question answered (via logActivity)
+     • fromTime — +1 per full minute of active app use (heartbeat)
+   total is always fromQ + fromTime; we keep both for the breakdown.
+   ============================================================ */
+function awardStars(kind, n){
+  if(!store.stars) store.stars = {total:0, fromQ:0, fromTime:0, _timeSecRem:0};
+  store.stars[kind] = (store.stars[kind] || 0) + n;
+  store.stars.total = (store.stars.fromQ || 0) + (store.stars.fromTime || 0);
+  // logActivity already triggers a saveStore via its callers; the time
+  // heartbeat saves on its own throttle. No save here to avoid churn.
+}
+
+// Active-time heartbeat: accrue seconds only while the tab is visible, so
+// a kid can't farm stars by leaving the page open. Every full minute → 1 star.
+const STAR_TIME_TICK_SEC = 20;
+let _lastStarSaveAt = 0;
+function startStarTimeHeartbeat(){
+  setInterval(()=>{
+    if(typeof document !== "undefined" && document.hidden) return;
+    const s = store.stars;
+    s._timeSecRem = (s._timeSecRem || 0) + STAR_TIME_TICK_SEC;
+    let gained = 0;
+    while(s._timeSecRem >= 60){ s._timeSecRem -= 60; gained++; }
+    if(gained){
+      awardStars("fromTime", gained);
+      checkAchievements();
+    }
+    // Throttle persistence to ~once a minute.
+    const now = Date.now();
+    if(now - _lastStarSaveAt > 60000){ _lastStarSaveAt = now; saveStore(store); }
+  }, STAR_TIME_TICK_SEC * 1000);
+  // Flush on tab hide / unload so accrued stars aren't lost.
+  if(typeof document !== "undefined"){
+    document.addEventListener("visibilitychange", ()=>{ if(document.hidden) saveStore(store); });
+    window.addEventListener("beforeunload", ()=> saveStore(store));
+  }
 }
 
 // Mastery decay: a mechanic flagged mastered > N days ago is "stale".
@@ -3402,6 +3474,8 @@ function renderHome(){
       </div>
     </section>
 
+    ${rewardsCardHTML()}
+
     <section class="card">
       <h3>Mechanikų mokymasis</h3>
       <p style="margin-top:0">Kiekvienas Kengūros 5 taškų uždavinys slepia VIENĄ triuką. Šio sąrašo „Mokytis" mygtukas atveria 4 žingsnių playlistą: ① perskaityk triuką, ② peržiūrėk pavyzdį su sprendimu, ③ pabandyk su užuominomis, ④ įveik 3 uždavinius be jų.</p>
@@ -3538,6 +3612,8 @@ function renderHome(){
   });
   const parentBtn = document.getElementById("parentBtn");
   if(parentBtn) parentBtn.addEventListener("click", openParent);
+  const raceChallengeBtn = document.getElementById("raceChallengeBtn");
+  if(raceChallengeBtn) raceChallengeBtn.addEventListener("click", openRaceChallenge);
   $app.querySelectorAll("[data-contest-year]").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       if(confirm(`Pradėti kontrolinį testą iš ${btn.dataset.contestYear} m.?\n\n• 75 minutės\n• 30 klausimų\n• −25 % už klaidą\n• Jokios pagalbos\n\nTikras Kengūros formatas. Tinkamas kartą per savaitę.`)){
@@ -4902,6 +4978,515 @@ function renderReview(){
 }
 
 /* ============================================================
+   VII½. ACHIEVEMENTS + RACING REWARD GAME
+   ============================================================ */
+
+function totalQuestionsAnswered(){
+  return Object.values(store.activity || {}).reduce((a,c)=>a + (c.answered||0), 0);
+}
+function masteredCount(){
+  return Object.keys(store.masteredMech || {}).length;
+}
+
+/* Achievement catalogue. Each `check` reads the live store and returns true
+   once the badge is earned. Order = display order. */
+const ACHIEVEMENTS = [
+  {id:"q10",     icon:"🌱", title:"Pradžia",            desc:"Atsakyk 10 klausimų",            check:()=> totalQuestionsAnswered() >= 10},
+  {id:"q50",     icon:"🚀", title:"Įsibėgėjau",         desc:"Atsakyk 50 klausimų",            check:()=> totalQuestionsAnswered() >= 50},
+  {id:"q100",    icon:"💯", title:"Šimtukas",           desc:"Atsakyk 100 klausimų",           check:()=> totalQuestionsAnswered() >= 100},
+  {id:"q500",    icon:"🏅", title:"Maratonas",          desc:"Atsakyk 500 klausimų",           check:()=> totalQuestionsAnswered() >= 500},
+  {id:"star50",  icon:"⭐", title:"Žvaigždžių rinkėjas", desc:"Surink 50 žvaigždžių",           check:()=> (store.stars.total||0) >= 50},
+  {id:"star200", icon:"🌟", title:"Žvaigždynas",        desc:"Surink 200 žvaigždžių",          check:()=> (store.stars.total||0) >= 200},
+  {id:"star500", icon:"✨", title:"Supernova",          desc:"Surink 500 žvaigždžių",          check:()=> (store.stars.total||0) >= 500},
+  {id:"mech1",   icon:"🧩", title:"Pirmas triukas",     desc:"Įvaldyk 1 mechaniką",            check:()=> masteredCount() >= 1},
+  {id:"mech5",   icon:"🧠", title:"Penki triukai",      desc:"Įvaldyk 5 mechanikas",           check:()=> masteredCount() >= 5},
+  {id:"mech10",  icon:"🎓", title:"Triukų meistras",    desc:"Įvaldyk 10 mechanikų",           check:()=> masteredCount() >= 10},
+  {id:"streak3", icon:"🔥", title:"Trijų dienų serija", desc:"3 dienos iš eilės",              check:()=> (store.streak.count||0) >= 3},
+  {id:"streak7", icon:"🔥", title:"Savaitė iš eilės",   desc:"7 dienos iš eilės",              check:()=> (store.streak.count||0) >= 7},
+  {id:"streak30",icon:"🔥", title:"Mėnuo iš eilės",     desc:"30 dienų iš eilės",              check:()=> (store.streak.count||0) >= 30},
+  {id:"race1",   icon:"🏁", title:"Pirmos lenktynės",   desc:"Sužaisk lenktynes",              check:()=> (store.games.plays||0) >= 1},
+  {id:"raceHard",icon:"🏎", title:"Pro lygis",          desc:"Atrakink sunkų lygį (5/5)",      check:()=> !!store.games.hardUnlocked},
+  {id:"race500", icon:"🏆", title:"Greitėk",            desc:"Lenktynėse pasiek 500 m",        check:()=> (store.games.best||0) >= 500},
+  {id:"race1000",icon:"👑", title:"Greičio demonas",    desc:"Lenktynėse pasiek 1000 m",       check:()=> (store.games.best||0) >= 1000},
+  {id:"perfect5",icon:"🎯", title:"Tobula penketa",     desc:"5/5 lenktynių iššūkyje",         check:()=> (store.games.bestChallengeCorrect||0) >= 5},
+  {id:"contest1",icon:"📝", title:"Pirmas kontrolinis", desc:"Užbaik kontrolinį testą",        check:()=> (store.contests||[]).length >= 1},
+];
+
+/* Evaluate all achievements; record + toast any newly earned. Safe to call
+   liberally (after answers, time ticks, game over). */
+function checkAchievements(){
+  const newly = [];
+  for(const a of ACHIEVEMENTS){
+    if(store.achievements[a.id]) continue;
+    let ok = false;
+    try { ok = a.check(); } catch(_){ ok = false; }
+    if(ok){
+      store.achievements[a.id] = Date.now();
+      newly.push(a);
+    }
+  }
+  if(newly.length){
+    saveStore(store);
+    showAchievementToast(newly);
+  }
+  return newly;
+}
+
+function showAchievementToast(list){
+  let host = document.getElementById("achToastHost");
+  if(!host){
+    host = document.createElement("div");
+    host.id = "achToastHost";
+    host.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:10000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none";
+    document.body.appendChild(host);
+  }
+  list.forEach((a, i) => {
+    const el = document.createElement("div");
+    el.style.cssText = "pointer-events:auto;background:var(--accent);color:#fff;padding:10px 16px;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.18);font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s;max-width:90vw";
+    el.innerHTML = `<span style="font-size:22px">${a.icon}</span><span>Apdovanojimas: <b>${escapeHTML(a.title)}</b></span>`;
+    host.appendChild(el);
+    setTimeout(()=>{ el.style.opacity = "1"; el.style.transform = "translateY(0)"; }, 30 + i*120);
+    setTimeout(()=>{ el.style.opacity = "0"; el.style.transform = "translateY(10px)"; setTimeout(()=> el.remove(), 300); }, 4200 + i*120);
+  });
+}
+
+/* -------- Rewards / race-challenge home card -------- */
+function rewardsCardHTML(){
+  const s = store.stars || {total:0, fromQ:0, fromTime:0};
+  const unlocked = ACHIEVEMENTS.filter(a => store.achievements[a.id]).length;
+  const best = store.games.best || 0;
+  const badges = ACHIEVEMENTS.map(a=>{
+    const on = !!store.achievements[a.id];
+    return `<div class="ach-badge${on?' on':''}" title="${escapeHTML(a.title)} — ${escapeHTML(a.desc)}">
+      <span class="ach-ico">${a.icon}</span>
+      <span class="ach-name">${escapeHTML(a.title)}</span>
+    </div>`;
+  }).join("");
+  return `
+    <section class="card reward-card">
+      <h3>🏁 Lenktynių iššūkis</h3>
+      <p style="margin-top:0">Atsakyk <b>5 sunkius klausimus</b> (4 ir 5 taškų). Surink bent <b>3 teisingus</b> – ir atrakinsi <b>lenktynių žaidimą</b> kaip prizą! Daugiau teisingų = sunkesnės lenktynės ir <b>daugiau gyvybių</b> (3✓ → 1 gyvybė, 4✓ → 2, 5✓ → 3).</p>
+      <div class="top-stats" style="margin-bottom:10px">
+        <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0}">⭐ ${s.total||0} žvaigždžių</span>
+        <span class="pill good">🏆 Pasiekimai: ${unlocked}/${ACHIEVEMENTS.length}</span>
+        ${best>0?`<span class="pill muted">🏎 Rekordas: ${best} m</span>`:''}
+      </div>
+      <button class="btn primary" id="raceChallengeBtn">Pradėti iššūkį →</button>
+      <div class="ach-grid" style="margin-top:12px">${badges}</div>
+    </section>`;
+}
+
+/* -------- Race challenge: a 5-question gate before the game -------- */
+function buildRacePool(){
+  const pool = [];
+  for(const t of ARCHIVE){
+    for(const q of t.questions){
+      if((q.points === 4 || q.points === 5) && q.correct){
+        pool.push(Object.assign({}, q, {year: t.year}));
+      }
+    }
+  }
+  return pool;
+}
+function shuffleInPlace(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function openRaceChallenge(){
+  const pool = buildRacePool();
+  if(pool.length < 5){
+    alert("Per mažai tinkamų klausimų iššūkiui.");
+    return;
+  }
+  // Prefer a mix: aim for at least two 5-point questions when available.
+  const fives = shuffleInPlace(pool.filter(q => q.points === 5)).slice(0, 3);
+  const fours = shuffleInPlace(pool.filter(q => q.points === 4)).slice(0, 5);
+  let chosen = [...fives, ...fours];
+  // De-dup by year+num, then trim/refill to exactly 5.
+  const seen = new Set();
+  chosen = chosen.filter(q => { const k = `${q.year}-${q.num}`; if(seen.has(k)) return false; seen.add(k); return true; });
+  shuffleInPlace(chosen);
+  chosen = chosen.slice(0, 5);
+  while(chosen.length < 5){
+    const q = pool[Math.floor(Math.random()*pool.length)];
+    const k = `${q.year}-${q.num}`;
+    if(!seen.has(k)){ seen.add(k); chosen.push(q); }
+  }
+  state.view = "raceChallenge";
+  state.raceQs = chosen;
+  state.raceIdx = 0;
+  state.raceChosen = null;
+  state.raceSubmitted = false;
+  state.raceCorrect = 0;
+  renderRaceChallenge();
+}
+
+function renderRaceChallenge(){
+  const qs = state.raceQs;
+  const idx = state.raceIdx;
+  const q = qs[idx];
+  const submitted = state.raceSubmitted;
+  const imageOnly = q.imageOnlyOptions;
+
+  const optionsHtml = ["A","B","C","D","E"].map(letter=>{
+    const v = q.options ? q.options[letter] : null;
+    if(v == null && !imageOnly) {
+      // letter still selectable when answers are only in the figure
+    }
+    const hasText = v != null && String(v).trim() !== "";
+    let cls = "opt";
+    if(state.raceChosen === letter && !submitted) cls += " selected";
+    if(submitted && letter === q.correct) cls += " correct";
+    if(submitted && state.raceChosen === letter && letter !== q.correct) cls += " wrong";
+    const body = hasText ? escapeHTML(v) : `<i style="color:var(--muted)">— atsakymas paveikslėlyje —</i>`;
+    return `<div class="${cls}" data-letter="${letter}">
+      <span class="letter">${letter}</span>
+      <span>${body}</span>
+    </div>`;
+  }).join("");
+
+  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
+  const pips = qs.map((qq,i)=>{
+    const done = i < idx || (i === idx && submitted);
+    const cur = i === idx;
+    return `<span class="contest-pip${cur?' current':''}${done?' filled':''}">${i+1}</span>`;
+  }).join("");
+
+  $app.innerHTML = `
+    <section class="card">
+      <div class="contest-header">
+        <div><b>🏁 Lenktynių iššūkis</b> <span class="help-bar" style="margin-left:6px">Teisingų: ${state.raceCorrect}</span></div>
+        <button class="btn ghost small" id="raceQuit">← Pradžia</button>
+      </div>
+      <div class="contest-strip">${pips}</div>
+    </section>
+    <section class="card">
+      <div class="qmeta">
+        <b>Klausimas ${idx+1} / 5</b>
+        <span class="pill ${q.points===5?'bad':''}">${q.points} t.</span>
+        <span class="pill muted">${escapeHTML(q.year)} m.</span>
+      </div>
+      <div class="qprompt">${escapeHTML(q.prompt)}</div>
+      ${figureHtml}
+      ${imageOnly?`<p class="help-bar">Atsakymai – paveikslėlyje. Rink raidę A–E.</p>`:''}
+      <div class="options" id="raceOptions">${optionsHtml}</div>
+      ${submitted ? `<div class="explain" style="margin-top:8px">
+        ${state.raceChosen === q.correct ? '<b style="color:var(--good)">Teisingai! ✓</b>' : `<b style="color:var(--bad)">Ne. Teisingas – ${q.correct}.</b>`}
+        ${q.solutionKid || q.solution ? `<div style="margin-top:6px;font-size:13px">${escapeHTML((q.solutionKid||q.solution).slice(0,400))}</div>` : ''}
+      </div>` : ''}
+      <div class="footer-actions">
+        ${!submitted
+          ? `<button class="btn primary" id="raceSubmit" ${state.raceChosen?'':'disabled'}>Patikrinti</button>`
+          : `<button class="btn primary" id="raceNext">${idx < 4 ? 'Kitas →' : 'Rezultatai →'}</button>`}
+      </div>
+    </section>`;
+
+  document.getElementById("raceOptions").addEventListener("click", e=>{
+    if(state.raceSubmitted) return;
+    const o = e.target.closest(".opt"); if(!o) return;
+    state.raceChosen = o.dataset.letter;
+    renderRaceChallenge();
+  });
+  document.getElementById("raceQuit").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+  const sub = document.getElementById("raceSubmit");
+  if(sub) sub.addEventListener("click", ()=>{
+    if(!state.raceChosen) return;
+    state.raceSubmitted = true;
+    const correct = state.raceChosen === q.correct;
+    if(correct) state.raceCorrect++;
+    recordArchiveAnswer(q.year, q, correct, null);
+    checkAchievements();
+    renderRaceChallenge();
+  });
+  const nxt = document.getElementById("raceNext");
+  if(nxt) nxt.addEventListener("click", ()=>{
+    if(state.raceIdx < 4){
+      state.raceIdx++;
+      state.raceChosen = null;
+      state.raceSubmitted = false;
+      renderRaceChallenge();
+    } else {
+      finishRaceChallenge();
+    }
+  });
+}
+
+function finishRaceChallenge(){
+  const correct = state.raceCorrect;
+  store.games.bestChallengeCorrect = Math.max(store.games.bestChallengeCorrect || 0, correct);
+  const unlocked = correct >= 3;
+  let difficulty = null, lives = 0;
+  if(unlocked){
+    difficulty = correct === 3 ? "easy" : correct === 4 ? "medium" : "hard";
+    lives = correct - 2;            // 3→1, 4→2, 5→3
+    if(difficulty === "hard") store.games.hardUnlocked = true;
+  }
+  saveStore(store);
+  checkAchievements();
+  state.view = "raceResult";
+  state._raceUnlock = {correct, unlocked, difficulty, lives};
+  renderRaceResult();
+}
+
+const DIFF_LABEL = {easy:"Lengvas", medium:"Vidutinis", hard:"Sunkus"};
+
+function renderRaceResult(){
+  const r = state._raceUnlock;
+  if(!r.unlocked){
+    $app.innerHTML = `
+      <section class="card" style="text-align:center">
+        <h2>Beveik! 🏁</h2>
+        <p>Teisingų atsakymų: <b>${r.correct} / 5</b>.</p>
+        <p>Lenktynėms atrakinti reikia <b>bent 3 teisingų</b>. Pabandyk dar kartą – kiekvienas teisingas atsakymas duoda žvaigždžių ⭐.</p>
+        <div class="footer-actions" style="justify-content:center;gap:8px">
+          <button class="btn primary" id="raceRetry">Bandyti dar kartą</button>
+          <button class="btn ghost" id="raceHome">Į pradžią</button>
+        </div>
+      </section>`;
+  } else {
+    $app.innerHTML = `
+      <section class="card" style="text-align:center">
+        <h2>Atrakinta! 🎉</h2>
+        <p>Teisingų: <b>${r.correct} / 5</b></p>
+        <div class="top-stats" style="justify-content:center;margin:10px 0">
+          <span class="pill ${r.difficulty==='hard'?'bad':(r.difficulty==='medium'?'':'good')}">Lygis: ${DIFF_LABEL[r.difficulty]}</span>
+          <span class="pill">${'❤️'.repeat(r.lives)} ${r.lives} ${r.lives===1?'gyvybė':'gyvybės'}</span>
+        </div>
+        <p class="help-bar">Vairuok rodyklėmis ← → (arba mygtukais). Lenk pro mašinas, kuo ilgiau – tuo daugiau metrų!</p>
+        <div class="footer-actions" style="justify-content:center;gap:8px">
+          <button class="btn primary" id="racePlay">🏎 Žaisti lenktynes</button>
+          <button class="btn ghost" id="raceHome">Į pradžią</button>
+        </div>
+      </section>`;
+    document.getElementById("racePlay").addEventListener("click", ()=> openRaceGame(r.difficulty, r.lives));
+  }
+  const retry = document.getElementById("raceRetry");
+  if(retry) retry.addEventListener("click", openRaceChallenge);
+  document.getElementById("raceHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+}
+
+/* -------- The racing minigame (canvas lane-dodger) -------- */
+const RACE_DIFF = {
+  easy:   {speed:2.4, accel:0.00020, spawnEvery:95, label:"Lengvas"},
+  medium: {speed:3.4, accel:0.00035, spawnEvery:68, label:"Vidutinis"},
+  hard:   {speed:4.6, accel:0.00055, spawnEvery:50, label:"Sunkus"},
+};
+
+function stopRaceGame(){
+  const g = state._race;
+  if(g){
+    if(g.raf) cancelAnimationFrame(g.raf);
+    if(g.keyHandler) document.removeEventListener("keydown", g.keyHandler);
+    g.running = false;
+  }
+  state._race = null;
+}
+
+function openRaceGame(difficulty, lives){
+  stopRaceGame();
+  state.view = "race";
+  const cfg = RACE_DIFF[difficulty] || RACE_DIFF.easy;
+  const W = 360, H = 540, LANES = 3;
+  const laneW = W / LANES;
+  const carW = 46, carH = 60;
+  const laneX = i => laneW * i + (laneW - carW) / 2;
+
+  $app.innerHTML = `
+    <section class="card">
+      <div class="contest-header">
+        <div><b>🏎 Lenktynės</b> <span class="pill muted" style="margin-left:6px">${cfg.label}</span></div>
+        <button class="btn ghost small" id="raceGameQuit">← Pradžia</button>
+      </div>
+      <div class="race-hud" id="raceHud"></div>
+      <div class="race-canvas-wrap">
+        <canvas id="raceCanvas" width="${W}" height="${H}"></canvas>
+      </div>
+      <div class="race-controls">
+        <button class="btn race-ctrl" id="raceLeft" aria-label="Kairėn">◀</button>
+        <button class="btn race-ctrl" id="raceRight" aria-label="Dešinėn">▶</button>
+      </div>
+      <p class="help-bar" style="text-align:center">Klaviatūra: ← → arba A / D</p>
+    </section>`;
+
+  const canvas = document.getElementById("raceCanvas");
+  const ctx = canvas.getContext("2d");
+  const hud = document.getElementById("raceHud");
+
+  const g = {
+    running:true, raf:0, keyHandler:null,
+    lane:1, lives, difficulty, cfg,
+    speed: cfg.speed, distance:0, frame:0,
+    obstacles:[],   // {lane, y}
+    invuln:0,       // frames of post-hit grace
+    over:false, newRecord:false,
+  };
+  state._race = g;
+
+  function move(dir){
+    if(g.over) return;
+    g.lane = Math.max(0, Math.min(LANES-1, g.lane + dir));
+  }
+  g.keyHandler = (e)=>{
+    if(state.view !== "race") return;
+    if(e.key === "ArrowLeft" || e.key === "a" || e.key === "A"){ move(-1); e.preventDefault(); }
+    else if(e.key === "ArrowRight" || e.key === "d" || e.key === "D"){ move(1); e.preventDefault(); }
+  };
+  document.addEventListener("keydown", g.keyHandler);
+  document.getElementById("raceLeft").addEventListener("click", ()=>move(-1));
+  document.getElementById("raceRight").addEventListener("click", ()=>move(1));
+  // Tap left/right half of the canvas to steer (touch friendly)
+  canvas.addEventListener("pointerdown", (e)=>{
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    move(x < rect.width/2 ? -1 : 1);
+  });
+  document.getElementById("raceGameQuit").addEventListener("click", ()=>{
+    stopRaceGame(); state.view="home"; renderHome();
+  });
+
+  const playerY = H - carH - 14;
+
+  function spawn(){
+    // Never block: pick a lane; ensure not same lane as the last spawn back-to-back too often.
+    const lane = Math.floor(Math.random()*LANES);
+    g.obstacles.push({lane, y: -carH});
+  }
+
+  function endGame(){
+    if(g.over) return;          // idempotent — never double-count a single run
+    g.over = true;
+    g.running = false;
+    if(g.raf) cancelAnimationFrame(g.raf);
+    const score = Math.floor(g.distance);
+    store.games.plays = (store.games.plays||0) + 1;
+    if(score > (store.games.best||0)){ store.games.best = score; g.newRecord = true; }
+    store.games.bestByDiff[difficulty] = Math.max(store.games.bestByDiff[difficulty]||0, score);
+    saveStore(store);
+    checkAchievements();
+    renderRaceGameOver(score, difficulty, lives, g.newRecord);
+  }
+
+  function drawCar(x, y, color, isPlayer){
+    ctx.fillStyle = color;
+    roundRect(ctx, x, y, carW, carH, 9); ctx.fill();
+    // windshield
+    ctx.fillStyle = "rgba(255,255,255,.35)";
+    roundRect(ctx, x+8, y+(isPlayer?10:carH-26), carW-16, 16, 4); ctx.fill();
+    // wheels
+    ctx.fillStyle = "#222";
+    ctx.fillRect(x-3, y+8, 4, 14);
+    ctx.fillRect(x+carW-1, y+8, 4, 14);
+    ctx.fillRect(x-3, y+carH-22, 4, 14);
+    ctx.fillRect(x+carW-1, y+carH-22, 4, 14);
+  }
+
+  function loop(){
+    if(!g.running || state.view !== "race"){ return; }
+    g.frame++;
+    g.speed += g.cfg.accel;
+    g.distance += g.speed * 0.12;
+
+    // spawn
+    const interval = Math.max(28, Math.round(g.cfg.spawnEvery - g.distance*0.02));
+    if(g.frame % interval === 0) spawn();
+
+    // move obstacles
+    for(const o of g.obstacles) o.y += g.speed;
+    g.obstacles = g.obstacles.filter(o => o.y < H + carH);
+
+    // collision
+    if(g.invuln > 0) g.invuln--;
+    if(g.invuln === 0){
+      for(const o of g.obstacles){
+        if(o.lane === g.lane){
+          const oy = o.y;
+          if(oy + carH > playerY && oy < playerY + carH){
+            // hit
+            g.lives--;
+            g.invuln = 70;
+            o.y = H + 999; // remove this one so we don't multi-hit
+            if(g.lives <= 0){ endGame(); return; }
+            break;
+          }
+        }
+      }
+    }
+
+    // ---- draw ----
+    ctx.clearRect(0,0,W,H);
+    // road
+    ctx.fillStyle = "#3a3f47";
+    ctx.fillRect(0,0,W,H);
+    // lane dashes (scrolling)
+    ctx.strokeStyle = "rgba(255,255,255,.5)";
+    ctx.lineWidth = 3;
+    ctx.setLineDash([22,20]);
+    const dashOffset = (g.distance*4) % 42;
+    for(let i=1;i<LANES;i++){
+      ctx.beginPath();
+      ctx.lineDashOffset = -dashOffset;
+      ctx.moveTo(laneW*i, 0); ctx.lineTo(laneW*i, H); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    // obstacles
+    const obsColors = ["#e8b400","#39a0ed","#b388ff","#ff7043"];
+    for(const o of g.obstacles){
+      if(o.y > H) continue;
+      drawCar(laneX(o.lane), o.y, obsColors[(o.lane + Math.floor(o.y/120)) % obsColors.length], false);
+    }
+    // player (blink while invulnerable)
+    if(!(g.invuln > 0 && g.frame % 8 < 4)){
+      drawCar(laneX(g.lane), playerY, "#d6451a", true);
+    }
+
+    // HUD
+    hud.innerHTML = `<span class="pill">🏁 ${Math.floor(g.distance)} m</span>
+      <span class="pill good">${'❤️'.repeat(Math.max(0,g.lives))}</span>
+      <span class="pill muted">Rekordas: ${Math.max(store.games.best||0, Math.floor(g.distance))} m</span>`;
+
+    g.raf = requestAnimationFrame(loop);
+  }
+  g.raf = requestAnimationFrame(loop);
+}
+
+// Canvas rounded-rect helper.
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y,   x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x,   y+h, r);
+  ctx.arcTo(x,   y+h, x,   y,   r);
+  ctx.arcTo(x,   y,   x+w, y,   r);
+  ctx.closePath();
+}
+
+function renderRaceGameOver(score, difficulty, lives, newRecord){
+  state.view = "raceOver";
+  const best = store.games.best || 0;
+  $app.innerHTML = `
+    <section class="card" style="text-align:center">
+      <h2>${newRecord ? "🏆 Naujas rekordas!" : "Lenktynės baigtos 🏁"}</h2>
+      <p style="font-size:30px;margin:6px 0"><b>${score} m</b></p>
+      <div class="top-stats" style="justify-content:center;margin-bottom:10px">
+        <span class="pill ${difficulty==='hard'?'bad':(difficulty==='medium'?'':'good')}">${DIFF_LABEL[difficulty]}</span>
+        <span class="pill muted">Geriausias: ${best} m</span>
+      </div>
+      <div class="footer-actions" style="justify-content:center;gap:8px">
+        <button class="btn primary" id="raceAgain">🏎 Dar kartą (${lives} ${lives===1?'gyvybė':'gyv.'})</button>
+        <button class="btn" id="raceNewChallenge">Naujas iššūkis</button>
+        <button class="btn ghost" id="raceOverHome">Į pradžią</button>
+      </div>
+    </section>`;
+  document.getElementById("raceAgain").addEventListener("click", ()=> openRaceGame(difficulty, lives));
+  document.getElementById("raceNewChallenge").addEventListener("click", openRaceChallenge);
+  document.getElementById("raceOverHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+}
+
+/* ============================================================
    VIII. UTIL
    ============================================================ */
 function escapeHTML(s){
@@ -4921,6 +5506,8 @@ function shortPrompt(p){
    IX. PRADŽIA
    ============================================================ */
 renderHome();
+startStarTimeHeartbeat();
+checkAchievements();   // retroactively award badges already earned by past activity
 
 // keyboard: 1-5 → answer, Enter → submit/next
 document.addEventListener("keydown", e=>{

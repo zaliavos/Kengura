@@ -188,6 +188,34 @@ calibration with red flag if "Tikrai žinau" accuracy < 80 %.
 spent per points-band (3/4/5) vs. recommended budget (1 / 2,5 / 5 min
 per question). Bar turns red on overrun > 25 %.
 
+## Racing reward game + stars + achievements (2026-06-14)
+
+Gamification layer, all in `kengura.html` (no new files, no build step):
+
+- **🏁 Lenktynių iššūkis** (`state.view = "raceChallenge"`). A 5-question
+  gate drawn only from **4/5-point** archive questions that have answer
+  keys (`buildRacePool`), biased to include some 5-pointers. Each answer
+  routes through the existing `recordArchiveAnswer` so it still feeds
+  mechStats / dueQueue / stars. Gate logic in `finishRaceChallenge`:
+  < 3 correct → retry screen (no game); ≥ 3 → unlock. Score → difficulty:
+  3✓ `easy`, 4✓ `medium`, 5✓ `hard`. Lives = correct − 2 (3✓→1 … 5✓→3).
+- **🏎 Racing minigame** (`state.view = "race"`, `openRaceGame`). Canvas
+  lane-dodger, 3 lanes, ←→ / A-D / on-screen buttons / canvas-half tap.
+  Speed scales with difficulty and accelerates with distance; spawns
+  always leave a free lane. Collision costs a life (brief invuln blink);
+  0 lives → game over. `endGame` is **idempotent** (`if(g.over) return`)
+  so a run never double-counts. Loop is `requestAnimationFrame`, guarded
+  by `state.view === "race"`; `stopRaceGame` cancels the raf + keydown.
+- **Stars** (`store.stars = {total, fromQ, fromTime, _timeSecRem}`).
+  +1 per question answered (in `logActivity`); +1 per active minute via
+  `startStarTimeHeartbeat` (visibility-gated so it can't be idle-farmed).
+- **Achievements** (`store.achievements = {id: ts}`). 19-badge catalogue
+  in `ACHIEVEMENTS`; `checkAchievements()` records + toasts newly earned,
+  runs retroactively on load. Badge grid + stars + race record live on
+  the home `rewardsCardHTML()` card.
+- New store keys (`stars`, `games`, `achievements`) all have migration
+  defaults in `loadStore`, so old saves load clean.
+
 ## Option cleanup + word respacing (2026-05-06, fourth pass)
 
 PDF extraction left two stubborn artifacts the user flagged:
