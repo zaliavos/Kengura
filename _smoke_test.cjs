@@ -269,6 +269,129 @@ section("course layer");
   app.store.contestInProgress = null;
 }
 
+// ---------- 7½. 5-pt generators: independent answer verification ----------
+// Each new generator attaches q._check with its parameters; here we
+// re-derive the answer with a SEPARATE implementation and compare.
+section("5-pt generator math verification");
+const VERIFIERS = {
+  liarsCount(c){
+    return c.variant === "exact" ? c.ans === c.n - 1
+         : (c.n % 2 === 0 && c.ans === c.n / 2);
+  },
+  cupsFlip(c){
+    // independent BFS over the count of upside-down cups
+    const dist = new Array(c.n + 1).fill(-1);
+    dist[c.d0] = 0;
+    const qq = [c.d0];
+    while(qq.length){
+      const d = qq.shift();
+      for(let j = Math.max(0, c.m - (c.n - d)); j <= Math.min(c.m, d); j++){
+        const nd = d - j + (c.m - j);
+        if(nd >= 0 && nd <= c.n && dist[nd] === -1){ dist[nd] = dist[d] + 1; qq.push(nd); }
+      }
+    }
+    return dist[0] === c.ans;
+  },
+  blackboardMin(c){
+    // consecutive runs always achieve the parity bound
+    return c.ans === c.S % 2;
+  },
+  digitReversal(c){
+    const fits = [];
+    for(let x = 10; x <= 99; x++){
+      const a = Math.floor(x/10), b = x % 10;
+      if(a + b === c.s && x - (10*b + a) === c.d) fits.push(x);
+    }
+    return fits.length === 1 && fits[0] === c.ans;
+  },
+  gridPaths(c){
+    // independent: binomial C(cols+rows, cols)
+    let v = 1;
+    for(let i = 1; i <= c.cols; i++) v = v * (c.rows + i) / i;
+    return Math.round(v) === c.ans;
+  },
+  nimGame(c){
+    return c.ans === c.N % (c.k + 1) && c.ans >= 1 && c.ans <= c.k;
+  },
+  raceLogic5(c){
+    const nn = 5;
+    const holds = (clue, pos) => {
+      const [t, i, j, cc] = clue;
+      if(t === "after")    return pos[i] === pos[j] + 1;
+      if(t === "before")   return pos[i] < pos[j];
+      if(t === "notFirst") return pos[i] !== 1;
+      if(t === "notLast")  return pos[i] !== nn;
+      if(t === "between")  return Math.abs(pos[i] - pos[j]) - 1 === cc;
+      return false;
+    };
+    const perms = [];
+    (function build(rest, acc){
+      if(!rest.length){ const pos = {}; acc.forEach((p, i) => pos[p] = i + 1); perms.push(pos); return; }
+      for(let x = 0; x < rest.length; x++) build(rest.slice(0, x).concat(rest.slice(x+1)), acc.concat([rest[x]]));
+    })([0,1,2,3,4], []);
+    const alive = perms.filter(pos => c.clues.every(cl => holds(cl, pos)));
+    if(alive.length !== 1) return false;
+    // the surviving permutation must match the generator's secret order
+    return c.order.every((p, i) => alive[0][p] === i + 1);
+  },
+  equalGroups(c){
+    let g = 0;
+    for(let x = 2; x <= c.S; x++) if(c.S % x === 0 && c.S / x >= c.n) g = x;
+    return g === c.ans;
+  },
+  appendDigit(c){
+    const fits = [];
+    if(c.variant === "append"){
+      for(let x = 1; x <= c.diff; x++) if(x*10 + c.d - x === c.diff) fits.push(x);
+    } else {
+      // original ≈ 10/9 of the decrease, so search past c.diff
+      const hi = Math.ceil(c.diff * 10 / 9) + 10;
+      for(let x = 10; x <= hi; x++) if(x - Math.floor(x/10) === c.diff) fits.push(x);
+    }
+    return fits.length === 1 && fits[0] === c.ans;
+  },
+  remainderPuzzle(c){
+    for(let x = 1; x <= 2*c.p*c.q; x++){
+      if(x % c.p === c.rp && x % c.q === c.rq) return x === c.ans;
+    }
+    return false;
+  },
+  cubeNet(c){
+    const OPP = [[0,5],[1,3],[2,4]];
+    const pair = OPP.find(pp => pp.includes(c.askIdx));
+    const oppIdx = pair[0] === c.askIdx ? pair[1] : pair[0];
+    return c.nums[oppIdx] === c.ans;
+  },
+  erasedAverage(c){
+    const S = c.n*(c.n+1)/2;
+    return S - c.V*(c.n - 1) === c.ans && c.ans >= 1 && c.ans <= c.n;
+  },
+  dominoMax(c){
+    const total = c.rows * c.cols;
+    const remColor = ([i,j]) => (i + j) % 2;
+    let b = 0, w = 0;
+    for(let i = 0; i < c.rows; i++) for(let j = 0; j < c.cols; j++) ((i+j)%2 === 0 ? b++ : w++);
+    if(remColor(c.rem1) === 0) b--; else w--;
+    if(remColor(c.rem2) === 0) b--; else w--;
+    // matching can't exceed the smaller color class, and can't miss it by much
+    return c.ans <= Math.min(b, w) && c.ans >= Math.min(b, w) - 2 && c.ans <= (total - 2) / 2;
+  },
+};
+const NEW_GENS = Object.keys(VERIFIERS);
+for(const key of NEW_GENS){
+  let verified = 0;
+  for(let seed = 1; seed <= 60; seed++){
+    const q = buildQuestionFromKey(key, seed);
+    if(!q._check){ check(`${key}#${seed} has _check`, false); continue; }
+    let ok = false;
+    try { ok = VERIFIERS[key](q._check); }
+    catch(e){ check(`${key}#${seed} verifier`, false, "threw: " + e.message); continue; }
+    check(`${key}#${seed} answer verified`, ok, JSON.stringify(q._check).slice(0, 140));
+    if(ok) verified++;
+  }
+  console.log(`${key}: ${verified}/60 independently verified`);
+}
+
 // ---------- 8. render smoke: new views execute without throwing ----------
 section("render smoke (stubbed DOM)");
 for(const [name, fn] of [

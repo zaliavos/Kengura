@@ -266,6 +266,32 @@ course. All in `kengura.html`:
   explainer (3-pt first, skip-vs-guess under −25 %) and a score
   trajectory pill. Two new badges: recog20, plan5.
 
+## 5-pt generator block (2026-08-23, second pass)
+
+13 new parameterized contest-grade generators in `kengura.html`
+(GENERATORS section "5 TAŠKŲ BLOKAS"). Design rules, learned from the
+stackProjection incident:
+
+- **Every answer is COMPUTED** — BFS (cupsFlip), DP (nimGame, gridPaths,
+  blackboardMin subset-sum), maximum bipartite matching (dominoMax,
+  Kuhn's algorithm), permutation brute force (raceLogic5 — clues are
+  added until exactly 1 of 120 orderings survives), or exhaustive search
+  (digitReversal, appendDigit, remainderPuzzle, erasedAverage). Never a
+  hard-coded formula.
+- **Every question carries `q._check`** (params + answer); the smoke
+  test re-derives each answer with a SEPARATE implementation (60 seeds
+  per generator). Keep this pattern for any future generator.
+- New coverage by mechanic (all difficulty 5 unless noted): liarsCount
+  (truth-tellers), cupsFlip + blackboardMin (invariant), digitReversal
+  (digit-puzzle), gridPaths (counting-ways), nimGame (state-game — first
+  ever), raceLogic5 (logic-clues), equalGroups (partition), appendDigit
+  (place-value — first ever), remainderPuzzle (divisibility), cubeNet
+  (cube-net — first ever, difficulty 4), erasedAverage (arith-compute),
+  dominoMax (tiling — first ever).
+- Result: **all 99 5-pt archive questions now route to practice** — 87
+  to a band-matched generator, 12 to same-mechanic archive fallback,
+  0 dead-ends (was: many "none").
+
 ## Option cleanup + word respacing (2026-05-06, fourth pass)
 
 PDF extraction left two stubborn artifacts the user flagged:

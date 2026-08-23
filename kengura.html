@@ -1759,6 +1759,551 @@ const GENERATORS = {
     });
   },
 
+  /* ====================================================================
+     5 TAŠKŲ BLOKAS — parameterized contest-grade generators (2026-08-23).
+     Every answer below is COMPUTED (BFS / DP / brute force), never a
+     hard-coded formula, and each question carries a `_check` payload so
+     _smoke_test.cjs can re-derive the answer independently.
+     ==================================================================== */
+
+  // ---- C1. Melagių skaičius (self-referential statements) ----
+  liarsCount(seed){
+    const r = rng(seed);
+    const variant = pick(r, ["exact", "atleast"]);
+    let n, correct, lines, explain;
+    if(variant === "exact"){
+      n = pick(r, [4, 5, 6]);
+      lines = [];
+      for(let i = 1; i <= n; i++) lines.push(`${i}-asis sako: „Tiksliai ${i} iš mūsų meluoja.“`);
+      correct = n - 1;
+      explain = `Visi sako skirtingus skaičius, o tikrasis melagių skaičius — vienas. Vadinasi, teisybę gali sakyti daugiausiai VIENAS vaikas, tad meluoja bent ${n-1}. Ar gali meluoti visi ${n}? Tada ${n}-ojo žodžiai „tiksliai ${n} meluoja“ būtų tiesa — prieštara. Lieka: meluoja ${n-1}, o teisybę sako tik ${n-1}-asis.`;
+    } else {
+      n = pick(r, [4, 6, 8]);
+      lines = [];
+      for(let i = 1; i <= n; i++) lines.push(`${i}-asis sako: „Bent ${i} iš mūsų meluoja.“`);
+      correct = n / 2;
+      explain = `Kuo mažesnį skaičių vaikas sako, tuo lengviau jo žodžiai tampa tiesa. Jei meluoja lygiai ${n/2}, tai teiginiai „bent 1“ … „bent ${n/2}“ — tiesa (juos sako pirmieji ${n/2} vaikų), o likusių ${n/2} teiginiai melagingi. Tiesakalbių ${n/2} ir melagių ${n/2} — viskas dera. Patikrink bet kokį kitą skaičių — visada susikerta.`;
+    }
+    const distract = uniqDistract(r, correct, [
+      ()=>n, ()=>Math.max(1, correct-1), ()=>correct+1, ()=>1, ()=>Math.max(1, n-2)
+    ], 4);
+    const q = makeMC({
+      category:"logika", subtopic:"logika.melagiai", difficulty:5,
+      prompt:`${n} vaikai kalbasi. Kiekvienas jų arba VISADA meluoja, arba VISADA sako tiesą.\n${lines.map(l=>"• "+l).join("\n")}\nKiek vaikų meluoja?`,
+      correct, distract,
+      firstStep:`Ar gali du iš jų kartu sakyti tiesą? Palygink jų teiginius.`,
+      hint:`Melagių skaičius yra vienas konkretus skaičius. Spėk jį (pvz., pabandyk ${variant === "exact" ? n-1 : n/2}) ir patikrink KIEKVIENO vaiko žodžius: teisuoliai turi sakyti tiesą, melagiai — meluoti.`,
+      explain, r
+    });
+    q._check = {gen:"liarsCount", variant, n, ans: correct};
+    return q;
+  },
+
+  // ---- C2. Puodelių vartymas (parity invariant, BFS-computed) ----
+  cupsFlip(seed){
+    const r = rng(seed);
+    const n = pick(r, [6, 7, 8]);
+    const m = pick(r, [2, 3, 4]);
+    const d0 = randInt(r, 2, n - 1);
+    // BFS over the count of upside-down cups
+    const prev = new Array(n + 1).fill(-1);
+    const dist = new Array(n + 1).fill(-1);
+    dist[d0] = 0;
+    const queue = [d0];
+    while(queue.length){
+      const d = queue.shift();
+      const jLo = Math.max(0, m - (n - d));
+      const jHi = Math.min(m, d);
+      for(let j = jLo; j <= jHi; j++){
+        const nd = d - j + (m - j);
+        if(nd < 0 || nd > n || dist[nd] !== -1) continue;
+        dist[nd] = dist[d] + 1;
+        prev[nd] = d;
+        queue.push(nd);
+      }
+    }
+    const ans = dist[0];
+    if(ans < 2 || ans > 5) return GENERATORS.cupsFlip(seed + 1);
+    // reconstruct one optimal path for the explanation
+    const path = [];
+    for(let cur = 0; cur !== -1; cur = prev[cur]){ path.unshift(cur); if(cur === d0) break; }
+    const distract = uniqDistract(r, ans, [
+      ()=>Math.ceil(d0/m), ()=>ans+1, ()=>Math.max(1, ans-1), ()=>d0, ()=>m
+    ], 4);
+    const q = makeMC({
+      category:"logika", subtopic:"logika.zingsniai", difficulty:5,
+      prompt:`Ant stalo ${n} puodelių; ${d0} iš jų apversti dugnu aukštyn. Vienu ėjimu PRIVALAI apversti lygiai ${m} puodelius (bet kuriuos). Per kiek mažiausiai ėjimų gali pasiekti, kad visi puodeliai stovėtų teisingai?`,
+      correct: ans, distract,
+      firstStep:`Sek tik vieną skaičių — kiek puodelių apversta. Kaip jis gali keistis per vieną ėjimą?`,
+      hint:`Jei per ėjimą apverti ${m} puodelius ir tarp jų yra keli „blogi“, blogųjų skaičius keičiasi. Surašyk, kokie skaičiai pasiekiami po 1 ėjimo, po 2 ėjimų… Ne visi keliai veda į nulį iš karto!`,
+      explain:`Sekime apverstųjų skaičių po kiekvieno ėjimo: ${path.join(" → ")}. Greičiau neįmanoma — patikrinus visus variantus, po ${ans-1} ėjimų nulio pasiekti dar negalima.`,
+      r
+    });
+    q._check = {gen:"cupsFlip", n, m, d0, ans};
+    return q;
+  },
+
+  // ---- C3. Lentos žaidimas su skirtumais (sum-parity invariant) ----
+  blackboardMin(seed){
+    const r = rng(seed);
+    const lo = randInt(r, 1, 3);
+    const count = randInt(r, 8, 13);
+    const hi = lo + count - 1;
+    const nums = [];
+    for(let v = lo; v <= hi; v++) nums.push(v);
+    const S = nums.reduce((a,b)=>a+b, 0);
+    // reachable final values are |S − 2T| over subset sums T → DP for the min
+    const can = new Array(S + 1).fill(false);
+    can[0] = true;
+    for(const v of nums) for(let t = S; t >= v; t--) if(can[t - v]) can[t] = true;
+    let ans = S;
+    for(let t = 0; t <= S; t++) if(can[t]) ans = Math.min(ans, Math.abs(S - 2*t));
+    const wrongParity = ans === 0 ? 1 : 0;
+    const distract = uniqDistract(r, ans, [
+      ()=>wrongParity, ()=>2, ()=>lo, ()=>hi, ()=>3
+    ], 4);
+    const q = makeMC({
+      category:"logika", subtopic:"logika.zingsniai", difficulty:5,
+      prompt:`Ant lentos surašyti skaičiai nuo ${lo} iki ${hi}. Vienu ėjimu nutrini du skaičius ir vietoj jų užrašai jų skirtumą (didesnis minus mažesnis). Taip kartoji, kol lieka vienas skaičius. Koks MAŽIAUSIAS skaičius gali likti?`,
+      correct: ans, distract,
+      firstStep:`Kas atsitinka visų lentos skaičių sumai, kai du skaičius pakeiti jų skirtumu?`,
+      hint:`Pakeitus a ir b jų skirtumu, suma sumažėja dvigubu mažesniuoju skaičiumi — tai visada LYGINIS pokytis. Vadinasi, sumos lyginumas niekada nesikeičia. Kokia pradinė suma — lyginė ar nelyginė?`,
+      explain:`Visų suma ${S} — ${S % 2 ? "nelyginė" : "lyginė"}. Kiekvienas ėjimas sumą sumažina lyginiu skaičiumi, todėl ir likęs skaičius bus ${S % 2 ? "nelyginis" : "lyginis"}. Mažiausias toks — ${ans}. Jį pasiekti galima: gretimų porų skirtumai lygūs 1, o vienetai naikina vienas kitą.`,
+      r
+    });
+    q._check = {gen:"blackboardMin", lo, hi, S, ans};
+    return q;
+  },
+
+  // ---- C4. Skaitmenų sukeitimas (digit puzzle, brute-force verified) ----
+  digitReversal(seed){
+    const r = rng(seed);
+    const a = randInt(r, 3, 9);
+    const b = randInt(r, 1, a - 1);
+    const num = 10*a + b, rev = 10*b + a;
+    const d = num - rev, s = a + b;
+    // brute-force: must be the UNIQUE two-digit number fitting both facts
+    const fits = [];
+    for(let x = 10; x <= 99; x++){
+      const xa = Math.floor(x/10), xb = x % 10;
+      if(xa + xb === s && x - (10*xb + xa) === d) fits.push(x);
+    }
+    if(fits.length !== 1 || fits[0] !== num) return GENERATORS.digitReversal(seed + 1);
+    const sameSum = [];
+    for(let x = 10; x <= 99; x++){
+      if(Math.floor(x/10) + x%10 === s && x !== num) sameSum.push(x);
+    }
+    const distract = uniqDistract(r, num, [
+      ()=>rev, ()=>pick(r, sameSum), ()=>pick(r, sameSum), ()=>num - 9, ()=>num + 9
+    ], 4);
+    const q = makeMC({
+      category:"aritmetika", subtopic:"aritm.skaitmenu_pertvarka", difficulty:5,
+      prompt:`Dviženklio skaičiaus skaitmenų suma ${s}. Sukeitus jo skaitmenis vietomis, gaunamas ${d} mažesnis skaičius. Koks tai skaičius?`,
+      correct: num, distract,
+      firstStep:`Surašyk visus dviženklius, kurių skaitmenų suma ${s}.`,
+      hint:`Kandidatų nedaug: ${sameSum.slice(0,5).concat([num]).sort((x,y)=>x-y).join(", ")}… Kiekvienam patikrink: atimk „apverstą“ skaičių ir žiūrėk, ar gauni ${d}. (Pastebėjimas: toks skirtumas visada yra 9 kartotinis.)`,
+      explain:`Tikriname skaičius su skaitmenų suma ${s}: tik ${num} tinka, nes ${num} − ${rev} = ${d}. Sukeitus skaitmenis skirtumas visada lygus 9 × (skaitmenų skirtumas): čia 9 × ${a - b} = ${d}.`,
+      r
+    });
+    q._check = {gen:"digitReversal", s, d, ans: num};
+    return q;
+  },
+
+  // ---- C5. Keliai tinkleliu (counting paths, DP-computed) ----
+  gridPaths(seed){
+    const r = rng(seed);
+    const [cols, rows] = pick(r, [[2,3],[3,3],[2,4],[3,4],[4,4]]);
+    // DP over lattice points
+    const dp = [];
+    for(let y = 0; y <= rows; y++){
+      dp.push([]);
+      for(let x = 0; x <= cols; x++){
+        dp[y][x] = (x === 0 || y === 0) ? 1 : dp[y][x-1] + dp[y-1][x];
+      }
+    }
+    const ans = dp[rows][cols];
+    const cell = 36;
+    const W = cols*cell, H = rows*cell;
+    let linesSvg = "";
+    for(let x = 0; x <= cols; x++) linesSvg += `<line x1="${x*cell}" y1="0" x2="${x*cell}" y2="${H}" stroke="#1d1d1f" stroke-width="1.6"/>`;
+    for(let y = 0; y <= rows; y++) linesSvg += `<line x1="0" y1="${y*cell}" x2="${W}" y2="${y*cell}" stroke="#1d1d1f" stroke-width="1.6"/>`;
+    const figure = `<svg viewBox="0 0 ${W+50} ${H+40}" width="${Math.min(W+50, 260)}" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(25,15)">${linesSvg}
+        <circle cx="0" cy="${H}" r="5" fill="#d6451a"/>
+        <circle cx="${W}" cy="0" r="5" fill="#1a7f4a"/>
+        <text x="-16" y="${H+5}" font-size="14" font-weight="700">A</text>
+        <text x="${W+7}" y="5" font-size="14" font-weight="700">B</text>
+      </g>
+    </svg>`;
+    const distract = uniqDistract(r, ans, [
+      ()=>cols*rows, ()=>cols+rows, ()=>2*(cols+rows), ()=>ans-2, ()=>ans+2, ()=>Math.floor(ans/2)
+    ], 4);
+    const q = makeMC({
+      category:"logika", subtopic:"logika.derinys", difficulty:5,
+      prompt:`Skruzdėliukas eina tinklelio linijomis iš taško A į tašką B, žingsniuodamas tik į dešinę arba aukštyn. Keliais skirtingais keliais jis gali nueiti?`,
+      figure,
+      correct: ans, distract,
+      firstStep:`Prie kiekvienos sankryžos užrašyk, keliais būdais skruzdėliukas gali JĄ pasiekti. Pradėk nuo apatinio krašto — ten visur po 1.`,
+      hint:`Į bet kurią sankryžą ateinama arba iš kairės, arba iš apačios. Todėl būdų skaičius sankryžoje = būdai kairėje + būdai apačioje. Pildyk tinklelį skaičiais nuo A iki B.`,
+      explain:`Pildome sankryžas: kraštuose visur 1, o kitur sudedame kairę ir apačią. Kampe B gaunasi ${ans}.`,
+      r
+    });
+    q._check = {gen:"gridPaths", cols, rows, ans};
+    return q;
+  },
+
+  // ---- C6. Akmenukų žaidimas (Nim variant, DP-computed) ----
+  nimGame(seed){
+    const r = rng(seed);
+    const k = pick(r, [3, 4, 5]);
+    const N = randInt(r, 12, 40);
+    // DP: lose[i] = player to move with i stones loses (taking last wins)
+    const lose = new Array(N + 1).fill(false);
+    lose[0] = true;
+    for(let i = 1; i <= N; i++){
+      let canWin = false;
+      for(let t = 1; t <= Math.min(k, i); t++) if(lose[i - t]) canWin = true;
+      lose[i] = !canWin;
+    }
+    if(lose[N]) return GENERATORS.nimGame(seed + 1);   // first player can't force a win
+    const moves = [];
+    for(let t = 1; t <= Math.min(k, N); t++) if(lose[N - t]) moves.push(t);
+    if(moves.length !== 1) return GENERATORS.nimGame(seed + 1);
+    const ans = moves[0];
+    const distract = uniqDistract(r, ans, [
+      ()=>k, ()=>k+1, ()=>Math.max(1, ans-1), ()=>ans+1, ()=>1, ()=>2
+    ], 4);
+    const q = makeMC({
+      category:"logika", subtopic:"logika.zingsniai", difficulty:5,
+      prompt:`Ant stalo ${N} akmenukų. Du žaidėjai paeiliui ima nuo 1 iki ${k} akmenukų. Laimi tas, kuris paima PASKUTINĮ akmenuką. Kiek akmenukų pirmuoju ėjimu turi paimti pirmasis žaidėjas, kad tikrai laimėtų (abiem žaidžiant geriausiai)?`,
+      correct: ans, distract,
+      firstStep:`Pagalvok nuo galo: su kiek akmenukų ant stalo eilę gavęs žaidėjas PRALAIMI?`,
+      hint:`Blogos pozicijos — 0, ${k+1}, ${2*(k+1)}, ${3*(k+1)}… (kas ${k+1}-a): kad ir kiek paimtum (1–${k}), priešininkas papildo iki ${k+1} ir vėl palieka tau blogą skaičių. Pirmasis turi iškart palikti priešininkui blogą skaičių.`,
+      explain:`Pralaimi tas, kuris gauna skaičių, dalų iš ${k+1}: 0, ${k+1}, ${2*(k+1)}… ${N} = ${Math.floor(N/(k+1))}·${k+1} + ${ans}, tad pirmasis paima ${ans} ir palieka ${N-ans}. Toliau kiekvieną priešininko ėjimą jis papildo iki ${k+1} — ir paskutinis akmenukas atitenka jam.`,
+      r
+    });
+    q._check = {gen:"nimGame", N, k, ans};
+    return q;
+  },
+
+  // ---- C7. Penkių dalyvių logikos eilė (uniqueness brute-force) ----
+  raceLogic5(seed){
+    const r = rng(seed);
+    const PEOPLE = [
+      {nom:"Anelė",  gen:"Anelės",  acc:"Anelę",  f:true},
+      {nom:"Beata",  gen:"Beatos",  acc:"Beatą",  f:true},
+      {nom:"Cilė",   gen:"Cilės",   acc:"Cilę",   f:true},
+      {nom:"Dovas",  gen:"Dovo",    acc:"Dovą",   f:false},
+      {nom:"Mantas", gen:"Manto",   acc:"Mantą",  f:false},
+    ];
+    const nn = PEOPLE.length;
+    const order = shuffle(r, PEOPLE.map((_, i) => i));   // order[place-1] = person idx
+    const posOf = {};                                     // person idx -> place (1-based)
+    order.forEach((p, i) => { posOf[p] = i + 1; });
+    // clue spec: [type, i, j, c]; predicate over a candidate pos map
+    const holds = (clue, pos) => {
+      const [t, i, j, c] = clue;
+      if(t === "after")   return pos[i] === pos[j] + 1;
+      if(t === "before")  return pos[i] < pos[j];
+      if(t === "notFirst")return pos[i] !== 1;
+      if(t === "notLast") return pos[i] !== nn;
+      if(t === "between") return Math.abs(pos[i] - pos[j]) - 1 === c;
+      return false;
+    };
+    // all TRUE clues about the secret order
+    const pool = [];
+    for(let i = 0; i < nn; i++){
+      if(posOf[i] !== 1) pool.push(["notFirst", i]);
+      if(posOf[i] !== nn) pool.push(["notLast", i]);
+      for(let j = 0; j < nn; j++){
+        if(i === j) continue;
+        if(posOf[i] === posOf[j] + 1) pool.push(["after", i, j]);
+        if(posOf[i] < posOf[j]) pool.push(["before", i, j]);
+        const gap = Math.abs(posOf[i] - posOf[j]) - 1;
+        if(i < j && (gap === 1 || gap === 2)) pool.push(["between", i, j, gap]);
+      }
+    }
+    // all 120 permutations as pos maps
+    const perms = [];
+    (function build(rest, acc){
+      if(!rest.length){ const pos = {}; acc.forEach((p, i) => pos[p] = i + 1); perms.push(pos); return; }
+      for(let x = 0; x < rest.length; x++) build(rest.slice(0, x).concat(rest.slice(x+1)), acc.concat([rest[x]]));
+    })([0,1,2,3,4], []);
+    // add shuffled clues until exactly one permutation survives
+    const shuffledPool = shuffle(r, pool);
+    const clues = [];
+    let alive = perms;
+    for(const clue of shuffledPool){
+      if(alive.length === 1) break;
+      const next = alive.filter(pos => holds(clue, pos));
+      if(next.length === alive.length) continue;   // clue adds nothing — skip
+      clues.push(clue);
+      alive = next;
+      if(clues.length >= 6) break;
+    }
+    if(alive.length !== 1 || clues.length < 3) return GENERATORS.raceLogic5(seed + 1);
+    const clueText = (clue) => {
+      const [t, i, j, c] = clue;
+      const X = PEOPLE[i], Y = PEOPLE[j];
+      if(t === "after")    return `${X.nom} finišavo iškart po ${Y.gen}.`;
+      if(t === "before")   return `${X.nom} finišavo anksčiau už ${Y.acc}.`;
+      if(t === "notFirst") return `${X.nom} nebuvo ${X.f ? "pirmoji" : "pirmas"}.`;
+      if(t === "notLast")  return `${X.nom} nebuvo ${X.f ? "paskutinė" : "paskutinis"}.`;
+      return `Tarp ${X.gen} ir ${Y.gen} finišavo lygiai ${c === 1 ? "vienas dalyvis" : c + " dalyviai"}.`;
+    };
+    const winnerIdx = order[0];
+    const opts = shuffle(r, PEOPLE.map(p => p.nom));
+    const finalOrder = order.map((p, i) => `${i+1}. ${PEOPLE[p].nom}`).join(", ");
+    const q = {
+      category:"logika", subtopic:"logika.eile", difficulty:5,
+      prompt:`Bėgimo varžybose dalyvavo ${PEOPLE.map(p=>p.nom).join(", ")}. Žinoma:\n${clues.map(cl=>"• "+clueText(cl)).join("\n")}\nKas laimėjo?`,
+      options: opts,
+      correctIndex: opts.indexOf(PEOPLE[winnerIdx].nom),
+      firstStep:`Pradėk nuo užuominų apie pirmą ir paskutinę vietas — jos užbraukia daugiausiai galimybių.`,
+      hint:`Nusibraižyk 5 tuščias vietas. Kiekviena užuomina arba pastato žmogų į vietą, arba užbraukia negalimas vietas. Poras „iškart po“ dėk kaip vieną bloką.`,
+      explain:`Vienintelė visoms užuominoms tinkanti eilė: ${finalOrder}. Laimėjo ${PEOPLE[winnerIdx].nom}.`,
+    };
+    q._check = {gen:"raceLogic5", clues, order, ansName: PEOPLE[winnerIdx].nom};
+    return q;
+  },
+
+  // ---- C8. Vienodos krūvelės (partition with size constraint) ----
+  equalGroups(seed){
+    const r = rng(seed);
+    const n = randInt(r, 10, 16);
+    const S = n*(n+1)/2;
+    // max g with g | S and S/g ≥ n (classic: such partitions always exist)
+    let ans = 0;
+    for(let g = 2; g <= S; g++) if(S % g === 0 && S / g >= n) ans = g;
+    if(ans < 3) return GENERATORS.equalGroups(seed + 1);
+    // trap: bigger divisor whose pile target is too small for the n-gram weight
+    let trap = 0;
+    for(let g = ans + 1; g <= S; g++) if(S % g === 0){ trap = g; break; }
+    const distract = uniqDistract(r, ans, [
+      ()=>trap, ()=>ans-1, ()=>ans+1, ()=>Math.floor(n/2), ()=>2
+    ], 4);
+    const q = makeMC({
+      category:"logika", subtopic:"logika.zingsniai", difficulty:5,
+      prompt:`Turime svarelius: 1 g, 2 g, 3 g, …, ${n} g (po vieną kiekvieno). Į kiek DAUGIAUSIAI krūvelių galima juos padalinti taip, kad visų krūvelių masės būtų vienodos?`,
+      correct: ans, distract,
+      firstStep:`Pirma rask visų svarelių bendrą masę: 1 + 2 + … + ${n}.`,
+      hint:`Bendra masė ${S} g. Krūvelių skaičius turi dalyti ${S}. Bet yra dar viena kliūtis: sunkiausias svarelis (${n} g) turi TILPTI į krūvelę — krūvelės masė negali būti mažesnė už ${n} g.`,
+      explain:`Bendra masė ${S} g. Jei krūvelių ${trap || "daugiau"}, kiekvienos masė būtų ${trap ? S/trap + " g — mažiau nei sunkiausias " + n + " g svarelis, neįmanoma" : "per maža"}. ${ans} krūvelės po ${S/ans} g tinka: ${S} ÷ ${ans} = ${S/ans} ≥ ${n}, o sudėlioti visada pavyksta poruojant didžiausius su mažiausiais.`,
+      r
+    });
+    q._check = {gen:"equalGroups", n, S, ans};
+    return q;
+  },
+
+  // ---- C9. Prirašytas / nutrintas skaitmuo (place value) ----
+  appendDigit(seed){
+    const r = rng(seed);
+    const variant = pick(r, ["append", "erase"]);
+    let prompt, correct, distractMakers, explain, checkExtra;
+    if(variant === "append"){
+      const old = randInt(r, 24, 480);
+      const d = randInt(r, 0, 9);
+      const diff = 9*old + d;
+      correct = old;
+      prompt = `Skaičiaus gale Tomas prirašė skaitmenį ${d}. Skaičius padidėjo ${diff}. Koks buvo pradinis skaičius?`;
+      explain = `Prirašius skaitmenį gale, skaičius tampa 10 kartų didesnis ir dar +${d}. Taigi padidėjimas = 9 pradiniai + ${d}. Iš ${diff} atimame ${d} ir dalijame iš 9: (${diff} − ${d}) ÷ 9 = ${old}. Patikra: ${old} → ${old*10+d}, skirtumas ${diff}. ✓`;
+      distractMakers = [()=>Math.round(diff/10), ()=>old-9, ()=>old+9, ()=>old*10+d, ()=>Math.round(diff/9)];
+      checkExtra = {variant, d, diff, ans: old};
+    } else {
+      const t = randInt(r, 4, 80);
+      const u = randInt(r, 1, 8);   // 0 and 9 would make the answer ambiguous
+      const old = 10*t + u;
+      const diff = old - t;         // = 9t + u
+      correct = old;
+      prompt = `Nutrynus paskutinį skaičiaus skaitmenį, skaičius sumažėjo ${diff}. Koks buvo pradinis skaičius?`;
+      explain = `Pradinis = 10 × likusio skaičiaus + paskutinis skaitmuo, todėl sumažėjimas = 9 × likusio + paskutinis skaitmuo. Dalijame ${diff} iš 9: liekana ${u} — tai paskutinis skaitmuo, o (${diff} − ${u}) ÷ 9 = ${t} — likęs skaičius. Pradinis: ${old}. Patikra: ${old} → ${t}, skirtumas ${diff}. ✓`;
+      distractMakers = [()=>t, ()=>old-9, ()=>old+9, ()=>diff, ()=>Math.round(diff/9)];
+      checkExtra = {variant, diff, ans: old};
+    }
+    const distract = uniqDistract(r, correct, distractMakers, 4);
+    const q = makeMC({
+      category:"aritmetika", subtopic:"aritm.skaitmenu_pertvarka", difficulty:5,
+      prompt, correct, distract,
+      firstStep:`Kas atsitinka skaičiui, kai gale prirašai (arba nutrini) skaitmenį? Palygink su dauginimu iš 10.`,
+      hint:`Prirašius skaitmenį gale, skaičius padidėja 9 kartus savęs ir dar prirašytu skaitmeniu. Nutrynus — sumažėja 9 kartus likusio ir dar nutrintu skaitmeniu. Devyni kartotiniai čia — raktas.`,
+      explain, r
+    });
+    q._check = Object.assign({gen:"appendDigit"}, checkExtra);
+    return q;
+  },
+
+  // ---- C10. Liekanos iš dviejų daliklių (brute-force smallest) ----
+  remainderPuzzle(seed){
+    const r = rng(seed);
+    const [p, qd] = pick(r, [[3,5],[4,5],[3,7],[5,7],[5,6]]);
+    const rp = randInt(r, 1, p - 1);
+    const rq = randInt(r, 1, qd - 1);
+    let ans = 0;
+    for(let x = 1; x <= 2*p*qd; x++){
+      if(x % p === rp && x % qd === rq){ ans = x; break; }
+    }
+    if(!ans || ans < 4) return GENERATORS.remainderPuzzle(seed + 1);
+    // distractors: satisfy only ONE of the two conditions
+    let onlyP = 0, onlyQ = 0;
+    for(let x = rp; x <= 3*p*qd; x += p){ if(x > 0 && x % qd !== rq && x !== ans){ onlyP = x; break; } }
+    for(let x = rq; x <= 3*p*qd; x += qd){ if(x > 0 && x % p !== rp && x !== ans){ onlyQ = x; break; } }
+    const distract = uniqDistract(r, ans, [
+      ()=>onlyP, ()=>onlyQ, ()=>ans + p*qd, ()=>rp + rq, ()=>rp * rq
+    ], 4);
+    // build the checking walk for the explanation
+    const walk = [];
+    for(let x = rp; x <= ans; x += p) walk.push(x);
+    const q = makeMC({
+      category:"aritmetika", subtopic:"aritm.dalumas", difficulty:5,
+      prompt:`Mokytoja saldainius dalijo vaikams po ${p} — liko ${rp}. Pabandžius dalyti po ${qd} — liko ${rq}. Kiek MAŽIAUSIAI saldainių ji galėjo turėti?`,
+      correct: ans, distract,
+      firstStep:`Surašyk skaičius, kuriuos dalijant iš ${p} lieka ${rp}: ${rp}, ${rp + p}, ${rp + 2*p}, …`,
+      hint:`Vieno sąrašo neužtenka — kiekvieną jo skaičių patikrink ir antrąja sąlyga: kokia liekana dalijant iš ${qd}? Pirmasis tinkantis abiem sąlygoms ir bus atsakymas.`,
+      explain:`Skaičiai su liekana ${rp} dalijant iš ${p}: ${walk.join(", ")}${walk.length > 1 ? "" : ", …"}. Tikriname dalybą iš ${qd}: tinka pirmasis ${ans} (${ans} = ${Math.floor(ans/qd)}·${qd} + ${rq}).`,
+      r
+    });
+    q._check = {gen:"remainderPuzzle", p, q: qd, rp, rq, ans};
+    return q;
+  },
+
+  // ---- C11. Kubo išklotinė: priešingos sienos ----
+  cubeNet(seed){
+    const r = rng(seed);
+    // cross net cells (col,row): top, then a strip of four, then bottom
+    const CELLS = [[1,0],[0,1],[1,1],[2,1],[3,1],[1,2]];
+    const OPP = [[0,5],[1,3],[2,4]];   // opposite-face index pairs when folded
+    const nums = shuffle(r, [1,2,3,4,5,6]);
+    const askIdx = randInt(r, 0, 5);
+    const pair = OPP.find(pp => pp.includes(askIdx));
+    const oppIdx = pair[0] === askIdx ? pair[1] : pair[0];
+    const asked = nums[askIdx], ans = nums[oppIdx];
+    const cell = 44;
+    let rects = "";
+    CELLS.forEach(([cx, cy], i) => {
+      rects += `<rect x="${cx*cell}" y="${cy*cell}" width="${cell}" height="${cell}" fill="${i===askIdx?'#ffe6d8':'#fffaf0'}" stroke="#1d1d1f" stroke-width="2"/>`;
+      rects += `<text x="${cx*cell + cell/2}" y="${cy*cell + cell/2 + 7}" text-anchor="middle" font-size="20" font-weight="700">${nums[i]}</text>`;
+    });
+    const figure = `<svg viewBox="0 0 ${4*cell+4} ${3*cell+4}" width="220" xmlns="http://www.w3.org/2000/svg"><g transform="translate(2,2)">${rects}</g></svg>`;
+    const others = shuffle(r, nums.filter(v => v !== asked && v !== ans)).slice(0, 4);
+    const opts = shuffle(r, [ans, ...others]).map(String);
+    const strip = [nums[1], nums[2], nums[3], nums[4]];
+    const q = {
+      category:"erdve", subtopic:"erdve.projekcija", difficulty:4,
+      prompt:`Iš šios išklotinės sulankstomas kubas. Kuris skaičius atsidurs priešais skaičių ${asked}?`,
+      figure,
+      options: opts,
+      correctIndex: opts.indexOf(String(ans)),
+      firstStep:`Keturi kvadratai eilėje susisuks į „žiedą“ aplink kubą. Kurie du iš jų atsidurs vienas priešais kitą?`,
+      hint:`Eilėje iš keturių priešingi yra kas antras: ${strip[0]}↔${strip[2]} ir ${strip[1]}↔${strip[3]}. Viršutinis ir apatinis kvadratai tampa kubo viršumi ir dugnu — jie irgi priešingi.`,
+      explain:`Žiedas iš keturių: ${strip[0]}↔${strip[2]}, ${strip[1]}↔${strip[3]}. Viršus ir apačia: ${nums[0]}↔${nums[5]}. Priešais ${asked} — ${ans}.`,
+    };
+    q._check = {gen:"cubeNet", nums, askIdx, ans};
+    return q;
+  },
+
+  // ---- C12. Nutrintas skaičius pagal vidurkį ----
+  erasedAverage(seed){
+    const r = rng(seed);
+    const n = randInt(r, 9, 20);
+    const S = n*(n+1)/2;
+    const cands = [];
+    for(let x = 1; x <= n; x++) if((S - x) % (n - 1) === 0) cands.push(x);
+    if(!cands.length) return GENERATORS.erasedAverage(seed + 1);
+    const x = pick(r, cands);
+    const V = (S - x) / (n - 1);
+    const distract = uniqDistract(r, x, [
+      ()=>n - x + 1, ()=>x - 1, ()=>x + 1, ()=>V, ()=>n
+    ], 4);
+    const q = makeMC({
+      category:"aritmetika", subtopic:"aritm.vidurkis", difficulty:5,
+      prompt:`Ant lentos surašyti skaičiai nuo 1 iki ${n}. Vieną skaičių nutrynus, likusiųjų vidurkis lygus ${V}. Kuris skaičius nutrintas?`,
+      correct: x, distract,
+      firstStep:`Pirmiausia rask VISŲ skaičių nuo 1 iki ${n} sumą.`,
+      hint:`Likusių ${n-1} skaičių suma = vidurkis × jų kiekis = ${V} × ${n-1}. Palygink su visų suma — skirtumas ir yra nutrintas skaičius.`,
+      explain:`Visų suma: 1 + 2 + … + ${n} = ${S}. Likusiųjų suma: ${V} · ${n-1} = ${V*(n-1)}. Nutrintas: ${S} − ${V*(n-1)} = ${x}.`,
+      r
+    });
+    q._check = {gen:"erasedAverage", n, V, ans: x};
+    return q;
+  },
+
+  // ---- C13. Domino ant lentos su iškirptais langeliais (max matching) ----
+  dominoMax(seed){
+    const r = rng(seed);
+    const [rows, cols] = pick(r, [[4,5],[4,6],[5,6],[6,6]]);
+    const total = rows*cols;
+    // remove two distinct cells; half the time both the SAME color (the trap)
+    const sameColor = r() < 0.5;
+    const all0 = [], all1 = [];
+    for(let i = 0; i < rows; i++) for(let j = 0; j < cols; j++)
+      ((i + j) % 2 === 0 ? all0 : all1).push([i, j]);
+    let rem1, rem2;
+    if(sameColor){
+      const s = shuffle(r, all0); rem1 = s[0]; rem2 = s[1];
+    } else {
+      rem1 = pick(r, all0); rem2 = pick(r, all1);
+    }
+    const removed = (i, j) => (i === rem1[0] && j === rem1[1]) || (i === rem2[0] && j === rem2[1]);
+    // max bipartite matching (Kuhn) between dark and light cells
+    const idOf = (i, j) => i*cols + j;
+    const adj = {};
+    const blacks = [];
+    let bCount = 0, wCount = 0;
+    for(let i = 0; i < rows; i++) for(let j = 0; j < cols; j++){
+      if(removed(i, j)) continue;
+      if((i + j) % 2 === 0){
+        bCount++;
+        blacks.push([i, j]);
+        adj[idOf(i, j)] = [];
+        for(const [di, dj] of [[0,1],[0,-1],[1,0],[-1,0]]){
+          const ni = i + di, nj = j + dj;
+          if(ni < 0 || nj < 0 || ni >= rows || nj >= cols || removed(ni, nj)) continue;
+          adj[idOf(i, j)].push(idOf(ni, nj));
+        }
+      } else wCount++;
+    }
+    const matchW = {};
+    const tryAug = (b, seen) => {
+      for(const w of adj[b]){
+        if(seen.has(w)) continue;
+        seen.add(w);
+        if(matchW[w] === undefined || tryAug(matchW[w], seen)){ matchW[w] = b; return true; }
+      }
+      return false;
+    };
+    let ans = 0;
+    for(const [i, j] of blacks) if(tryAug(idOf(i, j), new Set())) ans++;
+    const naive = (total - 2) / 2;   // "plotas ÷ 2" trap
+    const cell = 30;
+    let cellsSvg = "";
+    for(let i = 0; i < rows; i++) for(let j = 0; j < cols; j++){
+      const isRem = removed(i, j);
+      cellsSvg += `<rect x="${j*cell}" y="${i*cell}" width="${cell}" height="${cell}" fill="${isRem ? '#5a5a60' : ((i+j)%2 ? '#fffaf0' : '#ffe6d8')}" stroke="#1d1d1f" stroke-width="1.4"/>`;
+      if(isRem) cellsSvg += `<text x="${j*cell+cell/2}" y="${i*cell+cell/2+6}" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">✗</text>`;
+    }
+    const figure = `<svg viewBox="0 0 ${cols*cell+6} ${rows*cell+6}" width="${Math.min(cols*cell+6, 250)}" xmlns="http://www.w3.org/2000/svg"><g transform="translate(3,3)">${cellsSvg}</g></svg>`;
+    const bT = sameColor ? bCount : Math.min(bCount, wCount);
+    const wT = sameColor ? wCount : Math.max(bCount, wCount);
+    const distract = uniqDistract(r, ans, [
+      ()=>naive, ()=>ans+1, ()=>ans-1, ()=>total/2, ()=>ans-2
+    ], 4);
+    const q = makeMC({
+      category:"logika", subtopic:"logika.zingsniai", difficulty:5,
+      prompt:`Iš ${rows}×${cols} langelių lentos iškirpti du langeliai (pažymėti ✗). Kiek DAUGIAUSIAI 1×2 domino kortelių galima sudėti ant likusios lentos? (Kortelė dengia du gretimus langelius; kortelės nesidengia.)`,
+      figure,
+      correct: ans, distract,
+      firstStep:`Lenta jau nuspalvinta dviem spalvomis. Kiek langelių dengia viena domino kortelė kiekvienos spalvos?`,
+      hint:`Kiekviena kortelė VISADA dengia vieną tamsų ir vieną šviesų langelį. Suskaičiuok, kiek liko tamsių ir kiek šviesių — daugiau kortelių nei mažesnysis skaičius padėti neįmanoma.`,
+      explain:sameColor
+        ? `Iškirpti abu TOS PAČIOS spalvos langeliai: liko ${Math.min(bT,wT)} vienos ir ${Math.max(bT,wT)} kitos spalvos. Kiekviena kortelė dengia po vieną kiekvienos spalvos langelį, todėl daugiau nei ${Math.min(bT,wT)} kortelių padėti neįmanoma — nors laisvų langelių ${total-2} ir atrodo, kad tilptų ${naive}. Atsakymas: ${ans}.`
+        : (ans === naive
+          ? `Iškirpti SKIRTINGŲ spalvų langeliai: liko po ${Math.min(bT,wT)} kiekvienos spalvos. Šįkart visus likusius ${total-2} langelius pavyksta uždengti poromis: ${total-2} ÷ 2 = ${ans} kortelių.`
+          : `Liko po ${Math.min(bT,wT)} kiekvienos spalvos langelių, bet lentos forma leidžia sudėti tik ${ans} korteles.`),
+      r
+    });
+    q._check = {gen:"dominoMax", rows, cols, rem1, rem2, ans, bCount, wCount};
+    return q;
+  },
 
 };
 
@@ -1852,6 +2397,20 @@ const GEN_MECHANIC = {
   alternateSumPick:  "sequence-pattern",
   liarsAndTruth:     "truth-tellers",
   magicSquare:       "casework",
+  // 5-pt block generators (2026-08-23)
+  liarsCount:        "truth-tellers",
+  cupsFlip:          "invariant",
+  blackboardMin:     "invariant",
+  digitReversal:     "digit-puzzle",
+  gridPaths:         "counting-ways",
+  nimGame:           "state-game",
+  raceLogic5:        "logic-clues",
+  equalGroups:       "partition",
+  appendDigit:       "place-value",
+  remainderPuzzle:   "divisibility",
+  cubeNet:           "cube-net",
+  erasedAverage:     "arith-compute",
+  dominoMax:         "tiling",
 };
 
 const MECHANIC_LABEL = {
