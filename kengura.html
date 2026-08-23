@@ -82,7 +82,11 @@
     padding:11px 12px;border:1px solid var(--line);border-radius:12px;
     background:#fffaf0;cursor:pointer;font-size:15px;line-height:1.4;
     transition:background .12s, border-color .12s;
+    /* options are <button> elements (keyboard-focusable) — reset UA styles */
+    appearance:none;-webkit-appearance:none;
+    width:100%;font-family:inherit;text-align:left;color:inherit;margin:0;
   }
+  .btn:focus-visible,.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .opt:hover{background:#fff1de}
   .opt .letter{
     width:26px;height:26px;border-radius:50%;background:var(--accent-soft);
@@ -134,6 +138,8 @@
   .stat span{color:var(--muted);font-size:13px}
   .cat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px dashed var(--line)}
   .cat-row:last-child{border-bottom:0}
+  .cat-row.plan-step{flex-wrap:wrap;gap:8px}
+  .cat-row.plan-step > span:first-child{min-width:0;flex:1 1 180px}
   .bar{height:8px;background:#f1ecdf;border-radius:999px;flex:1;margin:0 10px;overflow:hidden}
   .bar > div{height:100%;background:var(--accent)}
   details{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fffaf0;margin:8px 0}
@@ -227,9 +233,6 @@
   .methodology h4{margin:0 0 6px;font-size:14px;color:var(--accent)}
   .methodology p{margin:6px 0;font-size:14px;line-height:1.5}
   .methodology .label{font-weight:600;color:#444}
-  @media (prefers-color-scheme: dark){
-    /* keep paper feel; only soften background */
-  }
   @media print{
     body{background:#fff}
     .btn,.footer-actions,header.brand{display:none}
@@ -244,8 +247,6 @@
   .ach-badge.on:hover{transform:translateY(-2px)}
   .ach-ico{font-size:26px;line-height:1}
   .ach-name{font-size:11px;font-weight:600;color:var(--ink);line-height:1.15}
-  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
-  .opt.wrong .letter{background:var(--bad);color:#fff}
   /* ---- Racing minigame ---- */
   .race-hud{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0}
   .race-canvas-wrap{display:flex;justify-content:center}
@@ -425,7 +426,9 @@ function svgShape(kind, area){
     return `<svg viewBox="0 0 12 12" width="80" xmlns="http://www.w3.org/2000/svg"><rect x="${(12-w)/2}" y="${(12-h)/2}" width="${w}" height="${h}" fill="${fill}" stroke="${stroke}" stroke-width=".25"/></svg>`;
   }
   if(kind==="tri"){
-    const b = Math.sqrt(2*a*1.4), h = 2*a/b;
+    // base = height = sqrt(2a) so even the largest area (70) stays inside
+    // the 12-unit viewBox instead of getting clipped
+    const b = Math.sqrt(2*a), h = b;
     const cx=6, cy=6;
     return `<svg viewBox="0 0 12 12" width="80" xmlns="http://www.w3.org/2000/svg"><polygon points="${cx-b/2},${cy+h/2} ${cx+b/2},${cy+h/2} ${cx},${cy-h/2}" fill="${fill}" stroke="${stroke}" stroke-width=".25"/></svg>`;
   }
@@ -654,7 +657,7 @@ const GENERATORS = {
     const correctIndex = options.indexOf(correctStr);
     return {
       category:"geometrija", subtopic:"geom.pasisukimas", difficulty:3, kind:"rotation",
-      prompt:`Pažvalgos rodyklė šiuo metu nukreipta į viršų. Kuriai daliai pilno pasisukimo (pagal laikrodžio rodyklę) reikia ją pasukti, kad ji nukreiptų ${target.desc}?`,
+      prompt:`Rodyklė šiuo metu nukreipta į viršų. Kuriai daliai pilno pasisukimo (pagal laikrodžio rodyklę) reikia ją pasukti, kad ji nukreiptų ${target.desc}?`,
       figure: svgClock(target.frac, "tikslas: "+target.desc),
       options, correctIndex,
       firstStep:`Įsivaizduok ratą padalintą į 12 sektorių (kaip laikrodyje). Suskaičiuok, kiek sektorių rodyklė turi praeiti.`,
@@ -1239,25 +1242,23 @@ const GENERATORS = {
     //   so use: digit sum is a multiple of 3 not 9
     //   one with leading digit 9  — catches "must contain 9"
     const others = [];
-    // Multiple of 3, not of 9
-    let m3 = correct + 3;
-    while(m3 % 9 === 0 || m3 === correct) m3 += 3;
-    others.push(m3);
-    // Number ending in 9 not divisible by 9
-    let endsIn9 = Math.floor(correct / 10) * 10 + 9;
-    if(endsIn9 % 9 === 0) endsIn9 += 10;
-    if(endsIn9 === correct) endsIn9 += 10;
-    others.push(endsIn9);
+    const taken = new Set([correct]);
+    // Nudge a candidate until it's not divisible by 9 and not a duplicate
+    // (m3 and endsIn9 used to collide, e.g. both landing on 579).
+    const pushUnique = (v, bump) => {
+      let x = v, guard = 0;
+      while((x % 9 === 0 || taken.has(x)) && guard++ < 50) x += bump;
+      if(guard < 50){ taken.add(x); others.push(x); }
+    };
+    // Multiple of 3, not of 9 (bump by 3 keeps it a multiple of 3)
+    pushUnique(correct + 3, 3);
+    // Number ending in 9 not divisible by 9 (bump by 10 keeps the 9 ending)
+    pushUnique(Math.floor(correct / 10) * 10 + 9, 10);
     // Number starting with 9 (but not div by 9)
     const digCount = String(correct).length;
-    let startsWith9 = 9 * Math.pow(10, digCount-1) + (correct % Math.pow(10, digCount-1));
-    if(startsWith9 % 9 === 0) startsWith9 -= 1;
-    if(startsWith9 === correct || others.includes(startsWith9)) startsWith9 += 2;
-    others.push(startsWith9);
+    pushUnique(9 * Math.pow(10, digCount-1) + (correct % Math.pow(10, digCount-1)), 1);
     // Random nearby non-multiple of 9
-    let near = correct + 4;
-    while(near % 9 === 0 || others.includes(near) || near === correct) near++;
-    others.push(near);
+    pushUnique(correct + 4, 1);
     const opts = shuffle(r, [correct, ...others.slice(0,4)]).map(String);
     return {
       category:"aritmetika", subtopic:"aritm.dalumas", difficulty:3,
@@ -1320,7 +1321,7 @@ const GENERATORS = {
       correct, distract,
       firstStep:`Galvok pozicijomis. Pirmoje vietoje – kiek pasirinkimų?`,
       hint:`Po kiekvieno apsisprendimo lieka mažiau kandidatų. Daugink visas galimybes – ne sudėk.`,
-      explain:`${chain} = ${fact} būdai. (Tai vadinama ${n}! – „${n} faktorialas".)`,
+      explain:`${chain} = ${fact} būdai. Pirmai vietai – ${n} pasirinkimai, kiekvienai kitai lieka vienu mažiau, todėl visus dauginame.`,
       r
     });
   },
@@ -1358,8 +1359,8 @@ const GENERATORS = {
       figure: svgItemRow(v.n, v.kind),
       correct, distract,
       firstStep:`Surašyk visas galimas poras / trejetus. Pradėk nuo pirmojo elemento – su kuo jis gali būti suporuotas?`,
-      hint:`Galvok dviem etapais: (1) sudaryk visas tvarkingas poras (${v.n}·${v.n-1} = ${v.n*(v.n-1)} jei k=2); (2) padalink iš ${v.k}!, nes tvarka nesvarbu.`,
-      explain:`${v.scenario}: iš ${v.n} pasirinkti ${v.k} (tvarka nesvarbu). ${v.k===2 ? `${v.n}·${v.n-1}÷2 = ${correct}` : `C(${v.n}, ${v.k}) = ${correct}`} būdai.`,
+      hint:`Galvok dviem etapais: (1) suskaičiuok visus variantus, lyg tvarka būtų svarbi (pvz., poroms: ${v.n}·${v.n-1} = ${v.n*(v.n-1)}); (2) padalink iš ${v.k===2?2:6}, nes ${v.k===2?'ta pati pora suskaičiuota 2 kartus':'tas pats trejetas suskaičiuotas 6 kartus'}.`,
+      explain:`${v.scenario}: iš ${v.n} pasirinkti ${v.k} (tvarka nesvarbu). ${v.k===2 ? `${v.n}·${v.n-1}÷2 = ${correct}` : `${v.n}·${v.n-1}·${v.n-2}÷6 = ${correct}`} būdai${v.k===3?' (dalijame iš 6, nes tą patį trejetą galima surašyti 6 tvarkomis)':''}.`,
       r
     });
   },
@@ -1616,11 +1617,11 @@ const GENERATORS = {
     // Question: given top + front + side counts, find min cubes.
     const variants = [
       {desc:"Iš priekio matome 3 stulpelius (aukštis 2, 3, 1). Iš šono – 2 eiles (aukštis 3 ir 2). Iš viršaus – 6 langeliai (3×2 tinklelis).",
-       answer: 8,
-       explain:`Min. konfigūracija: viršus 3×2. Aukščiausi stulpeliai – 3 m. Apskaičiavus min. galima rasti 8 kubelius.`},
+       answer: 9,
+       explain:`Iš viršaus matosi 6 langeliai – kiekviename bent 1 kubelis (jau 6). Vienoje vietoje aukštis turi siekti 3 (pridedam dar 2 kubelius), dar vienoje – 2 (pridedam 1). Iš viso 6 + 2 + 1 = 9.`},
       {desc:"Iš priekio matome 2 stulpelius (aukštis 2 ir 3). Iš šono – 2 eiles (aukštis 3 ir 2). Iš viršaus – 4 langeliai (2×2 tinklelis).",
-       answer: 5,
-       explain:`Min. – 5 kubeliai. Vienas stulpas 3 aukštas, kitas 2 aukštas, papildomas kubelis suteikia 2 aukštį iš šono.`},
+       answer: 7,
+       explain:`Iš viršaus matosi 4 langeliai – kiekviename bent 1 kubelis (jau 4). Vienoje vietoje aukštis turi siekti 3 (pridedam dar 2), dar vienoje – 2 (pridedam 1). Iš viso 4 + 2 + 1 = 7.`},
       {desc:"Iš priekio matome 3 stulpelius (po 2). Iš šono – 1 eilė (aukštis 2). Iš viršaus – 3 langeliai eilėje.",
        answer: 6,
        explain:`Tai paprasčiausia – 3 stulpai po 2 kubelius = 6 kubeliai.`},
@@ -2165,7 +2166,7 @@ const MECHANIC_HINTS = {
   "digit-puzzle": {
     notice: "Vienoda raidė = vienodas skaitmuo.",
     ask: "Koks paskutinis skaitmuo? Tai dažnai vienareikšmiškai nustato vieną raidę.",
-    suggest: "Pradėk nuo vienetų stulpelio. Parink raidę. Eik į dešimtis, ir t. t. Nepamiršk perkėlimo (carry).",
+    suggest: "Pradėk nuo vienetų stulpelio. Parink raidę. Eik į dešimtis, ir t. t. Nepamiršk perkėlimo į kitą stulpelį.",
   },
   "iteration": {
     notice: "Pakartotinis veiksmas – ieškok ciklo.",
@@ -2208,9 +2209,9 @@ const MECHANIC_HINTS = {
     suggest: "Bandyk iškirpti 4 vienodus trikampius kampuose – jie dažnai sudaro pusę kvadrato.",
   },
   "age-relations": {
-    notice: "Amžiaus skirtumas yra invariantas – jis niekada nesikeičia.",
+    notice: "Amžiaus skirtumas niekada nesikeičia – visi sensta vienodai.",
     ask: "Koks dviejų žmonių amžiaus skirtumas?",
-    suggest: "Užrašyk dabarties amžius raidėmis. Sudaryk lygčių sistemą. Atimk lygtis.",
+    suggest: "Pasidaryk lentelę: žmonės stulpeliuose, laiko momentai eilutėse. Skirtumas tarp žmonių visose eilutėse tas pats – užpildyk trūkstamus langelius.",
   },
   "rate-time": {
     notice: "v · t = s. Recepte – proporcijos.",
@@ -2218,14 +2219,14 @@ const MECHANIC_HINTS = {
     suggest: "Užrašyk lentelę: kiekvienai medžiagai – turima/vienetui. Mažiausias dalmuo – atsakymas.",
   },
   "calendar": {
-    notice: "Per 7 dienas – cikla. Skaičiuok moduliu 7.",
-    ask: "Kokia liekana, kai dalysi N iš 7?",
+    notice: "Kas 7 dienos savaitės diena pasikartoja.",
+    ask: "Kokia liekana, kai dienų skaičių padalini iš 7?",
     suggest: "Liekana parodo, per kiek dienų pasislinks savaitės diena.",
   },
   "clock": {
     notice: "Minutinė per 1 min – 6°. Valandinė – 0,5°.",
-    ask: "Kokie rodyklių kampai laiku t (min nuo 12:00)?",
-    suggest: "Užrašyk: minutinės kampas = 6t mod 360, valandinės = 0,5t mod 360. Spręsk lygtį.",
+    ask: "Kiek laipsnių nuo 12 pasisukusi kiekviena rodyklė?",
+    suggest: "Suskaičiuok abu kampus nuo 12: minutinei – po 6° už kiekvieną minutę, valandinei – po 0,5°. Tada palygink kampus pagal sąlygą.",
   },
   "sequence-pattern": {
     notice: "Sekoje slypi dėsnis – aritmetinis, geometrinis ar periodinis.",
@@ -2238,9 +2239,9 @@ const MECHANIC_HINTS = {
     suggest: "Iš 9 → skaitmenų suma. Iš 3 → ta pati. Iš 4 → paskutiniai du. Iš 5 → paskutinis 0 ar 5.",
   },
   "place-value": {
-    notice: "Skaičius = 1000a + 100b + 10c + d.",
+    notice: "Kiekvienas skaitmuo turi savo vietą: 347 = 300 + 40 + 7.",
     ask: "Ką operacija daro su skaitmenimis?",
-    suggest: "Užrašyk skaičių per skaitmenis. Užrašyk operaciją kaip lygtį.",
+    suggest: "Užrašyk skaičių išplėstai (pvz., 347 = 300 + 40 + 7) ir pažiūrėk, kurią dalį veiksmas keičia.",
   },
   "digit-properties": {
     notice: "Skaitmenų suma/sandauga apriboja galimybes.",
@@ -2270,7 +2271,7 @@ const MECHANIC_HINTS = {
   "symmetry": {
     notice: "Veidrodis keičia kairę į dešinę – ne aukštį.",
     ask: "Kuria ašimi simetrija?",
-    suggest: "Pridėk koordinates. Vertikalios ašies veidrodis – x → −x.",
+    suggest: "Pasižymėk kelis figūros taškus. Po vertikalaus veidrodžio kairėje esantis taškas atsidurs dešinėje – tokiu pat atstumu nuo ašies.",
   },
   "arith-compute": {
     notice: "Veiksmų eilė: skliaustai → daugyba/dalyba → sudėtis/atimtis.",
@@ -2373,19 +2374,24 @@ function buildQuestionFromKey(genKey, seed){
 }
 
 function generateQuiz(count, allowedDifficulties){
-  // Mix categories across difficulties; ensure variety by limiting one gen to ~ count/genKeys
-  const used = {};
+  // Filter eligible generators up front and adapt the per-generator cap to
+  // the pool size — otherwise a narrow difficulty selection (e.g. only
+  // 5-point) can't fill the requested count and silently returns fewer.
   const rand = rng(Date.now() & 0x7fffffff);
+  const eligible = allowedDifficulties
+    ? GENERATOR_KEYS.filter(k => allowedDifficulties.includes(getGenDiff(k)))
+    : GENERATOR_KEYS.slice();
+  const pool = eligible.length ? eligible : GENERATOR_KEYS;
+  const cap = Math.max(2, Math.ceil(count / pool.length) + 1);
+  const used = {};
   const out = [];
   let safety = 0;
-  while(out.length < count && safety++ < count*20){
-    const key = pick(rand, GENERATOR_KEYS);
+  while(out.length < count && safety++ < count*40){
+    const key = pick(rand, pool);
     used[key] = used[key] || 0;
-    if(used[key] >= Math.max(2, Math.ceil(count/GENERATOR_KEYS.length))) continue;
+    if(used[key] >= cap) continue;
     const seed = randInt(rand, 1, 9999999);
-    const q = buildQuestionFromKey(key, seed);
-    if(allowedDifficulties && !allowedDifficulties.includes(q.difficulty)) continue;
-    out.push(q);
+    out.push(buildQuestionFromKey(key, seed));
     used[key]++;
   }
   return out;
@@ -2404,15 +2410,27 @@ function loadStore(){
     confStats:{a:{attempts:0,wrong:0}, b:{attempts:0,wrong:0}, c:{attempts:0,wrong:0}},
     activity:{},       // { "YYYY-MM-DD": {answered, correct, secondsOnTask} }
     contests:[],       // [{when, year, points, scoreWithPenalty, maxPoints, correct, total, answered, byBand}]
+    contestInProgress:null, // {year, answers, current, startedAt, endsAt} — survives a reload mid-contest
     settings:{count:15, difficulties:[3,4,5], useTimer:true, kenguraMode:false, negativeScore:false, askConfidence:false},
     streak:{count:0, lastDay:null, freezesUsed:0, freezeMonth:null},
     // Star economy — motivational reward currency.
-    // total = fromQ + fromTime; _timeSecRem carries sub-minute remainder.
-    stars:{total:0, fromQ:0, fromTime:0, _timeSecRem:0},
+    // total = fromQ + fromTime; spent = shop purchases; _timeSecRem carries sub-minute remainder.
+    stars:{total:0, fromQ:0, fromTime:0, spent:0, _timeSecRem:0},
     // Racing reward minigame records.
     games:{plays:0, bestByDiff:{easy:0, medium:0, hard:0}, best:0, hardUnlocked:false},
     // Unlocked achievements: { achievementId: timestamp }
-    achievements:{}
+    achievements:{},
+    // Treniruočių planas — contest date + per-day session completion.
+    plan:{contestDate:null},
+    planDone:{},       // { "YYYY-MM-DD": {warmup, core, cooldown} }
+    // Freshness marker for practice pickers: { "year-num": lastSeenTs }
+    seenQ:{},
+    // Windowed error rate: { mech: [0,1,...] } last ≤10 attempts (1 = wrong)
+    mechRecent:{},
+    // Mechanic-recognition drill totals.
+    recogStats:{attempts:0, correct:0},
+    // Star shop: race-game cosmetics bought with stars.
+    shop:{activeColor:"classic", colors:["classic"], night:false, nightOn:false}
   };
   try{
     const raw = localStorage.getItem(LS_KEY);
@@ -2430,12 +2448,20 @@ function loadStore(){
     }
     o.activity = o.activity || {};
     o.contests = o.contests || [];
+    o.contestInProgress = o.contestInProgress || null;
     o.settings = Object.assign({}, defaults.settings, o.settings || {});
     o.streak = Object.assign({}, defaults.streak, o.streak || {});
     o.stars = Object.assign({}, defaults.stars, o.stars || {});
     o.games = Object.assign({}, defaults.games, o.games || {});
     o.games.bestByDiff = Object.assign({}, defaults.games.bestByDiff, o.games.bestByDiff || {});
     o.achievements = o.achievements || {};
+    o.plan = Object.assign({}, defaults.plan, o.plan || {});
+    o.planDone = o.planDone || {};
+    o.seenQ = o.seenQ || {};
+    o.mechRecent = o.mechRecent || {};
+    o.recogStats = Object.assign({}, defaults.recogStats, o.recogStats || {});
+    o.shop = Object.assign({}, defaults.shop, o.shop || {});
+    if(!Array.isArray(o.shop.colors) || !o.shop.colors.length) o.shop.colors = ["classic"];
     return o;
   }catch(e){
     return defaults;
@@ -2517,6 +2543,7 @@ function logActivity(correct){
   if(correct) a.correct++;
   bumpStreakForToday();
   awardStars("fromQ", 1);   // 1 star per question answered (any mode)
+  checkAchievements();      // badge toasts should fire right away, not on the next heartbeat
 }
 
 /* ============================================================
@@ -2532,6 +2559,18 @@ function awardStars(kind, n){
   store.stars.total = (store.stars.fromQ || 0) + (store.stars.fromTime || 0);
   // logActivity already triggers a saveStore via its callers; the time
   // heartbeat saves on its own throttle. No save here to avoid churn.
+}
+
+// Stars the kid can still spend in the shop (earned minus spent).
+function starsAvailable(){
+  const s = store.stars || {};
+  return Math.max(0, (s.total || 0) - (s.spent || 0));
+}
+function spendStars(n){
+  if(starsAvailable() < n) return false;
+  store.stars.spent = (store.stars.spent || 0) + n;
+  saveStore(store);
+  return true;
 }
 
 // Active-time heartbeat: accrue seconds only while the tab is visible, so
@@ -2601,18 +2640,24 @@ const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
 function recordArchiveAnswer(year, q, correct, confidence){
   logActivity(correct);
+  // Freshness marker — practice pickers avoid recently seen questions.
+  store.seenQ[`${year}-${q.num}`] = Date.now();
   // Confidence stats (independent of mechanic)
   if(confidence && store.confStats[confidence]){
     store.confStats[confidence].attempts++;
     if(!correct) store.confStats[confidence].wrong++;
   }
   const mech = q.mechanic;
-  if(!mech) return;
+  if(!mech){ saveStore(store); return; }
   const band = q.points || 3;
   const ms = store.mechStats[mech] = store.mechStats[mech] || {};
   const slot = ms[band] = ms[band] || {attempts:0, wrong:0};
   slot.attempts++;
   if(!correct) slot.wrong++;
+  // Rolling window (last ≤10) so an old bad streak doesn't haunt the stats.
+  const recent = store.mechRecent[mech] = store.mechRecent[mech] || [];
+  recent.push(correct ? 0 : 1);
+  if(recent.length > 10) recent.shift();
 
   const key = `${year}-${q.num}`;
   const now = Date.now();
@@ -2632,6 +2677,8 @@ function recordArchiveAnswer(year, q, correct, confidence){
       year, num:q.num, mech, band,
       dueAt: now + intervalDays * ONE_DAY_MS,
       streak: nextStreak,
+      // "Tikrai žinau" + wrong = a misconception, not a lapse — priority review
+      confWrong: (!correct && confidence === "a") || undefined,
     };
   }
   saveStore(store);
@@ -2645,7 +2692,8 @@ function dueNow(){
     const item = store.dueQueue[k];
     if(item.dueAt <= now) out.push(item);
   }
-  out.sort((a,b)=>a.dueAt - b.dueAt);
+  // Confident-wrong items first (misconceptions beat lapses), then oldest due.
+  out.sort((a,b)=> (b.confWrong?1:0) - (a.confWrong?1:0) || a.dueAt - b.dueAt);
   return out;
 }
 
@@ -2662,10 +2710,64 @@ function weakestMechanics(limit){
       wrong += bands[b].wrong;
     }
     if(attempts < 2) continue;
-    rows.push({mech:m, attempts, wrong, rate: wrong/attempts});
+    // Prefer the rolling window when it has enough signal — a rough first
+    // week shouldn't dominate the stats after the kid improves.
+    const recent = (store.mechRecent || {})[m];
+    const useWindow = recent && recent.length >= 4;
+    const showWrong = useWindow ? recent.reduce((a,x)=>a+x,0) : wrong;
+    const showAttempts = useWindow ? recent.length : attempts;
+    const rate = showWrong / showAttempts;
+    rows.push({mech:m, attempts, wrong, rate, showWrong, showAttempts});
   }
   rows.sort((a,b)=>b.rate - a.rate);
   return rows.slice(0, limit);
+}
+
+/* Hand-authored learning track: easier / prerequisite mechanics first.
+   counting-ways before arrangement, place-value before digit-puzzle,
+   invariant before state-game. Used by the daily plan and the mission
+   card to pick the next NEW mechanic. */
+const MECHANIC_ORDER = [
+  "arith-compute","place-value","digit-properties","divisibility",
+  "sequence-pattern","calendar","clock","multistep-money","mixture-fraction",
+  "rate-time","age-relations","area-compute","area-decomp","symmetry",
+  "tiling","geometry-misc","cube-color","cube-net","projection","partition",
+  "counting-ways","arrangement","digit-puzzle","logic-clues","truth-tellers",
+  "weighing","casework","iteration","invariant","state-game",
+];
+
+/* Freshness: avoid re-serving a question the kid saw in the last 2 weeks,
+   so mastery checks measure the mechanic, not answer memory. */
+const RECENT_SEEN_DAYS = 14;
+function isRecentlySeen(year, num){
+  const t = (store.seenQ || {})[`${year}-${num}`];
+  return !!t && (Date.now() - t) < RECENT_SEEN_DAYS * ONE_DAY_MS;
+}
+
+/* True when the last few test sessions show the kid is slow on the 3-pt
+   block (avg > 75 s/question vs the 60 s budget) — routes to the sprint. */
+function needsSpeedWork(){
+  const sessions = (store.sessions || []).slice(-3);
+  let ms = 0, n = 0;
+  for(const s of sessions){
+    if(!s.bandTime || !s.questions) continue;
+    const c = s.questions.filter(q => (q.difficulty || 3) === 3 && q.answered).length;
+    if(!c) continue;
+    ms += s.bandTime[3] || 0; n += c;
+  }
+  if(n < 5) return false;
+  return (ms / n) > 75 * 1000;
+}
+
+/* Next NEW mechanic on the learning track: first unmastered one with
+   enough archive content for a playlist. Null when everything is done. */
+function nextMechanicToLearn(){
+  for(const m of MECHANIC_ORDER){
+    if(store.masteredMech && store.masteredMech[m]) continue;
+    if(!MECHANIC_METHODOLOGY[m]) continue;
+    if(archiveQsForMech(m, null).length >= 3) return m;
+  }
+  return null;
 }
 let _saveWarned = false;
 function saveStore(s){
@@ -2804,12 +2906,12 @@ function pickPracticeFor(q, sourceYear){
   if(q && q.mechanic){
     const gen = pickGenForMechBand(q.mechanic, band);
     if(gen) return {kind:"generator", gen};
-    // also try ±1 band before giving up on generators
-    const adj = pickGenForMechBand(q.mechanic, band === 5 ? 4 : (band === 3 ? 4 : 5));
-    // For 5-point sources we DO NOT downgrade to a 4-point generator —
-    // that would defeat the whole point. Only allow 3↔4 adjacency.
-    if(band !== 5 && adj){
-      return {kind:"generator", gen:adj};
+    // Try one band UP before giving up on generators: 3-pt sources may get a
+    // 4-pt generator, 4-pt sources a 5-pt one. Never step DOWN — for a 5-pt
+    // source an easier generator would defeat the whole point.
+    if(band !== 5){
+      const adj = pickGenForMechBand(q.mechanic, band === 3 ? 4 : 5);
+      if(adj) return {kind:"generator", gen:adj};
     }
     const items = findSimilarArchive(q, sourceYear, 4);
     if(items.length) return {kind:"archive", items};
@@ -2819,10 +2921,13 @@ function pickPracticeFor(q, sourceYear){
     // contest stamina.
     if(band === 5) return {kind:"none"};
   }
-  // last resort: pure random generator (only for ≤4 pt questions or for
-  // generator-produced questions without a mechanic)
+  // last resort: random generator (only for ≤4 pt questions or for
+  // generator-produced questions without a mechanic). Keep the band honest
+  // even here — a 4-pt source must not get a 3-pt warm-up as "practice".
   if(band === 5) return {kind:"none"};
-  const key = GENERATOR_KEYS[Math.floor(Math.random()*GENERATOR_KEYS.length)];
+  const pool = GENERATOR_KEYS.filter(k => getGenDiff(k) >= band);
+  const keys = pool.length ? pool : GENERATOR_KEYS;
+  const key = keys[Math.floor(Math.random()*keys.length)];
   return {kind:"fallback", gen:key};
 }
 
@@ -2922,7 +3027,8 @@ function aiBuildOpts(year, q, kind, extra){
     kind,
     qid: `${year}-${q.num}`,
     question: q.prompt || "",
-    options: (q.options || []).map(o => o || ""),
+    // archive options are an object keyed by letter, not an array
+    options: ["A","B","C","D","E"].map(l => (q.options && q.options[l]) || ""),
     correctIdx: correctIdx >= 0 ? correctIdx : 0,
     mechanic: q.mechanic || null,
     band: q.points || null,
@@ -2962,7 +3068,8 @@ function renderArchiveYear(){
     const a = state.archiveAnswers[key];
     if(a && a.chosen != null){
       answered++;
-      if(q.correct && q.options[q.correct] && a.chosenLetter === q.correct) correct++;
+      // don't require option text — image-only questions have empty option strings
+      if(q.correct && a.chosenLetter === q.correct) correct++;
     }
   });
   const pdfHref = test.solutions_pdf ? encodeURI(test.solutions_pdf) : (test.test_pdf ? encodeURI(test.test_pdf) : null);
@@ -2976,7 +3083,7 @@ function renderArchiveYear(){
         ${test.test_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.test_pdf)}" target="_blank">Testo PDF ↗</a>` : ``}
         ${test.solutions_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.solutions_pdf)}" target="_blank">Sprendimai ↗</a>` : ``}
       </div>
-      <p>Spręsk uždavinius – kiekvieną gali pasitikrinti vietoje. „Užuomina" parodo strategijos kryptį iš oficialaus sprendimo (be paties atsakymo). Po atsakymo gausi pilną sprendimą bei galimybę spręsti panašaus tipo uždavinį.</p>
+      <p>Spręsk uždavinius – kiekvieną gali pasitikrinti vietoje. „Užuomina“ parodo strategijos kryptį iš oficialaus sprendimo (be paties atsakymo). Po atsakymo gausi pilną sprendimą bei galimybę spręsti panašaus tipo uždavinį.</p>
     </section>
     ${test.questions.map(q => renderArchiveCard(test.year, q)).join("")}
     <section class="card"><div class="footer-actions">
@@ -3102,14 +3209,14 @@ function renderArchiveCard(year, q){
     }
     if(isImageOnly){
       // Just letter pill, large enough to tap
-      return `<div class="opt opt-letter-only${extra}" data-letter="${letter}">
+      return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}">
         <span class="letter">${letter}</span>
-      </div>`;
+      </button>`;
     }
-    return `<div class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}">
+    return `<button type="button" class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}">
       <span class="letter">${letter}</span>
       <span>${isEmptyOpt ? '<i style="color:var(--muted)">— atsakymas paveikslėlyje —</i>' : escapeHTML(v)}</span>
-    </div>`;
+    </button>`;
   }).join("");
 
   const tags = (q.patterns||[]).map(p =>
@@ -3187,10 +3294,12 @@ function renderArchiveCard(year, q){
     const finalSolutionText = q.solutionKid || aiSolutionText || q.solution;
     const solutionIsAi = !q.solutionKid && !!aiSolutionText;
     const opener = right ? '' : growthOpenerFor(q);
+    const confidentWrong = !right && ans.confidence === 'a';
     bottom = `<div class="explain" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
-        <b>${right ? "Teisingai!" : "Klaida."}</b>
+        <b>${right ? "Teisingai!" : "Klaida."}</b>${right && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>!` : ''}
         ${q.correct ? ` Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.` : ''}
         ${opener ? `<div class="opener" style="margin-top:6px;font-size:13px;font-style:italic">${escapeHTML(opener)}</div>` : ''}
+        ${confidentWrong ? `<div style="margin-top:6px;font-size:13px"><b>Buvai tikras, bet suklydai</b> — čia dažniausiai slepiasi klaidingas supratimas, ne atsitiktinė klaida. Perskaityk sprendimą ypač atidžiai: ši užduotis sugrįš jau rytoj.</div>` : ''}
         ${finalMiscText ? `<div class="misconception" style="margin-top:6px;font-size:13px"><b>Tavo klaida:</b>${miscIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalMiscText)}</div>` : ''}
       </div>
       ${finalSolutionText ? `<div class="explain"><b>Sprendimas:</b>${solutionIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalSolutionText)}</div>` : ''}
@@ -3205,8 +3314,10 @@ function renderArchiveCard(year, q){
   }
 
   const canSubmit = q.correct && ans.chosenLetter && !submitted;
-  // Confidence picker — only shown when the kid has chosen but not yet submitted.
-  const showConfidence = canSubmit && !ans.confidence;
+  // Confidence picker — respects the same "Klausti pasitikėjimo" setting as
+  // quiz mode; only shown when the kid has chosen but not yet submitted.
+  const askConf = !!store.settings.askConfidence;
+  const showConfidence = askConf && canSubmit && !ans.confidence;
   const confLabels = {a: "Tikrai žinau", b: "Spėju iš dviejų", c: "Atsitiktinai"};
   const conf = ans.confidence || null;
   // Practice button. Three cases:
@@ -3219,13 +3330,13 @@ function renderArchiveCard(year, q){
   if(practice.kind === "generator"){
     practiceBtn = `<button class="btn small" data-practice="${practice.gen}" title="Sugeneruotas to paties tipo uždavinys">Praktikuotis šio tipo</button>`;
   } else if(practice.kind === "archive"){
-    practiceBtn = `<button class="btn small" data-practice-archive="1" title="Panašus uždavinys iš archyvo (to paties mechanikos ir to paties sudėtingumo)">Panaši užduotis iš archyvo (${practice.items.length})</button>`;
+    practiceBtn = `<button class="btn small" data-practice-archive="1" title="Panašus uždavinys iš archyvo (tos pačios gudrybės ir to paties sudėtingumo)">Panaši užduotis iš archyvo (${practice.items.length})</button>`;
   } else if(practice.kind === "fallback"){
     practiceBtn = `<button class="btn small ghost" data-practice="${practice.gen}" title="Tikslaus to paties tipo generatoriaus dar nėra – tai tik kitas šio sudėtingumo uždavinys">Praktikuotis (kito tipo)</button>`;
   } else {
     // kind: "none" — 5-pt source with no in-band practice available.
     // Show a small explanation instead of a misleading random suggestion.
-    practiceBtn = `<span class="help-bar" title="Šio tipo 5 t. generatoriaus dar nėra. Pasirink kitą mechaniką ar archyvo metus.">Atskiro to paties tipo užduotinio nėra – pasirink mokytis šios mechanikos.</span>`;
+    practiceBtn = `<span class="help-bar" title="Šio tipo 5 t. generatoriaus dar nėra. Pasirink kitą gudrybę ar archyvo metus.">Atskiro to paties tipo uždavinio nėra – pasirink mokytis šios gudrybės.</span>`;
   }
   return `
     <section class="card archive-card" data-year="${year}" data-qnum="${q.num}">
@@ -3250,7 +3361,7 @@ function renderArchiveCard(year, q){
           ${!q.correct ? `<span class="help-bar">Šiems metams atsakymo nėra – pasitikrink PDF.</span>` : ''}
         </div>
         <div class="row">
-          ${canSubmit && conf ? `<button class="btn small primary" data-action="submit">Patikrinti</button>` : (canSubmit ? '' : '')}
+          ${canSubmit && (!askConf || conf) ? `<button class="btn small primary" data-action="submit">Patikrinti</button>` : ''}
           ${practiceBtn}
         </div>
       </div>
@@ -3264,6 +3375,7 @@ function renderArchiveCard(year, q){
 const $app = document.getElementById("app");
 
 function renderHome(){
+  state._planStep = null;   // returning home aborts any plan-step attribution
   // Mechanic-level weakness (replaces legacy subStats panel)
   const weakMechs = weakestMechanics(6);
   // Spaced-repetition queue: how many items are due today
@@ -3290,64 +3402,69 @@ function renderHome(){
     activityCells.push(`<span class="act-cell lvl${lvl}${isToday?' today':''}" title="${k}: ${a?(a.answered+' atsakyta'):'tuščia'}"></span>`);
   }
 
-  // Mission card priority:
-  //   1) Long absence (> 14 days gap since last activity) → grace warm-up
-  //   2) Due-queue items → review queue
-  //   3) Weakest mechanic → playlist
-  //   4) Fallback → new test
+  // Mission candidates, priority-ordered. The kid gets the TOP one plus
+  // an alternative — choice drives persistence better than assignment.
   const gapDays = daysSinceLastActivity();
   const longAbsence = (gapDays !== null && gapDays >= 14);
-  let mission;
-  if(ARCHIVE_LOAD_FAILED){
-    mission = null;
-  } else if(longAbsence){
-    mission = {
+  const missions = [];
+  if(!ARCHIVE_LOAD_FAILED){
+    if(longAbsence) missions.push({
       tag: 'Sugrįžimas',
-      title: `Pasveikinam atgal — ${gapDays} d. nematėm`,
+      title: `Sveiki sugrįžę — ${gapDays} d. nematėm`,
       body: 'Pradėk lengvai: 3 paprasti uždaviniai prieš grįžtant prie pakartojimų.',
-      cta: 'Pradėti šiltai',
-      action: 'graceWarmup',
-      style: 'warm',
-    };
-  } else if(due.length){
-    mission = {
+      cta: 'Pradėti apšilimą', action: 'graceWarmup', style: 'warm',
+    });
+    if(due.length) missions.push({
       tag: 'Pakartojimo eilė',
-      title: `Šiandien laukia ${due.length} ${due.length===1?'uždavinys':'užduočių'}`,
+      title: `Šiandien laukia ${due.length} ${due.length%10===1 && due.length%100!==11 ? 'uždavinys' : (due.length%10>=2 && due.length%10<=4 && (due.length%100<10 || due.length%100>=20) ? 'uždaviniai' : 'uždavinių')}`,
       body: 'Tu jau juos esi sprendęs — pažiūrim, ar dar pameni.',
-      cta: 'Pradėti pakartojimą',
-      action: 'due',
-      style: 'primary',
-    };
-  } else if(weakMechs && weakMechs.length){
-    const w = weakMechs[0];
-    mission = {
-      tag: 'Silpniausia vieta',
-      title: MECHANIC_LABEL[w.mech] || w.mech,
-      body: `Klaidų: ${Math.round(100*w.rate)} %. Vienos serijos užteks padaryti šio tipo lengvesnį.`,
-      cta: 'Praktikuotis šio tipo',
-      action: 'playlist',
-      actionData: w.mech,
-      style: 'primary',
-    };
-  } else if(totalAns === 0){
-    mission = {
+      cta: 'Pradėti pakartojimą', action: 'due', style: 'primary',
+    });
+    if(needsSpeedWork()) missions.push({
+      tag: 'Greitis',
+      title: '3 taškų sprintas',
+      body: 'Paskutiniuose testuose 3 t. uždaviniai užtrunka per ilgai. 10 klausimų per 10 min — konkurse tai tavo bankas.',
+      cta: 'Bėgti sprintą', action: 'sprint', style: 'primary',
+    });
+    if(weakMechs && weakMechs.length){
+      const w = weakMechs[0];
+      missions.push({
+        tag: 'Silpniausia vieta',
+        title: MECHANIC_LABEL[w.mech] || w.mech,
+        body: `Klaidų: ${Math.round(100*w.rate)} %. Vienos serijos užteks, kad šis tipas taptų lengvesnis.`,
+        cta: 'Praktikuotis šio tipo', action: 'playlist', actionData: w.mech, style: 'primary',
+      });
+    }
+    if(totalAns === 0) missions.push({
       tag: 'Pradžia',
       title: 'Pirmas testas',
       body: 'Greitas 15 klausimų rinkinys, kad pradėtum.',
-      cta: 'Pradėti',
-      action: 'newTest',
-      style: 'primary',
-    };
-  } else {
-    mission = {
+      cta: 'Pradėti', action: 'newTest', style: 'primary',
+    });
+    const nextMech = nextMechanicToLearn();
+    if(nextMech) missions.push({
+      tag: 'Naujas triukas',
+      title: MECHANIC_LABEL[nextMech] || nextMech,
+      body: 'Kitas žingsnis tavo mokymosi take — nauja gudrybė.',
+      cta: 'Mokytis', action: 'playlist', actionData: nextMech, style: 'primary',
+    });
+    if(Object.keys(store.mechRecent || {}).length >= 2) missions.push({
+      tag: 'Mišri treniruotė',
+      title: 'Atpažink gudrybę pats',
+      body: 'Uždaviniai be tipo etiketės — kaip tikrame konkurse.',
+      cta: 'Mišrus rinkinys', action: 'mixed', style: 'primary',
+    });
+    missions.push({
       tag: 'Toliau',
       title: 'Pakartoti gerai pavyksta',
-      body: 'Pakartojimo eilė tuščia. Pabandyk naują testą arba pasirink mechaniką žemiau.',
-      cta: 'Pradėti testą',
-      action: 'newTest',
-      style: 'ghost',
-    };
+      body: 'Pakartojimo eilė tuščia. Pabandyk naują testą arba pasirink gudrybę žemiau.',
+      cta: 'Pradėti testą', action: 'newTest', style: 'ghost',
+    });
   }
+  const mission = missions[0] || null;
+  const altMission = mission
+    ? missions.find(m => m !== mission && (m.action !== mission.action || m.actionData !== mission.actionData)) || null
+    : null;
   // Recent mastery — show today's mastered mechanics if any
   const todayMastered = Object.entries(store.masteredMech || {})
     .filter(([m, t]) => {
@@ -3379,7 +3496,7 @@ function renderHome(){
     ${ARCHIVE_LOAD_FAILED ? `
     <section class="card" style="background:var(--bad-soft);border:1px solid var(--bad)">
       <h3 style="margin-top:0">⚠ Duomenų failas nepasiekiamas</h3>
-      <p>Nepavyko įkelti <code>kengura-archive.js</code>. Archyvas, kontestai ir mechanikos – išjungti, kol failas nebus rastas. Patikrink, ar failas yra šalia <code>kengura.html</code> ir ar puslapis perkrautas „kietai" (Ctrl+Shift+R).</p>
+      <p>Nepavyko įkelti <code>kengura-archive.js</code>. Archyvas, kontroliniai ir gudrybės – išjungti, kol failas nebus rastas. Patikrink, ar failas yra šalia <code>kengura.html</code> ir ar puslapis perkrautas „kietai“ (Ctrl+Shift+R).</p>
     </section>` : ``}
     <section class="card hero-card">
       <div class="hero-row">
@@ -3399,6 +3516,7 @@ function renderHome(){
           <h2 class="mission-title">${escapeHTML(mission.title)}</h2>
           <p class="mission-body">${escapeHTML(mission.body)}</p>
           <button class="btn primary" id="missionBtn" data-action="${mission.action}" data-act-arg="${mission.actionData||''}">${escapeHTML(mission.cta)} →</button>
+          ${altMission ? `<button class="btn ghost small" id="missionAltBtn" data-action="${altMission.action}" data-act-arg="${altMission.actionData||''}" style="margin-left:8px" title="${escapeHTML(altMission.title)}">arba: ${escapeHTML(altMission.cta)}</button>` : ''}
         </div>
       `:''}
       ${todayMastered.length ? `
@@ -3408,6 +3526,21 @@ function renderHome(){
         ${store.sessions.length} testų · ${totalAns} klausimų${totalAns?` · ${Math.round(100*totalRight/totalAns)}% teisingų`:''}
       </div>
     </section>
+
+    ${!ARCHIVE_LOAD_FAILED ? (()=>{
+      const daysLeft = daysToContest();
+      const planD = store.planDone[todayKey()] || {};
+      const planProg = ['warmup','core','cooldown'].filter(k => planD[k]).length;
+      return `<section class="card">
+        <div class="footer-actions" style="margin-top:0">
+          <div>
+            <h3 style="margin:0">📅 Šiandienos treniruotė</h3>
+            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : ''}${planProg}/3 žingsniai atlikti${planProg === 3 ? ' 🎉' : ''}</span>
+          </div>
+          <button class="btn ghost" id="planBtn">Atverti planą</button>
+        </div>
+      </section>`;
+    })() : ''}
 
     <section class="card">
       <h3>Naujas testas</h3>
@@ -3442,7 +3575,7 @@ function renderHome(){
         </label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Realiame Kengūros konkurse už klaidą atimama 25% to uždavinio taškų">
           <input type="checkbox" id="negScoreToggle" ${store.settings.negativeScore?"checked":""}/>
-          „−25 %" už klaidą (kaip realiame konkurse)
+          „−25 %“ už klaidą (kaip realiame konkurse)
         </label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Po atsakymo klausti, kiek esi tikras. Praleisk, jei nenori — nebūtina.">
           <input type="checkbox" id="askConfToggle" ${store.settings.askConfidence?"checked":""}/>
@@ -3458,27 +3591,49 @@ function renderHome(){
     <section class="card">
       <h3>Kontrolinis (kaip realiame Kengūros konkurse)</h3>
       <p style="margin-top:0">Tikrų ankstesnių metų testas. <b>75 minutės. 30 klausimų. −25 % už klaidą.</b> Jokios pagalbos: be užuominų, be pasitikėjimo klausimo, be panašių užduočių. Idealiai – kartą per savaitę likus iki konkurso.</p>
+      ${store.contestInProgress ? (()=>{
+        const cp = store.contestInProgress;
+        const remainMs = cp.endsAt - Date.now();
+        const expired = remainMs <= 0;
+        const remainMin = Math.max(0, Math.ceil(remainMs/60000));
+        return `<div class="explain" style="border:1px solid var(--accent);background:#fff4e8;margin-bottom:10px">
+          <b>Nebaigtas kontrolinis – ${escapeHTML(cp.year)} m.</b>
+          ${expired ? 'Laikas jau pasibaigė – spausk, kad pamatytum rezultatą.' : `Liko ~${remainMin} min.`}
+          <button class="btn small primary" id="contestResumeBtn" style="margin-left:8px">${expired ? 'Rodyti rezultatą' : 'Tęsti'}</button>
+        </div>`;
+      })() : ''}
       ${store.contests && store.contests.length ? `<div class="top-stats" style="margin-bottom:8px">
         <span class="pill muted">Atlikta: ${store.contests.length}</span>
         <span class="pill good">Geriausias rezultatas: ${Math.round(Math.max(...store.contests.map(c=>c.scoreWithPenalty || c.points))*4)/4} t.</span>
+        ${store.contests.length >= 2 ? `<span class="pill">Kreivė: ${store.contests.slice(-3).map(c=>Math.round((c.scoreWithPenalty || c.points)*4)/4).join(' → ')} t.</span>` : ''}
       </div>` : ''}
+      <details style="margin:6px 0 10px">
+        <summary>🎯 Konkurso strategija (perskaityk prieš kontrolinį!)</summary>
+        <p style="font-size:14px;margin-top:8px">1) Pirmiausia — visi 3 taškų klausimai (1–10). Jie lengviausi, bet jų taškai tokie pat tikri. Tikslas — per ~15 min.</p>
+        <p style="font-size:14px">2) Tada 4 taškų blokas. Užstrigai ilgiau nei 3 minutes — praleisk ir grįžk vėliau.</p>
+        <p style="font-size:14px">3) 5 taškų uždaviniams palik ~30 min. Juose ieškok gudrybės, ne ilgo skaičiavimo — jei skaičiuoji penktą minutę, greičiausiai praleidai triuką.</p>
+        <p style="font-size:14px">4) Spėti verta tik tada, kai gali atmesti bent 2 variantus. Kitaip — praleisk: už praleistą baudos nėra, už klaidą — minus ketvirtis taškų.</p>
+        <p style="font-size:14px">5) Laikrodis: pasitikrink ties 25 min (ar baigei 3 t.?) ir ties 50 min (ar baigei 4 t.?).</p>
+      </details>
       <p style="margin-bottom:6px"><b>Pasirink metus:</b></p>
       <div class="row" id="contestYears">
         ${ARCHIVE.filter(t =>
           t.year !== '2006' &&                                      // 2006 source PDF is Mažylis (3-4 grade), not Bičiulis — wrong contest tier
           t.questions.length >= 28 &&
           t.questions.every(q => q.correct)                         // null `correct` = unverified key; better to skip year than risk grading kid wrong
-        ).map(t =>
-          `<button class="btn small" data-contest-year="${t.year}">${t.year}</button>`
-        ).join('')}
+        ).map(t => {
+          const inFlight = store.contestInProgress;
+          const isCurrent = inFlight && String(inFlight.year) === String(t.year);
+          return `<button class="btn small${isCurrent ? ' primary' : ''}" data-contest-year="${t.year}">${t.year}${isCurrent ? ' · tęsti' : ''}</button>`;
+        }).join('')}
       </div>
     </section>
 
     ${rewardsCardHTML()}
 
     <section class="card">
-      <h3>Mechanikų mokymasis</h3>
-      <p style="margin-top:0">Kiekvienas Kengūros 5 taškų uždavinys slepia VIENĄ triuką. Šio sąrašo „Mokytis" mygtukas atveria 4 žingsnių playlistą: ① perskaityk triuką, ② peržiūrėk pavyzdį su sprendimu, ③ pabandyk su užuominomis, ④ įveik 3 uždavinius be jų.</p>
+      <h3>Gudrybių mokymasis</h3>
+      <p style="margin-top:0">Kiekvienas Kengūros 5 taškų uždavinys slepia VIENĄ triuką. Šio sąrašo „Mokytis“ mygtukas atveria 4 žingsnių seriją: ① perskaityk triuką, ② peržiūrėk pavyzdį su sprendimu, ③ pabandyk su užuominomis, ④ įveik 3 uždavinius be jų.</p>
       <div class="mech-list">
         ${mechsForPlaylist.map(m=>{
           const has5 = mechBands[m].has(5);
@@ -3511,7 +3666,7 @@ function renderHome(){
         return `<div class="cat-row">
           <span>${escapeHTML(MECHANIC_LABEL[w.mech]||w.mech)}</span>
           <div class="bar"><div style="width:${pct}%"></div></div>
-          <span class="pill ${pct>40?"bad":"muted"}">${pct} % klaidų (${w.wrong}/${w.attempts})</span>
+          <span class="pill ${pct>40?"bad":"muted"}">${pct} % klaidų (${w.showWrong}/${w.showAttempts})</span>
           <button class="btn small" data-mech-playlist="${w.mech}" style="margin-left:8px">Mokytis</button>
         </div>`;
       }).join("")}
@@ -3525,7 +3680,7 @@ function renderHome(){
 
     ${ARCHIVE.length ? `
     <section class="card">
-      <h3>Originalūs „Kengūros" testai</h3>
+      <h3>Originalūs „Kengūros“ testai</h3>
       <p style="margin-top:0">Rink iš ${ARCHIVE.length} ankstesnių metų testų (${ARCHIVE[0].year}–${ARCHIVE[ARCHIVE.length-1].year}). Visi klausimai – su atsakymų raktais ir oficialiais sprendimais (kur turima), su originalo paveikslėliais.</p>
       <div class="row" id="archiveYears" style="margin-top:6px">
         ${ARCHIVE.map(t => {
@@ -3533,7 +3688,7 @@ function renderHome(){
           return `<button class="btn small${has?" primary":""}" data-year="${t.year}" title="${has?"su atsakymais":"tik klausimai"}">${t.year}${has?"":" *"}</button>`;
         }).join("")}
       </div>
-      <p class="help-bar" style="margin-top:10px">Užduočių sprendimas su pilnu vertinimu: pasirink atsakymą A–E, gauk užuominą iš oficialaus sprendimo, paspaudus „Patikrinti" pamatysi rezultatą bei pilną sprendimą. <span style="opacity:.7">* metai be atsakymo (tik klausimai)</span></p>
+      <p class="help-bar" style="margin-top:10px">Užduočių sprendimas su pilnu vertinimu: pasirink atsakymą A–E, gauk užuominą iš oficialaus sprendimo, paspaudus „Patikrinti“ pamatysi rezultatą bei pilną sprendimą. <span style="opacity:.7">* metai be atsakymo (tik klausimai)</span></p>
     </section>` : ``}
 
     <section class="card">
@@ -3594,32 +3749,61 @@ function renderHome(){
   if(dueBtn) dueBtn.addEventListener("click", ()=>{
     openDueQueue();
   });
-  const missionBtn = document.getElementById("missionBtn");
-  if(missionBtn) missionBtn.addEventListener("click", ()=>{
-    const act = missionBtn.dataset.action;
-    const arg = missionBtn.dataset.actArg;
+  const runMissionAction = (act, arg)=>{
     if(act === "due"){
       openDueQueue();
     } else if(act === "playlist" && arg){
       openPlaylist(arg);
     } else if(act === "graceWarmup"){
       startGraceWarmup();
+    } else if(act === "sprint"){
+      startSprint();
+    } else if(act === "mixed"){
+      openMixedSet(6);
     } else {
       // newTest — scroll user down to the new-test section
       const target = $app.querySelector("#startBtn");
       if(target) target.scrollIntoView({behavior:"smooth", block:"center"});
     }
+  };
+  const missionBtn = document.getElementById("missionBtn");
+  if(missionBtn) missionBtn.addEventListener("click", ()=> runMissionAction(missionBtn.dataset.action, missionBtn.dataset.actArg));
+  const missionAltBtn = document.getElementById("missionAltBtn");
+  if(missionAltBtn) missionAltBtn.addEventListener("click", ()=> runMissionAction(missionAltBtn.dataset.action, missionAltBtn.dataset.actArg));
+  const planBtn = document.getElementById("planBtn");
+  if(planBtn) planBtn.addEventListener("click", openPlan);
+  // Star shop
+  $app.querySelectorAll("[data-shop-color]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const id = btn.dataset.shopColor;
+      const c = SHOP_COLORS[id]; if(!c) return;
+      if(store.shop.colors.includes(id)){
+        store.shop.activeColor = id; saveStore(store);
+      } else if(spendStars(c.cost)){
+        store.shop.colors.push(id);
+        store.shop.activeColor = id;
+        saveStore(store);
+      }
+      renderHome();
+    });
+  });
+  const nightBtn = $app.querySelector("[data-shop-night]");
+  if(nightBtn) nightBtn.addEventListener("click", ()=>{
+    if(store.shop.night){
+      store.shop.nightOn = !store.shop.nightOn; saveStore(store);
+    } else if(spendStars(SHOP_NIGHT_COST)){
+      store.shop.night = true; store.shop.nightOn = true; saveStore(store);
+    }
+    renderHome();
   });
   const parentBtn = document.getElementById("parentBtn");
   if(parentBtn) parentBtn.addEventListener("click", openParent);
   const raceChallengeBtn = document.getElementById("raceChallengeBtn");
   if(raceChallengeBtn) raceChallengeBtn.addEventListener("click", openRaceChallenge);
+  const contestResumeBtn = document.getElementById("contestResumeBtn");
+  if(contestResumeBtn) contestResumeBtn.addEventListener("click", resumeContest);
   $app.querySelectorAll("[data-contest-year]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      if(confirm(`Pradėti kontrolinį testą iš ${btn.dataset.contestYear} m.?\n\n• 75 minutės\n• 30 klausimų\n• −25 % už klaidą\n• Jokios pagalbos\n\nTikras Kengūros formatas. Tinkamas kartą per savaitę.`)){
-        openContest(btn.dataset.contestYear);
-      }
-    });
+    btn.addEventListener("click", ()=> requestOpenContest(btn.dataset.contestYear));
   });
   document.getElementById("startBtn").addEventListener("click", startQuiz);
   const reset = document.getElementById("resetBtn");
@@ -3651,6 +3835,7 @@ function startQuiz(){
   state._chosen = null; state._hintShown = false; state._firstStepShown = false;
   state._confidence = null;
   state._questionStartedAt = Date.now();
+  state._sprintMode = false;
   state.view = "quiz";
   if(store.settings.useTimer){
     // Real Kengūra Benjamin: 75 minutes for 30 questions = 2.5 min/q.
@@ -3674,6 +3859,7 @@ function startGraceWarmup(){
   state._chosen = null; state._hintShown = false; state._firstStepShown = false;
   state._confidence = null;
   state._questionStartedAt = Date.now();
+  state._sprintMode = false;
   state.view = "quiz";
   state._graceMode = true;
   stopTimer();
@@ -3757,12 +3943,12 @@ function renderQuiz(){
             cls += " selected";
           }
           const body = q.imageOptions
-            ? `<div class="opt-figure">${opt}</div>`
+            ? `<span class="opt-figure">${opt}</span>`
             : `<span>${escapeHTML(opt)}</span>`;
-          return `<div class="${cls}" data-i="${i}">
+          return `<button type="button" class="${cls}" data-i="${i}">
             <span class="letter">${String.fromCharCode(65+i)}</span>
             ${body}
-          </div>`;
+          </button>`;
         }).join("")}
       </div>
 
@@ -3955,6 +4141,7 @@ function finishQuiz(early){
     pointsWithPenalty: Math.round(pointsWithPenalty * 4) / 4,
     bandTime,
     early: !!early,
+    sprint: !!state._sprintMode,
     answered: state.answers.filter(a=>a).length,
     questions: state.questions.map((q,i)=>({
       gen:q.gen, category:q.category, subtopic:q.subtopic, difficulty:q.difficulty,
@@ -3967,6 +4154,7 @@ function finishQuiz(early){
   store.sessions.push(session);
   if(store.sessions.length > 30) store.sessions = store.sessions.slice(-30);
   saveStore(store);
+  markPlanStepDone();   // no-op unless launched from the daily plan
   state.view = "results";
   renderResults();
 }
@@ -4018,9 +4206,24 @@ function renderResults(){
   const earlyNote = answeredCount < total
     ? `<p class="help-bar" style="margin-top:8px">Pabaigta anksčiau: ${answeredCount} iš ${total} klausimų atsakyti.</p>`
     : ``;
+  const sprintBanner = state._sprintMode ? (()=>{
+    const answeredA = state.answers.filter(a => a);
+    const ms = answeredA.reduce((a,x)=>a+(x.timeMs||0),0);
+    const avg = answeredA.length ? Math.round(ms/1000/answeredA.length) : 0;
+    const fast = avg <= 60, sharp = correct >= Math.ceil(total*0.8);
+    return `<section class="card">
+      <h3>🏃 Sprinto verdiktas</h3>
+      <p>Vidutiniškai <b>${avg} s</b> klausimui (tikslas — 60 s) · teisingų <b>${correct}/${total}</b>.</p>
+      <p class="help-bar">${fast && sharp
+        ? 'Puiku! 3 taškų blokas konkurse turi būti greitas IR tikslus — tu jau moki šitą dalį.'
+        : !fast
+        ? 'Dar lėtoka. 3 taškų uždaviniai konkurse — tavo bankas: spręsk sprintus dažniau, kol veiksmai taps automatiniai.'
+        : 'Greitis geras — dabar pagerink tikslumą: geriau 55 s ir teisingai, nei 40 s ir klaida su −25 % bauda.'}</p>
+    </section>`;
+  })() : '';
   $app.innerHTML = `
     <section class="card">
-      <h2>Testo rezultatai</h2>
+      <h2>${state._sprintMode ? '🏃 Sprinto rezultatai' : 'Testo rezultatai'}</h2>
       <div class="grid two">
         <div class="stat"><b>${correct} / ${total}</b><span>Teisingų atsakymų</span></div>
         <div class="stat"><b>${points} / ${maxPoints}</b><span>Surinkti taškai</span></div>
@@ -4028,6 +4231,7 @@ function renderResults(){
       </div>
       ${earlyNote}
     </section>
+    ${sprintBanner}
 
     <section class="card">
       <h3>Tempas pagal sudėtingumą</h3>
@@ -4049,7 +4253,7 @@ function renderResults(){
     ${(confSummary.a.att + confSummary.b.att + confSummary.c.att) > 0 ? `
     <section class="card">
       <h3>Pasitikėjimas vs. teisingumas</h3>
-      <p style="margin-top:0;font-size:13px;color:var(--muted)">Jei „Tikrai žinau" tikslumas mažesnis nei 80%, vadinasi per dažnai esi pernelyg užtikrintas. Realiame Kengūros konkurse tai brangiai kainuoja (−25% už klaidą).</p>
+      <p style="margin-top:0;font-size:13px;color:var(--muted)">Jei „Tikrai žinau“ tikslumas mažesnis nei 80%, vadinasi per dažnai esi pernelyg užtikrintas. Realiame Kengūros konkurse tai brangiai kainuoja (−25% už klaidą).</p>
       ${[
         {k:'a', label:'Tikrai žinau'},
         {k:'b', label:'Spėju iš dviejų'},
@@ -4138,22 +4342,7 @@ function renderResults(){
    ============================================================ */
 const CONTEST_DURATION_MS = 75 * 60 * 1000;
 
-function openContest(year){
-  const test = ARCHIVE.find(t => t.year === year);
-  if(!test){ return; }
-  const qs = test.questions.filter(q => q.correct).slice(0, 30);
-  if(qs.length < 28){
-    alert(`${year} m. neturi pakankamai klausimų su atsakymais kontroliniam.`);
-    return;
-  }
-  state.view = "contest";
-  state.contestYear = year;
-  state.contestQuestions = qs;
-  state.contestAnswers = {};   // { qnum: chosenLetter }
-  state.contestCurrent = 0;
-  state.contestStartedAt = Date.now();
-  state.contestEndsAt = Date.now() + CONTEST_DURATION_MS;
-  state.contestSubmitted = false;
+function startContestTicker(){
   if(state._contestTimerInterval) clearInterval(state._contestTimerInterval);
   state._contestTimerInterval = setInterval(()=>{
     if(state.view !== "contest"){ clearInterval(state._contestTimerInterval); return; }
@@ -4170,6 +4359,78 @@ function openContest(year){
       }
     }
   }, 1000);
+}
+
+// Persist the in-flight contest so a refresh 60 minutes in doesn't lose it.
+function persistContestProgress(){
+  store.contestInProgress = {
+    year: state.contestYear,
+    answers: state.contestAnswers,
+    current: state.contestCurrent,
+    startedAt: state.contestStartedAt,
+    endsAt: state.contestEndsAt,
+  };
+  saveStore(store);
+}
+
+function requestOpenContest(year){
+  const inFlight = store.contestInProgress;
+  if(inFlight && String(inFlight.year) === String(year)){
+    resumeContest();
+    return;
+  }
+  if(inFlight){
+    if(!confirm(`Nutraukti nebaigtą ${inFlight.year} m. kontrolinį ir pradėti ${year} m.?\n\nDabartiniai atsakymai dings.`)) return;
+    openContest(year);
+    return;
+  }
+  if(confirm(`Pradėti kontrolinį testą iš ${year} m.?\n\n• 75 minutės\n• 30 klausimų\n• −25 % už klaidą\n• Jokios pagalbos\n\nTikras Kengūros formatas. Tinkamas kartą per savaitę.`)){
+    openContest(year);
+  }
+}
+
+function openContest(year){
+  const test = ARCHIVE.find(t => t.year === year);
+  if(!test){ return; }
+  const qs = test.questions.filter(q => q.correct).slice(0, 30);
+  if(qs.length < 28){
+    alert(`${year} m. neturi pakankamai klausimų su atsakymais kontroliniam.`);
+    return;
+  }
+  state.view = "contest";
+  state.contestYear = year;
+  state.contestQuestions = qs;
+  state.contestAnswers = {};   // { qnum: chosenLetter }
+  state.contestCurrent = 0;
+  state.contestStartedAt = Date.now();
+  state.contestEndsAt = Date.now() + CONTEST_DURATION_MS;
+  state.contestSubmitted = false;
+  persistContestProgress();
+  startContestTicker();
+  renderContest();
+}
+
+// Restore a contest saved by persistContestProgress. If the 75 minutes ran
+// out while the page was closed, grade the saved answers right away.
+function resumeContest(){
+  const saved = store.contestInProgress;
+  if(!saved) return;
+  const test = ARCHIVE.find(t => t.year === saved.year);
+  if(!test){ store.contestInProgress = null; saveStore(store); renderHome(); return; }
+  const qs = test.questions.filter(q => q.correct).slice(0, 30);
+  state.view = "contest";
+  state.contestYear = saved.year;
+  state.contestQuestions = qs;
+  state.contestAnswers = saved.answers || {};
+  state.contestCurrent = Math.min(saved.current || 0, qs.length - 1);
+  state.contestStartedAt = saved.startedAt;
+  state.contestEndsAt = saved.endsAt;
+  state.contestSubmitted = false;
+  if(Date.now() >= state.contestEndsAt){
+    finishContest(true);
+    return;
+  }
+  startContestTicker();
   renderContest();
 }
 
@@ -4187,10 +4448,10 @@ function renderContest(){
     const v = q.options[letter]; if(v == null) return "";
     const chosen = state.contestAnswers[q.num];
     const cls = "opt" + (chosen === letter ? " selected" : "");
-    return `<div class="${cls}" data-letter="${letter}">
+    return `<button type="button" class="${cls}" data-letter="${letter}">
       <span class="letter">${letter}</span>
       <span>${escapeHTML(v)}</span>
-    </div>`;
+    </button>`;
   }).join("");
   const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
 
@@ -4242,25 +4503,27 @@ function renderContest(){
   document.getElementById("contestOptions").addEventListener("click", e => {
     const o = e.target.closest(".opt"); if(!o) return;
     state.contestAnswers[q.num] = o.dataset.letter;
+    persistContestProgress();
     renderContest();
   });
   $app.querySelectorAll("[data-jump]").forEach(btn => {
     btn.addEventListener("click", ()=>{
       state.contestCurrent = parseInt(btn.dataset.jump, 10);
+      persistContestProgress();
       renderContest();
     });
   });
   const prev = document.getElementById("contestPrev");
-  if(prev) prev.addEventListener("click", ()=>{ state.contestCurrent--; renderContest(); });
+  if(prev) prev.addEventListener("click", ()=>{ state.contestCurrent--; persistContestProgress(); renderContest(); });
   const next = document.getElementById("contestNext");
-  if(next) next.addEventListener("click", ()=>{ state.contestCurrent++; renderContest(); });
+  if(next) next.addEventListener("click", ()=>{ state.contestCurrent++; persistContestProgress(); renderContest(); });
   const skip = document.getElementById("contestSkip");
   if(skip) skip.addEventListener("click", ()=>{
     // advance to next unanswered
     let i = state.contestCurrent + 1;
     for(let j = 0; j < qs.length; j++){
       const k = (i + j) % qs.length;
-      if(!state.contestAnswers[qs[k].num]){ state.contestCurrent = k; renderContest(); return; }
+      if(!state.contestAnswers[qs[k].num]){ state.contestCurrent = k; persistContestProgress(); renderContest(); return; }
     }
     // all answered
     finishContest(false);
@@ -4283,6 +4546,8 @@ function finishContest(byTimer){
     const band = q.points || 3;
     maxPoints += band;
     byBand[band].total++;
+    // the whole paper was seen (results show every solution) — mark for freshness
+    store.seenQ[`${state.contestYear}-${q.num}`] = Date.now();
     const a = state.contestAnswers[q.num];
     if(!a) return;
     answered++;
@@ -4306,10 +4571,32 @@ function finishContest(byTimer){
   store.contests = store.contests || [];
   store.contests.push(result);
   if(store.contests.length > 30) store.contests = store.contests.slice(-30);
+  store.contestInProgress = null;   // finished — drop the resume snapshot
   saveStore(store);
+  checkAchievements();
   state._lastContestResult = result;
   state.view = "contestResults";
   renderContestResults();
+}
+
+/* Feed contest mistakes into the spaced-repetition queue (due tomorrow).
+   No stars / activity credit — the contest already happened; this only
+   schedules the remediation. */
+function queueContestWrongs(){
+  const qs = state.contestQuestions;
+  let added = 0;
+  qs.forEach(q => {
+    const a = state.contestAnswers[q.num];
+    if(!a || a === q.correct) return;
+    if(!q.mechanic) return;
+    store.dueQueue[`${state.contestYear}-${q.num}`] = {
+      year: state.contestYear, num: q.num, mech: q.mechanic,
+      band: q.points || 3, dueAt: Date.now() + ONE_DAY_MS, streak: 0,
+    };
+    added++;
+  });
+  saveStore(store);
+  return added;
 }
 
 function renderContestResults(){
@@ -4359,6 +4646,10 @@ function renderContestResults(){
           <p class="explain">${escapeHTML(q.solutionKid || q.solution || '')}</p>
         </details>`;
       }).join('')}
+      ${wrongs.some(q => q.mechanic) ? `<div class="footer-actions">
+        <span class="help-bar">Klaidos gali sugrįžti rytoj kaip pakartojimas.</span>
+        <button class="btn small primary" id="queueWrongsBtn">Pridėti į pakartojimo eilę</button>
+      </div>` : ''}
     </section>` : ''}
 
     ${skipped.length ? `
@@ -4385,6 +4676,12 @@ function renderContestResults(){
   `;
   document.getElementById("contestBack").addEventListener("click", ()=>{
     state.view = "home"; renderHome();
+  });
+  const queueBtn = document.getElementById("queueWrongsBtn");
+  if(queueBtn) queueBtn.addEventListener("click", ()=>{
+    const n = queueContestWrongs();
+    queueBtn.textContent = `Pridėta (${n}) ✓`;
+    queueBtn.disabled = true;
   });
 }
 
@@ -4446,6 +4743,11 @@ function renderParent(){
       <div class="grid two" style="margin-top:14px">
         <div class="stat"><b>${masteredCount} / ${totalMechs}</b><span>Įvaldytos mechanikos</span></div>
         <div class="stat"><b>${weekAnswered}</b><span>Šios savaitės atsakymai (${weekCorrect} teisingų)</span></div>
+        ${(()=>{
+          const cw = Object.values(store.dueQueue || {}).filter(i => i.confWrong).length;
+          return cw ? `<div class="stat" style="border-color:var(--bad)"><b>${cw}</b><span>„Tikrai žinau“ klaidos eilėje — klaidingi supratimai, ne atsitiktinumai</span></div>` : '';
+        })()}
+        ${store.recogStats && store.recogStats.attempts ? `<div class="stat"><b>${Math.round(100*store.recogStats.correct/store.recogStats.attempts)} %</b><span>Gudrybės atpažinimas (${store.recogStats.attempts} bandymų)</span></div>` : ''}
       </div>
     </section>
 
@@ -4459,14 +4761,14 @@ function renderParent(){
 
     ${worst.length ? `
     <section class="card">
-      <h3>Silpnesnės mechanikos – siūlome plejlistus</h3>
+      <h3>Silpnesnės gudrybės – siūlome serijas</h3>
       ${worst.map(w => {
         const pct = Math.round(100*w.rate);
         return `<div class="cat-row">
           <span>${escapeHTML(MECHANIC_LABEL[w.mech]||w.mech)}</span>
           <div class="bar"><div style="width:${pct}%;background:var(--bad)"></div></div>
           <span class="pill bad">${pct}% klaidų</span>
-          <button class="btn small primary" data-mech-playlist="${w.mech}" style="margin-left:8px">Atverti playlistą</button>
+          <button class="btn small primary" data-mech-playlist="${w.mech}" style="margin-left:8px">Atverti seriją</button>
         </div>`;
       }).join('')}
     </section>` : `
@@ -4485,7 +4787,7 @@ function renderParent(){
     ${(store.confStats.a.attempts + store.confStats.b.attempts + store.confStats.c.attempts) > 0 ? `
     <section class="card">
       <h3>Pasitikėjimo kalibracija</h3>
-      <p style="margin-top:0;font-size:13px;color:var(--muted)">Jei „Tikrai žinau" tikslumas žemas, vaikas dažnai būna pernelyg užtikrintas – tai brangu kontrolinyje su −25% bauda.</p>
+      <p style="margin-top:0;font-size:13px;color:var(--muted)">Jei „Tikrai žinau“ tikslumas žemas, vaikas dažnai būna pernelyg užtikrintas – tai brangu kontrolinyje su −25% bauda.</p>
       ${[
         {k:'a', label:'Tikrai žinau'},
         {k:'b', label:'Spėju iš dviejų'},
@@ -4542,25 +4844,32 @@ function archiveQsForMech(mech, band){
   return out;
 }
 
-function pickPlaylistContent(mech){
+function pickPlaylistContent(mech, forcedBand){
   // Pool of archive questions of this mechanic, grouped by band
   const byBand = {3:[], 4:[], 5:[]};
   for(const item of archiveQsForMech(mech, null)){
     byBand[item.q.points || 3].push(item);
   }
+  const bandsAvailable = [3,4,5].filter(b => byBand[b].length > 0);
   // Worked example: prefer one band BELOW source band so the kid sees
   // the trick on something easier first.
   // Mastery: 3 questions of the source band.
   const has5 = byBand[5].length > 0;
   const has4 = byBand[4].length > 0;
   const has3 = byBand[3].length > 0;
-  let sourceBand = has5 ? 5 : (has4 ? 4 : 3);
+  // forcedBand comes from the step-down / step-up ladder after a mastery
+  // fail or pass — it overrides the default "hardest available" pick.
+  let sourceBand = (forcedBand && byBand[forcedBand].length)
+    ? forcedBand
+    : (has5 ? 5 : (has4 ? 4 : 3));
   let workedFromBand = has4 && sourceBand === 5 ? 4 : (has3 && sourceBand >= 4 ? 3 : sourceBand);
-  // Helper to pop a random item from a list
-  function popRand(arr){ if(!arr.length) return null; const i = Math.floor(Math.random()*arr.length); return arr.splice(i,1)[0]; }
   const used = new Set();
   function take(band){
-    const pool = byBand[band].filter(x => !used.has(`${x.year}-${x.q.num}`));
+    let pool = byBand[band].filter(x => !used.has(`${x.year}-${x.q.num}`));
+    // Prefer questions unseen in the last 2 weeks; fall back to the full
+    // pool when the mechanic is too small to be picky.
+    const fresh = pool.filter(x => !isRecentlySeen(x.year, x.q.num));
+    if(fresh.length) pool = fresh;
     if(!pool.length) return null;
     const item = pool[Math.floor(Math.random()*pool.length)];
     used.add(`${item.year}-${item.q.num}`);
@@ -4573,7 +4882,7 @@ function pickPlaylistContent(mech){
     const m = take(sourceBand) || take(workedFromBand) || take(3);
     if(m) mastery.push(m);
   }
-  return {sourceBand, worked, tryQ, mastery};
+  return {sourceBand, worked, tryQ, mastery, bandsAvailable};
 }
 
 const PLAYLIST_MASTERY_MS = 5 * 60 * 1000;
@@ -4585,12 +4894,22 @@ function stopPlaylistTimer(){
   }
 }
 
-function openPlaylist(mech){
+function openPlaylist(mech, forcedBand){
   stopPlaylistTimer();
   state.view = "playlist";
   state.playlistMech = mech;
-  state.playlistStep = 0;
-  state.playlistContent = pickPlaylistContent(mech);
+  // Stale mastery → light 2-question retest instead of the full playlist.
+  // Pass keeps mastery fresh; fail clears it and offers the full playlist.
+  const retest = !forcedBand && !!store.masteredMech[mech] && isMechMasteryStale(mech);
+  state.playlistRetest = retest;
+  state.playlistRecorded = false;
+  state.playlistContent = pickPlaylistContent(mech, forcedBand);
+  if(retest){
+    state.playlistContent.mastery = (state.playlistContent.mastery || []).slice(0, 2);
+    state.playlistStep = 3;
+  } else {
+    state.playlistStep = 0;
+  }
   state.playlistAns = {};       // key: "year-num" -> chosen letter
   state.playlistSubmitted = {}; // key -> bool
   state.playlistHintShown = {}; // key -> bool
@@ -4616,8 +4935,10 @@ function openDueQueue(){
   stopPlaylistTimer();
   state.view = "playlist";
   state.playlistMech = "__due__";
+  state.playlistRetest = false;
+  state.playlistRecorded = false;
   state.playlistStep = 3;       // jump straight to mastery step (just answers)
-  state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items};
+  state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
   state.playlistSubmitted = {};
   state.playlistHintShown = {};
@@ -4629,17 +4950,26 @@ function openDueQueue(){
 function renderPlaylist(){
   const mech = state.playlistMech;
   const isDue = mech === "__due__";
-  const meta = isDue ? null : (MECHANIC_METHODOLOGY[mech] || {});
+  const isMixed = mech === "__mixed__";
+  const special = isDue || isMixed;
+  const retest = !!state.playlistRetest;
+  const meta = special ? null : (MECHANIC_METHODOLOGY[mech] || {});
   const content = state.playlistContent;
   const step = state.playlistStep;
 
   const titleHtml = isDue
     ? `<h2 style="margin:0 0 4px">Pasikartoti laukia</h2>
        <p class="help-bar" style="margin:0">Šios užduotys sugrįžo iš tavo kartojimo eilės. Atsakyk teisingai – jos pereis į kitą intervalą (1d → 3d → 7d → 14d → 30d → įvaldyta).</p>`
+    : isMixed
+    ? `<h2 style="margin:0 0 4px">Mišrus rinkinys</h2>
+       <p class="help-bar" style="margin:0">Gudrybė nenurodyta – kaip konkurse. Pirmiausia atpažink, KOKS tai uždavinio tipas, tada spręsk. Tipas pasirodys po atsakymo.</p>`
+    : retest
+    ? `<h2 style="margin:0 0 4px">${escapeHTML(meta.title || mech)} – pakartojimo patikra</h2>
+       <p class="help-bar" style="margin:0">Įvaldyta seniai. Du greiti klausimai patikrins, ar dar pameni — jei abu teisingi, įvaldymas atnaujinamas.</p>`
     : `<h2 style="margin:0 0 4px">${escapeHTML(meta.title || mech)}</h2>
        <p class="help-bar" style="margin:0">${escapeHTML(meta.summary || '')}</p>`;
 
-  const stepsHtml = isDue ? "" : `
+  const stepsHtml = (special || retest) ? "" : `
     <div class="playlist-steps">
       ${[0,1,2,3].map(i => {
         const pip = i < step ? "done" : (i === step ? "now" : "");
@@ -4650,7 +4980,7 @@ function renderPlaylist(){
   `;
 
   let body = "";
-  if(!isDue && step === 0){
+  if(!special && step === 0){
     body = `
       <div class="methodology">
         <h4>Triukas</h4>
@@ -4664,9 +4994,9 @@ function renderPlaylist(){
         <button class="btn primary" id="plNext">Toliau – pažiūrėk pavyzdį</button>
       </div>
     `;
-  } else if(!isDue && step === 1 && content.worked){
+  } else if(!special && step === 1 && content.worked){
     body = renderPlaylistQuestion(content.worked, {showSolution:true, mode:"worked"});
-  } else if(!isDue && step === 2 && content.tryQ){
+  } else if(!special && step === 2 && content.tryQ){
     body = renderPlaylistQuestion(content.tryQ, {showSolution:false, mode:"try"});
   } else if(step === 3){
     if(!state.playlistTimerStart) state.playlistTimerStart = Date.now();
@@ -4677,35 +5007,62 @@ function renderPlaylist(){
       return state.playlistSubmitted[k] && state.playlistAns[k] === it.q.correct;
     }).length;
     const allDone = submittedCount === items.length;
-    const timerHtml = isDue ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ 5:00</span>`;
+    // Mastery now needs ALL correct — with 5 options, 2/3 survives guessing
+    // ~10 % of the time; 3/3 is honest evidence.
+    const passed = correctCount === items.length && items.length >= 2;
+    const bands = content.bandsAvailable || [];
+    const lowerBand = special ? null : bands.filter(b => b < content.sourceBand).pop() || null;
+    const higherBand = !special && content.sourceBand < 5 && bands.includes(5) ? 5 : null;
+    const timerHtml = special ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ 5:00</span>`;
+    const headWord = isDue ? 'Pakartojimo eilė' : isMixed ? 'Mišrus rinkinys' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
     body = `
-      <p><b>${isDue ? 'Pakartojimo eilė' : 'Įvaldymo testas'}:</b> ${items.length} užduotys, ${isDue?'be laiko':'be užuominų'}. ${timerHtml}${allDone ? '' : ' Atsakyk į visas, paskui paspausk „Baigti".'}</p>
-      ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery"})).join('')}
+      <p><b>${headWord}:</b> ${items.length} užduotys, ${special?'be laiko':'be užuominų'}. ${timerHtml}${allDone ? '' : ' Atsakyk į visas, paskui paspausk „Baigti“.'}</p>
+      ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery", hideMech: isMixed})).join('')}
       ${state.playlistTimeExpired && !allDone ? `
         <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
-          <b>Laikas baigėsi.</b> Neatsakytos užduotys lieka kaip neteisingos. Spausk „Baigti", kad pamatytum rezultatą.
+          <b>Laikas baigėsi.</b> Neatsakytos užduotys lieka kaip neteisingos. Spausk „Baigti“, kad pamatytum rezultatą.
         </div>
       ` : ``}
-      ${allDone ? (
-        correctCount >= 2
+      ${allDone ? (()=>{
+        if(special){
+          return `<div class="explain" style="background:var(--good-soft);border:1px solid var(--good)">
+            <b>${isDue ? 'Pakartojimas atliktas!' : 'Rinkinys atliktas!'}</b>
+            <span class="muted small">Iš ${items.length} užduočių teisingai atsakyta ${correctCount}.</span>
+          </div>`;
+        }
+        if(retest){
+          return passed
+            ? `<div class="explain mastery-pass" style="background:var(--good-soft);border:1px solid var(--good)">
+                <span class="star">⭐</span><b>Dar pameni!</b> Įvaldymas atnaujintas — pasimatysime vėl po 60 d.
+               </div>`
+            : `<div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
+                <b>Primiršai — nieko tokio.</b> Pereik šios gudrybės seriją iš naujo — tai normalu po pertraukos.
+               </div>`;
+        }
+        return passed
           ? `<div class="explain mastery-pass" style="background:var(--good-soft);border:1px solid var(--good)">
-              <span class="star">⭐</span><b>${isDue ? 'Pakartojimas atliktas!' : 'Šaunu! Mechanika įvaldyta.'}</b>
-              ${isDue ? '' : ' Pažymėjom kaip įvaldytą — pasimatysime vėl po 60 d.'}
-              <br><span class="muted small">Iš ${items.length} užduočių teisingai atsakyta ${correctCount}.</span>
+              <span class="star">⭐</span><b>Šaunu! Gudrybė įvaldyta.</b>
+              Pažymėjom kaip įvaldytą — pasimatysime vėl po 60 d.
+              <br><span class="muted small">Visos ${items.length} užduotys teisingos${content.sourceBand ? ` (${content.sourceBand} t. lygis)` : ''}.</span>
              </div>`
           : `<div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
-              <b>Reikia padirbėti.</b>
-              Iš ${items.length} užduočių teisingai atsakyta ${correctCount}.
-              ${isDue ? '' : ' Pabandyk dar kartą po kelių dienų.'}
-             </div>`
-      ) : ``}
+              <b>Dar ne visai.</b>
+              Įvaldymui reikia visų ${items.length} teisingų — šįkart ${correctCount}.
+              ${lowerBand ? ` Pabandyk ${lowerBand} t. lygiu ir vėl kilk.` : ' Pabandyk dar kartą po kelių dienų.'}
+             </div>`;
+      })() : ``}
       <div class="footer-actions">
         <button class="btn ghost" id="plBack">← Į pradžią</button>
-        ${(allDone || state.playlistTimeExpired) ? `<button class="btn primary" id="plDone">Baigti</button>` : ''}
+        <div class="row">
+          ${allDone && !special && !retest && !passed && lowerBand ? `<button class="btn" id="plStepDown" data-band="${lowerBand}">Pabandyti ${lowerBand} t. lygiu</button>` : ''}
+          ${allDone && !special && !retest && passed && higherBand ? `<button class="btn" id="plStepUp" data-band="${higherBand}">Kilti į ${higherBand} t. lygį</button>` : ''}
+          ${allDone && retest && !passed ? `<button class="btn" id="plRedo">Pereiti seriją iš naujo</button>` : ''}
+          ${(allDone || state.playlistTimeExpired) ? `<button class="btn primary" id="plDone">Baigti</button>` : ''}
+        </div>
       </div>
     `;
   } else {
-    body = `<p class="empty">Šios mechanikos archive duomenų neužtenka. Grįžk ir pasirink kitą.</p>
+    body = `<p class="empty">Šios gudrybės archyve užduočių neužtenka. Grįžk ir pasirink kitą.</p>
       <div class="footer-actions"><button class="btn ghost" id="plBack">← Į pradžią</button></div>`;
   }
 
@@ -4718,42 +5075,78 @@ function renderPlaylist(){
     </section>
   `;
 
-  // Wire common controls
-  const backTop = document.getElementById("plBackTop");
-  if(backTop) backTop.addEventListener("click", ()=>{ stopPlaylistTimer(); state.view="home"; renderHome(); });
-  const back = document.getElementById("plBack");
-  if(back) back.addEventListener("click", ()=>{ stopPlaylistTimer(); state.view="home"; renderHome(); });
-  const next = document.getElementById("plNext");
-  if(next) next.addEventListener("click", ()=>{ state.playlistStep++; renderPlaylist(); });
-  const done = document.getElementById("plDone");
-  if(done) done.addEventListener("click", ()=>{
-    stopPlaylistTimer();
-    // Compute mastery and persist
-    if(!isDue){
-      const items = content.mastery || [];
-      const correctCount = items.filter(it => {
-        const k = `${it.year}-${it.q.num}`;
-        return state.playlistAns[k] === it.q.correct;
-      }).length;
-      if(correctCount >= 2) {
-        store.masteredMech[state.playlistMech] = Date.now();
-      }
-    }
-    // Record each mastery answer into mech stats + spaced rep
+  // Record submitted mastery answers exactly once (also on early exit,
+  // so answered questions still feed stats + spaced repetition).
+  function recordPlaylistAnswers(){
+    if(state.playlistRecorded) return;
+    state.playlistRecorded = true;
     (content.mastery || []).forEach(it => {
       const k = `${it.year}-${it.q.num}`;
       if(!state.playlistSubmitted[k]) return;
       recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct);
     });
+  }
+  // Full completion: record answers + apply mastery / retest bookkeeping.
+  function finalizePlaylist(){
+    stopPlaylistTimer();
+    const items = content.mastery || [];
+    const correctCount = items.filter(it => {
+      const k = `${it.year}-${it.q.num}`;
+      return state.playlistAns[k] === it.q.correct;
+    }).length;
+    const passed = correctCount === items.length && items.length >= 2;
+    if(!special){
+      if(retest){
+        if(passed) store.masteredMech[state.playlistMech] = Date.now();
+        else delete store.masteredMech[state.playlistMech];
+      } else if(passed){
+        store.masteredMech[state.playlistMech] = Date.now();
+      }
+    }
+    recordPlaylistAnswers();
     saveStore(store);
+    markPlanStepDone();
+  }
+
+  // Wire common controls
+  const exitHome = ()=>{
+    stopPlaylistTimer();
+    if(step === 3) recordPlaylistAnswers();   // don't lose answered questions
+    saveStore(store);
+    state.view="home"; renderHome();
+  };
+  const backTop = document.getElementById("plBackTop");
+  if(backTop) backTop.addEventListener("click", exitHome);
+  const back = document.getElementById("plBack");
+  if(back) back.addEventListener("click", exitHome);
+  const next = document.getElementById("plNext");
+  if(next) next.addEventListener("click", ()=>{ state.playlistStep++; renderPlaylist(); });
+  const done = document.getElementById("plDone");
+  if(done) done.addEventListener("click", ()=>{
+    finalizePlaylist();
     state.view = "home";
     renderHome();
   });
+  const stepDown = document.getElementById("plStepDown");
+  if(stepDown) stepDown.addEventListener("click", ()=>{
+    finalizePlaylist();
+    openPlaylist(mech, parseInt(stepDown.dataset.band, 10));
+  });
+  const stepUp = document.getElementById("plStepUp");
+  if(stepUp) stepUp.addEventListener("click", ()=>{
+    finalizePlaylist();
+    openPlaylist(mech, parseInt(stepUp.dataset.band, 10));
+  });
+  const redo = document.getElementById("plRedo");
+  if(redo) redo.addEventListener("click", ()=>{
+    finalizePlaylist();
+    openPlaylist(mech, (content.sourceBand || undefined));
+  });
 
   // Mastery-step countdown: tick the visible timer, expire at 5 min.
-  // (isDue uses the same step 3 but with no time pressure — skip timer.)
+  // (due queue and mixed sets use step 3 with no time pressure — skip timer.)
   stopPlaylistTimer();
-  if(step === 3 && !isDue && !state.playlistTimeExpired && state.playlistTimerStart){
+  if(step === 3 && !special && !state.playlistTimeExpired && state.playlistTimerStart){
     const tick = () => {
       const remainingMs = PLAYLIST_MASTERY_MS - (Date.now() - state.playlistTimerStart);
       const span = document.getElementById("plCountdown");
@@ -4821,6 +5214,9 @@ function renderPlaylistQuestion(item, opts){
   const submitted = !!state.playlistSubmitted[k];
   const showSol = opts.showSolution || submitted;
   const mode = opts.mode;
+  // Mixed sets hide the mechanic until the answer is in — recognising the
+  // trick is the point. It's revealed with the feedback.
+  const hideMech = !!opts.hideMech && !submitted;
   const optionsHtml = ["A","B","C","D","E"].map(letter => {
     const v = q.options[letter];
     if(v == null) return "";
@@ -4831,10 +5227,10 @@ function renderPlaylistQuestion(item, opts){
     } else if(chosen === letter){
       extra = " selected";
     }
-    return `<div class="opt${extra}" data-letter="${letter}">
+    return `<button type="button" class="opt${extra}" data-letter="${letter}">
       <span class="letter">${letter}</span>
       <span>${escapeHTML(v)}</span>
-    </div>`;
+    </button>`;
   }).join("");
   const figureHtml = q.figure
     ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"></div>`
@@ -4861,7 +5257,8 @@ function renderPlaylistQuestion(item, opts){
       <div class="qmeta">
         <b>${escapeHTML(year)} · K${q.num}</b>
         <span class="pill">${q.points} t.</span>
-        ${q.mechanic ? `<span class="pill muted">${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</span>` : ''}
+        ${q.mechanic && !hideMech ? `<span class="pill muted">${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</span>` : ''}
+        ${hideMech ? `<span class="pill">❓ koks tipas?</span>` : ''}
       </div>
       <div class="qprompt">${escapeHTML(q.prompt)}</div>
       ${figureHtml}
@@ -4869,7 +5266,7 @@ function renderPlaylistQuestion(item, opts){
       ${showHint && approach ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(approach)}</div>` : ''}
       ${showSol && q.solution ? `<div class="explain"><b>Sprendimas:</b> ${escapeHTML(q.solution)}</div>` : ''}
       ${submitted ? `<div class="explain" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
-        <b>${chosen === q.correct ? 'Teisingai!' : 'Klaida.'}</b>
+        <b>${chosen === q.correct ? 'Teisingai!' : 'Klaida.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>!` : ''}
         Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.
       </div>` : ''}
       <div class="footer-actions">
@@ -4910,12 +5307,12 @@ function renderReview(){
             cls += " selected";
           }
           const body = q.imageOptions
-            ? `<div class="opt-figure">${opt}</div>`
+            ? `<span class="opt-figure">${opt}</span>`
             : `<span>${escapeHTML(opt)}</span>`;
-          return `<div class="${cls}" data-i="${i}">
+          return `<button type="button" class="${cls}" data-i="${i}">
             <span class="letter">${String.fromCharCode(65+i)}</span>
             ${body}
-          </div>`;
+          </button>`;
         }).join("")}
       </div>
 
@@ -4978,6 +5375,325 @@ function renderReview(){
 }
 
 /* ============================================================
+   VII¼. COURSE LAYER — sprint, mixed sets, recognition drill,
+   and the daily treniruočių planas with contest countdown.
+   ============================================================ */
+
+/* -------- 3-pt speed sprint: 10 questions, 10 minutes ---------
+   Fluency on the 3-point block is a contest skill in itself — banking
+   30 points fast buys time for the 5-point teeth of the paper. */
+function startSprint(){
+  state.questions = generateQuiz(10, [3]);
+  state.current = 0;
+  state.answers = [];
+  state.hintsUsedThis = 0;
+  state._chosen = null; state._hintShown = false; state._firstStepShown = false;
+  state._confidence = null;
+  state._questionStartedAt = Date.now();
+  state._sprintMode = true;
+  state._graceMode = false;
+  state.view = "quiz";
+  startTimer(10 * 60 * 1000);
+  renderQuiz();
+}
+
+/* -------- Mixed set: interleaved practice, mechanic hidden ---------
+   Blocked playlists are right for first acquisition; retention and the
+   "which trick is this?" skill need mixed practice with the label off. */
+function openMixedSet(count){
+  count = count || 6;
+  const recentMechs = Object.keys(store.mechRecent || {});
+  const pool = [];
+  for(const t of ARCHIVE){
+    for(const q of t.questions){
+      if(!q.correct || !q.mechanic) continue;
+      if((q.points || 3) < 4 && !recentMechs.includes(q.mechanic)) continue;
+      pool.push({year:t.year, q});
+    }
+  }
+  const practiced = pool.filter(x => recentMechs.includes(x.q.mechanic) && !isRecentlySeen(x.year, x.q.num));
+  const unseen    = pool.filter(x => !isRecentlySeen(x.year, x.q.num));
+  const source = practiced.length >= count ? practiced : (unseen.length >= count ? unseen : pool);
+  shuffleInPlace(source);
+  // at most 2 per mechanic — otherwise it isn't interleaving
+  const perMech = {};
+  const items = [];
+  for(const x of source){
+    const m = x.q.mechanic;
+    perMech[m] = perMech[m] || 0;
+    if(perMech[m] >= 2) continue;
+    perMech[m]++;
+    items.push(x);
+    if(items.length >= count) break;
+  }
+  if(items.length < 3){ alert("Per mažai tinkamų užduočių mišriam rinkiniui."); return; }
+  stopPlaylistTimer();
+  state.view = "playlist";
+  state.playlistMech = "__mixed__";
+  state.playlistRetest = false;
+  state.playlistRecorded = false;
+  state.playlistStep = 3;
+  state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
+  state.playlistAns = {};
+  state.playlistSubmitted = {};
+  state.playlistHintShown = {};
+  state.playlistTimerStart = 0;
+  state.playlistTimeExpired = false;
+  renderPlaylist();
+}
+
+/* -------- Mechanic-recognition drill: "Kokia gudrybė?" ---------
+   The real 5-point bottleneck is recognising WHICH trick a problem
+   hides. Show a 4/5-pt question; the kid picks the mechanic (not the
+   answer) from 4 options. 10 per round, no solving required. */
+function buildRecogPool(){
+  const pool = [];
+  for(const t of ARCHIVE){
+    for(const q of t.questions){
+      if((q.points || 3) < 4) continue;
+      if(!q.mechanic || !MECHANIC_LABEL[q.mechanic]) continue;
+      pool.push({year:t.year, q});
+    }
+  }
+  return pool;
+}
+
+function openRecogDrill(){
+  const pool = buildRecogPool();
+  if(pool.length < 10){ alert("Per mažai užduočių atpažinimo treniruotei."); return; }
+  const mechSet = [...new Set(pool.map(x => x.q.mechanic))];
+  shuffleInPlace(pool);
+  // one question per mechanic per round, for variety
+  const perMech = {};
+  const qs = [];
+  for(const x of pool){
+    if(perMech[x.q.mechanic]) continue;
+    perMech[x.q.mechanic] = 1;
+    qs.push(x);
+    if(qs.length >= 10) break;
+  }
+  while(qs.length < 10) qs.push(pool[Math.floor(Math.random()*pool.length)]);
+  state.view = "recog";
+  state.recogQs = qs.map(x => ({
+    year: x.year, q: x.q,
+    opts: shuffleInPlace([x.q.mechanic, ...shuffleInPlace(mechSet.filter(m => m !== x.q.mechanic)).slice(0,3)]),
+  }));
+  state.recogIdx = 0;
+  state.recogChosen = null;
+  state.recogSubmitted = false;
+  state.recogCorrect = 0;
+  renderRecog();
+}
+
+function renderRecog(){
+  const items = state.recogQs;
+  const idx = state.recogIdx;
+  if(idx >= items.length){ renderRecogResult(); return; }
+  const it = items[idx];
+  const q = it.q;
+  const submitted = state.recogSubmitted;
+  const right = submitted && state.recogChosen === q.mechanic;
+  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
+  const summary = (MECHANIC_METHODOLOGY[q.mechanic] || {}).summary || "";
+  $app.innerHTML = `
+    <section class="card">
+      <div class="contest-header">
+        <div><b>🔍 Kokia gudrybė?</b> <span class="help-bar" style="margin-left:6px">${idx+1} / ${items.length} · teisingų ${state.recogCorrect}</span></div>
+        <button class="btn ghost small" id="recogQuit">← Pradžia</button>
+      </div>
+      <p class="help-bar" style="margin:8px 0 0">Spręsti nereikia — atpažink uždavinio TIPĄ. Konkurse tai pirmas dalykas prieš kiekvieną 5 taškų klausimą — atpažinti gudrybę per kelias sekundes.</p>
+    </section>
+    <section class="card">
+      <div class="qmeta"><span class="pill ${q.points===5?'bad':''}">${q.points} t.</span><span class="pill muted">${escapeHTML(it.year)} m.</span></div>
+      <div class="qprompt">${escapeHTML(q.prompt)}</div>
+      ${figureHtml}
+      <div class="options" id="recogOptions">
+        ${it.opts.map((m, i) => {
+          let cls = "opt";
+          if(!submitted && state.recogChosen === m) cls += " selected";
+          if(submitted && m === q.mechanic) cls += " correct";
+          else if(submitted && state.recogChosen === m) cls += " wrong";
+          return `<button type="button" class="${cls}" data-mech="${m}">
+            <span class="letter">${String.fromCharCode(65 + i)}</span>
+            <span>${escapeHTML(MECHANIC_LABEL[m] || m)}</span>
+          </button>`;
+        }).join("")}
+      </div>
+      ${submitted ? `<div class="explain" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'}">
+        <b>${right ? 'Taip!' : 'Ne.'}</b> Tai — <b>${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</b>.
+        ${summary ? `<div style="margin-top:6px;font-size:13px">${escapeHTML(summary)}</div>` : ''}
+      </div>` : ''}
+      <div class="footer-actions">
+        <div class="row"></div>
+        <div class="row">
+          ${!submitted
+            ? `<button class="btn primary" id="recogSubmit" ${state.recogChosen ? '' : 'disabled'}>Patikrinti</button>`
+            : `<button class="btn primary" id="recogNext">${idx < items.length-1 ? 'Kitas →' : 'Rezultatai →'}</button>`}
+        </div>
+      </div>
+    </section>`;
+  document.getElementById("recogQuit").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+  document.getElementById("recogOptions").addEventListener("click", e=>{
+    if(state.recogSubmitted) return;
+    const o = e.target.closest(".opt"); if(!o) return;
+    state.recogChosen = o.dataset.mech;
+    renderRecog();
+  });
+  const sub = document.getElementById("recogSubmit");
+  if(sub) sub.addEventListener("click", ()=>{
+    if(!state.recogChosen) return;
+    state.recogSubmitted = true;
+    const right = state.recogChosen === q.mechanic;
+    if(right) state.recogCorrect++;
+    store.recogStats.attempts++;
+    if(right) store.recogStats.correct++;
+    logActivity(right);   // recognition is real practice — counts for streak/stars
+    saveStore(store);
+    renderRecog();
+  });
+  const nxt = document.getElementById("recogNext");
+  if(nxt) nxt.addEventListener("click", ()=>{
+    state.recogIdx++;
+    state.recogChosen = null;
+    state.recogSubmitted = false;
+    renderRecog();
+  });
+}
+
+function renderRecogResult(){
+  const total = state.recogQs.length;
+  const ok = state.recogCorrect;
+  markPlanStepDone();
+  $app.innerHTML = `
+    <section class="card" style="text-align:center">
+      <h2>🔍 Atpažinimo rezultatas</h2>
+      <p style="font-size:30px;margin:6px 0"><b>${ok} / ${total}</b></p>
+      <p class="help-bar">${ok >= 8 ? 'Puiku — tipus atpažįsti beveik akimirksniu. Konkurse tai sutaupys brangias minutes.' : ok >= 5 ? 'Neblogai. Kuo greičiau atpažįsti tipą, tuo greičiau žinai, KĄ daryti.' : 'Verta pakartoti gudrybių aprašymus („Gudrybių mokymasis“ skiltyje) — atpažinimas ateina su pažinimu.'}</p>
+      <div class="footer-actions" style="justify-content:center;gap:8px">
+        <button class="btn primary" id="recogAgain">Dar kartą</button>
+        <button class="btn ghost" id="recogHome">Į pradžią</button>
+      </div>
+    </section>`;
+  document.getElementById("recogAgain").addEventListener("click", openRecogDrill);
+  document.getElementById("recogHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+}
+
+/* -------- Treniruočių planas: contest countdown + daily session ------- */
+function daysToContest(){
+  const d = store.plan && store.plan.contestDate;
+  if(!d) return null;
+  const [y,m,da] = d.split('-').map(Number);
+  if(!y || !m || !da) return null;
+  const target = Date.UTC(y, m-1, da);
+  const now = new Date();
+  const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((target - today) / ONE_DAY_MS);
+}
+
+/* Today's ~20-minute session: warm-up → core → cool-down.
+   Core priority: due backlog > speed work > next new mechanic on the
+   track > mixed set. */
+function planStepsForToday(){
+  const due = dueNow();
+  const next = nextMechanicToLearn();
+  let core;
+  if(due.length >= 4){
+    core = {id:"core", label:`Pakartojimas (${Math.min(due.length,10)} užd.)`, act:"due"};
+  } else if(needsSpeedWork()){
+    core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
+  } else if(next){
+    core = {id:"core", label:`Nauja gudrybė: ${MECHANIC_LABEL[next] || next}`, act:"playlist", arg:next};
+  } else {
+    core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
+  }
+  return [
+    {id:"warmup",   label:"Apšilimas — 2 lengvi klausimai", act:"warmup"},
+    core,
+    {id:"cooldown", label:"Pabaiga — atpažink gudrybę (10 greitų klausimų)", act:"recog"},
+  ];
+}
+
+function markPlanStepDone(){
+  const step = state._planStep;
+  if(!step) return;
+  state._planStep = null;
+  const k = todayKey();
+  const d = store.planDone[k] = store.planDone[k] || {};
+  d[step] = true;
+  saveStore(store);
+}
+
+function launchPlanStep(s){
+  state._planStep = s.id;
+  if(s.act === "warmup"){
+    state.questions = generateQuiz(2, [3]);
+    state.current = 0; state.answers = []; state.hintsUsedThis = 0;
+    state._chosen = null; state._hintShown = false; state._firstStepShown = false;
+    state._confidence = null;
+    state._questionStartedAt = Date.now();
+    state._sprintMode = false;
+    state.view = "quiz";
+    stopTimer();
+    renderQuiz();
+  } else if(s.act === "due"){ openDueQueue(); }
+  else if(s.act === "sprint"){ startSprint(); }
+  else if(s.act === "playlist"){ openPlaylist(s.arg); }
+  else if(s.act === "mixed"){ openMixedSet(6); }
+  else if(s.act === "recog"){ openRecogDrill(); }
+}
+
+function openPlan(){ state.view = "plan"; renderPlan(); }
+
+function renderPlan(){
+  const days = daysToContest();
+  const steps = planStepsForToday();
+  const done = store.planDone[todayKey()] || {};
+  const trend = (store.contests || []).slice(-3);
+  const allDone = done.warmup && done.core && done.cooldown;
+  $app.innerHTML = `
+    <section class="card">
+      <button class="nav-back" id="planBack">← Į pradžią</button>
+      <h2>📅 Treniruočių planas</h2>
+      <div class="row" style="align-items:center;gap:10px;margin:8px 0">
+        <label style="font-size:14px">Konkurso data:
+          <input type="date" id="contestDateInput" value="${store.plan.contestDate || ''}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
+        </label>
+        ${days != null
+          ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `liko ${days} d.` : days === 0 ? 'ŠIANDIEN!' : 'jau praėjo'}</span>`
+          : `<span class="help-bar">Nustačius datą matysi atgalinį skaičiavimą.</span>`}
+      </div>
+      ${trend.length
+        ? `<p style="margin:6px 0">Kontrolinių kreivė: <b>${trend.map(c => Math.round((c.scoreWithPenalty ?? c.points) * 4)/4).join(' → ')}</b> t. (iš ${trend[trend.length-1].maxPoints})${trend.length >= 2 && trend[trend.length-1].scoreWithPenalty > trend[0].scoreWithPenalty ? ' 📈' : ''}</p>`
+        : `<p class="help-bar">Atlik kontrolinį — čia matysi rezultatų kreivę.</p>`}
+    </section>
+    <section class="card">
+      <h3>Šiandienos treniruotė (~20 min)</h3>
+      ${steps.map((s, i) => `
+        <div class="cat-row plan-step">
+          <span>${done[s.id] ? '✅' : `${i+1}.`} ${escapeHTML(s.label)}</span>
+          ${done[s.id]
+            ? `<span class="pill good">atlikta</span>`
+            : `<button class="btn small primary" data-plan-step="${s.id}">Pradėti</button>`}
+        </div>`).join('')}
+      ${allDone ? `<div class="recent-mastery">🎉 Šiandienos treniruotė atlikta! Iki rytojaus.</div>` : ''}
+      <p class="help-bar" style="margin-top:10px">Planas kasdien perskaičiuojamas: pirmiausia grįžta pakartojimai, tada — greitis (jei 3 t. lėti), tada — kita nauja gudrybė iš mokymosi tako.</p>
+    </section>
+  `;
+  document.getElementById("planBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
+  document.getElementById("contestDateInput").addEventListener("change", e => {
+    store.plan.contestDate = e.target.value || null;
+    saveStore(store);
+    renderPlan();
+  });
+  $app.querySelectorAll("[data-plan-step]").forEach(btn => {
+    btn.addEventListener("click", ()=>{
+      const s = steps.find(x => x.id === btn.dataset.planStep);
+      if(s) launchPlanStep(s);
+    });
+  });
+}
+
+/* ============================================================
    VII½. ACHIEVEMENTS + RACING REWARD GAME
    ============================================================ */
 
@@ -4998,9 +5714,9 @@ const ACHIEVEMENTS = [
   {id:"star50",  icon:"⭐", title:"Žvaigždžių rinkėjas", desc:"Surink 50 žvaigždžių",           check:()=> (store.stars.total||0) >= 50},
   {id:"star200", icon:"🌟", title:"Žvaigždynas",        desc:"Surink 200 žvaigždžių",          check:()=> (store.stars.total||0) >= 200},
   {id:"star500", icon:"✨", title:"Supernova",          desc:"Surink 500 žvaigždžių",          check:()=> (store.stars.total||0) >= 500},
-  {id:"mech1",   icon:"🧩", title:"Pirmas triukas",     desc:"Įvaldyk 1 mechaniką",            check:()=> masteredCount() >= 1},
-  {id:"mech5",   icon:"🧠", title:"Penki triukai",      desc:"Įvaldyk 5 mechanikas",           check:()=> masteredCount() >= 5},
-  {id:"mech10",  icon:"🎓", title:"Triukų meistras",    desc:"Įvaldyk 10 mechanikų",           check:()=> masteredCount() >= 10},
+  {id:"mech1",   icon:"🧩", title:"Pirmas triukas",     desc:"Įvaldyk 1 gudrybę",               check:()=> masteredCount() >= 1},
+  {id:"mech5",   icon:"🧠", title:"Penki triukai",      desc:"Įvaldyk 5 gudrybių",              check:()=> masteredCount() >= 5},
+  {id:"mech10",  icon:"🎓", title:"Triukų meistras",    desc:"Įvaldyk 10 gudrybių",             check:()=> masteredCount() >= 10},
   {id:"streak3", icon:"🔥", title:"Trijų dienų serija", desc:"3 dienos iš eilės",              check:()=> (store.streak.count||0) >= 3},
   {id:"streak7", icon:"🔥", title:"Savaitė iš eilės",   desc:"7 dienos iš eilės",              check:()=> (store.streak.count||0) >= 7},
   {id:"streak30",icon:"🔥", title:"Mėnuo iš eilės",     desc:"30 dienų iš eilės",              check:()=> (store.streak.count||0) >= 30},
@@ -5010,6 +5726,8 @@ const ACHIEVEMENTS = [
   {id:"race1000",icon:"👑", title:"Greičio demonas",    desc:"Lenktynėse pasiek 1000 m",       check:()=> (store.games.best||0) >= 1000},
   {id:"perfect5",icon:"🎯", title:"Tobula penketa",     desc:"5/5 lenktynių iššūkyje",         check:()=> (store.games.bestChallengeCorrect||0) >= 5},
   {id:"contest1",icon:"📝", title:"Pirmas kontrolinis", desc:"Užbaik kontrolinį testą",        check:()=> (store.contests||[]).length >= 1},
+  {id:"recog20", icon:"🔍", title:"Tipų žinovas",       desc:"Atpažink 20 gudrybių",           check:()=> ((store.recogStats||{}).correct||0) >= 20},
+  {id:"plan5",   icon:"📅", title:"Planuotojas",        desc:"Užbaik 5 dienų treniruotes",     check:()=> Object.values(store.planDone||{}).filter(d=>d.warmup&&d.core&&d.cooldown).length >= 5},
 ];
 
 /* Evaluate all achievements; record + toast any newly earned. Safe to call
@@ -5050,6 +5768,18 @@ function showAchievementToast(list){
   });
 }
 
+/* -------- Star shop: race-game cosmetics bought with stars --------
+   A currency with nothing to spend it on goes inert — every answered
+   question now has a concrete micro-purpose. */
+const SHOP_COLORS = {
+  classic: {label:"Klasikinė", hex:"#d6451a", cost:0},
+  blue:    {label:"Mėlyna",    hex:"#1a5fa3", cost:50},
+  green:   {label:"Žalia",     hex:"#1a7f4a", cost:50},
+  gold:    {label:"Auksinė",   hex:"#d4a017", cost:80},
+};
+const SHOP_NIGHT_COST = 100;
+const SHOP_LIFE_COST = 20;
+
 /* -------- Rewards / race-challenge home card -------- */
 function rewardsCardHTML(){
   const s = store.stars || {total:0, fromQ:0, fromTime:0};
@@ -5072,6 +5802,22 @@ function rewardsCardHTML(){
         ${best>0?`<span class="pill muted">🏎 Rekordas: ${best} m</span>`:''}
       </div>
       <button class="btn primary" id="raceChallengeBtn">Pradėti iššūkį →</button>
+      <details style="margin-top:12px">
+        <summary>🛒 Žvaigždžių parduotuvė — turi <b>${starsAvailable()}</b> ⭐ laisvų</summary>
+        <div class="row" style="margin-top:8px">
+          ${Object.entries(SHOP_COLORS).map(([id, c]) => {
+            const owned = store.shop.colors.includes(id);
+            const active = store.shop.activeColor === id;
+            return `<button class="btn small" data-shop-color="${id}" ${!owned && starsAvailable() < c.cost ? 'disabled' : ''}>
+              <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:${c.hex};margin-right:6px;vertical-align:-1px"></span>${c.label}${owned ? (active ? ' ✓' : ' · naudoti') : ` · ${c.cost} ⭐`}
+            </button>`;
+          }).join('')}
+          ${store.shop.night
+            ? `<button class="btn small" data-shop-night="1">🌙 Naktinė trasa${store.shop.nightOn ? ' ✓' : ' · įjungti'}</button>`
+            : `<button class="btn small" data-shop-night="1" ${starsAvailable() < SHOP_NIGHT_COST ? 'disabled' : ''}>🌙 Naktinė trasa · ${SHOP_NIGHT_COST} ⭐</button>`}
+        </div>
+        <p class="help-bar">Spalvos ir trasa veikia lenktynių žaidime. Papildomą gyvybę (${SHOP_LIFE_COST} ⭐) galima nusipirkti prieš pat lenktynes.</p>
+      </details>
       <div class="ach-grid" style="margin-top:12px">${badges}</div>
     </section>`;
 }
@@ -5143,10 +5889,10 @@ function renderRaceChallenge(){
     if(submitted && letter === q.correct) cls += " correct";
     if(submitted && state.raceChosen === letter && letter !== q.correct) cls += " wrong";
     const body = hasText ? escapeHTML(v) : `<i style="color:var(--muted)">— atsakymas paveikslėlyje —</i>`;
-    return `<div class="${cls}" data-letter="${letter}">
+    return `<button type="button" class="${cls}" data-letter="${letter}">
       <span class="letter">${letter}</span>
       <span>${body}</span>
-    </div>`;
+    </button>`;
   }).join("");
 
   const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
@@ -5257,12 +6003,17 @@ function renderRaceResult(){
           <span class="pill">${'❤️'.repeat(r.lives)} ${r.lives} ${r.lives===1?'gyvybė':'gyvybės'}</span>
         </div>
         <p class="help-bar">Vairuok rodyklėmis ← → (arba mygtukais). Lenk pro mašinas, kuo ilgiau – tuo daugiau metrų!</p>
+        ${r.lives < 5 && starsAvailable() >= SHOP_LIFE_COST ? `<p><button class="btn small" id="raceBuyLife">➕ Papildoma gyvybė už ${SHOP_LIFE_COST} ⭐ (turi ${starsAvailable()})</button></p>` : ''}
         <div class="footer-actions" style="justify-content:center;gap:8px">
           <button class="btn primary" id="racePlay">🏎 Žaisti lenktynes</button>
           <button class="btn ghost" id="raceHome">Į pradžią</button>
         </div>
       </section>`;
     document.getElementById("racePlay").addEventListener("click", ()=> openRaceGame(r.difficulty, r.lives));
+    const buyLife = document.getElementById("raceBuyLife");
+    if(buyLife) buyLife.addEventListener("click", ()=>{
+      if(spendStars(SHOP_LIFE_COST)){ r.lives++; renderRaceResult(); }
+    });
   }
   const retry = document.getElementById("raceRetry");
   if(retry) retry.addEventListener("click", openRaceChallenge);
@@ -5290,6 +6041,9 @@ function openRaceGame(difficulty, lives){
   stopRaceGame();
   state.view = "race";
   const cfg = RACE_DIFF[difficulty] || RACE_DIFF.easy;
+  // Star-shop cosmetics
+  const playerHex = (SHOP_COLORS[store.shop.activeColor] || SHOP_COLORS.classic).hex;
+  const night = !!(store.shop.night && store.shop.nightOn);
   const W = 360, H = 540, LANES = 3;
   const laneW = W / LANES;
   const carW = 46, carH = 60;
@@ -5419,10 +6173,10 @@ function openRaceGame(difficulty, lives){
     // ---- draw ----
     ctx.clearRect(0,0,W,H);
     // road
-    ctx.fillStyle = "#3a3f47";
+    ctx.fillStyle = night ? "#14171c" : "#3a3f47";
     ctx.fillRect(0,0,W,H);
     // lane dashes (scrolling)
-    ctx.strokeStyle = "rgba(255,255,255,.5)";
+    ctx.strokeStyle = night ? "rgba(255,235,130,.45)" : "rgba(255,255,255,.5)";
     ctx.lineWidth = 3;
     ctx.setLineDash([22,20]);
     const dashOffset = (g.distance*4) % 42;
@@ -5440,7 +6194,7 @@ function openRaceGame(difficulty, lives){
     }
     // player (blink while invulnerable)
     if(!(g.invuln > 0 && g.frame % 8 < 4)){
-      drawCar(laneX(g.lane), playerY, "#d6451a", true);
+      drawCar(laneX(g.lane), playerY, playerHex, true);
     }
 
     // HUD
@@ -5525,11 +6279,13 @@ document.addEventListener("keydown", e=>{
         if(state.current < state.questions.length-1){
           state.current++;
           state._chosen=null; state._hintShown=false; state._firstStepShown=false;
+          state._confidence=null;
+          state._questionStartedAt = Date.now();
           renderQuiz();
         } else {
           finishQuiz(false);
         }
-      } else if(state._chosen!=null){
+      } else if(state._chosen!=null && !(store.settings.askConfidence && !state._confidence)){
         submitAnswer();
       }
     }

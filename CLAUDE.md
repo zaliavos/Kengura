@@ -216,6 +216,56 @@ Gamification layer, all in `kengura.html` (no new files, no build step):
 - New store keys (`stars`, `games`, `achievements`) all have migration
   defaults in `loadStore`, so old saves load clean.
 
+## Course layer: plan / drills / adaptive mastery (2026-08-23)
+
+Teaching-standpoint build-out turning the toolbox into an adaptable
+course. All in `kengura.html`:
+
+- **Treniruočių planas** (`state.view = "plan"`, `openPlan`). Contest
+  date in `store.plan.contestDate` (date input, countdown pill), last-3
+  contest score trajectory, and a daily ~20-min session: warm-up (2 easy
+  gens) → core → cool-down (recognition drill). Core priority in
+  `planStepsForToday`: due backlog ≥ 4 > `needsSpeedWork()` sprint >
+  next new mechanic > mixed set. Step completion tracked in
+  `store.planDone[day]` via `state._planStep` + `markPlanStepDone()`
+  (hooked into finishQuiz / finalizePlaylist / renderRecogResult;
+  `renderHome` clears `_planStep` so abandoning a step doesn't mark it).
+- **Learning track** `MECHANIC_ORDER` — hand-authored prerequisite order
+  over the 30 mechanics (counting-ways before arrangement, invariant
+  before state-game…). `nextMechanicToLearn()` picks the first
+  unmastered one with archive content.
+- **Recognition drill** (`state.view = "recog"`, `openRecogDrill`).
+  "Kokia gudrybė?" — 10 archive 4/5-pt questions, kid picks the
+  *mechanic* (4 options), no solving. Trains the real 5-pt bottleneck.
+  Stats in `store.recogStats`; counts as activity (stars/streak) but
+  does NOT touch mechStats or seenQ.
+- **Mixed sets** (`openMixedSet`, playlistMech `"__mixed__"`).
+  Interleaved 6-question set from recently practiced mechanics
+  (`store.mechRecent` keys), mechanic pill hidden until submit
+  (`hideMech` opt in `renderPlaylistQuestion`). ≤ 2 per mechanic.
+- **Adaptive mastery loop.** Mastery now needs ALL correct (3/3; 2/3
+  survives 5-option guessing ~10 %). Fail with a lower band available →
+  "Pabandyti X t. lygiu" (openPlaylist forcedBand); pass below 5 with a
+  5-pt pool → "Kilti į 5 t.". Stale mastery (> 60 d) opens a light
+  2-question retest instead of the full playlist — pass refreshes the
+  timestamp, fail clears mastery and offers the full playlist.
+  `pickPlaylistContent` prefers questions unseen in 14 d
+  (`store.seenQ`, marked in recordArchiveAnswer + finishContest).
+- **Signals used for routing.** `store.mechRecent[mech]` = last ≤ 10
+  attempts; `weakestMechanics` uses the windowed rate when ≥ 4 samples.
+  Confident-wrong ("Tikrai žinau" + wrong) flags the dueQueue item
+  (`confWrong`), sorts first in `dueNow()`, gets a special callout in
+  the archive card and a parent-view stat. `needsSpeedWork()` (3-pt avg
+  > 75 s over last 3 sessions) routes to the **sprint** (`startSprint`:
+  10 × 3-pt gens, 10-min timer, verdict banner on results).
+- **Motivation.** Mission card now offers a primary + "arba:" alternative
+  (choice > assignment). Star shop (`SHOP_COLORS`, night track 100⭐,
+  extra race life 20⭐) — `store.stars.spent`, `starsAvailable()`,
+  `store.shop`; cosmetics apply in `openRaceGame`. Correct answers name
+  the skill ("Pastebėjai gudrybę: X"). Contest card gained a strategy
+  explainer (3-pt first, skip-vs-guess under −25 %) and a score
+  trajectory pill. Two new badges: recog20, plan5.
+
 ## Option cleanup + word respacing (2026-05-06, fourth pass)
 
 PDF extraction left two stubborn artifacts the user flagged:
@@ -293,6 +343,12 @@ in `store.contests` (last 30 retained).
 - `_extract_solutions.py` — answer key + solution-paragraph extractor.
 - `_build_archive.py` — end-to-end build pipeline.
 - `_refigure.py` — figure-only re-extraction (added 2026-05-06).
+- `_smoke_test.cjs` — Node smoke test (`node _smoke_test.cjs`): runs the
+  inline app script with a stubbed DOM and checks every generator across
+  80 seeds (unique options, valid correctIndex, no undefined/NaN leaks),
+  archive shape + `aiBuildOpts`, band-honest practice routing, quiz-count
+  fill, and bans algebra/factorial/mod notation in kid-facing hint copy.
+  **Run it after every change to kengura.html.**
 - `figures/` — per-question PNGs.
 - `*.pdf` — source materials. `200xLT.pdf` and `TMK0x_lietuviu.pdf` are
   test booklets; `200xspB.pdf` and `200xkengura.pdf` are solution
