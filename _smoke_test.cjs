@@ -161,6 +161,10 @@ for(const t of ARCHIVE){
       q.options && typeof q.options === "object" && !Array.isArray(q.options));
     check(`${t.year}-q${q.num} correct valid`,
       q.correct == null || "ABCDE".includes(q.correct), String(q.correct));
+    const debris = Object.entries(q.options || {}).filter(([k, v]) => v && /^\s*\d*\s*(\(?[A-E]\)\s*)+$/.test(v));
+    check(`${t.year}-q${q.num} no option-letter debris`, !debris.length, JSON.stringify(debris));
+    const empty = "ABCDE".split("").filter(k => !((q.options || {})[k] || "").trim()).length;
+    check(`${t.year}-q${q.num} option flags match`, !!q.imageOnlyOptions === (empty === 5) && !!q.hasMissingOptionText === (empty > 0 && empty < 5));
     try {
       const o = aiBuildOpts(t.year, q, "hint", {tier: 1});
       check(`${t.year}-q${q.num} aiBuildOpts options`,

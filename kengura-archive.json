@@ -292,8 +292,8 @@
      ],
      "figure": "figures/2000-q15.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "correct": null
+     "correct": null,
+     "imageOnlyOptions": true
     },
     {
      "num": 16,
@@ -3666,8 +3666,8 @@
      ],
      "mechanic": "clock",
      "figure": "figures/2006-q5.png",
-     "imageOnlyOptions": true,
-     "correct": "E"
+     "correct": "E",
+     "imageOnlyOptions": true
     },
     {
      "num": 6,
@@ -3759,8 +3759,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2006-q10.png",
-     "imageOnlyOptions": true,
-     "correct": "C"
+     "correct": "C",
+     "imageOnlyOptions": true
     },
     {
      "num": 11,
@@ -3815,8 +3815,8 @@
      ],
      "mechanic": "iteration",
      "figure": "figures/2006-q13.png",
-     "hasMissingOptionText": true,
-     "correct": "E"
+     "correct": "E",
+     "hasMissingOptionText": true
     },
     {
      "num": 14,
@@ -3944,8 +3944,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2006-q20.png",
-     "imageOnlyOptions": true,
-     "correct": "E"
+     "correct": "E",
+     "imageOnlyOptions": true
     },
     {
      "num": 21,
@@ -3981,8 +3981,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2006-q22.png",
-     "hasMissingOptionText": true,
-     "correct": "D"
+     "correct": "D",
+     "hasMissingOptionText": true
     },
     {
      "num": 23,
@@ -4092,8 +4092,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2006-q28.png",
-     "imageOnlyOptions": true,
-     "correct": "E"
+     "correct": "E",
+     "imageOnlyOptions": true
     },
     {
      "num": 29,
@@ -4112,8 +4112,8 @@
      ],
      "mechanic": "cube-net",
      "figure": "figures/2006-q29.png",
-     "imageOnlyOptions": true,
-     "correct": "D"
+     "correct": "D",
+     "imageOnlyOptions": true
     },
     {
      "num": 30,
@@ -4133,8 +4133,8 @@
      ],
      "mechanic": "counting-ways",
      "figure": "figures/2006-q30.png",
-     "imageOnlyOptions": true,
-     "correct": "A"
+     "correct": "A",
+     "imageOnlyOptions": true
     }
    ]
   },
@@ -5206,11 +5206,11 @@
      "num": 24,
      "prompt": "Pavei kslėlyje schemiškai pavaizduotas miesto planas.",
      "options": {
-      "C": "G F E",
-      "A": "",
-      "B": "",
-      "D": "",
-      "E": ""
+      "A": "5 km",
+      "B": "8 km",
+      "C": "9 km",
+      "D": "12 km",
+      "E": "15 km"
      },
      "points": 3,
      "patterns": [
@@ -5219,8 +5219,7 @@
      "correct": "C",
      "solution": "9km ! Sužymėkime stačiakampių kraštines kaip 1 pavei kslėlyje. Tada1 maršrutoilgis 2 x+2 y+2 z=17, 2 maršruto ilgis 2 z+2 t +2 y = 12, 3 maršruto ilgis 2 z+2 t +2 x +2 y = 20. 4 maršruto ilgis 2 y +2 z, kurį randame sudėję pirmas dvi lygtis ir atėmę trečią: 2 y +2 z = 17+12−20 = 9. Teisingas atsakymas C. A z B 2 pav. 3 pav. 1 pav. x t z C x D H y y y x G z F E !! Galima apseiti ir be nežinomųjų. Pavaizduokime 2 pav. kartu abu maršrutus 1 ir 2, o 3 pav. –– maršrutus 3 ir4. Matome, kad 1 ir2 maršrutų ilgių suma lygi 3 ir4 maršrutųilgiųsumai. Todėl 4 maršruto ilgis lygus 17+12−20=9. Bičiulis (V ir VI klasės)",
      "figure": "figures/2008-q24.png",
-     "mechanic": "casework",
-     "hasMissingOptionText": true
+     "mechanic": "casework"
     },
     {
      "num": 25,
@@ -5972,7 +5971,7 @@
      "num": 2,
      "prompt": "Skaičius 4 dukartatsi spinditaip, kaipparodytapiešiny- je. Jeigu tai būtų skaičius 5, tai kąmatytume ten, kur dabar yra klaustukas?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -5986,7 +5985,7 @@
      "solution": "! Kai pereisime prie dešiniojo pavei kslėlio, tai skaitmens 5 „už pakalis“, kuris dabaryradešinėje, atsidurskairėje. Kairėje jisbus ir apvertus tą vaizdąžemyn. Tokie yra pavei kslėliai A ir C. Dabar panagrinėkime horizontaliąją atkarpą. Ji yra viršuje dešiniame pavei kslėlyje taip pat bus viršuje, o apvertus –– apačioje. Toks yra pavei kslėlis C. Teisingas atsakymas C.",
      "figure": "figures/2010-q2.png",
      "mechanic": "arith-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -6459,7 +6458,7 @@
      "num": 27,
      "prompt": "Apie medinę lentelę su į raižomis Andrius apsuko vielą(žr. pav.). Kaip atrodo kita lentelės pusė?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -6473,7 +6472,7 @@
      "solution": "? Kaip su fleruoja atsakymai, lentelė gali būti apversta (t. y. pasukta 180 ◦ kampu apie horizontailąją ◦ ašį, 1 pav.) arba neapversta (t. y. pasukta 180 kampu apie vertikaliąjąašį, 2 pav.). 1 pav. 2 pav. Pirmua tveju„kabliukai“atsiduriaapačioje, tai gireikiąisi žiūrėtįipavei kslėlius B, Cir D. Atsakymai C ir D atkrinta –– tarp kabliukų abiejose įr aižose turi būti viela. Antru atveju nagrinėjame A ir E (juose kabliukai viršuje). Atsakymas E vėl netinka dėl tos pačios prieža sties –– tarp kabliukų abiejosęiraižose turieitiviela. Netinka ir atsakymas A––sąlygo spavei kslėlyjeišdešinio jokabliuko viela neina priekinėje pusėje, taigi ji eina už pakalinėje pusėje. Lentelę apsukus tas kabliukas taps kairiuoju, o iš jo viela neina. Taigi liko vienintelis atsakymas. Renkamės atsakymą B. ! Pamėginkime įsitikinti, kad tikrai atsakymo B pavei kslėlis teisingas. Sąlygos pavei kslėlyje brūkši- nine linija pažymėkime, kaip v …",
      "figure": "figures/2010-q27.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 28,
@@ -6686,7 +6685,7 @@
      "num": 9,
      "prompt": "Pavei kslėlyje matome 4 dėlionės detales. Iš visų keturių tos dėlionės detalių be tarpų ir persidengimų galima sudėti įvairių figūrų. Kurios iš žemiau pavaizduotųfigūrųnegausime taip dėliodami?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -6700,7 +6699,7 @@
      "solution": "! Figūra A gali būti gauta taip: 1 4 (jungimus rodo punktyrinė linija) 3 2 Figūra B gali būti gauta taip: 2 3 4 1 Figūra C gali būti gauta taip: 2 3 1 4 Figūra D, atrodanti su dėtingiausiai, gaunama bene paprasčiausiai –– iš vedus 3 vertikalias linijas: 1 2 3 4 Kadangi pasakyta, jog vienos figūros negalima gauti, tai pagal „Kengūros“ tai sykles –– tetinka vienintelis atsakymas –– negalima gauti E. Dėl teorinio negalimumo gauti figūrą E tenka mėginti „samprotauti“. Jei figūros E viršus yra 3-oji dėlionės detalė, tai apačioj prie jos turi prisišlieti o tokia nesusideda –– ji turėtų prasidėti kaip 1-oji detalė ir tada prie jos jungtųsi tik 2-oji ir prie jos nebeprišliejama 4-oji dėlionės detalė Jei figūros E viršus yra „su dėtinis“, tai kadangi jis apvaliai prasideda ir apvaliai baigiasi, tai jis negali prasidėti 22 SPRENDIMAI nes tada, kadangi jis turi apvaliai baigtis, tai toliau būtųtik taip: …",
      "figure": "figures/2011-q9.png",
      "mechanic": "tiling",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 10,
@@ -7003,7 +7002,7 @@
      "num": 25,
      "prompt": "Kvadrate 5×5 Lina už tušavo 10 kvadratėlių(žr. pav. dešinėje). Ku- riąiš 5 žemiau pavaizduotųfigūrųji gali padėti neužtušuotoje srityje taip, kad jo kia iš likusių 4 figūrųnebetilptųįdarneužimtąneužtušuotą sritį?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -7018,7 +7017,7 @@
      "solution": "Žr. Kadeto 22 uždavinio sprendimą. Bičiulis (V ir VI klasės)",
      "figure": "figures/2011-q25.png",
      "mechanic": "area-decomp",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 26,
@@ -7208,7 +7207,7 @@
      "num": 6,
      "prompt": "Brėžinyje pavaizduota iš tai syklingųjųšešiakampiųsudarytafigūra. Jung- dami atkarpomis visų gretimų šešiakampių centrus gauname kitąfigūrą. Kokią?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -7223,7 +7222,7 @@
      "solution": "! Šešiakampius su numeruokime: 1 2 6 3 4 5 Jungiame gretimus šešiakampius 1 ir 2; 2 ir 3; 3 ir 4; 4 ir 5; 5 ir 6; 6 ir 1. Gauname trikampį Sujungę šešiakampius 2 ir 4; 4 ir 6 bei 6 ir 2, gauname figūrą Teisingas atsakymas C.",
      "figure": "figures/2012-q6.png",
      "mechanic": "multistep-money",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 7,
@@ -7625,7 +7624,7 @@
      "num": 27,
      "prompt": "Kiekvienas 4×4 kvadrato langelis nuspalvintas balta arba juoda spalva. Kiekvienos eilutės juodų langelių skaičiusužrašoma stose ilutėsdešinėje, o kiekvieno stulpelio––apačioje. Tada visi juodi langeliai nuspalvinami baltai. Kuri iš žemiau parodytųlentelių yra taip gauta?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -7642,7 +7641,7 @@
      "solution": "! Lentelės A spalvinimo būdu gauti negalima, nes viršutinės jos eilutės 4 reikštųvisus nuspalvintus jos langelius, tada jokiame stulpelyje negali būti nulių, o čia kairiausiame stulpelyje yra. Lentelėje B spalvinimo požiūriu iš viso „nesueina galai“, nes skaičiuojant pagal eilutes buvo nu- spalvinti 1+2+1+3=7, o pagal stulpelius 2+2+3+1=8 langeliai. Lentelė Cirginegera, nesantrojostulpelio 3 liudija, kad visuose langeliuose, išskyrus 1,yrakažkas nuspalvinta, todėl skaičiuojant eilutėmis, nulis galėtųbūti daugiausiai vienoje eilutėje, o yra dvie- jose. Lentelėje E2 nuliaiau kščiausioje eilutėje ir kairiajame stulpelyjereiškia, kad tenniekonėra, irmes galime pereiti į žemutinį dešinįjį 3×3 kvadratą. 3 3 1 3 1 3 O čia vėl ne tas –– trejetai dviejose viršutinėse eilutėse reiškia, kad jos abi iš tisai nuspalvintos, o tada viduriniame stulpelyje bus ne mažiau dviejųnu spalvintųlangelių, o ten parašytas 1. Bel …",
      "figure": "figures/2012-q27.png",
      "mechanic": "arith-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 28,
@@ -7936,7 +7935,7 @@
      "num": 13,
      "prompt": "Jonas iš kubelių sudėjo statinį. Pavei kslėlyje greta pavaizduotas statinio vaizdas iš viršaus. Ant kiekvieno viršutinio kubelio užrašytasis skaičius nurodo, kelių kubelių aukščio yra atitinkamas bokštas. Kokį vaizdą matys Jonas, žiūrėdamas į statinį?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -7953,7 +7952,7 @@
      "solution": "! Žiūrėdamas iš priekio, Jonas matys keturis bokštus. Kiekvienas bokštas 4 2 3 2 bus tokio aukščio, koks yra aukščiausias bokštas tame stulpelyje. Aukš- 3 3 1 2 čiausi stulpeliųbo kštai(trečiame ir ketvirtame stulpelyjetokių yra daugiau 2 1 3 1 nei vienas) pažymėti pavei kslėlyje. Iš kairės į dešinę jų aukščiai yra 4, 3, 3 ir 2, tad Jonas matys tokį vaizdą, koks pavaizduotas atsakyme E. 1 2 1 2 Jonas 16 SPRENDIMAI",
      "figure": "figures/2013-q13.png",
      "mechanic": "projection",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 14,
@@ -8626,8 +8625,8 @@
      ],
      "mechanic": "clock",
      "figure": "figures/2014-q14.png",
-     "imageOnlyOptions": true,
-     "correct": "B"
+     "correct": "B",
+     "imageOnlyOptions": true
     },
     {
      "num": 15,
@@ -8645,8 +8644,8 @@
      ],
      "mechanic": "geometry-misc",
      "figure": "figures/2014-q15.png",
-     "imageOnlyOptions": true,
-     "correct": "B"
+     "correct": "B",
+     "imageOnlyOptions": true
     },
     {
      "num": 16,
@@ -8919,8 +8918,8 @@
      ],
      "mechanic": "sequence-pattern",
      "figure": "figures/2014-q29.png",
-     "hasMissingOptionText": true,
-     "correct": "C"
+     "correct": "C",
+     "hasMissingOptionText": true
     },
     {
      "num": 30,
@@ -8956,7 +8955,7 @@
      "num": 1,
      "prompt": "Kurios figūros už tušuota lygiai pusė ploto?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -8969,8 +8968,8 @@
      ],
      "mechanic": "area-decomp",
      "figure": "figures/2015-q1.png",
-     "hasMissingOptionText": true,
-     "correct": "B"
+     "correct": "B",
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
@@ -8988,8 +8987,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2015-q2.png",
-     "hasMissingOptionText": true,
-     "correct": "C"
+     "correct": "C",
+     "hasMissingOptionText": true
     },
     {
      "num": 3,
@@ -9201,7 +9200,7 @@
      "num": 14,
      "prompt": "Kuri iˇšsių penkių išklotinių negali būti piramidės išklotinė?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -9213,8 +9212,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2015-q14.png",
-     "hasMissingOptionText": true,
-     "correct": "C"
+     "correct": "C",
+     "imageOnlyOptions": true
     },
     {
      "num": 15,
@@ -9798,7 +9797,7 @@
      "num": 16,
      "prompt": "Dovilė priešai sveidrodįšukuojasi plaukus. Veidrodyjejipamatolai krodžio atspindį (žr. pav.). Ką ji būtų pamačiusi, jeįi laikrodžio atspindį veidrodyje būtų pažiūrėjusi prieš 10 minučių?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -9812,8 +9811,8 @@
      ],
      "mechanic": "clock",
      "figure": "figures/2016-q16.png",
-     "hasMissingOptionText": true,
-     "correct": "E"
+     "correct": "E",
+     "imageOnlyOptions": true
     },
     {
      "num": 17,
@@ -9849,8 +9848,8 @@
      ],
      "mechanic": "digit-puzzle",
      "figure": "figures/2016-q18.png",
-     "imageOnlyOptions": true,
-     "correct": "D"
+     "correct": "D",
+     "imageOnlyOptions": true
     },
     {
      "num": 19,
@@ -9913,8 +9912,8 @@
       "E": "Su simaišė kelias galimas metų reikšmes."
      },
      "figure": "figures/2016-q21.png",
-     "hasMissingOptionText": true,
-     "correct": "D"
+     "correct": "D",
+     "hasMissingOptionText": true
     },
     {
      "num": 22,
@@ -10017,8 +10016,8 @@
      ],
      "mechanic": "cube-color",
      "figure": "figures/2016-q26.png",
-     "imageOnlyOptions": true,
-     "correct": "D"
+     "correct": "D",
+     "imageOnlyOptions": true
     },
     {
      "num": 27,
@@ -10143,11 +10142,11 @@
     },
     {
      "num": 3,
-     "prompt": "Vėjūnė turi keturias tokios formos gūrėles: . Kurios gūros ji negali sudėti iš tų 4 gūr 2 ėli 0 ų? 7 1 2 0 7 1 1 1",
+     "prompt": "Vėjūnė turi keturias tokios formos figūrėles (žr. paveikslėlį). Kurios figūros ji negali sudėti iš tų 4 figūrėlių?",
      "options": {
-      "C": "1D) E)",
       "A": "",
       "B": "",
+      "C": "",
       "D": "",
       "E": ""
      },
@@ -10157,8 +10156,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q3.png",
-     "hasMissingOptionText": true,
-     "correct": "E"
+     "correct": "E",
+     "imageOnlyOptions": true
     },
     {
      "num": 4,
@@ -10200,7 +10199,7 @@
      "num": 6,
      "prompt": "Jonė, Katrė ir Lina išėjo pasivaikščioti. Jonė eina pirma, Katrė eina viduryje, o Lina eina paskutinė. Jonė sveria 500 kg daugiau negu Katrė. Katrė sveria 1000 kg mažiau negu Lina. Kuris iš žemiau parodytų pavei kslėlių vaizduoja Jonę, Katrę ir Liną teisinga tvarka?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -10212,8 +10211,8 @@
      ],
      "mechanic": "weighing",
      "figure": "figures/2017-q6.png",
-     "hasMissingOptionText": true,
-     "correct": "A"
+     "correct": "A",
+     "imageOnlyOptions": true
     },
     {
      "num": 7,
@@ -10276,7 +10275,7 @@
      "num": 10,
      "prompt": "Matas keletą kartų perlenkė po pieriaus lapą ir jį pradūrė. Pavei kslėlyje šalia parodytas atlankstytas po pieriaus lapas. Kuriame iš žemiau pateiktų pavei kslėlių pavaizduotos linijos, per kurias Matas lenkė lapą?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -10288,8 +10287,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2017-q10.png",
-     "hasMissingOptionText": true,
-     "correct": "D"
+     "correct": "D",
+     "imageOnlyOptions": true
     },
     {
      "num": 11,
@@ -10410,7 +10409,7 @@
      "num": 17,
      "prompt": "Kairiajame pavei kslėlio trikampyje pavaizduota kengūra. Punktyrinė slinijo sveikiakaip veidro džiai. Pirmi du atspindžiai jau pavaizduoti. Kaip atrodo pilkajame trikampyje esantis atspindys?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -10424,8 +10423,8 @@
      ],
      "mechanic": "symmetry",
      "figure": "figures/2017-q17.png",
-     "hasMissingOptionText": true,
-     "correct": "E"
+     "correct": "E",
+     "imageOnlyOptions": true
     },
     {
      "num": 18,
@@ -10486,7 +10485,7 @@
      "num": 21,
      "prompt": "Strypelis suklijuotas iš 2 pilkuįr 1 balto kubelio(žr. pav.). Iš9 to kiųstrypelių buvo pas ta tytas kubas. Kuris?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -10505,8 +10504,8 @@
       "E": "Pas ir inkai be 27 kubelių paskaičiavimo."
      },
      "figure": "figures/2017-q21.png",
-     "hasMissingOptionText": true,
-     "correct": "A"
+     "correct": "A",
+     "imageOnlyOptions": true
     },
     {
      "num": 22,
@@ -10918,7 +10917,7 @@
      "num": 12,
      "prompt": "Devynios mašinos atvažiuoja prie sankryžos ir toliau važiuoja rodyklių nurodytomis kryptimis (žr. pav. dešinėje). Kuriame iš žemiau esančių pavei kslėlių pa- vaizduotos sankryžą pravažiavusios mašinos?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -10932,7 +10931,7 @@
      "solution": "A ! Visoms mašinoms pravažiavus sankryžą į viršutinį- B C D jį pavei kslėlio kelią pasuks mašina D, į dešinįjį kelią atvažiuos mašinos A, E, F ir H, į apatinį kelią atva- žiuosmašinos B, Cir G, o į kairįjį kelią pa su ksmašina E F G H I. Peržiūrėję visus atsakymų variantus, matome, kad teisingas atsakymas B. I",
      "figure": "figures/2018-q12.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 13,
@@ -11040,7 +11039,7 @@
      "num": 18,
      "prompt": "Kubo sienos yra nuspalvintos juodai, baltai arba pilkai. Priešingos kubo sienos nuspalvintos skirtingomis spalvomis. Kuri iš žemiau pavaizduotų išklotinių tikrai nėra to kubo išklotinė?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -11055,7 +11054,7 @@
      "solution": "! Kad rastume šio uždavinio teisingą atsakymą, visų pirma turime gerai su- C vokti, kaip išklotinės „susilanksto“ į kubą ir kurios kubo sienos atsiduria A B A B viena priešais kitą. Visos penkios atsakymuose pateiktos išklotinės suside- da iš trijų kvadratų eilių: viršutinės, vidurinės ir apatinės eilės. Galime C į sivaizduoti, kad vidurinės eilės kvadratai lankstant kubą sudarytų tartum keturkampį žiedą (tvorą), vienas apatinės eilės kvadratas sudarytų kubo „dugną“, o vienas viršutinės eilės kvadratas sudarytų kubo „stogą“. Šie stogas ir dugnas (pažymėti raidėmis C, žr. į pav. šone) būtų viena kitai priešingos kubo sienos. Vidurinė sienų eilė taip pat sudaryta iš dviejų priešingų sienų porų (šios poros pažymėtos raidėmis A ir B). Lieka patikrinti, kuriame atsakymo variante yra dvi priešingos sienos, nuspalvintos ta pačia spalva. Pastebime, kad išklotinė E turi baltai nuspalvintus dugną i …",
      "figure": "figures/2018-q18.png",
      "mechanic": "cube-net",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 19,
@@ -11392,7 +11391,7 @@
      "num": 2,
      "prompt": "Majai už rašydavo skaičius brūkšniais ir ta škais. Taškas reiškia 1, o brūkšnys reiškia 5. Dešinėje užrašytas skaičius 13. Kaip majai už rašydavo skaičių 17?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -11406,13 +11405,13 @@
      "solution": "! Pastebėkime, kad 17 = 15 + 2 = 5 · 3 + 2, taigi skaičių 17 už rašysime panaudodami tris brūkšnius ir du taškus. Toks yra atsakymas C. Pastaba. Galbūt skaitytojui su kirbėjo abejonė, ar to paties skaičiaus neįmanoma užrašyti dviem skirtingais būdais? Ta rkime, skaičių 6 galime užrašyti su 1 brūkšniu ir 1 tašku (būtent toks yra atsakymas A), bet gal galima parašyti tiesiog 6 taškus? Kad taip nebūtų, geriausia su sitarti, kad už rašant skaičių majų būdu galima panaudoti ne daugiau kaip keturis taškus (išties, visi uždavinio atsakymai iš tiesų turi ne daugiau kaip keturis taškus). Tada kiekvienas natūralusis skaičius turės lygiai vieną iš raišką majų sistemoje: dalydami skaičių iš 5 su liekana dalmenį gausime brūkšnių skaičių, o dalijant gauta liekana bus taškų skaičius.",
      "figure": "figures/2019-q2.png",
      "mechanic": "arith-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
      "prompt": "Skaitmeninis laikrodis rodo laiką . Kuris iš žemiau už rašytų laikų pasirodys laikrodžio ekrane anksčiausiai po ?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -11426,13 +11425,13 @@
      "solution": "! Peržiūrėję atsakymo variantus pastebime, kad laikus A, B, D ir E laikrodis rodys jau kitą dieną, t. y. po vidurnakčio, o laiką C rodys dar tą pačią dieną. Vadinasi, būtent šis laikas pasirodys anksčiausiai. Renkamės atsakymą C.",
      "figure": "figures/2019-q3.png",
      "mechanic": "clock",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 4,
      "prompt": "Katrė pradėjo piešti katę (žr. pav. dešinėje). Kuris iš žemiau esančių pavei kslėlių gali būti jos pabaigtas piešinys?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -11446,13 +11445,13 @@
      "solution": "! Matome, kad iš visų variantų tik atsakymai C ir D turi tokias katės ausis kaip Katrės piešinyje – juodas, su mažu baltu „trikampėliu“ apačioje. Šie du atsakymai tarp usavy skiriasi nosies forma. Katrės piešinyje nosies forma tokia, kaip atsakymo C. Jį ir renkamės.",
      "figure": "figures/2019-q4.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 5,
      "prompt": "Standartinio žaidimo kauliuko bet kurių priešingų sienelių akučių suma yra lygi 7. Tik vienas iš žemiau pavaizduotų kauliukų yra standartinis. Kuris?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -11466,7 +11465,7 @@
      "solution": "! Panagrinėkime atsakyme A pavaizduotą kauliuką. Viršutinėje sienelėje nupieštos 2 akutės. Jei šis kauliukas būtų standartinis, tai priešingoje, apatinėje, sienelėje turėtų būti 5 akutės, kad jų abiejų suma būtų lygi 7. Tačiau taip būti negali, nes 5 akutės jau nupieštos ne apatinėje, o pavei ksliuko priekyje pavaizduotoje sienelėje. Vadinasi, tai ne standartinis kauliukas. Šį pastebėjimą galime ir apibendrinti: standartinio kauliuko gretimų (t. y. nepriešingų) sienelių akučių suma negali būti lygi 7. Panašiai samprotaujame žiūrėdami į atsakymus B, C ir D: jų visų priekyje ir viršuje pavaizduotų sienelių akučių suma yra lygi 7, taigi jie nėra standartiniai. O štai atsakyme E jokių dviejų matomų sienelių akučių suma nėra lygi 7. Taigi jei apačioje esantisi enelėturivienąakutę, už pakalinėsienelė–5 akutes, o kairiajame šone esanti ne matoma sienelė – 3 akutes, tai šis kauliukas ir bus standartinis. Ka …",
      "figure": "figures/2019-q5.png",
      "mechanic": "cube-color",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 6,
@@ -11551,7 +11550,7 @@
      "num": 10,
      "prompt": "Mantė dažo figūrėles, suklijuotas iš vienodų kubelių. Kuriai figūrėlei reikės daugiausiai dažų?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -11566,7 +11565,7 @@
      "solution": "? Galime spėti, kad daugiausia dažų reikės toms figūrėlėms, kurios suklijuotos iš didžiausio skaičiau skubelių, t. y. iš6 kubeliųsu klijuotoms figūrėlėms Air C. Lygindamišiasdvifigūrėles vieną su kita pastebime, kad figūrėlėje C iš dešinės priklijuoti du kubeliai yra greta vienas kito, o figūrėlėje A – atskirai. Dažant šiuos du kubelius figūrėlėje C reikės mažiau dažų nei figūrėlėje A, nes nereikės dažyti šių kubelių sienų, kurios yra suklijuotos viena su kita. Renkamės atsakymą A. 12 UŽDUOČIŲ SPRENDIMAI ! Dalies ? mintį galime panaudoti ir spręsdami uždavinį nuo sekliai. Kiekvienas kubelis turi 6 sienas, todėl galime suskaičiuoti, kiek kiekvienos figūrėlės kubeliai iš viso turi sienų, o tada atimti skaičių tų sienų, kurios figūrėlėje yra suklijuotos tarp usavyje (kiekvienas suklijavimas su taupo dvi sienas, kurių nebereikia dažyti). A) Figūrėlė sudaryta iš 6 kubelių ir yra suklijuota 5 vietose, to …",
      "figure": "figures/2019-q10.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 11,
@@ -11631,7 +11630,7 @@
      "num": 14,
      "prompt": "Penki lygūs kvadratai yra padalinti į mažesnius kvadratėlius. Kurio kvadrato juodai užspal- vintos dalies plotas didžiausias?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -11645,7 +11644,7 @@
      "solution": "? Lengva pastebėti, kad atsakymuose A, C ir E nuspalvinta lygiai pusė ploto, o atsakymuose B ir D – truputį daugiau nei pusė. Abiejuose šiuose atsakymuose juodų kvadratėlių yra vienu daugiau nei baltų, tik B atsakyme tas vienas juodas kvadratėlis yra didesnis nei D. Todėl renkamės atsakymą B. ! Galime palyginti atsakymus B ir D skaičiais. B atsakyme nuspalvinta 5 ploto, o D – 13 ploto. 9 25 Su be ndravardi klinę šias trupmenas, gauname 5·25 125 13·9 117 = ir = . 9·25 225 25·9 225 Kadangi 125 > 117, tai atsakymo B juodosios dalies plotas didesnis. 225 225 Teisingas atsakymas – B.",
      "figure": "figures/2019-q14.png",
      "mechanic": "area-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 15,
@@ -11846,7 +11845,7 @@
      "num": 24,
      "prompt": "Žemiau pavaizduotos kubų išklotinės. Iš jų sulanksčius kubus, tik ant vieno iš jų storosios linijos pradžia ir galas su sijungs. Kuri tai išklotinė?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -11866,7 +11865,7 @@
       "B": "Pas ir inkai be linijos sekos.",
       "E": "Pas ir inkai dėl išklotinės formos."
      },
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 25,
@@ -12038,7 +12037,7 @@
      "num": 1,
      "prompt": "Kvadratas dešinėje sudarytas iš baltų ir pilkų kvadratukų. Kaip atrodys šis kvadratas, jei baltus kvadratukus pakeisime pilkais, o pilkus – baltais?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -12052,13 +12051,13 @@
      "solution": "! Pažvelkime į kvadrato apatinę eilutę: joje iš kairės į dešinę kvadratukai išsidėstę taip: pilkas, pilkas, baltas, baltas. Pakeitus kvadratukų spalvas, gausime tokią eilę: baltas, baltas, pil- kas, pilkas. Iš penkių atsakymų toks yra tik atsakymas D. Be lieka patikrinti, kad kitos trys kvadratukų eilutės irgi „apsikeičia“ spalvomis taip, kaip prašo sąlygoje. Būtent taip ir yra (į sitikinkite!). Teisingas atsakymas – D. Agala 6 km Bėgala 7 km",
      "figure": "figures/2020-q1.png",
      "mechanic": "geometry-misc",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
      "prompt": "Keliaudama keliu iš Agalos į Bėgalą, Vaiva praeina penkis kelio ženklus, pavaizduotus žemiau. Lygiai vienas iš jų klaidingas. Kuris? Agala 2 km Agala 3 km Agala 5 km Agala 6 km Agala 9 km Bėgala 9 km Bėgala 8 km Bėgala 6 km Bėgala 7 km Bėgala 2 km",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -12072,16 +12071,16 @@
      "solution": "! Jei 1 kelio ženklas nurodo teisingus skaičius, tai sudėję šiuos du skaičius kartu turime gauti bendrą viso kelio iš Agalos į Bėgalą ilgį, o be ndras kelio ilgis iš lieka toks pats, kad ir kuriame kelio taške be būtume. Ant kelio ženklų nurodytų skaičių sumos (iš eilės) yra tokios: 11 km, 11 km, 11 km, 13 km ir 11 km. Taigi sutampa keturių ženklų skaičių sumos, o kelio ženklo D skaičių suma skiriasi. Renkamės atsakymą D.",
      "figure": "figures/2020-q2.png",
      "mechanic": "arith-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
      "prompt": "Apačioje pavaizduoti penki permatomo po pieriaus lapeliai. Flora vieną iš jų sulankstė, lenkdamaperpunktyrine slinijas, ir iš vydovaizdą, parodytądešinėje. Kurįlapelįsulankstė Flora? 1",
      "options": {
-      "A": "B)1 1",
-      "C": "1 1",
-      "D": "1 E)",
+      "A": "",
       "B": "",
+      "C": "",
+      "D": "",
       "E": ""
      },
      "points": 3,
@@ -12092,7 +12091,7 @@
      "solution": "! Lapeliuose matome po trisfigūras, kuriųforma–raidė Firįvairūsšio sraidėsatspindžiai. Florai sulanksčius lapelį nė viena iš trijų figūrų „neišsikiša“ iš raidės F, o kadangi visos figūros yra vienodo dydžio, tai reiškia, kad sulanksčius lapelį figūros visiškai sutampa. Taip gali atsitikti tik tada, kai prie tos pačios linijos esančios figūros yra viena kitos veidrodiniai atspindžiai (kitaip ta riant, jos yra simetriškos linijos atžvilgiu). Peržiūrėję atsakymus matome, kad lapelių dvi viršutinės figūros yra viena kitos atspindžiai variantuose D ir E, bet iš jų tik lapelyje E apatinė figūra „atspindi“ viršutinę dešinę raidę F. Taigi teisingas atsakymas – E.",
      "figure": "figures/2020-q3.png",
      "mechanic": "arith-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 4,
@@ -12294,7 +12293,7 @@
      "num": 14,
      "prompt": "Adomas turėjo 10 baltų, 9 pilkus ir 8 juodus vienodo dydžio kubelius. Jis suklijavo visus kubelius į vieną didelį kubą. Kuris iš žemiau pavaizduotų kubų gali būti Adomo su klijuotasis?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -12308,7 +12307,7 @@
      "solution": "? Tikrinkime iš eilės. Atsakyme A matome 10 pilkų ir 9 juodus kubelius, o Adomas neturi tiek nei pilkų, nei juodų kubelių. Atsakyme B matome 10 baltų ir 9 pilkus kubelius. Tiek Adomas turi, todėl renkamės atsakymą B. ! Patikrinkime likusius atsakymus. Atsakyme C matome net 11 baltų kubelių, taigi čia ne Adomo kubas. Atsakyme D matome 9 juodus kubelius, irgi per daug. Atsakyme E, kaip ir atsakyme A, yra 10 pilki kubeliai, taigi čia irgi ne Adomo kubas. Vadinasi, teisingas gali būti tik atsakymas B.",
      "figure": "figures/2020-q14.png",
      "mechanic": "arith-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 15,
@@ -12333,7 +12332,7 @@
      "num": 16,
      "prompt": "Kuriame iš penkių pavei kslėlių stora linija pažymėtas kelias yra trumpiausias?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -12347,13 +12346,13 @@
      "solution": "? Peržvelgę atsakymus matome, kad kelias C turi tik vieną didžiojo apskritimo ketvirtį, o kiti keliai – po du ketvirčius, tai spėjame, kad kelias C – trumpiausias. ! Keliai A ir B būtų visiški vienas kito vertikalūs atspindžiai (t. y. simetriški vertikalios ašies atžvilgiu), jei ne kelio A papildomas vidinio apskritimo ketvirtinis lankas. Vadinasi, kelias A ilgesnis už kelią B. Keliai Air Dyraviena skitoatspindžiai, tai gijųilgiai vienodi ir didesni už B. Keliai C ir E viršuje prasideda taip pat, tačiau vė- liau E turi papildomą iš o rinio apskritimo lanko ketvirtį, o to limesnės šių kelių dalys (pažymėtos raudonai, žr. pav.) yra simetriškos. Taigi, kelias C trumpesnis už kelią E. Taigi, trumpiausias gali būti tik kelias B arba C. Geriau į sižiūrėję pastebime, kad visą pavei kslėlį C pasukus stačiu kampu pagal laikrodžio rodyklę, gautume kelią B be jo pirmosios atkarpos (iš o rinio apskritimo ketvir …",
      "figure": "figures/2020-q16.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 17,
      "prompt": "Kurios iš žemiau pavaizduotų figūrų neįmanoma gauti sujungus du vienodus vielos gabalus ?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -12367,13 +12366,13 @@
      "solution": "? Pamėginę pas ukioti vielos gabalus, su dėliojame atsakymuose pavaizduotas figūras A, C ir D. Apvertus vieną vielos gabalą pavyksta sudėti ir figūrą B (apversta viela pavaizduota raudona spalva): Kadangi pagal Kengūros konkurso tai sykles teisingas yra vienas atsakymas, renkamės atsakymą E. ! Išties, jei figūrą E būtų galima sudėlioti iš tokių vielos gabalų, tai iš kairės dėtume pasuktą ir apverstą vielos gabalą taip, kaip figūroje B (raudonai pažymėta viela). Tačiau likusi figūros dalis mūsų turimų vielos gabalų neatitinka, nes kad ir kaip vartytume ir su kiotume vielos gabalą, jis vis tiek turės vieną tiesią atkarpą, daugmaž dvigubai ilgesnę už kitas, o figūros E dešinioji dalis tokios dvigubo ilgio atkarpos neturi. Teisingas atsakymas – E.",
      "figure": "figures/2020-q17.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 18,
      "prompt": "Ona priklijavo po lipduką ant šešių kubo sienų: , , , , , . Du pavei kslėliai dešinėje rodo šį kubą dviejose skirtingose padėtyse. Kuris lipdukas už klijuotas ant sienos, priešingos sienai su pele?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -12388,7 +12387,7 @@
      "solution": "! Teisingą atsakymą padeda rasti siena su boruže. Iš pirmojo pavei kslėlio matome, kad pelei priešinga siena yra ta, į kurią „žiūri“ boružė. Iš antrojo pavei kslėlio matome, kad boružė „žiūri“ į šunį. Renkamės atsakymą C.",
      "figure": "figures/2020-q18.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 19,
@@ -12517,7 +12516,7 @@
      "num": 24,
      "prompt": "Pavei kslėlyje parodytos trejos pusiau sviros svarstyklės. ? Kuris iš žemiau nurodytų rinkinių tikrai tinka klaustuko vietoje?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -12537,7 +12536,7 @@
       "B": "Sumaišei vieno svėrimo lygtį.",
       "E": "Pas ir inkai atsiti ktinai."
      },
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 25,
@@ -12744,7 +12743,7 @@
      "num": 3,
      "prompt": "Kvadrate į rašyti skaitmenys nuo 1 iki 9 (žr. 1 pav.). Pradedant nuo žvaigždės, paeiliui iš rašomi visi skaitmenys, kuriuos kerta linija, ir gaunamas skaičius. Pavyzdžiui, 2 pav. pavaizduota linija reiškia skaičių 42685. Kuri iš žemiau esančių linijų reiškia didžiausią skaičių?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -12759,7 +12758,7 @@
      "solution": "! Visos linijos jungia po 5 skaitmenis, tad didžiausio skaičiaus ieškokime tarp tų, kurių pirmas skaitmuo didžiausias. Tokie yra atsakymai B ir E – jų pirmasis skaitmuo 9 sutampa, sutampa ir ant rasis skaitmuo – 8, o skiriasi trečiasis skaitmuo: atsakyme E tai 6, o atsakyme B – 5. Renkamės atsakymą E. !! Iš rašykime visus atsakyme pavaizduotus skaičius: A) – 15786, B) – 98542, C) – 26847, D) – 65742, E) – 98651. Visi skaičiai penkiaženkliai, didžiausias iš jų yra 98651 – atsakymas E. 12",
      "figure": "figures/2021-q3.png",
      "mechanic": "digit-properties",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 4,
@@ -13029,7 +13028,7 @@
      "num": 17,
      "prompt": "Saulius turėjo keturias baltas kaladėles, o Audrius – keturias pilkas. Pakaitomis dėdami po vieną savo kaladėlę, jie sustatė du bokštelius. Pirmasis kaladėlę padėjo Saulius. Kurios iš žemiau pavaizduotų bokštelių porų jiedu negalėjo pastatyti?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -13043,7 +13042,7 @@
      "solution": "? Jei pirmasis kaladėlę padėjo Saulius, tai paskutinis kaladėlę padėjo Audrius. Vadinasi, bent vieno iš dviejų bokštų viršutinė kaladėlė turi būti pilka. Tačiau atsakyme E abi viršutinės kaladėlės yra baltos, taigi šios bokštelių poros jiedu tikrai negalėjo pastatyti. Renkamės atsa- kymą E. ! Nors Kengūros konkurse teisingas gali būti tik vienas atsakymas, į sitikinkime, kad bokštelių poras A–D Saulius su Audriumi pastatyti galėjo. Pavei kslėliuose žemiau nurodyta po vieną būdą, kaip jie tai galėjo padaryti – kaladėlės sunumeruotos jų dėjimo tvarka: 8 7 8 7 7 8 7 8 4 6 4 6 6 5 5 6 2 5 3 5 4 3 4 3 A 1 3 B 1 2 C 1 2 D 1 2 Taigi atsakymas E vienintelis tenkina uždavinio sąlygą. 32879854 4 9 0 6",
      "figure": "figures/2021-q17.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 18,
@@ -13405,7 +13404,7 @@
      "num": 2,
      "prompt": "Šeši taškai sunumeruoti kaip parodyta pavei kslėlyje dešinėje. Kristina nupiešė du trikampius: vieną – su jungdama tris taškus su lyginiais numeriais, antrą – sujung- dama tris taškus su nelyginiais numeriais. Kuris iš atsakymų teisingai atvaizduoja Kristinos nupieštus trikampius?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -13420,7 +13419,7 @@
      "solution": "! Prisiminkime, jog lyginiais vadinami tie skaičiai, kurie dalijasi iš 2, o nelyginiais – tie, kurie nesidalija iš 2. Pavei kslėlyje lyginiai skaičiai yra 2, 4 ir 6, o nelyginiai yra 1, 3 ir 5. Sujungę taš- kus su lyginiais numeriais, o po to – su nelyginiais numeriais, matome, jog teisingas atsakymas yra E.",
      "figure": "figures/2022-q2.png",
      "mechanic": "geometry-misc",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -13584,7 +13583,7 @@
      "num": 11,
      "prompt": "Penki drambliai ir keturi drambliukaiėjokeliu, kaip pavaizduota. Kiekvienas iš jų, pasiekęs kelio išsiša- kojimą, pasuko kairėn arba dešinėn. Kuri iš žemiau pavaizduotų dramblių rikiuočių neįmanoma? 1",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -13598,7 +13597,7 @@
      "solution": "? Matome, jog pradinėje rikiuotėje paskutinis stovi drambliukas. Vadinasi, kai visi „keleiviai“ pas iskirstys kelio atšakomis, bent vienoje atšakoje paskutinis irgi bus drambliukas. Taigi ri- kiuotė C neįmanoma, nes čia abiejose atšakose paskutiniai yra drambliai. Kadangi Kengūros konkurse teisingas tik vienas atsakymas, tai renkamės C. ! Jeigu nežinotume, kad teisingas tik vienas atsakymas, tai dar reikėtų į sitikinti, jog rikiuotės A, B, D ir E iš tikro yra į manomos. Tam užtenka kiekvienai iš šių rikiuočių nurodyti bent po vieną būdą, kaip ją pasiekti. Būdus patogu nurodyti štai taip: pradinėj rikiuotėj vietoj pas ukusiųdešinėnrašykime D, o vietojpasukusiųkairėnrašykime K. Gausime seką iš 8 raidžių. Taigi rikiuotes galima pasiekti taip: A) KDKDKDDKK; B) DDKDKDKDK; D) KDDKDDKDK; E) KKDDKKKDD.",
      "figure": "figures/2022-q11.png",
      "mechanic": "arith-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 12,
@@ -13664,7 +13663,7 @@
      "num": 15,
      "prompt": "Pavei kslėlyje pavaizduota permatoma skaidrė su piešiniu. Skaidrė perlen- kiama du kartus, kaip parodyta. Ką matysime sulankstę skaidrę?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -13678,7 +13677,7 @@
      "solution": "! Nesunku nubraižyti, ką gausime sulankstę skaidrę – tiesiog reikia netuščias skaidrės dalis at- vaizduoti simetriškai lenkimo ašių atžvilgiu. Už lenkę viršutinę skaidrės pusę žemyn, matysime tokį vaizdą: Dabar, už lenkę kairiąją pusę dešinėn, gausime: Atkreipkime dėmesį, jog brūkšnelius trikampiuose irgi reikia atvaizduoti simetriškai lenkimo ašių atžvilgiu. Teisingas atsakymas A.",
      "figure": "figures/2022-q15.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 16,
@@ -13973,7 +13972,7 @@
      "options": {
       "A": "Kaime A",
       "B": "Kaime B",
-      "C": "",
+      "C": "Tarp B ir C",
       "D": "Kaime C",
       "E": "Kaime D"
      },
@@ -13991,8 +13990,7 @@
       "B": "Sumaišei kaimus.",
       "C": "Pas ir inkai be 4 atvejų patikros.",
       "E": "Per didelis – netinkama vieta."
-     },
-     "hasMissingOptionText": true
+     }
     },
     {
      "num": 29,
@@ -14059,7 +14057,7 @@
      "num": 1,
      "prompt": "Kurios figūros neįmanoma padalyti į du trikampius tiesia linija?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -14074,7 +14072,7 @@
      "solution": "? Duotąjį trikampįįdu trikampiusdalijaaukštinė, o trisduotuosiu sketurkampius–jųįstrižainės (žr. pav.). Todėl atsakymai A–C ir E klaidingi. A) B) C) E) Renkamės atsakymą D. ! Atsakyme D pavaizduoto (tai syklingojo) šešiakampio neįmanoma padalyti į du trikampius tiesia linija. Kad ir kaip jį kirstų tiesi linija, vienoje pusėje nuo jos visada liks bent dvi šešiakampio viršūnės. Tada šešiakampio dalis, esanti toje pusėje nuo linijos, bus keturkampis ar baturėsdardaugiaukampų. Vadinasi, atsakymas Dteisingas. Kad kitiatsakymai klaidingi, į sitikinome ? dalyje.",
      "figure": "figures/2023-q1.png",
      "mechanic": "geometry-misc",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
@@ -14253,7 +14251,7 @@
      "num": 11,
      "prompt": "Aurimas pilką ir dvi baltas skiautes už klijavo ant juodojo skritulio (žr. pav.). Kurio vaizdo jis negalėjo gauti?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -14267,17 +14265,17 @@
      "solution": "! Aurimas galėjo gauti vaizdus A, B, D, E. Tai galima suvokti pas itelkus vaizduotę. Vaizdai A, B ir E gaunami, pirmiau prie skritulio priklijuojant pilkąją skiautę, o po to baltąsias. Vaizdas D klastingesnis: pirmiau juodojo skritulio dešinėje priklijuojama viena baltoji skiautė, tada–jąišdaliesuždengiantipilkoji skiautė, o tad alikusibaltoji skiautė, kad iš dalies už dengtų pilkąją. A) B) C) D) E) Tačiau mąstyti apie šiuos vaizdus nereikės, jei iš karto pastebėsime, kuo blogas vaizdas C. Pilkoji skiautė yra pusskritulis, lygus pusei juodojo skritulio, bet vaizde C matomos dvi pil- kosios dalys nėra to paties pusskritulio dalys (einant skritulio kraštu, jos per daug viena nuo kitos nutolusios). Todėl šio vaizdo Aurimas negalėjo gauti.",
      "figure": "figures/2023-q11.png",
      "mechanic": "geometry-misc",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 12,
-     "prompt": "Pranciškus simboliais užrašė tris iš eilės einančius dviženklius skaičius: ♦, ♥4, ♥. Vienodi simboliai žymi tą patį skaitmenį, o skirtingi simboliai – skirtingus skaitmenis. Koks skaičius eina iš eilės po ♥?",
+     "prompt": "Pranciškus simboliais užrašė tris iš eilės einančius dviženklius skaičius: □◊, ♡△, ♡□. Vienodi simboliai žymi tą patį skaitmenį, o skirtingi simboliai – skirtingus skaitmenis. Koks skaičius eina iš eilės po ♡□?",
      "options": {
-      "A": "♥",
-      "B": "C) ♥♥",
-      "D": "♦",
-      "E": "♥♦",
-      "C": ""
+      "A": "□♡",
+      "B": "□□",
+      "C": "♡♡",
+      "D": "◊□",
+      "E": "♡◊"
      },
      "points": 4,
      "patterns": [
@@ -14286,8 +14284,7 @@
      "correct": "C",
      "solution": "♥♥ ? Skirtingi simboliai žymi skirtingus skaitmenis, todėl skaičius ♦ prasideda vienu skaitmeniu, o iš karto po jo einantis skaičius ♥4 – jau kitu. Rašant natūraliuosius skaičius didėjimo tvarka, dviženkliai skaičiai rašomi po 10 skaičių, prasidedančių tuo pačiu skaitmeniu. Todėl po skaičių ♥4 ir ♥ eina dar vienas skaičius, prasidedantis skaitmeniu, kurį žymi ♥ (o toliau – dar 7 tokie skaičiai). Taigi atsakymai A, B ir D klaidingi. Jeikita snatūralusisskaičiuspo♦, ♥4, ♥būtų E)♥♦, tai skaičių♦ir♥♦skirtumas būtų lygus 3. Tačiau šie skaičiai baigiasi tuo pačiu skaitmeniu, todėl jų skirtumas turi baigtis nuliu. Taigi atsakymas E klaidingas. Renkamės atsakymą C. 15 ! Turime ♥4 = ♦+1 ir ♥ = ♦+2. Reikia simboliais užrašyti skaičių ♦+3. Jei ♦ < 9, tai prie skaičiaus ♦ pridėjus 1, jo ant rasis skaitmuo padidėtų 1, o pirmasis nepakistų. Tačiau skaičiaus ♥4 pirmasis skaitmuo yra kitas nei skaičiaus ♦, …",
      "figure": "figures/2023-q12.png",
-     "mechanic": "sequence-pattern",
-     "hasMissingOptionText": true
+     "mechanic": "sequence-pattern"
     },
     {
      "num": 13,
@@ -14312,7 +14309,7 @@
      "num": 14,
      "prompt": "Pažvelgęs į veidrodį, Simas jame pamatė tokį laikrodžio, esančio už nugaros, vaizdą, kaip parodyta pavei kslėlyje dešinėje. Simas vėl pažvelgė į veidrodį po 30 minučių. Kokį laikrodžio vaizdą jis pamatė?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -14329,7 +14326,7 @@
      "solution": "! Pavei kslėlio kairėje pavaizduotas laikrodžio vaizdas veidrodyje, o dešinėje – tikrasis laikrodžio vaizdas (jie simetriški vienas kitam). Taigi Simui pir- mą kartą pažvelgus į veidrodį, laikrodis rodė laiką 21:51. Po 30 minučių buvo 22:21. Žvelgiant į laikrodžio vaizdą veidrodyje, laiką galima skaityti iš dešinės į kairę, skaitmenis 5 ir 2 apsukant į priešingą pusę, kad gautu- me atitinkamai skaitmenis 2 ir 5. Taigi laikas 22:21 veidrodyje atsispindės pavidalu D) 15:55.",
      "figure": "figures/2023-q14.png",
      "mechanic": "clock",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 15,
@@ -14454,7 +14451,7 @@
      "num": 21,
      "prompt": "Šešiose dėžėse, iš kurių sudėta piramidė, guli į vairių formų figūrėlės. Pa- veikslėlyje parodytos visos figūrėlės, esančios trijose dėžėse. Kiekvienoje iš trijų viršutinių dėžių jos figūrėlių rinkinys sutampa su figūrėlių, esan- čių dviejose dėžėse, ant kurių ji padėta, rinkiniu. Kokios figūrėlės guli apatinėje dėžėje, kurios turinys neparodytas?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -14475,7 +14472,7 @@
       "C": "Pas ir inkai be sumos.",
       "E": "Pas ir inkai atsiti ktinai."
      },
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 22,
@@ -14744,7 +14741,7 @@
      "num": 2,
      "prompt": "Vytis pastatė tris bokštelius už dėžutės (žr. pav. dešinėje). Kaip bokšteliai atrodo iš priešingos pusės?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -14758,7 +14755,7 @@
      "solution": "? Iš priešingos pusės juodą siaurą bokštelį iš dalies už dengia šviesiausias bokštelis, ir matosi tik juodojo bokštelio „viršūnėlė“, todėl netinka atsakymai B ir C. Atsakyme E abu siaurieji bokšteliai yra vienodoau kščio, to dėlirginetinka. Tai ppatvisi bokšteliaituribūti priešdėžutę, todėl netinka atsakymas D. Renkamės atsakymą A. ! Norint atkurti vaizdą iš priešingos pusės reikia mintyse sukeisti puses vietomis. Pavei kslėlyje du bokšteliai stovi kairėje, o vienas dešinėje, todėl žiūrint iš priešingos pusės du bokšeliai stovi dešinėje, o vienas kairėje. Be to, dėžutė yra už visų bokštelių, o juodas bokštelis yra tarp dėžutės ir plačiojo bokštelio. Ir galiausiai, platusis bokštelis yra tokio pačio aukščio, kaip ir siaurasis pilkas bokštelis. Būtent toks yra vaizdas atsakyme A.",
      "figure": "figures/2024-q2.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -14783,7 +14780,7 @@
      "num": 4,
      "prompt": "O nasukūrė slaptąabėcėlę, kurioje kiekvienąlietuviškosabėcėlė sraidęatitinka slaptassimbolis. Savo katės vardą PILKĖ ji užrašo taip: , o vardą ONA – taip: . Kaip ji užrašo žodį PONIA?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -14797,7 +14794,7 @@
      "solution": "? Žodis PONIA prasideda tokia pačia raide kaip ir žodis PILKĖ. Taigi žodis PONIA, užrašytas slapta abėcėle, prasideda simboliu . Vienintelis tinkamas atsakymas yra C. ! Kaip jau išsiaiškinome, žodis PONIA prasideda simboliu . Taip pat šiame žodyje bus visi simboliai iš žodžio ONA – , tik dar reikia į terpti raidę I, kurią atitinka antras simbolis iš žodžio PILKĖ – . Taigi žodis PONIA slapta abėcėle užrašomas taip: . Renkamės atsakymą C. 10",
      "figure": "figures/2024-q4.png",
      "mechanic": "casework",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 5,
@@ -15398,7 +15395,7 @@
      "num": 1,
      "prompt": "Iš šalia pavaizduoto o rnamento iš kirptas kvadratėlis. Kuris?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -15412,13 +15409,13 @@
      "solution": "! Pastebėkime, jog iš kirpto kvadrato viršūnės yra mažųjų o rnamento kvadratėlių centruose. Nubrėžkime tokį patį centrus jungiantį kvadratą kitoje o rnamento vietoje (žr. pavei kslėlį greta). Gauname tokį vaizdą, kaip variante B. Taigi teisingas atsakymas B.",
      "figure": "figures/2025-q1.png",
      "mechanic": "geometry-misc",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
      "prompt": "Agnė kambaryje ant lango stiklo priklijavo skaičių 2025, kaip parodyta dešinėje. Kokį užrašą matys Beata, žiūrėdama į langą iš lauko pusės?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -15432,7 +15429,7 @@
      "solution": "! Galime tiesiog apsukti po pieriaus lapą, ant kurio užrašyta uždavinio sąlyga, ir pažiūrėti, koks vaizdas persi šviečia kitoje lapo pusėje. Pamatysime tokį vaizdą, kaip atsakyme B. !! Galima ir nesukioti lapo. Kad gautume vaizdą iš lauko pusės, reikia kiekvieną skaitmenį pavaizduoti simetriškai nurodytų vertikalių ašių atžvilgiu (žr. paveiks- lėlį greta) ir gautus skaitmenis iš rikiuoti atvirkščia tvarka. Šitaip vėlgi gausime, jog teisingas atsakymas B.",
      "figure": "figures/2025-q2.png",
      "mechanic": "arith-compute",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -15635,7 +15632,7 @@
      "num": 13,
      "prompt": "Patei ktuose pavei kslėliuose vienodi skrituliai padalyti į keletą lygių dalių. Kuriame skritulyje už tušuotas plotas yra didžiausias?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -15650,7 +15647,7 @@
      "solution": "! Apskaičiuokime, kokia ploto dalis yra už tušuota kiekviename skritulyje: A B C D E į kiek dalių padalinta 8 10 6 12 7 kiek dalių už tušuota 2 2 1 2 1 kokia ploto dalis už tušuota 2 = 1 2 = 1 1 2 = 1 1 8 4 10 5 6 12 6 7 Gavome penkias trupmenas, kurių visų skaiti kliai vienodi (lygūs 1). Didžiausia iš jų yra ta, kurioje vardiklis mažiausias, t. y. 1. 4 Teisingas atsakymas A. 14 UŽDUOČIŲ SPRENDIMAI",
      "figure": "figures/2025-q13.png",
      "mechanic": "area-decomp",
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 14,
@@ -15923,7 +15920,7 @@
      "num": 26,
      "prompt": "Pavei kslėlyje dešinėje pavaizduota devynių kaladėlių konstrukcija yra pu- siausvira. Vienodai pažymėtos kaladėlės sveria po tiek pat. Kuriame at- sakyme kaladėlės iš rikiuotos lengvėjimo tvarka?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -15943,7 +15940,7 @@
       "D": "Pas ir inkai be pusiau svyros patikros.",
       "E": "Pas ir inkai atsiti ktinai."
      },
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 27,
@@ -15976,7 +15973,7 @@
      "num": 28,
      "prompt": "Tadas suklijavo tris dešinėje pavaizduotas detales. Kurią figūrą jis galėjo gauti?",
      "options": {
-      "C": "D) E)",
+      "C": "",
       "A": "",
       "B": "",
       "D": "",
@@ -15997,7 +15994,7 @@
       "C": "Pas ir inkai be su lipimo.",
       "E": "Pas ir inkai atsiti ktinai."
      },
-     "hasMissingOptionText": true
+     "imageOnlyOptions": true
     },
     {
      "num": 29,
