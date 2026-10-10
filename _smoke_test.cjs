@@ -189,6 +189,19 @@ for(const t of ARCHIVE) for(const q of t.questions){
   for(const L of Object.keys(q.misconceptions || {}))
     check(`${t.year}-q${q.num} misconception not on the right answer`, L !== q.correct);
 }
+// Each question has its own figure – a byte-identical file on two questions
+// means one of them shows its neighbour's picture (4 such pairs once).
+{
+  const seenFig = new Map();
+  for(const t of ARCHIVE) for(const q of t.questions){
+    if(!q.figure) continue;
+    const fp = path.join(__dirname, q.figure);
+    if(!fs.existsSync(fp)){ check(`${t.year}-q${q.num} figure exists`, false, q.figure); continue; }
+    const h = require("crypto").createHash("md5").update(fs.readFileSync(fp)).digest("hex");
+    check(`${t.year}-q${q.num} figure is not a copy of ${seenFig.get(h)}`, !seenFig.has(h));
+    seenFig.set(h, `${t.year}-q${q.num}`);
+  }
+}
 console.log(`checked ${archiveQs} archive questions`);
 
 // ---------- 4. practice routing never downgrades a 5-pt source ----------

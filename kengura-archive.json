@@ -13753,7 +13753,7 @@
     },
     {
      "num": 25,
-     "prompt": "Verneris pasirenka keturis skaičius iš penkių skaičių 2, 3, 4, 5, 6 ir įrašo po vieną skaičių į kiekvieną lygybės □ + □ − □ = ■ langelį taip, kad lygybė būtų teisinga. Kiek iš duotų penkių skaičių galima įrašyti į pilką langelį ■?",
+     "prompt": "Verneris pasirenka keturis skaičius iš penkių skaičių 2, 3, 4, 5, 6 ir įrašo po vieną skaičių į kiekvieną langelį taip, kad lygybė □ + □ − □ = ■ būtų teisinga. Keli iš duotų penkių skaičių tinka įrašyti į pilką langelį?",
      "options": {
       "A": "1",
       "B": "2",
@@ -13773,7 +13773,8 @@
      "misconceptions": {
       "D": "Manei, kad didžiausias skaičius 6 negali būti rezultatas, bet 4 + 5 − 3 = 6.",
       "C": "Atmetei kraštinius 2 ir 6, bet 3 + 4 − 5 = 2 ir 4 + 5 − 3 = 6."
-     }
+     },
+     "figure": "figures/2022-q25.png"
     },
     {
      "num": 26,
@@ -14360,7 +14361,8 @@
      "correct": "C",
      "solution": "(C). C — Į sivaizduokime, kad skaičius 1ABCDE dauginamas iš 3 stulpeliu: 1 ABC DE × 3 ABCDE 1 Kadangi E·3 baigiasi skaitmeniu 1, tai E = 7. Suskaičiavus E·3 = 21, po brūkšniu parašomas skaitmuo 1, oskaitmuo 2 paliekama smintyseirpridedama sprie D·3. Kadangi D·3+2 baigiasi skaitmeniu E = 7, tai D ·3 baigiasi skaitmeniu 5. Tada D = 5. Suskaičiavus D ·3+2 = 17, po brūkšniu parašomas skaitmuo E = 7, o skaitmuo 1 paliekamas mintyse ir pridedamas prie C·3. Kadangi C·3+1 baigiasi skaitmeniu D = 5, tai C·3 baigiasi skaitmeniu 4. Tada C = 8 – radome reikiamą skaitmenį. — Pastebėkime, kad 1ABCDE = 100000+ABCDE, ABCDE1 = ABCDE ·10+1, ABCDE ·10+1 = 3·(100000+ABCDE) = 300000+ABCDE ·3, ABCDE ·(10−3) = 300000−1 = 299999, ABCDE = 299999: 7. Dalydami 299999 iš 7 kampu, gauname ABCDE = 42857. Dalybos metu pakanka rasti trečiąjį dalmens skaitmenį C = 8. 20 UŽDUOČIŲ SPRENDIMAI",
      "mechanic": "digit-puzzle",
-     "solutionKid": "Gudrybė: daugink stulpeliu nuo galo – kiekvienas rastas skaitmuo parodo kitą. 1ABCDE · 3 = ABCDE1. Paskutinis skaitmuo: E · 3 baigiasi 1, tai E = 7 (7 · 3 = 21, mintyse 2). Toliau D · 3 + 2 baigiasi E = 7, todėl D · 3 baigiasi 5: D = 5 (5 · 3 + 2 = 17, mintyse 1). Tada C · 3 + 1 baigiasi D = 5, taigi C · 3 baigiasi 4: C = 8. Radai skaitmenį 8 – tai C. Gali užbaigti: B = 2, A = 4. Patikrink: 142857 · 3 = 428571 – tikrai pirmasis vienetas „persikėlė“ į galą. Atsakymas: C) raidė C."
+     "solutionKid": "Gudrybė: daugink stulpeliu nuo galo – kiekvienas rastas skaitmuo parodo kitą. 1ABCDE · 3 = ABCDE1. Paskutinis skaitmuo: E · 3 baigiasi 1, tai E = 7 (7 · 3 = 21, mintyse 2). Toliau D · 3 + 2 baigiasi E = 7, todėl D · 3 baigiasi 5: D = 5 (5 · 3 + 2 = 17, mintyse 1). Tada C · 3 + 1 baigiasi D = 5, taigi C · 3 baigiasi 4: C = 8. Radai skaitmenį 8 – tai C. Gali užbaigti: B = 2, A = 4. Patikrink: 142857 · 3 = 428571 – tikrai pirmasis vienetas „persikėlė“ į galą. Atsakymas: C) raidė C.",
+     "figure": "figures/2023-q23.png"
     },
     {
      "num": 24,

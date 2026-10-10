@@ -11,9 +11,9 @@ Each was checked against the figure PNG / official solution text:
            2021-q30.png showed another paper's problem – split by
            _pngrows (see the commit), q30 now shows the card puzzle.
   2022-25  the figure showed Q5; prompt boxes were lost in extraction.
-           Text-only now (figure removed), prompt rewritten with □.
-  2023-23  the figure showed the tail of Q15; text-only now, options are
-           the letters themselves.
+           Prompt rewritten with □; figure re-rendered by _refigure_misfits.py.
+  2023-23  the figure showed the tail of Q15 (re-rendered by
+           _refigure_misfits.py); options are the letters themselves.
   2024-23  key A -> B: the official solution's description (left
            black-black, top white-black, bottom black-white, right
            white-black) is option B in the Lithuanian booklet's order.
@@ -48,14 +48,12 @@ assert q['correct'] == 'E'
 q['prompt'] = ('Verneris pasirenka keturis skaičius iš penkių skaičių 2, 3, 4, 5, 6 ir įrašo po vieną skaičių '
                'į kiekvieną lygybės □ + □ − □ = ■ langelį taip, kad lygybė būtų teisinga. '
                'Kiek iš duotų penkių skaičių galima įrašyti į pilką langelį ■?')
-q.pop('figure', None)
 
 q = Q[('2023', 23)]
 assert q['correct'] == 'C'
 q['options'] = {k: k for k in 'ABCDE'}
 q['prompt'] = ('Raidės A, B, C, D ir E žymi 5 skirtingus skaitmenis. Padauginus šešiaženklį skaičių 1ABCDE '
                'iš 3, gautas šešiaženklis skaičius ABCDE1. Kuri raidė žymi skaitmenį 8?')
-q.pop('figure', None)
 
 q = Q[('2024', 23)]; q['correct'] = 'B'
 if (q.get('solution') or '').startswith('(A).'): q['solution'] = '(B).' + q['solution'][4:]
