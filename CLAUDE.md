@@ -626,3 +626,27 @@ intact; weekend-off 0.80 → 24/25, 10 papers, streak 58.
   0.70 → 20/25, 0.85 → all, weekend-off 0.80 → 22, streak 58; erratic
   0.70 miss 30 % → 14; 120 d → all; 45 d → 22; 30 d (flat 0.85) → 18.
 - **42/45** notes + push.
+
+## Grammar passes + "surprise 30 questions" UX fix (2026-10-10)
+
+- **Grammar, 4 passes** over all Lithuanian UI/generator/method text:
+  (1) spelling and word choice, (2) numeral agreement — every
+  "number + noun" template goes through `pluralForm(n, nomSg, nomPl,
+  gen)` (verified on 2,376 rendered generator strings), (3) punctuation:
+  „…“ quotes, space before %, "pvz.,", "t. y.", em dash → spaced en dash
+  everywhere, (4) terminology: "gudrybė" only (no "triukas"/"mechanika"
+  in kid-facing text), "tiesuoliai", "dalijasi/dalytis". Kid is addressed
+  with "tu" and masculine participles. **Keep new copy to these rules.**
+- **Surprise 30 questions.** The results page's only primary button was
+  "Naujas testas", which starts a free test at `settings.count` (30 if
+  "30 (Kengūra)" was ever tapped) — reached right after a 2-question
+  plan warm-up. Now: `state._resultsFromPlan` → primary "Toliau pagal
+  planą: <next step>", "Naujas testas (N klausimų · M min)" secondary;
+  every free-test button states its size (`newTestSizeLabel()`).
+- **Contest intro** (`renderContestIntro`, view "contestIntro") replaces
+  the browser confirm: what to expect, diagnostic note on day 1, and
+  "Ne dabar" for plan papers → `store.plan.contestPostponedDay` makes
+  `isContestDay`/`needsDiagnosticContest` false for that day only.
+- **Paper year was random per render** (`pickContestYear` tie-break used
+  Math.random) — the plan label, intro and opened paper could differ.
+  Tie-break is now a hash of date + year: stable within a day.

@@ -4389,6 +4389,7 @@ const $app = document.getElementById("app");
 
 function renderHome(){
   state._planStep = null;   // returning home aborts any plan-step attribution
+  state._resultsFromPlan = false;
   // Mechanic-level weakness (replaces legacy subStats panel)
   const weakMechs = weakestMechanics(6);
   // Spaced-repetition queue: how many items are due today
@@ -4636,7 +4637,7 @@ function renderHome(){
       </div>
       <div class="footer-actions">
         <span class="help-bar">Klausimai sugeneruojami iš šablonų – kaskart kiti.</span>
-        <button class="btn primary" id="startBtn">Pradėti testą</button>
+        <button class="btn primary" id="startBtn">Pradėti testą (${newTestSizeLabel()})</button>
       </div>
     </section>
 
@@ -4920,6 +4921,14 @@ function renderHome(){
     const b = e.target.closest("[data-year]"); if(!b) return;
     openArchiveYear(b.dataset.year);
   });
+}
+
+/* "15 klausimų · 38 min" — every button that starts a free test says how
+   big it is, so 30 questions never come as a surprise. */
+function newTestSizeLabel(){
+  const n = store.settings.count;
+  const mins = (store.settings.kenguraMode || n === 30) ? 75 : Math.round(n * 2.5);
+  return `${n} ${pluralForm(n,'klausimas','klausimai','klausimų')}${store.settings.useTimer ? ` · ${mins} min` : ''}`;
 }
 
 function startQuiz(){
@@ -5259,6 +5268,7 @@ function finishQuiz(early){
   // Plan credit only for a real attempt: at least half the questions
   // answered (warm-up 2 → 1, sprint 10 → 5). "Pabaigti dabar" on an empty
   // quiz must not tick the step or feed the daily bonus.
+  state._resultsFromPlan = !!state._planStep;
   if(session.answered >= Math.ceil(total / 2)) markPlanStepDone();
   else state._planStep = null;
   state.view = "results";
@@ -5425,15 +5435,32 @@ function renderResults(){
     </section>
 
     <section class="card">
-      <div class="footer-actions">
-        <button class="btn ghost" id="homeBtn">← Į pradžią</button>
-        <button class="btn primary" id="againBtn">Naujas testas</button>
+      <div class="footer-actions" style="flex-wrap:wrap;gap:8px">
+        ${(()=>{
+          const pd = store.planDone[todayKey()] || {};
+          const next = state._resultsFromPlan ? planStepsForToday().find(st => !pd[st.id] && st.act !== 'none') : null;
+          const size = newTestSizeLabel();
+          if(next) return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
+            <button class="btn ghost" id="againBtn" title="Ne plano dalis">Naujas testas (${size})</button>
+            <button class="btn primary" id="planNextBtn">Toliau pagal planą: ${escapeHTML(next.label)} →</button>`;
+          if(state._resultsFromPlan) return `<span class="help-bar" style="margin:0">🎉 Šiandienos planas atliktas.</span>
+            <button class="btn ghost" id="againBtn">Naujas testas (${size})</button>
+            <button class="btn primary" id="homeBtn">Į pradžią</button>`;
+          return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
+            <button class="btn primary" id="againBtn">Naujas testas (${size})</button>`;
+        })()}
       </div>
     </section>
   `;
 
   document.getElementById("homeBtn").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
   document.getElementById("againBtn").addEventListener("click", startQuiz);
+  const planNextBtn = document.getElementById("planNextBtn");
+  if(planNextBtn) planNextBtn.addEventListener("click", ()=>{
+    const pd = store.planDone[todayKey()] || {};
+    const next = planStepsForToday().find(st => !pd[st.id] && st.act !== 'none');
+    if(next) launchPlanStep(next); else { state.view = "home"; renderHome(); }
+  });
   $app.querySelectorAll("[data-similar]").forEach(b=>{
     b.addEventListener("click", ()=>{
       const i = parseInt(b.dataset.similar,10);
@@ -5499,9 +5526,43 @@ function requestOpenContest(year){
     openContest(year);
     return;
   }
-  if(confirm(`Pradėti kontrolinį testą iš ${year} m.?\n\n• 75 minutės\n• 30 klausimų\n• −25 % už klaidą\n• Jokios pagalbos\n\nTikras Kengūros formatas. Tinkamas kartą per savaitę.`)){
-    openContest(year);
-  }
+  renderContestIntro(year);
+}
+
+/* Pre-contest screen. A 75-minute paper must never start by surprise:
+   say what is coming, explain the diagnostic on day 1, and let a plan
+   paper move to the next training day ("Ne dabar"). */
+function renderContestIntro(year){
+  state.view = "contestIntro";
+  const planContest = state._planStep === "core" ? planStepsForToday().find(st => st.act === "contest") : null;
+  const diag = !!planContest && needsDiagnosticContest();
+  $app.innerHTML = `
+    <section class="card">
+      <button class="nav-back" id="ciBack">← Atgal</button>
+      <h2>📝 Kontrolinis – ${escapeHTML(String(year))} m.</h2>
+      ${diag ? `<div class="recent-mastery">Tai <b>pirmasis, diagnostinis</b> kontrolinis: jis parodo, nuo ko pradedame. Rezultatas nesvarbus – svarbu pamatyti, kas jau sekasi, o kas dar ne.</div>` : ''}
+      <ul style="font-size:15px;line-height:1.7;margin:12px 0 12px 18px;padding:0">
+        <li><b>30 uždavinių</b> iš tikro ${escapeHTML(String(year))} m. konkurso</li>
+        <li><b>75 minutės</b> – laikrodis nesustoja</li>
+        <li>Už klaidą <b>−25 %</b> to uždavinio taškų, už praleistą – 0 (be baudos)</li>
+        <li>Jokių užuominų; uždavinius galima praleisti ir prie jų grįžti</li>
+      </ul>
+      <p><b>Ar turi dabar ramias 75 minutes?</b> Jei ne – geriau perkelti, negu nutraukti pusiaukelėje.</p>
+      <div class="footer-actions" style="flex-wrap:wrap;gap:8px">
+        ${planContest ? `<button class="btn ghost" id="ciPostpone">Ne dabar – perkelti į kitą treniruočių dieną</button>` : '<span></span>'}
+        <button class="btn primary" id="ciStart">Pradėti kontrolinį →</button>
+      </div>
+    </section>`;
+  document.getElementById("ciBack").addEventListener("click", ()=>{ state._planStep = null; state.view = "home"; renderHome(); });
+  document.getElementById("ciStart").addEventListener("click", ()=> openContest(year));
+  const pp = document.getElementById("ciPostpone");
+  if(pp) pp.addEventListener("click", ()=>{
+    store.plan.contestPostponedDay = todayKey();
+    state._planStep = null;
+    saveStore(store);
+    showToast("📅", "Kontrolinis perkeltas į kitą treniruočių dieną. Šiandien – įprasta treniruotė.", 4500);
+    openPlan();
+  });
 }
 
 function openContest(year){
@@ -6980,6 +7041,7 @@ function isContestDay(dateObj){
   const days = daysToContest();
   if(days != null && days < 0) return false;   // the contest is over – no more papers until a new date is set
   if(!isTrainingDay(d)) return false;          // papers only on training days
+  if(store.plan && store.plan.contestPostponedDay === dateKeyOf(d)) return false;   // "Ne dabar" on the intro screen
   let left = null;
   if(days != null && days >= 0){
     const diff = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())) / ONE_DAY_MS);
@@ -7015,6 +7077,7 @@ const DIAGNOSTIC_STALE_DAYS = 60;
 function needsDiagnosticContest(){
   const days = daysToContest();
   if(days == null || days <= 1 || !pickContestYear()) return false;
+  if(store.plan && store.plan.contestPostponedDay === todayKey()) return false;
   const last = Math.max(0, ...(store.contests || []).map(c => c.when || 0));
   return !last || (Date.now() - last) > DIAGNOSTIC_STALE_DAYS * ONE_DAY_MS;
 }
@@ -7041,7 +7104,10 @@ function pickContestYear(){
       const t = ARCHIVE.find(x => String(x.year) === String(y));
       return t ? t.questions.filter(q => (store.seenQ || {})[`${t.year}-${q.num}`]).length : 0;
     };
-    const scored = fresh.map(y => ({y, n: seenCount(y), r: Math.random()}));
+    // Tie-break is stable within a day (hash of date + year), so the plan's
+    // label, the intro screen and the paper that opens are the same year.
+    const dayHash = y => { let h = 0; for(const ch of todayKey() + "|" + y) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
+    const scored = fresh.map(y => ({y, n: seenCount(y), r: dayHash(y)}));
     scored.sort((a,b) => a.n - b.n || a.r - b.r);
     return scored[0].y;
   }
@@ -7076,7 +7142,7 @@ function planStepsForToday(){
     const yr = pickContestYear();
     return [
       {id:"warmup",   label:"Apšilimas – 2 lengvi klausimai", act:"warmup"},
-      {id:"core",     label:`Diagnostinis kontrolinis – ${yr} m. (75 min). Rodo, nuo ko startuojam – rezultatas nesvarbu, svarbu pamatyti.`, act:"contest", arg:yr},
+      {id:"core",     label:`Diagnostinis kontrolinis – ${yr} m. (30 užd., 75 min)`, act:"contest", arg:yr},
       {id:"cooldown", label:"Po kontrolinio: peržiūrėk klaidas rezultatų puslapyje", act:"none"},
     ];
   }
@@ -7084,7 +7150,7 @@ function planStepsForToday(){
     const yr = pickContestYear();
     return [
       {id:"warmup",   label:"Apšilimas – 2 lengvi klausimai", act:"warmup"},
-      {id:"core",     label:`Kontrolinis${yr ? ` – ${yr} m.` : ''} (75 min, kaip tikrame konkurse)`, act:"contest", arg:yr},
+      {id:"core",     label:`Kontrolinis${yr ? ` – ${yr} m.` : ''} (30 užd., 75 min)`, act:"contest", arg:yr},
       {id:"cooldown", label:"Po kontrolinio: peržiūrėk klaidas rezultatų puslapyje", act:"none"},
     ];
   }

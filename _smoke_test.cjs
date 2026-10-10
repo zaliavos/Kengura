@@ -89,7 +89,8 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
-        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay, creditContestActivity};
+        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay, creditContestActivity,
+        renderContestIntro, newTestSizeLabel, needsDiagnosticContest};
 `;
 let app;
 try {
@@ -693,6 +694,36 @@ section("training days");
     check("paper counts answered questions", (store.activity[keyOf(new Date())].answered) === act + 20);
     check("paper pays stars", store.stars.total > st);
   }
+}
+
+// ---------- 7h. no surprise 30-question sessions ----------
+section("no surprises");
+{
+  const {renderContestIntro, newTestSizeLabel, needsDiagnosticContest, planStepsForToday, isContestDay, store, state} = app;
+  const pad = n => String(n).padStart(2, "0");
+  const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const inDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return keyOf(d); };
+  store.settings.count = 30; store.settings.useTimer = true;
+  check("new-test label states size and time", newTestSizeLabel() === "30 klausimų · 75 min", newTestSizeLabel());
+  store.settings.count = 15;
+  check("15 → 38 min", newTestSizeLabel() === "15 klausimų · 38 min", newTestSizeLabel());
+  check("results footer is plan-aware", html.includes('id="planNextBtn"') && html.includes("Toliau pagal planą"));
+  check("contest start goes through the intro, not confirm", /renderContestIntro\(year\);\s*\}/.test(html) && !html.includes("Pradėti kontrolinį testą iš"));
+  // diagnostic day: intro renders; "Ne dabar" moves the paper
+  store.contests = []; store.plan.contestDate = inDays(70); store.plan.startDate = inDays(0); store.plan.contestPostponedDay = null;
+  check("day 1 core is the diagnostic", planStepsForToday()[1].act === "contest");
+  check("plan paper year is stable across renders", new Set([1,2,3,4,5,6,7,8].map(() => planStepsForToday()[1].arg)).size === 1);
+  state._planStep = "core";
+  let threw = null; try { renderContestIntro(planStepsForToday()[1].arg); } catch(e){ threw = e.message; }
+  check("contest intro renders", !threw && state.view === "contestIntro", threw || state.view);
+  store.plan.contestPostponedDay = keyOf(new Date());
+  check("postponed: no diagnostic today", !needsDiagnosticContest());
+  check("postponed: core is not a contest", planStepsForToday()[1].act !== "contest", planStepsForToday()[1].act);
+  check("postponed: today is not a contest day", !isContestDay(new Date()));
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+  store.plan.contestPostponedDay = keyOf(new Date(Date.now() - 864e5));
+  check("postpone expires the next day", needsDiagnosticContest());
+  store.plan.contestPostponedDay = null; store.plan.contestDate = null; state.view = "home";
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------
