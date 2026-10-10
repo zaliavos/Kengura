@@ -275,7 +275,7 @@ KID_SOLUTIONS = {
     ("2020", 23): (
         "9 žetonai, pradžioje 4 juodi viršuje, 5 baltai. "
         "Per ėjimą paimi 2, juos apverti. Tikslas – visi juodi į viršų ar visi balti. "
-        "Žiūrim INVARIANTĄ: juodų skaičiaus PARITY (lyginumas). "
+        "Ieškok INVARIANTO: ar juodų žetonų skaičius lyginis, ar nelyginis. "
         "Pradžioje 4 (lyginis), 9 baltų reikalingas 0 juodų (lyginis) ar 9 (nelyginis). "
         "Atsakymas: 0 juodų pasiekiama, 9 – ne."
     ),
@@ -604,7 +604,7 @@ KID_SOLUTIONS = {
     ),
     ("2025", 30): (
         "Gėlės po 3, 4, 5 EUR. Suma 23 EUR. "
-        "Skaičiuoji nelygiu Diophantine: 3a+4b+5c = 23, a,b,c ≥ 0. "
+        "Tegu a gėlių po 3 EUR, b po 4 EUR ir c po 5 EUR: 3a+4b+5c = 23. "
         "Atvejais c (0..4): "
         "c=0: 3a+4b=23, sprendiniai (a=1,b=5), (a=5,b=2) – 2 atv. "
         "c=1: 3a+4b=18, (a=2,b=3), (a=6,b=0) – 2. "
@@ -860,9 +860,9 @@ MISCONCEPTIONS = {
         "E": "Per daug – nesigauna iš eilės.",
     },
     ("2020", 23): {
-        "A": "Pasirinkai be lyginumo invariantos.",
+        "A": "Pasirinkai nepatikrinęs lyginumo invarianto.",
         "B": "Sumaišei juodus su baltais.",
-        "C": "Pasirinkai be parity skaičiavimo.",
+        "C": "Pasirinkai nepatikrinęs, ar skaičius lyginis.",
         "E": "Pasirinkai dėl 9 skaičiaus.",
     },
     ("2020", 24): {
@@ -1209,7 +1209,7 @@ MISCONCEPTIONS = {
     ("2025", 30): {
         "A": "Per maža – pamiršai daugiau atvejų.",
         "B": "Sumaišei gėles su EUR.",
-        "C": "Pasirinkai be Diophantine.",
+        "C": "Pasirinkai neperžiūrėjęs visų atvejų.",
         "E": "Per didelis – peržengė 7.",
     },
 }

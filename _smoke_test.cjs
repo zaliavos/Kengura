@@ -174,6 +174,13 @@ for(const t of ARCHIVE){
     }
   }
 }
+// Hand-written kid texts must never pass through the PDF re-spacers again
+// (they once split "Pasirinkai" into "Pas ir inkai", "įtraukei" into "į traukei").
+for(const t of ARCHIVE) for(const q of t.questions){
+  const texts = [q.solutionKid || "", ...Object.values(q.misconceptions || {})];
+  const bad = texts.filter(x => /Pas ir inkai|į trauk|su skaičiuot|nuo trauk|iš dėst|su kabint|Diophantine|parity/i.test(x));
+  check(`${t.year}-q${q.num} kid texts are clean`, !bad.length, bad[0]);
+}
 console.log(`checked ${archiveQs} archive questions`);
 
 // ---------- 4. practice routing never downgrades a 5-pt source ----------

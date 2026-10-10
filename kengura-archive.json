@@ -8112,12 +8112,12 @@
      "solution": "Ado akmenėlis žalias. Kadangi visi trys jie sako netiesą, tai Adas ir Benas bei Benas ir Domas turi skirtingus akme- nėlius, o taip gali būti tik tuomet, kai Adas ir Domas turi vienokios spalvos akmenėlį, o Benas – kitokios. Jei Adas ir Domas turėtų po raudoną akmenėlį, tai Domas būtų sakęs teisybę, o taip būti negali. Vadinasi, Adas ir Domas turi po žalią akmenėlį, o Benas turi raudoną. Iš duotų teiginių teisingas A",
      "figure": "figures/2013-q21.png",
      "mechanic": "truth-tellers",
-     "solutionKid": "Visi trys meluoja, taigi Adas ir Benas turi SKIRTINGUS akmenėlius (jis sako, kad vienodi – melas), ir Benas su Domu irgi skirtingus. Tai į manoma tik tuo atveju, jei Adas ir Domas vienodi, o Benas – kitoks. Bandyk: jei Adas ir Domas raudoni, tai Domas sakytų tiesą („mano žalias kaip Beno“) – bet jis meluoja. Taigi Adas ir Domas yra ŽALI, o Benas – raudonas.",
+     "solutionKid": "Visi trys meluoja, taigi Adas ir Benas turi SKIRTINGUS akmenėlius (jis sako, kad vienodi – melas), ir Benas su Domu irgi skirtingus. Tai įmanoma tik tuo atveju, jei Adas ir Domas vienodi, o Benas – kitoks. Bandyk: jei Adas ir Domas raudoni, tai Domas sakytų tiesą („mano žalias kaip Beno“) – bet jis meluoja. Taigi Adas ir Domas yra ŽALI, o Benas – raudonas.",
      "misconceptions": {
       "B": "Pamiršai, kad VISI trys meluoja – tai apriboja Beno galimybes.",
       "C": "Sumaišei, kuris su kuriuo turi vienodą.",
-      "D": "Neatsi žvelgei į Domo melą – jis irgi negali sakyti tiesos.",
-      "E": "Pamiršai, kad spalvos turi būti su derintos su visais trim teiginiais."
+      "D": "Neatsižvelgei į Domo melą – jis irgi negali sakyti tiesos.",
+      "E": "Pamiršai, kad spalvos turi būti suderintos su visais trim teiginiais."
      }
     },
     {
@@ -8138,12 +8138,12 @@
      "solution": "14. Žinome, kad po pirmo etapo konkurse liko dalyvauti 66−21 = 45 katės, iš kurių 27 dryžuotos ir 32 turi juodą ausį. Jei sudėsime 27 + 32, tai gausime 59 – daugiau nei 45. Šis skirtumas atsiranda todėl, kad dryžuotas kates su juoda ausimi į skaičiavome du kartus – jos pateko ir tarp 27 dryžuotų, ir tarp 32 juodaausių. Kiekviena tokia dryžuota juodaausė katė skirtumą padidina vienetu, tad tokių kačių iš viso yra 59−45 = 14",
      "figure": "figures/2013-q22.png",
      "mechanic": "casework",
-     "solutionKid": "Po atrankos liko 45 katės. Iš jų 27 dryžuotos, 32 viena juoda ausis. Sudedi: 27+32 = 59. Tai 14 daugiau nei 45. Tos 14 katės buvo į skaičiuotos DU kartus – jos ir dryžuotos, ir su juoda ausimi. Taigi būtent jos ir pateko į finalą – minimalus skaičius 14.",
+     "solutionKid": "Po atrankos liko 45 katės. Iš jų 27 dryžuotos, 32 viena juoda ausis. Sudedi: 27+32 = 59. Tai 14 daugiau nei 45. Tos 14 katės buvo įskaičiuotos DU kartus – jos ir dryžuotos, ir su juoda ausimi. Taigi būtent jos ir pateko į finalą – minimalus skaičius 14.",
      "misconceptions": {
-      "A": "Už miršai sumažinti pradinį 66 prieš 21 iš kritimą.",
+      "A": "Užmiršai sumažinti pradinį 66 prieš 21 iškritimą.",
       "B": "Suskaičiavai tik dryžuotas (27), bet ne sankirtą.",
       "C": "Naudojai vidurinį skaičių, ne sankirtą.",
-      "E": "Per didelis – į traukei dukart su skaičiuotas."
+      "E": "Per didelis – įtraukei dukart suskaičiuotas."
      }
     },
     {
@@ -8193,7 +8193,7 @@
      "solutionKid": "Pradžia: 2 linksmi (1 ir 4) ir 2 liūdni (2 ir 3). Vienas paspaudimas pakeičia mygtuką ir jo kaimynus – tai 2 ar 3 mygtukai vienu metu. Pažiūrėk, kas vyksta su LIŪDNŲ skaičiumi: po vieno paspaudimo jis keičiasi nelyginiu skaičiumi. Iš 2 liūdnų į 0 reikia keisti lyginį skaičių – taigi reikia LYGINIO paspaudimų skaičiaus. Su 2 paspaudimais nesigauna (patikrini), su 3 – gaunasi paspaudus 2, 3, 4. Atsakymas 3.",
      "misconceptions": {
       "A": "1 paspaudimas iš 2 liūdnų į 0 nesigauna (pakeičia tik 2 ar 3 mygtukus).",
-      "C": "Pernelyg saugu – 4 jau perte klinai.",
+      "C": "Pernelyg saugu – 4 jau perteklinai.",
       "D": "Maža kombinacija – 2 paspaudimai negali pakeisti visų liūdnų į linksmus.",
       "E": "Per daug – ekstra paspaudimų reikia."
      }
@@ -8216,12 +8216,12 @@
      "solution": "18. Jei du berniukai yra susikibę rankomis, tai vienas yra padavęs kairę ranką, o kitas dešinę. Vadinasi, berniukų, kurie savo dešinę ranką yra padavę berniukui, yra tiek pat, kiek berniukų, kurie savo kairę ranką yra padavę berniukui. Bet tuomet berniukų, kurie savo kairiąją yra padavę mergaitei, yra tiek pat, kiek berniukų, kurie savo dešiniąją yra padavę mergaitei, t. y. 18",
      "figure": "figures/2013-q25.png",
      "mechanic": "invariant",
-     "solutionKid": "Berniukai-berniukai poros: jie tarp usavyje paduoda vieną kairę ir vieną dešinę – kiek tokių porų yra, tiek pat berniukų pakelia abi rankas viena kitam. Vadinasi, berniukų, padavusių dešinę kitiems berniukams, lygiai tiek pat, kiek davusių kairę. Liko 18 dešinių, padavusių mergaitėms. Iš simetrijos kairių mergaitėms irgi 18.",
+     "solutionKid": "Berniukai-berniukai poros: jie tarpusavyje paduoda vieną kairę ir vieną dešinę – kiek tokių porų yra, tiek pat berniukų pakelia abi rankas viena kitam. Vadinasi, berniukų, padavusių dešinę kitiems berniukams, lygiai tiek pat, kiek davusių kairę. Liko 18 dešinių, padavusių mergaitėms. Iš simetrijos kairių mergaitėms irgi 18.",
      "misconceptions": {
-      "B": "Už pildei vienodai 18 ir kitų – bet sąlyga apie KAIRES, ne dešines.",
+      "B": "Užpildei vienodai 18 ir kitų – bet sąlyga apie KAIRES, ne dešines.",
       "C": "28 = mergaitės; ne berniukų skaičius.",
       "D": "14 = 28/2; sumaišei mergaičių su berniukais.",
-      "E": "20 – atsiti ktinis pas ir inkimas, neatitinka simetrijos."
+      "E": "20 – atsitiktinis pasirinkimas, neatitinka simetrijos."
      }
     },
     {
@@ -8243,12 +8243,12 @@
      "solution": "60. Už sirašykime ieškomą triženklį skaičių kaip abc, tuomet sąlyga, kurią jis turi tenkinti, atrodys taip: abc = cba+297, arba cba +297 abc Tam, kad ši lygybė būtų teisinga, su muodami b+9 turime gauti b (ir vieną mintyje), vadinasi, jau su muodami a+7 turėjome gauti bent 10. Kadangi a negali būti lygus 3 (nes tokiu atveju c gautųsi lygus 0 ir cba būtų ne triženklis skaičius), tai a gali būti 4, 5, 6, 7, 8 arba 9. Kiekvienai iš šių šešių reikšmių gauname tik vieną c reikšmę, c = a−3. Skaitmenį b galime pas ir inkti bet kokį (iš dešimties galimų skaitmenų), tad iš viso gauname 6·10 = 60 skaičių",
      "figure": "figures/2013-q26.png",
      "mechanic": "digit-puzzle",
-     "solutionKid": "Tegul triženklis skaičius yra abc (skaitmenys), o atvirkštinis – cba. Sąlyga: abc – cba = 297. Užrašome: 100 a+10 b+c – 100 c – 10 b – a = 99(a–c) = 297, taigi a–c = 3. b gali būti bet koks (0..9), a nuo 4 iki 9 (kad cba būtų triženklis). Tai 6 reikšmės a × 10 reikšmių b = 60 skaičių.",
+     "solutionKid": "Tegul triženklis skaičius yra abc (skaitmenys), o atvirkštinis – cba. Sąlyga: abc – cba = 297. Užrašome: 100a+10b+c – 100c – 10b – a = 99(a–c) = 297, taigi a–c = 3. b gali būti bet koks (0..9), a nuo 4 iki 9 (kad cba būtų triženklis). Tai 6 reikšmės a × 10 reikšmių b = 60 skaičių.",
      "misconceptions": {
       "A": "Pamiršai, kad a turi būti bent 4.",
       "B": "Suskaičiavai tik vieną a reikšmę.",
       "C": "Pamiršai b laisvę (10 reikšmių).",
-      "E": "Per didelis – į traukei netinkamus a."
+      "E": "Per didelis – įtraukei netinkamus a."
      }
     },
     {
@@ -8272,11 +8272,11 @@
      "figure": "figures/2013-q27.png",
      "mechanic": "tiling",
      "mechanic2": "geometry-misc",
-     "solutionKid": "Apvalus žiedas iš 8 detalių. Jonas nori už daryti grandinę su 4 detalėmis – bet 4 detalės sudaro tik PUSĘ apskritimo. Reikia, kad pradžia ir galas su siliestų. Tai pavyks tik tada, kai detalės sudaro mažesnį tobulą daugiakampį – su 4 detalėmis tai nesigauna. Atidžiai braižai – mažiausiai 4 detalių neapsuks pilno žiedo. Atsakymas: nepavyks.",
+     "solutionKid": "Apvalus žiedas iš 8 detalių. Jonas nori uždaryti grandinę su 4 detalėmis – bet 4 detalės sudaro tik PUSĘ apskritimo. Reikia, kad pradžia ir galas susiliestų. Tai pavyks tik tada, kai detalės sudaro mažesnį tobulą daugiakampį – su 4 detalėmis tai nesigauna. Atidžiai braižai – mažiausiai 4 detalių neapsuks pilno žiedo. Atsakymas: nepavyks.",
      "misconceptions": {
-      "A": "Per anksti už darei žiedą – 4 detalių neapsuks.",
+      "A": "Per anksti uždarei žiedą – 4 detalių neapsuks.",
       "C": "5 detalių pakaktų jei kiekvienai būtų skirtingas kampas.",
-      "D": "8 – pradinis skaičius, ne už darytos grandinės."
+      "D": "8 – pradinis skaičius, ne uždarytos grandinės."
      }
     },
     {
@@ -8297,9 +8297,9 @@
      "solution": "1006. Pradėkime nuo galo. Paskutinis iš vykęs žmogus buvo teisus, sakydamas, kad po jo iš vykimo riterių ir melagių liks po lygiai, vadinasi, jis buvo riteris. Priešpa skutinis, kita vertus, buvo neteisus, tą teigdamas, vadinasi, jis buvo melagis. Trečias nuo galo vėl buvo teisus, vadinasi, jis buvoriteris, ketvirta svėlbuvoneteisus, vadinasi, jisbuvome lagis. Tai ptęsdamisamprotavimą gauname, kad riteriai ir melagiai iš vykdavo pakaitomis, ir paskutinysis išvyko riteris. Kadangi iš viso pradžioje buvo 2013 gyventojų, tai ir pirmasis išvyko riteris, o melagių buvo (2013 − 1)/2 = 1006",
      "figure": "figures/2013-q28.png",
      "mechanic": "truth-tellers",
-     "solutionKid": "Tarkim, tie suolių yra T, melagių M, T+M = 2013. Kiekvienas turi paskirstymą tarp T ir M. Iš sąlygų reiškia: jei būtų lygus skaičius tie suolių ir melagių, jų teiginiai prieštarautų patys sau. Skaičiavimas duoda T = 671, M = 1342 – kiekvienas tie suolis sako tiesą apie kažkurį skaičių.",
+     "solutionKid": "Tarkim, tiesuolių yra T, melagių M, T+M = 2013. Kiekvienas turi paskirstymą tarp T ir M. Iš sąlygų reiškia: jei būtų lygus skaičius tiesuolių ir melagių, jų teiginiai prieštarautų patys sau. Skaičiavimas duoda T = 671, M = 1342 – kiekvienas tiesuolis sako tiesą apie kažkurį skaičių.",
      "misconceptions": {
-      "A": "T = 0 – neatitinka teiginių apie tie su olius.",
+      "A": "T = 0 – neatitinka teiginių apie tiesuolius.",
       "C": "Kažkokia kita konfigūracija, neatitinka sąlygos.",
       "E": "Per didelė reikšmė melagių."
      }
@@ -8327,7 +8327,7 @@
      "solutionKid": "Pradedi nuo (20, 1, 3). Po SUMOS gauni (1+3, 20+3, 20+1) = (4, 23, 21). Stebi: bendra suma kiekvienu žingsniu padvigubėja (nes kiekvienas naujas narys = likusių dviejų suma, taigi nauja_suma = 2·sena_suma). Pradžia 24, po N žingsnių – 24·2^N. Po 5 žingsnių 24·32 = 768.",
      "misconceptions": {
       "A": "Pamiršai, kad bendra suma per kiekvieną žingsnį DVIGUBĖJA.",
-      "B": "Skaičiavai ar itmetiškai, ne geome triškai.",
+      "B": "Skaičiavai aritmetiškai, ne geometriškai.",
       "C": "Per maža – nesuvokei 2^N didėjimo.",
       "E": "Vienas iš pradinių, ne galo skaičių."
      }
@@ -8353,11 +8353,11 @@
      "solution": "68. Kiekvieno kubelio bet kurios dvi greta esančios (t. y. ne priešingos) sienos bus suklijuotos su kitų kubelių sienomis, todėl su muojant nebus į trauktos į paviršiuje esančių skaičių sumą. Norint gauti didžiausią sumą, reikia, kad būtų neįtraukti kuo mažesni du skaičiai. Patys mažiausi ant kubelių užrašyti du skaičiai yra 1 ir 2, tačiau jie sulanksčius kubelį bus priešais vienas kitą. Antroje vietoje pagal mažumą yra skaičiai 1 ir 3, ir jie kaip tik yra greta vienas kito. Vadinasi, didžiausią sumą gausime, kai kiekvieno kubelio bus suklijuoti skaičiai 1 ir 3, o iš orėje liks 6, 5, 4 ir 2. Taip suklijuoti nesunku – kubelius guldome ratu: pirmą kubelį guldome taip, kad skaičiai 1, 3 žiūrėtų į rato vidų, antrą kubelį (tai apverstas pirmas) guldome skaičiais 3, 1, trečią 1, 3, ketvirtą 3, 1. Su sumavę išorės skaičius gauname (6+5+4+2)·4 = 68. Atsakymai Uždavinio Nr. Atsakymas 1 E 2 C 3 C 4 B …",
      "figure": "figures/2013-q30.png",
      "mechanic": "cube-net",
-     "solutionKid": "Iš 4 vienodų kubelių su dėliota plytelė – aplink ją galima sukti, bet matomos tik 3 sienos kiekvieno kubelio. Iš išklotinės pamatai, kurios sienos priešingos. Skaičiuoji matomų skaičių sumą – kiekvienos plytelės pusės atskirai – ir gauni 36.",
+     "solutionKid": "Iš 4 vienodų kubelių sudėliota plytelė – aplink ją galima sukti, bet matomos tik 3 sienos kiekvieno kubelio. Iš išklotinės pamatai, kurios sienos priešingos. Skaičiuoji matomų skaičių sumą – kiekvienos plytelės pusės atskirai – ir gauni 36.",
      "misconceptions": {
       "A": "Per maža – nesuskaičiavai visų plytelės šonų.",
-      "C": "Klaidingai pas ir inkai išklotinę.",
-      "E": "Per didelis – į traukei nematomas sienas."
+      "C": "Klaidingai pasirinkai išklotinę.",
+      "E": "Per didelis – įtraukei nematomas sienas."
      }
     }
    ]
@@ -8782,7 +8782,6 @@
      "mechanic": "sequence-pattern",
      "solutionKid": "Vienas ciklas A+B+C+D+E = 3+2,5+2+1,5+4 = 13 minučių. Skaičiuoji 60:13 = 4 ciklai (52 min) ir 8 minutės. Per 8 minutes prasideda A (3), B (2,5 – baigia 5,5), C (2 – iki 7,5), tada D (1,5 – iki 9 min). Skambės D 9 min., bet sąlyga prašo per 1 valandą – atsakymas D.",
      "misconceptions": {
-      "A": "Pamiršai pirmąjį dainos eilės tvarką.",
       "B": "Sumaišei laiką tarp B ir C.",
       "C": "Per anksti – per 1 valandą D dar prasidėjusi.",
       "E": "E pasibaigė anksčiau, nei klausiama."
@@ -9346,8 +9345,7 @@
      "misconceptions": {
       "B": "Skaičiavai be perkėlimo.",
       "C": "Sumaišei kuri raidė atitinka kurią vietą.",
-      "D": "Pamiršai pradinį pavyzdį patikrinti.",
-      "E": "Pas ir inkai didžiausią be patikros."
+      "D": "Pamiršai pradinį pavyzdį patikrinti."
      },
      "figure": "figures/2015-q21.png",
      "correct": "E"
@@ -9367,12 +9365,12 @@
       "uzdaviniai"
      ],
      "mechanic": "mixture-fraction",
-     "solutionKid": "Tegul Giedrius turi x. Po I knygos lieka x – (x/2 + 1) = x/2 – 1. Po II lieka (x/2 – 1)/2 – 2 = x/4 – 5/2. Tai turi būti = III knygos kainos (jis viską iš leido). Iš sąlygos – x = 26 EUR.",
+     "solutionKid": "Tegul Giedrius turi x. Po I knygos lieka x – (x/2 + 1) = x/2 – 1. Po II lieka (x/2 – 1)/2 – 2 = x/4 – 5/2. Tai turi būti = III knygos kainos (jis viską išleido). Iš sąlygos – x = 26 EUR.",
      "misconceptions": {
       "A": "Pamiršai pridėti 1 EUR po pirmos knygos.",
       "B": "Per maža – nepakanka 3 knygoms.",
       "D": "Per didelė – per daug paliktum.",
-      "E": "Pas ir inkai be lygčių sistemos sprendimo."
+      "E": "Pasirinkai be lygčių sistemos sprendimo."
      },
      "figure": "figures/2015-q22.png",
      "correct": "C"
@@ -9904,12 +9902,12 @@
      ],
      "mechanic": "casework",
      "mechanic2": "digit-properties",
-     "solutionKid": "Milošas gimė XX a., t. y. 1900–1999. Skaitmenų sandauga = 9. Taigi nė vienas skaitmuo nėra 0 (kitaip sandauga 0). Antras skaitmuo 9 (nes 1·9·a·b = 9, a·b = 1, taigi a=b=1). Taigi metai = 1911. Patikrink kiekvieną teiginį – netinka tas, kuris sako kitaip.",
+     "solutionKid": "Milošas gimė XX a., t.y. 1900–1999. Skaitmenų sandauga = 9. Taigi nė vienas skaitmuo nėra 0 (kitaip sandauga 0). Antras skaitmuo 9 (nes 1·9·a·b = 9, a·b = 1, taigi a=b=1). Taigi metai = 1911. Patikrink kiekvieną teiginį – netinka tas, kuris sako kitaip.",
      "misconceptions": {
       "A": "Skaitmenys nesutampa su sandauga 9.",
       "B": "Pamiršai, kad 0 paverstų sandaugą į 0.",
-      "C": "Per anksti pas ir inkai – patikrini visus skaitmenis.",
-      "E": "Su simaišė kelias galimas metų reikšmes."
+      "C": "Per anksti pasirinkai – patikrini visus skaitmenis.",
+      "E": "Susimaišė kelias galimas metų reikšmes."
      },
      "figure": "figures/2016-q21.png",
      "correct": "D",
@@ -9932,12 +9930,11 @@
      ],
      "mechanic": "counting-ways",
      "mechanic2": "casework",
-     "solutionKid": "Skaičiai prasideda 1, kiekvienas kitas ≥ ankstesnio. Tai didėjantys arba vienodi. Su skaičiuok visus tokius iki tam tikro ilgio: 1-skaitmenis – 1; 2-skaitmenis – 9 (1X, X≥1); ir taip toliau iki sąlygos ribos. Atsakymas iš pateikto sąrašo: 165.",
+     "solutionKid": "Skaičiai prasideda 1, kiekvienas kitas ≥ ankstesnio. Tai didėjantys arba vienodi. Suskaičiuok visus tokius iki tam tikro ilgio: 1-skaitmenis – 1; 2-skaitmenis – 9 (1X, X≥1); ir taip toliau iki sąlygos ribos. Atsakymas iš pateikto sąrašo: 165.",
      "misconceptions": {
       "A": "Per mažas – nepakanka kombinacijų.",
-      "B": "Sumaišei didėjantys su kitokiu kriterijumi.",
-      "D": "Per didelis – į skaičiavai mažėjančius.",
-      "E": "Pas ir inkai be sisteminės skaičiavimo."
+      "D": "Per didelis – įskaičiavai mažėjančius.",
+      "E": "Pasirinkai be sisteminės skaičiavimo."
      },
      "figure": "figures/2016-q22.png",
      "correct": "B"
@@ -10496,12 +10493,12 @@
       "erdve"
      ],
      "mechanic": "cube-color",
-     "solutionKid": "Kiekvienas strypelis – 2 pilki + 1 baltas (3 kubeliai). 9 strypeliuose: 18 pilkų + 9 baltų = 27 kubeliai = 3³. Su konstruoji 3×3×3 kubą. Pažiūri į atsakymus, kuris turi tokį pas iskirstymą – kuris baltas yra centre? Tik vienas variantas duoda 9 baltus, simetriškai iš dėstytus.",
+     "solutionKid": "Kiekvienas strypelis – 2 pilki + 1 baltas (3 kubeliai). 9 strypeliuose: 18 pilkų + 9 baltų = 27 kubeliai = 3³. Sukonstruoji 3×3×3 kubą. Pažiūri į atsakymus, kuris turi tokį pasiskirstymą – kuris baltas yra centre? Tik vienas variantas duoda 9 baltus, simetriškai išdėstytus.",
      "misconceptions": {
-      "B": "Pas ir inkai be patikrinimo, kuris baltas centre.",
-      "C": "Sumaišei strypelio o rientaciją.",
-      "D": "Per asime trinis – netilps simetriškame kube.",
-      "E": "Pas ir inkai be 27 kubelių paskaičiavimo."
+      "B": "Pasirinkai be patikrinimo, kuris baltas centre.",
+      "C": "Sumaišei strypelio orientaciją.",
+      "D": "Per asimetrinis – netilps simetriškame kube.",
+      "E": "Pasirinkai be 27 kubelių paskaičiavimo."
      },
      "figure": "figures/2017-q21.png",
      "correct": "A",
@@ -10524,12 +10521,11 @@
       "erdve"
      ],
      "mechanic": "casework",
-     "solutionKid": "Skaičiai 1–5 į rašomi į 5 langelius eilutėje ir stulpelyje (kryžiaus formos). Eilutė ir stulpelis turi vienodą sumą. Bendra suma 1+2+3+4+5 = 15, centrinis langelis priklauso abiems – jį su skaičiuoji 2 kartus. (eilutės suma) + (stulpelio suma) = 15 + centras. Eilutė = stulpelis = (15+c)/2. c = 1, 3 ar 5 (kad būtų sveikas). Atsakymas: 3 į manomi atvejai.",
+     "solutionKid": "Skaičiai 1–5 įrašomi į 5 langelius eilutėje ir stulpelyje (kryžiaus formos). Eilutė ir stulpelis turi vienodą sumą. Bendra suma 1+2+3+4+5 = 15, centrinis langelis priklauso abiems – jį suskaičiuoji 2 kartus. (eilutės suma) + (stulpelio suma) = 15 + centras. Eilutė = stulpelis = (15+c)/2. c = 1, 3 ar 5 (kad būtų sveikas). Atsakymas: 3 įmanomi atvejai.",
      "misconceptions": {
-      "A": "Per maža – yra daugiau būdų iš dėstyti.",
+      "A": "Per maža – yra daugiau būdų išdėstyti.",
       "B": "Sumaišei centro reikšmę.",
-      "D": "Per didelis – į traukei netinkamus.",
-      "E": "Pas ir inkai be sumos lygybės patikrinimo."
+      "E": "Pasirinkai be sumos lygybės patikrinimo."
      },
      "figure": "figures/2017-q22.png",
      "correct": "D"
@@ -11115,12 +11111,12 @@
      "figure": "figures/2018-q21.png",
      "mechanic": "counting-ways",
      "mechanic2": "partition",
-     "solutionKid": "Iš {3,5,2,6,1,4,7} parink 3 skirtingus, kurių suma 8: {1,3,4}, {1,2,5}, {1,3,4}... iš vardyk: {1,2,5}, {1,3,4}, {2,3,3}neg, ... Yra 3 trejetai: {1,2,5}, {1,3,4}, {2,5,1}=tas pats. Tomas pasiima vieną iš jų. Tikras atsakymas (patikrinus visus): C.",
+     "solutionKid": "Iš {3,5,2,6,1,4,7} parink 3 skirtingus, kurių suma 8: {1,3,4}, {1,2,5}, {1,3,4}... išvardyk: {1,2,5}, {1,3,4}, {2,3,3}neg, ... Yra 3 trejetai: {1,2,5}, {1,3,4}, {2,5,1}=tas pats. Tomas pasiima vieną iš jų. Tikras atsakymas (patikrinus visus): C.",
      "misconceptions": {
       "A": "Pamiršai patikrinti visus trejetus.",
-      "B": "Sumaišei trejetus su po romis.",
+      "B": "Sumaišei trejetus su poromis.",
       "D": "Per didelis – netinkami atvejai.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -11144,8 +11140,8 @@
      "solutionKid": "5 rutuliai, vienas 30 g, vienas 80 g, trys po 50. 3 svėrimai parodo, kuri pora sunkesnė. Bandyk: ant kurių svarstyklių vyksta DIDŽIAUSIAS pakitimas? Tas, kurioje 80 g rutulys yra vienoj pusėj, o 30 g – kitoj. Atidžiai sek piešinį – 30 g yra ten, kur svarstyklės AKIVAIZDŽIAI nukrypsta į kitą pusę su mažu rutuliu. Atsakymas A.",
      "misconceptions": {
       "B": "Sumaišei rutulį su didžiausia mase.",
-      "D": "Pas ir inkai be visų 3 svėrimų patikros.",
-      "E": "Sumaišei o rientaciją svarsty klėse."
+      "D": "Pasirinkai be visų 3 svėrimų patikros.",
+      "E": "Sumaišei orientaciją svarstyklėse."
      },
      "imageOnlyOptions": true
     },
@@ -11167,12 +11163,12 @@
      "solution": "AAABCB. Skaičius AAABCB negali būti didžiausias: jei B > C, tai su keitę 5-tą ir 6-tą skaitmenis, jį padidintume; jei C > B, tai su keistume 4-tą ir 5-tą skaitmenis. Renkamės atsakymą D. — Norėdami šiais skaitmenimis užrašyti kuo didesnį 6-iaženklį skaičių, iš pradžių iš rinktume iš skaitmenų A, B ir C patį didžiausią, ir parašytume šį skaitmenį tiek kartų, kiek leidžia užda- vinio sąlyga, tada pas ir inktume antrą pagal didumą skaitmenį, ir vėl parašytume jį tiek kartų, kiek tik galime, ir galiausiai už rašytume likusius mažiausius skaitmenis. Taigi, nepri klausomai nuo to, kuris iš skaitmenų A, B ir C yra didžiausias ar mažiausias, už rašant patį didžiausią 6-iaženklį skaičių vienodi skaitmenys bus parašyti greta, vienas šalia kito. Peržiūrėję atsakymų variantu smatome, kad būtenttokie yra variantai A, B,Cir E. Tuotarpuvariante Dskaitmuo C yra į siterpęs tarp dviejų skaitmenų B, taigi toks skaičius tik …",
      "figure": "figures/2018-q23.png",
      "mechanic": "digit-puzzle",
-     "solutionKid": "6-iaženklis skaičius: 3 raidės A, 2 raidės B, 1 C – iš viso 6 vietos. Didžiausias gaunamas, kai 3 A su sitelkę pradžioje (didžiausias skaitmuo) – A=9. Tada B turi būti 8, C – 7. Skaičius 999887. Skaitmenų suma 9+9+9+8+8+7 = 50.",
+     "solutionKid": "6-iaženklis skaičius: 3 raidės A, 2 raidės B, 1 C – iš viso 6 vietos. Didžiausias gaunamas, kai 3 A susitelkę pradžioje (didžiausias skaitmuo) – A=9. Tada B turi būti 8, C – 7. Skaičius 999887. Skaitmenų suma 9+9+9+8+8+7 = 50.",
      "misconceptions": {
       "A": "Per maža – pamiršai didžiausius skaitmenis.",
-      "B": "Sumaišei skaitmenų pas iskirstymą.",
-      "C": "Pas ir inkai be 3 vienodų skaitmenų prioriteto.",
-      "E": "Pas ir inkai dėl atsiti ktinio su mavimo."
+      "B": "Sumaišei skaitmenų pasiskirstymą.",
+      "C": "Pasirinkai be 3 vienodų skaitmenų prioriteto.",
+      "E": "Pasirinkai dėl atsitiktinio sumavimo."
      }
     },
     {
@@ -11219,11 +11215,11 @@
      "solution": "3. Jeigu šiuos skaičius su skirstysime taip, kad kiekvienos grupės skaičių suma būtų tokia pati, tai visų skaičių suma dalysis iš grupių skaičiaus. Taip pat visų skaičių suma dalysis iš kiekvienos grupės skaičių sumos. Suskaičiuokime visų skaičių sumą: 2+3+4+5+6+7+8+9+10 = 54. Į kuo daugiau grupių padalinsime šiuos skaičius, tuo mažesnė bus vienos grupės skaičių suma. Tačiau taip pat galime pastebėti, kad grupės skaičių suma turi būti ne mažesnė nei 10 (nes skaičius 10 įeina į kurią nors grupę). Mažiausias skaičius, didesnis už 10, iš kurio dalijasi 54, yra 18: 54: 18 = 3. Taigi daugiau negu į 3 grupes skaičių suskirstyti neįmanoma. Lieka į sitikinti, jog į manoma suskirstyti skaičius į 3 grupes, kad kiekvienos grupės suma būtų 18. Išties, šios grupės galėtų būti tokios (tai ne vienintelis būdas suskirstyti skaičius į grupes): 8 ir 10; 2, 7 ir 9; 3, 4, 5 ir 6.",
      "figure": "figures/2018-q25.png",
      "mechanic": "partition",
-     "solutionKid": "Skaičiai 2..10, suma 54. Į vienodos sumos grupes: grupių skaičius privalo dalyti 54. Galimi: 1, 2, 3, 6, 9, 18, 27, 54. Skaičių 9, taigi grupių ne daugiau 9 (po 1 skaičių). Maksimalus į manomas grupių skaičius (kiekvienoje suma 54/k): patikrink k=6 (suma po 9): {2,7},{3,6},{4,5},{9},{8,...} – ne. Tinka k = 3 (suma 18 kiekvienai): {10,8},{9,7,2},{6,5,4,3}. Atsakymas: 3.",
+     "solutionKid": "Skaičiai 2..10, suma 54. Į vienodos sumos grupes: grupių skaičius privalo dalyti 54. Galimi: 1, 2, 3, 6, 9, 18, 27, 54. Skaičių 9, taigi grupių ne daugiau 9 (po 1 skaičių). Maksimalus įmanomas grupių skaičius (kiekvienoje suma 54/k): patikrink k=6 (suma po 9): {2,7},{3,6},{4,5},{9},{8,...} – ne. Tinka k = 3 (suma 18 kiekvienai): {10,8},{9,7,2},{6,5,4,3}. Atsakymas: 3.",
      "misconceptions": {
       "A": "Per mažai – galima į daugiau grupių.",
       "D": "Per daug – nesigauna lygios sumos.",
-      "E": "Pas ir inkai be sumos patikros."
+      "E": "Pasirinkai be sumos patikros."
      }
     },
     {
@@ -11245,11 +11241,11 @@
      "solution": "200 cm. Matome 4 ilgus stačiakampius, 4 vidutinius ir vieną kvadratą. Kvadrato kraštinės ilgis lygus lentos pločiui, 8 cm. Vidutiniai stačiakampiai atrodo dvigubai ilgesni už kvadratą – 8·2 = 16 cm, o ilgieji – du kartus ilgesni už vidutinius stačiakampius, tai yra 16·2 = 32 cm. Be lieka tvarkingai sudėti visų dalių ilgius: 8+4·16+4·32 = 8+64+128 = 200 (cm). Renkamės atsakymą D. — Kiekvieno stačiakampio, kuris liečia centre esantį kvadratą, ilgis yra lygus kvadrato kraštinės ilgio ir lentos pločio sumai, o tai yra 8 + 8 = 16 cm. Kiekvieno ilgojo (iš o rinio) stačiakampio ilgis lygus vidutinio stačiakampio ilgio ir dvigubo lentos pločio sumai, tai yra 16+8+8 = 32 cm. Todėl visos lentos ilgis buvo 8+4·16+4·32 = 8+64+128 = 200 (cm).",
      "figure": "figures/2018-q26.png",
      "mechanic": "tiling",
-     "solutionKid": "Lenta su pjaustyta į 9 dalis: 1 kvadratinė + 8 stačiakampės (visos 8 cm pločio). Sudėjus stačiakampiu plotis 8 cm fiksuotas, ilgiai su muojasi. Iš sąlygos – pradinis lenta + dalys = duotas plotas. Skaičiuoji – atsakymas 184 cm.",
+     "solutionKid": "Lenta supjaustyta į 9 dalis: 1 kvadratinė + 8 stačiakampės (visos 8 cm pločio). Sudėjus stačiakampiu plotis 8 cm fiksuotas, ilgiai sumuojasi. Iš sąlygos – pradinis lenta + dalys = duotas plotas. Skaičiuoji – atsakymas 184 cm.",
      "misconceptions": {
-      "A": "Per maža – pamiršai stačiakampių su mavimą.",
+      "A": "Per maža – pamiršai stačiakampių sumavimą.",
       "B": "Sumaišei plotį su ilgiu.",
-      "E": "Pas ir inkai be matmenų patikros."
+      "E": "Pasirinkai be matmenų patikros."
      }
     },
     {
@@ -11272,11 +11268,11 @@
      "solution": "21. Kad Gertrūda gautų kuo didesnę sumą, reikia į rašyti kuo mažiau nulių. To- 1 1 1 1 1 dėl stengsimės padaryti taip, kad kiekviename kvadrate 2×2 būtų trys 1 ir 1 0 1 0 1 vienas 0. Lentelę pavyksta už pildyti į rašant iš viso keturis nulius (žr. pav. 1 1 1 1 1 dešinėje). Šios lentelės skaičių sumą suskaičiuojame taip: jei į visus lentelės 1 0 1 0 1 langelius Gertrūda būtų į rašiusi po 1, tai lentelės skaičių suma būtų 5·5 = 25, 1 1 1 1 1 o dabar galime į sivaizduoti, kad keturis 1 ji pakeitė į 0, todėl ir visa suma sumažėjo 4 ir yra lygi 25−4 = 21. Renkamės atsakymą B. — Į sitikinkime, kad tikrai niekaip Gertrūdai neišeis už pildyti lentelės su mažiau 1 1 1 1 1 nulių ir daugiau vienetų. Lentelėje galime iš skirti keturis nesikertančius kvad- 1 0 1 0 1 ratus 2×2(ir darli ksšiai skvadrataisneuždengtidulentelės„kraštai“,žr. pav. 1 1 1 1 1 dešinėje). Kad ir kaip dėliotume lentelėje skaičius 0 ir 1, ki …",
      "figure": "figures/2018-q27.png",
      "mechanic": "casework",
-     "solutionKid": "5×5 lentelė, 0 ar 1, kiekvienas 2×2 turi LYGIAI 3 vienodus. Tai reiškia 3 vienetų ir 1 nulis (arba atvirkščiai). Stengiesi maksimaliai daug 1. Su keturiais 0 (po vieną kiekvienoje 2×2 grupėje, iš dėstytais šachmatine tvarka) gauni 21 vienetą. Suma = 21.",
+     "solutionKid": "5×5 lentelė, 0 ar 1, kiekvienas 2×2 turi LYGIAI 3 vienodus. Tai reiškia 3 vienetų ir 1 nulis (arba atvirkščiai). Stengiesi maksimaliai daug 1. Su keturiais 0 (po vieną kiekvienoje 2×2 grupėje, išdėstytais šachmatine tvarka) gauni 21 vienetą. Suma = 21.",
      "misconceptions": {
       "A": "Per maža – galima padaryti tik 4 nulius.",
       "D": "Per daug – nesigauna 3 vienodi 2×2.",
-      "E": "Pas ir inkai be šachmatinio iš dėstymo."
+      "E": "Pasirinkai be šachmatinio išdėstymo."
      }
     },
     {
@@ -11298,11 +11294,11 @@
      "solution": "9. Galime pastebėti, kad niekur prie stalo vienas šalia kito nesėdės trys melagiai, nes tuomet vidurinis iš jų, sakydamas, kad abu jo kaimynai yra melagiai, sakytų tiesą, o taip būti negali, nes melagis visada meluoja. Taigi jei prie stalo greta sėdi du melagiai, tai jiems iš abiejų šonų turi sėdėti tie su oliai. Kitaip ta riant, bent kas trečias žmogus prie stalo turi būti tie suolis: M-M-T-M-M-T-M-M-T-M-M-T-M-M. Visgi į paskutines dvi vietas negalime sodinti dviejų melagių, nes už apskrito stalo greta pas- kutinių dviejų melagių sėdės du pirmieji melagiai, ir taip būsime iš eilės su sodinę net ne tris, o keturis melagius. Tam, kad perskirtume šią keturių melagių grupę, į paskutinę, 14-ąją vietą turime sodinti ne melagį, o tie suolį: M-M-T-M-M-T-M-M-T-M-M-T-M-T. Taigi prie stalo gali sėdėti 9 melagiai. Renkamės atsakymą C. 20 UŽDUOČIŲ SPRENDIMAI — Kodėl aukščiau esantį sprendimą pažymėjome k …",
      "figure": "figures/2018-q28.png",
      "mechanic": "truth-tellers",
-     "solutionKid": "14 prie stalo. Kiekvienas sako: „mano kaimynai yra du melagiai“ arba „... du tie su oliai“ (priklauso nuo to, kas jis). Tie suolis sako tiesą – jo kaimynai abu MELAGIAI. Melagis – jo kaimynai NE abu tie su oliai. Šachmatinė konfigūracija (T, M, T, M, ...) tinka tik kai 14 lygūs. Galimi atvejai: 7 T ir 7 M, arba 0 T ir 14 M (visi melagiai). Atsakymas D.",
+     "solutionKid": "14 prie stalo. Kiekvienas sako: „mano kaimynai yra du melagiai“ arba „... du tiesuoliai“ (priklauso nuo to, kas jis). Tiesuolis sako tiesą – jo kaimynai abu MELAGIAI. Melagis – jo kaimynai NE abu tiesuoliai. Šachmatinė konfigūracija (T, M, T, M, ...) tinka tik kai 14 lygūs. Galimi atvejai: 7 T ir 7 M, arba 0 T ir 14 M (visi melagiai). Atsakymas D.",
      "misconceptions": {
       "A": "Per maža T reikšmė.",
-      "B": "Sumaišei tie su olius su melagiais.",
-      "E": "Pas ir inkai be sąlygos patikros."
+      "B": "Sumaišei tiesuolius su melagiais.",
+      "E": "Pasirinkai be sąlygos patikros."
      }
     },
     {
@@ -11324,11 +11320,11 @@
      "solution": "3. Su dėliokime kauliukus, kaip parodyta pavei kslėlyje. Kiekvienos eilutės ir stulpelio suma bus lygi 10, jei už dengtoje kauliuko pusėje bus 10 − 1 − 2 − 4 = 10 − 7 = 3 akutės. Renkamės variantą C. — ! Į sitikinkime, kad pasislėpusių akučių skaičius negali būti kitoks. Iš pradžių suskaičiuokime, kiekakučiųi švisomatome sąlygo spavei kslėlyje: 4+1+2+1+3+2+4+5+1+3+1+2+2+6 = 37. Kokia gali būti visų kauliukų akučių suma (pridėjus už dengtos kauliuko pusės akutes)? Už dengtoje pusėje gali būti mažiausiai 0 akučių, taigi mažiausia galima visų akučių suma yra 37, o daugiausiai gali būti 6 akutės, tada suma bus 37+6 = 43. Taigi, visų akučių suma turi būti skaičius tarp 37 ir 43. Jeigu kiekvienos eilutės akučių suma yra tokia pati, tai visų kauliukų akučių suma bus keturis kartus didesnė. Tai reiškia, kad visų akučių suma dalysis iš 4. Vienintelis skaičius, kuris yra tarp 37 ir 43 ir dalijasi iš 4, yra …",
      "figure": "figures/2018-q29.png",
      "mechanic": "tiling",
-     "solutionKid": "8 domino kaulalukai sudaro kvadratinę lentą; vienas kaulalukas pas lėptas. Bendra taškų suma žinoma; matomose 7 – kažkokia suma. Skirtumas = pas lėpto kauliuko taškų suma. Iš domino tai syklės (0..6 dvigubai) ir matomų – pavyksta nustatyti vienarei kšmiškai. Atsakymas: rasti.",
+     "solutionKid": "8 domino kaulalukai sudaro kvadratinę lentą; vienas kaulalukas paslėptas. Bendra taškų suma žinoma; matomose 7 – kažkokia suma. Skirtumas = paslėpto kauliuko taškų suma. Iš domino taisyklės (0..6 dvigubai) ir matomų – pavyksta nustatyti vienareikšmiškai. Atsakymas: rasti.",
      "misconceptions": {
-      "A": "Pas ir inkai be domino sumos tai syklės.",
-      "B": "Sumaišei matomus su už dengtais.",
-      "E": "Pas ir inkai be visų 8 kortelių sumos."
+      "A": "Pasirinkai be domino sumos taisyklės.",
+      "B": "Sumaišei matomus su uždengtais.",
+      "E": "Pasirinkai be visų 8 kortelių sumos."
      }
     },
     {
@@ -11351,11 +11347,11 @@
      "solution": "18. Į vidurinį skrituliukąįrašytasskaičiusatsidursvisose trijose sumose. Šįskaičiųpažymėkime K. Jeigu su dėtume visų trijų tiesių skaičių sumas, tai šioje „sumų sumoje“ vidurinio skrituliuko skaičius K pas ir odytų 3 kartus, o kiekvieno likusio skrituliuko skaičius pas ir odytų po vieną kartą. Kitaip ta riant, ši „sumų suma“ būtų lygi skaičių 3, 4, 5, 6, 7, 8 ir 9 sumai, prie jos dar du kartus pridėjus vidurinio skrituliuko skaičių, t. y. būtų lygi 3+4+5+6+7+8+9+K +K = 42+2·K. Kita vertus, ši „sumų suma“ yra trigubai didesnė už vienos tiesės skaičių sumą, todėl ji būtinai turi dalytis iš 3. Kokius skaičius galime imti vietoje K, kad suma 42+2K dalytųsi iš 3? Jei K = 3, tai 42+2K = 45+2·3 = 51, dalijasi iš trijų. Jei K = 4, tai 42+2K = 45+2·4 = 53, nesidalija iš trijų. Jei K = 5, šisumalygi 55, ir panašiu būduperrinkęvisusskaičius nuo 3 iki9 randame, kad vietoje K tinka tik skaičiai 3, 6 ir 9 (vikresnė …",
      "figure": "figures/2018-q30.png",
      "mechanic": "casework",
-     "solutionKid": "Skaičius 3..9 į 7 skrituliukus, 3 tiesių sumos vienodos. Bendra suma 3+4+...+9 = 42. Centras priklauso visom 3 tiesėm – jį su skaičiuoji 3 kartus, kitus po 1 kartą. 3·tiesės_suma = 42 + 2·centras. Tiesės suma turi būti sveikoji – centras turi būti tarp 3 ir 9 toks, kad 42+2 c dalintųsi iš 3. c = 6. Tiesės suma = 18.",
+     "solutionKid": "Skaičius 3..9 į 7 skrituliukus, 3 tiesių sumos vienodos. Bendra suma 3+4+...+9 = 42. Centras priklauso visom 3 tiesėm – jį suskaičiuoji 3 kartus, kitus po 1 kartą. 3·tiesės_suma = 42 + 2·centras. Tiesės suma turi būti sveikoji – centras turi būti tarp 3 ir 9 toks, kad 42+2c dalintųsi iš 3. c = 6. Tiesės suma = 18.",
      "misconceptions": {
       "A": "Per maža – nepakanka centrui.",
       "B": "Sumaišei tieses su skrituliukais.",
-      "C": "Pas ir inkai be sumos lygybės patikros."
+      "C": "Pasirinkai be sumos lygybės patikros."
      }
     }
    ]
@@ -11786,9 +11782,9 @@
      "mechanic": "cube-color",
      "solutionKid": "Kubas su skaičiais sienose; bet kurių dviejų priešingų sandauga vienoda. Tegul priešingos sienos: a/d, b/e, c/f. ad = be = cf = k. Iš piešinio – matosi 3 sienos su skaičiais (105 ir kt.). Patikrini ar trijų matomų sandauga = k³. Sprendi sistemą – atsakymas randamas. Iš variantų rasti tinkamą.",
      "misconceptions": {
-      "A": "Pas ir inkai be priešingų sienų patikros.",
+      "A": "Pasirinkai be priešingų sienų patikros.",
       "B": "Sumaišei sandaugą su suma.",
-      "E": "Pas ir inkai be visų 3 sienų sandaugos."
+      "E": "Pasirinkai be visų 3 sienų sandaugos."
      }
     },
     {
@@ -11812,7 +11808,7 @@
      "solutionKid": "6 juodi + 3 balti rutuliai, dvejos svarstyklės. Iš piešinio žinai jų balansą. 1 juodas = ? baltų. Iš pirmo svėrimo gauni vieną santykį, iš antro – kitą. Atimti, sudėti – atsakymas vieno juodo svoris baltais.",
      "misconceptions": {
       "A": "Per mažas santykis.",
-      "B": "Pas ir inkai be antrojo svėrimo.",
+      "B": "Pasirinkai be antrojo svėrimo.",
       "D": "Per didelis – juodi sunkesni."
      }
     },
@@ -11834,11 +11830,11 @@
      "solution": "Ir Kengas, ir Kongas. Kingas skėčio nepasiėmė, taigi pagal sąlygą Kongas tikrai pasiėmė skėtį. Lieka atsakyti į klausimą, ar skėtįpasiėmė Kengas. Ta rkime, jisskėčionepasiėmė. Tuomet skėtį turėjo paimti Kingas. Bet juk žinome, kad Kingas skėčio nepasiėmė. Gauname prieštarą. Vadinasi, Kengas skėtį pasiėmė.",
      "figure": "figures/2019-q23.png",
      "mechanic": "logic-clues",
-     "solutionKid": "Kengas, Kingas, Kongas. Sąlygos: jei Kengas neturi skėčio, tai Kingas turi. Per kelias dienas. Iš sąlygų – sek po vieną dieną, tikrindami visus tris turėjimus. Atsakymas randamas iš vardinant atvejus.",
+     "solutionKid": "Kengas, Kingas, Kongas. Sąlygos: jei Kengas neturi skėčio, tai Kingas turi. Per kelias dienas. Iš sąlygų – sek po vieną dieną, tikrindami visus tris turėjimus. Atsakymas randamas išvardinant atvejus.",
      "misconceptions": {
-      "B": "Sumaišei dienas tarp usavyje.",
-      "D": "Pas ir inkai be Kongo į vertinimo.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "B": "Sumaišei dienas tarpusavyje.",
+      "D": "Pasirinkai be Kongo įvertinimo.",
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -11861,9 +11857,9 @@
      "mechanic": "cube-net",
      "solutionKid": "Iš išklotinių, sulanksčius kubą, turi sutapti tik vieno linijos pradžia ir galas. Pažymėk kiekvienoje išklotinėje pradžios ir galo padėtį po sulankstymo. Tik vienoje atsakymų variantų jos sutampa – kitose praeina pro skirtingus taškus.",
      "misconceptions": {
-      "A": "Pas ir inkai be sulankstymo patikros.",
-      "B": "Pas ir inkai be linijos sekos.",
-      "E": "Pas ir inkai dėl išklotinės formos."
+      "A": "Pasirinkai be sulankstymo patikros.",
+      "B": "Pasirinkai be linijos sekos.",
+      "E": "Pasirinkai dėl išklotinės formos."
      },
      "imageOnlyOptions": true
     },
@@ -11885,11 +11881,11 @@
      "solution": "La ir Na. Iš dviejų paskutinių sakinių aišku: kadangi Ka ir La yra berniukas ir mergaitė, o jie kartu su Ma yra berniukas ir dvi mergaitės, tai Ma yra mergaitė. Grįžtame prie pirmojo sakinio. Kadangi trijulėje La, Ma ir Na yra tik viena mergaitė Ma, tai La ir Na yra berniukai. Vadinasi, Ka ir Ma yra mergaitės, ir nesunkiai į sitikiname, kad visos uždavinio sąlygos iš pildytos.",
      "figure": "figures/2019-q25.png",
      "mechanic": "logic-clues",
-     "solutionKid": "4 vaikai. Trijulėje La, Ma, Na: 1 mergaitė, 2 berniukai. Trijulėje Ka, La, Ma: 1 berniukas, 2 mergaitės. Pora Ka, La: 1 berniukas, 1 mergaitė. Iš pirmo Ma yra mergaitė (nes ji vienintelė tarp dviejų berniukų ir mergaitės). Iš antro – Ka yra berniukas, Ma mergaitė, La mergaitė. Iš trečio – La mergaitė, Ka berniukas (atitinka). Iš pirmojo Ma+La mergaitės, taigi La+Na yra du berniukai – Na berniukas. Berniukai: Ka ir Na.",
+     "solutionKid": "4 vaikai. Trijulėje La,Ma,Na: 1 mergaitė, 2 berniukai. Trijulėje Ka,La,Ma: 1 berniukas, 2 mergaitės. Pora Ka,La: 1 berniukas, 1 mergaitė. Iš pirmo Ma yra mergaitė (nes ji vienintelė tarp dviejų berniukų ir mergaitės). Iš antro – Ka yra berniukas, Ma mergaitė, La mergaitė. Iš trečio – La mergaitė, Ka berniukas (atitinka). Iš pirmojo Ma+La mergaitės, taigi La+Na yra du berniukai – Na berniukas. Berniukai: Ka ir Na.",
      "misconceptions": {
-      "C": "Pas ir inkai be visų 3 trijulių.",
-      "D": "Pas ir inkai dėl dviejų berniukų.",
-      "E": "Pas ir inkai be 3-čio sakinio patikros."
+      "C": "Pasirinkai be visų 3 trijulių.",
+      "D": "Pasirinkai dėl dviejų berniukų.",
+      "E": "Pasirinkai be 3-čio sakinio patikros."
      }
     },
     {
@@ -11911,11 +11907,11 @@
      "figure": "figures/2019-q26.png",
      "mechanic": "partition",
      "mechanic2": "counting-ways",
-     "solutionKid": "Miglė + 8 pusseserės = 9 žmonės. Kiekviena pusseserė 2 ar 3 nuo traukose. Be ndras nuo traukų skaičius (žmonių dalyvavimo) – iš sąlygos. Tegul X pusseserių 2 nuo traukose, 8–X po 3. 2X + 3(8–X) = 24 – X. Plus dar Miglė visose. Skaičiuoji – atsakymas 5.",
+     "solutionKid": "Miglė + 8 pusseserės = 9 žmonės. Kiekviena pusseserė 2 ar 3 nuotraukose. Bendras nuotraukų skaičius (žmonių dalyvavimo) – iš sąlygos. Tegul X pusseserių 2 nuotraukose, 8–X po 3. 2X + 3(8–X) = 24 – X. Plus dar Miglė visose. Skaičiuoji – atsakymas 5.",
      "misconceptions": {
-      "A": "Per maža – nepakanka 2 nuo traukų.",
-      "C": "Pas ir inkai be sumos patikros.",
-      "D": "Per didelis – per daug nuo traukose."
+      "A": "Per maža – nepakanka 2 nuotraukų.",
+      "C": "Pasirinkai be sumos patikros.",
+      "D": "Per didelis – per daug nuotraukose."
      }
     },
     {
@@ -11940,7 +11936,7 @@
      "misconceptions": {
       "A": "Per maža – nepakanka skardinių.",
       "B": "Sumaišei skardiukus su numuštais.",
-      "C": "Pas ir inkai be sumos lygybės.",
+      "C": "Pasirinkai be sumos lygybės.",
       "E": "Per daug – peržengė 15."
      }
     },
@@ -11963,10 +11959,10 @@
      "figure": "figures/2019-q28.png",
      "mechanic": "partition",
      "mechanic2": "casework",
-     "solutionKid": "11 vagonų, 350 keleivių. Bet kurie 3 iš eilės su kabinti turi lygiai 99. Vagonai 1+2+3 = 99, 2+3+4 = 99, atimk: vagonas 4 = vagonas 1. Taigi vagonai kartojasi periodu 3: a, b, c, a, b, c, ... 11 vagonų: 4 kartus „a, b, c“... Skaičiuoji per sumą – atsakymas randamas.",
+     "solutionKid": "11 vagonų, 350 keleivių. Bet kurie 3 iš eilės sukabinti turi lygiai 99. Vagonai 1+2+3 = 99, 2+3+4 = 99, atimk: vagonas 4 = vagonas 1. Taigi vagonai kartojasi periodu 3: a, b, c, a, b, c, ... 11 vagonų: 4 kartus „a, b, c“... Skaičiuoji per sumą – atsakymas randamas.",
      "misconceptions": {
       "A": "Per maža – pamiršai, kad bendra suma 350.",
-      "D": "Pas ir inkai be periodiškumo.",
+      "D": "Pasirinkai be periodiškumo.",
       "E": "Per didelis – peržengė 350."
      }
     },
@@ -11993,7 +11989,7 @@
      "misconceptions": {
       "A": "Per mažas – nepakanka kraštų.",
       "B": "Sumaišei baltų su juodais.",
-      "C": "Pas ir inkai dėl dalies be max."
+      "C": "Pasirinkai dėl dalies be max."
      },
      "hasMissingOptionText": true
     },
@@ -12019,7 +12015,7 @@
      "solutionKid": "1 baltas → 3 raudoni. 1 raudonas → 2 balti. Pradžia 3 balti. Po 1: 9 raudoni. Po 2: 18 baltų. Po 3: 54 raudonai. Po 4: 108 balti. Stebėk – kiekvienu žingsniu skaičius dauginasi iš 3 (tarp baltų-baltų). Po N žingsnių baltų yra 3·6^(N/2) (atsakymas randamas iš pateiktų variantų).",
      "misconceptions": {
       "A": "Per maža – nesuvokei dauginimo iš 6.",
-      "C": "Pas ir inkai be 6^(N/2) augimo.",
+      "C": "Pasirinkai be 6^(N/2) augimo.",
       "E": "Per didelis – per daug žingsnių."
      }
     }
@@ -12454,9 +12450,9 @@
      "mechanic": "mixture-fraction",
      "solutionKid": "3 indai, vienodas kiekis sulčių. Iš priekio matosi vienodi, bet talpos skiriasi. Kuris pats pilnesnis (skystis aukščiau)? Tas, kurio TŪRIS mažiausias – tas pats kiekis tilpo aukščiau. Iš piešinio: žiūrėk plotis × gylis (talpa).",
      "misconceptions": {
-      "B": "Pas ir inkai dėl tos pačios pločio.",
-      "D": "Pas ir inkai dėl matomos formos.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "B": "Pasirinkai dėl tos pačios pločio.",
+      "D": "Pasirinkai dėl matomos formos.",
+      "E": "Pasirinkai atsitiktinai."
      },
      "hasMissingOptionText": true
     },
@@ -12482,7 +12478,7 @@
      "misconceptions": {
       "A": "Per maža – yra daugiau iš eilės.",
       "B": "Sumaišei skaitmenis.",
-      "C": "Pas ir inkai be sumos b > a+c patikros.",
+      "C": "Pasirinkai be sumos b > a+c patikros.",
       "E": "Per daug – nesigauna iš eilės."
      }
     },
@@ -12505,11 +12501,11 @@
      "solution": "2. Aišku, kad vieno ėjimo neužteks, nes reikia apversti bent 4 žetonus, kad visi būtų atversti ta pačia puse į viršų. Pabandykime tą padaryti dviem ėjimais. Pirmuoju ėjimu apverčiame 2 žetonus, kurie buvo padėti juodąja puse į viršų, ir 1 žetoną, padėtą baltąja puse į viršų. Po šio ėjimo liks 3 juodąja puse atversti žetonai, kuriuos ant ruoju ėjimu visus apversime baltąja puse į viršų.",
      "figure": "figures/2020-q23.png",
      "mechanic": "invariant",
-     "solutionKid": "9 žetonai, pradžioje 4 juodi viršuje, 5 baltai. Per ėjimą paimi 2, juos apverti. Tikslas – visi juodi į viršų ar visi balti. Žiūrim INVARIANTĄ: juodų skaičiaus PARITY (lyginumas). Pradžioje 4 (lyginis), 9 baltų reikalingas 0 juodų (lyginis) ar 9 (nelyginis). Atsakymas: 0 juodų pasiekiama, 9 – ne.",
+     "solutionKid": "9 žetonai, pradžioje 4 juodi viršuje, 5 baltai. Per ėjimą paimi 2, juos apverti. Tikslas – visi juodi į viršų ar visi balti. Ieškok INVARIANTO: ar juodų žetonų skaičius lyginis, ar nelyginis. Pradžioje 4 (lyginis), 9 baltų reikalingas 0 juodų (lyginis) ar 9 (nelyginis). Atsakymas: 0 juodų pasiekiama, 9 – ne.",
      "misconceptions": {
-      "A": "Pas ir inkai be lyginumo invariantos.",
-      "C": "Pas ir inkai be parity skaičiavimo.",
-      "E": "Pas ir inkai dėl 9 skaičiaus."
+      "A": "Pasirinkai nepatikrinęs lyginumo invarianto.",
+      "C": "Pasirinkai nepatikrinęs, ar skaičius lyginis.",
+      "E": "Pasirinkai dėl 9 skaičiaus."
      }
     },
     {
@@ -12530,11 +12526,11 @@
      "solution": "D) E). Kadangi pirmosios dvejos svarstyklės yra pusiau sviros, tai pusiau sviros bus ir svarstyklės, jei ant pirmųjų svarstyklių kairės lėkštelės pridėsime antrųjų svarstyklių dešinės pusės figūras, o ant dešiniosios lėkštelės – antrųjų svarstyklių kairės pusės figūras. Tada svarstyklės atrodys taip: Nuo abiejų svarstyklės lėkščių nuimkime po kvadratą ir trikampį, – pusiau svyra išliks. Kairėje pusėje liks du kvadratai ir viena „rodyklė“ – rinkinys, kuris yra ir uždavinio sąlygoje pavaizduotų trečiųjų svarstyklių kairėje pusėje. Tuo tarpu dešinėje pusėje liks 3 skrituliai ir vienas trikampis. Šis rinkinys nurodytas atsakyme C. Kadangi Kengūros konkurso tai syklės už tikrina, kad tik vienas atsakymas yra teisingas, jį jau galėtume ir rinktis. Visgi į sitikinkime, kad kiti rinkiniai tinka ne visada. Parinkime figūroms kokius nors svorius, kad jie atitiktų uždavinio sąlygą, pavyzdžiui: = 1, = 2, = 4 i …",
      "figure": "figures/2020-q24.png",
      "mechanic": "weighing",
-     "solutionKid": "Trejos pusiau sviros svarstyklės su rinki niais. Klausimo vietoje turi tikti VIENAS rinkinys. Iš trijų svėrimų – tris lygtis. Sudedi/atimi – gauni reikalingo o bjekto svorį. Atsakymas (variantas): rinkinys, kurio be ndras svoris atitinka.",
+     "solutionKid": "Trejos pusiausviros svarstyklės su rinkiniais. Klausimo vietoje turi tikti VIENAS rinkinys. Iš trijų svėrimų – tris lygtis. Sudedi/atimi – gauni reikalingo objekto svorį. Atsakymas (variantas): rinkinys, kurio bendras svoris atitinka.",
      "misconceptions": {
-      "A": "Pas ir inkai be 3 svarstyklių patikros.",
+      "A": "Pasirinkai be 3 svarstyklių patikros.",
       "B": "Sumaišei vieno svėrimo lygtį.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "E": "Pasirinkai atsitiktinai."
      },
      "imageOnlyOptions": true
     },
@@ -12556,10 +12552,10 @@
      "solution": "8. Ta rkime, kad visikomisi josnariaipasis kirs to po romis, ir vieno sporo snariaivertinatuospačius už davinius. Pirmajai komisijos narių porai priskirkime vertinti 1-ą, 2-ą ir 3-ią už davinius, antrai porai – nuo 4-to iki 6-to, trečiai porai – nuo 7-to iki 9-to, o ketvirtajai – nuo 10-to iki 12-to. Visus už davinius iš skirstėm 4 poroms, t. y. 4 · 2 = 8 komisijos nariams. Renkamės atsakymą B. — Ar tikrai kitaip skirstant už davinius komisijai negautume kitokio atsakymo? Į sivaizduokime, kad kiekvienąkartąbaigę svertintikurįnorsuždavinį, komisi josnaryssušunka„valio“. Kadangi vienas testo uždavinys yra tikrinamas 2 kartus, tai iš viso komisijos nariai sušuks “valio“ 12 · 2 = 24 kartus. Kita vertus, kiekvienas komisijos narys „valio“ sušuks lygiai tris kartus, taigi yra 24 · 3 = 8 komisijos nariai. Kad už davinius galima paskirstyti 8 komisijos nariams taip, kaip prašoma sąlygoje, jau parodėme sprendime ?. …",
      "figure": "figures/2020-q25.png",
      "mechanic": "counting-ways",
-     "solutionKid": "12 už davinių, kiekvienas vertintojas vertina 3, kiekvieną uždavinį 2 vertintojai. Be ndras vertinimų skaičius = 12·2 = 24 = (vertintojų)·3. Vertintojų = 8.",
+     "solutionKid": "12 uždavinių, kiekvienas vertintojas vertina 3, kiekvieną uždavinį 2 vertintojai. Bendras vertinimų skaičius = 12·2 = 24 = (vertintojų)·3. Vertintojų = 8.",
      "misconceptions": {
       "A": "Per mažas – nepakanka vertintojų.",
-      "C": "Pas ir inkai be 24 sumos.",
+      "C": "Pasirinkai be 24 sumos.",
       "E": "Per didelis – peržengė 24."
      }
     },
@@ -12585,7 +12581,7 @@
      "misconceptions": {
       "A": "Per maža – pamiršai mažųjų sumų.",
       "B": "Sumaišei kvadratų eiles.",
-      "C": "Pas ir inkai be didžiojo kraštinės."
+      "C": "Pasirinkai be didžiojo kraštinės."
      }
     },
     {
@@ -12606,7 +12602,7 @@
      "solution": "60 auksinų. Po penkių mėnesių Ūdriui turėjo priklausyti 180 · 5 = 75 auksinai ir 5 kardo. Margiris jam 12 12 davė visą kardą, t y. 7 kardo daugiau negu Ūdriui priklausė, užtat nedavė 75 − 40 = 35 12 auksinų. Taigi, 7 kardo yra vertos 35 auksinų, 1 kardo bus verta septyni skart mažiau, t. y. 12 12 5 auksinų, o visas kardas – 5·12 = 60 auksinų.",
      "figure": "figures/2020-q27.png",
      "mechanic": "rate-time",
-     "solutionKid": "Su tartis: 12 mėn = 180 auksinų + kardas. Ta rnavo 5 mėn, gavo 70 auksinų ir kardą. Lygtis: 5 × (mėnesio mokestis) = 70 + kardo vertė. Iš 12 × mokestis = 180 + kardas → mokestis ir kardas randami: kardas = 80, mokestis kasmėn? Iš I lygties: 5·mok = 70+80 = 150, mok = 30.",
+     "solutionKid": "Sutartis: 12 mėn = 180 auksinų + kardas. Tarnavo 5 mėn, gavo 70 auksinų ir kardą. Lygtis: 5 × (mėnesio mokestis) = 70 + kardo vertė. Iš 12 × mokestis = 180 + kardas → mokestis ir kardas randami: kardas = 80, mokestis kasmėn? Iš I lygties: 5·mok = 70+80 = 150, mok = 30.",
      "misconceptions": {
       "A": "Per maža – nepakanka 5 mėnesių.",
       "B": "Sumaišei kardo vertę su mėnesio mokesčiu.",
@@ -12632,12 +12628,12 @@
      "figure": "figures/2020-q28.png",
      "mechanic": "logic-clues",
      "mechanic2": "casework",
-     "solutionKid": "Gabija: 4 rožės, 3 tulpės, 2 gvazdikai, 1 lelija (10 viso). 4 raudonos, 3 baltos, 2 rožinės, 1 (kita spalva). Spalvų sumos lygios gėlių rūšių sumoms. Logikos už uominos rikiuoja lentelę – iš vardink po vieną ir gausi atsakymą.",
+     "solutionKid": "Gabija: 4 rožės, 3 tulpės, 2 gvazdikai, 1 lelija (10 viso). 4 raudonos, 3 baltos, 2 rožinės, 1 (kita spalva). Spalvų sumos lygios gėlių rūšių sumoms. Logikos užuominos rikiuoja lentelę – išvardink po vieną ir gausi atsakymą.",
      "misconceptions": {
       "A": "Sumaišei spalvas su rūšimis.",
-      "B": "Pas ir inkai be visų už uominų.",
-      "C": "Pas ir inkai be lentelės.",
-      "E": "Pas ir inkai dėl 4 raudonų."
+      "B": "Pasirinkai be visų užuominų.",
+      "C": "Pasirinkai be lentelės.",
+      "E": "Pasirinkai dėl 4 raudonų."
      }
     },
     {
@@ -12661,7 +12657,7 @@
      "solutionKid": "Per pertrauką žaista N partijų. Laimėjo pusę, pralaimėjo trečdalį, neišsprendė kitas. Iš sąlygos – frakcijos turi būti sveiki skaičiai – N dalinasi iš 6. N = 6 (mažiausia). Liko 9 partijų.",
      "misconceptions": {
       "A": "Per mažas – nepakanka 6 dalumo.",
-      "C": "Pas ir inkai be N=6 patikros.",
+      "C": "Pasirinkai be N=6 patikros.",
       "E": "Per didelis – per daug žaista."
      }
     },
@@ -12683,11 +12679,11 @@
      "solution": "36. Devyni apatiniai rutuliukai tarp usavyje su siliečia 12 vietų(žr. pav.). Kiek- vienas iš 4 ant viršaus padėtų rutuliukų su siliečia iš karto su keturiais apa- čioje padėtais rutuliukais, t. y. iš viso 4·4 = 16 vietų, o patys viduriniojo sluoksnio rutuliukai tarp usavy su siliečia dar 4-iose vietose. Viršutinis ru- tuliukas palies vidurinio sluoksnio rutuliukus dar 4 vietose, taigi iš viso rutuliukai su silies 12+16+4+4 = 36 vietose. Teisingas atsakymas – E. Atsakymai Uždavinio nr. Atsakymas 1 D 2 D 3 E 4 B 5 E 6 C 7 A 8 B 9 C 10 D 11 A 12 E 13 C 14 B 15 D 16 C 17 E 18 D 19 B 20 C 21 A 22 D 23 B 24 C 25 B 26 E 27 E 28 D 29 B 30 E",
      "figure": "figures/2020-q30.png",
      "mechanic": "casework",
-     "solutionKid": "Piramidė: 9+4+1 = 14 rutuliukų. Skaičiuoji su silietimo vietas: apatiniai 9 tarp usavyje, viduriniai 4 tarp usavyje, ir tarp sluoksnių. Bendra suma – atsakymas iš variantų.",
+     "solutionKid": "Piramidė: 9+4+1 = 14 rutuliukų. Skaičiuoji susilietimo vietas: apatiniai 9 tarpusavyje, viduriniai 4 tarpusavyje, ir tarp sluoksnių. Bendra suma – atsakymas iš variantų.",
      "misconceptions": {
       "A": "Per maža – pamiršai sluoksnių sąveiką.",
       "B": "Sumaišei sluoksnius.",
-      "C": "Pas ir inkai dėl dalinio paskaičiavimo."
+      "C": "Pasirinkai dėl dalinio paskaičiavimo."
      }
     }
    ]
@@ -12899,10 +12895,10 @@
      "mechanic": "casework",
      "solutionKid": "10 žetonų, sumis nuo 1 iki 10, suma 36. Bet 1+2+...+10 = 55. Skirtumas 55 – 36 = 19. Tai reiškia, kad kažkurie skaičiai pakartoti. Nustatyk kuris vyksta atvirkščiai – kiek žmonių pasakė vieną iš pakartotų. Atsakymas – iš pateiktų variantų.",
      "misconceptions": {
-      "A": "Pas ir inkai be skirtumo (55-36).",
+      "A": "Pasirinkai be skirtumo (55-36).",
       "B": "Sumaišei sumą su skaičiumi.",
-      "C": "Pas ir inkai be skirtumo paskaičiavimo.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "C": "Pasirinkai be skirtumo paskaičiavimo.",
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -13122,11 +13118,11 @@
      "figure": "figures/2021-q21.png",
      "mechanic": "logic-clues",
      "mechanic2": "arrangement",
-     "solutionKid": "5 vaikai ratu. Aistė–Benas (ne greta), Dangė–Edas (greta), Benas–Dangė (ne greta). Pradėk nuo griežtos: D ir E greta. Įdėk juos, paskui pas itelk neigiamas. Vienintelis būdas: A, C, D, E, B (ratu). Šalia Aistės sėdi Česys ir Benas.",
+     "solutionKid": "5 vaikai ratu. Aistė–Benas (ne greta), Dangė–Edas (greta), Benas–Dangė (ne greta). Pradėk nuo griežtos: D ir E greta. Įdėk juos, paskui pasitelk neigiamas. Vienintelis būdas: A, C, D, E, B (ratu). Šalia Aistės sėdi Česys ir Benas.",
      "misconceptions": {
       "C": "Aistė šalia jo, ne kito.",
       "D": "Sumaišei tvarką.",
-      "E": "Pas ir inkai dėl Edo sąsajos."
+      "E": "Pasirinkai dėl Edo sąsajos."
      }
     },
     {
@@ -13147,11 +13143,11 @@
      "solution": "8. Padalinkime kavinės šefo recepto produktų kiekius ir išeigą iš 25: 4 blynams reikės 1 kiaušinio, 4000 ml: 25 = 160 ml pieno, 5000 g: 25 = 200 g miltų ir 1000 g: 25 = 40 g sviesto. Dabar palyginę šį receptą su Nariaus turimais produ ktais pastebėkime, kad Narius miltų turi 400 g, t. y. du kartus daugiau, o kitų produktų turi daugiau nei du kartus daugiau. Taigi jis gali iš kepti 4·2 = 8 blynus iš 2 kiaušinių, 320 ml pieno, 400 g miltų ir 80 g sviesto. Visų šių produktų Narius turi, o daugiau miltų neturi, todėl dar daugiau blynų iš kepti jis negalės",
      "figure": "figures/2021-q22.png",
      "mechanic": "rate-time",
-     "solutionKid": "Receptas: 1 po rcija = X kiaušinių, Y miltų, Z pieno, W sviesto. Narius turi: 6 kiaušinių, 400g miltų, 0,5l pieno, 200g sviesto. Mažiausias dalmuo (turima/vienetui) – ribinis. Iš sąlygos – atsakymas: 5 po rcijų.",
+     "solutionKid": "Receptas: 1 porcija = X kiaušinių, Y miltų, Z pieno, W sviesto. Narius turi: 6 kiaušinių, 400g miltų, 0,5l pieno, 200g sviesto. Mažiausias dalmuo (turima/vienetui) – ribinis. Iš sąlygos – atsakymas: 5 porcijų.",
      "misconceptions": {
       "A": "Sumaišei produktus.",
-      "D": "Pas ir inkai dėl miltų.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "D": "Pasirinkai dėl miltų.",
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -13177,8 +13173,8 @@
      "solutionKid": "10 rutulių piramidė, raidės A..E. Iš sąlygos – kiekvienos raidės kiekis. Klaustukus kiekviename rutulyje pavyksta atsakyti, sek hierarchiją (lygis 1-2-3-4).",
      "misconceptions": {
       "B": "Sumaišei A su B.",
-      "D": "Pas ir inkai be hierarchijos.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "D": "Pasirinkai be hierarchijos.",
+      "E": "Pasirinkai atsitiktinai."
      },
      "imageOnlyOptions": true
     },
@@ -13203,8 +13199,8 @@
      "solutionKid": "O+A = K+P (svarstyklių lygybė). O+K < A+P, K+A > O+P. Iš pirmos atimk antrą: 0 < (A–K)+(K–O)+(P–O), Manipuliuoji – galima nustatyti tvarką. Atsakymas (eilė pagal svorį).",
      "misconceptions": {
       "A": "Sumaišei tvarką.",
-      "B": "Pas ir inkai be lygčių manipuliacijos.",
-      "E": "Pas ir inkai dėl simetrijos."
+      "B": "Pasirinkai be lygčių manipuliacijos.",
+      "E": "Pasirinkai dėl simetrijos."
      }
     },
     {
@@ -13229,11 +13225,11 @@
      "figure": "figures/2021-q25.png",
      "mechanic": "invariant",
      "mechanic2": "area-decomp",
-     "solutionKid": "36 kvadratėliai, 3 nuspalvinti. Reikia, kad galutinis vaizdas turėtų simetriją per visus 4 ašies. Iš trijų pradinių – kiekvienas reikalauja po rininkų pagal kiekvieną simetrijos ašį. Skaičiuoji bendrą reikiamą skaičių – atsakymas iš pateiktų.",
+     "solutionKid": "36 kvadratėliai, 3 nuspalvinti. Reikia, kad galutinis vaizdas turėtų simetriją per visus 4 ašies. Iš trijų pradinių – kiekvienas reikalauja porininkų pagal kiekvieną simetrijos ašį. Skaičiuoji bendrą reikiamą skaičių – atsakymas iš pateiktų.",
      "misconceptions": {
       "A": "Per mažai – nepakanka simetrijai.",
       "B": "Sumaišei ašis.",
-      "C": "Pas ir inkai be 4 ašių."
+      "C": "Pasirinkai be 4 ašių."
      }
     },
     {
@@ -13255,12 +13251,12 @@
      "solution": "13. Kiekvienas piratas į vieną iš dviejų klausimų atsako teisingai. Kadangi piratų yra 3, tai į kažkurį iš klausimų bent du piratai atsako teisingai ir jų atsakymai sutampa. Peržvelgę atsakymus matome, kad į klausimą apie deimantus visi piratai atsakė skirtingai, o į klausimą apie monetas antras ir trečias piratai atsakė vienodai. Vadinasi, Žilabarzdis turi 7 monetas. Pirmas piratas pamelavo apie monetas (jis sakė, kad Žilabarzdis jų turi 8), todėl pasakė tiesą apie deimantus – Žilabarzdis jų turi 6. Iš viso Žilabarzdžio turtą sudaro 7+6 = 13 monetų ir deimantų",
      "figure": "figures/2021-q26.png",
      "mechanic": "truth-tellers",
-     "solutionKid": "Trys piratai. Kiekvienas atsakė į vieną iš dviejų klausimų teisingai. Sek atsakymų sąžiningumą: jei pirmas sako tiesą apie monetas, tai jo deimantų atsakymas melas, ir t. t. Su daryk lentelę, atmesi netinkančius. Atsakymas: vienintelis tinkantis.",
+     "solutionKid": "Trys piratai. Kiekvienas atsakė į vieną iš dviejų klausimų teisingai. Sek atsakymų sąžiningumą: jei pirmas sako tiesą apie monetas, tai jo deimantų atsakymas melas, ir t.t. Sudaryk lentelę, atmesi netinkančius. Atsakymas: vienintelis tinkantis.",
      "misconceptions": {
-      "A": "Pas ir inkai be lentelės.",
+      "A": "Pasirinkai be lentelės.",
       "B": "Sumaišei monetas su deimantais.",
-      "D": "Pas ir inkai be 3 piratų.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "D": "Pasirinkai be 3 piratų.",
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -13282,7 +13278,7 @@
      "figure": "figures/2021-q27.png",
      "mechanic": "casework",
      "mechanic2": "partition",
-     "solutionKid": "3 lentynos po 6,4 l. Buteliai 3 dydžių. Ieškai, kiek butelių KIEKVIENO dydžio. Iš sąlygos už rašytos lygybės be ndrasis skaičius – atsakymas randamas.",
+     "solutionKid": "3 lentynos po 6,4 l. Buteliai 3 dydžių. Ieškai, kiek butelių KIEKVIENO dydžio. Iš sąlygos užrašytos lygybės bendrasis skaičius – atsakymas randamas.",
      "misconceptions": {
       "A": "Per maža – nepakanka 6.4 l.",
       "B": "Sumaišei dydžius.",
@@ -13309,11 +13305,11 @@
      "solution": "62. Iš viso ant kubo nu brėžta 6×2 = 12 į strižainių. Pjaustantkubą, kiekvienaį strižainėpadalijama į 7 atkarpas. Iš viso gauname 7×12 = 84 atkarpas. Ant 8 kampinių kubelių yra po 3 atkarpas, ant6 sienųcentriniųkubeliųyrapo 2 atkarpas, olikusios 84−8·3−6·2 = 48 atkarpo spriklauso kubeliams, turintiems tik po 1 atkarpą. Iš viso yra 8 + 6 + 48 = 62 kubeliai su bent viena raudona atkarpa. 22 UŽDUOČIŲ SPRENDIMAI",
      "figure": "figures/2021-q28.png",
      "mechanic": "cube-color",
-     "solutionKid": "7 cm briauna, kiekvienoje sienoje raudonai abi į strižainės. Kubas pjaustomas į 1×1×1. Kuris kubelis turi raudoną ant savo paviršiaus? Tik tie, per kuriuos eina sienų į strižainės – jos eina per priekinę sieną tik per centrą, taigi 1 vienam veidui per 7 vidinius kubelius? Skaičiuoji – atsakymas 56.",
+     "solutionKid": "7 cm briauna, kiekvienoje sienoje raudonai abi įstrižainės. Kubas pjaustomas į 1×1×1. Kuris kubelis turi raudoną ant savo paviršiaus? Tik tie, per kuriuos eina sienų įstrižainės – jos eina per priekinę sieną tik per centrą, taigi 1 vienam veidui per 7 vidinius kubelius? Skaičiuoji – atsakymas 56.",
      "misconceptions": {
-      "A": "Per maža – pamiršai į strižainę.",
-      "C": "Pas ir inkai be visų 6 sienų.",
-      "E": "Per didelis – į traukei ne pa siekia mus."
+      "A": "Per maža – pamiršai įstrižainę.",
+      "C": "Pasirinkai be visų 6 sienų.",
+      "E": "Per didelis – įtraukei nepasiekiamus."
      }
     },
     {
@@ -13336,9 +13332,9 @@
      "mechanic": "truth-tellers",
      "solutionKid": "10 būtybių (tro+elf), žetonai. Kiekvienas sako konkretų teiginį. Stengiesi prieš atvejį: jei vienas elfas, kiti 9 trolių – ar atitinka? Eik per kiekvieną T = 0..10 atvejį, atmesk netinkančius. Atsakymas – tikras T.",
      "misconceptions": {
-      "A": "Pas ir inkai be 10 atvejų.",
-      "D": "Pas ir inkai be teiginių patikros.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "A": "Pasirinkai be 10 atvejų.",
+      "D": "Pasirinkai be teiginių patikros.",
+      "E": "Pasirinkai atsitiktinai."
      },
      "imageOnlyOptions": true
     },
@@ -13366,7 +13362,7 @@
      "misconceptions": {
       "A": "Per maža – nepakanka kombinacijų.",
       "B": "Sumaišei figūras.",
-      "C": "Pas ir inkai be C(n,4) sprendimo."
+      "C": "Pasirinkai be C(n,4) sprendimo."
      },
      "imageOnlyOptions": true
     }
@@ -13799,12 +13795,12 @@
      "figure": "figures/2022-q21.png",
      "mechanic": "sequence-pattern",
      "mechanic2": "rate-time",
-     "solutionKid": "8 stiklinių bokštas 42 cm, 2 stiklinių 18 cm. Skirtumas: 6 stiklinės pridėjo 24 cm, taigi vienas stiklinė papildo 4 cm. Vienos stiklinės aukštis = 18 – 4 = 14 cm? Ne – 2 stiklinės = 18 cm: pirma +į dėtos 4 cm = 14+4 = 18 ✓. 6 stiklinių bokštas: 14 + 5·4 = 34 cm.",
+     "solutionKid": "8 stiklinių bokštas 42 cm, 2 stiklinių 18 cm. Skirtumas: 6 stiklinės pridėjo 24 cm, taigi vienas stiklinė papildo 4 cm. Vienos stiklinės aukštis = 18 – 4 = 14 cm? Ne – 2 stiklinės = 18 cm: pirma +įdėtos 4 cm = 14+4 = 18 ✓. 6 stiklinių bokštas: 14 + 5·4 = 34 cm.",
      "misconceptions": {
       "A": "Per maža – pamiršai 4 cm padidėjimą.",
       "B": "Sumaišei stiklinių su pridėtomis.",
-      "C": "Pas ir inkai be 24 cm skirtumo.",
-      "E": "Per didelis – į traukei papildomas."
+      "C": "Pasirinkai be 24 cm skirtumo.",
+      "E": "Per didelis – įtraukei papildomas."
      }
     },
     {
@@ -13831,8 +13827,8 @@
      "solutionKid": "Gyvūnai = skirtingi natūralieji skaičiai. Stulpelių sumos žinomos. Iš jų – sistema lygčių. Sprendi paeiliui – pradedi nuo paprasčiausio stulpelio (mažiausia gyvūnų rūšių). Klaustuke esantis = sumoje skirtumas, kurią rasi.",
      "misconceptions": {
       "A": "Sumaišei gyvūnus su skaičiais.",
-      "B": "Pas ir inkai be sistemos sprendimo.",
-      "E": "Per didelis – į traukei netinkamus."
+      "B": "Pasirinkai be sistemos sprendimo.",
+      "E": "Per didelis – įtraukei netinkamus."
      }
     },
     {
@@ -13854,11 +13850,11 @@
      "figure": "figures/2022-q23.png",
      "mechanic": "casework",
      "mechanic2": "logic-clues",
-     "solutionKid": "Triženklis kodas, 4 už uominos apie kiek skaitmenų teisingoje vietoje ar tiesiog teisingai. Sek už uominas griežtai: jei „du skaitmenys teisingi ir geroje vietoje“, tai konkrečiai du. Atvejų peržiūra duoda vienintelį atsakymą.",
+     "solutionKid": "Triženklis kodas, 4 užuominos apie kiek skaitmenų teisingoje vietoje ar tiesiog teisingai. Sek užuominas griežtai: jei „du skaitmenys teisingi ir geroje vietoje“, tai konkrečiai du. Atvejų peržiūra duoda vienintelį atsakymą.",
      "misconceptions": {
-      "A": "Pas ir inkai be visų 4 už uominų.",
+      "A": "Pasirinkai be visų 4 užuominų.",
       "B": "Sumaišei skaitmenis.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -13879,10 +13875,10 @@
      "solution": "3. Greipfrutas ir o buolys kartu sveria tiek, kiek ananasas. Vadinasi, du greipfrutai ir du o buoliai kartu svers tiek, kiek du ananasai. Kita vertus, pagal sąlygą dviejų greipfrutų svorį galima pakeisti ananaso ir o buolio bendru svoriu. Taigi ananasas ir trys o buoliai sveria tiek, kiek du ananasai. Iš čia gauname, jog trys o buoliai sveria tiek, kiek vienas ananasas. Teisingas atsakymas B. — Galima iš spręsti ir kitaip, į vedant nežinomuosius. Greipfruto, o buolio ir ananaso svorius kilo- gramais pažymėkime g, o ir a. Pagal uždavinio sąlygą g +o = a, 2g = a+o. Iš pirmos lygybės turime, jog g = a − o. Į statę šią iš raišką į antrą lygybę, gauname, jog 2(a−o) = a+o. Šią lygybę galime pertvarkyti taip: 2 a−2 o = a+o, a−2 o = o, a = 3 o. Taigi vienas ananasas sveria tiek, kiek 3 o buoliai",
      "figure": "figures/2022-q24.png",
      "mechanic": "weighing",
-     "solutionKid": "G + O = A (greipfrutas + o buolys = ananasas). 2G = A + O. Iš pirmos: A = G + O. Į statai į antrą: 2G = G + O + O = G + 2O. G = 2O. Taigi G = 2 o buoliai. Tada A = G+O = 2O+O = 3O. Klausimas: kiek o buolių sveria tiek, kiek 1 ananasas? Atsakymas: 3.",
+     "solutionKid": "G + O = A (greipfrutas + obuolys = ananasas). 2G = A + O. Iš pirmos: A = G + O. Įstatai į antrą: 2G = G + O + O = G + 2O. G = 2O. Taigi G = 2 obuoliai. Tada A = G+O = 2O+O = 3O. Klausimas: kiek obuolių sveria tiek, kiek 1 ananasas? Atsakymas: 3.",
      "misconceptions": {
       "A": "Per maža – G = 2O, A = 3O.",
-      "C": "Pas ir inkai be lygčių sistemos.",
+      "C": "Pasirinkai be lygčių sistemos.",
       "E": "Per didelis – peržengė 3."
      }
     },
@@ -13905,11 +13901,11 @@
      "solution": "5. Pagalvokime, kuriuos iš skaičių 2,3,4,5,6 galima užrašyti pavidalu + − naudojant likusius skaičius. Imkime 2. Nesunku pastebėti, jog 2 = 3+4−5, taigi 2 tinka į pilką langelį. Iš šios lygybės nesunku gauti reikalingas iš raiškas ir skaičiams 3, 4 bei 5: 3 = 2+5−4, 4 = 2+5−3, 5 = 3+4−2. Taigi skaičiai 3, 4 ir 5 taip pat tinka į pilką langelį. Lieka skaičius 6. Vėlgi, nesunku pastebėti, jog 6 = 5+4−3, taigi 6 irgi tinka. Matome, jog tinka visi penki skaičiai.",
      "figure": "figures/2022-q25.png",
      "mechanic": "casework",
-     "solutionKid": "Iš {2,3,4,5,6} parink 4 skirtingus, į rašyk taip, kad lygybė A+B=C·D galėtų būti. Patikrini visus rinkinius (5 derinių C(5,4) = 5). Tikrasis duoda lygybę – atsakymas iš variantų.",
+     "solutionKid": "Iš {2,3,4,5,6} parink 4 skirtingus, įrašyk taip, kad lygybė A+B=C·D galėtų būti. Patikrini visus rinkinius (5 derinių C(5,4) = 5). Tikrasis duoda lygybę – atsakymas iš variantų.",
      "misconceptions": {
-      "A": "Pas ir inkai be visų 5 derinių.",
+      "A": "Pasirinkai be visų 5 derinių.",
       "B": "Sumaišei sumą su sandauga.",
-      "C": "Pas ir inkai be lygybės patikros."
+      "C": "Pasirinkai be lygybės patikros."
      }
     },
     {
@@ -13935,9 +13931,9 @@
      "mechanic": "casework",
      "solutionKid": "5 apskritimai, 5 skaičiai 3,4,5,6,7. Kiekvieno trikampio viduje skaičius = 3 viršūnių sumai. Sumos vienodos visiems trikampiams. Skaičiuoji – sek piešinį, atmesk netinkančius variantus.",
      "misconceptions": {
-      "A": "Pas ir inkai be trikampių su mavimo.",
+      "A": "Pasirinkai be trikampių sumavimo.",
       "B": "Sumaišei skaičius.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -13984,11 +13980,11 @@
      "solution": "Kaime C. Kad būtųpatogiau, atstumus ir mokiniųkiekiu smatuokime, atitinkamai, dešimtimi skilometrų ir dešimtimis mokinių. Bendrą visų mokinių kelią iki mokyklos (mūsų matavimo sistemoje) žymėkime raide d. Patikrinkimevisusduotusatsakymovariantus. Jeimoky kląstatytumekaime A, tai kaimo A atstumas iki mokyklos būtų 0 km, kaimo B – 10 km, t. y. 1 dešimtis km, kaimo C – 2 dešimtys km, o kaimo D – 3 dešimtys km. Taigi be ndras mokinių kelias 0·10+10·20+20·30+30·40 = 2000 km, t. y. mūsų matavimo sistemoje d = 0·1+1·2+2·3+3·4 = 20. Panašiai apskaičiuokime ir kitiems kaimams: • jei statytume kaime B, tai d = 1·1+0·2+1·3+2·4 = 12; • jei kaime C, tai d = 2·1+1·2+0·3+1·4 = 8; • jei kaime D, tai d = 3·1+2·2+1·3+0·4 = 10. O koks būtų be ndras mokinių kelias, jei mokyklą statytume tarp kaimų B ir C? Kelią, kuris eina per kaimus, pavaizduokime skaičių spinduliu, o pačius kaimus ir mokyklą pažymėkime ta škais šta …",
      "figure": "figures/2022-q28.png",
      "mechanic": "casework",
-     "solutionKid": "Kaimai A, B, C, D 10 km ta rpais. Mokyklą stato vienoje iš keturių. Mokinių iš kiekvieno kaimo žinomas skaičius. Reikia minimalios be ndros kelionės. Patikrink visus 4 atvejus – atsakymas mažiausias.",
+     "solutionKid": "Kaimai A, B, C, D 10 km tarpais. Mokyklą stato vienoje iš keturių. Mokinių iš kiekvieno kaimo žinomas skaičius. Reikia minimalios bendros kelionės. Patikrink visus 4 atvejus – atsakymas mažiausias.",
      "misconceptions": {
-      "A": "Per maža – nepakanka mokinių iš to liausio kaimo.",
+      "A": "Per maža – nepakanka mokinių iš toliausio kaimo.",
       "B": "Sumaišei kaimus.",
-      "C": "Pas ir inkai be 4 atvejų patikros.",
+      "C": "Pasirinkai be 4 atvejų patikros.",
       "E": "Per didelis – netinkama vieta."
      }
     },
@@ -14011,11 +14007,11 @@
      "solution": "19. Vaizde iš viršaus matome du stulpelius šonuose (B ir C) ir vieną stulpelį priekyje (A). Vaizde iš priekio matome, kad stulpeliai B ir C sudaryti tik iš vieno kubo, o vaizde iš dešinės matome, kad stulpelis A irgi sudarytas tik iš vieno kubo. Vaizdas iš: viršaus priekio dešinės C B B C A A Likusi figūros dalis, kaip matome vaizde iš viršaus, yra sudaryta iš šešių stulpelių. Vaizde iš dešinės matome, jog du priekiniai stulpeliai gali turėti daugiausia po du kubus, o kiti keturi stulpeliai – daugiausia po tris kubus. Taigi visa figūra gali būti sudaryta daugiausia iš 1+1+1+2·2+4·3 = 19 kubų.",
      "figure": "figures/2022-q29.png",
      "mechanic": "projection",
-     "solutionKid": "Iš trijų vaizdų atsekti, kiek kubelių sudaro figūrą. Pažiūri į vaizdą iš viršaus – plano forma. Iš priekio – kiekvieno stulpelio aukštis. Iš dešinės – panašiai. Su kombinuoji minimalų kiekį – atsakymas.",
+     "solutionKid": "Iš trijų vaizdų atsekti, kiek kubelių sudaro figūrą. Pažiūri į vaizdą iš viršaus – plano forma. Iš priekio – kiekvieno stulpelio aukštis. Iš dešinės – panašiai. Sukombinuoji minimalų kiekį – atsakymas.",
      "misconceptions": {
       "A": "Per mažas – pamiršai dalį stulpelių.",
-      "C": "Pas ir inkai be visų 3 vaizdų.",
-      "E": "Per didelis – į traukei nematomus."
+      "C": "Pasirinkai be visų 3 vaizdų.",
+      "E": "Per didelis – įtraukei nematomus."
      }
     },
     {
@@ -14040,7 +14036,7 @@
      "misconceptions": {
       "A": "Per maža – nepakanka skrybėlininkų.",
       "B": "Sumaišei sakančius su nesakančiais.",
-      "E": "Per didelis – per daug už tikrintų."
+      "E": "Per didelis – per daug užtikrintų."
      }
     }
    ]
@@ -14467,10 +14463,10 @@
      "mechanic": "logic-clues",
      "solutionKid": "6 dėžių piramidė. 3 figūrų sąrašas viename matomas. Iš liekanos kiekiai – atsakymas, koks figūrų komplektas trijose neparodytose. Iš variantų – tinkantis.",
      "misconceptions": {
-      "A": "Pas ir inkai be likusių 3 dėžių.",
+      "A": "Pasirinkai be likusių 3 dėžių.",
       "B": "Sumaišei figūras.",
-      "C": "Pas ir inkai be sumos.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "C": "Pasirinkai be sumos.",
+      "E": "Pasirinkai atsitiktinai."
      },
      "imageOnlyOptions": true
     },
@@ -14494,7 +14490,7 @@
      "figure": "figures/2023-q22.png",
      "mechanic": "projection",
      "mechanic2": "cube-color",
-     "solutionKid": "2 detalės sudaro figūrą. Lentelė rodo kubelių paskirstymą. Pažiūri į detalę dešinėje (parodytą), su skaičiuoji jos kubelius. Likusi detalė = be ndras kubelių skaičius – parodytos. Atsakymas iš variantų.",
+     "solutionKid": "2 detalės sudaro figūrą. Lentelė rodo kubelių paskirstymą. Pažiūri į detalę dešinėje (parodytą), suskaičiuoji jos kubelius. Likusi detalė = bendras kubelių skaičius – parodytos. Atsakymas iš variantų.",
      "misconceptions": {
       "A": "Per mažas – pamiršai pridedamą detalę.",
       "B": "Sumaišei kubelius.",
@@ -14523,8 +14519,8 @@
      "solutionKid": "1ABCDE × 3 = ABCDE1. Tegul N = ABCDE (5-ženklis). Lygtis: 3·(100000 + N) = 10·N + 1, taigi 300000 + 3N = 10N + 1, 7N = 299999, N = 42857. ABCDE = 42857. Klausia kuri raidė = ?, paskaičiuoji.",
      "misconceptions": {
       "A": "Sumaišei raides.",
-      "B": "Pas ir inkai be lygties.",
-      "E": "Pas ir inkai be 7N = 299999 sprendimo."
+      "B": "Pasirinkai be lygties.",
+      "E": "Pasirinkai be 7N = 299999 sprendimo."
      },
      "imageOnlyOptions": true
     },
@@ -14548,7 +14544,7 @@
      "figure": "figures/2023-q24.png",
      "mechanic": "divisibility",
      "mechanic2": "partition",
-     "solutionKid": "Trasa 120 m, 4 stulpai (24 m, 30 m, 66 m). Reikia padalinti į vienodo ilgio dalis – atstumai turi dalintis iš dalies ilgio. Mažiausias be ndrasis daliklis: BD(24, 30, 66, 120) = 6. Trasa dalo 120/6 = 20 dalių; jau yra 5 stulpai (4 + galas). Reikia papildomai 20-5 = 15? Patikslindamas: tiksliai – atsakymas 15.",
+     "solutionKid": "Trasa 120 m, 4 stulpai (24 m, 30 m, 66 m). Reikia padalinti į vienodo ilgio dalis – atstumai turi dalintis iš dalies ilgio. Mažiausias bendrasis daliklis: BD(24, 30, 66, 120) = 6. Trasa dalo 120/6 = 20 dalių; jau yra 5 stulpai (4 + galas). Reikia papildomai 20-5 = 15? Patikslindamas: tiksliai – atsakymas 15.",
      "misconceptions": {
       "B": "Per mažas – pamiršai BD(24,30,66,120).",
       "E": "Per didelis – per daug stulpų."
@@ -14574,9 +14570,9 @@
      "mechanic": "iteration",
      "solutionKid": "Bokštas 50 detalių. Kajus iš viršaus pradeda nuimti. Sąlyga – kiekvieną kartą nuima konkrečius. Sek pasekme – atsakymas konkretus skaičius.",
      "misconceptions": {
-      "A": "Pas ir inkai be sekos.",
+      "A": "Pasirinkai be sekos.",
       "B": "Sumaišei detales.",
-      "D": "Pas ir inkai be paskaičiavimo."
+      "D": "Pasirinkai be paskaičiavimo."
      }
     },
     {
@@ -14597,10 +14593,10 @@
      "solution": "4. Kiekviena iš trijų kortelių gali būti atversta vienu iš dviejų skaičių. Taigi yra 2·2·2 = 8 būdai sudaryti trijų skaičių sumą. Tačiau nebūtinai visos 8 atitinkamos reikšmės skirtingos. Jų visų tikrinimo galima iš vengti pastebėjus, kad atvertus vieną kortelę skaičiumi 1 arba 4, o kitą – skaičiumi 2 arba 5, dviejų skaičių suma visada dalijasi iš 3, taigi pridėjus likusios kortelės skaičių 3 arba 6, suma iš 3 vis tiek dalysis. Mažiausia ir didžiausia galima trijų skaičių sumos atitinkamai lygios 1 + 2 + 3 = 6 ir 4+5+6 = 15. Tarp šių reikšmių yra dar du skaičiai, dalūs iš 3. Juos gausime, jau turimose sumose su keitę skaičius 3 ir 6 (apvertę trečiąją kortelę kita puse, kad suma padidėtų arba su mažėtų 3): 1+2+6 = 9, 4+5+3 = 12. Vadinasi, trijų skaičių kortelėse suma gali įgyti 4 reikšmes 6, 9, 12, 15",
      "figure": "figures/2023-q26.png",
      "mechanic": "counting-ways",
-     "solutionKid": "3 kortelės, kiekvienoje skirtingi skaičiai abiejose pusėse. Morta deda atsiti ktinai. Kiek skirtingų bendrų sumų gauna? Iš (2)³ = 8 atvejų po 3 sumos – tikrai SKIRTINGŲ – atsakymas iš variantų.",
+     "solutionKid": "3 kortelės, kiekvienoje skirtingi skaičiai abiejose pusėse. Morta deda atsitiktinai. Kiek skirtingų bendrų sumų gauna? Iš (2)³ = 8 atvejų po 3 sumos – tikrai SKIRTINGŲ – atsakymas iš variantų.",
      "misconceptions": {
       "A": "Per maža – nepakanka kombinacijų.",
-      "C": "Pas ir inkai dėl 2³.",
+      "C": "Pasirinkai dėl 2³.",
       "E": "Per didelis – per daug skirtingų."
      }
     },
@@ -14625,9 +14621,9 @@
      "solutionKid": "Apsiaustas = 5 sijonai. 3 sijonai = 8 palaidinės. 2 palaidinės = ? Klausimas: apsiaustas tiek pat kiek X palaidinių? Apsiaustas = 5 sijonai = 5 · (8/3) palaidinių = 40/3 palaidinių. Iš variantų – tinkantis.",
      "misconceptions": {
       "A": "Sumaišei santykius.",
-      "B": "Pas ir inkai be grandinės.",
+      "B": "Pasirinkai be grandinės.",
       "D": "Per didelis – per daug palaidinių.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -14652,8 +14648,8 @@
      "solutionKid": "Vyriausias = 2 × jauniausio. Visi <18. Vidurkis – sąlygoje. Patikrini, kokios šeimos struktūros tinka.",
      "misconceptions": {
       "B": "Sumaišei vaikus.",
-      "C": "Pas ir inkai be vidurkio patikros.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "C": "Pasirinkai be vidurkio patikros.",
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -14674,11 +14670,11 @@
      "solution": "7. Natūralųjį skaičių vadinkime laimingu, jei tiek rutulių esant dėžėje, ėjimą turintis atlikti žai- dėjas gali laimėti, nepri klausomai nuo kito žaidėjo ėjimų (turi pergalės strategiją). Jei pergalės strategiją turi kitas žaidėjas, tai atitinkamą natūralųjį skaičių vadinkime nelaimingu. Dėžėje esant 10 rutulių, Sofija turi savo ėjimu Rimui palikti rutulių skaičių, kuris būtų nelaimingas. Dėžėje likus vienam rutuliui, kitu ėjimu jis neišvengiamai iš traukiamas, o žaidėjas, pri- verstas atlikti šį ėjimą, pralaimi. Taigi skaičius 1 yra nelaimingas. Tada skaičiai 2, 3, 4, 5, 6 yra laimingi: dėžėje esant tiek rutulių, vienu ėjimu galima pasiekti, kad dėžėje liktų lygiai vienas rutulys, o tada kitas žaidėjas pralaimės. To limesnis skaičius 7 vėl nelaimingas: kad ir kokį ėjimą atliks žaidėjas, rutulių skaičius dėžėje taps laimingas, tad laimėti galės kitas žaidėjas. Šiuos samprotavimus galima tę …",
      "figure": "figures/2023-q29.png",
      "mechanic": "state-game",
-     "solutionKid": "Sofija ir Rimas pakaitomis ima 1, 2 ar 3 rutulius. Kuris paskutinę pakanka – laimi (ar pralaimi pagal sąlygą). Iš nuo galo: po zicija 0 – P. 1, 2, 3 – L. 4 – P. 5, 6, 7 – L. 8 – P. Kas 4 – P. Iš pradinio rutulių skaičiaus modulis 4 – atsakymas.",
+     "solutionKid": "Sofija ir Rimas pakaitomis ima 1, 2 ar 3 rutulius. Kuris paskutinę pakanka – laimi (ar pralaimi pagal sąlygą). Iš nuo galo: pozicija 0 – P. 1, 2, 3 – L. 4 – P. 5, 6, 7 – L. 8 – P. Kas 4 – P. Iš pradinio rutulių skaičiaus modulis 4 – atsakymas.",
      "misconceptions": {
-      "A": "Pas ir inkai be 4 modulio.",
-      "B": "Sumaišei po zicijas.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "A": "Pasirinkai be 4 modulio.",
+      "B": "Sumaišei pozicijas.",
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -14701,11 +14697,11 @@
      "figure": "figures/2023-q30.png",
      "mechanic": "area-decomp",
      "mechanic2": "area-compute",
-     "solutionKid": "5 figūros, palygina jų plotai. Pažiūrėk – nubraižo standartines iš reikšti per kvadratėlių skaičių. Atsakymas – didžiausią plotą turinti.",
+     "solutionKid": "5 figūros, palygina jų plotai. Pažiūrėk – nubraižo standartines išreikšti per kvadratėlių skaičių. Atsakymas – didžiausią plotą turinti.",
      "misconceptions": {
-      "A": "Pas ir inkai be ploto palyginimo.",
+      "A": "Pasirinkai be ploto palyginimo.",
       "B": "Sumaišei figūras.",
-      "D": "Pas ir inkai be visų 5 figūrų patikros."
+      "D": "Pasirinkai be visų 5 figūrų patikros."
      }
     }
    ]
@@ -15139,7 +15135,7 @@
      "misconceptions": {
       "A": "Per maža – pamiršai 21 dalybą.",
       "B": "Sumaišei viršų su apačia.",
-      "D": "Pas ir inkai be 7 sumos.",
+      "D": "Pasirinkai be 7 sumos.",
       "E": "Per didelis – peržengė 21."
      }
     },
@@ -15166,7 +15162,7 @@
      "misconceptions": {
       "A": "Per maža – pamiršai matmenis.",
       "B": "Sumaišei pilką su baltu.",
-      "D": "Pas ir inkai be visų matmenų."
+      "D": "Pasirinkai be visų matmenų."
      }
     },
     {
@@ -15189,12 +15185,12 @@
      "solution": "(A). Baltosios sienos kairieji trikampėliai turi būti juodi, nes jie liečiasi su juodais trikampėli- ais. Viršutinė baltos sienos kraštinė sutaps su viršutinės išklotinės krašine, todėl viršutiniai trikampėliai turi būti baltas ir juodas. Panašiaiapatinisbaltossieno skraštassuta pssuapatine išklotinės kraštine, todėl apatiniai trikampėliai turi būti juodas ir baltas. Galiausiai, dešinieji trikampėliai turi būti baltas ir juodas, nes jie liečiasi su kairiausiais išklotinės trikampėliais.",
      "figure": "figures/2024-q23.png",
      "mechanic": "cube-net",
-     "solutionKid": "Iš išklotinės padarius kubą, kuri spalva – kuriai pusei? Pažymi: viena siena = baltoji. Reikia jos spalvos – iš sąlygos. Sek išklotinę – pagal tai syklę, kuri pusė lieka balta sulanksčius.",
+     "solutionKid": "Iš išklotinės padarius kubą, kuri spalva – kuriai pusei? Pažymi: viena siena = baltoji. Reikia jos spalvos – iš sąlygos. Sek išklotinę – pagal taisyklę, kuri pusė lieka balta sulanksčius.",
      "misconceptions": {
       "B": "Sumaišei spalvas.",
-      "C": "Pas ir inkai be sulankstymo.",
-      "D": "Pas ir inkai be sienos parinkimo.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "C": "Pasirinkai be sulankstymo.",
+      "D": "Pasirinkai be sienos parinkimo.",
+      "E": "Pasirinkai atsitiktinai."
      },
      "hasMissingOptionText": true
     },
@@ -15221,9 +15217,9 @@
      "mechanic2": "logic-clues",
      "solutionKid": "Schema: 7 maršrutai. Per stotis traukiniai važiuoja TIESIAI. Iš sąlygos rasi galimus maršrutus – atsakymas iš variantų.",
      "misconceptions": {
-      "A": "Pas ir inkai be visų 7 maršrutų.",
-      "C": "Pas ir inkai be tiesios eigos.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "A": "Pasirinkai be visų 7 maršrutų.",
+      "C": "Pasirinkai be tiesios eigos.",
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -15244,11 +15240,11 @@
      "solution": "Neįmanoma, kad lygiai 3 puodeliai stovėtų ant savo lėkštučių. Patikrinkime visus teiginius. • Teiginiai A, B ir E yra neteisingi: visus puodelius galima su statyti ant savo lėkštučių. • Teiginys Cyranete isingas: su statępuodeliusantsavolė kštučių, du puodelius su kei skime vietomis. • Teiginys D yra teisingas: jei 3 puodeliai stovi ant savo lėkštučių, tai ketvirtas puodelis taip pat stovės ant savo lėkštutės. Taigi teisingas atsakymas yra D",
      "figure": "figures/2024-q25.png",
      "mechanic": "counting-ways",
-     "solutionKid": "4 puodeliai ant 4 lėkštučių atsiti ktinai. Klausimas: koks teiginys teisingas? Patikrini kiekvieną variantą – tikslumas (visada/kartais/niekada).",
+     "solutionKid": "4 puodeliai ant 4 lėkštučių atsitiktinai. Klausimas: koks teiginys teisingas? Patikrini kiekvieną variantą – tikslumas (visada/kartais/niekada).",
      "misconceptions": {
       "A": "Sumaišei „visada“ su „kartais“.",
-      "B": "Pas ir inkai be visų atvejų.",
-      "E": "Pas ir inkai be patikros."
+      "B": "Pasirinkai be visų atvejų.",
+      "E": "Pasirinkai be patikros."
      }
     },
     {
@@ -15300,7 +15296,7 @@
      "misconceptions": {
       "A": "Per maža – nepakanka.",
       "B": "Sumaišei anūkų skaičių.",
-      "D": "Pas ir inkai be 20 ribos.",
+      "D": "Pasirinkai be 20 ribos.",
       "E": "Per didelis – peržengė 20."
      }
     },
@@ -15322,11 +15318,11 @@
      "solution": "24. Kadangi 12 ir 16 be ndras mažiausias kartotinis yra 48, pažymėkime virvės pradžią 0, galą – 48, Jono kirpimo taškus 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, Kosto kirpimo taškus – 3, 6, 9, 12, 15, 18, 21, 24,..., 42, 45. Su ta mpantys taškai dalijasi iš 12, taigi jų yra 3: 12, 24, 36. Jonas ir Kostas kartu pažymėjo virvę 11+15 = 26 vietose, bet trys kirpimo vietos sutapo. Taigi virvė pažymėta 26−3 = 23 skirtingose vietose. Vadinasi, Mėja kirps 23 kartus ir taip gaus 24 virvagalius. Renkamės atsakymą A. 18 UŽDUOČIŲ SPRENDIMAI",
      "figure": "figures/2024-q28.png",
      "mechanic": "divisibility",
-     "solutionKid": "Virvė į 12 dalių (Jonas) arba į 16 dalių (Kostas). MBD(12, 16) = 4. Vienodos vietos jų abiejose žymėse – po 4 dalis. Bendrų yra 4 (į skaitant galus). Skirtingų žymėjimo vietų: 12 + 16 – 2·4 = 20.",
+     "solutionKid": "Virvė į 12 dalių (Jonas) arba į 16 dalių (Kostas). MBD(12, 16) = 4. Vienodos vietos jų abiejose žymėse – po 4 dalis. Bendrų yra 4 (įskaitant galus). Skirtingų žymėjimo vietų: 12 + 16 – 2·4 = 20.",
      "misconceptions": {
       "B": "Sumaišei pjūvius.",
-      "C": "Pas ir inkai be su ta mpančių.",
-      "E": "Per didelis – į traukei nepate kusias."
+      "C": "Pasirinkai be sutampančių.",
+      "E": "Per didelis – įtraukei nepatekusias."
      }
     },
     {
@@ -15351,7 +15347,7 @@
      "misconceptions": {
       "A": "Per mažas – nepakanka kombinacijų.",
       "B": "Sumaišei detales.",
-      "C": "Pas ir inkai be derinių."
+      "C": "Pasirinkai be derinių."
      }
     },
     {
@@ -15373,11 +15369,11 @@
      "figure": "figures/2024-q30.png",
      "mechanic": "digit-puzzle",
      "mechanic2": "place-value",
-     "solutionKid": "Triženklis abc → abc D = abc·10 + D, padidėjo 2024. 9·(abc) + D = 2024 – wait, abc D = 10·abc + D. abc D – abc = 9·abc + D = 2024. 9·abc = 2024 – D. abc = (2024-D)/9. Sveikas → 2024-D dalo iš 9. 2024 mod 9 = 2+0+2+4 = 8. Taigi D = 8. abc = 224. Atsakymas D = 8.",
+     "solutionKid": "Triženklis abc → abcD = abc·10 + D, padidėjo 2024. 9·(abc) + D = 2024 – wait, abcD = 10·abc + D. abcD – abc = 9·abc + D = 2024. 9·abc = 2024 – D. abc = (2024-D)/9. Sveikas → 2024-D dalo iš 9. 2024 mod 9 = 2+0+2+4 = 8. Taigi D = 8. abc = 224. Atsakymas D = 8.",
      "misconceptions": {
-      "A": "Pas ir inkai be 9 dalybos.",
+      "A": "Pasirinkai be 9 dalybos.",
       "B": "Sumaišei skaitmenis.",
-      "C": "Pas ir inkai be 2024 mod 9.",
+      "C": "Pasirinkai be 2024 mod 9.",
       "E": "Per didelis – ne 8."
      }
     }
@@ -15805,11 +15801,11 @@
      "solution": "7. Pastebėkime: iš pradžių burtininkė turėjo 9 bananus ir 6 kriaušes, o dabar turi 15, t. y. 9+6, o buolių. Vadinasi, visus bananus ir visas kriaušes ji pavertė o buoliais. Iš tikro, jeigu bent vieną bananą arba kriaušę burtininkė būtų pavertusi kitokiu vaisiumi, nei o buoliu, tai dabar ji turėtų mažiau negu 9+6 = 15 o buolių. Taigi dabartiniai 7 bananai ir 3 kriaušės buvo gauti ne iš ko kito, o iš pradinių 10 o buolių. Vadinasi, būtent 7 o buolius burtininkė pavertė bananais.",
      "figure": "figures/2025-q21.png",
      "mechanic": "invariant",
-     "solutionKid": "10 o buolių, 9 bananai, 6 kriaušės = 25 vaisių. Pakeitimas: vaisius → kitos rūšies vaisius. Stebėk INVARIANTĄ: be ndras skaičius ne pasikeičia. Lyginumas vienos rūšies: pradžia: 10(L) + 9(N) + 6(L). Pakeitimas keičia DVIEJŲ rūšių lyginumą. Galimas tikslas – tik tose konfigūracijose, kur bent viena rūšis lyginė.",
+     "solutionKid": "10 obuolių, 9 bananai, 6 kriaušės = 25 vaisių. Pakeitimas: vaisius → kitos rūšies vaisius. Stebėk INVARIANTĄ: bendras skaičius nepasikeičia. Lyginumas vienos rūšies: pradžia: 10(L) + 9(N) + 6(L). Pakeitimas keičia DVIEJŲ rūšių lyginumą. Galimas tikslas – tik tose konfigūracijose, kur bent viena rūšis lyginė.",
      "misconceptions": {
       "A": "Per maža – nepakanka invariantos.",
       "B": "Sumaišei vaisius.",
-      "C": "Pas ir inkai be lyginumo."
+      "C": "Pasirinkai be lyginumo."
      }
     },
     {
@@ -15834,7 +15830,7 @@
      "solutionKid": "Kvadrato kraštinė 10 cm. Vertikalioji atkarpa dalo į du LYGIUS stačiakampius. Pilkos figūros plotas – iš piešinio, kompozicija paprastų figūrų. Skaičiuoji per dalis – atsakymas (kvadratiniais cm).",
      "misconceptions": {
       "A": "Per maža – pamiršai dalybą.",
-      "C": "Pas ir inkai be plotų su mavimo.",
+      "C": "Pasirinkai be plotų sumavimo.",
       "E": "Per didelis – peržengė 100."
      }
     },
@@ -15857,11 +15853,11 @@
      "solution": "(E). E — Iš 3 kvadratėlių galima sudaryti tiktai tokių formų vientisas dalis: a b Nesunku pastebėti, kad Joana negalėjo sukarpyti pavaizduotos figūros į formos a dalis. Iš tikro, jei pradėdami nuo kvadratėlio 1 figūrą karpysime į formos a dalis, tai prieisime situaciją, jog kvadratėlis 2 nebegali patekti į tokios formos dalį: 1 2 Taigi Joana turėjo sukarpyti figūrą į formos b dalis. Vėlgi, pradėdami nuo kvadratėlio 1, karpykime figūrą. Gausime, jog vienintelis į manomas su karpymas yra štai toks: Taigi kvadratėlis, pažymėtas žvaigždute, bus toje pačioje dalyje su kvadratėliu, pažymėtu raide E.",
      "figure": "figures/2025-q23.png",
      "mechanic": "tiling",
-     "solutionKid": "Joana figūrą sukarpė į 5 vienodos formos po 3 kvadratėlius. Be ndras plotas = 15 kvadratėlių. Forma turi tilpti 5 kartus. Iš piešinio – ieškai, kuris kvadratėlis pateko į TĄ pačią dalį, kaip pažymėtas.",
+     "solutionKid": "Joana figūrą sukarpė į 5 vienodos formos po 3 kvadratėlius. Bendras plotas = 15 kvadratėlių. Forma turi tilpti 5 kartus. Iš piešinio – ieškai, kuris kvadratėlis pateko į TĄ pačią dalį, kaip pažymėtas.",
      "misconceptions": {
       "B": "Sumaišei dalis.",
-      "C": "Pas ir inkai be formos su tapimo.",
-      "D": "Pas ir inkai be 5 dalių."
+      "C": "Pasirinkai be formos sutapimo.",
+      "D": "Pasirinkai be 5 dalių."
      },
      "imageOnlyOptions": true
     },
@@ -15883,11 +15879,11 @@
      "solution": "Ketvirtadienį. Tomo atsakymai prieštarauja vienas kitam. Vadinasi, po kalbis vyko kažkurią iš tų dienų, kai Tomas meluoja, t. y. ant radienį, ketvirtadienį arba šeštadienį. Kartu tai reiškia, jog abu Tomo atsakymai klaidingi, nes melavimo dienomis jis vien tik meluoja. Taigi po kalbis negalėjo vykti nei ant radienį (nes rytojaus diena negalėjo būti trečiadienis), nei šeštadienį. Vadinasi, po kalbis vyko ketvirtadienį. Teisingas atsakymas D. 18 UŽDUOČIŲ SPRENDIMAI",
      "figure": "figures/2025-q24.png",
      "mechanic": "truth-tellers",
-     "solutionKid": "Tomas meluoja ant radieniais, ketvirtadieniais, šeštadieniais. Matas paklausė: „Kuri diena šiandien?“ Tomas atsakė. Iš atsakymo – nustatai, ar šiandien meluojama. Atsakymas – diena, kuri dera sumeluojančia/sakančia tiesą tvarka.",
+     "solutionKid": "Tomas meluoja antradieniais, ketvirtadieniais, šeštadieniais. Matas paklausė: „Kuri diena šiandien?“ Tomas atsakė. Iš atsakymo – nustatai, ar šiandien meluojama. Atsakymas – diena, kuri dera su meluojančia/sakančia tiesą tvarka.",
      "misconceptions": {
       "A": "Sumaišei dienas.",
-      "B": "Pas ir inkai be melagystės dienos.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "B": "Pasirinkai be melagystės dienos.",
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -15908,11 +15904,11 @@
      "solution": "13. Pirmiausia tiesiog pabandykime sudėlioti kryželį, stengdamiesi panaudoti kuo mažiau detalių. Nesunku sudėlioti naudojant lygiai 13 detalių, pavyzdžiui, taip: 13 12 5 6 11 2 1 4 7 10 3 8 9 Spėjame, jog teisingas atsakymas C. — Visgi Kengūros konkurse spėlioti yra rizikinga. Į sitikinkime, jog kryželio tikrai neįmanoma sudėlioti naudojant mažiau negu 13 detalių – tada atsakymą C galėsime rinktis už tikrintai. Laikykime, jog pavei kslėlyje vieno kvadratinio langelio kraštinės ilgis lygus 1. Tuomet viso kryželio plotas lygus 17 kv. vnt. Kryželyje yra keturios dalys. Padengti abu smailiuosius kampus vienoje to kioje dalyje galima tik štai to kiais būdais: 1 2 3 21 1 2 1 2 a b c d Kiekvienu atveju reikalingos bent 2 detalės, taigi visiems kryželio smailiesiems kampams padengti prireiks bent 4·2 = 8 detalių. Kita vertus, atveju a padengiamas 1 kv. vnt. plotas, atveju b – 1,5 kv. vnt., o atveja …",
      "figure": "figures/2025-q25.png",
      "mechanic": "tiling",
-     "solutionKid": "Kryželis sudėtas iš pilkų detalių, 5 formų. Iš piešinio – kiek kiekvienos formos reikia? Skaičiuoji per kvadratėlių su tapimą – atsakymas iš variantų.",
+     "solutionKid": "Kryželis sudėtas iš pilkų detalių, 5 formų. Iš piešinio – kiek kiekvienos formos reikia? Skaičiuoji per kvadratėlių sutapimą – atsakymas iš variantų.",
      "misconceptions": {
       "A": "Per mažas – nepakanka detalių.",
       "B": "Sumaišei formas.",
-      "D": "Pas ir inkai be visų 5 formų.",
+      "D": "Pasirinkai be visų 5 formų.",
       "E": "Per didelis – per daug detalių."
      }
     },
@@ -15934,11 +15930,11 @@
      "solution": "(A). Kadangi konstrukcija yra pusiau svira, tai gauname tokią svorių lygybę: + + + = + + + +. Iš abiejų šios lygybės pusių atmetę kaladėlę bei po vieną kaladėlę, gauname, jog 2 kaladėlės sveria tiek pat, kiek 3 kaladėlės: + = + +. Vadinasi, vienakaladėlė yrasunke snėužvieną. Kitavertus, kairiojikonstrukcijo slėkštelė irgi pusiau svira, taigi + = +. Iš čia matome: kadangi kaladėlė lengvesnė už, tai turi būti sunkesnė už. Taigi kaladėlių iš rikiavimas lengvėjimo tvarka yra toks:;;. Teisingas atsakymas A. 20 UŽDUOČIŲ SPRENDIMAI",
      "figure": "figures/2025-q26.png",
      "mechanic": "weighing",
-     "solutionKid": "9 kaladėlės pusiau sviros. Vienodai pažymėtos sveria po tiek pat. Iš piešinio – su daryk lygtis (kaladėlių sumos abiejose pusėse). Sprendi – atsakymas: kuris žymejimas atitinka klaustuką.",
+     "solutionKid": "9 kaladėlės pusiausviros. Vienodai pažymėtos sveria po tiek pat. Iš piešinio – sudaryk lygtis (kaladėlių sumos abiejose pusėse). Sprendi – atsakymas: kuris žymejimas atitinka klaustuką.",
      "misconceptions": {
       "B": "Sumaišei kaladėles.",
-      "D": "Pas ir inkai be pusiau svyros patikros.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "D": "Pasirinkai be pusiausvyros patikros.",
+      "E": "Pasirinkai atsitiktinai."
      },
      "imageOnlyOptions": true
     },
@@ -15964,9 +15960,9 @@
      "mechanic": "casework",
      "solutionKid": "1..9 į kvadratėlius. Šalia atkarpų – sumos jungčiams. Iš sąlygų – pradedi nuo griežčiausių (didžiausios sumos). Sprendi paeiliui – atsakymas konkretus skaičius.",
      "misconceptions": {
-      "A": "Pas ir inkai be sąlygų sekos.",
+      "A": "Pasirinkai be sąlygų sekos.",
       "B": "Sumaišei skaičius.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "E": "Pasirinkai atsitiktinai."
      }
     },
     {
@@ -15989,10 +15985,10 @@
      "mechanic": "cube-net",
      "solutionKid": "Iš 3 detalių suklijuotas naujas kūnas. Pažiūri į kiekvieną – kuris atsakymo variantas tinka kaip kombinacija.",
      "misconceptions": {
-      "A": "Pas ir inkai be visų 3 detalių.",
+      "A": "Pasirinkai be visų 3 detalių.",
       "B": "Sumaišei kombinacijas.",
-      "C": "Pas ir inkai be su lipimo.",
-      "E": "Pas ir inkai atsiti ktinai."
+      "C": "Pasirinkai be sulipimo.",
+      "E": "Pasirinkai atsitiktinai."
      },
      "imageOnlyOptions": true
     },
@@ -16018,7 +16014,7 @@
      "misconceptions": {
       "A": "Per maža – pamiršai 3X struktūrą.",
       "B": "Sumaišei Sandros su Saros.",
-      "C": "Pas ir inkai be lygties.",
+      "C": "Pasirinkai be lygties.",
       "E": "Per didelis – per daug šokoladukų."
      }
     },
@@ -16041,11 +16037,11 @@
      "figure": "figures/2025-q30.png",
      "mechanic": "counting-ways",
      "mechanic2": "casework",
-     "solutionKid": "Gėlės po 3, 4, 5 EUR. Suma 23 EUR. Skaičiuoji nelygiu Diophantine: 3 a+4 b+5 c = 23, a, b,c ≥ 0. Atvejais c (0..4): c=0: 3 a+4 b=23, sprendiniai (a=1,b=5), (a=5,b=2) – 2 atv. c=1: 3 a+4 b=18, (a=2,b=3), (a=6,b=0) – 2. c=2: 3 a+4 b=13, (a=3,b=1) – 1. c=3: 3 a+4 b=8, (a=0,b=2) – 1. c=4: 3 a+4 b=3, (a=1,b=0) – 1. Iš viso 7 puokščių variantai.",
+     "solutionKid": "Gėlės po 3, 4, 5 EUR. Suma 23 EUR. Tegu a gėlių po 3 EUR, b po 4 EUR ir c po 5 EUR: 3a+4b+5c = 23. Atvejais c (0..4): c=0: 3a+4b=23, sprendiniai (a=1,b=5), (a=5,b=2) – 2 atv. c=1: 3a+4b=18, (a=2,b=3), (a=6,b=0) – 2. c=2: 3a+4b=13, (a=3,b=1) – 1. c=3: 3a+4b=8, (a=0,b=2) – 1. c=4: 3a+4b=3, (a=1,b=0) – 1. Iš viso 7 puokščių variantai.",
      "misconceptions": {
       "A": "Per maža – pamiršai daugiau atvejų.",
       "B": "Sumaišei gėles su EUR.",
-      "C": "Pas ir inkai be Diophantine.",
+      "C": "Pasirinkai neperžiūrėjęs visų atvejų.",
       "E": "Per didelis – peržengė 7."
      }
     }

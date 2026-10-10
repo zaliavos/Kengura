@@ -191,7 +191,9 @@ def main():
     n_changed = 0
     for y in data['archive']:
         for q in y['questions']:
-            for field in ('prompt', 'solution', 'solutionKid'):
+            # solutionKid / misconceptions are hand-written (_solutions_5pt_kid.py)
+            # and clean – re-spacing them inserted 458 stray spaces (2026-10-10).
+            for field in ('prompt', 'solution'):
                 if field in q and q[field]:
                     new = respace(q[field])
                     if new != q[field]:
@@ -206,7 +208,7 @@ def main():
                             q['options'][letter] = nv
                             n_changed += 1
             # misconceptions too
-            if 'misconceptions' in q:
+            if False and 'misconceptions' in q:   # hand-written, see above
                 for letter, txt in list(q['misconceptions'].items()):
                     if txt and isinstance(txt, str):
                         nt = respace(txt)
