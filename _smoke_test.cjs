@@ -88,7 +88,8 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         rewardsCardHTML, buildRacePool, masteryDecayDays, logActivity,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
-        openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN};
+        openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
+        askConfidenceNow, STAR_TIME_VIEWS};
 `;
 let app;
 try {
@@ -521,6 +522,14 @@ section("minigames");
   check("plan minutes positive", planMinutes(steps) > 0);
   check("playlist day ≥ 20 min", planMinutes([{act:"warmup"},{act:"playlist"},{act:"recog"}]) >= 20);
   check("no stale 20-min copy", !html.includes("(~20 min)") && !html.includes("~20 min treniruotė"));
+  // Loop 3: sprint never asks confidence; time stars only in learning views
+  store.settings.askConfidence = true;
+  state._sprintMode = false; check("confidence on in a normal quiz", app.askConfidenceNow());
+  state._sprintMode = true;  check("confidence off in the sprint", !app.askConfidenceNow());
+  state._sprintMode = false; store.settings.askConfidence = false;
+  check("home/plan/race earn no time stars", !app.STAR_TIME_VIEWS.has("home") && !app.STAR_TIME_VIEWS.has("plan") && !app.STAR_TIME_VIEWS.has("race"));
+  check("quiz/playlist/contest earn time stars", ["quiz","playlist","contest"].every(v => app.STAR_TIME_VIEWS.has(v)));
+  check("mission leads with the plan step", html.includes("action: 'planStep'") && html.includes('act === "planStep"'));
   state.view = "home";
 }
 

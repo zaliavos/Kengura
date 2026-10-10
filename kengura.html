@@ -3392,10 +3392,15 @@ function spendStars(n){
 // Active-time heartbeat: accrue seconds only while the tab is visible, so
 // a kid can't farm stars by leaving the page open. Every full minute → 1 star.
 const STAR_TIME_TICK_SEC = 20;
+// Views where a minute counts as practice. Home, plan, parent view and
+// the reward games earn nothing per minute — a kid will try leaving the
+// tab open.
+const STAR_TIME_VIEWS = new Set(["quiz", "playlist", "recog", "archiveYear", "contest", "raceChallenge", "results", "contestResults"]);
 let _lastStarSaveAt = 0;
 function startStarTimeHeartbeat(){
   setInterval(()=>{
     if(typeof document !== "undefined" && document.hidden) return;
+    if(!STAR_TIME_VIEWS.has(state.view)) return;   // parked on the home page ≠ learning
     const s = store.stars;
     s._timeSecRem = (s._timeSecRem || 0) + STAR_TIME_TICK_SEC;
     let gained = 0;
@@ -3700,6 +3705,12 @@ const state = {
   timerTotalMs:0,
   timerInterval:null,
 };
+
+/* Confidence picker applies to normal quizzes, never inside the speed
+   sprint (it would add a tap per question and skew the 3-pt pace). */
+function askConfidenceNow(){
+  return !!store.settings.askConfidence && !state._sprintMode;
+}
 
 function startTimer(totalMs){
   stopTimer();
@@ -4331,6 +4342,17 @@ function renderHome(){
       body: 'Pradėk lengvai: 3 paprasti uždaviniai prieš grįžtant prie pakartojimų.',
       cta: 'Pradėti apšilimą', action: 'graceWarmup', style: 'warm',
     });
+    if(daysToContest() != null){
+      const steps = planStepsForToday();
+      const pd = store.planDone[todayKey()] || {};
+      const nextStep = steps.find(s => !pd[s.id]);
+      if(nextStep) missions.push({
+        tag: `Šiandienos planas · ${steps.filter(s => pd[s.id]).length}/${steps.length}`,
+        title: nextStep.label,
+        body: `${PLAN_PHASE[planPhase()].icon} ${PLAN_PHASE[planPhase()].label}${daysToContest() > 0 ? ` · iki konkurso ${daysToContest()} d.` : ''} · ~${planMinutes([nextStep])} min`,
+        cta: nextStep.act === 'none' ? 'Pažymėti' : nextStep.act === 'strategy' ? 'Skaityti' : 'Pradėti', action: 'planStep', actionData: nextStep.id, style: 'primary',
+      });
+    }
     if(due.length) missions.push({
       tag: 'Pakartojimo eilė',
       title: `Šiandien laukia ${due.length} ${due.length%10===1 && due.length%100!==11 ? 'uždavinys' : (due.length%10>=2 && due.length%10<=4 && (due.length%100<10 || due.length%100>=20) ? 'uždaviniai' : 'uždavinių')}`,
@@ -4686,7 +4708,10 @@ function renderHome(){
     openDueQueue();
   });
   const runMissionAction = (act, arg, band)=>{
-    if(act === "due"){
+    if(act === "planStep"){
+      const st = planStepsForToday().find(x => x.id === arg);
+      if(st) launchPlanStep(st);
+    } else if(act === "due"){
       openDueQueue();
     } else if(act === "playlist" && arg){
       openPlaylist(arg, band ? parseInt(band, 10) : undefined);
@@ -4933,7 +4958,7 @@ function renderQuiz(){
         </div>`;
       })() : ``}
 
-      ${store.settings.askConfidence && !showResult && state._chosen != null && !state._confidence ? `
+      ${askConfidenceNow() && !showResult && state._chosen != null && !state._confidence ? `
         <div class="confidence-row" role="radiogroup" aria-label="Kiek esi tikras?">
           <span class="help-bar" style="margin:0 8px 0 0">Kiek esi tikras?</span>
           <button class="btn small ghost" role="radio" aria-checked="false" data-q-conf="a">Tikrai žinau</button>
@@ -4941,7 +4966,7 @@ function renderQuiz(){
           <button class="btn small ghost" role="radio" aria-checked="false" data-q-conf="c">Atsitiktinai</button>
         </div>
       ` : ''}
-      ${store.settings.askConfidence && !showResult && state._confidence ? `<div class="help-bar">Pasitikėjimas: <b>${({a:'Tikrai žinau',b:'Spėju iš dviejų',c:'Atsitiktinai'})[state._confidence]}</b></div>` : ''}
+      ${askConfidenceNow() && !showResult && state._confidence ? `<div class="help-bar">Pasitikėjimas: <b>${({a:'Tikrai žinau',b:'Spėju iš dviejų',c:'Atsitiktinai'})[state._confidence]}</b></div>` : ''}
 
       <div class="footer-actions">
         <div class="row">
@@ -4950,7 +4975,7 @@ function renderQuiz(){
           ${idx>0 ? `<button class="btn ghost small" id="prevBtn">← Ankstesnis</button>`:``}
         </div>
         <div class="row">
-          ${!showResult ? `<button class="btn primary" id="submitBtn" ${state._chosen==null || (store.settings.askConfidence && !state._confidence) ? "disabled":""}>Atsakyti</button>` : ``}
+          ${!showResult ? `<button class="btn primary" id="submitBtn" ${state._chosen==null || (askConfidenceNow() && !state._confidence) ? "disabled":""}>Atsakyti</button>` : ``}
           ${showResult && idx<total-1 ? `<button class="btn primary" id="nextBtn">Kitas →</button>`:``}
           ${showResult && idx===total-1 ? `<button class="btn primary" id="finishBtn">Užbaigti</button>`:``}
         </div>
@@ -6870,7 +6895,7 @@ function markPlanStepDone(stepOverride){
     awardStars("fromBonus", PLAN_DAY_BONUS);
     Fx.floatStars(PLAN_DAY_BONUS);
     Fx.celebrate("plan");
-    showToast("📅", `Dienos treniruotė atlikta! <b>+${PLAN_DAY_BONUS} ⭐</b> ir nemokamos lenktynės 🏎`, 5500);
+    showToast("📅", `Dienos treniruotė atlikta! <b>+${PLAN_DAY_BONUS} ⭐</b> ir žaidimų bilietas 🎟`, 5500);
   }
   saveStore(store);
   checkAchievements();
@@ -7030,7 +7055,7 @@ function renderPlan(){
             ? `<span class="pill good">atlikta</span>`
             : `<button class="btn small ${s.act === 'none' ? '' : 'primary'}" data-plan-step="${s.id}">${s.act === 'none' ? 'Pažymėti' : s.act === 'strategy' ? 'Skaityti' : 'Pradėti'}</button>`}
         </div>`).join('')}
-      ${allDone ? `<div class="recent-mastery">🎉 Šiandienos treniruotė atlikta! +${PLAN_DAY_BONUS} ⭐ ir lenktynių bilietas gauti. Iki rytojaus.</div>` : `<p class="help-bar" style="margin-top:8px">Užbaigęs visus žingsnius gausi <b>+${PLAN_DAY_BONUS} ⭐</b> ir <b>nemokamas lenktynes</b> 🏎 (be 5 klausimų vartų).</p>`}
+      ${allDone ? `<div class="recent-mastery">🎉 Šiandienos treniruotė atlikta! +${PLAN_DAY_BONUS} ⭐ ir žaidimų bilietas gauti. Iki rytojaus.</div>` : `<p class="help-bar" style="margin-top:8px">Užbaigęs visus žingsnius gausi <b>+${PLAN_DAY_BONUS} ⭐</b> ir <b>žaidimų bilietą</b> 🎟 (lenktynės arba šuolis be 5 klausimų vartų).</p>`}
       <p class="help-bar" style="margin-top:10px">${phase === 'taper'
         ? 'Finišo etape naujų gudrybių nėra: pirma — kas klydo, tada mišrūs rinkiniai ir sprintai. Likus 3 d. — paskutinis kontrolinis, dieną prieš — poilsis.'
         : phase === 'foundation'
@@ -7944,7 +7969,7 @@ document.addEventListener("keydown", e=>{
         } else {
           finishQuiz(false);
         }
-      } else if(state._chosen!=null && !(store.settings.askConfidence && !state._confidence)){
+      } else if(state._chosen!=null && !(askConfidenceNow() && !state._confidence)){
         submitAnswer();
       }
     }
