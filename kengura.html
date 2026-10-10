@@ -6979,7 +6979,9 @@ function planStepsForToday(){
     const prev = masteredBandOf(t.mech);
     const top = mechTopBand(t.mech);
     const tag = t.band < top ? ` (${t.band} t. lygiu)` : (prev ? ` — dabar ${t.band} t.` : '');
-    return {id:"core", label:`${prev ? 'Kilti' : 'Nauja gudrybė'}: ${MECHANIC_LABEL[t.mech] || t.mech}${tag}`, act:"playlist", arg:t.mech, band:t.band};
+    const tried = Object.values(((store.mechAttempts || {})[t.mech]) || {}).some(f => f.lastAt);
+    const verb = prev ? 'Kilti' : tried ? 'Dar kartą' : 'Nauja gudrybė';
+    return {id:"core", label:`${verb}: ${MECHANIC_LABEL[t.mech] || t.mech}${tag}`, act:"playlist", arg:t.mech, band:t.band};
   };
   // Spaced repetition lives in the WARM-UP (≤ 3 items). Only a real
   // backlog takes the core: 10+ due (5+ in the taper, where mistakes are
