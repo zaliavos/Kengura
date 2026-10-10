@@ -3722,6 +3722,14 @@ function nextMechanicToLearn(){
 }
 /* {mech, band} for the next playlist on the track, honouring per-band
    mastery, the foundation cap, step-downs and parking. */
+/* First fully-mastered mechanic whose mastery has gone stale — the plan
+   schedules its 2-question recheck instead of idling on mixed sets. */
+function staleMechanicToRecheck(){
+  for(const m of MECHANIC_ORDER){
+    if(store.masteredMech && store.masteredMech[m] && isMechMasteryStale(m)) return m;
+  }
+  return null;
+}
 function nextMechanicTarget(){
   const phase = planPhase();
   const walk = ph => {
@@ -7091,7 +7099,10 @@ function planStepsForToday(){
   if(due.length >= DUE_CORE_MIN){
     core = {id:"core", label:`Pakartojimas — kas klydo (${Math.min(due.length,10)} užd.)`, act:"due"};
   } else if(phase === "taper"){
-    core = dayParity === 0
+    const stale = staleMechanicToRecheck();
+    core = stale
+      ? {id:"core", label:`Ar dar pameni? ${MECHANIC_LABEL[stale] || stale} (2 užd.)`, act:"playlist", arg:stale}
+      : dayParity === 0
       ? {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"}
       : {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
   } else if(phase === "foundation"){
@@ -7103,6 +7114,9 @@ function planStepsForToday(){
       core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
     } else if(target){
       core = mechStep(target);
+    } else if(staleMechanicToRecheck()){
+      const stale = staleMechanicToRecheck();
+      core = {id:"core", label:`Ar dar pameni? ${MECHANIC_LABEL[stale] || stale} (2 užd.)`, act:"playlist", arg:stale};
     } else {
       core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
     }
@@ -7111,6 +7125,9 @@ function planStepsForToday(){
       core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
     } else if(target){
       core = mechStep(target);
+    } else if(staleMechanicToRecheck()){
+      const stale = staleMechanicToRecheck();
+      core = {id:"core", label:`Ar dar pameni? ${MECHANIC_LABEL[stale] || stale} (2 užd.)`, act:"playlist", arg:stale};
     } else {
       core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
     }
