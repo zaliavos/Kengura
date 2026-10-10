@@ -429,3 +429,36 @@ test section "macro-cycle + stars" covers it.
   LAST week. Active days, questions, accuracy, stars, mechanics
   mastered, contest score vs previous, and a focus mechanic (weakest
   ≥ 40 % errors, else next on the track).
+
+## Held-out papers, diagnostic, foundation tuning (2026-10-10, second pass)
+
+- **Held-out contest papers** (`reservedYears()`, `RESERVED_YEAR_COUNT = 3`):
+  the newest 3 eligible years NOT yet played as a contest are skipped by
+  every practice picker — `archiveQsForMech` (playlists, track, next
+  mechanic), `openMixedSet`, `buildRecogPool`, `buildRacePool`,
+  `findSimilarArchive`. Archive browser shows them as 🔒 disabled.
+  Playing a year releases it. Waiver: a mechanic with < 3 questions
+  outside the reserved years keeps its reserved ones (otherwise
+  `arrangement` / `state-game` would fall off the track).
+- **`pickContestYear`** now prefers unplayed non-reserved years outside
+  the taper (reserved ones are saved for the final rehearsals) and among
+  candidates picks the paper with the fewest `seenQ` marks.
+- **Diagnostic paper** (`needsDiagnosticContest`): contest date set, no
+  contest played, > 1 day left → the day's core is a contest labelled
+  "Diagnostinis".
+- **Foundation cadence**: contest day only every second week (absolute
+  week parity in `isContestDay`); sprints only while
+  `needsSpeedWork()` or fewer than 2 sprint sessions exist, else the
+  day goes to the next mechanic.
+- **Prep defaults**: setting a contest date for the first time switches
+  on `askConfidence` and `negativeScore` (toast explains; still
+  toggleable on home).
+- **Shop sink**: race ticket for `SHOP_TICKET_COST = 30` ⭐ →
+  `store.games.freeRaces++` (repeatable).
+- **Plan timeline** (`planTimelineHTML`): start → contest bar split into
+  the phases with a today marker; start = earlier of first activity day
+  and today, capped at 90 days before the contest.
+- **Track captions**: a node tap names the mechanic in `#trackCaption`
+  with a Mokytis/Pakartoti button (no hover on phones).
+- **Recognition freshness**: `store.recogSeen` marks shown questions;
+  `openRecogDrill` serves unseen-in-14-days first.

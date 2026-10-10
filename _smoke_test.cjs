@@ -79,7 +79,9 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         planPhase, isContestDay, pickContestYear, contestEligibleYears,
         starsForAnswer, awardStars, starsThisWeek, markPlanStepDone,
         Sfx, Fx, trackMechanics, trackCardHTML, weeklyRecapHTML,
-        rewardsCardHTML, buildRacePool, masteryDecayDays, logActivity};
+        rewardsCardHTML, buildRacePool, masteryDecayDays, logActivity,
+        reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
+        isContestDay, planTimelineHTML, SHOP_TICKET_COST};
 `;
 let app;
 try {
@@ -376,6 +378,83 @@ section("macro-cycle + stars");
   // The contest sim must not play answer sounds (only the 5-min warn)
   const contestSrc = html.slice(html.indexOf("function startContestTicker("), html.indexOf("function renderContestResults("));
   check("contest sim silent except warn", !/Sfx\.play\("(correct|wrong)"\)/.test(contestSrc) && contestSrc.includes('Sfx.play("warn")'));
+}
+
+// ---------- 7c. held-out papers, diagnostic, foundation cadence ----------
+section("held-out papers + diagnostic");
+{
+  const {reservedYears, isReservedYear, needsDiagnosticContest, planStepsForToday,
+         pickContestYear, contestEligibleYears, archiveQsForMech, buildRecogPool,
+         buildRacePool, findSimilarArchive, isContestDay, planTimelineHTML,
+         SHOP_TICKET_COST, rewardsCardHTML, store, state} = app;
+  const pad = n => String(n).padStart(2, "0");
+  const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const inDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return keyOf(d); };
+  const savedContests = store.contests; store.contests = [];
+
+  // Reserved = newest 3 eligible unplayed years
+  const res = reservedYears();
+  const eligDesc = contestEligibleYears().slice().sort((a,b)=>String(b).localeCompare(String(a)));
+  check("3 reserved years", res.length === 3, res.join(","));
+  check("reserved are the newest eligible", res.join(",") === eligDesc.slice(0,3).join(","), `${res} vs ${eligDesc.slice(0,3)}`);
+  check("isReservedYear(string)", isReservedYear(String(res[0])));
+  // Every practice picker skips them
+  const resSet = new Set(res.map(String));
+  check("recog pool skips reserved", buildRecogPool().every(x => !resSet.has(String(x.year))));
+  check("race pool skips reserved", buildRacePool().every(x => !resSet.has(String(x.year))));
+  for(const m of ["casework", "truth-tellers", "counting-ways"]){
+    check(`archiveQsForMech(${m}) skips reserved`, archiveQsForMech(m, null).every(x => !resSet.has(String(x.year))));
+  }
+  // Tiny mechanics keep their held-out questions (waiver)
+  const tiny = Object.keys(app.MECHANIC_METHODOLOGY).filter(m => archiveQsForMech(m, null).length >= 3 && archiveQsForMech(m, null).some(x => resSet.has(String(x.year))));
+  check("waiver only when < 3 outside reserved", tiny.every(m => archiveQsForMech(m, null).filter(x => !resSet.has(String(x.year))).length < 3), tiny.join(","));
+  // "practice similar" never pulls from a reserved paper
+  const srcT = app.ARCHIVE.find(t => !resSet.has(String(t.year)) && t.questions.some(q => q.points === 5 && q.mechanic === "casework"));
+  const srcQ = srcT.questions.find(q => q.points === 5 && q.mechanic === "casework");
+  check("findSimilarArchive skips reserved", findSimilarArchive(srcQ, srcT.year, 8).every(x => !resSet.has(String(x.year))));
+  // Playing a reserved year releases it
+  store.contests = [{when: Date.now(), year: res[0], points: 0, scoreWithPenalty: 0, maxPoints: 120}];
+  check("played reserved year is released", !reservedYears().includes(res[0]) && reservedYears().length === 3);
+  store.contests = [];
+
+  // Diagnostic paper opens the course
+  store.plan.contestDate = inDays(70);
+  store.plan.contestWeekday = (new Date().getDay() + 1) % 7;
+  check("needs diagnostic with no contests", needsDiagnosticContest());
+  {
+    const steps = planStepsForToday();
+    check("day-1 core is the diagnostic contest", steps[1].act === "contest" && /Diagnostinis/.test(steps[1].label), steps[1].label);
+    check("diagnostic avoids reserved years", !resSet.has(String(steps[1].arg)), String(steps[1].arg));
+  }
+  store.contests = [{when: Date.now() - 86400000, year: eligDesc[5], points: 0, scoreWithPenalty: 0, maxPoints: 120}];
+  check("no diagnostic once a contest exists", !needsDiagnosticContest());
+  check("after diagnostic the core is not a contest", planStepsForToday()[1].act !== "contest", planStepsForToday()[1].act);
+  // pickContestYear keeps reserved for the taper
+  check("pickContestYear avoids reserved outside taper", !resSet.has(String(pickContestYear())), String(pickContestYear()));
+  store.plan.contestDate = inDays(6);
+  const taperPick = pickContestYear();
+  check("pickContestYear may use reserved in taper", contestEligibleYears().includes(taperPick));
+  // Foundation: contest day only every other week
+  store.plan.contestDate = inDays(80);
+  store.plan.contestWeekday = new Date().getDay();
+  const thisWeek = isContestDay(new Date());
+  const nextWeek = new Date(); nextWeek.setDate(nextWeek.getDate() + 7);
+  check("foundation: biweekly contest day", thisWeek !== isContestDay(nextWeek));
+  store.plan.contestDate = inDays(40);
+  check("build: weekly contest day", isContestDay(new Date()) && isContestDay(nextWeek));
+  // Foundation sprint only while needed: with ≥ 2 sprints and no speed flag → mechanic
+  store.plan.contestDate = inDays(80);
+  store.plan.contestWeekday = (new Date().getDay() + 1) % 7;
+  const savedSessions = store.sessions;
+  store.sessions = [{sprint:true, when:1, questions:[], bandTime:{}}, {sprint:true, when:2, questions:[], bandTime:{}}];
+  check("foundation routes to mechanic once speed is fine", ["playlist","mixed","due"].includes(planStepsForToday()[1].act), planStepsForToday()[1].act);
+  store.sessions = savedSessions;
+  // Timeline + shop ticket
+  check("timeline renders three phases", (planTimelineHTML().match(/tl-seg/g) || []).length >= 2);
+  check("timeline has a today marker", planTimelineHTML().includes("tl-today"));
+  check("ticket costs 30", SHOP_TICKET_COST === 30);
+  check("shop lists the ticket", rewardsCardHTML().includes('data-shop-ticket'));
+  store.plan.contestDate = null; store.plan.contestWeekday = 6; store.contests = savedContests;
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------

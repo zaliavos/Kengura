@@ -238,6 +238,12 @@
   .week-day.today{border-color:var(--accent);background:#fff4e8}
   .week-day.done{background:var(--good-soft);border-color:var(--good)}
   .week-day.contest{background:#fff1d6}
+  .tl{position:relative;margin:10px 0 6px}
+  .tl-bars{display:flex;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .tl-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;border-right:1px solid #fff}
+  .tl-today{position:absolute;top:-4px;width:3px;height:34px;background:#5e3300;border-radius:2px;transform:translateX(-50%)}
+  .tl-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+  .track-caption{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:14px}
   .goal-bar{height:10px;background:#efe6d2;border-radius:5px;overflow:hidden;margin:6px 0}
   .goal-bar > div{height:100%;background:linear-gradient(90deg,#f0b429,#f08a1c);border-radius:5px;transition:width .4s}
   kbd{
@@ -3042,6 +3048,8 @@ function loadStore(){
     mechRecent:{},
     // Mechanic-recognition drill totals.
     recogStats:{attempts:0, correct:0},
+    // Recognition-drill freshness: { "year-num": lastShownTs }
+    recogSeen:{},
     // Star shop: race-game cosmetics bought with stars.
     shop:{activeColor:"classic", colors:["classic"], night:false, nightOn:false}
   };
@@ -3073,6 +3081,7 @@ function loadStore(){
     o.seenQ = o.seenQ || {};
     o.mechRecent = o.mechRecent || {};
     o.recogStats = Object.assign({}, defaults.recogStats, o.recogStats || {});
+    o.recogSeen = o.recogSeen || {};
     o.shop = Object.assign({}, defaults.shop, o.shop || {});
     if(!Array.isArray(o.shop.colors) || !o.shop.colors.length) o.shop.colors = ["classic"];
     return o;
@@ -3684,14 +3693,35 @@ function pickGenForMechBand(mechanic, band){
    excluding q itself. Returns up to `limit` items, newest first.
    Used as the fallback "Praktikuotis šio tipo" path when no generator
    covers the mechanic at the right band. */
+/* ---------- Held-out contest papers ----------
+   The newest RESERVED_YEAR_COUNT eligible years that have not been played
+   as a contest are kept out of every practice picker (playlists, mixed
+   sets, recognition drill, race gate, "practice similar") so the contest
+   sim measures transfer, not memory. A reserved year is released the
+   moment it is played. Tiny mechanics (< 3 questions without the reserved
+   years) keep their reserved questions — see archiveQsForMech. */
+const RESERVED_YEAR_COUNT = 3;
+function reservedYears(){
+  const played = new Set((store.contests || []).map(c => String(c.year)));
+  return contestEligibleYears()
+    .filter(y => !played.has(String(y)))
+    .sort((a,b) => String(b).localeCompare(String(a)))
+    .slice(0, RESERVED_YEAR_COUNT);
+}
+function isReservedYear(year){
+  return reservedYears().includes(String(year)) || reservedYears().includes(year);
+}
+
 function findSimilarArchive(q, sourceYear, limit){
   if(!q.mechanic) return [];
   limit = limit || 4;
   const out = [];
   const wantBand = q.points || 3;
+  const reserved = new Set(reservedYears().map(String));
   // walk archive newest-first
   for(let i = ARCHIVE.length - 1; i >= 0; i--){
     const t = ARCHIVE[i];
+    if(reserved.has(String(t.year)) && t.year !== sourceYear) continue;
     for(const cand of t.questions){
       if(t.year === sourceYear && cand.num === q.num) continue;
       if(cand.mechanic !== q.mechanic) continue;
@@ -4507,10 +4537,12 @@ function renderHome(){
       <div class="row" id="archiveYears" style="margin-top:6px">
         ${ARCHIVE.map(t => {
           const has = t.questions.some(q=>q.correct);
+          const locked = isReservedYear(t.year);
+          if(locked) return `<button class="btn small" disabled title="Rezervuota kontroliniams – atsirakins, kai šie metai bus išspręsti kaip kontrolinis">🔒 ${t.year}</button>`;
           return `<button class="btn small${has?" primary":""}" data-year="${t.year}" title="${has?"su atsakymais":"tik klausimai"}">${t.year}${has?"":" *"}</button>`;
         }).join("")}
       </div>
-      <p class="help-bar" style="margin-top:10px">Užduočių sprendimas su pilnu vertinimu: pasirink atsakymą A–E, gauk užuominą iš oficialaus sprendimo, paspaudus „Patikrinti“ pamatysi rezultatą bei pilną sprendimą. <span style="opacity:.7">* metai be atsakymo (tik klausimai)</span></p>
+      <p class="help-bar" style="margin-top:10px">Užduočių sprendimas su pilnu vertinimu: pasirink atsakymą A–E, gauk užuominą iš oficialaus sprendimo, paspaudus „Patikrinti“ pamatysi rezultatą bei pilną sprendimą. <span style="opacity:.7">* metai be atsakymo (tik klausimai) · 🔒 naujausi metai laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį</span></p>
     </section>` : ``}
 
     <section class="card">
@@ -4630,8 +4662,33 @@ function renderHome(){
   if(raceChallengeBtn) raceChallengeBtn.addEventListener("click", openRaceChallenge);
   const freeRaceBtn = document.getElementById("freeRaceBtn");
   if(freeRaceBtn) freeRaceBtn.addEventListener("click", openFreeRace);
+  // Track nodes: first tap names the mechanic in the caption (phones have
+  // no hover), the caption's button opens the playlist.
   $app.querySelectorAll("[data-track-mech]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{ Sfx.play("click"); openPlaylist(btn.dataset.trackMech); });
+    btn.addEventListener("click", ()=>{
+      Sfx.play("click");
+      const m = btn.dataset.trackMech;
+      const cap = document.getElementById("trackCaption");
+      if(!cap){ openPlaylist(m); return; }
+      const mastered = !!(store.masteredMech || {})[m];
+      const stale = mastered && isMechMasteryStale(m);
+      const label = MECHANIC_LABEL[m] || m;
+      cap.innerHTML = `<span>${mastered ? (stale ? '🟠' : '✅') : '○'} <b>${escapeHTML(label)}</b>${mastered ? (stale ? ' — verta pakartoti' : ' — įvaldyta') : ''}</span>
+        <button class="btn small primary" data-track-open="${m}">${mastered ? (stale ? 'Pakartoti →' : 'Dar kartą →') : 'Mokytis →'}</button>`;
+      cap.querySelector("[data-track-open]").addEventListener("click", ()=> openPlaylist(m));
+    });
+  });
+  $app.querySelectorAll("[data-track-open]").forEach(btn=>{
+    btn.addEventListener("click", ()=> openPlaylist(btn.dataset.trackOpen));
+  });
+  const ticketBtn = $app.querySelector("[data-shop-ticket]");
+  if(ticketBtn) ticketBtn.addEventListener("click", ()=>{
+    if(spendStars(SHOP_TICKET_COST)){
+      store.games.freeRaces = (store.games.freeRaces || 0) + 1;
+      saveStore(store);
+      Sfx.play("star");
+      renderHome();
+    }
   });
   $app.querySelectorAll("[data-recap-mech]").forEach(btn=>{
     btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech));
@@ -5711,15 +5768,19 @@ function openSimilar(genKey){
    ---------------------------------------------------------------- */
 function archiveQsForMech(mech, band){
   const out = [];
+  const held = [];
+  const reserved = new Set(reservedYears().map(String));
   for(const t of ARCHIVE){
     for(const q of t.questions){
       if(q.mechanic !== mech) continue;
       if(band && (q.points || 3) !== band) continue;
       if(!q.correct) continue;  // need answer key for the mastery check
-      out.push({year:t.year, q});
+      (reserved.has(String(t.year)) ? held : out).push({year:t.year, q});
     }
   }
-  return out;
+  // Tiny mechanics would vanish from the track without their held-out
+  // questions — for those the reservation is waived.
+  return out.length >= 3 ? out : out.concat(held);
 }
 
 function pickPlaylistContent(mech, forcedBand){
@@ -6294,7 +6355,9 @@ function openMixedSet(count){
   count = count || 6;
   const recentMechs = Object.keys(store.mechRecent || {});
   const pool = [];
+  const reserved = new Set(reservedYears().map(String));
   for(const t of ARCHIVE){
+    if(reserved.has(String(t.year))) continue;   // held out for contest sims
     for(const q of t.questions){
       if(!q.correct || !q.mechanic) continue;
       if((q.points || 3) < 4 && !recentMechs.includes(q.mechanic)) continue;
@@ -6338,7 +6401,9 @@ function openMixedSet(count){
    answer) from 4 options. 10 per round, no solving required. */
 function buildRecogPool(){
   const pool = [];
+  const reserved = new Set(reservedYears().map(String));
   for(const t of ARCHIVE){
+    if(reserved.has(String(t.year))) continue;   // held out for contest sims
     for(const q of t.questions){
       if((q.points || 3) < 4) continue;
       if(!q.mechanic || !MECHANIC_LABEL[q.mechanic]) continue;
@@ -6347,12 +6412,20 @@ function buildRecogPool(){
   }
   return pool;
 }
+function isRecogRecentlySeen(year, num){
+  const t = (store.recogSeen || {})[`${year}-${num}`];
+  return !!t && (Date.now() - t) < RECENT_SEEN_DAYS * ONE_DAY_MS;
+}
 
 function openRecogDrill(){
   const pool = buildRecogPool();
   if(pool.length < 10){ alert("Per mažai užduočių atpažinimo treniruotei."); return; }
   const mechSet = [...new Set(pool.map(x => x.q.mechanic))];
   shuffleInPlace(pool);
+  // Freshness: questions not shown in the drill for 2 weeks come first, so
+  // the kid recognises mechanics, not pictures. (Stable partition keeps
+  // the shuffle inside each half.)
+  pool.sort((a, b) => (isRecogRecentlySeen(a.year, a.q.num) ? 1 : 0) - (isRecogRecentlySeen(b.year, b.q.num) ? 1 : 0));
   // one question per mechanic per round, for variety
   const perMech = {};
   const qs = [];
@@ -6435,6 +6508,7 @@ function renderRecog(){
     state.recogSubmitted = true;
     const right = state.recogChosen === q.mechanic;
     if(right) state.recogCorrect++;
+    store.recogSeen[`${state.recogQs[state.recogIdx].year}-${q.num}`] = Date.now();
     store.recogStats.attempts++;
     if(right) store.recogStats.correct++;
     logActivity(right, 3);   // recognition is real practice — counts for streak/stars
@@ -6505,34 +6579,63 @@ function planPhase(){
   if(d > 60) return "foundation";
   return "build";
 }
-/* Is `dateObj` a contest-sim day? Weekly on store.plan.contestWeekday; in
-   the taper also three days before the contest (unless that is the eve). */
+/* Is `dateObj` a contest-sim day? Weekly on store.plan.contestWeekday
+   (every second week in the foundation phase — a 75-min paper weekly is
+   too heavy that far out); in the taper also three days before the
+   contest (unless that is the eve). */
 function isContestDay(dateObj){
   const d = dateObj || new Date();
   const wd = (store.plan && store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6;
   const days = daysToContest();
+  let left = null;
   if(days != null && days >= 0){
     const diff = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())) / ONE_DAY_MS);
-    const left = days - diff;          // days left as of `d`
+    left = days - diff;                // days left as of `d`
     if(left <= 1) return false;        // eve + contest day: rest
     if(left === 3) return true;        // taper: final dress rehearsal
   }
-  return d.getDay() === wd;
+  if(d.getDay() !== wd) return false;
+  if(left != null && left > 60){
+    // foundation: every other week (parity of the absolute week number)
+    const mon = mondayOf(d);
+    const weekNo = Math.floor(Date.UTC(mon.getFullYear(), mon.getMonth(), mon.getDate()) / (7 * ONE_DAY_MS));
+    return weekNo % 2 === 0;
+  }
+  return true;
 }
-/* Pick the next contest paper: an eligible year not yet played; fall back
-   to the least-recently played one. */
+/* A diagnostic paper opens the course: contest date set, nothing played
+   yet, and not already the eve/contest day. */
+function needsDiagnosticContest(){
+  const days = daysToContest();
+  return days != null && days > 1 && !(store.contests || []).length && !!pickContestYear();
+}
 function contestEligibleYears(){
   return ARCHIVE.filter(t =>
     t.year !== '2006' && t.questions.length >= 28 && t.questions.every(q => q.correct)
   ).map(t => t.year);
 }
+/* Pick the next contest paper. Unplayed years first; the held-out
+   (reserved) years are saved for the taper so the last rehearsals are the
+   cleanest measure. Among candidates prefer the paper whose questions the
+   kid has seen least in practice. */
 function pickContestYear(){
   const years = contestEligibleYears();
   if(!years.length) return null;
   const played = {};
   for(const c of (store.contests || [])) played[String(c.year)] = Math.max(played[String(c.year)] || 0, c.when || 0);
-  const fresh = years.filter(y => !played[String(y)]);
-  if(fresh.length) return fresh[Math.floor(Math.random() * fresh.length)];
+  const reserved = new Set(reservedYears().map(String));
+  let fresh = years.filter(y => !played[String(y)]);
+  const unreservedFresh = fresh.filter(y => !reserved.has(String(y)));
+  if(planPhase() !== "taper" && unreservedFresh.length) fresh = unreservedFresh;
+  if(fresh.length){
+    const seenCount = y => {
+      const t = ARCHIVE.find(x => String(x.year) === String(y));
+      return t ? t.questions.filter(q => (store.seenQ || {})[`${t.year}-${q.num}`]).length : 0;
+    };
+    const scored = fresh.map(y => ({y, n: seenCount(y), r: Math.random()}));
+    scored.sort((a,b) => a.n - b.n || a.r - b.r);
+    return scored[0].y;
+  }
   years.sort((a,b) => (played[String(a)] || 0) - (played[String(b)] || 0));
   return years[0];
 }
@@ -6556,6 +6659,14 @@ function planStepsForToday(){
       {id:"cooldown", label:"Poilsis. Rytoj — konkursas.", act:"none"},
     ];
   }
+  if(needsDiagnosticContest()){
+    const yr = pickContestYear();
+    return [
+      {id:"warmup",   label:"Apšilimas — 2 lengvi klausimai", act:"warmup"},
+      {id:"core",     label:`Diagnostinis kontrolinis — ${yr} m. (75 min). Rodo, nuo ko startuojam — rezultatas nesvarbu, svarbu pamatyti.`, act:"contest", arg:yr},
+      {id:"cooldown", label:"Po kontrolinio: peržiūrėk klaidas rezultatų puslapyje", act:"none"},
+    ];
+  }
   if(isContestDay(today)){
     const yr = pickContestYear();
     return [
@@ -6576,12 +6687,18 @@ function planStepsForToday(){
       core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
     }
   } else if(phase === "foundation"){
+    // Sprints only while the data says speed is a problem (or until two
+    // sprints exist to measure it); then every day goes to a new mechanic.
+    const sprintsDone = (store.sessions || []).filter(s => s.sprint).length;
+    const wantSprint = sprintsDone < 2 || needsSpeedWork();
     if(due.length >= 4){
       core = {id:"core", label:`Pakartojimas (${Math.min(due.length,10)} užd.)`, act:"due"};
-    } else if(dayParity === 0 || !next){
+    } else if(wantSprint && (dayParity === 0 || !next)){
       core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
-    } else {
+    } else if(next){
       core = {id:"core", label:`Nauja gudrybė: ${MECHANIC_LABEL[next] || next}`, act:"playlist", arg:next};
+    } else {
+      core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
     }
   } else {
     if(due.length >= 4){
@@ -6689,6 +6806,48 @@ function weekStripHTML(){
   }).join('')}</div>`;
 }
 
+/* Whole-arc timeline for the parent: start → contest, split into the three
+   phases, with a "today" marker. Start = the earlier of the first activity
+   day and today, never more than 90 days before the contest. */
+function planTimelineHTML(){
+  const days = daysToContest();
+  if(days == null || days < 0) return '';
+  const [y,m,da] = store.plan.contestDate.split('-').map(Number);
+  const contest = new Date(y, m-1, da);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const actKeys = Object.keys(store.activity || {}).sort();
+  let start = new Date(today);
+  if(actKeys.length){
+    const [ay,am,ad] = actKeys[0].split('-').map(Number);
+    const first = new Date(ay, am-1, ad);
+    if(first < start) start = first;
+  }
+  const minStart = new Date(contest); minStart.setDate(minStart.getDate() - 90);
+  if(start < minStart) start = minStart;
+  const total = Math.max(1, Math.round((contest - start) / ONE_DAY_MS));
+  const dayAt = n => { const d = new Date(contest); d.setDate(d.getDate() - n); return d; };
+  const segs = [
+    {key:"foundation", from:start, to:dayAt(60)},
+    {key:"build",      from:dayAt(60), to:dayAt(10)},
+    {key:"taper",      from:dayAt(10), to:contest},
+  ].map(s => ({...s, from: s.from < start ? start : s.from}))
+   .filter(s => s.to > s.from);
+  const pct = d => Math.max(0, Math.min(100, 100 * (d - start) / (contest - start)));
+  const fmt = d => `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const bars = segs.map(s => {
+    const w = pct(s.to) - pct(s.from);
+    const weeks = Math.max(1, Math.round((s.to - s.from) / (7 * ONE_DAY_MS)));
+    const ph = PLAN_PHASE[s.key];
+    return `<div class="tl-seg ${ph.cls}" style="width:${w}%" title="${ph.label}: ${fmt(s.from)} – ${fmt(s.to)}">${w >= 14 ? `${ph.icon} ${ph.label} · ${weeks} sav.` : ph.icon}</div>`;
+  }).join('');
+  return `
+    <div class="tl" aria-label="Pasiruošimo laiko juosta">
+      <div class="tl-bars">${bars}</div>
+      <div class="tl-today" style="left:${pct(today)}%" title="Šiandien"></div>
+      <div class="tl-labels"><span>${fmt(start)}</span><span>šiandien · liko ${days} d. (${Math.ceil(days/7)} sav.)</span><span>🏁 ${fmt(contest)}</span></div>
+    </div>`;
+}
+
 function renderPlan(){
   const days = daysToContest();
   const phase = planPhase();
@@ -6720,6 +6879,7 @@ function renderPlan(){
         ${days != null && days >= 0 ? `<span class="help-bar" style="margin-left:8px">${phase === 'foundation' ? 'iki 60 d. prieš konkursą' : phase === 'build' ? '60–11 d. prieš konkursą' : 'paskutinės 10 d.'}</span>` : ''}
       </div>
       <p style="margin:6px 0;font-size:14px">${ph.blurb}</p>
+      ${planTimelineHTML()}
       ${weekStripHTML()}
       <p class="help-bar">Savaitė: ✅ visa treniruotė · 🟠 šiek tiek dirbta · 📝 kontrolinio diena. Skaičius — tos dienos žvaigždės.</p>
       ${trend.length
@@ -6745,7 +6905,16 @@ function renderPlan(){
   `;
   document.getElementById("planBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
   document.getElementById("contestDateInput").addEventListener("change", e => {
+    const hadDate = !!store.plan.contestDate;
     store.plan.contestDate = e.target.value || null;
+    // Prep mode: the two contest-critical habits go on when a date is first
+    // set — calibration ("Tikrai žinau?") and the real −25 % penalty. Both
+    // stay user-toggleable on the home settings row.
+    if(store.plan.contestDate && !hadDate){
+      store.settings.askConfidence = true;
+      store.settings.negativeScore = true;
+      showToast("🎯", "Įjungta: pasitikėjimo klausimas ir −25 % už klaidą (kaip konkurse). Išjungti gali pradžios puslapyje.", 6000);
+    }
     saveStore(store);
     renderPlan();
   });
@@ -6838,6 +7007,7 @@ const SHOP_COLORS = {
 };
 const SHOP_NIGHT_COST = 100;
 const SHOP_LIFE_COST = 20;
+const SHOP_TICKET_COST = 30;   // repeatable sink: a race without the gate
 
 /* -------- Learning track: the 30-mechanic path as a visible journey ------
    Nodes follow MECHANIC_ORDER; only mechanics with enough archive content
@@ -6871,7 +7041,11 @@ function trackCardHTML(){
       </div>
       <div class="track">${nodes}<span class="track-flag" title="${days != null && days >= 0 ? `Konkursas už ${days} d.` : 'Konkursas'}">🏁</span></div>
       <div class="track-bar"><div style="width:${pct}%"></div></div>
-      <p class="help-bar">${next ? `Dabar: <b>${escapeHTML(MECHANIC_LABEL[next] || next)}</b>. ` : 'Visos gudrybės įvaldytos! '}Žalias — įvaldyta, oranžinis su „?“ — verta pakartoti. Spausk bet kurį apskritimą.</p>
+      <div class="track-caption" id="trackCaption">
+        <span>${next ? `Dabar: <b>${escapeHTML(MECHANIC_LABEL[next] || next)}</b>` : 'Visos gudrybės įvaldytos!'}</span>
+        ${next ? `<button class="btn small primary" data-track-open="${next}">Mokytis →</button>` : ''}
+      </div>
+      <p class="help-bar">Žalias — įvaldyta, oranžinis su „?“ — verta pakartoti. Paliesk apskritimą, kad pamatytum pavadinimą, tada „Mokytis“.</p>
     </section>`;
 }
 
@@ -6965,6 +7139,7 @@ function rewardsCardHTML(){
           ${store.shop.night
             ? `<button class="btn small" data-shop-night="1">🌙 Naktinė trasa${store.shop.nightOn ? ' ✓' : ' · įjungti'}</button>`
             : `<button class="btn small" data-shop-night="1" ${starsAvailable() < SHOP_NIGHT_COST ? 'disabled' : ''}>🌙 Naktinė trasa · ${SHOP_NIGHT_COST} ⭐</button>`}
+          <button class="btn small" data-shop-ticket="1" ${starsAvailable() < SHOP_TICKET_COST ? 'disabled' : ''} title="Lenktynės be 5 klausimų vartų">🎟 Lenktynių bilietas · ${SHOP_TICKET_COST} ⭐</button>
         </div>
         <p class="help-bar">Spalvos ir trasa veikia lenktynių žaidime. Papildomą gyvybę (${SHOP_LIFE_COST} ⭐) galima nusipirkti prieš pat lenktynes.</p>
       </details>
@@ -6979,7 +7154,9 @@ function rewardsCardHTML(){
 function buildRacePool(){
   const easyGate = planPhase() === "foundation" && masteredCount() < 5;
   const pool = [];
+  const reserved = new Set(reservedYears().map(String));
   for(const t of ARCHIVE){
+    if(reserved.has(String(t.year))) continue;   // held out for contest sims
     for(const q of t.questions){
       const ok = easyGate ? (q.points === 3 || q.points === 4) : (q.points === 4 || q.points === 5);
       if(ok && q.correct){
