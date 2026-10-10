@@ -6215,7 +6215,15 @@ function pickPlaylistContent(mech, forcedBand){
   return {sourceBand, worked, tryQ, mastery, bandsAvailable};
 }
 
-const PLAYLIST_MASTERY_MS = 5 * 60 * 1000;
+/* Mastery-check clock = the real contest pace for the items it holds
+   (1 min per 3-pt, 2,5 min per 4-pt, 5 min per 5-pt question). A flat
+   5 minutes gave three 5-pt problems 100 s each – a third of what the
+   contest itself allows, so a kid who could solve them still failed. */
+const PACE_SEC = {3:60, 4:150, 5:300};
+function playlistMasteryMs(items){
+  return (items || []).reduce((t, it) => t + (PACE_SEC[it.q && it.q.points] || PACE_SEC[4]), 0) * 1000;
+}
+function fmtMs(ms){ const sec = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2,'0')}`; }
 
 function stopPlaylistTimer(){
   if(state.playlistTimerInterval){
@@ -6354,7 +6362,7 @@ function renderPlaylist(){
     const enough = b => archiveQsForMech(mech, b).length >= 2;
     const lowerBand = special ? null : bands.filter(b => b < content.sourceBand && enough(b)).pop() || null;
     const higherBand = !special && content.sourceBand < 5 && bands.includes(5) && enough(5) ? 5 : null;
-    const timerHtml = special ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ 5:00</span>`;
+    const timerHtml = special ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ ${fmtMs(playlistMasteryMs(items))}</span>`;
     const headWord = isDue ? 'Pakartojimo eilė' : isMixed ? 'Mišrus rinkinys' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
     body = `
       <p><b>${headWord}:</b> ${items.length} užduotys, ${special?'be laiko':'be užuominų'}. ${timerHtml}${allDone ? '' : ' Atsakyk į visas, paskui paspausk „Baigti“.'}</p>
@@ -6527,12 +6535,12 @@ function renderPlaylist(){
     openPlaylist(mech, (content.sourceBand || undefined));
   });
 
-  // Mastery-step countdown: tick the visible timer, expire at 5 min.
+  // Mastery-step countdown: tick the visible timer, expire at the contest pace.
   // (due queue and mixed sets use step 3 with no time pressure – skip timer.)
   stopPlaylistTimer();
   if(step === 3 && !special && !state.playlistTimeExpired && state.playlistTimerStart){
     const tick = () => {
-      const remainingMs = PLAYLIST_MASTERY_MS - (Date.now() - state.playlistTimerStart);
+      const remainingMs = playlistMasteryMs(content.mastery) - (Date.now() - state.playlistTimerStart);
       const span = document.getElementById("plCountdown");
       if(remainingMs <= 0){
         state.playlistTimeExpired = true;
@@ -6541,9 +6549,7 @@ function renderPlaylist(){
         return;
       }
       if(span){
-        const m = Math.floor(remainingMs / 60000);
-        const s = Math.floor((remainingMs % 60000) / 1000);
-        span.textContent = `⏱ ${m}:${String(s).padStart(2,'0')}`;
+        span.textContent = `⏱ ${fmtMs(remainingMs)}`;
         if(remainingMs < 60000) span.classList.add("warn");
       }
     };
@@ -7242,7 +7248,7 @@ function planStepsForToday(){
 
 /* Honest time budget per step, in minutes – a playlist day is ~25–30
    min, not 20; the card should say so. */
-const PLAN_STEP_MIN = {warmup:3, dueWarm:4, due:10, sprint:10, playlist:15, mixed:10, recog:5, contest:75, strategy:5, none:0};
+const PLAN_STEP_MIN = {warmup:3, dueWarm:4, due:10, sprint:10, playlist:20, mixed:10, recog:5, contest:75, strategy:5, none:0};
 function planMinutes(steps){
   return (steps || planStepsForToday()).reduce((s, st) => s + (PLAN_STEP_MIN[st.act] || 0), 0);
 }

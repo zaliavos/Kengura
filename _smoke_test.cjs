@@ -91,7 +91,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
         askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay, creditContestActivity,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
-        nextPlanStep, renderRecogResult, $app};
+        nextPlanStep, renderRecogResult, $app, playlistMasteryMs};
 `;
 let app;
 try {
@@ -741,6 +741,9 @@ section("no surprises");
   check("…and the end screen offers to play it", $app.innerHTML.includes('id="planRewardBtn"'));
   store.games.freeRaces = 0;
   check("playlist end and contest results wire the plan button", (html.match(/wirePlanNext\(/g) || []).length >= 5);
+  const pm = app.playlistMasteryMs;
+  check("mastery clock: three 5-pt = 15 min", pm([5,5,5].map(p => ({q:{points:p}}))) === 15 * 60000);
+  check("mastery clock: three 3-pt = 3 min", pm([3,3,3].map(p => ({q:{points:p}}))) === 3 * 60000);
   store.planDone[tk] = {};
   store.plan.contestDate = null; state.view = "home";
 }
