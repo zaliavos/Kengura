@@ -5854,6 +5854,8 @@ function renderParent(){
       <p class="help-bar">Etapas: <b>${PLAN_PHASE[planPhase()].label}</b>${daysToContest() != null && daysToContest() >= 0 ? ` · iki konkurso ${daysToContest()} d.` : ' · konkurso data nenustatyta (plane)'} · kontrolinio diena: ${WEEKDAY_LONG[(store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6]}</p>
     </section>
 
+    ${weeklyRecapHTML()}
+
     ${(store.contests || []).length ? `<section class="card">
       <h3>Kontroliniai (paskutiniai 5)</h3>
       ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${Math.round((c.scoreWithPenalty ?? c.points) * 4) / 4} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.practisedBefore != null ? `${c.practisedBefore}/30 matyta anksčiau` : ''}</span></div>`).join('')}
@@ -5925,6 +5927,7 @@ function renderParent(){
     </section>` : ''}
   `;
   document.getElementById("parentBack").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+  $app.querySelectorAll("[data-recap-mech]").forEach(btn=> btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
   const exportBtn = document.getElementById("exportBtn");
   if(exportBtn) exportBtn.addEventListener("click", exportProgress);
   const importFile = document.getElementById("importFile");
