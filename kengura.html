@@ -6313,7 +6313,17 @@ function renderPlaylist(){
   // Wire common controls
   const exitHome = ()=>{
     stopPlaylistTimer();
-    if(step === 3) recordPlaylistAnswers();   // don't lose answered questions
+    if(step === 3){
+      recordPlaylistAnswers();   // don't lose answered questions
+      // Bailing out of a mastery check after a miss is a failed attempt —
+      // otherwise quitting whenever the first answer is wrong dodges the
+      // step-down ladder forever.
+      if(!special && !retest){
+        const items = content.mastery || [];
+        const missed = items.some(it => { const k = `${it.year}-${it.q.num}`; return state.playlistSubmitted[k] && state.playlistAns[k] !== it.q.correct; });
+        if(missed) noteMechAttempt(state.playlistMech, content.sourceBand || 3, false);
+      }
+    }
     saveStore(store);
     state.view="home"; renderHome();
   };
