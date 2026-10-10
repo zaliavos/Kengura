@@ -45,6 +45,7 @@ const pMech = mech => Math.min(0.95, SKILL + (LEARN ? 0.06 * (exposure[mech] || 
 const c = new RealDate(NOW); c.setDate(c.getDate() + CONTEST_IN);
 store.plan.contestDate = `${c.getFullYear()}-${String(c.getMonth()+1).padStart(2,"0")}-${String(c.getDate()).padStart(2,"0")}`;
 store.plan.contestWeekday = 6;
+if(SKIP_DAYS.size) store.plan.trainingDays = [0,1,2,3,4,5,6].filter(d => !SKIP_DAYS.has(d));
 let rng = 42; const rand = () => { rng = (rng * 1103515245 + 12345) & 0x7fffffff; return rng / 0x7fffffff; };
 const log = []; const tally = {};
 const seenMastery = new Set();
@@ -92,6 +93,6 @@ for(let day = 0; day <= CONTEST_IN; day++){
 }
 console.log(log.join("\n"));
 console.log("\n--- core-step tally by phase ---"); console.log(JSON.stringify(tally, null, 1));
-if(skipped) console.log("days skipped:", skipped);
+if(skipped) console.log("days skipped:", skipped, " streak at end:", store.streak.count);
 console.log("full mastery:", Object.keys(store.masteredMech).length, " partial:", Object.keys(store.masteredBand).filter(m => !store.masteredMech[m]).length, "/", app.trackMechanics().length, " contests:", store.contests.length, " dueQueue:", Object.keys(store.dueQueue).length, " stars:", store.stars.total);
 console.log("unmastered:", app.MECHANIC_ORDER.filter(m => !store.masteredMech[m] && app.trackMechanics().includes(m)).join(","));

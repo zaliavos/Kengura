@@ -89,7 +89,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
-        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist};
+        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay};
 `;
 let app;
 try {
@@ -650,6 +650,35 @@ section("date edges");
   check("eve: no diagnostic", !needsDiagnosticContest());
   check("eve: strategy step", planStepsForToday().some(s => s.act === "strategy"));
   store.plan.contestDate = null; store.plan.startDate = null; store.contests = savedC; store.activity = savedA;
+}
+
+// ---------- 7g. training days ----------
+section("training days");
+{
+  const {isTrainingDay, planStepsForToday, isContestDay, markPlanStepDone, logActivity, store, state} = app;
+  const pad = n => String(n).padStart(2, "0");
+  const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const inDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return keyOf(d); };
+  const todayWd = new Date().getDay();
+  check("default: every day trains", store.plan.trainingDays.length === 7 && isTrainingDay(new Date()));
+  store.plan.contestDate = inDays(40); store.plan.startDate = inDays(-20); store.contests = [{when: Date.now() - 20*864e5, year: "2010", points:0, scoreWithPenalty:0, maxPoints:120}];
+  store.plan.trainingDays = [0,1,2,3,4,5,6].filter(d => d !== todayWd);
+  check("rest day: no plan steps", planStepsForToday().length === 0);
+  check("rest day: no paper", !isContestDay(new Date()));
+  const stars0 = store.stars.total, fr0 = store.games.freeRaces || 0;
+  state._planStep = "core"; markPlanStepDone();
+  check("rest day: no bonus for nothing", store.stars.total === stars0 && (store.games.freeRaces || 0) === fr0);
+  // streak survives rest days: last answer 3 days ago, the two days between are rest days
+  const wdM1 = (todayWd + 6) % 7, wdM2 = (todayWd + 5) % 7;
+  store.plan.trainingDays = [0,1,2,3,4,5,6].filter(d => d !== wdM1 && d !== wdM2);
+  store.streak = {count: 4, lastDay: inDays(-3), freezesUsed: 0, freezeMonth: null};
+  logActivity(true, 3);
+  check("streak continues across rest days", store.streak.count === 5, String(store.streak.count));
+  store.plan.trainingDays = [0,1,2,3,4,5,6];
+  store.streak = {count: 4, lastDay: inDays(-3), freezesUsed: 2, freezeMonth: null};
+  logActivity(true, 3);
+  check("two missed training days, no freezes left -> reset", store.streak.count === 1, String(store.streak.count));
+  store.plan.trainingDays = [0,1,2,3,4,5,6]; store.plan.contestDate = null; store.contests = [];
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------

@@ -239,6 +239,7 @@
   .week-day.today{border-color:var(--accent);background:#fff4e8}
   .week-day.done{background:var(--good-soft);border-color:var(--good)}
   .week-day.contest{background:#fff1d6}
+  .week-day.off{opacity:.55;background:#f6f3ff}
   .tl{position:relative;margin:10px 0 6px}
   .tl-bars{display:flex;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
   .tl-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;border-right:1px solid #fff}
@@ -3041,7 +3042,9 @@ function loadStore(){
     // Treniruočių planas — contest date + per-day session completion.
     // contestWeekday: 0 = Sunday … 6 = Saturday — the weekly contest-sim day.
     // weeklyStarGoal / weeklyReward: parent-set goal tied to a real reward.
-    plan:{contestDate:null, contestWeekday:6, weeklyStarGoal:150, weeklyReward:""},
+    // trainingDays: weekdays (0 = Sunday) the kid trains; streak, plan and
+    // contest cadence skip the others.
+    plan:{contestDate:null, contestWeekday:6, weeklyStarGoal:150, weeklyReward:"", trainingDays:[0,1,2,3,4,5,6]},
     planDone:{},       // { "YYYY-MM-DD": {warmup, core, cooldown, bonus} }
     // Freshness marker for practice pickers: { "year-num": lastSeenTs }
     seenQ:{},
@@ -3081,6 +3084,7 @@ function loadStore(){
     o.games.bestByDiff = Object.assign({}, defaults.games.bestByDiff, o.games.bestByDiff || {});
     o.achievements = o.achievements || {};
     o.plan = Object.assign({}, defaults.plan, o.plan || {});
+    if(!Array.isArray(o.plan.trainingDays) || o.plan.trainingDays.length < 2) o.plan.trainingDays = [0,1,2,3,4,5,6];
     o.planDone = o.planDone || {};
     o.seenQ = o.seenQ || {};
     o.masteredBand = o.masteredBand || {};
@@ -3147,12 +3151,20 @@ function bumpStreakForToday(){
     s.lastDay = today;
     return;
   }
-  // Compute gap between lastDay and today in days
+  // Gap = missed TRAINING days + 1, so a weekend-off kid keeps the streak
+  // across Saturday/Sunday. Calendar days that are not training days are
+  // skipped; the day the kid answers on always counts.
   const [ly,lm,ld] = s.lastDay.split('-').map(Number);
   const [ty,tm,td] = today.split('-').map(Number);
   const lastTs = Date.UTC(ly, lm-1, ld);
   const todayTs = Date.UTC(ty, tm-1, td);
-  const gap = Math.round((todayTs - lastTs) / (24*60*60*1000));
+  const calGap = Math.round((todayTs - lastTs) / ONE_DAY_MS);
+  let missed = 0;
+  for(let i = 1; i < calGap && i < 400; i++){
+    const wd = new Date(lastTs + i * ONE_DAY_MS).getUTCDay();
+    if((store.plan.trainingDays || [0,1,2,3,4,5,6]).includes(wd)) missed++;
+  }
+  const gap = calGap <= 0 ? calGap : missed + 1;
   if(gap === 1){
     s.count++;
   } else if(gap === 2 && s.freezesUsed < 2){
@@ -4485,7 +4497,7 @@ function renderHome(){
         <div class="footer-actions" style="margin-top:0">
           <div>
             <h3 style="margin:0">📅 Šiandienos treniruotė <span class="phase-pill ${ph.cls}" style="margin-left:6px;vertical-align:middle">${ph.icon} ${ph.label}</span></h3>
-            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : '⚠ <b>Konkurso data nenustatyta</b> — nustatyk plane, ir treniruotės prisitaikys · '}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}</span>
+            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : '⚠ <b>Konkurso data nenustatyta</b> — nustatyk plane, ir treniruotės prisitaikys · '}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${!steps.length ? '🛌 poilsio diena pagal tvarkaraštį' : `${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}`}</span>
           </div>
           <button class="btn ${planProg < steps.length ? 'primary' : 'ghost'}" id="planBtn">${planProg < steps.length ? 'Tęsti planą →' : 'Atverti planą'}</button>
         </div>
@@ -6761,6 +6773,11 @@ function planTaperDays(){
   if(!(total > 0)) return 10;
   return Math.max(4, Math.min(10, Math.round(total * 0.12)));
 }
+function isTrainingDay(dateObj){
+  const d = dateObj || new Date();
+  const td = (store.plan && Array.isArray(store.plan.trainingDays) && store.plan.trainingDays.length >= 2) ? store.plan.trainingDays : [0,1,2,3,4,5,6];
+  return td.includes(d.getDay());
+}
 function planPhase(){
   const d = daysToContest();
   if(d == null || d < 0) return "build";
@@ -6777,6 +6794,7 @@ function isContestDay(dateObj){
   const wd = (store.plan && store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6;
   const days = daysToContest();
   if(days != null && days < 0) return false;   // the contest is over — no more papers until a new date is set
+  if(!isTrainingDay(d)) return false;          // papers only on training days
   let left = null;
   if(days != null && days >= 0){
     const diff = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())) / ONE_DAY_MS);
@@ -6848,6 +6866,10 @@ function planStepsForToday(){
   const days = daysToContest();
   const today = new Date();
   const dayParity = Math.floor(Date.now() / ONE_DAY_MS) % 2;
+
+  // Rest day by the family's schedule: no steps (the eve and the contest
+  // day keep their own shape below).
+  if(!isTrainingDay(today) && days !== 0 && days !== 1) return [];
 
   // Contest day and the final two days have their own shape.
   if(days === 0){
@@ -6944,7 +6966,7 @@ function markPlanStepDone(stepOverride){
   const d = store.planDone[k] = store.planDone[k] || {};
   d[step] = true;
   const steps = planStepsForToday();
-  const allDone = steps.every(s => d[s.id] || s.act === "none");
+  const allDone = steps.length > 0 && steps.every(s => d[s.id] || s.act === "none");
   if(allDone && !d.bonus){
     d.bonus = true;
     store.games.freeRaces = (store.games.freeRaces || 0) + 1;
@@ -7011,9 +7033,10 @@ function weekStripHTML(){
     const pd = store.planDone[r.key] || {};
     const full = !!pd.bonus || (pd.warmup && pd.core && pd.cooldown);
     const contest = isContestDay(r.date);
+    const off = !isTrainingDay(r.date);
     const isToday = r.key === tk;
-    const cls = ["week-day", isToday ? "today" : "", full ? "done" : "", contest ? "contest" : ""].join(" ");
-    const ic = full ? "✅" : contest ? "📝" : (r.a && r.a.answered ? "🟠" : (r.key < tk ? "·" : "○"));
+    const cls = ["week-day", isToday ? "today" : "", full ? "done" : "", contest ? "contest" : "", off ? "off" : ""].join(" ");
+    const ic = full ? "✅" : contest ? "📝" : (r.a && r.a.answered ? "🟠" : off ? "🛌" : (r.key < tk ? "·" : "○"));
     return `<div class="${cls}" title="${WEEKDAY_LONG[r.date.getDay()]}${contest ? ' — kontrolinio diena' : ''}">
       <div class="wd">${WEEKDAY_SHORT[r.date.getDay()]}</div>
       <div class="ic">${ic}</div>
@@ -7091,6 +7114,11 @@ function renderPlan(){
           </select>
         </label>
       </div>
+      <div class="row" style="align-items:center;gap:6px;margin:6px 0;flex-wrap:wrap">
+        <span style="font-size:14px">Treniruočių dienos:</span>
+        ${[1,2,3,4,5,6,0].map(dd => `<button class="btn small ${isTrainingDay(new Date(2024, 0, 7 + dd)) ? 'primary' : ''}" data-train-day="${dd}" title="${WEEKDAY_LONG[dd]}">${WEEKDAY_SHORT[dd]}</button>`).join('')}
+        ${!isTrainingDay(new Date(2024, 0, 7 + wd)) ? `<span class="pill bad">kontrolinio diena nėra treniruočių diena — kontrolinis persikels į artimiausią</span>` : ''}
+      </div>
       <div style="margin:10px 0 4px">
         <span class="phase-pill ${ph.cls}">${ph.icon} Etapas: ${ph.label}</span>
         ${days != null && days >= 0 ? `<span class="help-bar" style="margin-left:8px">${phase === 'foundation' ? 'iki 60 d. prieš konkursą' : phase === 'build' ? `60–${planTaperDays()+1} d. prieš konkursą` : `paskutinės ${planTaperDays()} d.`}</span>` : ''}
@@ -7105,6 +7133,7 @@ function renderPlan(){
     </section>
     <section class="card">
       <h3>Šiandienos treniruotė${steps.some(s => s.act === 'contest') ? ' — kontrolinio diena' : ''} (~${planMinutes(steps)} min)</h3>
+      ${!steps.length ? `<div class="recent-mastery" style="background:#f3f0ff;border-color:#b9a7f0">🛌 Šiandien pagal tvarkaraštį — poilsio diena. Nori paspręsti? Pradžios puslapyje viskas atvira, bet planas neverčia.</div>` : ''}
       ${steps.map((s, i) => `
         <div class="cat-row plan-step">
           <span>${done[s.id] ? '✅' : `${i+1}.`} ${escapeHTML(s.label)}</span>
@@ -7136,6 +7165,13 @@ function renderPlan(){
     saveStore(store);
     renderPlan();
   });
+  $app.querySelectorAll("[data-train-day]").forEach(btn => btn.addEventListener("click", ()=>{
+    const dd = parseInt(btn.dataset.trainDay, 10);
+    let td = (store.plan.trainingDays || [0,1,2,3,4,5,6]).slice();
+    if(td.includes(dd)){ if(td.length <= 2) return; td = td.filter(x => x !== dd); } else td.push(dd);
+    store.plan.trainingDays = td.sort((a,b)=>a-b);
+    saveStore(store); renderPlan();
+  }));
   const wdSel = document.getElementById("contestWeekdaySel");
   if(wdSel) wdSel.addEventListener("change", e => {
     store.plan.contestWeekday = parseInt(e.target.value, 10);
