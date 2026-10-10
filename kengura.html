@@ -6919,9 +6919,14 @@ function isContestDay(dateObj){
 }
 /* A diagnostic paper opens the course: contest date set, nothing played
    yet, and not already the eve/contest day. */
+/* …or the last paper is older than 60 days — a returning kid (last
+   season's save) needs a fresh baseline for this season. */
+const DIAGNOSTIC_STALE_DAYS = 60;
 function needsDiagnosticContest(){
   const days = daysToContest();
-  return days != null && days > 1 && !(store.contests || []).length && !!pickContestYear();
+  if(days == null || days <= 1 || !pickContestYear()) return false;
+  const last = Math.max(0, ...(store.contests || []).map(c => c.when || 0));
+  return !last || (Date.now() - last) > DIAGNOSTIC_STALE_DAYS * ONE_DAY_MS;
 }
 function contestEligibleYears(){
   return ARCHIVE.filter(t =>
