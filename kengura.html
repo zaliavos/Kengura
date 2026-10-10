@@ -7166,6 +7166,10 @@ const ACHIEVEMENTS = [
   {id:"contest1",icon:"📝", title:"Pirmas kontrolinis", desc:"Užbaik kontrolinį testą",        check:()=> (store.contests||[]).length >= 1},
   {id:"recog20", icon:"🔍", title:"Tipų žinovas",       desc:"Atpažink 20 gudrybių",           check:()=> ((store.recogStats||{}).correct||0) >= 20},
   {id:"plan5",   icon:"📅", title:"Planuotojas",        desc:"Užbaik 5 dienų treniruotes",     check:()=> Object.values(store.planDone||{}).filter(d=>d.warmup&&d.core&&d.cooldown).length >= 5},
+  {id:"plan20",  icon:"🗓", title:"Dvidešimt dienų",    desc:"Užbaik 20 dienų treniruotes",    check:()=> Object.values(store.planDone||{}).filter(d=>d.bonus || (d.warmup&&d.core&&d.cooldown)).length >= 20},
+  {id:"contest5",icon:"📚", title:"Penki kontroliniai",  desc:"Užbaik 5 kontrolinius",          check:()=> (store.contests||[]).length >= 5},
+  {id:"clean60", icon:"🧼", title:"Švarus rezultatas",   desc:"≥ 60 % kontrolinyje, kurio nematei anksčiau", check:()=> (store.contests||[]).some(c => (c.practisedBefore||0) <= 2 && (c.scoreWithPenalty ?? c.points) >= 0.6 * (c.maxPoints||120))},
+  {id:"track",   icon:"🗺", title:"Visas takas",         desc:"Įvaldyk visas tako gudrybes",     check:()=> { const t = trackMechanics(); return t.length > 0 && t.every(m => store.masteredMech[m]); }},
 ];
 
 /* Evaluate all achievements; record + toast any newly earned. Safe to call
