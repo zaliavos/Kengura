@@ -5156,7 +5156,11 @@ function finishQuiz(early){
   store.sessions.push(session);
   if(store.sessions.length > 30) store.sessions = store.sessions.slice(-30);
   saveStore(store);
-  markPlanStepDone();   // no-op unless launched from the daily plan
+  // Plan credit only for a real attempt: at least half the questions
+  // answered (warm-up 2 → 1, sprint 10 → 5). "Pabaigti dabar" on an empty
+  // quiz must not tick the step or feed the daily bonus.
+  if(session.answered >= Math.ceil(total / 2)) markPlanStepDone();
+  else state._planStep = null;
   state.view = "results";
   renderResults();
   // Perfect session (≥ 5 questions, all right) → bonus + confetti.
