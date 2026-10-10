@@ -380,7 +380,7 @@ section("macro-cycle + stars");
   check("track card has a finish flag", th.includes("track-flag"));
   app.logActivity(true, 5);   // one answered 5-pointer → recap has something to show
   check("recap renders (activity exists)", weeklyRecapHTML().includes("apžvalga"));
-  check("recap counts the answer", weeklyRecapHTML().includes("1</b><span>uždavinių"));
+  check("recap counts the answer", weeklyRecapHTML().includes("1</b><span>uždavinys"));
   const rh = rewardsCardHTML();
   check("rewards shows weekly goal", rh.includes("Savaitės tikslas"));
   check("rewards shows free race button", rh.includes('id="freeRaceBtn"'));

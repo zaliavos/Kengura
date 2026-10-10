@@ -653,11 +653,11 @@ const GENERATORS = {
     ], 4);
     return makeMC({
       category:"aritmetika", subtopic:"aritm.greedy_pakuotes", difficulty:3,
-      prompt:`Marmuro rutuliukai parduodami pakuotėse po 5, 10 ir 25. Tomas nusipirko lygiai ${total} rutuliukus. Kiek mažiausiai pakuočių jis turėjo įsigyti?`,
+      prompt:`Marmuro rutuliukai parduodami pakuotėse po 5, 10 ir 25. Tomas nusipirko lygiai ${total} ${pluralForm(total,'rutuliuką','rutuliukus','rutuliukų')}. Kiek mažiausiai pakuočių jis turėjo įsigyti?`,
       correct, distract,
-      firstStep:`Pirma paklausk savęs: kiek 25-rutuliukų pakuočių telpa į ${total}?`,
-      hint:`Kad pakuočių būtų kuo mažiau, naudok didžiausias. Imk daugiausiai 25-uolikių, kiek galima. Tada – 10-tukus. Galiausiai – 5-tukus, kad išeitų tiksliai ${total}.`,
-      explain:`${packs25}·25 + ${packs10}·10 + ${packs5}·5 = ${total}. Iš viso ${correct} pakuotės.`,
+      firstStep:`Pirma paklausk savęs: kiek pakuočių po 25 rutuliukus telpa į ${total}?`,
+      hint:`Kad pakuočių būtų kuo mažiau, naudok didžiausias. Imk kuo daugiau pakuočių po 25. Tada – po 10. Galiausiai – po 5, kad išeitų tiksliai ${total}.`,
+      explain:`${packs25}·25 + ${packs10}·10 + ${packs5}·5 = ${total}. Iš viso ${correct} ${pluralForm(correct,'pakuotė','pakuotės','pakuočių')}.`,
       r
     });
   },
@@ -696,7 +696,7 @@ const GENERATORS = {
       correct, distract, suffix:" m²",
       figure: svgSquareCenter(140),
       firstStep:`Pažiūrėk į keturis baltus trikampius kampuose. Įsivaizduok, kad iškerpi juos.`,
-      hint:`Keturi kampų trikampiai – jei juos sudėtum, gautųsi lygiai pusė didelio kvadrato. Reiškia, vidinis rombas – kita pusė.`,
+      hint:`Keturi kampų trikampiai – jei juos sudėtum, susidarytų lygiai pusė didelio kvadrato. Vadinasi, vidinis rombas – kita pusė.`,
       explain:`Keturi kampuose esantys trikampiai sudaro lygiai pusę kvadrato. Vidinio rombo plotas = ${side*side}/2 = ${correct} m².`,
       r
     });
@@ -720,10 +720,10 @@ const GENERATORS = {
     const correctIndex = options.indexOf(correctStr);
     return {
       category:"geometrija", subtopic:"geom.pasisukimas", difficulty:3, kind:"rotation",
-      prompt:`Rodyklė šiuo metu nukreipta į viršų. Kuriai daliai pilno pasisukimo (pagal laikrodžio rodyklę) reikia ją pasukti, kad ji nukreiptų ${target.desc}?`,
+      prompt:`Rodyklė šiuo metu nukreipta į viršų. Kokią pilno pasisukimo dalį (pagal laikrodžio rodyklę) reikia ją pasukti, kad ji nukreiptų ${target.desc}?`,
       figure: svgClock(target.frac, "tikslas: "+target.desc),
       options, correctIndex,
-      firstStep:`Įsivaizduok ratą padalintą į 12 sektorių (kaip laikrodyje). Suskaičiuok, kiek sektorių rodyklė turi praeiti.`,
+      firstStep:`Įsivaizduok ratą, padalytą į 12 sektorių (kaip laikrodyje). Suskaičiuok, kiek sektorių rodyklė turi praeiti.`,
       hint:`Pilnas ratas = 1. Pusė = 1/2, ketvirtis = 1/4. Suskaičiavęs sektorius iki tikslo, suprastink trupmeną – pvz. 6/12 yra tas pats kaip 1/2.`,
       explain:`Pažymėk pilną ratą kaip 1. ${target.desc} = ${target.num}/${target.den} pilno pasisukimo.`
     };
@@ -745,11 +745,11 @@ const GENERATORS = {
     ], 4);
     return makeMC({
       category:"logika", subtopic:"logika.zingsniai", difficulty:4,
-      prompt:`Šokolado plytelė yra ${w} × ${h} kvadratėlių. Kiek mažiausiai laužimų reikia, kad atskirtum visus ${total} kvadratėlius? (Vienu laužimu negalima laužti kelių gabalų vienu kartu.)`,
+      prompt:`Šokolado plytelė yra ${w} × ${h} kvadratėlių. Kiek mažiausiai laužimų reikia, kad atskirtum visus ${total} ${pluralForm(total,'kvadratėlį','kvadratėlius','kvadratėlių')}? (Vienu laužimu galima perlaužti tik vieną gabalą.)`,
       correct, distract,
       firstStep:`Pabandyk su mažais skaičiais. Plytelė 1 × 2 – 1 laužimas. Plytelė 1 × 3 – kiek?`,
       hint:`Pastebėk: kiekvienas laužimas iš vieno gabalo padaro du. Vadinasi, gabalų skaičius didėja po 1 kiekvienu laužimu.`,
-      explain:`Kiekvienas laužimas padidina gabalų skaičių 1. Pradedame nuo 1, baigti reikia ${total}, tai užtenka ${correct} laužimų. Dydis ir forma nesvarbu – tik bendras kvadratėlių skaičius.`,
+      explain:`Kiekvienas laužimas padidina gabalų skaičių vienetu. Pradedame nuo 1, baigti reikia ${total}, todėl užtenka ${correct} laužimų. Dydis ir forma nesvarbūs – tik bendras kvadratėlių skaičius.`,
       r
     });
   },
@@ -789,10 +789,10 @@ const GENERATORS = {
     ], 4);
     return makeMC({
       category:"aritmetika", subtopic:"aritm.dalys_skaiciaus", difficulty:3,
-      prompt:`Kvadrato plotas ${total} m². Užtušuota viena ketvirtoji jo dalis. Kiek lygus užtušuotos dalies plotas?`,
+      prompt:`Kvadrato plotas ${total} m². Užtušuota viena ketvirtoji jo dalis. Kam lygus užtušuotos dalies plotas?`,
       correct, distract, suffix:" m²",
       firstStep:`Padalink ${total} iš 4 – tai bus ketvirtoji dalis.`,
-      hint:`„Ketvirtoji“ reiškia padalinta į 4 lygias dalis. Tau reikia tik vienos iš jų. Kraštinės net neskaičiuok.`,
+      hint:`„Ketvirtoji dalis“ – tai viena iš 4 lygių dalių. Tau reikia tik vienos iš jų. Kraštinės net neskaičiuok.`,
       explain:`${total} ÷ 4 = ${correct} m².`,
       r
     });
@@ -818,11 +818,11 @@ const GENERATORS = {
     if(!opts.includes(correctStr)) opts[0] = correctStr;
     return {
       category:"skaiciavimas", subtopic:"skaic.laikas_pridejimas", difficulty:3,
-      prompt:`Pamoka prasideda ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")} ir trunka ${addMin} minučių. Kada ji baigsis?`,
+      prompt:`Pamoka prasideda ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")} ir trunka ${addMin} ${pluralForm(addMin,'minutę','minutes','minučių')}. Kada ji baigsis?`,
       options: opts, correctIndex: opts.indexOf(correctStr),
-      firstStep:`${addMin} min = ${Math.floor(addMin/60)} val ir ${addMin%60} min. Pirma pridėk valandas, paskui minutes.`,
+      firstStep:`${addMin} min = ${Math.floor(addMin/60)} val. ir ${addMin%60} min. Pirma pridėk valandas, paskui minutes.`,
       hint:`Sudėk minutes su pradinėmis. Jei suma ≥ 60 – atimk 60 ir pridėk dar vieną valandą.`,
-      explain:`${addMin} min = ${Math.floor(addMin/60)} val ${addMin%60} min. Pridėjus prie ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")} gauname ${correctStr}.`
+      explain:`${addMin} min = ${Math.floor(addMin/60)} val. ${addMin%60} min. Pridėjus prie ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")} gauname ${correctStr}.`
     };
   },
 
@@ -846,8 +846,8 @@ const GENERATORS = {
       category:"erdve", subtopic:"erdve.kubai_dazyti", difficulty:5,
       prompt:`${n}×${n}×${n} kubas išorėje nudažytas. Po to jis suskirstytas į ${n*n*n} mažus vienodus kubelius. Kiek kubelių turi tiksliai ${k} nudažyt${k===1?"ą":k===0?"ų":"as"} sien${k===1?"ą":"as"}?`,
       correct, distract,
-      firstStep:`Įsivaizduok kubo dalis: kampai, briaunos, sienos, vidus. Kuri dalis turi tiksliai ${k} nudažytas puses?`,
-      hint:`Kampuose – po 3 nudažytas sienas (jų visada 8). Briaunose (ne kampe) – po 2. Sienos vidury – po 1. Pačiame viduje – nei vienos.`,
+      firstStep:`Įsivaizduok kubo dalis: kampai, briaunos, sienos, vidus. Kuri dalis turi tiksliai ${k} ${pluralForm(k,'nudažytą sieną','nudažytas sienas','nudažytų sienų')}?`,
+      hint:`Kampuose – po 3 nudažytas sienas (jų visada 8). Briaunose (ne kampe) – po 2. Sienos vidury – po 1. Pačiame viduje – nė vienos.`,
       explain:`Klasikinė formulė: 8 kampai (3 sienos), 12·(n−2) briaunos (2 sienos), 6·(n−2)² sienos (1 siena), (n−2)³ vidus (0 sienų). Atsakymas: ${correct}.`,
       r
     });
@@ -869,7 +869,7 @@ const GENERATORS = {
     ], 4);
     return makeMC({
       category:"aritmetika", subtopic:"aritm.vidurkis", difficulty:4,
-      prompt:`Mokinys per ${n} kontrolinius gavo pažymius: ${known.join(", ")} ir paskutinį – nežinomą. Visų pažymių vidurkis lygus ${avg}. Koks paskutinis pažymys?`,
+      prompt:`Mokinys per ${n} ${pluralForm(n,'kontrolinį','kontrolinius','kontrolinių')} gavo pažymius: ${known.join(", ")} ir paskutinį – nežinomą. Visų pažymių vidurkis lygus ${avg}. Koks paskutinis pažymys?`,
       correct, distract,
       firstStep:`Pirma rask, kokia turi būti visų pažymių suma: ${avg} · ${n}.`,
       hint:`Jeigu vidurkis ${avg}, o pažymių ${n}, tai jų bendra suma = ${avg}·${n}. Sudėk tai, ką jau žinai, ir pažiūrėk, kiek dar trūksta.`,
@@ -894,7 +894,7 @@ const GENERATORS = {
       figure: svgRectStack(Math.min(pieces,8)),
       firstStep:`Pabandyk su 2 gabaliukais: kiek kirpimų? Su 3 gabaliukais? Pamatysi tvarką.`,
       hint:`Kiekvienas kirpimas vienoje vietoje atriboja vieną naują gabaliuką. Galiausiai gabaliukų yra vienu daugiau nei kirpimų – nes kraštai jau atskirti.`,
-      explain:`${pieces} gabaliukams ant juostos eilutės reikia ${pieces-1} kirpimų (paskutinis gabaliukas atskiriamas su priešpaskutiniu kirpimu).`,
+      explain:`${pieces} gabaliukams ant juostos eilutės reikia ${pieces-1} kirpimų (paskutiniu kirpimu atskiriami du paskutiniai gabaliukai).`,
       r
     });
   },
@@ -991,8 +991,8 @@ const GENERATORS = {
       for(let i=0; i<4; i++) seq.push(seq[seq.length-1] + d0 + i*dStep);
       correct = seq[seq.length-1] + d0 + 4*dStep;
       firstStep = `Atimk gretimus narius: ${seq[1]}−${seq[0]}=${seq[1]-seq[0]}, ${seq[2]}−${seq[1]}=${seq[2]-seq[1]}, ${seq[3]}−${seq[2]}=${seq[3]-seq[2]}. Pastebi tvarką?`;
-      hint = `Skirtumai patys keičiasi po pastovaus dydžio. Toliau eis paskutinis narys + (paskutinis skirtumas + ${dStep}).`;
-      explain = `Skirtumai didėja po ${dStep}: ${d0}, ${d0+dStep}, ${d0+2*dStep}, ${d0+3*dStep}, ${d0+4*dStep}. Sekantis = ${seq[seq.length-1]} + ${d0+4*dStep} = ${correct}.`;
+      hint = `Skirtumai patys kaskart pakinta tiek pat. Toliau eis paskutinis narys + (paskutinis skirtumas + ${dStep}).`;
+      explain = `Skirtumai didėja po ${dStep}: ${d0}, ${d0+dStep}, ${d0+2*dStep}, ${d0+3*dStep}, ${d0+4*dStep}. Kitas = ${seq[seq.length-1]} + ${d0+4*dStep} = ${correct}.`;
     } else {
       // alternating: ×2, +3, ×2, +3, ...
       const start = randInt(r, 1, 4);
@@ -1035,8 +1035,8 @@ const GENERATORS = {
       figure: svgGrid(rows,cols,shaded),
       correct, distract,
       firstStep:`Suskaičiuok visus langelius (${rows}·${cols}) ir padalink iš 2.`,
-      hint:`Šachmatinė tvarka: tamsios ir šviesios langeliai keičiasi. Jei viso langelių lyginis – po lygiai. Jei nelyginis – vienos spalvos vienu daugiau.`,
-      explain:`${rows}·${cols} = ${total} langelių. Tamsių (su kampine) = ${correct}.`,
+      hint:`Šachmatinė tvarka: tamsūs ir šviesūs langeliai kaitaliojasi. Jei iš viso langelių yra lyginis skaičius – po lygiai. Jei nelyginis – vienos spalvos vienu daugiau.`,
+      explain:`${rows}·${cols} = ${total} langelių. Tamsių (įskaitant kampinį) = ${correct}.`,
       r
     });
   },
@@ -1171,7 +1171,7 @@ const GENERATORS = {
       options: all.map(svgArrowDir),
       correctIndex,
       firstStep:`Įsivaizduok vertikalią liniją tarp tavęs ir paveikslo. Apvertęs rodyklę – kur ji nukreips?`,
-      hint:`Veidrodinis atspindys vertikalios linijos atžvilgiu „apverčia“ kairę ir dešinę. Viršus liks viršuje, bet kairys virsta dešiniu.`,
+      hint:`Veidrodinis atspindys vertikalios linijos atžvilgiu „apverčia“ kairę ir dešinę. Viršus liks viršuje, bet kairė virsta dešine.`,
       explain:`Rodyklė pasukta ${baseAngle}°; veidrodinis (vertikali ašis) – ${mirrored}°.`
     };
   },
@@ -1203,7 +1203,7 @@ const GENERATORS = {
       options: all.map(o => svgFractionGrid(o.num, o.den)),
       correctIndex,
       firstStep:`Suskaičiuok visus langelius. Suskaičiuok užtušuotus. Užrašyk trupmena: užtušuoti / visi.`,
-      hint:`Užrašyk kiekvieno paveikslo užtušuotą dalį trupmena (užtušuoti langeliai virš visų). Suprastink ir palyginok su ${target.label}.`,
+      hint:`Užrašyk kiekvieno paveikslo užtušuotą dalį trupmena (užtušuotų langelių skaičius / visų langelių skaičius). Suprastink ir palygink su ${target.label}.`,
       explain:`Reikia rasti paveikslą, kuriame trupmena „užtušuoti / visi“ lygi ${target.label}.`
     };
   },
@@ -1329,7 +1329,7 @@ const GENERATORS = {
       options: opts,
       correctIndex: opts.indexOf(String(correct)),
       firstStep:`Sudėk kiekvieno skaičiaus skaitmenis. Tikrink, kurio suma dalijasi iš 9.`,
-      hint:`Dalumo iš 9 taisyklė: skaitmenų suma dalijasi iš 9. Pavyzdžiui, 234 → 2+3+4 = 9 → ✓. Atsargiai: skaičius gali baigtis 9 ar prasidėti 9 ir vis tiek nesidalinti iš 9.`,
+      hint:`Dalumo iš 9 taisyklė: skaitmenų suma dalijasi iš 9. Pavyzdžiui, 234 → 2+3+4 = 9 → ✓. Atsargiai: skaičius gali baigtis 9 ar prasidėti 9 ir vis tiek nesidalyti iš 9.`,
       explain:`${correct}: skaitmenų suma = ${String(correct).split('').map(Number).reduce((a,b)=>a+b,0)} – dalijasi iš 9. Tai vienintelis iš variantų, kuriam taisyklė tinka.`
     };
   },
@@ -1355,8 +1355,8 @@ const GENERATORS = {
       options: opts,
       correctIndex: opts.indexOf(String(composite)),
       firstStep:`Eik per kiekvieną skaičių ir bandyk dalinti iš 3, 7, 11. Jei dalijasi – ne pirminis.`,
-      hint:`Pirminis dalijasi tik iš 1 ir savęs. Atsargiai: nelyginis ir nebaigiantis 5 dar nereiškia, kad pirminis. Bandyk 3, 7, 11.`,
-      explain:`${factorExplain || composite} – ne pirminis (turi daugiau dalintojų nei 1 ir ${composite}). Kiti variantai – pirminiai.`
+      hint:`Pirminis dalijasi tik iš 1 ir savęs. Atsargiai: nelyginis ir nesibaigiantis 5 dar nereiškia, kad pirminis. Bandyk 3, 7, 11.`,
+      explain:`${factorExplain || composite} – ne pirminis (turi daugiau daliklių nei 1 ir ${composite}). Kiti variantai – pirminiai.`
     };
   },
 
@@ -1384,7 +1384,7 @@ const GENERATORS = {
       correct, distract,
       firstStep:`Galvok pozicijomis. Pirmoje vietoje – kiek pasirinkimų?`,
       hint:`Po kiekvieno apsisprendimo lieka mažiau kandidatų. Daugink visas galimybes – ne sudėk.`,
-      explain:`${chain} = ${fact} būdai. Pirmai vietai – ${n} pasirinkimai, kiekvienai kitai lieka vienu mažiau, todėl visus dauginame.`,
+      explain:`${chain} = ${fact} ${pluralForm(fact,'būdas','būdai','būdų')}. Pirmai vietai – ${n} ${pluralForm(n,'pasirinkimas','pasirinkimai','pasirinkimų')}, kiekvienai kitai lieka vienu mažiau, todėl visus dauginame.`,
       r
     });
   },
@@ -1423,7 +1423,7 @@ const GENERATORS = {
       correct, distract,
       firstStep:`Surašyk visas galimas poras / trejetus. Pradėk nuo pirmojo elemento – su kuo jis gali būti suporuotas?`,
       hint:`Galvok dviem etapais: (1) suskaičiuok visus variantus, lyg tvarka būtų svarbi (pvz., poroms: ${v.n}·${v.n-1} = ${v.n*(v.n-1)}); (2) padalink iš ${v.k===2?2:6}, nes ${v.k===2?'ta pati pora suskaičiuota 2 kartus':'tas pats trejetas suskaičiuotas 6 kartus'}.`,
-      explain:`${v.scenario}: iš ${v.n} pasirinkti ${v.k} (tvarka nesvarbu). ${v.k===2 ? `${v.n}·${v.n-1}÷2 = ${correct}` : `${v.n}·${v.n-1}·${v.n-2}÷6 = ${correct}`} būdai${v.k===3?' (dalijame iš 6, nes tą patį trejetą galima surašyti 6 tvarkomis)':''}.`,
+      explain:`${v.scenario}: iš ${v.n} pasirinkti ${v.k} (tvarka nesvarbu). ${v.k===2 ? `${v.n}·${v.n-1}÷2 = ${correct}` : `${v.n}·${v.n-1}·${v.n-2}÷6 = ${correct}`} ${pluralForm(correct,'būdas','būdai','būdų')}${v.k===3?' (dalijame iš 6, nes tą patį trejetą galima surašyti 6 tvarkomis)':''}.`,
       r
     });
   },
@@ -1593,8 +1593,8 @@ const GENERATORS = {
       prompt:`Į susitikimą atvyko ${n} ${draugaiForm}. Kiekvienas paspaudė ranką visiems kitiems – po vieną kartą. Kiek iš viso įvyko rankų paspaudimų?`,
       correct, distract,
       firstStep:`Pradėk nuo mažo skaičiaus: jei būtų 3 draugai – kiek paspaudimų? O jei 4?`,
-      hint:`Kiekvienas iš ${n} paspaudžia su ${n-1} kitais. Bet kiekvienas paspaudimas skaičiuojamas du kartus (Anelė–Beata = Beata–Anelė). Vadinasi, ${n}·${n-1}÷2.`,
-      explain:`${n} žmonės, kiekvienas paspaudžia ${n-1} rankų – atrodytų ${n}·${n-1} = ${n*(n-1)}. Bet kiekvienas paspaudimas skaičiuojamas du kartus, todėl reikia padalinti iš 2: ${n*(n-1)}÷2 = ${correct}.`,
+      hint:`Kiekvienas iš ${n} paspaudžia ranką ${n-1} kitiems. Bet kiekvienas paspaudimas skaičiuojamas du kartus (Anelė–Beata = Beata–Anelė). Vadinasi, ${n}·${n-1}÷2.`,
+      explain:`${n} ${pluralForm(n,'žmogus','žmonės','žmonių')}, kiekvienas paspaudžia ranką ${n-1} kitiems – atrodytų ${n}·${n-1} = ${n*(n-1)}. Bet kiekvienas paspaudimas skaičiuojamas du kartus, todėl reikia padalinti iš 2: ${n*(n-1)}÷2 = ${correct}.`,
       r
     });
   },
@@ -1609,8 +1609,8 @@ const GENERATORS = {
        e:"Minutinė rodyklė per 1 val. apsuka pilną ratą, valandinė – 1/12. Per 12 val. minutinė aplenkia valandinę 11 kartų (ne 12, nes pradžioje jos ir taip kartu)."},
       {q:"Per kiek kartų per 24 valandas sutaps laikrodžio valandinė ir minutinė rodyklės?", a:22,
        e:"Per 12 val. – 11 sutapimų; per 24 val. – dvigubai, t.y. 22."},
-      {q:"Per kiek kartų per 12 valandų laikrodžio rodyklės sudaro statų kampą (90°)?", a:22,
-       e:"Per kiekvieną 12 val. – 22 statūs kampai (apytikslis pavyzdys: per 1 val. – 2 kartus)."},
+      {q:"Per kiek kartų per 12 valandų laikrodžio rodyklės sudaro statųjį kampą (90°)?", a:22,
+       e:"Per 12 val. statusis kampas susidaro 22 kartus (maždaug po 2 kartus per valandą)."},
     ]);
     const correct = variant.a;
     const distract = uniqDistract(r, correct, [
@@ -1681,13 +1681,13 @@ const GENERATORS = {
     const variants = [
       {desc:"Iš priekio matome 3 stulpelius (aukštis 2, 3, 1). Iš šono – 2 eiles (aukštis 3 ir 2). Iš viršaus – 6 langeliai (3×2 tinklelis).",
        answer: 9,
-       explain:`Iš viršaus matosi 6 langeliai – kiekviename bent 1 kubelis (jau 6). Vienoje vietoje aukštis turi siekti 3 (pridedam dar 2 kubelius), dar vienoje – 2 (pridedam 1). Iš viso 6 + 2 + 1 = 9.`},
+       explain:`Iš viršaus matosi 6 langeliai – kiekviename bent 1 kubelis (jau 6). Vienoje vietoje aukštis turi siekti 3 (pridedame dar 2 kubelius), dar vienoje – 2 (pridedame 1). Iš viso 6 + 2 + 1 = 9.`},
       {desc:"Iš priekio matome 2 stulpelius (aukštis 2 ir 3). Iš šono – 2 eiles (aukštis 3 ir 2). Iš viršaus – 4 langeliai (2×2 tinklelis).",
        answer: 7,
-       explain:`Iš viršaus matosi 4 langeliai – kiekviename bent 1 kubelis (jau 4). Vienoje vietoje aukštis turi siekti 3 (pridedam dar 2), dar vienoje – 2 (pridedam 1). Iš viso 4 + 2 + 1 = 7.`},
+       explain:`Iš viršaus matosi 4 langeliai – kiekviename bent 1 kubelis (jau 4). Vienoje vietoje aukštis turi siekti 3 (pridedame dar 2), dar vienoje – 2 (pridedame 1). Iš viso 4 + 2 + 1 = 7.`},
       {desc:"Iš priekio matome 3 stulpelius (po 2). Iš šono – 1 eilė (aukštis 2). Iš viršaus – 3 langeliai eilėje.",
        answer: 6,
-       explain:`Tai paprasčiausia – 3 stulpai po 2 kubelius = 6 kubeliai.`},
+       explain:`Tai paprasčiausia – 3 stulpeliai po 2 kubelius = 6 kubeliai.`},
     ];
     const v = pick(r, variants);
     const correct = v.answer;
@@ -1699,7 +1699,7 @@ const GENERATORS = {
       prompt:`Iš kubelių sukrauta figūra. ${v.desc} Kiek mažiausiai kubelių užtenka šiai figūrai sukrauti?`,
       correct, distract,
       firstStep:`Pradėk nuo viršaus vaizdo – tai parodo, kuriuose langeliuose stovi bent vienas kubelis.`,
-      hint:`Iš viršaus matome, kur stovi stulpeliai. Iš priekio ir iš šono matome aukščiausius. Stenkis kiekvieną aukštį „pasiekti" su kuo mažiau kubelių, dažnai tai pavyksta dalinant aukštumas tarp dviejų vaizdų.`,
+      hint:`Iš viršaus matome, kur stovi stulpeliai. Iš priekio ir iš šono matome aukščiausius. Stenkis kiekvieną aukštį „pasiekti" su kuo mažiau kubelių, dažnai tai pavyksta dalijant aukščius tarp dviejų vaizdų.`,
       explain:v.explain,
       r
     });
@@ -1760,7 +1760,7 @@ const GENERATORS = {
       correctIndex: opts.indexOf(liar),
       firstStep:`Spėk: tarkim, kad meluoja Anelė. Patikrink, ar tada visi teiginiai logiški.`,
       hint:`Du sako tiesą, vienas meluoja. Žiūrėk – jeigu du iš jų sutartinai sako "X meluoja", o trečias – "Y meluoja", tai melagis veikiausiai yra X arba trečiasis pats. Pabandyk hipotezę su kiekvienu kandidatu.`,
-      explain:`Du tiesakalbiai sutartinai sako „${truthAccusee} meluoja" – ir tai tiesa. Vienas (${liar}) bando nukreipti dėmesį, sakydamas „${liarAccusee} meluoja" – tai melas. Vadinasi, meluoja ${liar}.`
+      explain:`Du tiesuoliai sutartinai sako „${truthAccusee} meluoja" – ir tai tiesa. Vienas (${liar}) bando nukreipti dėmesį, sakydamas „${liarAccusee} meluoja" – tai melas. Vadinasi, meluoja ${liar}.`
     };
   },
 
@@ -1845,7 +1845,7 @@ const GENERATORS = {
       lines = [];
       for(let i = 1; i <= n; i++) lines.push(`${i}-asis sako: „Bent ${i} iš mūsų meluoja.“`);
       correct = n / 2;
-      explain = `Kuo mažesnį skaičių vaikas sako, tuo lengviau jo žodžiai tampa tiesa. Jei meluoja lygiai ${n/2}, tai teiginiai „bent 1“ … „bent ${n/2}“ — tiesa (juos sako pirmieji ${n/2} vaikų), o likusių ${n/2} teiginiai melagingi. Tiesakalbių ${n/2} ir melagių ${n/2} — viskas dera. Patikrink bet kokį kitą skaičių — visada susikerta.`;
+      explain = `Kuo mažesnį skaičių vaikas sako, tuo lengviau jo žodžiai tampa tiesa. Jei meluoja lygiai ${n/2}, tai teiginiai „bent 1“ … „bent ${n/2}“ — tiesa (juos sako pirmieji ${n/2} ${pluralForm(n/2,'vaikas','vaikai','vaikų')}), o likusių ${n/2} teiginiai melagingi. Tiesuolių ${n/2} ir melagių ${n/2} — viskas dera. Patikrink bet kokį kitą skaičių — visada susikerta.`;
     }
     const distract = uniqDistract(r, correct, [
       ()=>n, ()=>Math.max(1, correct-1), ()=>correct+1, ()=>1, ()=>Math.max(1, n-2)
@@ -1855,7 +1855,7 @@ const GENERATORS = {
       prompt:`${n} vaikai kalbasi. Kiekvienas jų arba VISADA meluoja, arba VISADA sako tiesą.\n${lines.map(l=>"• "+l).join("\n")}\nKiek vaikų meluoja?`,
       correct, distract,
       firstStep:`Ar gali du iš jų kartu sakyti tiesą? Palygink jų teiginius.`,
-      hint:`Melagių skaičius yra vienas konkretus skaičius. Spėk jį (pvz., pabandyk ${variant === "exact" ? n-1 : n/2}) ir patikrink KIEKVIENO vaiko žodžius: teisuoliai turi sakyti tiesą, melagiai — meluoti.`,
+      hint:`Melagių skaičius yra vienas konkretus skaičius. Spėk jį (pvz., pabandyk ${variant === "exact" ? n-1 : n/2}) ir patikrink KIEKVIENO vaiko žodžius: tiesuoliai turi sakyti tiesą, melagiai — meluoti.`,
       explain, r
     });
     q._check = {gen:"liarsCount", variant, n, ans: correct};
@@ -1895,11 +1895,11 @@ const GENERATORS = {
     ], 4);
     const q = makeMC({
       category:"logika", subtopic:"logika.zingsniai", difficulty:5,
-      prompt:`Ant stalo ${n} puodelių; ${d0} iš jų apversti dugnu aukštyn. Vienu ėjimu PRIVALAI apversti lygiai ${m} puodelius (bet kuriuos). Per kiek mažiausiai ėjimų gali pasiekti, kad visi puodeliai stovėtų teisingai?`,
+      prompt:`Ant stalo ${n} ${pluralForm(n,'puodelis','puodeliai','puodelių')}; ${d0} iš jų apversti dugnu aukštyn. Vienu ėjimu PRIVALAI apversti lygiai ${m} ${pluralForm(m,'puodelį','puodelius','puodelių')} (bet kuriuos). Per kiek mažiausiai ėjimų gali pasiekti, kad visi puodeliai stovėtų teisingai?`,
       correct: ans, distract,
       firstStep:`Sek tik vieną skaičių — kiek puodelių apversta. Kaip jis gali keistis per vieną ėjimą?`,
       hint:`Jei per ėjimą apverti ${m} puodelius ir tarp jų yra keli „blogi“, blogųjų skaičius keičiasi. Surašyk, kokie skaičiai pasiekiami po 1 ėjimo, po 2 ėjimų… Ne visi keliai veda į nulį iš karto!`,
-      explain:`Sekime apverstųjų skaičių po kiekvieno ėjimo: ${path.join(" → ")}. Greičiau neįmanoma — patikrinus visus variantus, po ${ans-1} ėjimų nulio pasiekti dar negalima.`,
+      explain:`Sekame apverstųjų skaičių po kiekvieno ėjimo: ${path.join(" → ")}. Greičiau neįmanoma — patikrinus visus variantus, po ${ans-1} ėjimų nulio pasiekti dar negalima.`,
       r
     });
     q._check = {gen:"cupsFlip", n, m, d0, ans};
@@ -2038,7 +2038,7 @@ const GENERATORS = {
     ], 4);
     const q = makeMC({
       category:"logika", subtopic:"logika.zingsniai", difficulty:5,
-      prompt:`Ant stalo ${N} akmenukų. Du žaidėjai paeiliui ima nuo 1 iki ${k} akmenukų. Laimi tas, kuris paima PASKUTINĮ akmenuką. Kiek akmenukų pirmuoju ėjimu turi paimti pirmasis žaidėjas, kad tikrai laimėtų (abiem žaidžiant geriausiai)?`,
+      prompt:`Ant stalo ${N} ${pluralForm(N,'akmenukas','akmenukai','akmenukų')}. Du žaidėjai paeiliui ima nuo 1 iki ${k} akmenukų. Laimi tas, kuris paima PASKUTINĮ akmenuką. Kiek akmenukų pirmuoju ėjimu turi paimti pirmasis žaidėjas, kad tikrai laimėtų (abiem žaidžiant geriausiai)?`,
       correct: ans, distract,
       firstStep:`Pagalvok nuo galo: su kiek akmenukų ant stalo eilę gavęs žaidėjas PRALAIMI?`,
       hint:`Blogos pozicijos — 0, ${k+1}, ${2*(k+1)}, ${3*(k+1)}… (kas ${k+1}-a): kad ir kiek paimtum (1–${k}), priešininkas papildo iki ${k+1} ir vėl palieka tau blogą skaičių. Pirmasis turi iškart palikti priešininkui blogą skaičių.`,
@@ -2188,7 +2188,7 @@ const GENERATORS = {
       category:"aritmetika", subtopic:"aritm.skaitmenu_pertvarka", difficulty:5,
       prompt, correct, distract,
       firstStep:`Kas atsitinka skaičiui, kai gale prirašai (arba nutrini) skaitmenį? Palygink su dauginimu iš 10.`,
-      hint:`Prirašius skaitmenį gale, skaičius padidėja 9 kartus savęs ir dar prirašytu skaitmeniu. Nutrynus — sumažėja 9 kartus likusio ir dar nutrintu skaitmeniu. Devyni kartotiniai čia — raktas.`,
+      hint:`Prirašius skaitmenį gale, skaičius padidėja devyniais savo dydžiais ir dar prirašytu skaitmeniu. Nutrynus — sumažėja devyniais likusio skaičiaus dydžiais ir dar nutrintu skaitmeniu. Čia raktas — skaičiaus 9 kartotiniai.`,
       explain, r
     });
     q._check = Object.assign({gen:"appendDigit"}, checkExtra);
@@ -2256,7 +2256,7 @@ const GENERATORS = {
       figure,
       options: opts,
       correctIndex: opts.indexOf(String(ans)),
-      firstStep:`Keturi kvadratai eilėje susisuks į „žiedą“ aplink kubą. Kurie du iš jų atsidurs vienas priešais kitą?`,
+      firstStep:`Keturi kvadratai eilėje susilankstys į „žiedą“ aplink kubą. Kurie du iš jų atsidurs vienas priešais kitą?`,
       hint:`Eilėje iš keturių priešingi yra kas antras: ${strip[0]}↔${strip[2]} ir ${strip[1]}↔${strip[3]}. Viršutinis ir apatinis kvadratai tampa kubo viršumi ir dugnu — jie irgi priešingi.`,
       explain:`Žiedas iš keturių: ${strip[0]}↔${strip[2]}, ${strip[1]}↔${strip[3]}. Viršus ir apačia: ${nums[0]}↔${nums[5]}. Priešais ${asked} — ${ans}.`,
     };
@@ -2358,10 +2358,10 @@ const GENERATORS = {
       firstStep:`Lenta jau nuspalvinta dviem spalvomis. Kiek langelių dengia viena domino kortelė kiekvienos spalvos?`,
       hint:`Kiekviena kortelė VISADA dengia vieną tamsų ir vieną šviesų langelį. Suskaičiuok, kiek liko tamsių ir kiek šviesių — daugiau kortelių nei mažesnysis skaičius padėti neįmanoma.`,
       explain:sameColor
-        ? `Iškirpti abu TOS PAČIOS spalvos langeliai: liko ${Math.min(bT,wT)} vienos ir ${Math.max(bT,wT)} kitos spalvos. Kiekviena kortelė dengia po vieną kiekvienos spalvos langelį, todėl daugiau nei ${Math.min(bT,wT)} kortelių padėti neįmanoma — nors laisvų langelių ${total-2} ir atrodo, kad tilptų ${naive}. Atsakymas: ${ans}.`
+        ? `Iškirpti abu TOS PAČIOS spalvos langeliai: liko ${Math.min(bT,wT)} vienos spalvos ir ${Math.max(bT,wT)} kitos spalvos langelių. Kiekviena kortelė dengia po vieną kiekvienos spalvos langelį, todėl daugiau nei ${Math.min(bT,wT)} kortelių padėti neįmanoma — nors laisvų langelių ${total-2} ir atrodo, kad tilptų ${naive}. Atsakymas: ${ans}.`
         : (ans === naive
-          ? `Iškirpti SKIRTINGŲ spalvų langeliai: liko po ${Math.min(bT,wT)} kiekvienos spalvos. Šįkart visus likusius ${total-2} langelius pavyksta uždengti poromis: ${total-2} ÷ 2 = ${ans} kortelių.`
-          : `Liko po ${Math.min(bT,wT)} kiekvienos spalvos langelių, bet lentos forma leidžia sudėti tik ${ans} korteles.`),
+          ? `Iškirpti SKIRTINGŲ spalvų langeliai: liko po ${Math.min(bT,wT)} kiekvienos spalvos. Šįkart visus likusius ${total-2} langelius pavyksta uždengti poromis: ${total-2} ÷ 2 = ${ans} ${pluralForm(ans,'kortelė','kortelės','kortelių')}.`
+          : `Liko po ${Math.min(bT,wT)} kiekvienos spalvos langelių, bet lentos forma leidžia sudėti tik ${ans} ${pluralForm(ans,'kortelę','korteles','kortelių')}.`),
       r
     });
     q._check = {gen:"dominoMax", rows, cols, rem1, rem2, ans, bCount, wCount};
@@ -2550,41 +2550,41 @@ const MECHANIC_METHODOLOGY = {
     title: "Atvejų peržiūra",
     summary: "Jei galimybių mažai — patikrink visas iš eilės.",
     trick: "Suskaidyk uždavinį pagal vieną kintančią savybę (pvz., koks paskutinis skaitmuo? ar dėžutė tuščia?). Tinkamų atvejų dažnai yra 3–5. Patikrink kiekvieną atskirai — netinkančius atmesk, tinkančius palygink.",
-    keyStep: "Užrašyk lentelę: vienoje skiltyje — atvejis, kitoje — ar tinka pagal sąlygą. Užpildyk visą. Atsakymas — tas atvejis (ar atvejai), kurie tinka.",
-    pitfalls: "Neikit galvoje. Mintyse išlaikyti 5 atvejus — neįmanoma. Užrašyk lentelę net jei atrodo, kad ir taip aišku — laikui taupyti.",
+    keyStep: "Užrašyk lentelę: vienoje skiltyje — atvejis, kitoje — ar tinka pagal sąlygą. Užpildyk visą. Atsakymas — tas atvejis (ar tie atvejai), kuris tinka.",
+    pitfalls: "Nespręsk vien mintyse. Išlaikyti galvoje 5 atvejus beveik neįmanoma. Užrašyk lentelę, net jei atrodo, kad ir taip aišku — taip sutaupysi laiko.",
   },
   "weighing": {
     title: "Svarstyklės",
     summary: "Kas vienoje pusėje, kas kitoje. Sek, kuri pusė lengvesnė.",
     trick: "Kiekvienas svėrimas pasako vieną iš dviejų: arba pusės lygios (= tas pats svoris), arba viena pusė pakyla (= ji lengvesnė). Užrašyk kiekvieną svėrimą eilutėje: kas kairėje, kas dešinėje, kuri pusė laimėjo. Iš kelių svėrimų dažnai išlenda vienintelis tinkantis variantas.",
-    keyStep: "Pažymėk daiktus raidėmis (A, B, C…). Užrašyk kiekvieną svėrimą: pvz., „A+B vienoda kaip C+D“ arba „A+B lengvesnė už C+D“. Palygink eilutes — kuri raidė visada „sunki“, kuri visada „lengva“.",
-    pitfalls: "Pusiausvyra reiškia LYGIAI tas pats svoris, ne „beveik“. Pasvirimas — viena pusė griežtai lengvesnė, kita griežtai sunkesnė.",
+    keyStep: "Pažymėk daiktus raidėmis (A, B, C…). Užrašyk kiekvieną svėrimą: pvz., „A+B sveria tiek pat, kiek C+D“ arba „A+B lengviau už C+D“. Palygink eilutes — kuri raidė visada „sunki“, kuri visada „lengva“.",
+    pitfalls: "Pusiausvyra reiškia LYGIAI tokį patį svorį, ne „beveik“. Pasvirimas — viena pusė griežtai lengvesnė, kita griežtai sunkesnė.",
   },
   "cube-color": {
     title: "Nudažyti kubeliai",
     summary: "Suskirstyk pagal padėtį: kampe, ant briaunos, ant sienos, viduje.",
     trick: "Didelį kubą sudaro mažesni kubeliai. Kampe esantis turi 3 dažytas sienas, ant briaunos — 2, ant sienos vidury — 1, o viduje — 0. Kampinių VISADA yra 8 (kubas turi 8 kampus). Kitų skaičius priklauso nuo dydžio.",
     keyStep: "Pavyzdžiui, 3×3×3 kubas: 8 kampuose, 12 ant briaunų vidurio (po 1 kiekvienoje briaunoje, briaunų yra 12), 6 sienų viduryje (po 1 kiekvienoje sienoje), 1 visiškai viduje. Iš viso 27. Didesniems kubams skaičiuok atskirai pagal piešinį.",
-    pitfalls: "Nepainiok „ant briaunos“ ir „ant sienos“. Briauna — kraštas, kur dvi sienos susitinka. Siena — vienas plokščias šonas. Kauliuko dvi priešingos sienos visada sumuoja 7 (1 ir 6, 2 ir 5, 3 ir 4).",
+    pitfalls: "Nepainiok „ant briaunos“ ir „ant sienos“. Briauna — kraštas, kur dvi sienos susitinka. Siena — vienas plokščias šonas. Kauliuko dviejų priešingų sienų taškų suma visada lygi 7 (1 ir 6, 2 ir 5, 3 ir 4).",
   },
   "cube-net": {
     title: "Kubo išklotinė",
     summary: "Mintyse sulankstyk kubą — kur atsidurs kuri siena.",
     trick: "Iš 6 kvadratėlių sudėliotos išklotinės sulankstomos į kubą tik tos, kurios primena „T“ ar kryžiaus formą. Pradžiai pasirink vieną kvadratėlį „dugnu“. Keturi šalia jo — šonai. Likęs vienas — viršus. Dugnas ir viršus turi būti priešinguose galuose, niekada šalia.",
-    keyStep: "Pasirink centrinę sienę kaip dugną. Pažymėk jos 4 kaimynus kaip šonus. Likusi viena — viršus. Patikrink: dugnas ir viršus tikrai priešinguose galuose, nesusiliečia.",
+    keyStep: "Pasirink centrinę sieną kaip dugną. Pažymėk jos 4 kaimynus kaip šonus. Likusi viena — viršus. Patikrink: dugnas ir viršus tikrai priešinguose galuose, nesusiliečia.",
     pitfalls: "Veidrodinis kubas ir paprastas kubas — skirtingi. Jei ant sienų yra ženklai (skaičiai, taškai) — žiūrėk ne tik kur jie, bet ir KAIP jie pasukti.",
   },
   "projection": {
     title: "Vaizdas iš viršaus / priekio / šono",
     summary: "Trys vaizdai turi tikti tame pačiame kūne.",
     trick: "Vaizdas iš priekio pasako kiekvieno stulpelio aukštį. Vaizdas iš šono — kiekvienos eilės aukštį. Vaizdas iš viršaus — kuriose vietose iš viso yra kubelių. Sudėjus visus tris, dažnai aiškėja vienas tinkantis kūnas.",
-    keyStep: "Imk vaizdą iš viršaus — pažymėk lentelėje, kuriuose langeliuose yra kubelių. Tada per priekį ir šoną nustatyk, kaip aukštai kiekviename langelyje turi stovėti kubeliai. Mažiausiai įmanoma — kiekvienam langeliui imk mažiausią aukštį, kuris dar tinka abiems šoniniams vaizdams.",
+    keyStep: "Imk vaizdą iš viršaus — pažymėk lentelėje, kuriuose langeliuose yra kubelių. Tada per priekį ir šoną nustatyk, kaip aukštai kiekviename langelyje turi stovėti kubeliai. Kad kubelių būtų kuo mažiau, kiekvienam langeliui imk mažiausią aukštį, kuris dar tinka abiems šoniniams vaizdams.",
     pitfalls: "„Iš dešinės“ ir „iš kairės“ — skirtingi vaizdai. Žiūrėk paveikslėlį atidžiai, kad nesusimaišytum.",
   },
   "digit-puzzle": {
     title: "Skaitmenų galvosūkis (raidės = skaitmenys)",
     summary: "Tos pačios raidės — tas pats skaitmuo. Eik nuo vienetų stulpelio.",
-    trick: "Pradėk nuo paskutinio (vienetų) stulpelio — jis dažnai vienareikšmiškai pasako vieną raidę. Tada pereik į dešimtis, šimtus. Pirmoji skaičiaus raidė nelygu 0 (kitaip skaičius būtų trumpesnis).",
+    trick: "Pradėk nuo paskutinio (vienetų) stulpelio — jis dažnai vienareikšmiškai pasako vieną raidę. Tada pereik į dešimtis, šimtus. Pirmoji skaičiaus raidė negali reikšti 0 (kitaip skaičius būtų trumpesnis).",
     keyStep: "Pažymėk vienetų stulpelį. Suprask, kuri raidė ten turi būti. Tada eik į dešimtis. Nepamiršk perkėlimo: jeigu A + B duoda du skaitmenis, į kitą stulpelį pridedi 1.",
     pitfalls: "Perkėlimas (nešimas) į kitą stulpelį dažnai pamirštamas. Patikrink: jei A + B = C, gali būti ir A + B = C + 10 (tada perkeli 1 į kitą stulpelį).",
   },
@@ -2592,7 +2592,7 @@ const MECHANIC_METHODOLOGY = {
     title: "Pakartotinis veiksmas",
     summary: "Padaryk pirmus 3–5 žingsnius rankomis. Ieškok ciklo.",
     trick: "Užrašyk pirmus kelis žingsnius lentelėje. Greitai pamatysi: arba viskas grįžta į pradžią po N žingsnių (ciklas), arba viskas baigiasi vienoje reikšmėje. Tada didelį žingsnių skaičių (pvz., 100) padalink iš ciklo ilgio ir pažiūrėk liekaną.",
-    keyStep: "Užrašyk: 1-as žingsnis, 2-as, 3-as, 4-as, 5-as. Jei tarp jų matosi kartojimasis — tai ciklas. Pvz., jei kas 3 žingsniai grįžta į pradžią, tai 100-asis: 100 padalintos iš 3 liekana yra 1 → tas pats kaip 1-asis žingsnis.",
+    keyStep: "Užrašyk: 1-as žingsnis, 2-as, 3-as, 4-as, 5-as. Jei tarp jų matosi kartojimasis — tai ciklas. Pvz., jei kas 3 žingsnius viskas grįžta į pradžią, tai 100-asis: dalijant 100 iš 3, liekana yra 1 → tas pats kaip 1-asis žingsnis.",
     pitfalls: "Ciklas kartais prasideda ne nuo pat pradžios. Pirmi 1–2 žingsniai gali būti „įsibėgėjimas“, o ciklas — tik nuo trečio. Tikrink atidžiai.",
   },
   "state-game": {
@@ -2600,7 +2600,7 @@ const MECHANIC_METHODOLOGY = {
     summary: "Pradėk nuo galo. Žymėk: laiminčios pozicijos / pralaiminčios.",
     trick: "Pažymėk pozicijas: L — eilėje esantis žaidėjas LAIMI (turi gerą ėjimą), P — PRALAIMI (visi ėjimai blogi). Galinė pozicija (kai negali nieko daryti) yra P. Iš L visada galima pereiti į P. P pozicijoje VISI ėjimai veda į L.",
     keyStep: "Pradėk nuo mažiausio atvejo (1 daiktas, 2, 3…). Kiekvienai pažymėk L ar P. Po 5–7 pavyzdžių dažniausiai pamatysi šabloną — pvz., kas 4-as yra P.",
-    pitfalls: "Tobulai žaidžiantis — reiškia visada renkasi geriausią ėjimą, ne „kaip pasitaikys“. Atsakymas — kuris žaidėjas laimi, jei ABU žaidžia tobulai.",
+    pitfalls: "„Žaisti tobulai“ reiškia visada rinktis geriausią ėjimą, ne „kaip pasitaikys“. Atsakymas — kuris žaidėjas laimi, jei ABU žaidžia tobulai.",
   },
   "logic-clues": {
     title: "Logikos užuominos — kuris yra kuris",
@@ -2612,21 +2612,21 @@ const MECHANIC_METHODOLOGY = {
   "counting-ways": {
     title: "Kiek būdų",
     summary: "Pirmiausia atsakyk: ar tvarka svarbi? Ar tą patį galima naudoti du kartus?",
-    trick: "Du klausimai apsprendžia viską. 1) Ar (A, B) skiriasi nuo (B, A)? Jei taip — tvarka svarbi. 2) Ar tas pats elementas gali būti panaudotas du kartus? Iš atsakymų — arba dauginimas (pirmam: 5 būdai, antram: 4 būdai → 5 × 4 = 20), arba paprasti pavyzdžiai.",
+    trick: "Du klausimai lemia viską. 1) Ar (A, B) skiriasi nuo (B, A)? Jei taip — tvarka svarbi. 2) Ar tas pats elementas gali būti panaudotas du kartus? Iš atsakymų — arba dauginimas (pirmam: 5 būdai, antram: 4 būdai → 5 × 4 = 20), arba paprasti pavyzdžiai.",
     keyStep: "Užrašyk pirmus 3–4 atvejus rankiniu būdu. Pavyzdžiui: kiek porų iš {A, B, C}? Užrašai: AB, AC, BA, BC, CA, CB → 6, jei tvarka svarbi. Jei nesvarbi — AB, AC, BC → 3.",
     pitfalls: "„Iš 5 vaikų išrinkti 2 budėti“ — tvarka NESVARBI (10 būdų). „Iš 5 vaikų išrikiuoti 2 į pirmą ir antrą vietą“ — tvarka SVARBI (20 būdų).",
   },
   "partition": {
     title: "Skaidymas į grupes",
     summary: "Grupių skaičius turi būti bendros sumos daliklis.",
-    trick: "Jei N daiktų reikia padalinti į vienodas grupes, tai grupių skaičius turi būti N daliklis. Pvz., 12 saldainių į vienodas grupes — tik 1, 2, 3, 4, 6 ar 12 grupėmis. Jei sąlyga reikalauja vienodų SUMŲ — tai bendra suma turi dalintis iš grupių skaičiaus.",
+    trick: "Jei N daiktų reikia padalinti į vienodas grupes, tai grupių skaičius turi būti N daliklis. Pvz., 12 saldainių į vienodas grupes — tik 1, 2, 3, 4, 6 ar 12 grupėmis. Jei sąlyga reikalauja vienodų SUMŲ — tai bendra suma turi dalytis iš grupių skaičiaus.",
     keyStep: "Apskaičiuok bendrą sumą (arba bendrą daiktų skaičių). Užrašyk visus jos daliklius — tai galimi grupių skaičiai. Per kitas sąlygas atmesk netinkančius.",
     pitfalls: "„Į vienodas grupes“ ir „į vienodos sumos grupes“ — skirtingi uždaviniai. Skaityk atidžiai.",
   },
   "mixture-fraction": {
     title: "Dalys nuo dalies („pusę likusio“)",
     summary: "„Pusę likusio“ — skaičiuok nuo to, kas LIKO, ne nuo pradžios.",
-    trick: "Jei pradžioje 12 saldainių, ir Tomas suvalgė pusę — liko 6. Tada Alė valgo „trečdalį likusio“ — tai trečdalis 6, t. y. 2 saldainiai. Liko 4. NE trečdalis pradinių 12. Visada skaičiuok nuo paskutinio likučio, ne nuo pradinės sumos.",
+    trick: "Jei pradžioje buvo 12 saldainių ir Tomas suvalgė pusę — liko 6. Tada Alė valgo „trečdalį likusio“ — tai trečdalis 6, t. y. 2 saldainiai. Liko 4. NE trečdalis pradinių 12. Visada skaičiuok nuo paskutinio likučio, ne nuo pradinės sumos.",
     keyStep: "Pasižymėk pradžioje turimą skaičių (jei nežinai — pažymėk klaustuku). Po kiekvieno žingsnio užrašyk naują likutį. Eik nuosekliai nuo pradžios iki galo.",
     pitfalls: "„Pusę savo pinigų ir dar 1 €“ — pirmiausia pusė ankstesnio likučio, paskui dar minus 1 €. Skaityk atidžiai eiliškumą.",
   },
@@ -2642,25 +2642,25 @@ const MECHANIC_METHODOLOGY = {
     summary: "Skaidyk figūrą į pažįstamus gabaliukus arba perkelk šešėlį.",
     trick: "Sudėtinę figūrą skaidyk į kvadratus, stačiakampius, trikampius. Plotus arba sudėk, arba atimk. Kartais užtušuotą dalį galima MINTYSE perkelti į kitą vietą, ir gausis paprasta figūra (pvz., kvadratas) — tada nereikia net skaičiuoti.",
     keyStep: "Bandyk: ar užtušuotą plotą galima perkelti taip, kad gautųsi kvadratas ar stačiakampis? Jei taip — atsakymas dažnai yra tos paprastos figūros plotas.",
-    pitfalls: "Įsitikink, kad perkelti gabaliukai NESILIEJA. Brėžinys nebūtinai tikslus, todėl pasitikėk skaičiavimais, ne išvaizda.",
+    pitfalls: "Įsitikink, kad perkelti gabaliukai NESIDENGIA. Brėžinys nebūtinai tikslus, todėl pasitikėk skaičiavimais, ne išvaizda.",
   },
   "age-relations": {
     title: "Amžiaus uždaviniai",
     summary: "Visi sensta vienodai. Amžių skirtumas niekada nesikeičia.",
     trick: "Jei močiutei dabar 60, o anūkui 12 — skirtumas 48 metai. Po 5 metų abu pasens po 5: močiutei 65, anūkui 17 — skirtumas vis tiek 48. Po 100 metų — vis tiek 48. Skirtumas yra invariantas. Tai dažnai pakanka uždaviniui išspręsti.",
     keyStep: "Pasidaryk lentelę: stulpeliuose — žmonės, eilutėse — momentai („dabar“, „prieš 5 metus“, „po 10 metų“). Pildyk žinomus skaičius. Skirtumus tarp žmonių perkelk į visas eilutes — jie vienodi visuose momentuose.",
-    pitfalls: "„Buvo dvigubai vyresnis“ ir „dabar dvigubai vyresnis“ — skirtingi momentai, skirtingos sąlygos. Tas, kas dabar dvigubai vyresnis, prieš 10 metų NEBUVO dvigubai — santykis kinta su laiku, tik skirtumas — ne.",
+    pitfalls: "„Buvo dvigubai vyresnis“ ir „dabar dvigubai vyresnis“ — skirtingi momentai, skirtingos sąlygos. Tas, kuris dabar dvigubai vyresnis, prieš 10 metų NEBUVO dvigubai — santykis kinta su laiku, tik skirtumas — ne.",
   },
   "rate-time": {
     title: "Greitis / darbas / receptas",
     summary: "Greitis × laikas = atstumas. Recepte — proporcijos.",
-    trick: "Pagrindinė formulė: greitis × laikas = atstumas. Iš dviejų žinai — randi trečią. Recepte: jei vienai porcijai reikia 100 g miltų, tai 5 porcijoms — 500 g. Apribojimas atsiranda iš to produkto, kurio mažiausiai turi.",
+    trick: "Pagrindinė formulė: greitis × laikas = atstumas. Žinodamas du dydžius, rasi trečią. Recepte: jei vienai porcijai reikia 100 g miltų, tai 5 porcijoms — 500 g. Apribojimas atsiranda iš to produkto, kurio mažiausiai turi.",
     keyStep: "Užrašyk lentelę: kiekvienai medžiagai — kiek turi, kiek reikia VIENAI porcijai, kiek porcijų gali pagaminti. Mažiausias atsakymas — tiek porcijų ir pagaminsi.",
     pitfalls: "Du objektai juda vienas prieš kitą — greičius SUDEDI (jie suartėja greičiau). Ta pačia kryptimi vienas paskui kitą — ATIMI (artėja lėčiau).",
   },
   "calendar": {
     title: "Kalendorius / savaitės dienos",
-    summary: "Per 7 dienas viskas grįžta. Skaičiuok liekaną padalinus iš 7.",
+    summary: "Per 7 dienas viskas grįžta. Skaičiuok liekaną, dalydamas iš 7.",
     trick: "Jei šiandien antradienis, tai po 7 dienų — vėl antradienis. Po 14 — vėl. Vadinasi, po N dienų: padalink N iš 7, paimk liekaną, ir tiek pasislink į priekį. Pvz., po 100 dienų: 100 ÷ 7 = 14, liekana 2. Antradienis + 2 = ketvirtadienis.",
     keyStep: "Padalink dienų skaičių iš 7. Imk LIEKANĄ. Tiek dienų pasislink į priekį nuo dabartinės savaitės dienos.",
     pitfalls: "„Po N dienų“ — ar įskaitant šiandien, ar ne? Jei sąlyga sako „šiandien antradienis, kuri diena bus po 1 dienos“ — tai trečiadienis (rytoj). Skaityk atidžiai.",
@@ -2668,37 +2668,37 @@ const MECHANIC_METHODOLOGY = {
   "clock": {
     title: "Laikrodis",
     summary: "Per minutę: minutinė rodyklė pasislenka 6°, valandinė — 0,5°.",
-    trick: "Visas ratas — 360°. Minutinė per 60 minučių apsuka visą ratą, vadinasi per minutę — 360 ÷ 60 = 6°. Valandinė per 12 valandų (720 minučių) apsuka visą ratą — per minutę 360 ÷ 720 = 0,5°. Susikirtimo laikus randi, kai abiejų rodyklių kampai sutampa.",
+    trick: "Visas ratas — 360°. Minutinė per 60 minučių apsuka visą ratą, vadinasi per minutę — 360 ÷ 60 = 6°. Valandinė per 12 valandų (720 minučių) apsuka visą ratą — per minutę 360 ÷ 720 = 0,5°. Sutapimo laikus randi, kai abiejų rodyklių kampai sutampa.",
     keyStep: "Pasižymėk minučių skaičių nuo 12:00. Minutinės kampas = 6 × minučių skaičius. Valandinės kampas = 0,5 × minučių skaičius. Lygink šiuos du skaičius pagal sąlygą.",
-    pitfalls: "12:00 abi rodyklės susilieja. Kitą kartą jos vėl susilieja maždaug 1:05 (ne 1:00) — nes valandinė per valandą pasislinko, todėl minutinei reikia ją „pasivyti“.",
+    pitfalls: "12:00 abi rodyklės sutampa. Kitą kartą jos vėl sutampa maždaug 1:05 (ne 1:00) — nes valandinė per valandą pasislinko, todėl minutinei reikia ją „pasivyti“.",
   },
   "sequence-pattern": {
     title: "Sekos / dėsniai",
     summary: "Aritmetinė: pridedi tą patį. Geometrinė: daugini iš to paties. Periodinė: kartojasi.",
     trick: "Užrašyk pirmus 4–5 narius. Tikrink: ar skirtumai tarp gretimų vienodi (aritmetinė: 2, 5, 8, 11 — visada +3)? Ar santykiai vienodi (geometrinė: 2, 6, 18, 54 — visada ×3)? Ar šablonas kartojasi (periodinė: raudona, mėlyna, žalia, raudona, mėlyna…)?",
     keyStep: "Užrašyk skirtumus: antras minus pirmas, trečias minus antras, ir t. t. Jei vienodi — aritmetinė. Jei ne — bandyk santykius (antras padalintas iš pirmo, ir t. t.).",
-    pitfalls: "Pirmieji du nariai dažnai apgaulingi. 1, 2 gali tęstis 3, 4 (aritmetinė), arba 4, 8 (geometrinė), arba 1, 2, 1, 2 (periodinė). Tikrink trečią ir ketvirtą narius prieš sprendžiant.",
+    pitfalls: "Pirmieji du nariai dažnai apgaulingi. 1, 2 gali tęstis 3, 4 (aritmetinė), arba 4, 8 (geometrinė), arba 1, 2, 1, 2 (periodinė). Tikrink trečią ir ketvirtą narius prieš spręsdamas.",
   },
   "divisibility": {
     title: "Dalumas ir liekanos",
     summary: "Iš 2: paskutinis lyginis. Iš 3 ar 9: skaitmenų suma. Iš 5: paskutinis 0 ar 5.",
-    trick: "Pagrindinės taisyklės. Iš 2: paskutinis skaitmuo lyginis. Iš 3: skaitmenų suma dalinasi iš 3. Iš 4: paskutiniai du skaitmenys sudaro skaičių, kuris dalinasi iš 4. Iš 5: paskutinis 0 ar 5. Iš 9: skaitmenų suma dalinasi iš 9. Iš 10: paskutinis 0.",
+    trick: "Pagrindinės taisyklės. Iš 2: paskutinis skaitmuo lyginis. Iš 3: skaitmenų suma dalijasi iš 3. Iš 4: paskutiniai du skaitmenys sudaro skaičių, kuris dalijasi iš 4. Iš 5: paskutinis 0 ar 5. Iš 9: skaitmenų suma dalijasi iš 9. Iš 10: paskutinis 0.",
     keyStep: "Tikrink po vieną taisyklę. Jei reikia bendro dviejų skaičių daliklio — surask abiejų skaičių daliklius ir paimk didžiausią bendrą (DBD).",
-    pitfalls: "Iš 6 dalinasi tas, kas iš 2 IR iš 3. Iš 12 — iš 3 IR iš 4. Sudėtinis daliklis — abi dalys turi tikti.",
+    pitfalls: "Iš 6 dalijasi tas skaičius, kuris dalijasi iš 2 IR iš 3. Iš 12 — iš 3 IR iš 4. Sudėtinis daliklis — abi dalys turi tikti.",
   },
   "place-value": {
     title: "Skaičiaus skaitmenys (vietos vertė)",
     summary: "347 = 3 × 100 + 4 × 10 + 7. Vietos vertė turi reikšmę.",
     trick: "Bet kokį veiksmą su skaitmenimis (sukeitimas, prirašymas) užrašyk per vietas. Pvz., „prirašė 5 dešinėje“ reiškia: skaičius padaugintas iš 10, plius 5. „Sukeitė pirmą ir paskutinį skaitmenis“ — abc tampa cba.",
-    keyStep: "Užrašyk skaičių išplėstai: 347 = 300 + 40 + 7. Tada operacijas vykdyk per kiekvieną dalį atskirai.",
-    pitfalls: "Pirmas skaitmuo nelygu 0. Jei būtų — skaičius būtų vienetu trumpesnis (pvz., „047“ iš tikrųjų yra 47).",
+    keyStep: "Užrašyk skaičių skyrių suma: 347 = 300 + 40 + 7. Tada operacijas vykdyk per kiekvieną dalį atskirai.",
+    pitfalls: "Pirmasis skaitmuo negali būti 0. Jei būtų — skaičius būtų vienu skaitmeniu trumpesnis (pvz., „047“ iš tikrųjų yra 47).",
   },
   "digit-properties": {
     title: "Skaitmenų savybės (suma, sandauga)",
     summary: "Suma ar sandauga apriboja, kokie skaitmenys gali būti.",
-    trick: "Jei skaitmenų sandauga, pvz., 12 — tai galimi rinkiniai: {1, 2, 6}, {1, 3, 4}, {2, 2, 3}, {1, 1, 2, 6}, {1, 1, 3, 4}, {1, 2, 2, 3}, {1, 1, 1, 2, 6}… (Skaitmenys tik 1–9, nes 0 paverstų sandaugą į 0.) Tada per kitas sąlygas atmesk netinkančius.",
+    trick: "Jei skaitmenų sandauga, pvz., 12 — tai galimi rinkiniai: {1, 2, 6}, {1, 3, 4}, {2, 2, 3}, {1, 1, 2, 6}, {1, 1, 3, 4}, {1, 2, 2, 3}, {1, 1, 1, 2, 6}… (Skaitmenys tik 1–9, nes 0 sandaugą paverstų nuliu.) Tada per kitas sąlygas atmesk netinkančius.",
     keyStep: "Užrašyk visus įmanomus skaitmenų rinkinius su tinkančia suma ar sandauga. Tada tikrink kitas sąlygas (pvz., kiek skaitmenų, ar skaičius didesnis už 100…).",
-    pitfalls: "Skaitmuo 0 sandaugą paverčia į 0. Lengva pamiršti vienetų derinius — pridedant 1, suma keičiasi mažai, sandauga nesikeičia. Surašyk sistemingai, nuo mažiausių skaitmenų.",
+    pitfalls: "Skaitmuo 0 sandaugą paverčia nuliu. Lengva pamiršti vienetų derinius — pridedant 1, suma keičiasi mažai, sandauga nesikeičia. Surašyk sistemingai, nuo mažiausių skaitmenų.",
   },
   "arrangement": {
     title: "Susodinimas / eilė",
@@ -2725,7 +2725,7 @@ const MECHANIC_METHODOLOGY = {
     title: "Plotas / perimetras",
     summary: "Stačiakampis: ilgis × plotis. Trikampis: 0,5 × pagrindas × aukštis. Skritulys: π × r².",
     trick: "Sudėtinę figūrą skaidyk į kvadratus, stačiakampius, trikampius. Plotus sudėk arba atimk (pvz., didelis kvadratas minus iškirpta skylė).",
-    keyStep: "Apibrėžk pagrindinį stačiakampį (didžiausią). Suskaičiuok jo plotą. Atimk iškirstų plotų sumą. Arba sudėk dalis po vieną.",
+    keyStep: "Apibrėžk pagrindinį stačiakampį (didžiausią). Suskaičiuok jo plotą. Atimk iškirptų plotų sumą. Arba sudėk dalis po vieną.",
     pitfalls: "Aukštis ir kraštinė — ne tas pats. Trikampio aukštis statmenas pagrindui, ne lygus šoninei.",
   },
   "symmetry": {
@@ -2739,7 +2739,7 @@ const MECHANIC_METHODOLOGY = {
     title: "Skaičiavimas su skliaustais",
     summary: "Veiksmų eilė: skliaustai → daugyba/dalyba → sudėtis/atimtis.",
     trick: "Pirmiausiai atlik viską skliaustuose. Tada — daugybą ir dalybą iš kairės į dešinę. Tada — sudėtį ir atimtį iš kairės į dešinę. Niekada nešok per tvarką.",
-    keyStep: "Pasibraižyk eilę: nurodyk skaičių 1, 2, 3 prie kiekvieno veiksmo, kuriuo eiliškumu juos atliksi. Tada vykdyk po vieną.",
+    keyStep: "Prie kiekvieno veiksmo užrašyk numerį 1, 2, 3 – kokiu eiliškumu juos atliksi. Tada vykdyk po vieną.",
     pitfalls: "Vienodo prioriteto veiksmai — IŠ KAIRĖS Į DEŠINĘ. 6 ÷ 2 ÷ 3 = (6 ÷ 2) ÷ 3 = 3 ÷ 3 = 1, ne 6 ÷ (2 ÷ 3).",
   },
 };
@@ -2753,7 +2753,7 @@ const MECHANIC_HINTS = {
   "truth-tellers": {
     notice: "Tai melagių ir tiesuolių užduotis.",
     ask: "Kuri prielaida atneša prieštaravimą?",
-    suggest: "Tark, kad pirmas asmuo sako tiesą. Sek per visus jo teiginius. Jei prieštarauja – jis meluoja.",
+    suggest: "Tark, kad pirmas asmuo sako tiesą. Patikrink visus jo teiginius. Jei prieštarauja – jis meluoja.",
   },
   "invariant": {
     notice: "Yra dydis, kuris niekada nesikeičia (invariantas).",
@@ -2811,18 +2811,18 @@ const MECHANIC_HINTS = {
     suggest: "Tvarka svarbi → daugink (n·(n−1)·...). Tvarka ne → derinys C(n,k). Pirmiau išvardyk 2 atvejus rankomis.",
   },
   "partition": {
-    notice: "Skaidymas į grupes – grupių skaičius dalo bendrąją sumą.",
+    notice: "Skaidymas į grupes – grupių skaičius dalija bendrąją sumą.",
     ask: "Kokie skaičiai dalija visų skaičių sumą?",
     suggest: "Suskaičiuok bendrą sumą. Tos sumos dalikliai – galimi grupių skaičiai.",
   },
   "mixture-fraction": {
-    notice: "Dalys nuo dalies – skaičiuok per likutį, ne pradžios.",
+    notice: "Dalys nuo dalies – skaičiuok nuo likučio, ne nuo pradžios.",
     ask: "Kokia dalis lieka po pirmo žingsnio?",
     suggest: "Pažymėk likutį po kiekvieno žingsnio: x → x/2 → (x/2)·2/3, ir t. t.",
   },
   "tiling": {
     notice: "Iškarpos – pirmiau patikrink plotų lygybę.",
-    ask: "Ar bendras plotas dalinasi iš mažiausios dalies ploto?",
+    ask: "Ar bendras plotas dalijasi iš mažiausios dalies ploto?",
     suggest: "Spalvink šachmatine tvarka. Jei skirtumas tarp dviejų spalvų neleidžia dėliojimo – atsakymas „neįmanoma“.",
   },
   "area-decomp": {
@@ -2841,7 +2841,7 @@ const MECHANIC_HINTS = {
     suggest: "Užrašyk lentelę: kiekvienai medžiagai – turima/vienetui. Mažiausias dalmuo – atsakymas.",
   },
   "calendar": {
-    notice: "Kas 7 dienos savaitės diena pasikartoja.",
+    notice: "Kas 7 dienas savaitės diena pasikartoja.",
     ask: "Kokia liekana, kai dienų skaičių padalini iš 7?",
     suggest: "Liekana parodo, per kiek dienų pasislinks savaitės diena.",
   },
@@ -2863,7 +2863,7 @@ const MECHANIC_HINTS = {
   "place-value": {
     notice: "Kiekvienas skaitmuo turi savo vietą: 347 = 300 + 40 + 7.",
     ask: "Ką operacija daro su skaitmenimis?",
-    suggest: "Užrašyk skaičių išplėstai (pvz., 347 = 300 + 40 + 7) ir pažiūrėk, kurią dalį veiksmas keičia.",
+    suggest: "Užrašyk skaičių skyrių suma (pvz., 347 = 300 + 40 + 7) ir pažiūrėk, kurią dalį veiksmas keičia.",
   },
   "digit-properties": {
     notice: "Skaitmenų suma/sandauga apriboja galimybes.",
@@ -2873,7 +2873,7 @@ const MECHANIC_HINTS = {
   "arrangement": {
     notice: "Susodinimas – fiksuok pirmą poziciją.",
     ask: "Ar yra apribojimas tipo „A ir B greta“?",
-    suggest: "Sąjungink suvienytus narius (AB kaip vienas blokas). Tada padaugink iš 2 (AB ar BA).",
+    suggest: "Sujunk gretimus narius į vieną bloką (AB). Tada padaugink iš 2 (AB ar BA).",
   },
   "multistep-money": {
     notice: "Pinigai keliais žingsniais – užrašyk likutį po kiekvieno pirkimo.",
@@ -2892,7 +2892,7 @@ const MECHANIC_HINTS = {
   },
   "symmetry": {
     notice: "Veidrodis keičia kairę į dešinę – ne aukštį.",
-    ask: "Kuria ašimi simetrija?",
+    ask: "Kur simetrijos ašis?",
     suggest: "Pasižymėk kelis figūros taškus. Po vertikalaus veidrodžio kairėje esantis taškas atsidurs dešinėje – tokiu pat atstumu nuo ašies.",
   },
   "arith-compute": {
@@ -2985,7 +2985,7 @@ const KID_FRAME = {
   uzdaviniai:   "Perskaityk uždavinį dar kartą. Pasižymėk: ką žinau, ko ieškau.",
   seka:         "Pažiūrėk, koks skirtumas tarp gretimų narių. Ar jis pastovus?",
   paveikslelis: "Atidžiai pažiūrėk į paveikslą ir savais žodžiais pasakyk, ką matai.",
-  vaizd:        "Atidžiai pažiūrėk į kiekvieną variantą. Ne paskubėk – ieškok mažų skirtumų.",
+  vaizd:        "Atidžiai pažiūrėk į kiekvieną variantą. Neskubėk – ieškok mažų skirtumų.",
 };
 
 function buildQuestionFromKey(genKey, seed){
@@ -3510,7 +3510,7 @@ function growthOpenerFor(q){
   const band = q && (q.points || q.difficulty) || 3;
   if(band >= 5){
     return [
-      'Ši užduotis su gudrybe – nepataikai iš pirmo karto, ir tai normalu.',
+      'Ši užduotis su gudrybe – nepataikei iš pirmo karto, ir tai normalu.',
       'Penkių taškų užduotys retai sprendžiamos vien skaičiavimu – reikia pamatyti triuką.',
       'Net olimpiadų laimėtojai šitų neatspėja iškart. Pažiūrėk sprendimą atidžiai.',
     ][Math.floor(Math.random() * 3)];
@@ -4090,7 +4090,7 @@ function renderArchiveYear(){
       <button class="nav-back" id="back">← Į pradžią</button>
       <h2>${escapeHTML(test.title)}</h2>
       <div class="top-stats">
-        <span class="pill">${total} klausimų</span>
+        <span class="pill">${total} ${pluralForm(total,'klausimas','klausimai','klausimų')}</span>
         ${answered ? `<span class="pill good">${correct}/${answered} teisingai</span>` : ``}
         ${test.test_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.test_pdf)}" target="_blank">Testo PDF ↗</a>` : ``}
         ${test.solutions_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.solutions_pdf)}" target="_blank">Sprendimai ↗</a>` : ``}
@@ -4423,7 +4423,7 @@ function renderHome(){
   if(!ARCHIVE_LOAD_FAILED){
     if(longAbsence) missions.push({
       tag: 'Sugrįžimas',
-      title: `Sveiki sugrįžę — ${gapDays} d. nematėm`,
+      title: `Su sugrįžimu! Nesimatėme ${gapDays} d.`,
       body: 'Pradėk lengvai: 3 paprasti uždaviniai prieš grįžtant prie pakartojimų.',
       cta: 'Pradėti apšilimą', action: 'graceWarmup', style: 'warm',
     });
@@ -4441,7 +4441,7 @@ function renderHome(){
     if(due.length) missions.push({
       tag: 'Pakartojimo eilė',
       title: `Šiandien laukia ${due.length} ${due.length%10===1 && due.length%100!==11 ? 'uždavinys' : (due.length%10>=2 && due.length%10<=4 && (due.length%100<10 || due.length%100>=20) ? 'uždaviniai' : 'uždavinių')}`,
-      body: 'Tu jau juos esi sprendęs — pažiūrim, ar dar pameni.',
+      body: 'Tu jau juos esi sprendęs — pažiūrėkime, ar dar pameni.',
       cta: 'Pradėti pakartojimą', action: 'due', style: 'primary',
     });
     if(needsSpeedWork()) missions.push({
@@ -4535,7 +4535,7 @@ function renderHome(){
           <span class="streak-num">${(store.stars && store.stars.total) || 0}</span>
           <span class="streak-label">žvaigždžių${(store.plan && store.plan.weeklyStarGoal) ? ` · sav. ${starsThisWeek()}/${store.plan.weeklyStarGoal}` : ''}</span>
         </div>
-        <div class="hero-activity" aria-label="Pastarosios 14 dienų aktyvumo">
+        <div class="hero-activity" aria-label="Pastarųjų 14 dienų aktyvumas">
           ${activityCells.join('')}
         </div>
         ${META.profiles.length > 1 ? `<span class="pill" title="Aktyvus profilis — keisti tėvų rodinyje">👤 ${escapeHTML(activeProfileName() || 'pagrindinis')}</span>` : ''}
@@ -4581,7 +4581,7 @@ function renderHome(){
         <div class="footer-actions" style="margin-top:0">
           <div>
             <h3 style="margin:0">📅 Šiandienos treniruotė <span class="phase-pill ${ph.cls}" style="margin-left:6px;vertical-align:middle">${ph.icon} ${ph.label}</span></h3>
-            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : '⚠ <b>Konkurso data nenustatyta</b> — nustatyk plane, ir treniruotės prisitaikys · '}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${!steps.length ? '🛌 poilsio diena pagal tvarkaraštį' : `${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}`}</span>
+            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : '⚠ <b>Konkurso data nenustatyta</b> — nustatyk plane – ir treniruotės prisitaikys · '}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${!steps.length ? '🛌 poilsio diena pagal tvarkaraštį' : `${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}`}</span>
           </div>
           <button class="btn ${planProg < steps.length ? 'primary' : 'ghost'}" id="planBtn">${planProg < steps.length ? 'Tęsti planą →' : 'Atverti planą'}</button>
         </div>
@@ -4642,7 +4642,7 @@ function renderHome(){
 
     <section class="card">
       <h3>Kontrolinis (kaip realiame Kengūros konkurse)</h3>
-      <p style="margin-top:0">Tikrų ankstesnių metų testas. <b>75 minutės. 30 klausimų. −25 % už klaidą.</b> Jokios pagalbos: be užuominų, be pasitikėjimo klausimo, be panašių užduočių. Idealiai – kartą per savaitę likus iki konkurso.</p>
+      <p style="margin-top:0">Tikrų ankstesnių metų testas. <b>75 minutės. 30 klausimų. −25 % už klaidą.</b> Jokios pagalbos: be užuominų, be pasitikėjimo klausimo, be panašių užduočių. Geriausia – kartą per savaitę iki pat konkurso.</p>
       ${store.contestInProgress ? (()=>{
         const cp = store.contestInProgress;
         const remainMs = cp.endsAt - Date.now();
@@ -4734,7 +4734,7 @@ function renderHome(){
     ${ARCHIVE.length ? `
     <section class="card">
       <h3>Originalūs „Kengūros“ testai</h3>
-      <p style="margin-top:0">Rink iš ${ARCHIVE.length} ankstesnių metų testų (${ARCHIVE[0].year}–${ARCHIVE[ARCHIVE.length-1].year}). Visi klausimai – su atsakymų raktais ir oficialiais sprendimais (kur turima), su originalo paveikslėliais.</p>
+      <p style="margin-top:0">Rinkis iš ${ARCHIVE.length} ankstesnių metų testų (${ARCHIVE[0].year}–${ARCHIVE[ARCHIVE.length-1].year}). Visi klausimai – su atsakymų raktais ir oficialiais sprendimais (jei yra), su originalo paveikslėliais.</p>
       <div class="row" id="archiveYears" style="margin-top:6px">
         ${ARCHIVE.map(t => {
           const has = t.questions.some(q=>q.correct);
@@ -4743,16 +4743,16 @@ function renderHome(){
           return `<button class="btn small${has?" primary":""}" data-year="${t.year}" title="${has?"su atsakymais":"tik klausimai"}">${t.year}${has?"":" *"}</button>`;
         }).join("")}
       </div>
-      <p class="help-bar" style="margin-top:10px">Užduočių sprendimas su pilnu vertinimu: pasirink atsakymą A–E, gauk užuominą iš oficialaus sprendimo, paspaudus „Patikrinti“ pamatysi rezultatą bei pilną sprendimą. <span style="opacity:.7">* metai be atsakymo (tik klausimai) · 🔒 naujausi metai laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį</span></p>
+      <p class="help-bar" style="margin-top:10px">Užduočių sprendimas su pilnu vertinimu: pasirink atsakymą A–E, gauk užuominą iš oficialaus sprendimo, paspaudęs „Patikrinti“, pamatysi rezultatą bei pilną sprendimą. <span style="opacity:.7">* metai be atsakymo (tik klausimai) · 🔒 naujausi metai laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį</span></p>
     </section>` : ``}
 
     <section class="card">
       <details>
         <summary>Apie šį treniruoklį</summary>
         <p>Klausimų stilius pagal Tarptautinį matematikos konkursą „Kengūra“ (Benjamin – 5–6 klasė). Klausimai – su <b>5 atsakymo variantais (A–E)</b> ir trijų sunkumo lygių (3, 4, 5 taškai).</p>
-        <p><b>Užuomina</b> nepasako atsakymo – ji parodo <i>kelią</i>, kuriuo verta eiti. Pasinaudojus ja, klausimas vis tiek skaičiuojamas, bet pažymimas atskirai.</p>
+        <p><b>Užuomina</b> nepasako atsakymo – ji parodo <i>kelią</i>, kuriuo verta eiti. Jei ja pasinaudoji, atsakymas vis tiek įskaitomas, bet pažymimas atskirai.</p>
         <p>Po testo pamatysi savo klaidas, o kiekvienai – galėsi spręsti <b>panašų uždavinį</b>, kad įsitvirtintum.</p>
-        <p>Originalūs PDF testai šalia šio failo – su paveikslėliais. Tipų klasifikatorius automatiškai priskiria kiekvienam senam klausimui pavyzdžio kategorijas (geometrija, logika, skaičiavimas, …).</p>
+        <p>Originalūs PDF testai šalia šio failo – su paveikslėliais. Tipų klasifikatorius automatiškai priskiria kiekvienam senam klausimui temų kategorijas (geometrija, logika, skaičiavimas, …).</p>
         <p style="color:var(--muted);font-size:13px;margin-top:6px">
           <button class="btn small ghost" id="resetBtn">Išvalyti progresą</button>
         </p>
@@ -5149,7 +5149,7 @@ function renderQuiz(){
     if(answeredCount === 0){
       if(!confirm("Tu dar niekuo neatsakei. Tikrai pabaigti dabar?")) return;
     } else if(answeredCount < total){
-      if(!confirm(`Liko ${total-answeredCount} klausim${(total-answeredCount)===1?"as":"ų"}. Pabaigti dabar?`)) return;
+      if(!confirm(`Liko ${total-answeredCount} ${pluralForm(total-answeredCount,'klausimas','klausimai','klausimų')}. Pabaigti dabar?`)) return;
     }
     finishQuiz(true);
   });
@@ -5317,7 +5317,7 @@ function renderResults(){
 
   const answeredCount = state.answers.filter(a=>a).length;
   const earlyNote = answeredCount < total
-    ? `<p class="help-bar" style="margin-top:8px">Pabaigta anksčiau: ${answeredCount} iš ${total} klausimų atsakyti.</p>`
+    ? `<p class="help-bar" style="margin-top:8px">Baigta anksčiau: atsakyta į ${answeredCount} iš ${total} klausimų.</p>`
     : ``;
   const sprintBanner = state._sprintMode ? (()=>{
     const answeredA = state.answers.filter(a => a);
@@ -5365,8 +5365,8 @@ function renderResults(){
 
     ${(confSummary.a.att + confSummary.b.att + confSummary.c.att) > 0 ? `
     <section class="card">
-      <h3>Pasitikėjimas vs. teisingumas</h3>
-      <p style="margin-top:0;font-size:13px;color:var(--muted)">Jei „Tikrai žinau“ tikslumas mažesnis nei 80%, vadinasi per dažnai esi pernelyg užtikrintas. Realiame Kengūros konkurse tai brangiai kainuoja (−25% už klaidą).</p>
+      <h3>Pasitikėjimas ir teisingumas</h3>
+      <p style="margin-top:0;font-size:13px;color:var(--muted)">Jei „Tikrai žinau“ tikslumas mažesnis nei 80 %, vadinasi, per dažnai esi pernelyg užtikrintas. Realiame Kengūros konkurse tai brangiai kainuoja (−25% už klaidą).</p>
       ${[
         {k:'a', label:'Tikrai žinau'},
         {k:'b', label:'Spėju iš dviejų'},
@@ -5647,7 +5647,7 @@ function renderContest(){
   document.getElementById("contestFinish").addEventListener("click", ()=>{
     const unanswered = qs.filter(qq => !state.contestAnswers[qq.num]).length;
     const msg = unanswered
-      ? `Liko ${unanswered} neatsakyti klausimai. Tikrai baigti?\n\nNeatsakyti = 0 taškų (be baudos – kaip realiame konkurse).`
+      ? `Liko ${unanswered} ${pluralForm(unanswered,'neatsakytas klausimas','neatsakyti klausimai','neatsakytų klausimų')}. Tikrai baigti?\n\nNeatsakyti = 0 taškų (be baudos – kaip realiame konkurse).`
       : "Tikrai baigti kontrolinį?";
     if(confirm(msg)) finishContest(false);
   });
@@ -5915,10 +5915,10 @@ function renderParent(){
     <section class="card">
       <button class="nav-back" id="parentBack">← Į vaiko rodinį</button>
       <h2>Tėvų rodinys</h2>
-      <p class="help-bar">Trumpas vaizdas, kaip vaikui sekasi. Pasidalink šio puslapio nuoroda – tas pats vaiko progresas matomas.</p>
+      <p class="help-bar">Trumpas vaizdas, kaip vaikui sekasi. Progresas saugomas tik šioje naršyklėje – kitam įrenginiui naudok eksportą žemiau.</p>
 
       <div class="grid two" style="margin-top:14px">
-        <div class="stat"><b>${masteredCount} / ${totalMechs}</b><span>Įvaldytos mechanikos</span></div>
+        <div class="stat"><b>${masteredCount} / ${totalMechs}</b><span>Įvaldytos gudrybės</span></div>
         <div class="stat"><b>${weekAnswered}</b><span>Šios savaitės atsakymai (${weekCorrect} teisingų)</span></div>
         ${(()=>{
           const cw = Object.values(store.dueQueue || {}).filter(i => i.confWrong).length;
@@ -5992,14 +5992,14 @@ function renderParent(){
       }).join('')}
     </section>` : `
     <section class="card">
-      <h3>Silpnesnės mechanikos</h3>
-      <p class="empty">Statistikos kol kas neužtenka. Vaikui reikia atsakyti į bent 2 to paties tipo užduotis, kad pamatytume tendenciją.</p>
+      <h3>Silpnesnės gudrybės</h3>
+      <p class="empty">Statistikos kol kas neužtenka. Vaikui reikia atsakyti bent į 4 to paties tipo užduotis, kad pamatytume tendenciją.</p>
     </section>`}
 
     ${last ? `
     <section class="card">
       <h3>Paskutinis testas (${new Date(last.when).toLocaleString("lt-LT")})</h3>
-      <p><b>${last.correct} / ${last.total}</b> teisingai · ${last.points} taškai${last.pointsWithPenalty != null ? ` (su −25% bauda: ${last.pointsWithPenalty})` : ''}</p>
+      <p><b>${last.correct} / ${last.total}</b> teisingai · ${last.points} ${pluralForm(last.points,'taškas','taškai','taškų')}${last.pointsWithPenalty != null ? ` (su −25% bauda: ${last.pointsWithPenalty})` : ''}</p>
       ${lastBreak ? `<p><b>Klaidų pasiskirstymas:</b></p>${lastBreak}` : ''}
     </section>` : ''}
 
@@ -6218,7 +6218,7 @@ function renderPlaylist(){
 
   const titleHtml = isDue
     ? `<h2 style="margin:0 0 4px">Pasikartoti laukia</h2>
-       <p class="help-bar" style="margin:0">Šios užduotys sugrįžo iš tavo kartojimo eilės. Atsakyk teisingai – jos pereis į kitą intervalą (1d → 3d → 7d → 14d → 30d → įvaldyta).</p>`
+       <p class="help-bar" style="margin:0">Šios užduotys sugrįžo iš tavo kartojimo eilės. Atsakyk teisingai – jos pereis į kitą intervalą (1 d. → 3 d. → 7 d. → 14 d. → 30 d. → įvaldyta).</p>`
     : isMixed
     ? `<h2 style="margin:0 0 4px">Mišrus rinkinys</h2>
        <p class="help-bar" style="margin:0">Gudrybė nenurodyta – kaip konkurse. Pirmiausia atpažink, KOKS tai uždavinio tipas, tada spręsk. Tipas pasirodys po atsakymo.</p>`
@@ -6289,7 +6289,7 @@ function renderPlaylist(){
         if(special){
           return `<div class="explain" style="background:var(--good-soft);border:1px solid var(--good)">
             <b>${isDue ? 'Pakartojimas atliktas!' : 'Rinkinys atliktas!'}</b>
-            <span class="muted small">Iš ${items.length} užduočių teisingai atsakyta ${correctCount}.</span>
+            <span class="muted small">Teisingai atsakyta į ${correctCount} iš ${items.length} užduočių.</span>
           </div>`;
         }
         if(retest){
@@ -6304,13 +6304,13 @@ function renderPlaylist(){
         return passed
           ? `<div class="explain mastery-pass" style="background:var(--good-soft);border:1px solid var(--good)">
               <span class="star">⭐</span>${content.sourceBand && content.sourceBand < mechTopBand(state.playlistMech)
-                ? `<b>Šaunu! Įveikta ${content.sourceBand} t. lygiu.</b> Kitas žingsnis — ${mechTopBand(state.playlistMech)} t. uždaviniai šios gudrybės; planas juos pasiūlys.`
-                : `<b>Šaunu! Gudrybė įvaldyta.</b> Pažymėjom kaip įvaldytą — pasimatysime vėl po ${masteryDecayDays()} d.`}
+                ? `<b>Šaunu! Įveikta ${content.sourceBand} t. lygiu.</b> Kitas žingsnis — šios gudrybės ${mechTopBand(state.playlistMech)} t. uždaviniai; planas juos pasiūlys.`
+                : `<b>Šaunu! Gudrybė įvaldyta.</b> Pažymėjome kaip įvaldytą — pasimatysime vėl po ${masteryDecayDays()} d.`}
               <br><span class="muted small">Visos ${items.length} užduotys teisingos${content.sourceBand ? ` (${content.sourceBand} t. lygis)` : ''}.</span>
              </div>`
           : `<div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
               <b>Dar ne visai.</b>
-              Įvaldymui reikia visų ${items.length} teisingų — šįkart ${correctCount}.
+              Kad įvaldytum, visi ${items.length} atsakymai turi būti teisingi — šįkart teisingų ${correctCount}.
               ${lowerBand ? ` Pabandyk ${lowerBand} t. lygiu ir vėl kilk.` : ' Pabandyk dar kartą po kelių dienų.'}
              </div>`;
       })() : ``}
@@ -6936,11 +6936,11 @@ function daysToContest(){
    No contest date → build (the general-purpose behaviour).            */
 const PLAN_PHASE = {
   foundation: {label:"Pamatai",  cls:"phase-foundation", icon:"🧱",
-    blurb:"Iki konkurso dar toli: dirbam greitį 3 t. bloke ir pirmąsias lengvas gudrybes. Kas antrą dieną — sprintas, kas antrą — nauja gudrybė."},
+    blurb:"Iki konkurso dar toli: laviname greitį 3 t. bloke ir pirmąsias gudrybes. Sprintai — kol 3 t. uždaviniai dar lėti, kitomis dienomis — nauja gudrybė."},
   build:      {label:"Gudrybės", cls:"phase-build", icon:"🧩",
-    blurb:"Pagrindinis etapas: kasdien viena nauja 4–5 t. gudrybė, pirma sugrįžta pakartojimai, kartą per savaitę — kontrolinis kaip tikram konkurse."},
+    blurb:"Pagrindinis etapas: kasdien viena nauja 4–5 t. gudrybė, apšilime — pakartojimai, kartą per savaitę — kontrolinis kaip tikrame konkurse."},
   taper:      {label:"Finišas",  cls:"phase-taper", icon:"🏁",
-    blurb:"Paskutinės dienos: naujų gudrybių nebemokomės. Kartojam tai, kas klydo, sprendžiam mišrius rinkinius be etikečių ir dar du kontrolinius. Dieną prieš — poilsis."},
+    blurb:"Paskutinės dienos: naujų gudrybių nebemokomės. Kartojame tai, kur klydai, sprendžiame mišrius rinkinius be etikečių ir dar du kontrolinius. Dieną prieš — poilsis."},
 };
 /* Taper length scales with the run: 12 % of the days from plan start to
    the contest, clamped to 4–10. A 30-day run tapers 4 days, not 10. */
@@ -7063,7 +7063,7 @@ function planStepsForToday(){
 
   // Contest day and the final two days have their own shape.
   if(days === 0){
-    return [{id:"core", label:"Šiandien konkursas! Sėkmės 🦘 — nieko nebesimokom, tik gerai išsimiegam.", act:"none"}];
+    return [{id:"core", label:"Šiandien konkursas! Sėkmės 🦘 — nieko nebesimokome, tik gerai išsimiegame.", act:"none"}];
   }
   if(days === 1){
     return [
@@ -7084,7 +7084,7 @@ function planStepsForToday(){
     const yr = pickContestYear();
     return [
       {id:"warmup",   label:"Apšilimas — 2 lengvi klausimai", act:"warmup"},
-      {id:"core",     label:`Kontrolinis${yr ? ` — ${yr} m.` : ''} (75 min, kaip tikram konkurse)`, act:"contest", arg:yr},
+      {id:"core",     label:`Kontrolinis${yr ? ` — ${yr} m.` : ''} (75 min, kaip tikrame konkurse)`, act:"contest", arg:yr},
       {id:"cooldown", label:"Po kontrolinio: peržiūrėk klaidas rezultatų puslapyje", act:"none"},
     ];
   }
@@ -7104,7 +7104,7 @@ function planStepsForToday(){
   const DUE_CORE_MIN = phase === "taper" ? 5 : 10;
   let core;
   if(due.length >= DUE_CORE_MIN){
-    core = {id:"core", label:`Pakartojimas — kas klydo (${Math.min(due.length,10)} užd.)`, act:"due"};
+    core = {id:"core", label:`Pakartojimas — kur klydai (${Math.min(due.length,10)} užd.)`, act:"due"};
   } else if(phase === "taper"){
     const stale = staleMechanicToRecheck();
     core = stale
@@ -7140,7 +7140,7 @@ function planStepsForToday(){
     }
   }
   const warm = due.length && core.act !== "due"
-    ? {id:"warmup", label:`Apšilimas — pakartok ${Math.min(due.length, 3)} ${due.length === 1 ? 'uždavinį, kuris klydo' : 'uždavinius, kurie klydo'}`, act:"dueWarm"}
+    ? {id:"warmup", label:`Apšilimas — pakartok ${Math.min(due.length, 3)} ${due.length === 1 ? 'uždavinį, kuriame klydai' : 'uždavinius, kuriuose klydai'}`, act:"dueWarm"}
     : {id:"warmup", label:"Apšilimas — 2 lengvi klausimai", act:"warmup"};
   return [
     warm,
@@ -7342,12 +7342,12 @@ function renderPlan(){
             ? `<span class="pill good">atlikta</span>`
             : `<button class="btn small ${s.act === 'none' ? '' : 'primary'}" data-plan-step="${s.id}">${s.act === 'none' ? 'Pažymėti' : s.act === 'strategy' ? 'Skaityti' : 'Pradėti'}</button>`}
         </div>`).join('')}
-      ${allDone ? `<div class="recent-mastery">🎉 Šiandienos treniruotė atlikta! +${PLAN_DAY_BONUS} ⭐ ir žaidimų bilietas gauti. Iki rytojaus.</div>` : `<p class="help-bar" style="margin-top:8px">Užbaigęs visus žingsnius gausi <b>+${PLAN_DAY_BONUS} ⭐</b> ir <b>žaidimų bilietą</b> 🎟 (lenktynės arba šuolis be 5 klausimų vartų).</p>`}
+      ${allDone ? `<div class="recent-mastery">🎉 Šiandienos treniruotė atlikta! Gavai +${PLAN_DAY_BONUS} ⭐ ir žaidimų bilietą. Iki rytojaus.</div>` : `<p class="help-bar" style="margin-top:8px">Užbaigęs visus žingsnius gausi <b>+${PLAN_DAY_BONUS} ⭐</b> ir <b>žaidimų bilietą</b> 🎟 (lenktynės arba šuolis be 5 klausimų vartų).</p>`}
       <p class="help-bar" style="margin-top:10px">${phase === 'taper'
-        ? 'Finišo etape naujų gudrybių nėra: pirma — kas klydo, tada mišrūs rinkiniai ir sprintai. Likus 3 d. — paskutinis kontrolinis, dieną prieš — poilsis.'
+        ? 'Finišo etape naujų gudrybių nėra: pirma — kur klydai, tada mišrūs rinkiniai ir sprintai. Likus 3 d. — paskutinis kontrolinis, dieną prieš — poilsis.'
         : phase === 'foundation'
-          ? 'Pamatų etape dienos keičiasi: sprintas ↔ nauja gudrybė. Pakartojimai turi pirmenybę, kai jų susikaupia 4+.'
-          : 'Planas kasdien perskaičiuojamas: pirmiausia grįžta pakartojimai, tada — greitis (jei 3 t. lėti), tada — kita nauja gudrybė iš mokymosi tako.'}</p>
+          ? 'Pamatų etape sprintai būna tol, kol 3 t. uždaviniai dar lėti; kitomis dienomis — nauja gudrybė. Klaidų pakartojimai — apšilime; visą dieną jie užima tik susikaupus 10 ir daugiau.'
+          : 'Planas kasdien perskaičiuojamas: apšilime — klaidų pakartojimai, pagrindinėje dalyje — greitis (jei 3 t. lėti) arba kita gudrybė iš mokymosi tako.'}</p>
     </section>
   `;
   document.getElementById("planBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
@@ -7401,15 +7401,15 @@ function masteredCount(){
 /* Achievement catalogue. Each `check` reads the live store and returns true
    once the badge is earned. Order = display order. */
 const ACHIEVEMENTS = [
-  {id:"q10",     icon:"🌱", title:"Pradžia",            desc:"Atsakyk 10 klausimų",            check:()=> totalQuestionsAnswered() >= 10},
-  {id:"q50",     icon:"🚀", title:"Įsibėgėjau",         desc:"Atsakyk 50 klausimų",            check:()=> totalQuestionsAnswered() >= 50},
-  {id:"q100",    icon:"💯", title:"Šimtukas",           desc:"Atsakyk 100 klausimų",           check:()=> totalQuestionsAnswered() >= 100},
-  {id:"q500",    icon:"🏅", title:"Maratonas",          desc:"Atsakyk 500 klausimų",           check:()=> totalQuestionsAnswered() >= 500},
+  {id:"q10",     icon:"🌱", title:"Pradžia",            desc:"Atsakyk į 10 klausimų",            check:()=> totalQuestionsAnswered() >= 10},
+  {id:"q50",     icon:"🚀", title:"Įsibėgėjau",         desc:"Atsakyk į 50 klausimų",            check:()=> totalQuestionsAnswered() >= 50},
+  {id:"q100",    icon:"💯", title:"Šimtukas",           desc:"Atsakyk į 100 klausimų",           check:()=> totalQuestionsAnswered() >= 100},
+  {id:"q500",    icon:"🏅", title:"Maratonas",          desc:"Atsakyk į 500 klausimų",           check:()=> totalQuestionsAnswered() >= 500},
   {id:"star50",  icon:"⭐", title:"Žvaigždžių rinkėjas", desc:"Surink 50 žvaigždžių",           check:()=> (store.stars.total||0) >= 50},
   {id:"star200", icon:"🌟", title:"Žvaigždynas",        desc:"Surink 200 žvaigždžių",          check:()=> (store.stars.total||0) >= 200},
   {id:"star500", icon:"✨", title:"Supernova",          desc:"Surink 500 žvaigždžių",          check:()=> (store.stars.total||0) >= 500},
   {id:"mech1",   icon:"🧩", title:"Pirmas triukas",     desc:"Įvaldyk 1 gudrybę",               check:()=> masteredCount() >= 1},
-  {id:"mech5",   icon:"🧠", title:"Penki triukai",      desc:"Įvaldyk 5 gudrybių",              check:()=> masteredCount() >= 5},
+  {id:"mech5",   icon:"🧠", title:"Penki triukai",      desc:"Įvaldyk 5 gudrybes",              check:()=> masteredCount() >= 5},
   {id:"mech10",  icon:"🎓", title:"Triukų meistras",    desc:"Įvaldyk 10 gudrybių",             check:()=> masteredCount() >= 10},
   {id:"streak3", icon:"🔥", title:"Trijų dienų serija", desc:"3 dienos iš eilės",              check:()=> (store.streak.count||0) >= 3},
   {id:"streak7", icon:"🔥", title:"Savaitė iš eilės",   desc:"7 dienos iš eilės",              check:()=> (store.streak.count||0) >= 7},
@@ -7455,7 +7455,7 @@ function showAchievementToast(list){
   // After an app update the retroactive check can earn many badges at
   // once (legacy saves) — one summary toast instead of a stack of ten.
   if(list.length > 3){
-    showToast("🏆", `${list.length} nauji apdovanojimai! Pažiūrėk apdovanojimų lentelę.`, 5000);
+    showToast("🏆", `${list.length} ${pluralForm(list.length,'naujas apdovanojimas','nauji apdovanojimai','naujų apdovanojimų')}! Pažiūrėk apdovanojimų lentelę.`, 5000);
     return;
   }
   list.forEach((a, i) => {
@@ -7549,7 +7549,7 @@ function weeklyRecapHTML(){
         <summary style="cursor:pointer"><b>📊 ${title}</b> <span class="help-bar" style="margin-left:6px">${fmt(rows[0].date)} – ${fmt(rows[6].date)} · ${active.length}/7 d. · ${answered} užd. · ${stars} ⭐</span></summary>
         <div class="grid two" style="margin-top:10px">
           <div class="stat"><b>${active.length} / 7</b><span>aktyvios dienos</span></div>
-          <div class="stat"><b>${answered}</b><span>uždavinių${answered ? ` · ${Math.round(100*correct/answered)} % teisingai` : ''}</span></div>
+          <div class="stat"><b>${answered}</b><span>${pluralForm(answered,'uždavinys','uždaviniai','uždavinių')}${answered ? ` · ${Math.round(100*correct/answered)} % teisingai` : ''}</span></div>
           <div class="stat"><b>${stars} ⭐</b><span>žvaigždžių per savaitę</span></div>
           <div class="stat"><b>${mastered.length}</b><span>${mastered.length ? `įvaldyta: ${mastered.map(m => escapeHTML(MECHANIC_LABEL[m] || m)).join(', ')}` : 'naujų gudrybių įvaldyta'}</span></div>
         </div>
@@ -7821,7 +7821,7 @@ function renderRaceResult(){
           <span class="pill ${r.difficulty==='hard'?'bad':(r.difficulty==='medium'?'':'good')}">Lygis: ${DIFF_LABEL[r.difficulty]}</span>
           <span class="pill">${'❤️'.repeat(r.lives)} ${r.lives} ${r.lives===1?'gyvybė':'gyvybės'}</span>
         </div>
-        <p class="help-bar">Vairuok rodyklėmis ← → (arba mygtukais). Lenk pro mašinas, kuo ilgiau – tuo daugiau metrų!</p>
+        <p class="help-bar">Vairuok rodyklėmis ← → (arba mygtukais). Lenk kitas mašinas, kuo ilgiau – tuo daugiau metrų!</p>
         ${r.lives < 5 && starsAvailable() >= SHOP_LIFE_COST ? `<p><button class="btn small" id="raceBuyLife">➕ Papildoma gyvybė už ${SHOP_LIFE_COST} ⭐ (turi ${starsAvailable()})</button></p>` : ''}
         <div class="footer-actions" style="justify-content:center;gap:8px;flex-wrap:wrap">
           <button class="btn primary" id="racePlay">🏎 Žaisti lenktynes</button>
