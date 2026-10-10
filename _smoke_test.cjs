@@ -303,8 +303,15 @@ section("macro-cycle + stars");
   check("date set → 28-day decay", masteryDecayDays() === 28);
   store.plan.contestDate = inDays(30);
   check("30 d out → build", planPhase() === "build", planPhase());
+  store.plan.startDate = inDays(-80);        // an 85-day run → taper = 10 days
   store.plan.contestDate = inDays(5);
   check("5 d out → taper", planPhase() === "taper", planPhase());
+  store.plan.startDate = inDays(-20);        // a 25-day run → taper = 4 days
+  check("short run: 5 d out is still build", planPhase() === "build", planPhase());
+  store.plan.contestDate = inDays(3);
+  check("short run: 3 d out is taper", planPhase() === "taper", planPhase());
+  store.plan.startDate = inDays(-80);
+  store.plan.contestDate = inDays(5);
   // Taper never introduces a new mechanic
   store.plan.contestWeekday = (new Date().getDay() + 1) % 7;   // not today
   {
@@ -444,12 +451,21 @@ section("held-out papers + diagnostic");
   // Foundation: contest day only every other week
   store.plan.contestDate = inDays(80);
   store.plan.contestWeekday = new Date().getDay();
-  const thisWeek = isContestDay(new Date());
   const nextWeek = new Date(); nextWeek.setDate(nextWeek.getDate() + 7);
-  check("foundation: biweekly contest day", thisWeek !== isContestDay(nextWeek));
+  const twoWeeks = new Date(); twoWeeks.setDate(twoWeeks.getDate() + 14);
+  store.contests = [{when: Date.now() - 1*86400000, year: eligDesc[6], points:0, scoreWithPenalty:0, maxPoints:120}];
+  check("foundation: biweekly contest day", !isContestDay(new Date()) && !isContestDay(nextWeek) && isContestDay(twoWeeks));
   store.plan.contestDate = inDays(40);
-  store.contests = [];                       // no paper in the last 5 days
+  store.contests = [{when: Date.now() - 7*86400000, year: eligDesc[6], points:0, scoreWithPenalty:0, maxPoints:120}];
   check("build: weekly contest day", isContestDay(new Date()) && isContestDay(nextWeek));
+  // Missed weekday → the first day the paper is overdue takes it
+  store.plan.contestWeekday = (new Date().getDay() + 3) % 7;
+  store.contests = [{when: Date.now() - 8*86400000, year: eligDesc[6], points:0, scoreWithPenalty:0, maxPoints:120}];
+  check("overdue paper lands on a non-preferred day", isContestDay(new Date()));
+  store.contests = [{when: Date.now() - 6*86400000, year: eligDesc[6], points:0, scoreWithPenalty:0, maxPoints:120}];
+  check("not yet overdue → waits for the weekday", !isContestDay(new Date()));
+  store.plan.contestWeekday = new Date().getDay();
+  store.contests = [];
   store.contests = [{when: Date.now() - 2*86400000, year: eligDesc[6], points:0, scoreWithPenalty:0, maxPoints:120}];
   check("no paper within 5 days of the last one", !isContestDay(new Date()));
   store.contests = [];

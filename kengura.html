@@ -4358,12 +4358,12 @@ function renderHome(){
       body: 'Greitas 15 klausimų rinkinys, kad pradėtum.',
       cta: 'Pradėti', action: 'newTest', style: 'primary',
     });
-    const nextMech = nextMechanicToLearn();
-    if(nextMech) missions.push({
-      tag: 'Naujas triukas',
-      title: MECHANIC_LABEL[nextMech] || nextMech,
-      body: 'Kitas žingsnis tavo mokymosi take — nauja gudrybė.',
-      cta: 'Mokytis', action: 'playlist', actionData: nextMech, style: 'primary',
+    const nextT = nextMechanicTarget();
+    if(nextT) missions.push({
+      tag: masteredBandOf(nextT.mech) ? 'Kilti lygiu' : 'Naujas triukas',
+      title: `${MECHANIC_LABEL[nextT.mech] || nextT.mech}${nextT.band < mechTopBand(nextT.mech) ? ` (${nextT.band} t.)` : ''}`,
+      body: masteredBandOf(nextT.mech) ? `Jau įveikei ${masteredBandOf(nextT.mech)} t. lygį — dabar ${nextT.band} t.` : 'Kitas žingsnis tavo mokymosi take — nauja gudrybė.',
+      cta: 'Mokytis', action: 'playlist', actionData: nextT.mech, actionBand: nextT.band, style: 'primary',
     });
     if(Object.keys(store.mechRecent || {}).length >= 2) missions.push({
       tag: 'Mišri treniruotė',
@@ -4432,8 +4432,8 @@ function renderHome(){
           <div class="mission-meta">${mission.tag}</div>
           <h2 class="mission-title">${escapeHTML(mission.title)}</h2>
           <p class="mission-body">${escapeHTML(mission.body)}</p>
-          <button class="btn primary" id="missionBtn" data-action="${mission.action}" data-act-arg="${mission.actionData||''}">${escapeHTML(mission.cta)} →</button>
-          ${altMission ? `<button class="btn ghost small" id="missionAltBtn" data-action="${altMission.action}" data-act-arg="${altMission.actionData||''}" style="margin-left:8px" title="${escapeHTML(altMission.title)}">arba: ${escapeHTML(altMission.cta)}</button>` : ''}
+          <button class="btn primary" id="missionBtn" data-action="${mission.action}" data-act-arg="${mission.actionData||''}" data-act-band="${mission.actionBand||''}">${escapeHTML(mission.cta)} →</button>
+          ${altMission ? `<button class="btn ghost small" id="missionAltBtn" data-action="${altMission.action}" data-act-arg="${altMission.actionData||''}" data-act-band="${altMission.actionBand||''}" style="margin-left:8px" title="${escapeHTML(altMission.title)}">arba: ${escapeHTML(altMission.cta)}</button>` : ''}
         </div>
       `:''}
       ${todayMastered.length ? `
@@ -4685,11 +4685,11 @@ function renderHome(){
   if(dueBtn) dueBtn.addEventListener("click", ()=>{
     openDueQueue();
   });
-  const runMissionAction = (act, arg)=>{
+  const runMissionAction = (act, arg, band)=>{
     if(act === "due"){
       openDueQueue();
     } else if(act === "playlist" && arg){
-      openPlaylist(arg);
+      openPlaylist(arg, band ? parseInt(band, 10) : undefined);
     } else if(act === "graceWarmup"){
       startGraceWarmup();
     } else if(act === "sprint"){
@@ -4703,9 +4703,9 @@ function renderHome(){
     }
   };
   const missionBtn = document.getElementById("missionBtn");
-  if(missionBtn) missionBtn.addEventListener("click", ()=> runMissionAction(missionBtn.dataset.action, missionBtn.dataset.actArg));
+  if(missionBtn) missionBtn.addEventListener("click", ()=> runMissionAction(missionBtn.dataset.action, missionBtn.dataset.actArg, missionBtn.dataset.actBand));
   const missionAltBtn = document.getElementById("missionAltBtn");
-  if(missionAltBtn) missionAltBtn.addEventListener("click", ()=> runMissionAction(missionAltBtn.dataset.action, missionAltBtn.dataset.actArg));
+  if(missionAltBtn) missionAltBtn.addEventListener("click", ()=> runMissionAction(missionAltBtn.dataset.action, missionAltBtn.dataset.actArg, missionAltBtn.dataset.actBand));
   const planBtn = document.getElementById("planBtn");
   if(planBtn) planBtn.addEventListener("click", openPlan);
   // Star shop
@@ -5676,7 +5676,7 @@ function openParent(){
 }
 
 function renderParent(){
-  const totalMechs = Object.keys(MECHANIC_METHODOLOGY).length;
+  const totalMechs = trackMechanics().length;   // mechanics actually on the track, not all 30
   const masteredCount = Object.keys(store.masteredMech || {}).length;
   // 14-day streak grid
   const days = [];
@@ -6669,10 +6669,26 @@ const PLAN_PHASE = {
   taper:      {label:"Finišas",  cls:"phase-taper", icon:"🏁",
     blurb:"Paskutinės dienos: naujų gudrybių nebemokomės. Kartojam tai, kas klydo, sprendžiam mišrius rinkinius be etikečių ir dar du kontrolinius. Dieną prieš — poilsis."},
 };
+/* Taper length scales with the run: 12 % of the days from plan start to
+   the contest, clamped to 4–10. A 30-day run tapers 4 days, not 10. */
+function planStartDate(){
+  if(store.plan && store.plan.startDate) return store.plan.startDate;
+  const keys = Object.keys(store.activity || {}).sort();
+  return keys[0] || todayKey();
+}
+function planTaperDays(){
+  const d = store.plan && store.plan.contestDate;
+  if(!d) return 10;
+  const [y,m,da] = d.split('-').map(Number);
+  const [sy,sm,sd] = planStartDate().split('-').map(Number);
+  const total = Math.round((Date.UTC(y, m-1, da) - Date.UTC(sy, sm-1, sd)) / ONE_DAY_MS);
+  if(!(total > 0)) return 10;
+  return Math.max(4, Math.min(10, Math.round(total * 0.12)));
+}
 function planPhase(){
   const d = daysToContest();
   if(d == null || d < 0) return "build";
-  if(d <= 10) return "taper";
+  if(d <= planTaperDays()) return "taper";
   if(d > 60) return "foundation";
   return "build";
 }
@@ -6694,16 +6710,18 @@ function isContestDay(dateObj){
   // Never two papers close together: the weekly slot yields within 2 days
   // of the T-3 rehearsal and within 5 days of any paper already played.
   if(left != null && left <= 5 && left !== 3) return false;
-  if(d.getDay() !== wd) return false;
+  // Adaptive cadence: a paper is due every `period` days (14 in the
+  // foundation, 7 otherwise). The preferred weekday takes it once ≥ 5
+  // days have passed; if that weekday was missed (a kid who never trains
+  // on Saturdays), the first day the paper is overdue by one takes it.
+  const period = (left != null && left > 60) ? 14 : 7;
   const lastPlayed = Math.max(0, ...(store.contests || []).map(c => c.when || 0));
-  if(lastPlayed && (d.getTime() - lastPlayed) < 5 * ONE_DAY_MS && (d.getTime() - lastPlayed) > -ONE_DAY_MS) return false;
-  if(left != null && left > 60){
-    // foundation: every other week (parity of the absolute week number)
-    const mon = mondayOf(d);
-    const weekNo = Math.floor(Date.UTC(mon.getFullYear(), mon.getMonth(), mon.getDate()) / (7 * ONE_DAY_MS));
-    return weekNo % 2 === 0;
-  }
-  return true;
+  if(!lastPlayed) return d.getDay() === wd;
+  const lp = new Date(lastPlayed);
+  const daysSince = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(lp.getFullYear(), lp.getMonth(), lp.getDate())) / ONE_DAY_MS);
+  if(daysSince < 5) return false;
+  if(d.getDay() === wd) return daysSince >= period - 2;
+  return daysSince >= period + 1;
 }
 /* A diagnostic paper opens the course: contest date set, nothing played
    yet, and not already the eve/contest day. */
@@ -6945,8 +6963,8 @@ function planTimelineHTML(){
   const dayAt = n => { const d = new Date(contest); d.setDate(d.getDate() - n); return d; };
   const segs = [
     {key:"foundation", from:start, to:dayAt(60)},
-    {key:"build",      from:dayAt(60), to:dayAt(10)},
-    {key:"taper",      from:dayAt(10), to:contest},
+    {key:"build",      from:dayAt(60), to:dayAt(planTaperDays())},
+    {key:"taper",      from:dayAt(planTaperDays()), to:contest},
   ].map(s => ({...s, from: s.from < start ? start : s.from}))
    .filter(s => s.to > s.from);
   const pct = d => Math.max(0, Math.min(100, 100 * (d - start) / (contest - start)));
@@ -6993,7 +7011,7 @@ function renderPlan(){
       </div>
       <div style="margin:10px 0 4px">
         <span class="phase-pill ${ph.cls}">${ph.icon} Etapas: ${ph.label}</span>
-        ${days != null && days >= 0 ? `<span class="help-bar" style="margin-left:8px">${phase === 'foundation' ? 'iki 60 d. prieš konkursą' : phase === 'build' ? '60–11 d. prieš konkursą' : 'paskutinės 10 d.'}</span>` : ''}
+        ${days != null && days >= 0 ? `<span class="help-bar" style="margin-left:8px">${phase === 'foundation' ? 'iki 60 d. prieš konkursą' : phase === 'build' ? `60–${planTaperDays()+1} d. prieš konkursą` : `paskutinės ${planTaperDays()} d.`}</span>` : ''}
       </div>
       <p style="margin:6px 0;font-size:14px">${ph.blurb}</p>
       ${planTimelineHTML()}
@@ -7024,6 +7042,7 @@ function renderPlan(){
   document.getElementById("contestDateInput").addEventListener("change", e => {
     const hadDate = !!store.plan.contestDate;
     store.plan.contestDate = e.target.value || null;
+    if(store.plan.contestDate && !store.plan.startDate) store.plan.startDate = todayKey();   // anchors the taper length + timeline
     // Prep mode: the two contest-critical habits go on when a date is first
     // set — calibration ("Tikrai žinau?") and the real −25 % penalty. Both
     // stay user-toggleable on the home settings row.

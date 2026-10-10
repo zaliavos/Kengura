@@ -34,13 +34,18 @@ const {store, state} = app;
 // ---- scenario ----
 const CONTEST_IN = parseInt(process.argv[2] || "84", 10);
 const SKILL = parseFloat(process.argv[3] || "0.7");   // p(correct) on a mastery question
+// --skip=0,3 → weekdays (0 = Sunday) the kid does NOT train; --start=N → set the contest date only N days in
+const skipArg = (process.argv.find(a => a.startsWith("--skip=")) || "--skip=").slice(7);
+const SKIP_DAYS = new Set(skipArg ? skipArg.split(",").map(Number) : []);
 const c = new RealDate(NOW); c.setDate(c.getDate() + CONTEST_IN);
 store.plan.contestDate = `${c.getFullYear()}-${String(c.getMonth()+1).padStart(2,"0")}-${String(c.getDate()).padStart(2,"0")}`;
 store.plan.contestWeekday = 6;
 let rng = 42; const rand = () => { rng = (rng * 1103515245 + 12345) & 0x7fffffff; return rng / 0x7fffffff; };
 const log = []; const tally = {};
 const seenMastery = new Set();
+let skipped = 0;
 for(let day = 0; day <= CONTEST_IN; day++){
+  if(SKIP_DAYS.has(new RealDate(NOW).getDay())){ skipped++; NOW += 24*60*60*1000; continue; }
   const steps = app.planStepsForToday();
   const core = steps.find(s => s.id === "core") || steps[0];
   const phase = app.planPhase();
@@ -81,5 +86,6 @@ for(let day = 0; day <= CONTEST_IN; day++){
 }
 console.log(log.join("\n"));
 console.log("\n--- core-step tally by phase ---"); console.log(JSON.stringify(tally, null, 1));
+if(skipped) console.log("days skipped:", skipped);
 console.log("full mastery:", Object.keys(store.masteredMech).length, " partial:", Object.keys(store.masteredBand).filter(m => !store.masteredMech[m]).length, "/", app.trackMechanics().length, " contests:", store.contests.length, " dueQueue:", Object.keys(store.dueQueue).length, " stars:", store.stars.total);
 console.log("unmastered:", app.MECHANIC_ORDER.filter(m => !store.masteredMech[m] && app.trackMechanics().includes(m)).join(","));
