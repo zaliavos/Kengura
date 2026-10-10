@@ -5818,7 +5818,7 @@ function renderParent(){
   days.slice(7).forEach(d => { weekAnswered += d.count; weekCorrect += d.ok; });
 
   // Worst 3 mechanics
-  const worst = weakestMechanics(3);
+  const worst = weakestMechanics(8).filter(w => w.showAttempts >= 4).slice(0, 3);   // ≥ 4 samples before calling it weak
 
   // Last session
   const last = store.sessions[store.sessions.length-1];
