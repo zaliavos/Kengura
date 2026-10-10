@@ -5442,9 +5442,12 @@ function renderResults(){
           if(next) return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
             <button class="btn ghost" id="againBtn" title="Ne plano dalis">Naujas testas (${size})</button>
             ${next}`;
-          if(state._resultsFromPlan) return `<span class="help-bar" style="margin:0">🎉 Šiandienos planas atliktas.</span>
+          if(state._resultsFromPlan){
+            const reward = planRewardButtonHTML();
+            return `<span class="help-bar" style="margin:0">🎉 Šiandienos planas atliktas.</span>
             <button class="btn ghost" id="againBtn">Naujas testas (${size})</button>
-            <button class="btn primary" id="homeBtn">Į pradžią</button>`;
+            <button class="btn ${reward ? 'ghost' : 'primary'}" id="homeBtn">Į pradžią</button>${reward}`;
+          }
           return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
             <button class="btn primary" id="againBtn">Naujas testas (${size})</button>`;
         })()}
@@ -5882,7 +5885,7 @@ function renderContestResults(){
           const pd = store.planDone[todayKey()] || {};
           const review = planStepsForToday().find(st => st.id === "cooldown" && st.act === "none" && !pd.cooldown && pd.core);
           if(review) return `<button class="btn primary" id="contestReviewed">✓ Klaidas peržiūrėjau</button>`;
-          return planNextButtonHTML();
+          return planNextButtonHTML() || planRewardButtonHTML();
         })()}
       </div>
     </section>
@@ -6979,7 +6982,7 @@ function renderRecogResult(){
   const ok = state.recogCorrect;
   const fromPlan = !!state._planStep;
   markPlanStepDone();
-  const next = fromPlan ? planNextButtonHTML() : '';
+  const next = fromPlan ? (planNextButtonHTML() || planRewardButtonHTML()) : '';
   $app.innerHTML = `
     <section class="card" style="text-align:center">
       <h2>🔍 Atpažinimo rezultatas</h2>
@@ -7287,7 +7290,16 @@ function planNextButtonHTML(skipId, cls){
   const n = nextPlanStep(skipId);
   return n ? `<button class="btn ${cls || 'primary'}" id="planNextBtn">Toliau pagal planą: ${escapeHTML(n.label)} →</button>` : '';
 }
+/* Plan finished today and a game ticket is waiting → the end screen's
+   main button is the reward itself, not a trip through home. */
+function planRewardButtonHTML(){
+  const pd = store.planDone[todayKey()] || {};
+  return pd.bonus && (store.games.freeRaces || 0) > 0
+    ? `<button class="btn primary" id="planRewardBtn">🎟 Žaisti už bilietą →</button>` : '';
+}
 function wirePlanNext(before){
+  const r = document.getElementById("planRewardBtn");
+  if(r) r.addEventListener("click", openFreeRace);
   const b = document.getElementById("planNextBtn");
   if(!b) return;
   b.addEventListener("click", ()=>{
