@@ -3195,6 +3195,13 @@ function logActivity(correct, band){
   const n = starsForAnswer(correct, band || 3);
   awardStars("fromQ", n);
   Fx.floatStars(n);
+  // Combo: consecutive correct answers in a session. Cheers at 3, 5 and
+  // every 10 — small, frequent wins for an 11-year-old.
+  state._combo = correct ? (state._combo || 0) + 1 : 0;
+  if(correct && (state._combo === 3 || state._combo === 5 || (state._combo >= 10 && state._combo % 10 === 0))){
+    showToast("🔥", `${state._combo} iš eilės!`, 2200);
+    Sfx.play("star");
+  }
   checkAchievements();      // badge toasts should fire right away, not on the next heartbeat
 }
 
