@@ -217,6 +217,7 @@
   .track-node:hover{transform:scale(1.12)}
   .track-node.done{background:var(--good);border-color:var(--good);color:#fff}
   .track-node.stale{background:#fff;border-color:var(--accent);color:var(--accent)}
+  .track-node.part{background:linear-gradient(180deg,#fff 50%,var(--good-soft) 50%);border-color:var(--good);color:var(--good)}
   .track-node.current{background:var(--accent);border-color:var(--accent);color:#fff;
     box-shadow:0 0 0 4px var(--accent-soft);animation:track-pulse 1.6s ease-in-out infinite}
   @keyframes track-pulse{0%,100%{box-shadow:0 0 0 4px var(--accent-soft)}50%{box-shadow:0 0 0 8px rgba(214,69,26,.15)}}
@@ -3044,6 +3045,9 @@ function loadStore(){
     planDone:{},       // { "YYYY-MM-DD": {warmup, core, cooldown, bonus} }
     // Freshness marker for practice pickers: { "year-num": lastSeenTs }
     seenQ:{},
+    // Per-band mastery + playlist attempt bookkeeping (step-down / parking)
+    masteredBand:{},   // { mech: highestBandPassed }
+    mechAttempts:{},   // { mech: { band: {fails, lastAt} } }
     // Windowed error rate: { mech: [0,1,...] } last ≤10 attempts (1 = wrong)
     mechRecent:{},
     // Mechanic-recognition drill totals.
@@ -3079,6 +3083,8 @@ function loadStore(){
     o.plan = Object.assign({}, defaults.plan, o.plan || {});
     o.planDone = o.planDone || {};
     o.seenQ = o.seenQ || {};
+    o.masteredBand = o.masteredBand || {};
+    o.mechAttempts = o.mechAttempts || {};
     o.mechRecent = o.mechRecent || {};
     o.recogStats = Object.assign({}, defaults.recogStats, o.recogStats || {});
     o.recogSeen = o.recogSeen || {};
@@ -3478,7 +3484,11 @@ function recordArchiveAnswer(year, q, correct, confidence){
 
   const key = `${year}-${q.num}`;
   const now = Date.now();
-  const existing = store.dueQueue[key] || {streak:0};
+  const existing = store.dueQueue[key];
+  // Only MISTAKES enter the queue. A first-time correct answer is done —
+  // scheduling every right answer flooded the queue and ate the daily
+  // core (see _plan_sim.cjs). Correct answers to queued items advance them.
+  if(correct && !existing){ saveStore(store); return; }
   let nextStreak;
   if(correct){
     nextStreak = (existing.streak || 0) + 1;
@@ -3540,18 +3550,76 @@ function weakestMechanics(limit){
   return rows.slice(0, limit);
 }
 
-/* Hand-authored learning track: easier / prerequisite mechanics first.
-   counting-ways before arrangement, place-value before digit-puzzle,
-   invariant before state-game. Used by the daily plan and the mission
-   card to pick the next NEW mechanic. */
+/* Hand-authored learning track, ordered by CONTEST VALUE: the mechanics
+   the 5-point block is made of come first (casework alone is 17 of the 99
+   archive 5-pointers), then 4-point-only topics, then 3-point-only ones
+   that sprints and generated quizzes already cover. Prerequisites are
+   kept: counting-ways before arrangement, invariant before state-game,
+   place-value / digit-properties before digit-puzzle.
+   (The old easy-first order left casework, truth-tellers, invariant and
+   logic-clues for weeks 10+, which the simulator showed a kid never
+   reaches.) */
 const MECHANIC_ORDER = [
-  "arith-compute","place-value","digit-properties","divisibility",
-  "sequence-pattern","calendar","clock","multistep-money","mixture-fraction",
-  "rate-time","age-relations","area-compute","area-decomp","symmetry",
-  "tiling","geometry-misc","cube-color","cube-net","projection","partition",
-  "counting-ways","arrangement","digit-puzzle","logic-clues","truth-tellers",
-  "weighing","casework","iteration","invariant","state-game",
+  // 5-pt bearing, by weight
+  "casework","counting-ways","weighing","truth-tellers","cube-color",
+  "place-value","digit-properties","digit-puzzle","logic-clues","tiling",
+  "invariant","mixture-fraction","area-decomp","cube-net","divisibility",
+  "projection","partition","sequence-pattern","rate-time","iteration",
+  "age-relations","state-game",
+  // 4-pt only
+  "arith-compute","geometry-misc","clock","area-compute","calendar","symmetry",
+  // 3-pt only
+  "multistep-money","arrangement",
 ];
+
+/* Per-band mastery. store.masteredBand[mech] = highest band passed;
+   store.masteredMech[mech] (timestamp) means FULL mastery = the top band
+   the archive has for that mechanic. Old saves with masteredMech only are
+   read as full mastery. */
+function mechTopBand(mech){
+  // Highest band with enough questions for a mastery check (≥ 2).
+  const bands = [3,4,5].filter(b => archiveQsForMech(mech, b).length >= 2);
+  return bands.length ? bands[bands.length - 1] : 0;
+}
+function masteredBandOf(mech){
+  const b = (store.masteredBand || {})[mech];
+  if(b) return b;
+  return (store.masteredMech || {})[mech] ? mechTopBand(mech) : 0;
+}
+/* Where the plan should take a mechanic next:
+     { mech, band }  — band to attempt (steps down after 2 fails at a band)
+     null            — nothing to do (mastered at target, or parked)
+   Foundation caps the target at band 4: the easy phase builds the
+   mechanic on 4-pointers, build/taper come back for the 5-pointer. */
+const MECH_FAILS_BEFORE_STEPDOWN = 2;
+const MECH_PARK_DAYS = 7;
+function mechTargetFor(mech, phase){
+  // A band counts only with ≥ 2 questions: the mastery check needs at
+  // least two items, otherwise it can never pass.
+  const bands = [3,4,5].filter(b => archiveQsForMech(mech, b).length >= 2);
+  if(!bands.length) return null;
+  let target = bands[bands.length - 1];
+  if((phase || planPhase()) === "foundation" && target === 5 && bands.includes(4)) target = 4;
+  if(masteredBandOf(mech) >= target) return null;
+  const fails = ((store.mechAttempts || {})[mech] || {});
+  // Step down while a band has been failed twice and a lower one exists
+  while((fails[target] || {}).fails >= MECH_FAILS_BEFORE_STEPDOWN){
+    const lower = bands.filter(b => b < target).pop();
+    if(!lower || masteredBandOf(mech) >= lower) break;
+    target = lower;
+  }
+  // Parked: failed twice at the lowest reachable band recently → come back later
+  const f = fails[target] || {};
+  if(f.fails >= MECH_FAILS_BEFORE_STEPDOWN && f.lastAt && (Date.now() - f.lastAt) < MECH_PARK_DAYS * ONE_DAY_MS) return null;
+  return {mech, band: target};
+}
+function noteMechAttempt(mech, band, passed){
+  const a = store.mechAttempts = store.mechAttempts || {};
+  const m = a[mech] = a[mech] || {};
+  const f = m[band] = m[band] || {fails:0, lastAt:0};
+  if(passed){ f.fails = 0; } else { f.fails++; }
+  f.lastAt = Date.now();
+}
 
 /* Freshness: avoid re-serving a question the kid saw in the last 2 weeks,
    so mastery checks measure the mechanic, not answer memory. */
@@ -3579,10 +3647,18 @@ function needsSpeedWork(){
 /* Next NEW mechanic on the learning track: first unmastered one with
    enough archive content for a playlist. Null when everything is done. */
 function nextMechanicToLearn(){
+  const t = nextMechanicTarget();
+  return t ? t.mech : null;
+}
+/* {mech, band} for the next playlist on the track, honouring per-band
+   mastery, the foundation cap, step-downs and parking. */
+function nextMechanicTarget(){
+  const phase = planPhase();
   for(const m of MECHANIC_ORDER){
-    if(store.masteredMech && store.masteredMech[m]) continue;
     if(!MECHANIC_METHODOLOGY[m]) continue;
-    if(archiveQsForMech(m, null).length >= 3) return m;
+    if(archiveQsForMech(m, null).length < TRACK_MIN_QS) continue;
+    const t = mechTargetFor(m, phase);
+    if(t) return t;
   }
   return null;
 }
@@ -5770,17 +5846,22 @@ function archiveQsForMech(mech, band){
   const out = [];
   const held = [];
   const reserved = new Set(reservedYears().map(String));
+  let totalFree = 0;   // this mechanic's keyed questions outside the reserved years, ALL bands
   for(const t of ARCHIVE){
+    const isHeld = reserved.has(String(t.year));
     for(const q of t.questions){
       if(q.mechanic !== mech) continue;
-      if(band && (q.points || 3) !== band) continue;
       if(!q.correct) continue;  // need answer key for the mastery check
-      (reserved.has(String(t.year)) ? held : out).push({year:t.year, q});
+      if(!isHeld) totalFree++;
+      if(band && (q.points || 3) !== band) continue;
+      (isHeld ? held : out).push({year:t.year, q});
     }
   }
   // Tiny mechanics would vanish from the track without their held-out
-  // questions — for those the reservation is waived.
-  return out.length >= 3 ? out : out.concat(held);
+  // questions — for those the reservation is waived. The decision is made
+  // on the whole mechanic, never per band, so band-specific and
+  // band-free calls always agree on which questions exist.
+  return totalFree >= 3 ? out : out.concat(held);
 }
 
 function pickPlaylistContent(mech, forcedBand){
@@ -5818,7 +5899,9 @@ function pickPlaylistContent(mech, forcedBand){
   const tryQ   = take(sourceBand) || take(workedFromBand);
   const mastery = [];
   for(let i=0; i<3; i++){
-    const m = take(sourceBand) || take(workedFromBand) || take(3);
+    // Fall back through every band so the mastery check always has its
+    // ≥ 2 items when the mechanic has ≥ 4 questions at all.
+    const m = take(sourceBand) || take(workedFromBand) || take(3) || take(4) || take(5);
     if(m) mastery.push(m);
   }
   return {sourceBand, worked, tryQ, mastery, bandsAvailable};
@@ -5857,13 +5940,13 @@ function openPlaylist(mech, forcedBand){
   renderPlaylist();
 }
 
-function openDueQueue(){
+function openDueQueue(limit){
   // Due-queue is rendered as a mini playlist of the user's due questions.
   const due = dueNow();
   if(!due.length){ return; }
   // Map each due item to {year, q}
   const items = [];
-  for(const d of due.slice(0, 10)){
+  for(const d of due.slice(0, limit || 10)){
     const t = ARCHIVE.find(x=>x.year===d.year);
     if(!t) continue;
     const q = t.questions.find(x=>x.num===d.num);
@@ -6036,12 +6119,25 @@ function renderPlaylist(){
     const passed = correctCount === items.length && items.length >= 2;
     let newlyMastered = false;
     if(!special){
+      const mech = state.playlistMech;
+      const band = content.sourceBand || 3;
       if(retest){
-        if(passed) store.masteredMech[state.playlistMech] = Date.now();
-        else delete store.masteredMech[state.playlistMech];
-      } else if(passed){
-        newlyMastered = !store.masteredMech[state.playlistMech];
-        store.masteredMech[state.playlistMech] = Date.now();
+        if(passed) store.masteredMech[mech] = Date.now();
+        else { delete store.masteredMech[mech]; delete (store.masteredBand || {})[mech]; }
+      } else {
+        noteMechAttempt(mech, band, passed);
+        if(passed){
+          store.masteredBand = store.masteredBand || {};
+          const prev = masteredBandOf(mech);
+          store.masteredBand[mech] = Math.max(prev, band);
+          // Full mastery only at the top band the archive has for this mechanic
+          if(band >= mechTopBand(mech)){
+            newlyMastered = !store.masteredMech[mech];
+            store.masteredMech[mech] = Date.now();
+          } else {
+            newlyMastered = band > prev;   // partial step up still earns the bonus
+          }
+        }
       }
     }
     recordPlaylistAnswers();
@@ -6049,7 +6145,8 @@ function renderPlaylist(){
     markPlanStepDone();
     if(passed && !special){
       Fx.celebrate("mastery");
-      if(newlyMastered) awardBonus(5, `Įvaldyta: ${MECHANIC_LABEL[state.playlistMech] || state.playlistMech}`);
+      const full = !!store.masteredMech[state.playlistMech];
+      if(newlyMastered) awardBonus(5, `${full ? 'Įvaldyta' : `Įveikta ${content.sourceBand} t. lygiu`}: ${MECHANIC_LABEL[state.playlistMech] || state.playlistMech}`);
     } else if(special && items.length && correctCount === items.length){
       Fx.celebrate("plan");
     }
@@ -6594,7 +6691,12 @@ function isContestDay(dateObj){
     if(left <= 1) return false;        // eve + contest day: rest
     if(left === 3) return true;        // taper: final dress rehearsal
   }
+  // Never two papers close together: the weekly slot yields within 2 days
+  // of the T-3 rehearsal and within 5 days of any paper already played.
+  if(left != null && left <= 5 && left !== 3) return false;
   if(d.getDay() !== wd) return false;
+  const lastPlayed = Math.max(0, ...(store.contests || []).map(c => c.when || 0));
+  if(lastPlayed && (d.getTime() - lastPlayed) < 5 * ONE_DAY_MS && (d.getTime() - lastPlayed) > -ONE_DAY_MS) return false;
   if(left != null && left > 60){
     // foundation: every other week (parity of the absolute week number)
     const mon = mondayOf(d);
@@ -6676,43 +6778,50 @@ function planStepsForToday(){
     ];
   }
 
-  const next = phase === "taper" ? null : nextMechanicToLearn();
+  const target = phase === "taper" ? null : nextMechanicTarget();
+  const mechStep = t => {
+    const prev = masteredBandOf(t.mech);
+    const top = mechTopBand(t.mech);
+    const tag = t.band < top ? ` (${t.band} t. lygiu)` : (prev ? ` — dabar ${t.band} t.` : '');
+    return {id:"core", label:`${prev ? 'Kilti' : 'Nauja gudrybė'}: ${MECHANIC_LABEL[t.mech] || t.mech}${tag}`, act:"playlist", arg:t.mech, band:t.band};
+  };
+  // Spaced repetition lives in the WARM-UP (≤ 3 items). Only a real
+  // backlog takes the core: 10+ due (5+ in the taper, where mistakes are
+  // the whole point).
+  const DUE_CORE_MIN = phase === "taper" ? 5 : 10;
   let core;
-  if(phase === "taper"){
-    if(due.length >= 1){
-      core = {id:"core", label:`Pakartojimas — kas klydo (${Math.min(due.length,10)} užd.)`, act:"due"};
-    } else if(dayParity === 0){
-      core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
-    } else {
-      core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
-    }
+  if(due.length >= DUE_CORE_MIN){
+    core = {id:"core", label:`Pakartojimas — kas klydo (${Math.min(due.length,10)} užd.)`, act:"due"};
+  } else if(phase === "taper"){
+    core = dayParity === 0
+      ? {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"}
+      : {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
   } else if(phase === "foundation"){
     // Sprints only while the data says speed is a problem (or until two
     // sprints exist to measure it); then every day goes to a new mechanic.
     const sprintsDone = (store.sessions || []).filter(s => s.sprint).length;
     const wantSprint = sprintsDone < 2 || needsSpeedWork();
-    if(due.length >= 4){
-      core = {id:"core", label:`Pakartojimas (${Math.min(due.length,10)} užd.)`, act:"due"};
-    } else if(wantSprint && (dayParity === 0 || !next)){
+    if(wantSprint && (dayParity === 0 || !target)){
       core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
-    } else if(next){
-      core = {id:"core", label:`Nauja gudrybė: ${MECHANIC_LABEL[next] || next}`, act:"playlist", arg:next};
+    } else if(target){
+      core = mechStep(target);
     } else {
       core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
     }
   } else {
-    if(due.length >= 4){
-      core = {id:"core", label:`Pakartojimas (${Math.min(due.length,10)} užd.)`, act:"due"};
-    } else if(needsSpeedWork()){
+    if(needsSpeedWork()){
       core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
-    } else if(next){
-      core = {id:"core", label:`Nauja gudrybė: ${MECHANIC_LABEL[next] || next}`, act:"playlist", arg:next};
+    } else if(target){
+      core = mechStep(target);
     } else {
       core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
     }
   }
+  const warm = due.length && core.act !== "due"
+    ? {id:"warmup", label:`Apšilimas — pakartok ${Math.min(due.length, 3)} ${due.length === 1 ? 'uždavinį, kuris klydo' : 'uždavinius, kurie klydo'}`, act:"dueWarm"}
+    : {id:"warmup", label:"Apšilimas — 2 lengvi klausimai", act:"warmup"};
   return [
-    {id:"warmup",   label:"Apšilimas — 2 lengvi klausimai", act:"warmup"},
+    warm,
     core,
     {id:"cooldown", label:"Pabaiga — atpažink gudrybę (10 greitų klausimų)", act:"recog"},
   ];
@@ -6763,8 +6872,9 @@ function launchPlanStep(s){
     stopTimer();
     renderQuiz();
   } else if(s.act === "due"){ openDueQueue(); }
+  else if(s.act === "dueWarm"){ openDueQueue(3); }
   else if(s.act === "sprint"){ startSprint(); }
-  else if(s.act === "playlist"){ openPlaylist(s.arg); }
+  else if(s.act === "playlist"){ openPlaylist(s.arg, s.band || undefined); }
   else if(s.act === "mixed"){ openMixedSet(6); }
   else if(s.act === "recog"){ openRecogDrill(); }
   else if(s.act === "contest"){
@@ -7013,8 +7123,11 @@ const SHOP_TICKET_COST = 30;   // repeatable sink: a race without the gate
    Nodes follow MECHANIC_ORDER; only mechanics with enough archive content
    for a playlist appear (same rule as nextMechanicToLearn). The contest
    date is the finish flag. */
+/* A mechanic is on the track only with ≥ TRACK_MIN_QS keyed questions:
+   worked + try + two mastery items is the minimum a playlist can pass. */
+const TRACK_MIN_QS = 4;
 function trackMechanics(){
-  return MECHANIC_ORDER.filter(m => MECHANIC_METHODOLOGY[m] && archiveQsForMech(m, null).length >= 3);
+  return MECHANIC_ORDER.filter(m => MECHANIC_METHODOLOGY[m] && archiveQsForMech(m, null).length >= TRACK_MIN_QS);
 }
 function trackCardHTML(){
   const mechs = trackMechanics();
@@ -7025,12 +7138,14 @@ function trackCardHTML(){
   const nodes = mechs.map((m, i) => {
     const mastered = !!(store.masteredMech || {})[m];
     const stale = mastered && isMechMasteryStale(m);
+    const partBand = !mastered ? masteredBandOf(m) : 0;      // passed a lower band only
     if(mastered) doneN++;
-    const cls = mastered ? (stale ? 'stale' : 'done') : (m === next ? 'current' : '');
+    const cls = mastered ? (stale ? 'stale' : 'done') : (partBand ? 'part' : '') + (m === next ? ' current' : '');
     const label = MECHANIC_LABEL[m] || m;
-    const tip = mastered ? (stale ? `${label} — įvaldyta, verta pakartoti` : `${label} — įvaldyta ✓`) : (m === next ? `${label} — kita gudrybė` : label);
+    const tip = mastered ? (stale ? `${label} — įvaldyta, verta pakartoti` : `${label} — įvaldyta ✓`)
+      : partBand ? `${label} — įveikta ${partBand} t. lygiu, liko ${mechTopBand(m)} t.` : (m === next ? `${label} — kita gudrybė` : label);
     const link = i < mechs.length - 1 ? `<span class="track-link ${mastered ? 'done' : ''}"></span>` : '';
-    return `<button type="button" class="track-node ${cls}" data-track-mech="${m}" title="${escapeHTML(tip)}" aria-label="${escapeHTML(tip)}">${mastered ? (stale ? '?' : '✓') : i+1}</button>${link}`;
+    return `<button type="button" class="track-node ${cls}" data-track-mech="${m}" title="${escapeHTML(tip)}" aria-label="${escapeHTML(tip)}">${mastered ? (stale ? '?' : '✓') : (partBand ? `${partBand}` : i+1)}</button>${link}`;
   }).join('');
   const pct = Math.round(100 * doneN / mechs.length);
   return `
@@ -7045,7 +7160,7 @@ function trackCardHTML(){
         <span>${next ? `Dabar: <b>${escapeHTML(MECHANIC_LABEL[next] || next)}</b>` : 'Visos gudrybės įvaldytos!'}</span>
         ${next ? `<button class="btn small primary" data-track-open="${next}">Mokytis →</button>` : ''}
       </div>
-      <p class="help-bar">Žalias — įvaldyta, oranžinis su „?“ — verta pakartoti. Paliesk apskritimą, kad pamatytum pavadinimą, tada „Mokytis“.</p>
+      <p class="help-bar">Žalias — įvaldyta, pusiau žalias su skaičiumi — įveikta tuo taškų lygiu (liko aukštesnis), oranžinis su „?“ — verta pakartoti. Paliesk apskritimą, kad pamatytum pavadinimą, tada „Mokytis“.</p>
     </section>`;
 }
 

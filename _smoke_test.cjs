@@ -441,12 +441,19 @@ section("held-out papers + diagnostic");
   const nextWeek = new Date(); nextWeek.setDate(nextWeek.getDate() + 7);
   check("foundation: biweekly contest day", thisWeek !== isContestDay(nextWeek));
   store.plan.contestDate = inDays(40);
+  store.contests = [];                       // no paper in the last 5 days
   check("build: weekly contest day", isContestDay(new Date()) && isContestDay(nextWeek));
+  store.contests = [{when: Date.now() - 2*86400000, year: eligDesc[6], points:0, scoreWithPenalty:0, maxPoints:120}];
+  check("no paper within 5 days of the last one", !isContestDay(new Date()));
+  store.contests = [];
+  store.plan.contestDate = inDays(4);
+  check("weekly slot yields near the T-3 rehearsal", !isContestDay(new Date()));
   // Foundation sprint only while needed: with ≥ 2 sprints and no speed flag → mechanic
   store.plan.contestDate = inDays(80);
   store.plan.contestWeekday = (new Date().getDay() + 1) % 7;
   const savedSessions = store.sessions;
   store.sessions = [{sprint:true, when:1, questions:[], bandTime:{}}, {sprint:true, when:2, questions:[], bandTime:{}}];
+  store.contests = [{when: Date.now() - 10*86400000, year: eligDesc[6], points:0, scoreWithPenalty:0, maxPoints:120}];   // diagnostic done
   check("foundation routes to mechanic once speed is fine", ["playlist","mixed","due"].includes(planStepsForToday()[1].act), planStepsForToday()[1].act);
   store.sessions = savedSessions;
   // Timeline + shop ticket

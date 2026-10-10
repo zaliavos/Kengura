@@ -1,0 +1,85 @@
+/* Plan simulator: runs the daily plan with a mocked clock for N days with
+   a synthetic kid of accuracy P and prints the schedule it produced.
+     node _plan_sim.cjs [days=84] [accuracy=0.7] [--quiet]
+   Use it to check cadence/starvation after changing planStepsForToday,
+   the due queue, mastery rules or the track order. */
+const fs = require("fs"), path = require("path");
+const DIR = __dirname;
+function stubEl(){ return { innerHTML:"", textContent:"", style:{cssText:""}, dataset:{}, className:"", disabled:false,
+  addEventListener(){}, removeEventListener(){}, querySelector(){return null;}, querySelectorAll(){return [];},
+  appendChild(){}, remove(){}, setAttribute(){}, classList:{add(){},remove(){}}, getContext(){return null;},
+  getBoundingClientRect(){return {left:0,width:0};}, scrollIntoView(){} }; }
+const documentStub = { getElementById(){return stubEl();}, createElement(){return stubEl();}, querySelector(){return null;},
+  querySelectorAll(){return [];}, addEventListener(){}, removeEventListener(){}, body:{appendChild(){}}, hidden:true };
+const windowStub = { addEventListener(){}, removeEventListener(){} };
+const ls = { _m:new Map(), getItem(k){return this._m.has(k)?this._m.get(k):null;}, setItem(k,v){this._m.set(k,String(v));}, removeItem(k){this._m.delete(k);} };
+new Function("window", fs.readFileSync(path.join(DIR,"kengura-archive.js"),"utf8"))(windowStub);
+const html = fs.readFileSync(path.join(DIR,"kengura.html"),"utf8");
+const m = html.match(/<script>\s*("use strict";[\s\S]*?)<\/script>\s*<\/body>/);
+// ---- fake clock ----
+const RealDate = Date;
+let NOW = new RealDate(2026, 9, 12, 18, 0, 0).getTime();   // Monday 2026-10-12 18:00
+class FakeDate extends RealDate {
+  constructor(...a){ if(a.length === 0) super(NOW); else super(...a); }
+  static now(){ return NOW; }
+}
+global.Date = FakeDate;
+const EXPORTS = `return {store, state, planStepsForToday, planPhase, daysToContest, isContestDay, needsDiagnosticContest,
+  nextMechanicToLearn, dueNow, markPlanStepDone, archiveQsForMech, MECHANIC_ORDER, MECHANIC_LABEL, recordArchiveAnswer,
+  noteMechAttempt, masteredBandOf, mechTopBand,
+  ARCHIVE, pickContestYear, reservedYears, contestEligibleYears, logActivity, pickPlaylistContent, trackMechanics};`;
+const app = new Function("window","document","localStorage","setInterval","clearInterval","requestAnimationFrame","cancelAnimationFrame","confirm","alert","fetch", m[1]+EXPORTS)(
+  windowStub, documentStub, ls, ()=>0, ()=>{}, ()=>0, ()=>{}, ()=>false, ()=>{}, ()=>Promise.reject(new Error("x")));
+const {store, state} = app;
+// ---- scenario ----
+const CONTEST_IN = parseInt(process.argv[2] || "84", 10);
+const SKILL = parseFloat(process.argv[3] || "0.7");   // p(correct) on a mastery question
+const c = new RealDate(NOW); c.setDate(c.getDate() + CONTEST_IN);
+store.plan.contestDate = `${c.getFullYear()}-${String(c.getMonth()+1).padStart(2,"0")}-${String(c.getDate()).padStart(2,"0")}`;
+store.plan.contestWeekday = 6;
+let rng = 42; const rand = () => { rng = (rng * 1103515245 + 12345) & 0x7fffffff; return rng / 0x7fffffff; };
+const log = []; const tally = {};
+const seenMastery = new Set();
+for(let day = 0; day <= CONTEST_IN; day++){
+  const steps = app.planStepsForToday();
+  const core = steps.find(s => s.id === "core") || steps[0];
+  const phase = app.planPhase();
+  tally[phase] = tally[phase] || {}; tally[phase][core.act] = (tally[phase][core.act] || 0) + 1;
+  // simulate doing the core
+  if(core.act === "contest" && core.arg){
+    const t = app.ARCHIVE.find(x => String(x.year) === String(core.arg));
+    const seenBefore = t.questions.filter(q => store.seenQ[`${t.year}-${q.num}`]).length;
+    store.contests.push({when: NOW, year: t.year, points: 60, scoreWithPenalty: 60, maxPoints: 120, byBand:{}});
+    t.questions.forEach(q => { store.seenQ[`${t.year}-${q.num}`] = NOW; });
+    log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} CONTEST ${t.year}  (practised before: ${seenBefore}/30)`);
+  } else if(core.act === "playlist"){
+    const content = app.pickPlaylistContent(core.arg, core.band);
+    let ok = 0;
+    for(const it of content.mastery){ const r = rand() < SKILL; if(r) ok++; app.recordArchiveAnswer(it.year, it.q, r, null); seenMastery.add(`${it.year}-${it.q.num}`); }
+    if(content.worked) app.recordArchiveAnswer(content.worked.year, content.worked.q, true, null);
+    if(content.tryQ) app.recordArchiveAnswer(content.tryQ.year, content.tryQ.q, rand() < SKILL, null);
+    const passed = ok === content.mastery.length && content.mastery.length >= 2;   // same rule as finalizePlaylist
+    app.noteMechAttempt(core.arg, content.sourceBand, passed);
+    if(passed){ store.masteredBand[core.arg] = Math.max(app.masteredBandOf(core.arg), content.sourceBand); if(content.sourceBand >= app.mechTopBand(core.arg)) store.masteredMech[core.arg] = NOW; }
+    log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} playlist ${core.arg} band${content.sourceBand} ${ok}/${content.mastery.length}${passed?" ✓":""}`);
+  } else if(core.act === "due"){
+    const due = app.dueNow().slice(0, 10);
+    for(const d of due){ const t = app.ARCHIVE.find(x => String(x.year) === String(d.year)); const q = t.questions.find(q => q.num === d.num); app.recordArchiveAnswer(t.year, q, rand() < SKILL + 0.15, null); }
+    log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} due x${due.length}`);
+  } else if(core.act === "sprint"){
+    store.sessions.push({when: NOW, sprint: true, questions: [], bandTime: {}});
+    log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} sprint`);
+  } else {
+    log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} ${core.act}`);
+  }
+  const warm = steps.find(s => s.id === "warmup");
+  if(warm && warm.act === "dueWarm"){
+    for(const d of app.dueNow().slice(0, 3)){ const t = app.ARCHIVE.find(x => String(x.year) === String(d.year)); const q = t.questions.find(q => q.num === d.num); app.recordArchiveAnswer(t.year, q, rand() < SKILL + 0.15, null); }
+  }
+  for(const s of steps){ state._planStep = s.id; app.markPlanStepDone(); }
+  NOW += 24*60*60*1000;
+}
+console.log(log.join("\n"));
+console.log("\n--- core-step tally by phase ---"); console.log(JSON.stringify(tally, null, 1));
+console.log("full mastery:", Object.keys(store.masteredMech).length, " partial:", Object.keys(store.masteredBand).filter(m => !store.masteredMech[m]).length, "/", app.trackMechanics().length, " contests:", store.contests.length, " dueQueue:", Object.keys(store.dueQueue).length, " stars:", store.stars.total);
+console.log("unmastered:", app.MECHANIC_ORDER.filter(m => !store.masteredMech[m] && app.trackMechanics().includes(m)).join(","));

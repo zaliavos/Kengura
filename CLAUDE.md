@@ -462,3 +462,41 @@ test section "macro-cycle + stars" covers it.
   with a Mokytis/Pakartoti button (no hover on phones).
 - **Recognition freshness**: `store.recogSeen` marks shown questions;
   `openRecogDrill` serves unseen-in-14-days first.
+
+## Plan simulator + starvation fixes (2026-10-10, third pass)
+
+`_plan_sim.cjs` — `node _plan_sim.cjs [days] [accuracy] [--quiet]` runs
+the real plan logic day by day with a mocked clock and a synthetic kid,
+and prints the schedule, a per-phase tally, mastery and contest spacing.
+**Run it after touching planStepsForToday, the due queue, mastery rules
+or MECHANIC_ORDER.** Reference numbers after this pass (84 days, track = 25–26 mechanics
+with ≥ `TRACK_MIN_QS` = 4 keyed questions outside the reserved years):
+accuracy 0.70 → 16 mastered (the 5-pt-heavy ones first), 0.85 → all,
+0.95 → all; no two papers within 5 days; taper papers 0/30 practised
+beforehand; no mastery set under 2 items.
+
+What the first simulation exposed and what changed:
+
+- **Due queue ate the core.** Every archive answer (correct too) was
+  scheduled, and 4 due items replaced the day's core → 28 of 50 build
+  days were review even at 95 % accuracy. Now only MISTAKES enter the
+  queue (`recordArchiveAnswer`: correct + not queued → nothing); review
+  is the warm-up (`dueWarm`, ≤ 3 items via `openDueQueue(3)`); a full
+  review core needs ≥ 10 due (≥ 5 in the taper).
+- **Track order was easy-first**, so casework / truth-tellers /
+  invariant sat at positions 20+. `MECHANIC_ORDER` is now ordered by
+  contest value (5-pt mechanics first, prerequisites kept), then 4-pt
+  only, then 3-pt only.
+- **Per-band mastery.** `store.masteredBand[mech]` = highest band
+  passed; `store.masteredMech[mech]` only at `mechTopBand(mech)`. Track
+  nodes show a half-green "part" state with the band number. The plan
+  returns `{mech, band}` from `nextMechanicTarget()` /
+  `mechTargetFor()`: foundation caps the target at band 4 (build/taper
+  come back for the 5), bands count only with ≥ 2 questions (mastery
+  needs 2 items), two fails at a band (`store.mechAttempts`) step the
+  target down, two fails at the lowest band park the mechanic for 7 d.
+- **Reserved-year waiver is decided per mechanic, never per band** — a
+  per-band waiver made the plan ask for a band the picker then refused,
+  serving the same 4-pt set forever.
+- **Contest spacing** (`isContestDay`): the weekly slot yields within 2
+  days of the T-3 rehearsal and within 5 days of any played paper.
