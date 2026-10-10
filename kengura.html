@@ -7172,7 +7172,7 @@ function renderPlan(){
   const steps = planStepsForToday();
   const done = store.planDone[todayKey()] || {};
   const trend = (store.contests || []).slice(-3);
-  const allDone = steps.every(s => done[s.id]);
+  const allDone = steps.length > 0 && steps.every(s => done[s.id]);   // an empty rest-day plan is not "done"
   const wd = (store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6;
   $app.innerHTML = `
     <section class="card">
