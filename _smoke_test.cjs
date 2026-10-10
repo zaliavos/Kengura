@@ -89,7 +89,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
-        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay};
+        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay, creditContestActivity};
 `;
 let app;
 try {
@@ -679,6 +679,18 @@ section("training days");
   logActivity(true, 3);
   check("two missed training days, no freezes left -> reset", store.streak.count === 1, String(store.streak.count));
   store.plan.trainingDays = [0,1,2,3,4,5,6]; store.plan.contestDate = null; store.contests = [];
+  // A finished paper counts as today's activity: streak + stars
+  {
+    const {creditContestActivity, ARCHIVE} = app;
+    const paper = ARCHIVE.find(x => x.year === "2015").questions.filter(q => q.correct).slice(0, 30);
+    const answers = {}; paper.forEach((q, i) => { if(i < 20) answers[q.num] = i % 3 === 0 ? "A" : q.correct; });
+    store.streak = {count: 6, lastDay: inDays(-1), freezesUsed: 0, freezeMonth: null};
+    const st = store.stars.total, act = (store.activity[keyOf(new Date())] || {answered:0}).answered;
+    creditContestActivity(paper, answers);
+    check("paper bumps the streak", store.streak.count === 7, String(store.streak.count));
+    check("paper counts answered questions", (store.activity[keyOf(new Date())].answered) === act + 20);
+    check("paper pays stars", store.stars.total > st);
+  }
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------

@@ -26,7 +26,7 @@ class FakeDate extends RealDate {
 global.Date = FakeDate;
 const EXPORTS = `return {store, state, planStepsForToday, planPhase, daysToContest, isContestDay, needsDiagnosticContest,
   nextMechanicToLearn, dueNow, markPlanStepDone, archiveQsForMech, MECHANIC_ORDER, MECHANIC_LABEL, recordArchiveAnswer,
-  noteMechAttempt, masteredBandOf, mechTopBand,
+  noteMechAttempt, masteredBandOf, mechTopBand, creditContestActivity,
   ARCHIVE, pickContestYear, reservedYears, contestEligibleYears, logActivity, pickPlaylistContent, trackMechanics};`;
 const app = new Function("window","document","localStorage","setInterval","clearInterval","requestAnimationFrame","cancelAnimationFrame","confirm","alert","fetch", m[1]+EXPORTS)(
   windowStub, documentStub, ls, ()=>0, ()=>{}, ()=>0, ()=>{}, ()=>false, ()=>{}, ()=>Promise.reject(new Error("x")));
@@ -61,6 +61,7 @@ for(let day = 0; day <= CONTEST_IN; day++){
     const t = app.ARCHIVE.find(x => String(x.year) === String(core.arg));
     const seenBefore = t.questions.filter(q => store.seenQ[`${t.year}-${q.num}`]).length;
     store.contests.push({when: NOW, year: t.year, points: 60, scoreWithPenalty: 60, maxPoints: 120, byBand:{}});
+    app.creditContestActivity(t.questions, Object.fromEntries(t.questions.map(q => [q.num, rand() < 0.6 ? q.correct : "A"])));
     t.questions.forEach(q => { store.seenQ[`${t.year}-${q.num}`] = NOW; });
     log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} CONTEST ${t.year}  (practised before: ${seenBefore}/30)`);
   } else if(core.act === "playlist"){

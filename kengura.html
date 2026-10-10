@@ -5590,6 +5590,7 @@ function finishContest(byTimer){
       scoreWithPenalty -= band * 0.25;
     }
   });
+  creditContestActivity(qs, state.contestAnswers);
   const result = {
     when: Date.now(),
     year: state.contestYear,
@@ -5612,6 +5613,27 @@ function finishContest(byTimer){
   state._lastContestResult = result;
   state.view = "contestResults";
   renderContestResults();
+}
+
+/* A finished paper is the week's biggest effort: it must count as the
+   day's activity (streak!) and pay stars like any other answered
+   question. Before this, a Saturday paper was followed by a streak reset
+   on Sunday because finishContest never touched activity. */
+function creditContestActivity(qs, answers){
+  const k = todayKey();
+  const a = store.activity[k] = store.activity[k] || {answered:0, correct:0};
+  let stars = 0;
+  for(const q of qs){
+    const letter = answers[q.num];
+    if(!letter) continue;
+    const ok = letter === q.correct;
+    a.answered++;
+    if(ok) a.correct++;
+    stars += starsForAnswer(ok, q.points || 3);
+  }
+  bumpStreakForToday();
+  if(stars) awardStars("fromQ", stars);
+  checkAchievements();
 }
 
 /* Feed contest mistakes into the spaced-repetition queue (due tomorrow).
