@@ -27,6 +27,12 @@ function check(name, cond, detail){
 function section(name){ console.log(`\n== ${name} ==`); }
 
 // ---------- minimal DOM stubs ----------
+// A 2D context that accepts any property and swallows any call, so the
+// canvas games can run their loops headlessly.
+const noopCtx = new Proxy({}, { get(){ return ()=>{}; }, set(){ return true; } });
+// requestAnimationFrame stub: callbacks queue up and the test drives frames.
+const rafQueue = [];
+function runFrames(n){ for(let i = 0; i < n; i++){ const cbs = rafQueue.splice(0); if(!cbs.length) return i; for(const cb of cbs) cb(performance.now()); } return n; }
 function stubEl(){
   return {
     innerHTML: "", textContent: "", style: {cssText: ""}, dataset: {},
@@ -35,7 +41,7 @@ function stubEl(){
     querySelector(){ return null; }, querySelectorAll(){ return []; },
     appendChild(){}, remove(){}, setAttribute(){},
     classList: {add(){}, remove(){}},
-    getContext(){ return null; }, getBoundingClientRect(){ return {left:0, width:0}; },
+    getContext(){ return noopCtx; }, getBoundingClientRect(){ return {left:0, width:0}; },
     scrollIntoView(){},
   };
 }
@@ -81,7 +87,8 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         Sfx, Fx, trackMechanics, trackCardHTML, weeklyRecapHTML,
         rewardsCardHTML, buildRacePool, masteryDecayDays, logActivity,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
-        isContestDay, planTimelineHTML, SHOP_TICKET_COST};
+        isContestDay, planTimelineHTML, SHOP_TICKET_COST,
+        openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN};
 `;
 let app;
 try {
@@ -91,7 +98,7 @@ try {
     m[1] + EXPORTS
   )(
     windowStub, documentStub, localStorageStub,
-    () => 0, () => {}, () => 0, () => {}, () => false, () => {}, () => Promise.reject(new Error("no net"))
+    () => 0, () => {}, (cb) => { rafQueue.push(cb); return rafQueue.length; }, () => {}, () => false, () => {}, () => Promise.reject(new Error("no net"))
   );
 } catch(e){
   console.error("FAIL  app script threw at load time:", e.message);
@@ -462,6 +469,43 @@ section("held-out papers + diagnostic");
   check("ticket costs 30", SHOP_TICKET_COST === 30);
   check("shop lists the ticket", rewardsCardHTML().includes('data-shop-ticket'));
   store.plan.contestDate = null; store.plan.contestWeekday = 6; store.contests = savedContests;
+}
+
+// ---------- 7d. canvas games driven headlessly ----------
+section("minigames");
+{
+  const {openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, planStepsForToday, store, state} = app;
+  for(const [name, open, view] of [["jump", openJumpGame, "jump"], ["race", openRaceGame, "race"]]){
+    let threw = null;
+    try { open("medium", 99); } catch(e){ threw = e.message; }   // many lives: free-run must not end on its own
+    check(`${name}: opens`, !threw && state.view === view, threw || state.view);
+    const g = state._race;
+    const ran = runFrames(240);
+    check(`${name}: loop runs`, ran === 240 && g.distance > 0, `frames ${ran}, distance ${g && g.distance}`);
+    check(`${name}: still ${view}`, state.view === view);
+    // force a collision: one life, obstacle on the player
+    g.lives = 1; g.invuln = 0;
+    if(name === "jump"){ g.y = 260; g.vy = 0; g.onGround = true; g.obstacles.push({x: 54, w: 30, h: 40}); }
+    else { g.obstacles.push({lane: g.lane, y: 540 - 60 - 14}); }
+    const before = (name === "jump" ? store.games.jumpPlays : store.games.plays) || 0;
+    runFrames(10);
+    check(`${name}: collision ends the game`, state.view === "raceOver", state.view);
+    check(`${name}: play counted once`, ((name === "jump" ? store.games.jumpPlays : store.games.plays) || 0) === before + 1);
+    runFrames(5);   // a late frame must not re-enter the loop
+    check(`${name}: endGame idempotent`, ((name === "jump" ? store.games.jumpPlays : store.games.plays) || 0) === before + 1);
+  }
+  let threw = null;
+  try { renderGamePick("easy", 1, "x"); } catch(e){ threw = e.message; }
+  check("game picker renders", !threw && state.view === "gamePick", threw || state.view);
+  store.games.freeRaces = 1;
+  openFreeRace();
+  check("free ticket opens the picker and is consumed", state.view === "gamePick" && store.games.freeRaces === 0);
+  // Honest time budget
+  const steps = planStepsForToday();
+  check("plan minutes positive", planMinutes(steps) > 0);
+  check("playlist day ≥ 20 min", planMinutes([{act:"warmup"},{act:"playlist"},{act:"recog"}]) >= 20);
+  check("no stale 20-min copy", !html.includes("(~20 min)") && !html.includes("~20 min treniruotė"));
+  state.view = "home";
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------

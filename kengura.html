@@ -3035,7 +3035,7 @@ function loadStore(){
     stars:{total:0, fromQ:0, fromTime:0, fromBonus:0, spent:0, _timeSecRem:0},
     // Racing reward minigame records. freeRaces = tickets earned by finishing
     // the daily plan — a race without the 5-question gate.
-    games:{plays:0, bestByDiff:{easy:0, medium:0, hard:0}, best:0, hardUnlocked:false, freeRaces:0},
+    games:{plays:0, bestByDiff:{easy:0, medium:0, hard:0}, best:0, hardUnlocked:false, freeRaces:0, jumpPlays:0, jumpBest:0},
     // Unlocked achievements: { achievementId: timestamp }
     achievements:{},
     // Treniruočių planas — contest date + per-day session completion.
@@ -4457,7 +4457,7 @@ function renderHome(){
         <div class="footer-actions" style="margin-top:0">
           <div>
             <h3 style="margin:0">📅 Šiandienos treniruotė <span class="phase-pill ${ph.cls}" style="margin-left:6px;vertical-align:middle">${ph.icon} ${ph.label}</span></h3>
-            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : ''}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ''}</span>
+            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : ''}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}</span>
           </div>
           <button class="btn ${planProg < steps.length ? 'primary' : 'ghost'}" id="planBtn">${planProg < steps.length ? 'Tęsti planą →' : 'Atverti planą'}</button>
         </div>
@@ -5738,7 +5738,7 @@ function renderParent(){
 
     <section class="card">
       <h3>🎁 Savaitės tikslas ir prizas</h3>
-      <p class="help-bar" style="margin-top:0">Žvaigždžių tikslas per savaitę (pirmadienis–sekmadienis) ir tikras prizas, kurį pažadate. Kasdienė ~20 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.</p>
+      <p class="help-bar" style="margin-top:0">Žvaigždžių tikslas per savaitę (pirmadienis–sekmadienis) ir tikras prizas, kurį pažadate. Kasdienė 20–30 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.</p>
       <div class="row" style="align-items:center;gap:10px;flex-wrap:wrap">
         <label style="font-size:14px">Tikslas (⭐ per savaitę):
           <input type="number" id="weeklyGoalInput" min="0" step="10" value="${store.plan.weeklyStarGoal || 0}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;width:90px">
@@ -6742,7 +6742,7 @@ function pickContestYear(){
   return years[0];
 }
 
-/* Today's ~20-minute session: warm-up → core → cool-down, shaped by phase. */
+/* Today's 20–30-minute session: warm-up → core → cool-down, shaped by phase. */
 function planStepsForToday(){
   const due = dueNow();
   const phase = planPhase();
@@ -6825,6 +6825,13 @@ function planStepsForToday(){
     core,
     {id:"cooldown", label:"Pabaiga — atpažink gudrybę (10 greitų klausimų)", act:"recog"},
   ];
+}
+
+/* Honest time budget per step, in minutes — a playlist day is ~25–30
+   min, not 20; the card should say so. */
+const PLAN_STEP_MIN = {warmup:3, dueWarm:4, due:10, sprint:10, playlist:15, mixed:10, recog:5, contest:75, strategy:5, none:0};
+function planMinutes(steps){
+  return (steps || planStepsForToday()).reduce((s, st) => s + (PLAN_STEP_MIN[st.act] || 0), 0);
 }
 
 /* Plan-step completion. Finishing all three steps of a day pays the daily
@@ -6997,7 +7004,7 @@ function renderPlan(){
         : `<p class="help-bar">Atlik kontrolinį — čia matysi rezultatų kreivę.</p>`}
     </section>
     <section class="card">
-      <h3>Šiandienos treniruotė${steps.some(s => s.act === 'contest') ? ' — kontrolinio diena (~90 min)' : ' (~20 min)'}</h3>
+      <h3>Šiandienos treniruotė${steps.some(s => s.act === 'contest') ? ' — kontrolinio diena' : ''} (~${planMinutes(steps)} min)</h3>
       ${steps.map((s, i) => `
         <div class="cat-row plan-step">
           <span>${done[s.id] ? '✅' : `${i+1}.`} ${escapeHTML(s.label)}</span>
@@ -7073,6 +7080,8 @@ const ACHIEVEMENTS = [
   {id:"raceHard",icon:"🏎", title:"Pro lygis",          desc:"Atrakink sunkų lygį (5/5)",      check:()=> !!store.games.hardUnlocked},
   {id:"race500", icon:"🏆", title:"Greitėk",            desc:"Lenktynėse pasiek 500 m",        check:()=> (store.games.best||0) >= 500},
   {id:"race1000",icon:"👑", title:"Greičio demonas",    desc:"Lenktynėse pasiek 1000 m",       check:()=> (store.games.best||0) >= 1000},
+  {id:"jump1",   icon:"🦘", title:"Pirmas šuolis",      desc:"Sužaisk Kengūros šuolį",          check:()=> (store.games.jumpPlays||0) >= 1},
+  {id:"jump500", icon:"🌵", title:"Šuolininkas",        desc:"Šuolyje pasiek 500 m",            check:()=> (store.games.jumpBest||0) >= 500},
   {id:"perfect5",icon:"🎯", title:"Tobula penketa",     desc:"5/5 lenktynių iššūkyje",         check:()=> (store.games.bestChallengeCorrect||0) >= 5},
   {id:"contest1",icon:"📝", title:"Pirmas kontrolinis", desc:"Užbaik kontrolinį testą",        check:()=> (store.contests||[]).length >= 1},
   {id:"recog20", icon:"🔍", title:"Tipų žinovas",       desc:"Atpažink 20 gudrybių",           check:()=> ((store.recogStats||{}).correct||0) >= 20},
@@ -7230,7 +7239,8 @@ function rewardsCardHTML(){
         <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} žvaigždžių</span>
         <span class="pill good">🏆 Pasiekimai: ${unlocked}/${ACHIEVEMENTS.length}</span>
         ${best>0?`<span class="pill muted">🏎 Rekordas: ${best} m</span>`:''}
-        ${freeRaces>0?`<span class="pill" style="background:#fff1d6">🎟 Nemokamos lenktynės: ${freeRaces}</span>`:''}
+        ${(store.games.jumpBest||0)>0?`<span class="pill muted">🦘 Rekordas: ${store.games.jumpBest} m</span>`:''}
+        ${freeRaces>0?`<span class="pill" style="background:#fff1d6">🎟 Žaidimų bilietai: ${freeRaces}</span>`:''}
       </div>
       ${goal ? `<div style="margin-bottom:10px">
         <div class="footer-actions" style="margin:0"><span style="font-size:14px">Savaitės tikslas: <b>${weekStars} / ${goal} ⭐</b>${reward ? ` → 🎁 ${escapeHTML(reward)}` : ''}</span>${weekStars >= goal ? '<span class="pill good">pasiekta! 🎉</span>' : ''}</div>
@@ -7239,7 +7249,7 @@ function rewardsCardHTML(){
       </div>` : ''}
       <div class="row">
         <button class="btn primary" id="raceChallengeBtn">Pradėti iššūkį →</button>
-        ${freeRaces>0?`<button class="btn" id="freeRaceBtn">🎟 Žaisti nemokamai (be vartų)</button>`:''}
+        ${freeRaces>0?`<button class="btn" id="freeRaceBtn">🎟 Panaudoti bilietą (lenktynės arba šuolis, be vartų)</button>`:''}
       </div>
       <details style="margin-top:12px">
         <summary>🛒 Žvaigždžių parduotuvė — turi <b>${starsAvailable()}</b> ⭐ laisvų</summary>
@@ -7287,7 +7297,7 @@ function openFreeRace(){
   if(!(store.games.freeRaces > 0)) return;
   store.games.freeRaces--;
   saveStore(store);
-  openRaceGame("medium", 2);
+  renderGamePick("medium", 2, "Bilietas panaudotas — kurį žaidimą?");
 }
 function shuffleInPlace(arr){
   for(let i = arr.length - 1; i > 0; i--){
@@ -7462,12 +7472,14 @@ function renderRaceResult(){
         </div>
         <p class="help-bar">Vairuok rodyklėmis ← → (arba mygtukais). Lenk pro mašinas, kuo ilgiau – tuo daugiau metrų!</p>
         ${r.lives < 5 && starsAvailable() >= SHOP_LIFE_COST ? `<p><button class="btn small" id="raceBuyLife">➕ Papildoma gyvybė už ${SHOP_LIFE_COST} ⭐ (turi ${starsAvailable()})</button></p>` : ''}
-        <div class="footer-actions" style="justify-content:center;gap:8px">
+        <div class="footer-actions" style="justify-content:center;gap:8px;flex-wrap:wrap">
           <button class="btn primary" id="racePlay">🏎 Žaisti lenktynes</button>
+          <button class="btn primary" id="jumpPlay">🦘 Kengūros šuolis</button>
           <button class="btn ghost" id="raceHome">Į pradžią</button>
         </div>
       </section>`;
     document.getElementById("racePlay").addEventListener("click", ()=> openRaceGame(r.difficulty, r.lives));
+    document.getElementById("jumpPlay").addEventListener("click", ()=> openJumpGame(r.difficulty, r.lives));
     const buyLife = document.getElementById("raceBuyLife");
     if(buyLife) buyLife.addEventListener("click", ()=>{
       if(spendStars(SHOP_LIFE_COST)){ r.lives++; renderRaceResult(); }
@@ -7580,7 +7592,7 @@ function openRaceGame(difficulty, lives){
     saveStore(store);
     checkAchievements();
     if(g.newRecord) Fx.celebrate("badge"); else Sfx.play("gameover");
-    renderRaceGameOver(score, difficulty, lives, g.newRecord);
+    renderGameOver("race", score, difficulty, lives, g.newRecord);
   }
 
   function drawCar(x, y, color, isPlayer){
@@ -7667,6 +7679,195 @@ function openRaceGame(difficulty, lives){
   g.raf = requestAnimationFrame(loop);
 }
 
+/* -------- Game picker: one ticket / unlock, two games -------- */
+function renderGamePick(difficulty, lives, title){
+  state.view = "gamePick";
+  $app.innerHTML = `
+    <section class="card" style="text-align:center">
+      <h2>${escapeHTML(title || 'Kurį žaidimą?')} 🎮</h2>
+      <div class="top-stats" style="justify-content:center;margin:10px 0">
+        <span class="pill ${difficulty==='hard'?'bad':(difficulty==='medium'?'':'good')}">Lygis: ${DIFF_LABEL[difficulty]}</span>
+        <span class="pill">${'❤️'.repeat(lives)} ${lives} ${lives===1?'gyvybė':'gyvybės'}</span>
+      </div>
+      <div class="grid two" style="margin-top:12px">
+        <button class="btn primary" id="pickRace" style="padding:18px 10px;font-size:17px">🏎 Lenktynės<br><span style="font-size:12px;font-weight:500;opacity:.85">lenk mašinas · rekordas ${store.games.best||0} m</span></button>
+        <button class="btn primary" id="pickJump" style="padding:18px 10px;font-size:17px">🦘 Kengūros šuolis<br><span style="font-size:12px;font-weight:500;opacity:.85">peršok kliūtis · rekordas ${store.games.jumpBest||0} m</span></button>
+      </div>
+      <div class="footer-actions" style="justify-content:center;margin-top:12px">
+        <button class="btn ghost" id="pickHome">Į pradžią</button>
+      </div>
+    </section>`;
+  document.getElementById("pickRace").addEventListener("click", ()=> openRaceGame(difficulty, lives));
+  document.getElementById("pickJump").addEventListener("click", ()=> openJumpGame(difficulty, lives));
+  document.getElementById("pickHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+}
+
+/* -------- Second minigame: Kengūros šuolis (canvas endless runner) ------
+   A kangaroo runs right; obstacles scroll in; Space / ↑ / tap jumps.
+   Same difficulty + lives semantics as the race; shares state._race so
+   stopRaceGame() tears either game down. */
+const JUMP_DIFF = {
+  easy:   {speed:3.2, accel:0.00025, gapMin:70, gapMax:130},
+  medium: {speed:4.2, accel:0.00040, gapMin:58, gapMax:110},
+  hard:   {speed:5.4, accel:0.00060, gapMin:46, gapMax:92},
+};
+function openJumpGame(difficulty, lives){
+  stopRaceGame();
+  state.view = "jump";
+  const cfg = JUMP_DIFF[difficulty] || JUMP_DIFF.easy;
+  const night = !!(store.shop.night && store.shop.nightOn);
+  const bodyHex = (SHOP_COLORS[store.shop.activeColor] || SHOP_COLORS.classic).hex;
+  const W = 360, H = 300, GROUND = H - 40;
+  const kW = 34, kH = 44;
+  const kX = 52;
+
+  $app.innerHTML = `
+    <section class="card">
+      <div class="contest-header">
+        <div><b>🦘 Kengūros šuolis</b> <span class="pill muted" style="margin-left:6px">${DIFF_LABEL[difficulty]}</span></div>
+        <button class="btn ghost small" id="jumpQuit">← Pradžia</button>
+      </div>
+      <div class="race-hud" id="jumpHud"></div>
+      <div class="race-canvas-wrap">
+        <canvas id="jumpCanvas" width="${W}" height="${H}"></canvas>
+      </div>
+      <div class="race-controls">
+        <button class="btn race-ctrl" id="jumpBtn" aria-label="Šokti" style="min-width:160px">⬆ Šokti</button>
+      </div>
+      <p class="help-bar" style="text-align:center">Klaviatūra: tarpas arba ↑ · ekrane: paliesk</p>
+    </section>`;
+
+  const canvas = document.getElementById("jumpCanvas");
+  const ctx = canvas.getContext("2d");
+  const hud = document.getElementById("jumpHud");
+  const g = {
+    running:true, raf:0, keyHandler:null,
+    lives, difficulty, cfg, speed:cfg.speed, distance:0, frame:0,
+    y:GROUND, vy:0, onGround:true,
+    obstacles:[],       // {x, w, h}
+    nextGap: 90, invuln:0, over:false, newRecord:false,
+  };
+  state._race = g;
+
+  function jump(){
+    if(g.over) return;
+    if(g.onGround){ g.vy = -11.5; g.onGround = false; Sfx.play("click"); }
+  }
+  g.keyHandler = (e)=>{
+    if(state.view !== "jump") return;
+    if(e.key === " " || e.key === "ArrowUp" || e.key === "w" || e.key === "W"){ jump(); e.preventDefault(); }
+  };
+  document.addEventListener("keydown", g.keyHandler);
+  document.getElementById("jumpBtn").addEventListener("click", jump);
+  canvas.addEventListener("pointerdown", (e)=>{ e.preventDefault(); jump(); });
+  document.getElementById("jumpQuit").addEventListener("click", ()=>{ stopRaceGame(); state.view="home"; renderHome(); });
+
+  function endGame(){
+    if(g.over) return;
+    g.over = true; g.running = false;
+    if(g.raf) cancelAnimationFrame(g.raf);
+    const score = Math.floor(g.distance);
+    store.games.jumpPlays = (store.games.jumpPlays||0) + 1;
+    if(score > (store.games.jumpBest||0)){ store.games.jumpBest = score; g.newRecord = true; }
+    saveStore(store);
+    checkAchievements();
+    if(g.newRecord) Fx.celebrate("badge"); else Sfx.play("gameover");
+    renderGameOver("jump", score, difficulty, lives, g.newRecord);
+  }
+
+  function drawKangaroo(x, yBottom){
+    const y = yBottom - kH;
+    ctx.fillStyle = bodyHex;
+    roundRect(ctx, x, y + 10, kW, kH - 10, 10); ctx.fill();            // body
+    roundRect(ctx, x + kW - 14, y, 20, 16, 7); ctx.fill();              // head
+    ctx.fillRect(x + kW - 4, y - 6, 4, 9); ctx.fillRect(x + kW + 1, y - 6, 4, 9); // ears
+    ctx.beginPath(); ctx.moveTo(x, y + kH - 16); ctx.lineTo(x - 18, y + kH - 2); ctx.lineTo(x + 2, y + kH - 6); ctx.closePath(); ctx.fill(); // tail
+    ctx.fillStyle = "#fff"; ctx.fillRect(x + kW + 1, y + 5, 3, 3);     // eye
+    ctx.fillStyle = "#3a2c11";
+    const legPhase = g.onGround ? Math.sin(g.frame * 0.4) * 4 : 6;
+    ctx.fillRect(x + 6, yBottom - 8, 9, 8 + legPhase);                  // legs
+    ctx.fillRect(x + 20, yBottom - 8, 9, 8 - legPhase);
+  }
+  function drawObstacle(o){
+    ctx.fillStyle = night ? "#6b8e23" : "#2e7d32";
+    roundRect(ctx, o.x, GROUND - o.h, o.w, o.h, 5); ctx.fill();
+    ctx.fillStyle = night ? "#8fbc3a" : "#43a047";
+    ctx.fillRect(o.x + 4, GROUND - o.h + 6, Math.max(2, o.w - 8), 4);
+  }
+
+  function loop(){
+    if(!g.running || state.view !== "jump"){ return; }
+    g.frame++;
+    g.speed += g.cfg.accel;
+    g.distance += g.speed * 0.1;
+    // physics
+    g.vy += 0.55; g.y += g.vy;
+    if(g.y >= GROUND){ g.y = GROUND; g.vy = 0; g.onGround = true; }
+    // spawn
+    g.nextGap -= g.speed;
+    if(g.nextGap <= 0){
+      const h = 22 + Math.floor(Math.random() * 26), w = 16 + Math.floor(Math.random() * 18);
+      g.obstacles.push({x: W + 10, w, h});
+      g.nextGap = g.cfg.gapMin + Math.random() * (g.cfg.gapMax - g.cfg.gapMin) + w;
+    }
+    for(const o of g.obstacles) o.x -= g.speed;
+    g.obstacles = g.obstacles.filter(o => o.x + o.w > -10);
+    // collision (AABB, kangaroo box slightly shrunk)
+    if(g.invuln > 0) g.invuln--;
+    if(g.invuln === 0){
+      const px = kX + 4, pw = kW - 8, pTop = g.y - kH + 8, pBot = g.y;
+      for(const o of g.obstacles){
+        if(o.x < px + pw && o.x + o.w > px && pBot > GROUND - o.h && pTop < GROUND){
+          g.lives--; g.invuln = 60; o.x = -999;
+          Sfx.play("crash");
+          if(g.lives <= 0){ endGame(); return; }
+          break;
+        }
+      }
+    }
+    // draw
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = night ? "#101522" : "#cfe9ff"; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle = night ? "#2b2f3a" : "#d9b86a"; ctx.fillRect(0, GROUND, W, H - GROUND);
+    ctx.strokeStyle = night ? "rgba(255,255,255,.25)" : "rgba(120,80,20,.35)"; ctx.lineWidth = 2;
+    ctx.setLineDash([18,14]); ctx.lineDashOffset = -((g.distance*6) % 32);
+    ctx.beginPath(); ctx.moveTo(0, GROUND + 14); ctx.lineTo(W, GROUND + 14); ctx.stroke(); ctx.setLineDash([]);
+    for(const o of g.obstacles) drawObstacle(o);
+    if(!(g.invuln > 0 && g.frame % 8 < 4)) drawKangaroo(kX, g.y);
+    hud.innerHTML = `<span class="pill">🦘 ${Math.floor(g.distance)} m</span>
+      <span class="pill good">${'❤️'.repeat(Math.max(0,g.lives))}</span>
+      <span class="pill muted">Rekordas: ${Math.max(store.games.jumpBest||0, Math.floor(g.distance))} m</span>`;
+    g.raf = requestAnimationFrame(loop);
+  }
+  g.raf = requestAnimationFrame(loop);
+}
+
+/* Shared game-over screen for both games. */
+function renderGameOver(game, score, difficulty, lives, newRecord){
+  state.view = "raceOver";
+  const isJump = game === "jump";
+  const best = isJump ? (store.games.jumpBest || 0) : (store.games.best || 0);
+  $app.innerHTML = `
+    <section class="card" style="text-align:center">
+      <h2>${newRecord ? "🏆 Naujas rekordas!" : (isJump ? "Šuolis baigtas 🦘" : "Lenktynės baigtos 🏁")}</h2>
+      <p style="font-size:30px;margin:6px 0"><b>${score} m</b></p>
+      <div class="top-stats" style="justify-content:center;margin-bottom:10px">
+        <span class="pill ${difficulty==='hard'?'bad':(difficulty==='medium'?'':'good')}">${DIFF_LABEL[difficulty]}</span>
+        <span class="pill muted">Geriausias: ${best} m</span>
+      </div>
+      <div class="footer-actions" style="justify-content:center;gap:8px;flex-wrap:wrap">
+        <button class="btn primary" id="goAgain">${isJump ? '🦘' : '🏎'} Dar kartą (${lives} ${lives===1?'gyvybė':'gyv.'})</button>
+        <button class="btn" id="goOther">${isJump ? '🏎 Lenktynės' : '🦘 Šuolis'}</button>
+        <button class="btn" id="goNewChallenge">Naujas iššūkis</button>
+        <button class="btn ghost" id="goHome">Į pradžią</button>
+      </div>
+    </section>`;
+  document.getElementById("goAgain").addEventListener("click", ()=> isJump ? openJumpGame(difficulty, lives) : openRaceGame(difficulty, lives));
+  document.getElementById("goOther").addEventListener("click", ()=> isJump ? openRaceGame(difficulty, lives) : openJumpGame(difficulty, lives));
+  document.getElementById("goNewChallenge").addEventListener("click", openRaceChallenge);
+  document.getElementById("goHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+}
+
 // Canvas rounded-rect helper.
 function roundRect(ctx, x, y, w, h, r){
   ctx.beginPath();
@@ -7678,27 +7879,6 @@ function roundRect(ctx, x, y, w, h, r){
   ctx.closePath();
 }
 
-function renderRaceGameOver(score, difficulty, lives, newRecord){
-  state.view = "raceOver";
-  const best = store.games.best || 0;
-  $app.innerHTML = `
-    <section class="card" style="text-align:center">
-      <h2>${newRecord ? "🏆 Naujas rekordas!" : "Lenktynės baigtos 🏁"}</h2>
-      <p style="font-size:30px;margin:6px 0"><b>${score} m</b></p>
-      <div class="top-stats" style="justify-content:center;margin-bottom:10px">
-        <span class="pill ${difficulty==='hard'?'bad':(difficulty==='medium'?'':'good')}">${DIFF_LABEL[difficulty]}</span>
-        <span class="pill muted">Geriausias: ${best} m</span>
-      </div>
-      <div class="footer-actions" style="justify-content:center;gap:8px">
-        <button class="btn primary" id="raceAgain">🏎 Dar kartą (${lives} ${lives===1?'gyvybė':'gyv.'})</button>
-        <button class="btn" id="raceNewChallenge">Naujas iššūkis</button>
-        <button class="btn ghost" id="raceOverHome">Į pradžią</button>
-      </div>
-    </section>`;
-  document.getElementById("raceAgain").addEventListener("click", ()=> openRaceGame(difficulty, lives));
-  document.getElementById("raceNewChallenge").addEventListener("click", openRaceChallenge);
-  document.getElementById("raceOverHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
-}
 
 /* ============================================================
    VIII. UTIL
