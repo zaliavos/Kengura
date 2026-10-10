@@ -5743,6 +5743,36 @@ function renderContestResults(){
   });
 }
 
+/* Backup / restore: the whole store as a JSON download, and back. */
+function exportProgress(){
+  try {
+    const payload = {app:"kengura", version:1, exportedAt:new Date().toISOString(), store};
+    const blob = new Blob([JSON.stringify(payload)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `kengura-progresas-${todayKey()}.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=> URL.revokeObjectURL(url), 2000);
+    showToast("💾", "Progresas eksportuotas.");
+  } catch(e){ alert("Nepavyko eksportuoti: " + e.message); }
+}
+function importProgressFile(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try {
+      const data = JSON.parse(String(reader.result));
+      const incoming = data && data.app === "kengura" && data.store ? data.store : data;
+      if(!incoming || typeof incoming !== "object" || !incoming.activity || !incoming.settings) throw new Error("ne Kengūros progreso failas");
+      const qs = Object.values(incoming.activity).reduce((a, c) => a + (c.answered || 0), 0);
+      if(!confirm(`Importuoti progresą (${qs} atsakymų, ${Object.keys(incoming.masteredMech || {}).length} įvaldytų gudrybių)?\n\nDabartinis progresas šioje naršyklėje bus pakeistas.`)) return;
+      localStorage.setItem(LS_KEY, JSON.stringify(incoming));
+      location.reload();
+    } catch(e){ alert("Nepavyko importuoti: " + e.message); }
+  };
+  reader.readAsText(file);
+}
+
 function openParent(){
   state.view = "parent";
   renderParent();
@@ -5831,6 +5861,15 @@ function renderParent(){
     </section>` : ''}
 
     <section class="card">
+      <h3>💾 Progreso atsarginė kopija</h3>
+      <p class="help-bar" style="margin-top:0">Visas progresas gyvena šioje naršyklėje. Prieš valant naršyklę ar keičiant įrenginį — eksportuok failą; kitame įrenginyje — importuok. Importas pakeičia dabartinį progresą.</p>
+      <div class="row" style="gap:8px;flex-wrap:wrap">
+        <button class="btn small primary" id="exportBtn">⬇ Eksportuoti progresą (.json)</button>
+        <label class="btn small" style="cursor:pointer">⬆ Importuoti iš failo <input type="file" id="importFile" accept="application/json,.json" style="display:none"></label>
+      </div>
+    </section>
+
+    <section class="card">
       <h3>14 dienų aktyvumas</h3>
       <div class="activity-grid">
         ${days.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} atsakymų"></div>`).join('')}
@@ -5886,6 +5925,10 @@ function renderParent(){
     </section>` : ''}
   `;
   document.getElementById("parentBack").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+  const exportBtn = document.getElementById("exportBtn");
+  if(exportBtn) exportBtn.addEventListener("click", exportProgress);
+  const importFile = document.getElementById("importFile");
+  if(importFile) importFile.addEventListener("change", e => importProgressFile(e.target.files && e.target.files[0]));
   const goalInput = document.getElementById("weeklyGoalInput");
   if(goalInput) goalInput.addEventListener("change", e => {
     const v = parseInt(e.target.value, 10);
