@@ -39,6 +39,7 @@ const skipArg = (process.argv.find(a => a.startsWith("--skip=")) || "--skip=").s
 const SKIP_DAYS = new Set(skipArg ? skipArg.split(",").map(Number) : []);
 // --learn → the kid gets better at a mechanic with every playlist on it (+0.06 per exposure, cap 0.95)
 const LEARN = process.argv.includes("--learn");
+const MISS = parseFloat((process.argv.find(a => a.startsWith("--miss=")) || "--miss=0").slice(7));   // p(random day off)
 const exposure = {};
 const pMech = mech => Math.min(0.95, SKILL + (LEARN ? 0.06 * (exposure[mech] || 0) : 0));
 const c = new RealDate(NOW); c.setDate(c.getDate() + CONTEST_IN);
@@ -49,7 +50,7 @@ const log = []; const tally = {};
 const seenMastery = new Set();
 let skipped = 0;
 for(let day = 0; day <= CONTEST_IN; day++){
-  if(SKIP_DAYS.has(new RealDate(NOW).getDay())){ skipped++; NOW += 24*60*60*1000; continue; }
+  if(SKIP_DAYS.has(new RealDate(NOW).getDay()) || (MISS > 0 && rand() < MISS)){ skipped++; NOW += 24*60*60*1000; continue; }
   const steps = app.planStepsForToday();
   const core = steps.find(s => s.id === "core") || steps[0];
   const phase = app.planPhase();

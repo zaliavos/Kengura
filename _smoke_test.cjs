@@ -89,7 +89,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
-        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML};
+        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist};
 `;
 let app;
 try {
@@ -530,6 +530,18 @@ section("minigames");
   check("home/plan/race earn no time stars", !app.STAR_TIME_VIEWS.has("home") && !app.STAR_TIME_VIEWS.has("plan") && !app.STAR_TIME_VIEWS.has("race"));
   check("quiz/playlist/contest earn time stars", ["quiz","playlist","contest"].every(v => app.STAR_TIME_VIEWS.has(v)));
   check("mission leads with the plan step", html.includes("action: 'planStep'") && html.includes('act === "planStep"'));
+  {
+    const {openPlaylist, mechTargetFor, store, state} = app;
+    const pad = n => String(n).padStart(2, "0");
+    const d = new Date(); d.setDate(d.getDate() + 80);
+    store.plan.contestDate = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;   // foundation → cap at 4
+    store.mechAttempts = {}; store.masteredBand = {}; delete store.masteredMech.casework;
+    openPlaylist("casework");
+    check("openPlaylist without a band uses the plan target (foundation → 4)", state.playlistContent.sourceBand === 4, String(state.playlistContent.sourceBand));
+    openPlaylist("casework", 5);
+    check("explicit band still wins", state.playlistContent.sourceBand === 5);
+    store.plan.contestDate = null; state.view = "home";
+  }
   check("contest result records practisedBefore", html.includes("practisedBefore = qs.filter") && html.includes("byTimer: !!byTimer, practisedBefore"));
   // Loop 4: parking grows with fails; retest runs at the mastered band
   {

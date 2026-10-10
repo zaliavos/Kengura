@@ -4605,6 +4605,7 @@ function renderHome(){
               <span class="mech-title">${escapeHTML(MECHANIC_LABEL[m]||m)}</span>
               ${has5 ? `<span class="pill bad">5 t.</span>` : `<span class="pill muted">${mechBands[m].has(4)?'4 t.':'3 t.'}</span>`}
               ${mastered && !stale ? `<span class="pill good">įvaldyta ✓</span>` : ``}
+              ${!mastered && masteredBandOf(m) ? `<span class="pill good" style="opacity:.75" title="Įveikta žemesniu lygiu – liko ${mechTopBand(m)} t.">įveikta ${masteredBandOf(m)} t.</span>` : ``}
               ${stale ? `<span class="mech-stale-pill" title="Įvaldyta prieš ${ageDays} d. – verta pakartoti">? po ${ageDays} d.</span>` : ``}
               ${ratePct != null ? `<span class="pill ${ratePct>40?"bad":(ratePct>20?"muted":"good")}">${ratePct} % klaidų</span>` : ``}
             </div>
@@ -5963,6 +5964,12 @@ function openPlaylist(mech, forcedBand){
   // Stale mastery → light 2-question retest instead of the full playlist.
   // Pass keeps mastery fresh; fail clears it and offers the full playlist.
   const retest = !forcedBand && !!store.masteredMech[mech] && isMechMasteryStale(mech);
+  if(forcedBand == null && !retest){
+    // Track, mission, mechanic list, parent view, recap — all land on the
+    // band the plan would choose (foundation cap, step-downs).
+    const t = mechTargetFor(mech);
+    if(t) forcedBand = t.band;
+  }
   state.playlistRetest = retest;
   state.playlistRecorded = false;
   state.playlistContent = pickPlaylistContent(mech, retest ? (masteredBandOf(mech) || undefined) : forcedBand);
