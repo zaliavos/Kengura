@@ -4283,14 +4283,16 @@ function renderArchiveCard(year, q){
   let aiSolutionText = null;
   let aiMiscText = null;
   if(submitted && q.correct){
-    if(!q.solutionKid){
+    // AI writes without the figure – only when there is no human solution at all
+    if(!q.solutionKid && !q.solution){
       const sOpts = aiBuildOpts(year, q, "solution");
       aiSolutionText = aiTextFor(sOpts);
       if(!aiSolutionText && !state.aiBusy[aiStateKey(sOpts)] && !_aiEndpointDead){
         aiFetch(sOpts).then(() => renderArchiveYear());
       }
     }
-    if(wrongLetter && wrongIdx >= 0 && !miscText){
+    // A blind guess at "your mistake" is worse than none: skip picture options.
+    if(wrongLetter && wrongIdx >= 0 && !miscText && !q.imageOnlyOptions && (q.options || {})[wrongLetter]){
       const mOpts = aiBuildOpts(year, q, "misconception", {chosenIdx: wrongIdx});
       aiMiscText = aiTextFor(mOpts);
       if(!aiMiscText && !state.aiBusy[aiStateKey(mOpts)] && !_aiEndpointDead){
@@ -4304,8 +4306,8 @@ function renderArchiveCard(year, q){
     const right = ans.chosenLetter === q.correct;
     const finalMiscText = miscText || aiMiscText;
     const miscIsAi = !miscText && !!aiMiscText;
-    const finalSolutionText = q.solutionKid || aiSolutionText || q.solution;
-    const solutionIsAi = !q.solutionKid && !!aiSolutionText;
+    const finalSolutionText = q.solutionKid || q.solution || aiSolutionText;
+    const solutionIsAi = !q.solutionKid && !q.solution && !!aiSolutionText;
     const opener = right ? '' : growthOpenerFor(q);
     const confidentWrong = !right && ans.confidence === 'a';
     bottom = `<div class="explain" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">

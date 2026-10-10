@@ -25,9 +25,15 @@ for y in archive['archive']:
         if q.get('points') != 5:
             continue
         key = (y['year'], q['num'])
+        # A question missing from the source loses its kid text: the UI then
+        # falls back to the official solution instead of a stale rewrite.
         if key in data.KID_SOLUTIONS:
             q['solutionKid'] = data.KID_SOLUTIONS[key]
             n_sol += 1
+        else:
+            q.pop('solutionKid', None)
+        if key not in data.MISCONCEPTIONS:
+            q.pop('misconceptions', None)
         if key in data.MISCONCEPTIONS:
             # Filter to only WRONG letters (skip the correct one if mistakenly listed)
             misc = {k: v for k, v in data.MISCONCEPTIONS[key].items() if k != q.get('correct')}
@@ -38,7 +44,7 @@ with open(ARCHIVE_JSON, 'w', encoding='utf-8') as f:
     json.dump(archive, f, ensure_ascii=False, indent=1)
 with open(ARCHIVE_JS, 'w', encoding='utf-8') as f:
     f.write('window.KENGURA_ARCHIVE = ')
-    json.dump(archive, f, ensure_ascii=False)
-    f.write(';\n')
+    json.dump(archive, f, ensure_ascii=False, separators=(', ', ': '))   # same as _regen_js.py
+    f.write(';')
 
 print(f"Applied {n_sol} kid solutions and {n_misc} misconception sets.")
