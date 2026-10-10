@@ -22,9 +22,10 @@ n_sol = 0
 n_misc = 0
 for y in archive['archive']:
     for q in y['questions']:
-        if q.get('points') != 5:
-            continue
         key = (y['year'], q['num'])
+        # 5-pt questions always; others only when the source has them (2021-10)
+        if q.get('points') != 5 and key not in data.KID_SOLUTIONS:
+            continue
         # A question missing from the source loses its kid text: the UI then
         # falls back to the official solution instead of a stale rewrite.
         if key in data.KID_SOLUTIONS:

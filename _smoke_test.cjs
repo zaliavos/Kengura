@@ -181,6 +181,14 @@ for(const t of ARCHIVE) for(const q of t.questions){
   const bad = texts.filter(x => /Pas ir inkai|į trauk|su skaičiuot|nuo trauk|iš dėst|su kabint|Diophantine|parity/i.test(x));
   check(`${t.year}-q${q.num} kid texts are clean`, !bad.length, bad[0]);
 }
+// Kid solutions must reach the official key (the 2013–2025 originals often didn't).
+for(const t of ARCHIVE) for(const q of t.questions){
+  if(!q.solutionKid) continue;
+  const m = /Atsakymas:\s*([A-E])\)/.exec(q.solutionKid);
+  check(`${t.year}-q${q.num} kid solution ends on the key`, m && m[1] === q.correct, m ? m[1] + " vs " + q.correct : "no 'Atsakymas: X)'");
+  for(const L of Object.keys(q.misconceptions || {}))
+    check(`${t.year}-q${q.num} misconception not on the right answer`, L !== q.correct);
+}
 console.log(`checked ${archiveQs} archive questions`);
 
 // ---------- 4. practice routing never downgrades a 5-pt source ----------
