@@ -535,3 +535,35 @@ Each loop = simulate (`_plan_sim.cjs`) + read + fix + smoke + commit.
 Simulation reference (84 days, daily kid, 3 reserved years):
 accuracy 0.60 → 8 full + 3 partial, 0.70 → 13 + 2, 0.85 → all 26,
 weekend-off 0.80 → 20 full, 10 papers; 30-day start 0.85 → 15.
+
+## Loops 6–15 (2026-10-10, fifth pass)
+
+- **6 — legacy saves.** Smoke test loads a pre-prep-layer save and
+  checks every new default; ancient mastery reads as stale on the
+  track. Mastery-pass copy distinguishes a partial band; quotes the live
+  decay window. Simulator `--learn` (accuracy +0.06 per exposure).
+- **7 — date edges.** Timeline no longer emits NaN widths when the
+  contest is today or the dates are inverted; a past contest date
+  schedules no papers. Smoke: contest today / past / inverted / eve.
+- **8 — audio + cost.** `Sfx` creates its AudioContext only after the
+  first user activation (`navigator.userActivation`). Measured on a
+  6-week store: `planStepsForToday` 3.5 ms, track 0.4 ms.
+- **9 — honesty marker.** `finishContest` stores `practisedBefore`
+  (questions of that paper already met in practice); results page and
+  parent view show it, flagged at ≥ 6.
+- **10 — one band logic.** `openPlaylist` without an explicit band asks
+  `mechTargetFor`, so every entry point lands on the plan's band.
+  Mechanic list shows partial-band pills. Simulator `--miss=P`.
+- **11 — rehearsal slide.** A missed T-3 rehearsal moves to T-2 unless
+  a paper was played in the last 4 days.
+- **12 — long-arc badges.** plan20, contest5, clean60, track.
+- **13 — anti-exploit.** `finishQuiz` credits the plan step only when
+  ≥ half the questions were answered.
+- **14 — browser pass.** Contest results (marker), parent view (contest
+  list), mechanic list pills, badges; no console errors.
+- **15 — notes + table.**
+
+Simulation (84 days unless noted; `node _plan_sim.cjs …`):
+0.70 flat → 13 full; 0.70 --learn → 18; 0.85 → all 26; weekend-off
+0.80 → 20, 10 papers; erratic 0.70 --learn --miss=0.3 → 12, 11 papers;
+30-day 0.85 → 15; 45-day 0.80 --learn → see table in git log.
