@@ -1,0 +1,13 @@
+{
+  "name": "Kengūros treniruoklis · 5–6 klasė",
+  "short_name": "Kengūra",
+  "lang": "lt",
+  "start_url": "./kengura.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffaf3",
+  "theme_color": "#d6451a",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

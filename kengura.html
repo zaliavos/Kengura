@@ -3018,7 +3018,42 @@ function generateQuiz(count, allowedDifficulties){
 /* ============================================================
    VI. APP STATE & LOCAL STORAGE
    ============================================================ */
-const LS_KEY = "kengura_v1";
+/* ---- Profiles: several kids on one device ----
+   kengura_meta = {profiles:[{id,name}], active}. The default profile
+   (id "") keeps the legacy key so existing saves stay where they are;
+   others live under kengura_v1_<id>. */
+const LS_META = "kengura_meta";
+function loadMeta(){
+  try { const m = JSON.parse(localStorage.getItem(LS_META) || "null"); if(m && Array.isArray(m.profiles)) return m; } catch(_){}
+  return {profiles:[{id:"", name:""}], active:""};
+}
+function saveMeta(m){ try { localStorage.setItem(LS_META, JSON.stringify(m)); } catch(_){} }
+function storeKeyFor(id){ return id ? `kengura_v1_${id}` : "kengura_v1"; }
+const META = loadMeta();
+if(!META.profiles.some(p => p.id === META.active)) META.active = "";
+const LS_KEY = storeKeyFor(META.active);
+function activeProfileName(){ const p = META.profiles.find(x => x.id === META.active); return (p && p.name) || ""; }
+function switchProfile(id){
+  if(!META.profiles.some(p => p.id === id)) return;
+  saveStore(store);
+  META.active = id; saveMeta(META);
+  location.reload();
+}
+function addProfile(name){
+  name = String(name || "").trim().slice(0, 24);
+  if(!name) return;
+  const id = `${Date.now().toString(36)}${Math.floor(Math.random()*1e4).toString(36)}`;
+  META.profiles.push({id, name}); saveMeta(META);
+  switchProfile(id);
+}
+function deleteProfile(id){
+  if(!id) return;   // the default profile cannot be deleted
+  META.profiles = META.profiles.filter(p => p.id !== id);
+  try { localStorage.removeItem(storeKeyFor(id)); } catch(_){}
+  if(META.active === id) META.active = "";
+  saveMeta(META);
+  location.reload();
+}
 function loadStore(){
   const defaults = {
     sessions:[], catStats:{}, subStats:{},
@@ -4479,6 +4514,7 @@ function renderHome(){
         <div class="hero-activity" aria-label="Pastarosios 14 dienų aktyvumo">
           ${activityCells.join('')}
         </div>
+        ${META.profiles.length > 1 ? `<span class="pill" title="Aktyvus profilis — keisti tėvų rodinyje">👤 ${escapeHTML(activeProfileName() || 'pagrindinis')}</span>` : ''}
         <button class="btn small ghost" id="parentBtn" style="margin-left:auto" title="Tėvų rodinys – vaiko progresas">👁 Tėvams</button>
       </div>
       ${mission ? `
@@ -5877,6 +5913,16 @@ function renderParent(){
     </section>` : ''}
 
     <section class="card">
+      <h3>👤 Profiliai</h3>
+      <p class="help-bar" style="margin-top:0">Keli vaikai viename įrenginyje — kiekvienas su savo progresu, planu ir žvaigždėmis. Aktyvus: <b>${escapeHTML(activeProfileName() || 'pagrindinis')}</b>.</p>
+      <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
+        ${META.profiles.map(pr => `<button class="btn small ${pr.id === META.active ? 'primary' : ''}" data-profile="${pr.id}">${escapeHTML(pr.name || 'pagrindinis')}${pr.id === META.active ? ' ✓' : ''}</button>`).join('')}
+        <button class="btn small" id="profileAdd">＋ Naujas profilis</button>
+        ${META.active ? `<button class="btn small ghost" id="profileDelete">🗑 Ištrinti šį profilį</button>` : ''}
+      </div>
+    </section>
+
+    <section class="card">
       <h3>💾 Progreso atsarginė kopija</h3>
       <p class="help-bar" style="margin-top:0">Visas progresas gyvena šioje naršyklėje. Prieš valant naršyklę ar keičiant įrenginį — eksportuok failą; kitame įrenginyje — importuok. Importas pakeičia dabartinį progresą.</p>
       <div class="row" style="gap:8px;flex-wrap:wrap">
@@ -5942,6 +5988,11 @@ function renderParent(){
   `;
   document.getElementById("parentBack").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
   $app.querySelectorAll("[data-recap-mech]").forEach(btn=> btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
+  $app.querySelectorAll("[data-profile]").forEach(b => b.addEventListener("click", ()=>{ if(b.dataset.profile !== META.active) switchProfile(b.dataset.profile); }));
+  const profileAdd = document.getElementById("profileAdd");
+  if(profileAdd) profileAdd.addEventListener("click", ()=>{ const n = prompt("Vaiko vardas naujam profiliui:"); if(n) addProfile(n); });
+  const profileDelete = document.getElementById("profileDelete");
+  if(profileDelete) profileDelete.addEventListener("click", ()=>{ if(confirm(`Ištrinti profilį „${activeProfileName()}“ ir visą jo progresą?`)) deleteProfile(META.active); });
   const exportBtn = document.getElementById("exportBtn");
   if(exportBtn) exportBtn.addEventListener("click", exportProgress);
   const importFile = document.getElementById("importFile");
