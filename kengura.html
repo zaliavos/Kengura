@@ -1036,7 +1036,7 @@ const GENERATORS = {
       correct, distract,
       firstStep:`Suskaičiuok visus langelius (${rows}·${cols}) ir padalink iš 2.`,
       hint:`Šachmatinė tvarka: tamsūs ir šviesūs langeliai kaitaliojasi. Jei iš viso langelių yra lyginis skaičius – po lygiai. Jei nelyginis – vienos spalvos vienu daugiau.`,
-      explain:`${rows}·${cols} = ${total} langelių. Tamsių (įskaitant kampinį) = ${correct}.`,
+      explain:`${rows}·${cols} = ${total} ${pluralForm(total,'langelis','langeliai','langelių')}. Tamsių (įskaitant kampinį) = ${correct}.`,
       r
     });
   },
@@ -1117,7 +1117,7 @@ const GENERATORS = {
       prompt:`Kuri figūra turi ${want} plotą?`,
       imageOptions:true,
       options: figs, correctIndex,
-      firstStep:`Įsivaizduok kiekvieną figūrą ant tinklelio. Kuri uždengia ${wantAdv} langelių?`,
+      firstStep:`Įsivaizduok kiekvieną figūrą ant tinklelio. Kuri uždengia ${wantAdv} ${pluralForm(wantAdv,'langelį','langelius','langelių')}?`,
       hint:`Plotas – tai kiek vietos figūra užima. Lygink akimis: didesni stačiakampiai dažnai didesni už trikampius. Bet su dideliu trikampiu ar pliusu būk atsargus.`,
       explain:`Figūrų plotai apytiksliai: ${areas.join(", ")}. Atsakymas – ${want === "didžiausią" ? "didžiausia" : "mažiausia"} reikšmė: ${targetArea}.`
     };
@@ -3511,7 +3511,7 @@ function growthOpenerFor(q){
   if(band >= 5){
     return [
       'Ši užduotis su gudrybe – nepataikei iš pirmo karto, ir tai normalu.',
-      'Penkių taškų užduotys retai sprendžiamos vien skaičiavimu – reikia pamatyti triuką.',
+      'Penkių taškų užduotys retai sprendžiamos vien skaičiavimu – reikia pamatyti gudrybę.',
       'Net olimpiadų laimėtojai šitų neatspėja iškart. Pažiūrėk sprendimą atidžiai.',
     ][Math.floor(Math.random() * 3)];
   }
@@ -4467,7 +4467,7 @@ function renderHome(){
     });
     const nextT = nextMechanicTarget();
     if(nextT) missions.push({
-      tag: masteredBandOf(nextT.mech) ? 'Kilti lygiu' : 'Naujas triukas',
+      tag: masteredBandOf(nextT.mech) ? 'Kilti lygiu' : 'Nauja gudrybė',
       title: `${MECHANIC_LABEL[nextT.mech] || nextT.mech}${nextT.band < mechTopBand(nextT.mech) ? ` (${nextT.band} t.)` : ''}`,
       body: masteredBandOf(nextT.mech) ? `Jau įveikei ${masteredBandOf(nextT.mech)} t. lygį – dabar ${nextT.band} t.` : 'Kitas žingsnis tavo mokymosi take – nauja gudrybė.',
       cta: 'Mokytis', action: 'playlist', actionData: nextT.mech, actionBand: nextT.band, style: 'primary',
@@ -4533,7 +4533,7 @@ function renderHome(){
         <div class="hero-streak" aria-label="Žvaigždės" title="Iš viso žvaigždžių · laisvų parduotuvei: ${starsAvailable()}">
           <span class="streak-flame">⭐</span>
           <span class="streak-num">${(store.stars && store.stars.total) || 0}</span>
-          <span class="streak-label">žvaigždžių${(store.plan && store.plan.weeklyStarGoal) ? ` · sav. ${starsThisWeek()}/${store.plan.weeklyStarGoal}` : ''}</span>
+          <span class="streak-label">${pluralForm((store.stars && store.stars.total) || 0,'žvaigždė','žvaigždės','žvaigždžių')}${(store.plan && store.plan.weeklyStarGoal) ? ` · sav. ${starsThisWeek()}/${store.plan.weeklyStarGoal}` : ''}</span>
         </div>
         <div class="hero-activity" aria-label="Pastarųjų 14 dienų aktyvumas">
           ${activityCells.join('')}
@@ -4554,7 +4554,7 @@ function renderHome(){
         <div class="recent-mastery">⭐ Šiandien įvaldyta: ${todayMastered.map(m=>`<b>${escapeHTML(MECHANIC_LABEL[m]||m)}</b>`).join(', ')}</div>
       `:''}
       <div class="muted small" style="margin-top:8px">
-        ${store.sessions.length} testų · ${totalAns} klausimų${totalAns?` · ${Math.round(100*totalRight/totalAns)} % teisingų`:''}
+        ${store.sessions.length} ${pluralForm(store.sessions.length,'testas','testai','testų')} · ${totalAns} ${pluralForm(totalAns,'klausimas','klausimai','klausimų')}${totalAns?` · ${Math.round(100*totalRight/totalAns)} % teisingų`:''}
       </div>
     </section>
 
@@ -4663,7 +4663,7 @@ function renderHome(){
         <summary>🎯 Konkurso strategija (perskaityk prieš kontrolinį!)</summary>
         <p style="font-size:14px;margin-top:8px">1) Pirmiausia – visi 3 taškų klausimai (1–10). Jie lengviausi, bet jų taškai tokie pat tikri. Tikslas – per ~15 min.</p>
         <p style="font-size:14px">2) Tada 4 taškų blokas. Užstrigai ilgiau nei 3 minutes – praleisk ir grįžk vėliau.</p>
-        <p style="font-size:14px">3) 5 taškų uždaviniams palik ~30 min. Juose ieškok gudrybės, ne ilgo skaičiavimo – jei skaičiuoji penktą minutę, greičiausiai praleidai triuką.</p>
+        <p style="font-size:14px">3) 5 taškų uždaviniams palik ~30 min. Juose ieškok gudrybės, ne ilgo skaičiavimo – jei skaičiuoji penktą minutę, greičiausiai praleidai gudrybę.</p>
         <p style="font-size:14px">4) Spėti verta tik tada, kai gali atmesti bent 2 variantus. Kitaip – praleisk: už praleistą baudos nėra, už klaidą – minus ketvirtis taškų.</p>
         <p style="font-size:14px">5) Laikrodis: pasitikrink ties 25 min (ar baigei 3 t.?) ir ties 50 min (ar baigei 4 t.?).</p>
       </details>
@@ -4685,7 +4685,7 @@ function renderHome(){
 
     <section class="card">
       <h3>Gudrybių mokymasis</h3>
-      <p style="margin-top:0">Kiekvienas Kengūros 5 taškų uždavinys slepia VIENĄ triuką. Šio sąrašo „Mokytis“ mygtukas atveria 4 žingsnių seriją: ① perskaityk triuką, ② peržiūrėk pavyzdį su sprendimu, ③ pabandyk su užuominomis, ④ įveik 3 uždavinius be jų.</p>
+      <p style="margin-top:0">Kiekvienas Kengūros 5 taškų uždavinys slepia VIENĄ gudrybę. Šio sąrašo „Mokytis“ mygtukas atveria 4 žingsnių seriją: ① perskaityk gudrybės aprašymą, ② peržiūrėk pavyzdį su sprendimu, ③ pabandyk su užuominomis, ④ įveik 3 uždavinius be jų.</p>
       <div class="mech-list">
         ${mechsForPlaylist.map(m=>{
           const has5 = mechBands[m].has(5);
@@ -5853,7 +5853,7 @@ function importProgressFile(file){
       const incoming = data && data.app === "kengura" && data.store ? data.store : data;
       if(!incoming || typeof incoming !== "object" || !incoming.activity || !incoming.settings) throw new Error("ne Kengūros progreso failas");
       const qs = Object.values(incoming.activity).reduce((a, c) => a + (c.answered || 0), 0);
-      if(!confirm(`Importuoti progresą (${qs} atsakymų, ${Object.keys(incoming.masteredMech || {}).length} įvaldytų gudrybių)?\n\nDabartinis progresas šioje naršyklėje bus pakeistas.`)) return;
+      if(!confirm(`Importuoti progresą (${qs} ${pluralForm(qs,'atsakymas','atsakymai','atsakymų')}, ${Object.keys(incoming.masteredMech || {}).length} įvaldytų gudrybių)?\n\nDabartinis progresas šioje naršyklėje bus pakeistas.`)) return;
       _storeFrozen = true;   // the unload save must not overwrite the import
       localStorage.setItem(LS_KEY, JSON.stringify(incoming));
       location.reload();
@@ -5924,7 +5924,7 @@ function renderParent(){
           const cw = Object.values(store.dueQueue || {}).filter(i => i.confWrong).length;
           return cw ? `<div class="stat" style="border-color:var(--bad)"><b>${cw}</b><span>„Tikrai žinau“ klaidos eilėje – klaidingi supratimai, ne atsitiktinumai</span></div>` : '';
         })()}
-        ${store.recogStats && store.recogStats.attempts ? `<div class="stat"><b>${Math.round(100*store.recogStats.correct/store.recogStats.attempts)} %</b><span>Gudrybės atpažinimas (${store.recogStats.attempts} bandymų)</span></div>` : ''}
+        ${store.recogStats && store.recogStats.attempts ? `<div class="stat"><b>${Math.round(100*store.recogStats.correct/store.recogStats.attempts)} %</b><span>Gudrybės atpažinimas (${store.recogStats.attempts} ${pluralForm(store.recogStats.attempts,'bandymas','bandymai','bandymų')})</span></div>` : ''}
       </div>
     </section>
 
@@ -5973,7 +5973,7 @@ function renderParent(){
     <section class="card">
       <h3>14 dienų aktyvumas</h3>
       <div class="activity-grid">
-        ${days.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} atsakymų"></div>`).join('')}
+        ${days.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} ${pluralForm(d.count,'atsakymas','atsakymai','atsakymų')}"></div>`).join('')}
       </div>
       <p class="help-bar">Kuo tamsesnė ląstelė, tuo daugiau dirbta tą dieną. Tikslas – ne kiek, o kasdien.</p>
     </section>
@@ -6242,7 +6242,7 @@ function renderPlaylist(){
   if(!special && step === 0){
     body = `
       <div class="methodology">
-        <h4>Triukas</h4>
+        <h4>Gudrybė</h4>
         <p>${escapeHTML(meta.trick || '')}</p>
         <h4>Pirmas žingsnis sprendžiant</h4>
         <p>${escapeHTML(meta.keyStep || '')}</p>
@@ -7408,9 +7408,9 @@ const ACHIEVEMENTS = [
   {id:"star50",  icon:"⭐", title:"Žvaigždžių rinkėjas", desc:"Surink 50 žvaigždžių",           check:()=> (store.stars.total||0) >= 50},
   {id:"star200", icon:"🌟", title:"Žvaigždynas",        desc:"Surink 200 žvaigždžių",          check:()=> (store.stars.total||0) >= 200},
   {id:"star500", icon:"✨", title:"Supernova",          desc:"Surink 500 žvaigždžių",          check:()=> (store.stars.total||0) >= 500},
-  {id:"mech1",   icon:"🧩", title:"Pirmas triukas",     desc:"Įvaldyk 1 gudrybę",               check:()=> masteredCount() >= 1},
-  {id:"mech5",   icon:"🧠", title:"Penki triukai",      desc:"Įvaldyk 5 gudrybes",              check:()=> masteredCount() >= 5},
-  {id:"mech10",  icon:"🎓", title:"Triukų meistras",    desc:"Įvaldyk 10 gudrybių",             check:()=> masteredCount() >= 10},
+  {id:"mech1",   icon:"🧩", title:"Pirma gudrybė",      desc:"Įvaldyk 1 gudrybę",               check:()=> masteredCount() >= 1},
+  {id:"mech5",   icon:"🧠", title:"Penkios gudrybės",    desc:"Įvaldyk 5 gudrybes",              check:()=> masteredCount() >= 5},
+  {id:"mech10",  icon:"🎓", title:"Gudrybių meistras",    desc:"Įvaldyk 10 gudrybių",             check:()=> masteredCount() >= 10},
   {id:"streak3", icon:"🔥", title:"Trijų dienų serija", desc:"3 dienos iš eilės",              check:()=> (store.streak.count||0) >= 3},
   {id:"streak7", icon:"🔥", title:"Savaitė iš eilės",   desc:"7 dienos iš eilės",              check:()=> (store.streak.count||0) >= 7},
   {id:"streak30",icon:"🔥", title:"Mėnuo iš eilės",     desc:"30 dienų iš eilės",              check:()=> (store.streak.count||0) >= 30},
@@ -7584,7 +7584,7 @@ function rewardsCardHTML(){
       <h3>🏁 Lenktynių iššūkis</h3>
       <p style="margin-top:0">Atsakyk <b>5 sunkius klausimus</b> (4 ir 5 taškų). Surink bent <b>3 teisingus</b> – ir atrakinsi <b>lenktynių žaidimą</b> kaip prizą! Daugiau teisingų = sunkesnės lenktynės ir <b>daugiau gyvybių</b> (3✓ → 1 gyvybė, 4✓ → 2, 5✓ → 3).</p>
       <div class="top-stats" style="margin-bottom:10px">
-        <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} žvaigždžių</span>
+        <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} ${pluralForm(s.total||0,'žvaigždė','žvaigždės','žvaigždžių')}</span>
         <span class="pill good">🏆 Pasiekimai: ${unlocked}/${ACHIEVEMENTS.length}</span>
         ${best>0?`<span class="pill muted">🏎 Rekordas: ${best} m</span>`:''}
         ${(store.games.jumpBest||0)>0?`<span class="pill muted">🦘 Rekordas: ${store.games.jumpBest} m</span>`:''}
