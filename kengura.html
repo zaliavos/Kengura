@@ -5563,7 +5563,7 @@ function renderContest(){
       <span>${escapeHTML(v)}</span>
     </button>`;
   }).join("");
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
+  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
 
   // Question strip showing all 30; answered are filled
   const strip = qs.map((qq, i) => {
@@ -6538,7 +6538,7 @@ function renderPlaylistQuestion(item, opts){
     </button>`;
   }).join("");
   const figureHtml = q.figure
-    ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"></div>`
+    ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"></div>`
     : "";
   const showHint = mode === "try" && !submitted && state.playlistHintShown[k];
   const approach = q.solution ? approachFromSolution(q.solution) : null;
@@ -6819,7 +6819,7 @@ function renderRecog(){
   const q = it.q;
   const submitted = state.recogSubmitted;
   const right = submitted && state.recogChosen === q.mechanic;
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
+  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
   const summary = (MECHANIC_METHODOLOGY[q.mechanic] || {}).summary || "";
   $app.innerHTML = `
     <section class="card">
@@ -7706,7 +7706,7 @@ function renderRaceChallenge(){
     </button>`;
   }).join("");
 
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
+  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
   const pips = qs.map((qq,i)=>{
     const done = i < idx || (i === idx && submitted);
     const cur = i === idx;
