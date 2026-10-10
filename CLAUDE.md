@@ -594,3 +594,35 @@ Simulation (84 days unless noted; `node _plan_sim.cjs …`):
 
 Simulation after this pass (84 d, --learn): daily 0.80 → 25/26, streak
 intact; weekend-off 0.80 → 24/25, 10 papers, streak 58.
+
+## Loops 26–45 (2026-10-10, seventh pass)
+
+- **26** many badges at once → one summary toast. **27** hero shows
+  stars (+ weekly goal) and streak freezes left. **28** ladder buttons
+  only offer bands with ≥ 2 questions. **30** parent weak list needs
+  ≥ 4 samples. **33** race gate prefers unseen questions. **36** quitting
+  a mastery check after a miss = failed attempt (`noteMechAttempt` in
+  `exitHome`). **38** diagnostic also when the last paper is > 60 d old
+  (`DIAGNOSTIC_STALE_DAYS`). **39** recap marks partly-practised papers.
+  **44** figure `alt` text.
+- **29 — profiles.** `kengura_meta` = {profiles:[{id,name}], active};
+  default profile keeps `kengura_v1`, others `kengura_v1_<id>`
+  (`storeKeyFor`). Parent view: switch / add (prompt) / delete
+  (confirm). Hero shows the active name when > 1 profile.
+- **31 — offline.** `sw.js` (network-first shell, cache-first
+  `figures/`), `manifest.webmanifest`, `icon.svg`; registration skipped
+  on `file:` and in the harness. **43** static checks pass.
+- **32 — first-run parent card** (date, days, prize) when no date and no
+  answers yet.
+- **34 — stale rechecks are scheduled.** `staleMechanicToRecheck()`
+  takes the core before the mixed fallback in every phase (120-day sim:
+  43 idle mixed days → 43 recheck playlists).
+- **37 — long foundation** lifts the band-4 cap once every capped target
+  is done (`nextMechanicTarget` walks again as "build").
+- **40 — unload-save bug.** `beforeunload` → `saveStore` overwrote an
+  imported store and re-saved a deleted profile. `_storeFrozen` silences
+  saves across those reloads. Verified live.
+- **35** English-leak sweep: nothing. **41** matrix (--learn where noted):
+  0.70 → 20/25, 0.85 → all, weekend-off 0.80 → 22, streak 58; erratic
+  0.70 miss 30 % → 14; 120 d → all; 45 d → 22; 30 d (flat 0.85) → 18.
+- **42/45** notes + push.
