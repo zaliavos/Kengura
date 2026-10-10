@@ -3724,13 +3724,19 @@ function nextMechanicToLearn(){
    mastery, the foundation cap, step-downs and parking. */
 function nextMechanicTarget(){
   const phase = planPhase();
-  for(const m of MECHANIC_ORDER){
-    if(!MECHANIC_METHODOLOGY[m]) continue;
-    if(archiveQsForMech(m, null).length < TRACK_MIN_QS) continue;
-    const t = mechTargetFor(m, phase);
-    if(t) return t;
-  }
-  return null;
+  const walk = ph => {
+    for(const m of MECHANIC_ORDER){
+      if(!MECHANIC_METHODOLOGY[m]) continue;
+      if(archiveQsForMech(m, null).length < TRACK_MIN_QS) continue;
+      const t = mechTargetFor(m, ph);
+      if(t) return t;
+    }
+    return null;
+  };
+  // A long foundation (100+ days out) can finish every band-4 target
+  // weeks before the build phase: lift the cap rather than idle on
+  // mixed sets.
+  return walk(phase) || (phase === "foundation" ? walk("build") : null);
 }
 let _saveWarned = false;
 function saveStore(s){
