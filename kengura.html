@@ -7529,7 +7529,7 @@ function weeklyRecapHTML(){
           <div class="stat"><b>${stars} ⭐</b><span>žvaigždžių per savaitę</span></div>
           <div class="stat"><b>${mastered.length}</b><span>${mastered.length ? `įvaldyta: ${mastered.map(m => escapeHTML(MECHANIC_LABEL[m] || m)).join(', ')}` : 'naujų gudrybių įvaldyta'}</span></div>
         </div>
-        ${contests.length ? `<p style="margin:8px 0 0">Kontrolinis: <b>${contests.map(c => Math.round((c.scoreWithPenalty ?? c.points)*4)/4).join(' → ')}</b> t.${prevContests.length ? ` (prieš tai: ${Math.round((prevContests[0].scoreWithPenalty ?? prevContests[0].points)*4)/4} t.${(contests[contests.length-1].scoreWithPenalty ?? 0) > (prevContests[0].scoreWithPenalty ?? 0) ? ' 📈' : ''})` : ''}</p>` : ''}
+        ${contests.length ? `<p style="margin:8px 0 0">Kontrolinis: <b>${contests.map(c => Math.round((c.scoreWithPenalty ?? c.points)*4)/4).join(' → ')}</b> t.${contests.some(c => (c.practisedBefore||0) >= 6) ? ' <span class="pill muted" title="Dalis užduočių jau buvo spręstos treniruotėse">dalis matyta</span>' : ''}${prevContests.length ? ` (prieš tai: ${Math.round((prevContests[0].scoreWithPenalty ?? prevContests[0].points)*4)/4} t.${(contests[contests.length-1].scoreWithPenalty ?? 0) > (prevContests[0].scoreWithPenalty ?? 0) ? ' 📈' : ''})` : ''}</p>` : ''}
         ${focus ? `<div class="footer-actions" style="margin-top:10px">
           <span>${monday ? 'Šios' : 'Kitos'} savaitės tikslas: <b>${escapeHTML(MECHANIC_LABEL[focus] || focus)}</b>${weak && focus === weak.mech ? ` (${Math.round(100*weak.rate)} % klaidų)` : ' (kita take)'}</span>
           <button class="btn small primary" data-recap-mech="${focus}">Mokytis</button>
