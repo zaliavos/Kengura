@@ -6180,8 +6180,11 @@ function renderPlaylist(){
     // ~10 % of the time; 3/3 is honest evidence.
     const passed = correctCount === items.length && items.length >= 2;
     const bands = content.bandsAvailable || [];
-    const lowerBand = special ? null : bands.filter(b => b < content.sourceBand).pop() || null;
-    const higherBand = !special && content.sourceBand < 5 && bands.includes(5) ? 5 : null;
+    // Ladder buttons only point at bands with enough questions for a
+    // passable mastery check (≥ 2) — same rule as the plan.
+    const enough = b => archiveQsForMech(mech, b).length >= 2;
+    const lowerBand = special ? null : bands.filter(b => b < content.sourceBand && enough(b)).pop() || null;
+    const higherBand = !special && content.sourceBand < 5 && bands.includes(5) && enough(5) ? 5 : null;
     const timerHtml = special ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ 5:00</span>`;
     const headWord = isDue ? 'Pakartojimo eilė' : isMixed ? 'Mišrus rinkinys' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
     body = `
