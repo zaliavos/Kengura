@@ -3260,6 +3260,10 @@ const Sfx = (()=>{
     if(ctx) return ctx;
     const AC = (typeof window !== "undefined") && (window.AudioContext || window.webkitAudioContext);
     if(!AC) return null;
+    // Browsers refuse audio before the first user gesture (and log a warning
+    // when a context is created too early) — e.g. the retroactive badge
+    // toast at load. Wait for a gesture; the next click will create it.
+    if(typeof navigator !== "undefined" && navigator.userActivation && !navigator.userActivation.hasBeenActive) return null;
     try { ctx = new AC(); } catch(_){ return null; }
     return ctx;
   }
