@@ -650,3 +650,41 @@ intact; weekend-off 0.80 → 24/25, 10 papers, streak 58.
 - **Paper year was random per render** (`pickContestYear` tie-break used
   Math.random) — the plan label, intro and opened paper could differ.
   Tie-break is now a hash of date + year: stable within a day.
+
+## Loops 46–55 (2026-10-10, eighth pass)
+
+- **46/47 — no dead ends after a plan step.** Playlist, recognition and
+  contest results lead with "Toliau pagal planą: <next>" (`nextPlanStep`,
+  `planNextButtonHTML`, `wirePlanNext`); the screen that finishes the day
+  offers "🎟 Žaisti už bilietą" (`planRewardButtonHTML`). Contest-day
+  "review mistakes" step ticks on the contest results page.
+- **48 — mastery clock = contest pace** (`playlistMasteryMs`: 1 / 2,5 /
+  5 min per 3/4/5-pt item). It was a flat 5 min (100 s per 5-pointer).
+- **49 — option debris.** `_fix_option_junk.py` cleared "D) E)" & co.
+  from 48 questions; smoke test guards debris and the option flags.
+- **50/51 — kid solutions were wrong.** The re-spacers had mangled the
+  hand-written kid texts ("Pas ir inkai"); worse, 74 of 99 kid solutions
+  never reached the key and many argued for a wrong answer (written
+  without the figures). All rewritten from figure + official solution
+  (`_solutions_5pt_kid.py`, applied by `_apply_kid_solutions.py`); every
+  one ends "Atsakymas: X) …" with X = key (smoke-checked); misconceptions
+  only name a concrete slip. **Never run `_respace_words.py` /
+  `_segment_words.py` on solutionKid/misconceptions** (now excluded).
+  Playlists now show solutionKid + "Tavo klaida" too (they showed only
+  the official text before).
+- **Archive errors fixed:** 2021-10 (held Q29's text), 2021-29 options,
+  2024-23 key → B, 2024-24 key → A (`_fix_misfiled_2021_2024.py`); wrong
+  figures on 2010-8, 2012-13, 2019-11, 2023-9, 2022-25, 2023-23
+  (`_refigure_misfits.py`) and 2021-29/30 (split). Smoke test fails on
+  byte-identical figures. PyMuPDF is installed for the user: run figure
+  scripts with plain `python`, not `python -I`.
+- **52 — official solution beats AI text**; AI is asked only when no human
+  solution exists; no AI "your mistake" for picture options.
+- **53 — contest mistakes auto-queue** (`queueContestWrongs`: ≤ 3 per
+  paper, easier bands first, 3/day, `fromContest` → warm-up only, never a
+  whole review day outside the taper). 6-seed averages (`--seed=N`):
+  0.8 learn 26.0, 0.85 25.3, weekend-off 18.2, erratic 12.0, 0.7 learn
+  17.8 (was 20.7 – the price of reviewing 3 paper mistakes a week).
+- **55 — service worker:** shell fetched with `cache: "no-cache"`; cache
+  names v2. **Bump `FIGS` in sw.js whenever a figure PNG changes** –
+  figures are cache-first, so a device keeps the old picture otherwise.

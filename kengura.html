@@ -6672,7 +6672,8 @@ function renderPlaylistQuestion(item, opts){
       ${figureHtml}
       <div class="options">${optionsHtml}</div>
       ${showHint && approach ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(approach)}</div>` : ''}
-      ${showSol && q.solution ? `<div class="explain"><b>Sprendimas:</b> ${escapeHTML(q.solution)}</div>` : ''}
+      ${submitted && chosen && chosen !== q.correct && q.misconceptions && q.misconceptions[chosen] ? `<div class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</div>` : ''}
+      ${showSol && (q.solutionKid || q.solution) ? `<div class="explain"><b>Sprendimas:</b> ${escapeHTML(q.solutionKid || q.solution)}</div>` : ''}
       ${submitted ? `<div class="explain" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
         <b>${chosen === q.correct ? 'Teisingai!' : 'Klaida.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>!` : ''}
         Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.
