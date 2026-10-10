@@ -27,7 +27,7 @@ global.Date = FakeDate;
 const EXPORTS = `return {store, state, planStepsForToday, planPhase, daysToContest, isContestDay, needsDiagnosticContest,
   nextMechanicToLearn, dueNow, markPlanStepDone, archiveQsForMech, MECHANIC_ORDER, MECHANIC_LABEL, recordArchiveAnswer,
   noteMechAttempt, masteredBandOf, mechTopBand, creditContestActivity,
-  ARCHIVE, pickContestYear, reservedYears, contestEligibleYears, logActivity, pickPlaylistContent, trackMechanics};`;
+  ARCHIVE, pickContestYear, reservedYears, contestEligibleYears, logActivity, pickPlaylistContent, trackMechanics, queueContestWrongs};`;
 const app = new Function("window","document","localStorage","setInterval","clearInterval","requestAnimationFrame","cancelAnimationFrame","confirm","alert","fetch", m[1]+EXPORTS)(
   windowStub, documentStub, ls, ()=>0, ()=>{}, ()=>0, ()=>{}, ()=>false, ()=>{}, ()=>Promise.reject(new Error("x")));
 const {store, state} = app;
@@ -46,7 +46,7 @@ const c = new RealDate(NOW); c.setDate(c.getDate() + CONTEST_IN);
 store.plan.contestDate = `${c.getFullYear()}-${String(c.getMonth()+1).padStart(2,"0")}-${String(c.getDate()).padStart(2,"0")}`;
 store.plan.contestWeekday = 6;
 if(SKIP_DAYS.size) store.plan.trainingDays = [0,1,2,3,4,5,6].filter(d => !SKIP_DAYS.has(d));
-let rng = 42; const rand = () => { rng = (rng * 1103515245 + 12345) & 0x7fffffff; return rng / 0x7fffffff; };
+let rng = Number((process.argv.find(a => a.startsWith("--seed=")) || "--seed=42").slice(7));; const rand = () => { rng = (rng * 1103515245 + 12345) & 0x7fffffff; return rng / 0x7fffffff; };
 const log = []; const tally = {};
 const seenMastery = new Set();
 let skipped = 0;
@@ -61,7 +61,9 @@ for(let day = 0; day <= CONTEST_IN; day++){
     const t = app.ARCHIVE.find(x => String(x.year) === String(core.arg));
     const seenBefore = t.questions.filter(q => store.seenQ[`${t.year}-${q.num}`]).length;
     store.contests.push({when: NOW, year: t.year, points: 60, scoreWithPenalty: 60, maxPoints: 120, byBand:{}});
-    app.creditContestActivity(t.questions, Object.fromEntries(t.questions.map(q => [q.num, rand() < 0.6 ? q.correct : "A"])));
+    const answers = Object.fromEntries(t.questions.map(q => [q.num, rand() < 0.6 ? q.correct : "A"]));
+    app.creditContestActivity(t.questions, answers);
+    app.queueContestWrongs(t.year, t.questions, answers);   // automatic since loop 53
     t.questions.forEach(q => { store.seenQ[`${t.year}-${q.num}`] = NOW; });
     log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} CONTEST ${t.year}  (practised before: ${seenBefore}/30)`);
   } else if(core.act === "playlist"){

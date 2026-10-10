@@ -3575,6 +3575,7 @@ function recordArchiveAnswer(year, q, correct, confidence){
       streak: nextStreak,
       // "Tikrai žinau" + wrong = a misconception, not a lapse – priority review
       confWrong: (!correct && confidence === "a") || undefined,
+      fromContest: (existing && existing.fromContest) || undefined,   // stays warm-up material
     };
   }
   saveStore(store);
@@ -4443,7 +4444,7 @@ function renderHome(){
     }
     if(due.length) missions.push({
       tag: 'Pakartojimo eilė',
-      title: `Šiandien laukia ${due.length} ${due.length%10===1 && due.length%100!==11 ? 'uždavinys' : (due.length%10>=2 && due.length%10<=4 && (due.length%100<10 || due.length%100>=20) ? 'uždaviniai' : 'uždavinių')}`,
+      title: `Šiandien laukia ${due.length} ${pluralForm(due.length,'uždavinys','uždaviniai','uždavinių')}`,
       body: 'Tu jau juos esi sprendęs – pažiūrėkime, ar dar pameni.',
       cta: 'Pradėti pakartojimą', action: 'due', style: 'primary',
     });
@@ -5745,6 +5746,7 @@ function finishContest(byTimer){
     points, scoreWithPenalty: Math.round(scoreWithPenalty * 4)/4,
     maxPoints, correct, total: qs.length, answered,
     byBand, byTimer: !!byTimer, practisedBefore,
+    queued: queueContestWrongs(state.contestYear, qs, state.contestAnswers),
     answers: Object.fromEntries(qs.map(q => [q.num, state.contestAnswers[q.num] || null])),
   };
   store.contests = store.contests || [];
@@ -5787,21 +5789,26 @@ function creditContestActivity(qs, answers){
 /* Feed contest mistakes into the spaced-repetition queue (due tomorrow).
    No stars / activity credit – the contest already happened; this only
    schedules the remediation. */
-function queueContestWrongs(){
-  const qs = state.contestQuestions;
-  let added = 0;
-  qs.forEach(q => {
-    const a = state.contestAnswers[q.num];
-    if(!a || a === q.correct) return;
-    if(!q.mechanic) return;
-    store.dueQueue[`${state.contestYear}-${q.num}`] = {
-      year: state.contestYear, num: q.num, mech: q.mechanic,
-      band: q.points || 3, dueAt: Date.now() + ONE_DAY_MS, streak: 0,
+/* A paper's mistakes are the best review material there is, so they go
+   into the due queue automatically (a button used to do it – and was
+   easy to miss). At most CONTEST_REVIEW_MAX per paper, easier bands
+   first (the points a kid should not lose), staggered 3 per day so they
+   come back through the warm-ups. Queuing all of them (~12 a paper)
+   buried the plan in review days: the simulator's mastery fell 26 → 15. */
+const CONTEST_REVIEW_PER_DAY = 3;
+const CONTEST_REVIEW_MAX = 3;
+function queueContestWrongs(year, qs, answers){
+  const wrong = qs.filter(q => answers[q.num] && answers[q.num] !== q.correct && q.mechanic && !store.dueQueue[`${year}-${q.num}`])
+    .sort((a, b) => (a.points || 3) - (b.points || 3) || a.num - b.num)
+    .slice(0, CONTEST_REVIEW_MAX);
+  wrong.forEach((q, i) => {
+    store.dueQueue[`${year}-${q.num}`] = {
+      year, num: q.num, mech: q.mechanic, band: q.points || 3,
+      dueAt: Date.now() + ONE_DAY_MS * (1 + Math.floor(i / CONTEST_REVIEW_PER_DAY)), streak: 0,
+      fromContest: true,   // warm-up material: never counts toward a whole review day
     };
-    added++;
   });
-  saveStore(store);
-  return added;
+  return wrong.length;
 }
 
 function renderContestResults(){
@@ -5852,10 +5859,7 @@ function renderContestResults(){
           <p class="explain">${escapeHTML(q.solutionKid || q.solution || '')}</p>
         </details>`;
       }).join('')}
-      ${wrongs.some(q => q.mechanic) ? `<div class="footer-actions">
-        <span class="help-bar">Klaidos gali sugrįžti rytoj kaip pakartojimas.</span>
-        <button class="btn small primary" id="queueWrongsBtn">Pridėti į pakartojimo eilę</button>
-      </div>` : ''}
+      ${r.queued ? `<p class="help-bar">✓ ${r.queued} ${pluralForm(r.queued,'klaida pateko','klaidos pateko','klaidų pateko')} į pakartojimo eilę – nuo rytojaus grįš apšilimuose, po ${CONTEST_REVIEW_PER_DAY} per dieną.</p>` : ''}
     </section>` : ''}
 
     ${skipped.length ? `
@@ -5903,12 +5907,6 @@ function renderContestResults(){
   wirePlanNext();
   document.getElementById("contestBack").addEventListener("click", ()=>{
     state.view = "home"; renderHome();
-  });
-  const queueBtn = document.getElementById("queueWrongsBtn");
-  if(queueBtn) queueBtn.addEventListener("click", ()=>{
-    const n = queueContestWrongs();
-    queueBtn.textContent = `Pridėta (${n}) ✓`;
-    queueBtn.disabled = true;
   });
 }
 
@@ -7201,8 +7199,9 @@ function planStepsForToday(){
   // backlog takes the core: 10+ due (5+ in the taper, where mistakes are
   // the whole point).
   const DUE_CORE_MIN = phase === "taper" ? 5 : 10;
+  const backlog = phase === "taper" ? due.length : due.filter(d => !d.fromContest).length;
   let core;
-  if(due.length >= DUE_CORE_MIN){
+  if(backlog >= DUE_CORE_MIN){
     core = {id:"core", label:`Pakartojimas – kur klydai (${Math.min(due.length,10)} užd.)`, act:"due"};
   } else if(phase === "taper"){
     const stale = staleMechanicToRecheck();
