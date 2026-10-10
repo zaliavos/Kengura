@@ -75,7 +75,11 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         pickPlaylistContent, planStepsForToday, daysToContest,
         SHOP_COLORS, starsAvailable, archiveQsForMech,
         openPlan, openRecogDrill, openMixedSet, openPlaylist, startSprint,
-        openRaceChallenge, requestOpenContest, state, store};
+        openRaceChallenge, requestOpenContest, state, store,
+        planPhase, isContestDay, pickContestYear, contestEligibleYears,
+        starsForAnswer, awardStars, starsThisWeek, markPlanStepDone,
+        Sfx, Fx, trackMechanics, trackCardHTML, weeklyRecapHTML,
+        rewardsCardHTML, buildRacePool, masteryDecayDays, logActivity};
 `;
 let app;
 try {
@@ -256,7 +260,7 @@ section("course layer");
   check("shop classic color free", SHOP_COLORS.classic && SHOP_COLORS.classic.cost === 0);
   check("stars start at 0 available", app.starsAvailable() === 0);
 
-  check("plan CTA is ghost", html.includes('class="btn ghost" id="planBtn"'));
+  check("plan CTA toggles primary/ghost", html.includes("'primary' : 'ghost'}\" id=\"planBtn\""));
   check("plan steps wrap", html.includes('cat-row plan-step'));
   check("recog options use A–D letters", html.includes("String.fromCharCode(65 + i)"));
 
@@ -267,6 +271,111 @@ section("course layer");
     app.store.contestInProgress === savedPaper || (app.store.contestInProgress && String(app.store.contestInProgress.year)==="2018"),
     JSON.stringify(app.store.contestInProgress && app.store.contestInProgress.year));
   app.store.contestInProgress = null;
+}
+
+// ---------- 7b. macro-cycle plan, star economy, effects ----------
+section("macro-cycle + stars");
+{
+  const {planPhase, isContestDay, pickContestYear, contestEligibleYears,
+         starsForAnswer, awardStars, starsThisWeek, markPlanStepDone,
+         planStepsForToday, Sfx, Fx, trackMechanics,
+         trackCardHTML, weeklyRecapHTML, rewardsCardHTML, buildRacePool,
+         masteryDecayDays, store, state} = app;
+  const pad = n => String(n).padStart(2, "0");
+  const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const inDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return keyOf(d); };
+
+  // Phases keyed to the contest date
+  store.plan.contestDate = null;
+  check("no date → build", planPhase() === "build");
+  check("no date → 60-day decay", masteryDecayDays() === 60);
+  store.plan.contestDate = inDays(90);
+  check("90 d out → foundation", planPhase() === "foundation", planPhase());
+  check("date set → 28-day decay", masteryDecayDays() === 28);
+  store.plan.contestDate = inDays(30);
+  check("30 d out → build", planPhase() === "build", planPhase());
+  store.plan.contestDate = inDays(5);
+  check("5 d out → taper", planPhase() === "taper", planPhase());
+  // Taper never introduces a new mechanic
+  store.plan.contestWeekday = (new Date().getDay() + 1) % 7;   // not today
+  {
+    const steps = planStepsForToday();
+    check("taper plan has 3 steps", steps.length === 3, steps.map(s=>s.act).join(","));
+    check("taper core is not a new playlist", steps[1].act !== "playlist", steps[1].act);
+  }
+  // Contest eve = rest, contest day = none
+  store.plan.contestDate = inDays(1);
+  check("eve: strategy step", planStepsForToday().some(s => s.act === "strategy"));
+  store.plan.contestDate = inDays(0);
+  check("contest day: single none step", planStepsForToday().length === 1 && planStepsForToday()[0].act === "none");
+  // Weekly contest day → contest core with a pickable year
+  store.plan.contestDate = inDays(40);
+  store.plan.contestWeekday = new Date().getDay();
+  check("today is contest day", isContestDay(new Date()));
+  {
+    const steps = planStepsForToday();
+    check("contest day core = contest", steps[1].act === "contest", steps[1].act);
+    check("contest year chosen", contestEligibleYears().includes(steps[1].arg), String(steps[1].arg));
+  }
+  check("pickContestYear eligible", contestEligibleYears().includes(pickContestYear()));
+  store.plan.contestWeekday = (new Date().getDay() + 1) % 7;
+  check("tomorrow-weekday is not contest day today", !isContestDay(new Date()));
+  // 3 days before the contest is a rehearsal regardless of weekday
+  store.plan.contestDate = inDays(3);
+  check("T-3 is a contest day", isContestDay(new Date()));
+  store.plan.contestDate = null;
+  store.plan.contestWeekday = 6;
+
+  // Star economy
+  check("stars: wrong = 1", starsForAnswer(false, 5) === 1);
+  check("stars: correct 3 = 1", starsForAnswer(true, 3) === 1);
+  check("stars: correct 4 = 2", starsForAnswer(true, 4) === 2);
+  check("stars: correct 5 = 3", starsForAnswer(true, 5) === 3);
+  const before = store.stars.total, weekBefore = starsThisWeek();
+  awardStars("fromBonus", 7);
+  check("awardStars sums fromBonus", store.stars.total === before + 7, `${store.stars.total} vs ${before + 7}`);
+  check("awardStars logs to the week", starsThisWeek() === weekBefore + 7);
+  check("activity day has stars", (store.activity[keyOf(new Date())] || {}).stars >= 7);
+
+  // Daily-plan completion pays once: +10 stars, one free race
+  const tk = keyOf(new Date());
+  store.planDone[tk] = {};
+  const fr = store.games.freeRaces || 0, st = store.stars.total;
+  for(const id of ["warmup","core","cooldown"]){ state._planStep = id; markPlanStepDone(); }
+  check("plan day bonus +10", store.stars.total === st + 10, `${store.stars.total - st}`);
+  check("plan day grants a free race", store.games.freeRaces === fr + 1);
+  state._planStep = "core"; markPlanStepDone();
+  check("plan day bonus pays once", store.stars.total === st + 10 && store.games.freeRaces === fr + 1);
+  delete store.planDone[tk];
+
+  // Effects are no-ops without a browser
+  let threw = false;
+  try { Sfx.play("correct"); Sfx.play("nope"); Fx.floatStars(3); Fx.confetti(5); Fx.celebrate("plan"); } catch(e){ threw = e.message; }
+  check("Sfx/Fx no-op without AudioContext/DOM", !threw, String(threw));
+  check("sound setting defaults on", store.settings.sound !== false);
+
+  // Track + recap + rewards render
+  const tm = trackMechanics();
+  check("track has ≥ 20 mechanics", tm.length >= 20, String(tm.length));
+  check("track order follows MECHANIC_ORDER", tm.every((m, i) => i === 0 || app.MECHANIC_ORDER.indexOf(m) > app.MECHANIC_ORDER.indexOf(tm[i-1])));
+  const th = trackCardHTML();
+  check("track card renders nodes", (th.match(/track-node/g) || []).length === tm.length, String((th.match(/track-node/g) || []).length));
+  check("track card has a finish flag", th.includes("track-flag"));
+  app.logActivity(true, 5);   // one answered 5-pointer → recap has something to show
+  check("recap renders (activity exists)", weeklyRecapHTML().includes("apžvalga"));
+  check("recap counts the answer", weeklyRecapHTML().includes("1</b><span>uždavinių"));
+  const rh = rewardsCardHTML();
+  check("rewards shows weekly goal", rh.includes("Savaitės tikslas"));
+  check("rewards shows free race button", rh.includes('id="freeRaceBtn"'));
+  // Foundation gate admits 3-pointers; build gate does not
+  store.plan.contestDate = inDays(90);
+  check("foundation gate has 3-pt", buildRacePool().some(q => q.points === 3));
+  store.plan.contestDate = inDays(30);
+  check("build gate is 4/5-pt only", buildRacePool().every(q => q.points >= 4));
+  store.plan.contestDate = null;
+  // The contest sim must not play answer sounds (only the 5-min warn)
+  const contestSrc = html.slice(html.indexOf("function startContestTicker("), html.indexOf("function renderContestResults("));
+  check("contest sim silent except warn", !/Sfx\.play\("(correct|wrong)"\)/.test(contestSrc) && contestSrc.includes('Sfx.play("warn")'));
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------

@@ -190,6 +190,56 @@
   /* Mechanic decay pill in playlist menu */
   .mech-stale-pill{display:inline-block;background:#fff;border:1px solid var(--accent);
     color:var(--accent);font-size:11px;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:600}
+
+  /* ---- Effects: toasts, floating stars, confetti ---- */
+  .toast{pointer-events:auto;background:var(--accent);color:#fff;padding:10px 16px;border-radius:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.18);font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;
+    opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s;max-width:90vw}
+  .toast.on{opacity:1;transform:translateY(0)}
+  @keyframes fx-star-up{
+    0%  {opacity:0;transform:translate(-50%,0) scale(.7)}
+    15% {opacity:1;transform:translate(-50%,-10px) scale(1.15)}
+    100%{opacity:0;transform:translate(-50%,-90px) scale(1)}
+  }
+  .fx-star{position:absolute;left:50%;top:38%;font-size:26px;font-weight:800;color:#b8860b;
+    text-shadow:0 2px 0 #fff,0 0 12px rgba(255,200,0,.6);animation:fx-star-up 1.4s ease-out both}
+  @keyframes fx-fall{
+    0%  {transform:translateY(-20px) rotate(0deg);opacity:1}
+    100%{transform:translateY(105vh) rotate(720deg);opacity:.9}
+  }
+  .fx-confetti{position:absolute;top:-20px;border-radius:2px;animation:fx-fall 2s linear both}
+
+  /* ---- Learning track (30-node path) ---- */
+  .track{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center;margin:10px 0 6px}
+  .track-node{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:#fff;
+    display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);
+    cursor:pointer;position:relative;transition:transform .15s}
+  .track-node:hover{transform:scale(1.12)}
+  .track-node.done{background:var(--good);border-color:var(--good);color:#fff}
+  .track-node.stale{background:#fff;border-color:var(--accent);color:var(--accent)}
+  .track-node.current{background:var(--accent);border-color:var(--accent);color:#fff;
+    box-shadow:0 0 0 4px var(--accent-soft);animation:track-pulse 1.6s ease-in-out infinite}
+  @keyframes track-pulse{0%,100%{box-shadow:0 0 0 4px var(--accent-soft)}50%{box-shadow:0 0 0 8px rgba(214,69,26,.15)}}
+  .track-link{width:10px;height:3px;background:var(--line);border-radius:2px}
+  .track-link.done{background:var(--good)}
+  .track-flag{font-size:22px;margin-left:4px}
+  .track-bar{height:8px;background:#efe6d2;border-radius:4px;overflow:hidden;margin-top:8px}
+  .track-bar > div{height:100%;background:linear-gradient(90deg,var(--good),#5ec08a);border-radius:4px;transition:width .4s}
+
+  /* ---- Plan: phase pill + week strip ---- */
+  .phase-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.03em}
+  .phase-foundation{background:#e3f0ff;color:#1a5fa3;border:1px solid #9cc4f0}
+  .phase-build{background:#fff1d6;color:#9a5a00;border:1px solid #f0c27a}
+  .phase-taper{background:var(--bad-soft);color:var(--bad);border:1px solid #e9a0a7}
+  .week-strip{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+  .week-day{flex:1 1 0;min-width:44px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:6px 2px;font-size:11px;background:#fff}
+  .week-day .wd{font-weight:700;color:var(--muted)}
+  .week-day .ic{font-size:18px;line-height:1.3}
+  .week-day.today{border-color:var(--accent);background:#fff4e8}
+  .week-day.done{background:var(--good-soft);border-color:var(--good)}
+  .week-day.contest{background:#fff1d6}
+  .goal-bar{height:10px;background:#efe6d2;border-radius:5px;overflow:hidden;margin:6px 0}
+  .goal-bar > div{height:100%;background:linear-gradient(90deg,#f0b429,#f08a1c);border-radius:5px;transition:width .4s}
   kbd{
     background:#f1ecdf;border:1px solid var(--line);border-bottom-width:2px;
     border-radius:6px;padding:1px 6px;font-size:12px;font-family:inherit;color:#444;
@@ -2970,18 +3020,22 @@ function loadStore(){
     activity:{},       // { "YYYY-MM-DD": {answered, correct, secondsOnTask} }
     contests:[],       // [{when, year, points, scoreWithPenalty, maxPoints, correct, total, answered, byBand}]
     contestInProgress:null, // {year, answers, current, startedAt, endsAt} — survives a reload mid-contest
-    settings:{count:15, difficulties:[3,4,5], useTimer:true, kenguraMode:false, negativeScore:false, askConfidence:false},
+    settings:{count:15, difficulties:[3,4,5], useTimer:true, kenguraMode:false, negativeScore:false, askConfidence:false, sound:true},
     streak:{count:0, lastDay:null, freezesUsed:0, freezeMonth:null},
     // Star economy — motivational reward currency.
     // total = fromQ + fromTime; spent = shop purchases; _timeSecRem carries sub-minute remainder.
-    stars:{total:0, fromQ:0, fromTime:0, spent:0, _timeSecRem:0},
-    // Racing reward minigame records.
-    games:{plays:0, bestByDiff:{easy:0, medium:0, hard:0}, best:0, hardUnlocked:false},
+    // fromBonus = daily-plan / perfect-session / mastery bonuses.
+    stars:{total:0, fromQ:0, fromTime:0, fromBonus:0, spent:0, _timeSecRem:0},
+    // Racing reward minigame records. freeRaces = tickets earned by finishing
+    // the daily plan — a race without the 5-question gate.
+    games:{plays:0, bestByDiff:{easy:0, medium:0, hard:0}, best:0, hardUnlocked:false, freeRaces:0},
     // Unlocked achievements: { achievementId: timestamp }
     achievements:{},
     // Treniruočių planas — contest date + per-day session completion.
-    plan:{contestDate:null},
-    planDone:{},       // { "YYYY-MM-DD": {warmup, core, cooldown} }
+    // contestWeekday: 0 = Sunday … 6 = Saturday — the weekly contest-sim day.
+    // weeklyStarGoal / weeklyReward: parent-set goal tied to a real reward.
+    plan:{contestDate:null, contestWeekday:6, weeklyStarGoal:150, weeklyReward:""},
+    planDone:{},       // { "YYYY-MM-DD": {warmup, core, cooldown, bonus} }
     // Freshness marker for practice pickers: { "year-num": lastSeenTs }
     seenQ:{},
     // Windowed error rate: { mech: [0,1,...] } last ≤10 attempts (1 = wrong)
@@ -3095,29 +3149,217 @@ function bumpStreakForToday(){
   s.lastDay = today;
 }
 
-function logActivity(correct){
+/* Stars for one answered question. Effort always pays 1; a correct
+   4-pointer pays 2 and a correct 5-pointer pays 3 — the contest's hard
+   block is where the stars are, exactly like the real paper. */
+function starsForAnswer(correct, band){
+  if(!correct) return 1;
+  if(band >= 5) return 3;
+  if(band === 4) return 2;
+  return 1;
+}
+
+function logActivity(correct, band){
   const k = todayKey();
   const a = store.activity[k] = store.activity[k] || {answered:0, correct:0};
   a.answered++;
   if(correct) a.correct++;
   bumpStreakForToday();
-  awardStars("fromQ", 1);   // 1 star per question answered (any mode)
+  const n = starsForAnswer(correct, band || 3);
+  awardStars("fromQ", n);
+  Fx.floatStars(n);
   checkAchievements();      // badge toasts should fire right away, not on the next heartbeat
 }
 
 /* ============================================================
    STAR ECONOMY — motivational currency.
-   Earned two ways:
-     • fromQ   — +1 per question answered (via logActivity)
-     • fromTime — +1 per full minute of active app use (heartbeat)
-   total is always fromQ + fromTime; we keep both for the breakdown.
+   Earned three ways:
+     • fromQ     — 1–3 per question answered (via logActivity)
+     • fromTime  — +1 per full minute of active app use (heartbeat)
+     • fromBonus — daily plan finished (+10), perfect session (+5),
+                   mechanic mastered (+5)
+   total is always the sum; we keep the parts for the breakdown.
+   Each day's stars are also logged in store.activity[day].stars so the
+   weekly goal and the Sunday recap can add them up.
    ============================================================ */
 function awardStars(kind, n){
-  if(!store.stars) store.stars = {total:0, fromQ:0, fromTime:0, _timeSecRem:0};
+  if(!store.stars) store.stars = {total:0, fromQ:0, fromTime:0, fromBonus:0, _timeSecRem:0};
   store.stars[kind] = (store.stars[kind] || 0) + n;
-  store.stars.total = (store.stars.fromQ || 0) + (store.stars.fromTime || 0);
+  store.stars.total = (store.stars.fromQ || 0) + (store.stars.fromTime || 0) + (store.stars.fromBonus || 0);
+  const k = todayKey();
+  const a = store.activity[k] = store.activity[k] || {answered:0, correct:0};
+  a.stars = (a.stars || 0) + n;
   // logActivity already triggers a saveStore via its callers; the time
   // heartbeat saves on its own throttle. No save here to avoid churn.
+}
+
+/* Bonus stars with a visible celebration — used for plan completion,
+   perfect sessions and mastery. */
+function awardBonus(n, reason){
+  awardStars("fromBonus", n);
+  Fx.floatStars(n);
+  if(reason) showToast("⭐", `${escapeHTML(reason)} <b>+${n} ⭐</b>`);
+  saveStore(store);
+}
+
+/* Monday-based week key, e.g. "2026-W41-start:2026-10-05". We only need
+   the Monday date so the recap/goal can sum activity days. */
+function mondayOf(dateObj){
+  const d = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+  const dow = (d.getDay() + 6) % 7;   // Monday = 0
+  d.setDate(d.getDate() - dow);
+  return d;
+}
+function dateKeyOf(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+/* Activity rows for a Monday→Sunday week. weeksBack = 0 → current week. */
+function weekActivity(weeksBack){
+  const mon = mondayOf(new Date());
+  mon.setDate(mon.getDate() - 7 * (weeksBack || 0));
+  const rows = [];
+  for(let i = 0; i < 7; i++){
+    const d = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + i);
+    const k = dateKeyOf(d);
+    rows.push({key:k, date:d, a: store.activity[k] || null});
+  }
+  return rows;
+}
+function starsThisWeek(){
+  return weekActivity(0).reduce((s, r) => s + ((r.a && r.a.stars) || 0), 0);
+}
+
+/* ============================================================
+   SOUND + VISUAL EFFECTS
+   WebAudio synth only — no audio files, nothing to load. Every call is a
+   no-op when sound is off in settings, when the browser has no
+   AudioContext (smoke test), or when the context can't start yet (first
+   call must come from a user gesture — every play() below is wired to a
+   click, so that is always the case in practice).
+   The contest simulator stays silent on purpose except for the single
+   5-minute warning, which a real proctor would give too.
+   ============================================================ */
+const Sfx = (()=>{
+  let ctx = null;
+  function ac(){
+    if(ctx) return ctx;
+    const AC = (typeof window !== "undefined") && (window.AudioContext || window.webkitAudioContext);
+    if(!AC) return null;
+    try { ctx = new AC(); } catch(_){ return null; }
+    return ctx;
+  }
+  function enabled(){
+    return !!(store && store.settings && store.settings.sound !== false);
+  }
+  // [freq, startSec, durSec, type?, gain?]
+  const BANK = {
+    correct: [[523,0,.09],[659,.09,.09],[784,.18,.2]],
+    wrong:   [[196,0,.16,"triangle",.09],[165,.14,.26,"triangle",.09]],
+    star:    [[1046,0,.07,"sine",.07],[1318,.07,.1,"sine",.07]],
+    badge:   [[523,0,.11],[659,.11,.11],[784,.22,.11],[1046,.33,.32]],
+    mastery: [[392,0,.12],[523,.12,.12],[659,.24,.12],[784,.36,.12],[1046,.48,.45]],
+    plan:    [[659,0,.1],[784,.1,.1],[988,.2,.1],[1318,.3,.4]],
+    warn:    [[440,0,.14,"square",.06],[440,.24,.14,"square",.06],[440,.48,.3,"square",.06]],
+    crash:   [[120,0,.2,"sawtooth",.1],[80,.1,.25,"sawtooth",.08]],
+    gameover:[[392,0,.18],[330,.18,.18],[262,.36,.4]],
+    click:   [[880,0,.04,"sine",.04]],
+    tick:    [[1200,0,.03,"square",.03]],
+  };
+  function play(name){
+    if(!enabled()) return;
+    const notes = BANK[name]; if(!notes) return;
+    const c = ac(); if(!c) return;
+    try {
+      if(c.state === "suspended") c.resume();
+      const t0 = c.currentTime + 0.01;
+      for(const [freq, at, dur, type, gain] of notes){
+        const o = c.createOscillator();
+        const g = c.createGain();
+        o.type = type || "sine";
+        o.frequency.value = freq;
+        const vol = gain == null ? 0.11 : gain;
+        g.gain.setValueAtTime(0.0001, t0 + at);
+        g.gain.exponentialRampToValueAtTime(vol, t0 + at + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + at + dur);
+        o.connect(g); g.connect(c.destination);
+        o.start(t0 + at);
+        o.stop(t0 + at + dur + 0.02);
+      }
+    } catch(_){ /* audio is decoration — never let it break the app */ }
+  }
+  return {play, enabled};
+})();
+
+/* Visual micro-feedback: floating "+n ⭐" and a confetti burst. Pure DOM +
+   CSS keyframes, removed after the animation. */
+const Fx = (()=>{
+  function host(){
+    if(typeof document === "undefined") return null;
+    let h = document.getElementById("fxHost");
+    if(!h){
+      h = document.createElement("div");
+      h.id = "fxHost";
+      h.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden";
+      document.body.appendChild(h);
+    }
+    return h;
+  }
+  function floatStars(n){
+    if(!n) return;
+    try {
+      const h = host(); if(!h) return;
+      const el = document.createElement("div");
+      el.className = "fx-star";
+      el.textContent = `+${n} ⭐`;
+      h.appendChild(el);
+      setTimeout(()=> el.remove(), 1500);
+    } catch(_){}
+  }
+  function confetti(count){
+    try {
+      const h = host(); if(!h) return;
+      const colors = ["#d6451a","#f0b429","#1a7f4a","#1a5fa3","#9b59b6","#ff7ab6"];
+      const n = count || 48;
+      for(let i = 0; i < n; i++){
+        const p = document.createElement("span");
+        p.className = "fx-confetti";
+        p.style.left = `${Math.random()*100}%`;
+        p.style.background = colors[i % colors.length];
+        p.style.animationDelay = `${Math.random()*0.5}s`;
+        p.style.animationDuration = `${1.6 + Math.random()*1.2}s`;
+        p.style.transform = `rotate(${Math.random()*360}deg)`;
+        p.style.width = `${6 + Math.random()*6}px`;
+        p.style.height = `${8 + Math.random()*8}px`;
+        h.appendChild(p);
+        setTimeout(()=> p.remove(), 3200);
+      }
+    } catch(_){}
+  }
+  /* Big moment = sound + confetti together. */
+  function celebrate(kind){
+    Sfx.play(kind || "mastery");
+    confetti();
+  }
+  return {floatStars, confetti, celebrate};
+})();
+
+/* Generic bottom toast (achievements, bonuses, plan completion). */
+function showToast(icon, html, ms){
+  try {
+    let host = document.getElementById("achToastHost");
+    if(!host){
+      host = document.createElement("div");
+      host.id = "achToastHost";
+      host.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:10000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none";
+      document.body.appendChild(host);
+    }
+    const el = document.createElement("div");
+    el.className = "toast";
+    el.innerHTML = `<span style="font-size:22px">${icon}</span><span>${html}</span>`;
+    host.appendChild(el);
+    setTimeout(()=>{ el.classList.add("on"); }, 30);
+    setTimeout(()=>{ el.classList.remove("on"); setTimeout(()=> el.remove(), 300); }, ms || 4200);
+  } catch(_){}
 }
 
 // Stars the kid can still spend in the shop (earned minus spent).
@@ -3160,7 +3402,14 @@ function startStarTimeHeartbeat(){
 
 // Mastery decay: a mechanic flagged mastered > N days ago is "stale".
 // Used to show a "Pakartoti" CTA in the playlist menu.
+// With a contest date set the window shrinks to 4 weeks: in a 90-day prep
+// a mechanic learned in week 2 must be re-checked well before the paper.
 const MASTERY_DECAY_DAYS = 60;
+const MASTERY_DECAY_DAYS_PREP = 28;
+function masteryDecayDays(){
+  const d = daysToContest();
+  return (d != null && d >= 0) ? MASTERY_DECAY_DAYS_PREP : MASTERY_DECAY_DAYS;
+}
 function mechMasteryAgeDays(mech){
   const t = (store.masteredMech || {})[mech];
   if(!t) return null;
@@ -3168,7 +3417,7 @@ function mechMasteryAgeDays(mech){
 }
 function isMechMasteryStale(mech){
   const age = mechMasteryAgeDays(mech);
-  return age !== null && age >= MASTERY_DECAY_DAYS;
+  return age !== null && age >= masteryDecayDays();
 }
 
 // Growth-mindset openers for the wrong-answer explain box.
@@ -3198,7 +3447,7 @@ const SR_INTERVALS_DAYS = [1, 3, 7, 14, 30];
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
 function recordArchiveAnswer(year, q, correct, confidence){
-  logActivity(correct);
+  logActivity(correct, q.points || 3);
   // Freshness marker — practice pickers avoid recently seen questions.
   store.seenQ[`${year}-${q.num}`] = Date.now();
   // Confidence stats (independent of mechanic)
@@ -3372,6 +3621,7 @@ function startTimer(totalMs){
   state.timerActive = true;
   state.timerTotalMs = totalMs;
   state.timerEndAt = Date.now() + totalMs;
+  state._timerWarned = false;
   state.timerInterval = setInterval(()=>{
     if(state.view !== "quiz"){ return; }
     const left = state.timerEndAt - Date.now();
@@ -3381,6 +3631,7 @@ function startTimer(totalMs){
       finishQuiz(true);
       return;
     }
+    if(!state._timerWarned && left <= 60000){ state._timerWarned = true; Sfx.play("warn"); }
     // Re-render only the timer bar to avoid flashing options
     const bar = document.querySelector(".timer-bar");
     if(bar){
@@ -3709,6 +3960,7 @@ function renderArchiveYear(){
       // mechanic-level stats + spaced-repetition queue + confidence
       if(q.correct){
         recordArchiveAnswer(year, q, cur.chosenLetter === q.correct, cur.confidence);
+        Sfx.play(cur.chosenLetter === q.correct ? "correct" : "wrong");
       }
       renderArchiveYear();
     });
@@ -4086,20 +4338,27 @@ function renderHome(){
       </div>
     </section>
 
+    ${!ARCHIVE_LOAD_FAILED ? weeklyRecapHTML() : ''}
+
     ${!ARCHIVE_LOAD_FAILED ? (()=>{
       const daysLeft = daysToContest();
       const planD = store.planDone[todayKey()] || {};
-      const planProg = ['warmup','core','cooldown'].filter(k => planD[k]).length;
+      const steps = planStepsForToday();
+      const planProg = steps.filter(s => planD[s.id]).length;
+      const ph = PLAN_PHASE[planPhase()];
+      const contestToday = steps.some(s => s.act === 'contest');
       return `<section class="card">
         <div class="footer-actions" style="margin-top:0">
           <div>
-            <h3 style="margin:0">📅 Šiandienos treniruotė</h3>
-            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : ''}${planProg}/3 žingsniai atlikti${planProg === 3 ? ' 🎉' : ''}</span>
+            <h3 style="margin:0">📅 Šiandienos treniruotė <span class="phase-pill ${ph.cls}" style="margin-left:6px;vertical-align:middle">${ph.icon} ${ph.label}</span></h3>
+            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : ''}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ''}</span>
           </div>
-          <button class="btn ghost" id="planBtn">Atverti planą</button>
+          <button class="btn ${planProg < steps.length ? 'primary' : 'ghost'}" id="planBtn">${planProg < steps.length ? 'Tęsti planą →' : 'Atverti planą'}</button>
         </div>
       </section>`;
     })() : ''}
+
+    ${!ARCHIVE_LOAD_FAILED ? trackCardHTML() : ''}
 
     <section class="card">
       <h3>Naujas testas</h3>
@@ -4140,6 +4399,10 @@ function renderHome(){
           <input type="checkbox" id="askConfToggle" ${store.settings.askConfidence?"checked":""}/>
           Klausti pasitikėjimo
         </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Garsai už teisingą / klaidingą atsakymą, apdovanojimus ir laikrodį. Kontrolinyje tylu (tik 5 min įspėjimas).">
+          <input type="checkbox" id="soundToggle" ${store.settings.sound !== false ?"checked":""}/>
+          🔊 Garsai
+        </label>
       </div>
       <div class="footer-actions">
         <span class="help-bar">Klausimai sugeneruojami iš šablonų – kaskart kiti.</span>
@@ -4166,7 +4429,7 @@ function renderHome(){
         <span class="pill good">Geriausias rezultatas: ${Math.round(Math.max(...store.contests.map(c=>c.scoreWithPenalty || c.points))*4)/4} t.</span>
         ${store.contests.length >= 2 ? `<span class="pill">Kreivė: ${store.contests.slice(-3).map(c=>Math.round((c.scoreWithPenalty || c.points)*4)/4).join(' → ')} t.</span>` : ''}
       </div>` : ''}
-      <details style="margin:6px 0 10px">
+      <details style="margin:6px 0 10px" id="contestStrategy">
         <summary>🎯 Konkurso strategija (perskaityk prieš kontrolinį!)</summary>
         <p style="font-size:14px;margin-top:8px">1) Pirmiausia — visi 3 taškų klausimai (1–10). Jie lengviausi, bet jų taškai tokie pat tikri. Tikslas — per ~15 min.</p>
         <p style="font-size:14px">2) Tada 4 taškų blokas. Užstrigai ilgiau nei 3 minutes — praleisk ir grįžk vėliau.</p>
@@ -4293,6 +4556,12 @@ function renderHome(){
     store.settings.askConfidence = !!e.target.checked;
     saveStore(store); renderHome();
   });
+  const soundToggle = document.getElementById("soundToggle");
+  if(soundToggle) soundToggle.addEventListener("change", e=>{
+    store.settings.sound = !!e.target.checked;
+    saveStore(store);
+    if(store.settings.sound) Sfx.play("correct");   // audible confirmation (and unlocks the audio context)
+  });
   $app.querySelectorAll("[data-practice-sub]").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       state._returnTo = "home";
@@ -4359,6 +4628,14 @@ function renderHome(){
   if(parentBtn) parentBtn.addEventListener("click", openParent);
   const raceChallengeBtn = document.getElementById("raceChallengeBtn");
   if(raceChallengeBtn) raceChallengeBtn.addEventListener("click", openRaceChallenge);
+  const freeRaceBtn = document.getElementById("freeRaceBtn");
+  if(freeRaceBtn) freeRaceBtn.addEventListener("click", openFreeRace);
+  $app.querySelectorAll("[data-track-mech]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{ Sfx.play("click"); openPlaylist(btn.dataset.trackMech); });
+  });
+  $app.querySelectorAll("[data-recap-mech]").forEach(btn=>{
+    btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech));
+  });
   const contestResumeBtn = document.getElementById("contestResumeBtn");
   if(contestResumeBtn) contestResumeBtn.addEventListener("click", resumeContest);
   $app.querySelectorAll("[data-contest-year]").forEach(btn=>{
@@ -4659,7 +4936,8 @@ function submitAnswer(){
   }
   state._confidence = null;
   state._questionStartedAt = now;
-  logActivity(correct);
+  logActivity(correct, q.difficulty || 3);
+  Sfx.play(correct ? "correct" : "wrong");
   // record per-category and per-subtopic stats
   const c = store.catStats[q.category] = store.catStats[q.category] || {attempts:0, wrong:0};
   c.attempts++;
@@ -4716,6 +4994,13 @@ function finishQuiz(early){
   markPlanStepDone();   // no-op unless launched from the daily plan
   state.view = "results";
   renderResults();
+  // Perfect session (≥ 5 questions, all right) → bonus + confetti.
+  if(total >= 5 && correct === total){
+    awardBonus(5, "Tobula serija!");
+    Fx.celebrate("plan");
+  } else if(correct >= Math.ceil(total * 0.7)){
+    Sfx.play("badge");
+  }
 }
 
 function renderResults(){
@@ -4912,6 +5197,8 @@ function startContestTicker(){
       const tb = document.getElementById("contestTimer");
       if(tb){
         const remain = Math.max(0, state.contestEndsAt - Date.now());
+        // The only sound in the contest sim: a proctor-style 5-minute warning.
+        if(!state._contestWarned && remain <= 5 * 60000){ state._contestWarned = true; Sfx.play("warn"); }
         const mm = Math.floor(remain/60000);
         const ss = Math.floor((remain%60000)/1000);
         tb.textContent = `${mm}:${String(ss).padStart(2,"0")}`;
@@ -4964,6 +5251,7 @@ function openContest(year){
   state.contestStartedAt = Date.now();
   state.contestEndsAt = Date.now() + CONTEST_DURATION_MS;
   state.contestSubmitted = false;
+  state._contestWarned = false;
   persistContestProgress();
   startContestTicker();
   renderContest();
@@ -5133,6 +5421,11 @@ function finishContest(byTimer){
   store.contestInProgress = null;   // finished — drop the resume snapshot
   saveStore(store);
   checkAchievements();
+  // A finished paper ticks the plan's contest step — also when the contest
+  // was started from the home card (or resumed after a reload) rather than
+  // from the plan, as long as today is a contest day.
+  if(state._planStep) markPlanStepDone();
+  else if(planStepsForToday().some(s => s.act === "contest" && s.id === "core")) markPlanStepDone("core");
   state._lastContestResult = result;
   state.view = "contestResults";
   renderContestResults();
@@ -5311,6 +5604,21 @@ function renderParent(){
     </section>
 
     <section class="card">
+      <h3>🎁 Savaitės tikslas ir prizas</h3>
+      <p class="help-bar" style="margin-top:0">Žvaigždžių tikslas per savaitę (pirmadienis–sekmadienis) ir tikras prizas, kurį pažadate. Kasdienė ~20 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.</p>
+      <div class="row" style="align-items:center;gap:10px;flex-wrap:wrap">
+        <label style="font-size:14px">Tikslas (⭐ per savaitę):
+          <input type="number" id="weeklyGoalInput" min="0" step="10" value="${store.plan.weeklyStarGoal || 0}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;width:90px">
+        </label>
+        <label style="font-size:14px;flex:1 1 220px">Prizas:
+          <input type="text" id="weeklyRewardInput" maxlength="60" placeholder="pvz. kinas, ledai, žaidimo vakaras" value="${escapeHTML(store.plan.weeklyReward || '')}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;width:100%">
+        </label>
+        <span class="pill ${starsThisWeek() >= (store.plan.weeklyStarGoal || Infinity) ? 'good' : 'muted'}">Šią savaitę: ${starsThisWeek()} ⭐</span>
+      </div>
+      <p class="help-bar">Etapas: <b>${PLAN_PHASE[planPhase()].label}</b>${daysToContest() != null && daysToContest() >= 0 ? ` · iki konkurso ${daysToContest()} d.` : ' · konkurso data nenustatyta (plane)'} · kontrolinio diena: ${WEEKDAY_LONG[(store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6]}</p>
+    </section>
+
+    <section class="card">
       <h3>14 dienų aktyvumas</h3>
       <div class="activity-grid">
         ${days.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} atsakymų"></div>`).join('')}
@@ -5366,6 +5674,17 @@ function renderParent(){
     </section>` : ''}
   `;
   document.getElementById("parentBack").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+  const goalInput = document.getElementById("weeklyGoalInput");
+  if(goalInput) goalInput.addEventListener("change", e => {
+    const v = parseInt(e.target.value, 10);
+    store.plan.weeklyStarGoal = isNaN(v) || v < 0 ? 0 : v;
+    saveStore(store); renderParent();
+  });
+  const rewardInput = document.getElementById("weeklyRewardInput");
+  if(rewardInput) rewardInput.addEventListener("change", e => {
+    store.plan.weeklyReward = String(e.target.value || '').slice(0, 60);
+    saveStore(store);
+  });
   $app.querySelectorAll("[data-mech-playlist]").forEach(btn=>{
     btn.addEventListener("click", ()=>{ openPlaylist(btn.dataset.mechPlaylist); });
   });
@@ -5654,17 +5973,25 @@ function renderPlaylist(){
       return state.playlistAns[k] === it.q.correct;
     }).length;
     const passed = correctCount === items.length && items.length >= 2;
+    let newlyMastered = false;
     if(!special){
       if(retest){
         if(passed) store.masteredMech[state.playlistMech] = Date.now();
         else delete store.masteredMech[state.playlistMech];
       } else if(passed){
+        newlyMastered = !store.masteredMech[state.playlistMech];
         store.masteredMech[state.playlistMech] = Date.now();
       }
     }
     recordPlaylistAnswers();
     saveStore(store);
     markPlanStepDone();
+    if(passed && !special){
+      Fx.celebrate("mastery");
+      if(newlyMastered) awardBonus(5, `Įvaldyta: ${MECHANIC_LABEL[state.playlistMech] || state.playlistMech}`);
+    } else if(special && items.length && correctCount === items.length){
+      Fx.celebrate("plan");
+    }
   }
 
   // Wire common controls
@@ -5750,6 +6077,10 @@ function renderPlaylist(){
         if(it){
           recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct);
         }
+      }
+      {
+        const it = (content.mastery || []).concat([content.worked, content.tryQ]).find(x => x && `${x.year}-${x.q.num}` === k);
+        if(it) Sfx.play(state.playlistAns[k] === it.q.correct ? "correct" : "wrong");
       }
       renderPlaylist();
     });
@@ -6106,7 +6437,8 @@ function renderRecog(){
     if(right) state.recogCorrect++;
     store.recogStats.attempts++;
     if(right) store.recogStats.correct++;
-    logActivity(right);   // recognition is real practice — counts for streak/stars
+    logActivity(right, 3);   // recognition is real practice — counts for streak/stars
+    Sfx.play(right ? "correct" : "wrong");
     saveStore(store);
     renderRecog();
   });
@@ -6149,21 +6481,118 @@ function daysToContest(){
   return Math.round((target - today) / ONE_DAY_MS);
 }
 
-/* Today's ~20-minute session: warm-up → core → cool-down.
-   Core priority: due backlog > speed work > next new mechanic on the
-   track > mixed set. */
+/* ---------- Macro-cycle: three phases keyed to the contest date ----------
+   foundation  > 60 days out  — 3-pt speed + the first (easy) mechanics,
+                                alternating sprint / new mechanic days.
+   build       11–60 days     — one new 4/5-pt mechanic per day, weekly
+                                contest sim, due-queue review first.
+   taper       ≤ 10 days      — NO new mechanics. Due review (confident-
+                                wrong first), mixed sets, two contest sims,
+                                rest the day before.
+   No contest date → build (the general-purpose behaviour).            */
+const PLAN_PHASE = {
+  foundation: {label:"Pamatai",  cls:"phase-foundation", icon:"🧱",
+    blurb:"Iki konkurso dar toli: dirbam greitį 3 t. bloke ir pirmąsias lengvas gudrybes. Kas antrą dieną — sprintas, kas antrą — nauja gudrybė."},
+  build:      {label:"Gudrybės", cls:"phase-build", icon:"🧩",
+    blurb:"Pagrindinis etapas: kasdien viena nauja 4–5 t. gudrybė, pirma sugrįžta pakartojimai, kartą per savaitę — kontrolinis kaip tikram konkurse."},
+  taper:      {label:"Finišas",  cls:"phase-taper", icon:"🏁",
+    blurb:"Paskutinės dienos: naujų gudrybių nebemokomės. Kartojam tai, kas klydo, sprendžiam mišrius rinkinius be etikečių ir dar du kontrolinius. Dieną prieš — poilsis."},
+};
+function planPhase(){
+  const d = daysToContest();
+  if(d == null || d < 0) return "build";
+  if(d <= 10) return "taper";
+  if(d > 60) return "foundation";
+  return "build";
+}
+/* Is `dateObj` a contest-sim day? Weekly on store.plan.contestWeekday; in
+   the taper also three days before the contest (unless that is the eve). */
+function isContestDay(dateObj){
+  const d = dateObj || new Date();
+  const wd = (store.plan && store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6;
+  const days = daysToContest();
+  if(days != null && days >= 0){
+    const diff = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())) / ONE_DAY_MS);
+    const left = days - diff;          // days left as of `d`
+    if(left <= 1) return false;        // eve + contest day: rest
+    if(left === 3) return true;        // taper: final dress rehearsal
+  }
+  return d.getDay() === wd;
+}
+/* Pick the next contest paper: an eligible year not yet played; fall back
+   to the least-recently played one. */
+function contestEligibleYears(){
+  return ARCHIVE.filter(t =>
+    t.year !== '2006' && t.questions.length >= 28 && t.questions.every(q => q.correct)
+  ).map(t => t.year);
+}
+function pickContestYear(){
+  const years = contestEligibleYears();
+  if(!years.length) return null;
+  const played = {};
+  for(const c of (store.contests || [])) played[String(c.year)] = Math.max(played[String(c.year)] || 0, c.when || 0);
+  const fresh = years.filter(y => !played[String(y)]);
+  if(fresh.length) return fresh[Math.floor(Math.random() * fresh.length)];
+  years.sort((a,b) => (played[String(a)] || 0) - (played[String(b)] || 0));
+  return years[0];
+}
+
+/* Today's ~20-minute session: warm-up → core → cool-down, shaped by phase. */
 function planStepsForToday(){
   const due = dueNow();
-  const next = nextMechanicToLearn();
+  const phase = planPhase();
+  const days = daysToContest();
+  const today = new Date();
+  const dayParity = Math.floor(Date.now() / ONE_DAY_MS) % 2;
+
+  // Contest day and the final two days have their own shape.
+  if(days === 0){
+    return [{id:"core", label:"Šiandien konkursas! Sėkmės 🦘 — nieko nebesimokom, tik gerai išsimiegam.", act:"none"}];
+  }
+  if(days === 1){
+    return [
+      {id:"warmup",   label:"Apšilimas — 2 lengvi klausimai (tik tiek!)", act:"warmup"},
+      {id:"core",     label:"Perskaityk konkurso strategiją (pradžios puslapyje, „Kontrolinis“ kortelė)", act:"strategy"},
+      {id:"cooldown", label:"Poilsis. Rytoj — konkursas.", act:"none"},
+    ];
+  }
+  if(isContestDay(today)){
+    const yr = pickContestYear();
+    return [
+      {id:"warmup",   label:"Apšilimas — 2 lengvi klausimai", act:"warmup"},
+      {id:"core",     label:`Kontrolinis${yr ? ` — ${yr} m.` : ''} (75 min, kaip tikram konkurse)`, act:"contest", arg:yr},
+      {id:"cooldown", label:"Po kontrolinio: peržiūrėk klaidas rezultatų puslapyje", act:"none"},
+    ];
+  }
+
+  const next = phase === "taper" ? null : nextMechanicToLearn();
   let core;
-  if(due.length >= 4){
-    core = {id:"core", label:`Pakartojimas (${Math.min(due.length,10)} užd.)`, act:"due"};
-  } else if(needsSpeedWork()){
-    core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
-  } else if(next){
-    core = {id:"core", label:`Nauja gudrybė: ${MECHANIC_LABEL[next] || next}`, act:"playlist", arg:next};
+  if(phase === "taper"){
+    if(due.length >= 1){
+      core = {id:"core", label:`Pakartojimas — kas klydo (${Math.min(due.length,10)} užd.)`, act:"due"};
+    } else if(dayParity === 0){
+      core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
+    } else {
+      core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
+    }
+  } else if(phase === "foundation"){
+    if(due.length >= 4){
+      core = {id:"core", label:`Pakartojimas (${Math.min(due.length,10)} užd.)`, act:"due"};
+    } else if(dayParity === 0 || !next){
+      core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
+    } else {
+      core = {id:"core", label:`Nauja gudrybė: ${MECHANIC_LABEL[next] || next}`, act:"playlist", arg:next};
+    }
   } else {
-    core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
+    if(due.length >= 4){
+      core = {id:"core", label:`Pakartojimas (${Math.min(due.length,10)} užd.)`, act:"due"};
+    } else if(needsSpeedWork()){
+      core = {id:"core", label:"Greičio sprintas — 10 × 3 t. per 10 min", act:"sprint"};
+    } else if(next){
+      core = {id:"core", label:`Nauja gudrybė: ${MECHANIC_LABEL[next] || next}`, act:"playlist", arg:next};
+    } else {
+      core = {id:"core", label:"Mišrus rinkinys (6 užd., tipas paslėptas)", act:"mixed"};
+    }
   }
   return [
     {id:"warmup",   label:"Apšilimas — 2 lengvi klausimai", act:"warmup"},
@@ -6172,14 +6601,36 @@ function planStepsForToday(){
   ];
 }
 
-function markPlanStepDone(){
-  const step = state._planStep;
+/* Plan-step completion. Finishing all three steps of a day pays the daily
+   bonus once: +10 ⭐, one free race ticket, confetti. */
+const PLAN_DAY_BONUS = 10;
+function markPlanStepDone(stepOverride){
+  const step = stepOverride || state._planStep;
   if(!step) return;
   state._planStep = null;
   const k = todayKey();
   const d = store.planDone[k] = store.planDone[k] || {};
   d[step] = true;
+  const steps = planStepsForToday();
+  const allDone = steps.every(s => d[s.id] || s.act === "none");
+  if(allDone && !d.bonus){
+    d.bonus = true;
+    store.games.freeRaces = (store.games.freeRaces || 0) + 1;
+    awardStars("fromBonus", PLAN_DAY_BONUS);
+    Fx.floatStars(PLAN_DAY_BONUS);
+    Fx.celebrate("plan");
+    showToast("📅", `Dienos treniruotė atlikta! <b>+${PLAN_DAY_BONUS} ⭐</b> ir nemokamos lenktynės 🏎`, 5500);
+  }
   saveStore(store);
+  checkAchievements();
+}
+/* "none" steps (rest / read) are ticked by hand from the plan view. */
+function markPlanStepDoneManual(id){
+  const k = todayKey();
+  const d = store.planDone[k] = store.planDone[k] || {};
+  if(d[id]) return;
+  state._planStep = id;
+  markPlanStepDone();
 }
 
 function launchPlanStep(s){
@@ -6199,48 +6650,108 @@ function launchPlanStep(s){
   else if(s.act === "playlist"){ openPlaylist(s.arg); }
   else if(s.act === "mixed"){ openMixedSet(6); }
   else if(s.act === "recog"){ openRecogDrill(); }
+  else if(s.act === "contest"){
+    const yr = s.arg || pickContestYear();
+    if(yr) requestOpenContest(yr);
+    else { state._planStep = null; state.view = "home"; renderHome(); }
+  }
+  else if(s.act === "strategy"){
+    // Reading step: tick it and jump to the strategy explainer on home.
+    markPlanStepDone();
+    state.view = "home"; renderHome();
+    try { const d = document.getElementById("contestStrategy"); if(d){ d.open = true; d.scrollIntoView({behavior:"smooth"}); } } catch(_){}
+  }
+  else if(s.act === "none"){ markPlanStepDone(); renderPlan(); }
 }
 
 function openPlan(){ state.view = "plan"; renderPlan(); }
 
+const WEEKDAY_SHORT = ["Sk","Pr","An","Tr","Kt","Pn","Št"];   // getDay() order
+const WEEKDAY_LONG  = ["Sekmadienis","Pirmadienis","Antradienis","Trečiadienis","Ketvirtadienis","Penktadienis","Šeštadienis"];
+
+/* 7-day strip for the plan view: Monday→Sunday of the current week, each
+   day marked done / today / contest-day. */
+function weekStripHTML(){
+  const rows = weekActivity(0);
+  const tk = todayKey();
+  return `<div class="week-strip">${rows.map(r => {
+    const pd = store.planDone[r.key] || {};
+    const full = !!pd.bonus || (pd.warmup && pd.core && pd.cooldown);
+    const contest = isContestDay(r.date);
+    const isToday = r.key === tk;
+    const cls = ["week-day", isToday ? "today" : "", full ? "done" : "", contest ? "contest" : ""].join(" ");
+    const ic = full ? "✅" : contest ? "📝" : (r.a && r.a.answered ? "🟠" : (r.key < tk ? "·" : "○"));
+    return `<div class="${cls}" title="${WEEKDAY_LONG[r.date.getDay()]}${contest ? ' — kontrolinio diena' : ''}">
+      <div class="wd">${WEEKDAY_SHORT[r.date.getDay()]}</div>
+      <div class="ic">${ic}</div>
+      <div>${r.a && r.a.stars ? `${r.a.stars}⭐` : ''}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
 function renderPlan(){
   const days = daysToContest();
+  const phase = planPhase();
+  const ph = PLAN_PHASE[phase];
   const steps = planStepsForToday();
   const done = store.planDone[todayKey()] || {};
   const trend = (store.contests || []).slice(-3);
-  const allDone = done.warmup && done.core && done.cooldown;
+  const allDone = steps.every(s => done[s.id]);
+  const wd = (store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6;
   $app.innerHTML = `
     <section class="card">
       <button class="nav-back" id="planBack">← Į pradžią</button>
       <h2>📅 Treniruočių planas</h2>
-      <div class="row" style="align-items:center;gap:10px;margin:8px 0">
+      <div class="row" style="align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap">
         <label style="font-size:14px">Konkurso data:
           <input type="date" id="contestDateInput" value="${store.plan.contestDate || ''}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
         </label>
         ${days != null
           ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `liko ${days} d.` : days === 0 ? 'ŠIANDIEN!' : 'jau praėjo'}</span>`
-          : `<span class="help-bar">Nustačius datą matysi atgalinį skaičiavimą.</span>`}
+          : `<span class="help-bar">Nustačius datą planas pats parinks etapą: pamatai → gudrybės → finišas.</span>`}
+        <label style="font-size:14px">Kontrolinio diena:
+          <select id="contestWeekdaySel" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
+            ${[1,2,3,4,5,6,0].map(d => `<option value="${d}" ${d === wd ? 'selected' : ''}>${WEEKDAY_LONG[d]}</option>`).join('')}
+          </select>
+        </label>
       </div>
+      <div style="margin:10px 0 4px">
+        <span class="phase-pill ${ph.cls}">${ph.icon} Etapas: ${ph.label}</span>
+        ${days != null && days >= 0 ? `<span class="help-bar" style="margin-left:8px">${phase === 'foundation' ? 'iki 60 d. prieš konkursą' : phase === 'build' ? '60–11 d. prieš konkursą' : 'paskutinės 10 d.'}</span>` : ''}
+      </div>
+      <p style="margin:6px 0;font-size:14px">${ph.blurb}</p>
+      ${weekStripHTML()}
+      <p class="help-bar">Savaitė: ✅ visa treniruotė · 🟠 šiek tiek dirbta · 📝 kontrolinio diena. Skaičius — tos dienos žvaigždės.</p>
       ${trend.length
         ? `<p style="margin:6px 0">Kontrolinių kreivė: <b>${trend.map(c => Math.round((c.scoreWithPenalty ?? c.points) * 4)/4).join(' → ')}</b> t. (iš ${trend[trend.length-1].maxPoints})${trend.length >= 2 && trend[trend.length-1].scoreWithPenalty > trend[0].scoreWithPenalty ? ' 📈' : ''}</p>`
         : `<p class="help-bar">Atlik kontrolinį — čia matysi rezultatų kreivę.</p>`}
     </section>
     <section class="card">
-      <h3>Šiandienos treniruotė (~20 min)</h3>
+      <h3>Šiandienos treniruotė${steps.some(s => s.act === 'contest') ? ' — kontrolinio diena (~90 min)' : ' (~20 min)'}</h3>
       ${steps.map((s, i) => `
         <div class="cat-row plan-step">
           <span>${done[s.id] ? '✅' : `${i+1}.`} ${escapeHTML(s.label)}</span>
           ${done[s.id]
             ? `<span class="pill good">atlikta</span>`
-            : `<button class="btn small primary" data-plan-step="${s.id}">Pradėti</button>`}
+            : `<button class="btn small ${s.act === 'none' ? '' : 'primary'}" data-plan-step="${s.id}">${s.act === 'none' ? 'Pažymėti' : s.act === 'strategy' ? 'Skaityti' : 'Pradėti'}</button>`}
         </div>`).join('')}
-      ${allDone ? `<div class="recent-mastery">🎉 Šiandienos treniruotė atlikta! Iki rytojaus.</div>` : ''}
-      <p class="help-bar" style="margin-top:10px">Planas kasdien perskaičiuojamas: pirmiausia grįžta pakartojimai, tada — greitis (jei 3 t. lėti), tada — kita nauja gudrybė iš mokymosi tako.</p>
+      ${allDone ? `<div class="recent-mastery">🎉 Šiandienos treniruotė atlikta! +${PLAN_DAY_BONUS} ⭐ ir lenktynių bilietas gauti. Iki rytojaus.</div>` : `<p class="help-bar" style="margin-top:8px">Užbaigęs visus žingsnius gausi <b>+${PLAN_DAY_BONUS} ⭐</b> ir <b>nemokamas lenktynes</b> 🏎 (be 5 klausimų vartų).</p>`}
+      <p class="help-bar" style="margin-top:10px">${phase === 'taper'
+        ? 'Finišo etape naujų gudrybių nėra: pirma — kas klydo, tada mišrūs rinkiniai ir sprintai. Likus 3 d. — paskutinis kontrolinis, dieną prieš — poilsis.'
+        : phase === 'foundation'
+          ? 'Pamatų etape dienos keičiasi: sprintas ↔ nauja gudrybė. Pakartojimai turi pirmenybę, kai jų susikaupia 4+.'
+          : 'Planas kasdien perskaičiuojamas: pirmiausia grįžta pakartojimai, tada — greitis (jei 3 t. lėti), tada — kita nauja gudrybė iš mokymosi tako.'}</p>
     </section>
   `;
   document.getElementById("planBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
   document.getElementById("contestDateInput").addEventListener("change", e => {
     store.plan.contestDate = e.target.value || null;
+    saveStore(store);
+    renderPlan();
+  });
+  const wdSel = document.getElementById("contestWeekdaySel");
+  if(wdSel) wdSel.addEventListener("change", e => {
+    store.plan.contestWeekday = parseInt(e.target.value, 10);
     saveStore(store);
     renderPlan();
   });
@@ -6310,20 +6821,9 @@ function checkAchievements(){
 }
 
 function showAchievementToast(list){
-  let host = document.getElementById("achToastHost");
-  if(!host){
-    host = document.createElement("div");
-    host.id = "achToastHost";
-    host.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:10000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none";
-    document.body.appendChild(host);
-  }
+  Sfx.play("badge");
   list.forEach((a, i) => {
-    const el = document.createElement("div");
-    el.style.cssText = "pointer-events:auto;background:var(--accent);color:#fff;padding:10px 16px;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.18);font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s;max-width:90vw";
-    el.innerHTML = `<span style="font-size:22px">${a.icon}</span><span>Apdovanojimas: <b>${escapeHTML(a.title)}</b></span>`;
-    host.appendChild(el);
-    setTimeout(()=>{ el.style.opacity = "1"; el.style.transform = "translateY(0)"; }, 30 + i*120);
-    setTimeout(()=>{ el.style.opacity = "0"; el.style.transform = "translateY(10px)"; setTimeout(()=> el.remove(), 300); }, 4200 + i*120);
+    setTimeout(()=> showToast(a.icon, `Apdovanojimas: <b>${escapeHTML(a.title)}</b>`), i * 150);
   });
 }
 
@@ -6339,11 +6839,93 @@ const SHOP_COLORS = {
 const SHOP_NIGHT_COST = 100;
 const SHOP_LIFE_COST = 20;
 
+/* -------- Learning track: the 30-mechanic path as a visible journey ------
+   Nodes follow MECHANIC_ORDER; only mechanics with enough archive content
+   for a playlist appear (same rule as nextMechanicToLearn). The contest
+   date is the finish flag. */
+function trackMechanics(){
+  return MECHANIC_ORDER.filter(m => MECHANIC_METHODOLOGY[m] && archiveQsForMech(m, null).length >= 3);
+}
+function trackCardHTML(){
+  const mechs = trackMechanics();
+  if(!mechs.length) return '';
+  const next = nextMechanicToLearn();
+  const days = daysToContest();
+  let doneN = 0;
+  const nodes = mechs.map((m, i) => {
+    const mastered = !!(store.masteredMech || {})[m];
+    const stale = mastered && isMechMasteryStale(m);
+    if(mastered) doneN++;
+    const cls = mastered ? (stale ? 'stale' : 'done') : (m === next ? 'current' : '');
+    const label = MECHANIC_LABEL[m] || m;
+    const tip = mastered ? (stale ? `${label} — įvaldyta, verta pakartoti` : `${label} — įvaldyta ✓`) : (m === next ? `${label} — kita gudrybė` : label);
+    const link = i < mechs.length - 1 ? `<span class="track-link ${mastered ? 'done' : ''}"></span>` : '';
+    return `<button type="button" class="track-node ${cls}" data-track-mech="${m}" title="${escapeHTML(tip)}" aria-label="${escapeHTML(tip)}">${mastered ? (stale ? '?' : '✓') : i+1}</button>${link}`;
+  }).join('');
+  const pct = Math.round(100 * doneN / mechs.length);
+  return `
+    <section class="card">
+      <div class="footer-actions" style="margin-top:0;align-items:baseline">
+        <h3 style="margin:0">🗺 Gudrybių takas</h3>
+        <span class="help-bar">${doneN} / ${mechs.length} įvaldyta${days != null && days >= 0 ? ` · 🏁 finišas už ${days} d.` : ''}</span>
+      </div>
+      <div class="track">${nodes}<span class="track-flag" title="${days != null && days >= 0 ? `Konkursas už ${days} d.` : 'Konkursas'}">🏁</span></div>
+      <div class="track-bar"><div style="width:${pct}%"></div></div>
+      <p class="help-bar">${next ? `Dabar: <b>${escapeHTML(MECHANIC_LABEL[next] || next)}</b>. ` : 'Visos gudrybės įvaldytos! '}Žalias — įvaldyta, oranžinis su „?“ — verta pakartoti. Spausk bet kurį apskritimą.</p>
+    </section>`;
+}
+
+/* -------- Weekly recap: Monday→Sunday, kid-facing ----------------------
+   Shown always once there is any activity this week; on Monday it shows
+   LAST week (the natural "how did it go" moment), with next week's focus. */
+function weeklyRecapHTML(){
+  const today = new Date();
+  const monday = today.getDay() === 1;
+  const rows = weekActivity(monday ? 1 : 0);
+  const active = rows.filter(r => r.a && r.a.answered);
+  if(!active.length) return '';
+  const answered = rows.reduce((s,r)=> s + ((r.a && r.a.answered) || 0), 0);
+  const correct  = rows.reduce((s,r)=> s + ((r.a && r.a.correct) || 0), 0);
+  const stars    = rows.reduce((s,r)=> s + ((r.a && r.a.stars) || 0), 0);
+  const fromTs = rows[0].date.getTime();
+  const toTs   = rows[6].date.getTime() + ONE_DAY_MS;
+  const mastered = Object.entries(store.masteredMech || {}).filter(([m, t]) => t >= fromTs && t < toTs).map(([m]) => m);
+  const contests = (store.contests || []).filter(c => c.when >= fromTs && c.when < toTs);
+  const prevContests = (store.contests || []).filter(c => c.when < fromTs).slice(-1);
+  const weak = weakestMechanics(1)[0] || null;
+  const next = nextMechanicToLearn();
+  const focus = weak && weak.rate >= 0.4 ? weak.mech : next;
+  const fmt = d => `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const title = monday ? 'Praėjusios savaitės apžvalga' : 'Šios savaitės apžvalga';
+  return `
+    <section class="card" style="background:linear-gradient(180deg,#fffdf7,#fff6e3)">
+      <details ${monday ? 'open' : ''}>
+        <summary style="cursor:pointer"><b>📊 ${title}</b> <span class="help-bar" style="margin-left:6px">${fmt(rows[0].date)} – ${fmt(rows[6].date)} · ${active.length}/7 d. · ${answered} užd. · ${stars} ⭐</span></summary>
+        <div class="grid two" style="margin-top:10px">
+          <div class="stat"><b>${active.length} / 7</b><span>aktyvios dienos</span></div>
+          <div class="stat"><b>${answered}</b><span>uždavinių${answered ? ` · ${Math.round(100*correct/answered)} % teisingai` : ''}</span></div>
+          <div class="stat"><b>${stars} ⭐</b><span>žvaigždžių per savaitę</span></div>
+          <div class="stat"><b>${mastered.length}</b><span>${mastered.length ? `įvaldyta: ${mastered.map(m => escapeHTML(MECHANIC_LABEL[m] || m)).join(', ')}` : 'naujų gudrybių įvaldyta'}</span></div>
+        </div>
+        ${contests.length ? `<p style="margin:8px 0 0">Kontrolinis: <b>${contests.map(c => Math.round((c.scoreWithPenalty ?? c.points)*4)/4).join(' → ')}</b> t.${prevContests.length ? ` (prieš tai: ${Math.round((prevContests[0].scoreWithPenalty ?? prevContests[0].points)*4)/4} t.${(contests[contests.length-1].scoreWithPenalty ?? 0) > (prevContests[0].scoreWithPenalty ?? 0) ? ' 📈' : ''})` : ''}</p>` : ''}
+        ${focus ? `<div class="footer-actions" style="margin-top:10px">
+          <span>${monday ? 'Šios' : 'Kitos'} savaitės tikslas: <b>${escapeHTML(MECHANIC_LABEL[focus] || focus)}</b>${weak && focus === weak.mech ? ` (${Math.round(100*weak.rate)} % klaidų)` : ' (kita take)'}</span>
+          <button class="btn small primary" data-recap-mech="${focus}">Mokytis</button>
+        </div>` : ''}
+      </details>
+    </section>`;
+}
+
 /* -------- Rewards / race-challenge home card -------- */
 function rewardsCardHTML(){
   const s = store.stars || {total:0, fromQ:0, fromTime:0};
   const unlocked = ACHIEVEMENTS.filter(a => store.achievements[a.id]).length;
   const best = store.games.best || 0;
+  const goal = (store.plan && store.plan.weeklyStarGoal) || 0;
+  const weekStars = starsThisWeek();
+  const goalPct = goal ? Math.min(100, Math.round(100 * weekStars / goal)) : 0;
+  const reward = (store.plan && store.plan.weeklyReward || '').trim();
+  const freeRaces = store.games.freeRaces || 0;
   const badges = ACHIEVEMENTS.map(a=>{
     const on = !!store.achievements[a.id];
     return `<div class="ach-badge${on?' on':''}" title="${escapeHTML(a.title)} — ${escapeHTML(a.desc)}">
@@ -6356,11 +6938,20 @@ function rewardsCardHTML(){
       <h3>🏁 Lenktynių iššūkis</h3>
       <p style="margin-top:0">Atsakyk <b>5 sunkius klausimus</b> (4 ir 5 taškų). Surink bent <b>3 teisingus</b> – ir atrakinsi <b>lenktynių žaidimą</b> kaip prizą! Daugiau teisingų = sunkesnės lenktynės ir <b>daugiau gyvybių</b> (3✓ → 1 gyvybė, 4✓ → 2, 5✓ → 3).</p>
       <div class="top-stats" style="margin-bottom:10px">
-        <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0}">⭐ ${s.total||0} žvaigždžių</span>
+        <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} žvaigždžių</span>
         <span class="pill good">🏆 Pasiekimai: ${unlocked}/${ACHIEVEMENTS.length}</span>
         ${best>0?`<span class="pill muted">🏎 Rekordas: ${best} m</span>`:''}
+        ${freeRaces>0?`<span class="pill" style="background:#fff1d6">🎟 Nemokamos lenktynės: ${freeRaces}</span>`:''}
       </div>
-      <button class="btn primary" id="raceChallengeBtn">Pradėti iššūkį →</button>
+      ${goal ? `<div style="margin-bottom:10px">
+        <div class="footer-actions" style="margin:0"><span style="font-size:14px">Savaitės tikslas: <b>${weekStars} / ${goal} ⭐</b>${reward ? ` → 🎁 ${escapeHTML(reward)}` : ''}</span>${weekStars >= goal ? '<span class="pill good">pasiekta! 🎉</span>' : ''}</div>
+        <div class="goal-bar"><div style="width:${goalPct}%"></div></div>
+        <span class="help-bar">Žvaigždės: 1 už kiekvieną užduotį, 2 už teisingą 4 t., 3 už teisingą 5 t., +1 už aktyvią minutę, +${PLAN_DAY_BONUS} už visą dienos planą.</span>
+      </div>` : ''}
+      <div class="row">
+        <button class="btn primary" id="raceChallengeBtn">Pradėti iššūkį →</button>
+        ${freeRaces>0?`<button class="btn" id="freeRaceBtn">🎟 Žaisti nemokamai (be vartų)</button>`:''}
+      </div>
       <details style="margin-top:12px">
         <summary>🛒 Žvaigždžių parduotuvė — turi <b>${starsAvailable()}</b> ⭐ laisvų</summary>
         <div class="row" style="margin-top:8px">
@@ -6382,16 +6973,29 @@ function rewardsCardHTML(){
 }
 
 /* -------- Race challenge: a 5-question gate before the game -------- */
+/* Gate pool. In the foundation phase (> 60 days out, few mechanics learned)
+   the gate also admits 3-pointers so a beginner can actually reach the
+   game in week 1; from the build phase on it is 4/5-pt only. */
 function buildRacePool(){
+  const easyGate = planPhase() === "foundation" && masteredCount() < 5;
   const pool = [];
   for(const t of ARCHIVE){
     for(const q of t.questions){
-      if((q.points === 4 || q.points === 5) && q.correct){
+      const ok = easyGate ? (q.points === 3 || q.points === 4) : (q.points === 4 || q.points === 5);
+      if(ok && q.correct){
         pool.push(Object.assign({}, q, {year: t.year}));
       }
     }
   }
   return pool;
+}
+/* Free race: a ticket earned by finishing the daily plan — medium track,
+   2 lives, no 5-question gate. */
+function openFreeRace(){
+  if(!(store.games.freeRaces > 0)) return;
+  store.games.freeRaces--;
+  saveStore(store);
+  openRaceGame("medium", 2);
 }
 function shuffleInPlace(arr){
   for(let i = arr.length - 1; i > 0; i--){
@@ -6407,9 +7011,11 @@ function openRaceChallenge(){
     alert("Per mažai tinkamų klausimų iššūkiui.");
     return;
   }
-  // Prefer a mix: aim for at least two 5-point questions when available.
-  const fives = shuffleInPlace(pool.filter(q => q.points === 5)).slice(0, 3);
-  const fours = shuffleInPlace(pool.filter(q => q.points === 4)).slice(0, 5);
+  // Prefer a mix: aim for at least two top-band questions when available.
+  // (Top band is 5 normally, 4 in the easier foundation-phase gate.)
+  const hiBand = pool.some(q => q.points === 5) ? 5 : 4;
+  const fives = shuffleInPlace(pool.filter(q => q.points === hiBand)).slice(0, 3);
+  const fours = shuffleInPlace(pool.filter(q => q.points === hiBand - 1)).slice(0, 5);
   let chosen = [...fives, ...fours];
   // De-dup by year+num, then trim/refill to exactly 5.
   const seen = new Set();
@@ -6504,6 +7110,7 @@ function renderRaceChallenge(){
     const correct = state.raceChosen === q.correct;
     if(correct) state.raceCorrect++;
     recordArchiveAnswer(q.year, q, correct, null);
+    Sfx.play(correct ? "correct" : "wrong");
     checkAchievements();
     renderRaceChallenge();
   });
@@ -6680,6 +7287,7 @@ function openRaceGame(difficulty, lives){
     store.games.bestByDiff[difficulty] = Math.max(store.games.bestByDiff[difficulty]||0, score);
     saveStore(store);
     checkAchievements();
+    if(g.newRecord) Fx.celebrate("badge"); else Sfx.play("gameover");
     renderRaceGameOver(score, difficulty, lives, g.newRecord);
   }
 
@@ -6722,6 +7330,7 @@ function openRaceGame(difficulty, lives){
             g.lives--;
             g.invuln = 70;
             o.y = H + 999; // remove this one so we don't multi-hit
+            Sfx.play("crash");
             if(g.lives <= 0){ endGame(); return; }
             break;
           }

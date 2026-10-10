@@ -379,3 +379,53 @@ in `store.contests` (last 30 retained).
 - `*.pdf` — source materials. `200xLT.pdf` and `TMK0x_lietuviu.pdf` are
   test booklets; `200xspB.pdf` and `200xkengura.pdf` are solution
   compendiums; `benjamin_lt (*).pdf` are the modern (2013+) test booklets.
+
+## Macro-cycle, sound/effects, star economy, track, recap (2026-10-10)
+
+Prep-course layer for a 2–3 month run-up. All in `kengura.html`; smoke
+test section "macro-cycle + stars" covers it.
+
+- **Phases** (`planPhase()`, `PLAN_PHASE`): from `daysToContest()`:
+  `foundation` > 60 d (sprint ↔ new-mechanic alternating by day parity),
+  `build` 11–60 d (old behaviour: due ≥ 4 > speed > next mechanic >
+  mixed), `taper` ≤ 10 d (NO new mechanics: due ≥ 1 > mixed/sprint
+  alternating). No date → `build`. Eve of contest = warm-up + read
+  strategy + rest; contest day = single "none" step.
+- **Contest day** (`isContestDay`, `store.plan.contestWeekday`, default
+  Saturday, selectable in the plan view): core step becomes a 75-min
+  contest sim on an unplayed eligible year (`pickContestYear`). Also
+  forced at T-3 days (dress rehearsal). `finishContest` ticks the plan
+  step even when the contest was launched from the home card.
+- **Mastery decay** shrinks from 60 d to 28 d while a contest date is in
+  the future (`masteryDecayDays()`).
+- **Sound** (`Sfx`): WebAudio synth, no files. `store.settings.sound`
+  toggle on the home settings row. Bank: correct / wrong / star / badge /
+  mastery / plan / warn / crash / gameover / click / tick. Plays only in
+  UI handlers (never inside `recordArchiveAnswer`, which bulk-records).
+  Contest sim is silent except one `warn` at 5 min left. Quiz timer
+  warns at 60 s.
+- **Effects** (`Fx`): `floatStars(n)` on every star award, `confetti()`,
+  `celebrate(kind)` = sound + confetti. `showToast(icon, html)` is the
+  generic bottom toast (achievements use it too).
+- **Stars**: `starsForAnswer(correct, band)` → 1 / 2 (correct 4-pt) /
+  3 (correct 5-pt). `logActivity(correct, band)` — callers pass the
+  band. Bonuses (`store.stars.fromBonus`): +10 for all plan steps of a
+  day (once, `planDone[day].bonus`) + one free race ticket
+  (`store.games.freeRaces`, `openFreeRace` = medium, 2 lives, no gate),
+  +5 perfect session (≥ 5 Q), +5 first mastery of a mechanic. Daily
+  stars are logged in `store.activity[day].stars`; `starsThisWeek()`
+  sums Mon–Sun.
+- **Weekly goal**: `store.plan.weeklyStarGoal` (default 150) and
+  `store.plan.weeklyReward` (free text) set in the parent view; progress
+  bar on the rewards card.
+- **Race gate** admits 3/4-pt questions in the foundation phase while
+  < 5 mechanics are mastered (`buildRacePool`), else 4/5-pt as before.
+- **Track card** (`trackCardHTML`): 30-node path in `MECHANIC_ORDER`
+  (only mechanics with ≥ 3 archive Qs — `trackMechanics()`), states
+  done / stale / current, finish flag with days left; node click opens
+  the playlist.
+- **Weekly recap** (`weeklyRecapHTML`): collapsible card on home once
+  there is activity this week; on Mondays it opens expanded and shows
+  LAST week. Active days, questions, accuracy, stars, mechanics
+  mastered, contest score vs previous, and a focus mechanic (weakest
+  ≥ 40 % errors, else next on the track).
