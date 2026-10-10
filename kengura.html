@@ -6762,6 +6762,10 @@ function isContestDay(dateObj){
     left = days - diff;                // days left as of `d`
     if(left <= 1) return false;        // eve + contest day: rest
     if(left === 3) return true;        // taper: final dress rehearsal
+    if(left === 2){                    // rehearsal missed yesterday → today, unless a paper was just played
+      const lp = Math.max(0, ...(store.contests || []).map(c => c.when || 0));
+      return !lp || (d.getTime() - lp) >= 4 * ONE_DAY_MS;
+    }
   }
   // Never two papers close together: the weekly slot yields within 2 days
   // of the T-3 rehearsal and within 5 days of any paper already played.

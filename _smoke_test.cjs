@@ -472,6 +472,12 @@ section("held-out papers + diagnostic");
   store.contests = [];
   store.plan.contestDate = inDays(4);
   check("weekly slot yields near the T-3 rehearsal", !isContestDay(new Date()));
+  store.plan.contestDate = inDays(2);
+  store.contests = [];
+  check("missed T-3 rehearsal slides to T-2", isContestDay(new Date()));
+  store.contests = [{when: Date.now() - 1*86400000, year: eligDesc[6], points:0, scoreWithPenalty:0, maxPoints:120}];
+  check("T-2 stays quiet right after a paper", !isContestDay(new Date()));
+  store.contests = [];
   // Foundation sprint only while needed: with ≥ 2 sprints and no speed flag → mechanic
   store.plan.contestDate = inDays(80);
   store.plan.contestWeekday = (new Date().getDay() + 1) % 7;
