@@ -308,6 +308,7 @@
   /* ---- Racing minigame ---- */
   .race-hud{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0}
   .race-canvas-wrap{display:flex;justify-content:center}
+  .race-canvas-wrap canvas{max-width:100%;height:auto}   /* 360px canvases on a 356px phone viewport */
   #raceCanvas{width:100%;max-width:360px;height:auto;border-radius:14px;
     border:3px solid #2a2e34;box-shadow:0 6px 18px rgba(0,0,0,.18);touch-action:none}
   .race-controls{display:flex;gap:14px;justify-content:center;margin-top:12px}

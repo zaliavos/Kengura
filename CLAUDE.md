@@ -567,3 +567,30 @@ Simulation (84 days unless noted; `node _plan_sim.cjs …`):
 0.70 flat → 13 full; 0.70 --learn → 18; 0.85 → all 26; weekend-off
 0.80 → 20, 10 papers; erratic 0.70 --learn --miss=0.3 → 12, 11 papers;
 30-day 0.85 → 15; 45-day 0.80 --learn → see table in git log.
+
+## Loops 16–25 (2026-10-10, sixth pass)
+
+- **16 — calibration in playlists.** Try/mastery steps ask "Kiek esi
+  tikras?" (`state.playlistConf`), passed to `recordArchiveAnswer`.
+- **17 — training days.** `store.plan.trainingDays` (toggles in the
+  plan view, ≥ 2). `isTrainingDay()`: streak counts missed training days
+  only; rest days have no plan steps, no bonus, no paper; week strip and
+  home card show 🛌. Simulator mirrors `--skip` into it.
+- **18 — papers count as activity.** `creditContestActivity` (streak,
+  activity, stars) in `finishContest`. Found by the simulator: streak 3
+  after 12 weeks for a kid who sat 10 papers.
+- **19 — phone width.** Verified via a 360px iframe (the extension's
+  window resize does not change the viewport): no horizontal overflow on
+  home/plan/parent/picker/jump; canvases now `max-width:100%`.
+- **20 — backup/restore.** Parent view exports the store as JSON
+  (`exportProgress`) and imports it back (`importProgressFile`,
+  shape-checked, confirm, reload).
+- **21 — parent view shows the weekly recap.**
+- **22 — combo cheers** at 3, 5 and every 10 correct in a row
+  (`state._combo` in `logActivity`; contests stay silent).
+- **23 — "Dar kartą"** label when returning to a mechanic after fails.
+- **24 — rest day no longer shows "plan done"** (`allDone` needs steps).
+- **25 — notes + push.**
+
+Simulation after this pass (84 d, --learn): daily 0.80 → 25/26, streak
+intact; weekend-off 0.80 → 24/25, 10 papers, streak 58.
