@@ -3052,6 +3052,7 @@ function addProfile(name){
 }
 function deleteProfile(id){
   if(!id) return;   // the default profile cannot be deleted
+  if(id === META.active) _storeFrozen = true;   // no unload save of the deleted profile
   META.profiles = META.profiles.filter(p => p.id !== id);
   try { localStorage.removeItem(storeKeyFor(id)); } catch(_){}
   if(META.active === id) META.active = "";
@@ -3747,7 +3748,12 @@ function nextMechanicTarget(){
   return walk(phase) || (phase === "foundation" ? walk("build") : null);
 }
 let _saveWarned = false;
+// Set before a reload that must NOT be followed by a save: import and
+// profile delete replace/remove the stored copy, and the beforeunload
+// save would otherwise write the in-memory store right back over it.
+let _storeFrozen = false;
 function saveStore(s){
+  if(_storeFrozen) return;
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(s));
   } catch(e) {
@@ -5848,6 +5854,7 @@ function importProgressFile(file){
       if(!incoming || typeof incoming !== "object" || !incoming.activity || !incoming.settings) throw new Error("ne Kengūros progreso failas");
       const qs = Object.values(incoming.activity).reduce((a, c) => a + (c.answered || 0), 0);
       if(!confirm(`Importuoti progresą (${qs} atsakymų, ${Object.keys(incoming.masteredMech || {}).length} įvaldytų gudrybių)?\n\nDabartinis progresas šioje naršyklėje bus pakeistas.`)) return;
+      _storeFrozen = true;   // the unload save must not overwrite the import
       localStorage.setItem(LS_KEY, JSON.stringify(incoming));
       location.reload();
     } catch(e){ alert("Nepavyko importuoti: " + e.message); }
