@@ -5437,12 +5437,11 @@ function renderResults(){
     <section class="card">
       <div class="footer-actions" style="flex-wrap:wrap;gap:8px">
         ${(()=>{
-          const pd = store.planDone[todayKey()] || {};
-          const next = state._resultsFromPlan ? planStepsForToday().find(st => !pd[st.id] && st.act !== 'none') : null;
+          const next = state._resultsFromPlan ? planNextButtonHTML() : '';
           const size = newTestSizeLabel();
           if(next) return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
             <button class="btn ghost" id="againBtn" title="Ne plano dalis">Naujas testas (${size})</button>
-            <button class="btn primary" id="planNextBtn">Toliau pagal planą: ${escapeHTML(next.label)} →</button>`;
+            ${next}`;
           if(state._resultsFromPlan) return `<span class="help-bar" style="margin:0">🎉 Šiandienos planas atliktas.</span>
             <button class="btn ghost" id="againBtn">Naujas testas (${size})</button>
             <button class="btn primary" id="homeBtn">Į pradžią</button>`;
@@ -5455,12 +5454,7 @@ function renderResults(){
 
   document.getElementById("homeBtn").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
   document.getElementById("againBtn").addEventListener("click", startQuiz);
-  const planNextBtn = document.getElementById("planNextBtn");
-  if(planNextBtn) planNextBtn.addEventListener("click", ()=>{
-    const pd = store.planDone[todayKey()] || {};
-    const next = planStepsForToday().find(st => !pd[st.id] && st.act !== 'none');
-    if(next) launchPlanStep(next); else { state.view = "home"; renderHome(); }
-  });
+  wirePlanNext();
   $app.querySelectorAll("[data-similar]").forEach(b=>{
     b.addEventListener("click", ()=>{
       const i = parseInt(b.dataset.similar,10);
@@ -5880,7 +5874,28 @@ function renderContestResults(){
         </div>
       `).join('')}
     </section>` : ''}
+
+    <section class="card">
+      <div class="footer-actions" style="flex-wrap:wrap;gap:8px">
+        <button class="btn ghost" id="contestBack2">← Į pradžią</button>
+        ${(()=>{
+          const pd = store.planDone[todayKey()] || {};
+          const review = planStepsForToday().find(st => st.id === "cooldown" && st.act === "none" && !pd.cooldown && pd.core);
+          if(review) return `<button class="btn primary" id="contestReviewed">✓ Klaidas peržiūrėjau</button>`;
+          return planNextButtonHTML();
+        })()}
+      </div>
+    </section>
   `;
+  const toHome = ()=>{ state.view = "home"; renderHome(); };
+  document.getElementById("contestBack2").addEventListener("click", toHome);
+  const reviewed = document.getElementById("contestReviewed");
+  if(reviewed) reviewed.addEventListener("click", ()=>{
+    markPlanStepDoneManual("cooldown");
+    reviewed.textContent = "Peržiūrėta ✓";
+    reviewed.disabled = true;
+  });
+  wirePlanNext();
   document.getElementById("contestBack").addEventListener("click", ()=>{
     state.view = "home"; renderHome();
   });
@@ -6381,7 +6396,9 @@ function renderPlaylist(){
           ${allDone && !special && !retest && !passed && lowerBand ? `<button class="btn" id="plStepDown" data-band="${lowerBand}">Pabandyti ${lowerBand} t. lygiu</button>` : ''}
           ${allDone && !special && !retest && passed && higherBand ? `<button class="btn" id="plStepUp" data-band="${higherBand}">Kilti į ${higherBand} t. lygį</button>` : ''}
           ${allDone && retest && !passed ? `<button class="btn" id="plRedo">Pereiti seriją iš naujo</button>` : ''}
-          ${(allDone || state.playlistTimeExpired) ? `<button class="btn primary" id="plDone">Baigti</button>` : ''}
+          ${(allDone || state.playlistTimeExpired) ? (state._planStep && nextPlanStep(state._planStep)
+              ? `<button class="btn ghost" id="plDone">Baigti</button>${planNextButtonHTML(state._planStep)}`
+              : `<button class="btn primary" id="plDone">Baigti</button>`) : ''}
         </div>
       </div>
     `;
@@ -6490,6 +6507,7 @@ function renderPlaylist(){
     state.view = "home";
     renderHome();
   });
+  wirePlanNext(finalizePlaylist);
   const stepDown = document.getElementById("plStepDown");
   if(stepDown) stepDown.addEventListener("click", ()=>{
     finalizePlaylist();
@@ -6959,17 +6977,21 @@ function renderRecog(){
 function renderRecogResult(){
   const total = state.recogQs.length;
   const ok = state.recogCorrect;
+  const fromPlan = !!state._planStep;
   markPlanStepDone();
+  const next = fromPlan ? planNextButtonHTML() : '';
   $app.innerHTML = `
     <section class="card" style="text-align:center">
       <h2>🔍 Atpažinimo rezultatas</h2>
       <p style="font-size:30px;margin:6px 0"><b>${ok} / ${total}</b></p>
       <p class="help-bar">${ok >= 8 ? 'Puiku – tipus atpažįsti beveik akimirksniu. Konkurse tai sutaupys brangias minutes.' : ok >= 5 ? 'Neblogai. Kuo greičiau atpažįsti tipą, tuo greičiau žinai, KĄ daryti.' : 'Verta pakartoti gudrybių aprašymus („Gudrybių mokymasis“ skiltyje) – atpažinimas ateina su pažinimu.'}</p>
       <div class="footer-actions" style="justify-content:center;gap:8px">
-        <button class="btn primary" id="recogAgain">Dar kartą</button>
+        <button class="btn ${next ? 'ghost' : 'primary'}" id="recogAgain">Dar kartą</button>
         <button class="btn ghost" id="recogHome">Į pradžią</button>
+        ${next}
       </div>
     </section>`;
+  wirePlanNext();
   document.getElementById("recogAgain").addEventListener("click", openRecogDrill);
   document.getElementById("recogHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
 }
@@ -7252,6 +7274,27 @@ function markPlanStepDoneManual(id){
   if(d[id]) return;
   state._planStep = id;
   markPlanStepDone();
+}
+
+/* After any plan step the end screen offers the NEXT step of today's plan
+   as its main button, so the kid never has to find the way back through
+   home – and never falls into an unplanned free test by accident. */
+function nextPlanStep(skipId){
+  const pd = store.planDone[todayKey()] || {};
+  return planStepsForToday().find(st => !pd[st.id] && st.id !== skipId && st.act !== 'none') || null;
+}
+function planNextButtonHTML(skipId, cls){
+  const n = nextPlanStep(skipId);
+  return n ? `<button class="btn ${cls || 'primary'}" id="planNextBtn">Toliau pagal planą: ${escapeHTML(n.label)} →</button>` : '';
+}
+function wirePlanNext(before){
+  const b = document.getElementById("planNextBtn");
+  if(!b) return;
+  b.addEventListener("click", ()=>{
+    if(before) before();
+    const n = nextPlanStep();
+    if(n) launchPlanStep(n); else { state.view = "home"; renderHome(); }
+  });
 }
 
 function launchPlanStep(s){

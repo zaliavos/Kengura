@@ -90,7 +90,8 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
         askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay, creditContestActivity,
-        renderContestIntro, newTestSizeLabel, needsDiagnosticContest};
+        renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
+        nextPlanStep, renderRecogResult, $app};
 `;
 let app;
 try {
@@ -723,7 +724,20 @@ section("no surprises");
   const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
   store.plan.contestPostponedDay = keyOf(new Date(Date.now() - 864e5));
   check("postpone expires the next day", needsDiagnosticContest());
-  store.plan.contestPostponedDay = null; store.plan.contestDate = null; state.view = "home";
+  store.plan.contestPostponedDay = null;
+  // every plan end screen offers the next plan step
+  const {nextPlanStep, renderRecogResult, $app} = app;
+  const tk = keyOf(new Date());
+  store.planDone[tk] = {};
+  check("next step skips the current one", nextPlanStep("warmup") && nextPlanStep("warmup").id !== "warmup");
+  state.recogQs = new Array(10).fill(0); state.recogCorrect = 7; state._planStep = "cooldown";
+  renderRecogResult();
+  check("recog result offers the next plan step", $app.innerHTML.includes('id="planNextBtn"'));
+  state._planStep = null; renderRecogResult();
+  check("recog result outside the plan has no plan button", !$app.innerHTML.includes('id="planNextBtn"'));
+  check("playlist end and contest results wire the plan button", (html.match(/wirePlanNext\(/g) || []).length >= 5);
+  store.planDone[tk] = {};
+  store.plan.contestDate = null; state.view = "home";
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------
