@@ -7634,8 +7634,11 @@ function openRaceChallenge(){
   // Prefer a mix: aim for at least two top-band questions when available.
   // (Top band is 5 normally, 4 in the easier foundation-phase gate.)
   const hiBand = pool.some(q => q.points === 5) ? 5 : 4;
-  const fives = shuffleInPlace(pool.filter(q => q.points === hiBand)).slice(0, 3);
-  const fours = shuffleInPlace(pool.filter(q => q.points === hiBand - 1)).slice(0, 5);
+  // Fresh questions first (stable partition after the shuffle) so the
+  // gate does not keep re-asking what the kid answered last week.
+  const freshFirst = arr => arr.sort((a, b) => (isRecentlySeen(a.year, a.num) ? 1 : 0) - (isRecentlySeen(b.year, b.num) ? 1 : 0));
+  const fives = freshFirst(shuffleInPlace(pool.filter(q => q.points === hiBand))).slice(0, 3);
+  const fours = freshFirst(shuffleInPlace(pool.filter(q => q.points === hiBand - 1))).slice(0, 5);
   let chosen = [...fives, ...fours];
   // De-dup by year+num, then trim/refill to exactly 5.
   const seen = new Set();
