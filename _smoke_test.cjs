@@ -548,6 +548,7 @@ section("minigames");
     check("explicit band still wins", state.playlistContent.sourceBand === 5);
     store.plan.contestDate = null; state.view = "home";
   }
+  check("playlists ask confidence", html.includes('data-pl-conf="a"') && html.includes("state.playlistConf[k] = b.dataset.plConf"));
   check("empty quiz gives no plan credit", html.includes("if(session.answered >= Math.ceil(total / 2)) markPlanStepDone();"));
   check("contest result records practisedBefore", html.includes("practisedBefore = qs.filter") && html.includes("byTimer: !!byTimer, practisedBefore"));
   // Loop 4: parking grows with fails; retest runs at the mastered band

@@ -5986,6 +5986,7 @@ function openPlaylist(mech, forcedBand){
   state.playlistAns = {};       // key: "year-num" -> chosen letter
   state.playlistSubmitted = {}; // key -> bool
   state.playlistHintShown = {}; // key -> bool
+  state.playlistConf = {};      // key -> a|b|c
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
@@ -6015,6 +6016,7 @@ function openDueQueue(limit){
   state.playlistAns = {};
   state.playlistSubmitted = {};
   state.playlistHintShown = {};
+  state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
@@ -6157,7 +6159,7 @@ function renderPlaylist(){
     (content.mastery || []).forEach(it => {
       const k = `${it.year}-${it.q.num}`;
       if(!state.playlistSubmitted[k]) return;
-      recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct);
+      recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct, (state.playlistConf || {})[k] || null);
     });
   }
   // Full completion: record answers + apply mastery / retest bookkeeping.
@@ -6283,16 +6285,22 @@ function renderPlaylist(){
         renderPlaylist();
       });
     });
+    card.querySelectorAll("[data-pl-conf]").forEach(b => b.addEventListener("click", ()=>{
+      state.playlistConf = state.playlistConf || {};
+      state.playlistConf[k] = b.dataset.plConf;
+      renderPlaylist();
+    }));
     const checkBtn = card.querySelector("[data-pl-check]");
     if(checkBtn) checkBtn.addEventListener("click", ()=>{
       if(state.playlistAns[k] == null) return;
+      if(askConfidenceNow() && !(state.playlistConf || {})[k]) return;   // pick confidence first
       if(state.playlistTimeExpired) return;
       state.playlistSubmitted[k] = true;
       // For try/worked steps (not mastery), record one answer right away
       if(state.playlistStep !== 3){
         const it = state.playlistStep === 1 ? content.worked : content.tryQ;
         if(it){
-          recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct);
+          recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct, (state.playlistConf || {})[k] || null);
         }
       }
       {
@@ -6344,6 +6352,14 @@ function renderPlaylistQuestion(item, opts){
     : "";
   const showHint = mode === "try" && !submitted && state.playlistHintShown[k];
   const approach = q.solution ? approachFromSolution(q.solution) : null;
+  // Calibration inside playlists too (try + mastery): the plan's core is
+  // mostly playlists, so without this the parent's confidence stats starve.
+  const conf = (state.playlistConf || {})[k] || null;
+  const needConf = askConfidenceNow() && mode !== "worked" && !submitted && !!chosen;
+  const canCheck = chosen && !(needConf && !conf);
+  const confRow = needConf ? (conf
+    ? `<div class="help-bar">Pasitikėjimas: <b>${({a:'Tikrai žinau',b:'Spėju iš dviejų',c:'Atsitiktinai'})[conf]}</b></div>`
+    : `<div class="confidence-row" role="radiogroup" aria-label="Kiek esi tikras?"><span class="help-bar" style="margin:0 8px 0 0">Kiek esi tikras?</span><button class="btn small ghost" role="radio" aria-checked="false" data-pl-conf="a">Tikrai žinau</button><button class="btn small ghost" role="radio" aria-checked="false" data-pl-conf="b">Spėju iš dviejų</button><button class="btn small ghost" role="radio" aria-checked="false" data-pl-conf="c">Atsitiktinai</button></div>`) : '';
   let footer = "";
   if(mode === "worked"){
     footer = submitted
@@ -6352,12 +6368,12 @@ function renderPlaylistQuestion(item, opts){
   } else if(mode === "try"){
     footer = submitted
       ? `<button class="btn small primary" data-pl-nextstep>Toliau – įvaldymo testas</button>`
-      : `${approach && !state.playlistHintShown[k] ? `<button class="btn small ghost" data-pl-hint>Užuomina</button>` : ''}
-         <button class="btn small primary" data-pl-check ${chosen ? '' : 'disabled'}>Patikrinti</button>`;
+      : `${confRow}${approach && !state.playlistHintShown[k] ? `<button class="btn small ghost" data-pl-hint>Užuomina</button>` : ''}
+         <button class="btn small primary" data-pl-check ${canCheck ? '' : 'disabled'}>Patikrinti</button>`;
   } else { // mastery
     footer = submitted
       ? ''
-      : `<button class="btn small primary" data-pl-check ${chosen ? '' : 'disabled'}>Atsakyti</button>`;
+      : `${confRow}<button class="btn small primary" data-pl-check ${canCheck ? '' : 'disabled'}>Atsakyti</button>`;
   }
   return `
     <section class="card playlist-q" data-year="${year}" data-qnum="${q.num}" style="margin-top:12px">
@@ -6546,6 +6562,7 @@ function openMixedSet(count){
   state.playlistAns = {};
   state.playlistSubmitted = {};
   state.playlistHintShown = {};
+  state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
