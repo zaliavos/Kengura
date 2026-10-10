@@ -7329,6 +7329,12 @@ function checkAchievements(){
 
 function showAchievementToast(list){
   Sfx.play("badge");
+  // After an app update the retroactive check can earn many badges at
+  // once (legacy saves) — one summary toast instead of a stack of ten.
+  if(list.length > 3){
+    showToast("🏆", `${list.length} nauji apdovanojimai! Pažiūrėk apdovanojimų lentelę.`, 5000);
+    return;
+  }
   list.forEach((a, i) => {
     setTimeout(()=> showToast(a.icon, `Apdovanojimas: <b>${escapeHTML(a.title)}</b>`), i * 150);
   });
