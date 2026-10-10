@@ -6082,7 +6082,7 @@ function renderPlaylist(){
         if(retest){
           return passed
             ? `<div class="explain mastery-pass" style="background:var(--good-soft);border:1px solid var(--good)">
-                <span class="star">⭐</span><b>Dar pameni!</b> Įvaldymas atnaujintas — pasimatysime vėl po 60 d.
+                <span class="star">⭐</span><b>Dar pameni!</b> Įvaldymas atnaujintas — pasimatysime vėl po ${masteryDecayDays()} d.
                </div>`
             : `<div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
                 <b>Primiršai — nieko tokio.</b> Pereik šios gudrybės seriją iš naujo — tai normalu po pertraukos.
@@ -6090,8 +6090,9 @@ function renderPlaylist(){
         }
         return passed
           ? `<div class="explain mastery-pass" style="background:var(--good-soft);border:1px solid var(--good)">
-              <span class="star">⭐</span><b>Šaunu! Gudrybė įvaldyta.</b>
-              Pažymėjom kaip įvaldytą — pasimatysime vėl po 60 d.
+              <span class="star">⭐</span>${content.sourceBand && content.sourceBand < mechTopBand(state.playlistMech)
+                ? `<b>Šaunu! Įveikta ${content.sourceBand} t. lygiu.</b> Kitas žingsnis — ${mechTopBand(state.playlistMech)} t. uždaviniai šios gudrybės; planas juos pasiūlys.`
+                : `<b>Šaunu! Gudrybė įvaldyta.</b> Pažymėjom kaip įvaldytą — pasimatysime vėl po ${masteryDecayDays()} d.`}
               <br><span class="muted small">Visos ${items.length} užduotys teisingos${content.sourceBand ? ` (${content.sourceBand} t. lygis)` : ''}.</span>
              </div>`
           : `<div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">

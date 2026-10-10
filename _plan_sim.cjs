@@ -37,6 +37,10 @@ const SKILL = parseFloat(process.argv[3] || "0.7");   // p(correct) on a mastery
 // --skip=0,3 → weekdays (0 = Sunday) the kid does NOT train; --start=N → set the contest date only N days in
 const skipArg = (process.argv.find(a => a.startsWith("--skip=")) || "--skip=").slice(7);
 const SKIP_DAYS = new Set(skipArg ? skipArg.split(",").map(Number) : []);
+// --learn → the kid gets better at a mechanic with every playlist on it (+0.06 per exposure, cap 0.95)
+const LEARN = process.argv.includes("--learn");
+const exposure = {};
+const pMech = mech => Math.min(0.95, SKILL + (LEARN ? 0.06 * (exposure[mech] || 0) : 0));
 const c = new RealDate(NOW); c.setDate(c.getDate() + CONTEST_IN);
 store.plan.contestDate = `${c.getFullYear()}-${String(c.getMonth()+1).padStart(2,"0")}-${String(c.getDate()).padStart(2,"0")}`;
 store.plan.contestWeekday = 6;
@@ -60,9 +64,10 @@ for(let day = 0; day <= CONTEST_IN; day++){
   } else if(core.act === "playlist"){
     const content = app.pickPlaylistContent(core.arg, core.band);
     let ok = 0;
-    for(const it of content.mastery){ const r = rand() < SKILL; if(r) ok++; app.recordArchiveAnswer(it.year, it.q, r, null); seenMastery.add(`${it.year}-${it.q.num}`); }
+    const pm = pMech(core.arg); exposure[core.arg] = (exposure[core.arg] || 0) + 1;
+    for(const it of content.mastery){ const r = rand() < pm; if(r) ok++; app.recordArchiveAnswer(it.year, it.q, r, null); seenMastery.add(`${it.year}-${it.q.num}`); }
     if(content.worked) app.recordArchiveAnswer(content.worked.year, content.worked.q, true, null);
-    if(content.tryQ) app.recordArchiveAnswer(content.tryQ.year, content.tryQ.q, rand() < SKILL, null);
+    if(content.tryQ) app.recordArchiveAnswer(content.tryQ.year, content.tryQ.q, rand() < pm, null);
     const passed = ok === content.mastery.length && content.mastery.length >= 2;   // same rule as finalizePlaylist
     app.noteMechAttempt(core.arg, content.sourceBand, passed);
     if(passed){ store.masteredBand[core.arg] = Math.max(app.masteredBandOf(core.arg), content.sourceBand); if(content.sourceBand >= app.mechTopBand(core.arg)) store.masteredMech[core.arg] = NOW; }

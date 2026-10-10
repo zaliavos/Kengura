@@ -89,7 +89,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
-        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt};
+        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML};
 `;
 let app;
 try {
@@ -556,6 +556,42 @@ section("minigames");
     store.mechAttempts = {};
   }
   state.view = "home";
+}
+
+// ---------- 7e. legacy save migration ----------
+section("legacy save");
+{
+  const {loadStore, LS_KEY, store, state, masteredBandOf, mechTopBand} = app;
+  // A save shaped like the app wrote it before the prep layer existed.
+  const legacy = {
+    sessions:[{when: 1, total: 10, correct: 7, points: 20, questions: []}], catStats:{}, subStats:{},
+    mechStats:{casework:{5:{attempts:4, wrong:1}}}, dueQueue:{"2019-24":{year:"2019", num:24, mech:"casework", band:5, dueAt: 1, streak: 0}},
+    masteredMech:{casework: 1}, confStats:{a:{attempts:0,wrong:0}}, activity:{"2026-09-01":{answered:5, correct:4}},
+    contests:[{when: 1, year:"2018", points: 50, scoreWithPenalty: 45, maxPoints: 120, correct: 14, total: 30, answered: 20, byBand:{}}],
+    settings:{count:15, difficulties:[3,4,5], useTimer:true}, streak:{count:3, lastDay:"2026-09-01"},
+    stars:{total:40, fromQ:30, fromTime:10}, games:{plays:2, best:300, bestByDiff:{easy:300}},
+    achievements:{q10: 1}, plan:{contestDate:null}, planDone:{}, seenQ:{}, mechRecent:{}, recogStats:{attempts:3, correct:2},
+    shop:{activeColor:"classic", colors:["classic"]},
+  };
+  localStorageStub.setItem(LS_KEY, JSON.stringify(legacy));
+  let loaded = null, threw = null;
+  try { loaded = loadStore(); } catch(e){ threw = e.message; }
+  check("legacy store loads", !threw && loaded, threw);
+  if(loaded){
+    check("legacy: sound default on", loaded.settings.sound !== false);
+    check("legacy: plan defaults", loaded.plan.contestWeekday === 6 && loaded.plan.weeklyStarGoal === 150 && loaded.plan.weeklyReward === "");
+    check("legacy: stars fromBonus", loaded.stars.fromBonus === 0 && loaded.stars.total === 40);
+    check("legacy: games tickets/jump", loaded.games.freeRaces === 0 && loaded.games.jumpBest === 0 && loaded.games.best === 300);
+    check("legacy: masteredBand/mechAttempts/recogSeen", loaded.masteredBand && loaded.mechAttempts && loaded.recogSeen);
+    check("legacy: old mastery kept", loaded.masteredMech.casework === 1);
+  }
+  // Old mastery (no masteredBand) reads as full mastery at the top band
+  const savedMM = store.masteredMech, savedMB = store.masteredBand;
+  store.masteredMech = {casework: 1}; store.masteredBand = {};
+  check("old mastery = top band", masteredBandOf("casework") === mechTopBand("casework") && mechTopBand("casework") >= 4);
+  check("ancient mastery shows as stale on the track", app.trackCardHTML().includes("track-node stale"));
+  store.masteredMech = savedMM; store.masteredBand = savedMB;
+  localStorageStub.removeItem(LS_KEY);
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------
