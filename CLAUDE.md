@@ -500,3 +500,38 @@ What the first simulation exposed and what changed:
   serving the same 4-pt set forever.
 - **Contest spacing** (`isContestDay`): the weekly slot yields within 2
   days of the T-3 rehearsal and within 5 days of any played paper.
+
+## Five fix/review loops (2026-10-10, fourth pass)
+
+Each loop = simulate (`_plan_sim.cjs`) + read + fix + smoke + commit.
+
+- **Loop 1 — second minigame + honest time.** `openJumpGame` (Kengūros
+  šuolis, canvas runner: Space/↑/tap), shared `renderGameOver`,
+  `renderGamePick` for unlocks and tickets (`openFreeRace` opens the
+  picker), badges `jump1`/`jump500`, `store.games.jumpBest/jumpPlays`.
+  `PLAN_STEP_MIN` + `planMinutes()` replace the fixed "~20 min". Smoke
+  test drives both game loops headlessly (no-op canvas ctx + queued rAF).
+- **Loop 2 — adaptive cadence + proportional taper.** `isContestDay`:
+  a paper is due every 7 d (14 in foundation); the preferred weekday
+  takes it after ≥ 5 d, a missed weekday hands it to the first day it is
+  overdue by one (weekend-off kid: 10 papers instead of 2).
+  `planTaperDays()` = 12 % of the run clamped 4–10, anchored by
+  `store.plan.startDate` (set when the date is first entered; falls back
+  to the earliest activity day). Mission card uses `nextMechanicTarget`
+  with the band; parent view counts mastery against `trackMechanics()`.
+  Simulator gained `--skip=<weekdays>`.
+- **Loop 3 — one "do this now".** With a date set the mission card
+  leads with today's next undone plan step (`action: 'planStep'`).
+  `askConfidenceNow()` hides the confidence picker in the sprint.
+  Per-minute stars only in `STAR_TIME_VIEWS` (quiz, playlist, recog,
+  archive, contest, results) — never on home/plan/games.
+- **Loop 4 — pacing of hard mechanics.** Park time = 7 × (fails − 1)
+  days. Stale retest runs at `masteredBandOf(mech)`; a failed retest
+  drops one band (`masteredBand`) instead of wiping. Recap focus needs
+  ≥ 4 samples. Home nudges when no contest date is set.
+- **Loop 5 — verification.** Browser pass on home/plan/games, final
+  simulation table below, notes.
+
+Simulation reference (84 days, daily kid, 3 reserved years):
+accuracy 0.60 → 8 full + 3 partial, 0.70 → 13 + 2, 0.85 → all 26,
+weekend-off 0.80 → 20 full, 10 papers; 30-day start 0.85 → 15.
