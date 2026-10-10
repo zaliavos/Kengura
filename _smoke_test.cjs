@@ -530,6 +530,7 @@ section("minigames");
   check("home/plan/race earn no time stars", !app.STAR_TIME_VIEWS.has("home") && !app.STAR_TIME_VIEWS.has("plan") && !app.STAR_TIME_VIEWS.has("race"));
   check("quiz/playlist/contest earn time stars", ["quiz","playlist","contest"].every(v => app.STAR_TIME_VIEWS.has(v)));
   check("mission leads with the plan step", html.includes("action: 'planStep'") && html.includes('act === "planStep"'));
+  check("contest result records practisedBefore", html.includes("practisedBefore = qs.filter") && html.includes("byTimer: !!byTimer, practisedBefore"));
   // Loop 4: parking grows with fails; retest runs at the mastered band
   {
     const {mechTargetFor, noteMechAttempt, store} = app;

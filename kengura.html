@@ -5553,6 +5553,8 @@ function finishContest(byTimer){
   const qs = state.contestQuestions;
   let points = 0, scoreWithPenalty = 0, correct = 0, answered = 0, maxPoints = 0;
   const byBand = {3:{ok:0,total:0}, 4:{ok:0,total:0}, 5:{ok:0,total:0}};
+  // Honesty marker: how many of these 30 the kid had already met in practice.
+  const practisedBefore = qs.filter(q => (store.seenQ || {})[`${state.contestYear}-${q.num}`]).length;
   qs.forEach(q => {
     const band = q.points || 3;
     maxPoints += band;
@@ -5576,7 +5578,7 @@ function finishContest(byTimer){
     year: state.contestYear,
     points, scoreWithPenalty: Math.round(scoreWithPenalty * 4)/4,
     maxPoints, correct, total: qs.length, answered,
-    byBand, byTimer: !!byTimer,
+    byBand, byTimer: !!byTimer, practisedBefore,
     answers: Object.fromEntries(qs.map(q => [q.num, state.contestAnswers[q.num] || null])),
   };
   store.contests = store.contests || [];
@@ -5632,6 +5634,7 @@ function renderContestResults(){
         <div class="stat"><b>${r.scoreWithPenalty} / ${r.maxPoints}</b><span>Su −25 % bauda</span></div>
         <div class="stat"><b>${r.points} / ${r.maxPoints}</b><span>Be baudos</span></div>
         <div class="stat"><b>${r.answered}</b><span>Atsakyta · ${qs.length - r.answered} praleista</span></div>
+        ${r.practisedBefore != null ? `<div class="stat" ${r.practisedBefore >= 6 ? 'style="border-color:var(--accent)"' : ''}><b>${r.practisedBefore} / ${r.total}</b><span>matyta treniruotėse anksčiau${r.practisedBefore >= 6 ? ' · rezultatas gali būti pagražintas' : ' · švarus matavimas'}</span></div>` : ''}
       </div>
     </section>
 
@@ -5781,6 +5784,12 @@ function renderParent(){
       </div>
       <p class="help-bar">Etapas: <b>${PLAN_PHASE[planPhase()].label}</b>${daysToContest() != null && daysToContest() >= 0 ? ` · iki konkurso ${daysToContest()} d.` : ' · konkurso data nenustatyta (plane)'} · kontrolinio diena: ${WEEKDAY_LONG[(store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6]}</p>
     </section>
+
+    ${(store.contests || []).length ? `<section class="card">
+      <h3>Kontroliniai (paskutiniai 5)</h3>
+      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${Math.round((c.scoreWithPenalty ?? c.points) * 4) / 4} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.practisedBefore != null ? `${c.practisedBefore}/30 matyta anksčiau` : ''}</span></div>`).join('')}
+      <p class="help-bar">„Matyta anksčiau“ — kiek to kontrolinio uždavinių vaikas jau buvo sprendęs treniruotėse. Kuo mažiau, tuo sąžiningesnis rezultatas; naujausi metai tam ir rezervuoti.</p>
+    </section>` : ''}
 
     <section class="card">
       <h3>14 dienų aktyvumas</h3>
