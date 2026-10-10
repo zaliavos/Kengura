@@ -89,7 +89,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
-        askConfidenceNow, STAR_TIME_VIEWS};
+        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt};
 `;
 let app;
 try {
@@ -530,6 +530,31 @@ section("minigames");
   check("home/plan/race earn no time stars", !app.STAR_TIME_VIEWS.has("home") && !app.STAR_TIME_VIEWS.has("plan") && !app.STAR_TIME_VIEWS.has("race"));
   check("quiz/playlist/contest earn time stars", ["quiz","playlist","contest"].every(v => app.STAR_TIME_VIEWS.has(v)));
   check("mission leads with the plan step", html.includes("action: 'planStep'") && html.includes('act === "planStep"'));
+  // Loop 4: parking grows with fails; retest runs at the mastered band
+  {
+    const {mechTargetFor, noteMechAttempt, store} = app;
+    const m = "casework";
+    store.mechAttempts = {}; store.masteredBand = {}; delete store.masteredMech[m];
+    store.plan.contestDate = null;
+    const t0 = mechTargetFor(m, "build");
+    check("casework targets band 5 in build", t0 && t0.band === 5, JSON.stringify(t0));
+    noteMechAttempt(m, 5, false); noteMechAttempt(m, 5, false);
+    const t1 = mechTargetFor(m, "build");
+    check("two fails step down to band 4", t1 && t1.band === 4, JSON.stringify(t1));
+    noteMechAttempt(m, 4, false); noteMechAttempt(m, 4, false);
+    const t2 = mechTargetFor(m, "build");
+    check("two fails at band 4 step down to 3", t2 && t2.band === 3, JSON.stringify(t2));
+    noteMechAttempt(m, 3, false); noteMechAttempt(m, 3, false);
+    check("two fails at the lowest band park it", mechTargetFor(m, "build") === null);
+    store.mechAttempts[m][3].lastAt = Date.now() - 8*86400000;
+    check("parked 7 d after 2 fails → back", mechTargetFor(m, "build") !== null);
+    noteMechAttempt(m, 3, false);
+    store.mechAttempts[m][3].lastAt = Date.now() - 8*86400000;
+    check("parked 14 d after 3 fails", mechTargetFor(m, "build") === null);
+    store.mechAttempts[m][3].lastAt = Date.now() - 15*86400000;
+    check("…and back after 14 d", mechTargetFor(m, "build") !== null);
+    store.mechAttempts = {};
+  }
   state.view = "home";
 }
 

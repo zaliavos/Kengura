@@ -3615,7 +3615,9 @@ function mechTargetFor(mech, phase){
   }
   // Parked: failed twice at the lowest reachable band recently → come back later
   const f = fails[target] || {};
-  if(f.fails >= MECH_FAILS_BEFORE_STEPDOWN && f.lastAt && (Date.now() - f.lastAt) < MECH_PARK_DAYS * ONE_DAY_MS) return null;
+  // Park duration grows with each further fail (7, 14, 21 d …) so a hard
+  // mechanic stops stealing days from new ones.
+  if(f.fails >= MECH_FAILS_BEFORE_STEPDOWN && f.lastAt && (Date.now() - f.lastAt) < MECH_PARK_DAYS * Math.max(1, f.fails - 1) * ONE_DAY_MS) return null;
   return {mech, band: target};
 }
 function noteMechAttempt(mech, band, passed){
@@ -4479,7 +4481,7 @@ function renderHome(){
         <div class="footer-actions" style="margin-top:0">
           <div>
             <h3 style="margin:0">📅 Šiandienos treniruotė <span class="phase-pill ${ph.cls}" style="margin-left:6px;vertical-align:middle">${ph.icon} ${ph.label}</span></h3>
-            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : ''}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}</span>
+            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : '⚠ <b>Konkurso data nenustatyta</b> — nustatyk plane, ir treniruotės prisitaikys · '}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}</span>
           </div>
           <button class="btn ${planProg < steps.length ? 'primary' : 'ghost'}" id="planBtn">${planProg < steps.length ? 'Tęsti planą →' : 'Atverti planą'}</button>
         </div>
@@ -5950,7 +5952,7 @@ function openPlaylist(mech, forcedBand){
   const retest = !forcedBand && !!store.masteredMech[mech] && isMechMasteryStale(mech);
   state.playlistRetest = retest;
   state.playlistRecorded = false;
-  state.playlistContent = pickPlaylistContent(mech, forcedBand);
+  state.playlistContent = pickPlaylistContent(mech, retest ? (masteredBandOf(mech) || undefined) : forcedBand);
   if(retest){
     state.playlistContent.mastery = (state.playlistContent.mastery || []).slice(0, 2);
     state.playlistStep = 3;
@@ -6148,7 +6150,14 @@ function renderPlaylist(){
       const band = content.sourceBand || 3;
       if(retest){
         if(passed) store.masteredMech[mech] = Date.now();
-        else { delete store.masteredMech[mech]; delete (store.masteredBand || {})[mech]; }
+        else {
+          // Stale mastery failed its re-check: drop one band, keep the rest.
+          delete store.masteredMech[mech];
+          const had = masteredBandOf(mech);
+          const lower = [3,4,5].filter(b => b < had && archiveQsForMech(mech, b).length >= 2).pop();
+          store.masteredBand = store.masteredBand || {};
+          if(lower) store.masteredBand[mech] = lower; else delete store.masteredBand[mech];
+        }
       } else {
         noteMechAttempt(mech, band, passed);
         if(passed){
@@ -7234,7 +7243,7 @@ function weeklyRecapHTML(){
   const mastered = Object.entries(store.masteredMech || {}).filter(([m, t]) => t >= fromTs && t < toTs).map(([m]) => m);
   const contests = (store.contests || []).filter(c => c.when >= fromTs && c.when < toTs);
   const prevContests = (store.contests || []).filter(c => c.when < fromTs).slice(-1);
-  const weak = weakestMechanics(1)[0] || null;
+  const weak = weakestMechanics(6).find(w => w.showAttempts >= 4) || null;   // ≥ 4 samples before naming a weakness
   const next = nextMechanicToLearn();
   const focus = weak && weak.rate >= 0.4 ? weak.mech : next;
   const fmt = d => `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
