@@ -89,7 +89,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         reservedYears, isReservedYear, needsDiagnosticContest, findSimilarArchive,
         isContestDay, planTimelineHTML, SHOP_TICKET_COST,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
-        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML};
+        askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML};
 `;
 let app;
 try {
@@ -592,6 +592,43 @@ section("legacy save");
   check("ancient mastery shows as stale on the track", app.trackCardHTML().includes("track-node stale"));
   store.masteredMech = savedMM; store.masteredBand = savedMB;
   localStorageStub.removeItem(LS_KEY);
+}
+
+// ---------- 7f. contest-date edge cases ----------
+section("date edges");
+{
+  const {planStepsForToday, planPhase, isContestDay, needsDiagnosticContest, planTimelineHTML, planTaperDays, weekStripHTML, store} = app;
+  const pad = n => String(n).padStart(2, "0");
+  const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const inDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return keyOf(d); };
+  const savedC = store.contests; store.contests = [];
+  const savedA = store.activity; store.activity = {};
+  // Contest today, nothing ever recorded: timeline must not divide by zero
+  store.plan.startDate = inDays(0); store.plan.contestDate = inDays(0);
+  const tl = planTimelineHTML();
+  check("timeline on contest day has no NaN", !/NaN/.test(tl), tl.slice(0, 120));
+  check("contest day plan is a single rest step", planStepsForToday().length === 1);
+  check("no diagnostic on contest day", !needsDiagnosticContest());
+  // Contest in the past
+  store.plan.contestDate = inDays(-3);
+  let threw = null, steps = null;
+  try { steps = planStepsForToday(); } catch(e){ threw = e.message; }
+  check("past date: plan still builds", !threw && steps && steps.length === 3, threw || JSON.stringify(steps));
+  check("past date: phase build", planPhase() === "build");
+  check("past date: no contest day", !isContestDay(new Date()));
+  check("past date: no diagnostic", !needsDiagnosticContest());
+  check("past date: timeline hidden", planTimelineHTML() === "");
+  let ws = null; try { ws = weekStripHTML(); } catch(e){ threw = e.message; }
+  check("past date: week strip renders", !threw && typeof ws === "string");
+  // startDate after contestDate (parent edited the date backwards)
+  store.plan.startDate = inDays(10); store.plan.contestDate = inDays(5);
+  check("inverted start/contest → default taper", planTaperDays() === 10);
+  check("inverted start: timeline safe", !/NaN/.test(planTimelineHTML()));
+  // Tomorrow
+  store.plan.startDate = inDays(-30); store.plan.contestDate = inDays(1);
+  check("eve: no diagnostic", !needsDiagnosticContest());
+  check("eve: strategy step", planStepsForToday().some(s => s.act === "strategy"));
+  store.plan.contestDate = null; store.plan.startDate = null; store.contests = savedC; store.activity = savedA;
 }
 
 // ---------- 7½. 5-pt generators: independent answer verification ----------

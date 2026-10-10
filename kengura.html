@@ -6735,6 +6735,7 @@ function isContestDay(dateObj){
   const d = dateObj || new Date();
   const wd = (store.plan && store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6;
   const days = daysToContest();
+  if(days != null && days < 0) return false;   // the contest is over — no more papers until a new date is set
   let left = null;
   if(days != null && days >= 0){
     const diff = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())) / ONE_DAY_MS);
@@ -6994,6 +6995,7 @@ function planTimelineHTML(){
   }
   const minStart = new Date(contest); minStart.setDate(minStart.getDate() - 90);
   if(start < minStart) start = minStart;
+  if(!(contest - start > 0)) return '';   // contest is today (or the dates are inverted): nothing to draw
   const total = Math.max(1, Math.round((contest - start) / ONE_DAY_MS));
   const dayAt = n => { const d = new Date(contest); d.setDate(d.getDate() - n); return d; };
   const segs = [
