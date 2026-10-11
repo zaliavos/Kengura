@@ -15,6 +15,8 @@ TYPOS = [
     ('2002-6', 'Pagaliau, vėrinyje D juodų širdelių yra 2/6', 'Pagaliau, vėrinyje E juodų širdelių yra 2/6'),
     ('2007-18', 'teiginys C visada teisingas', 'teiginys D visada teisingas'),
     ('2009-20', 'Jei į m neįeina 45', 'Jei į m neįeina 41'),
+    ('2010-30', 'Šešiakojai ir aštunkojai', 'Šešiakojai ir aštuonkojai'),
+    ('2010-30', 'vienodų atskymų', 'vienodų atsakymų'),
 ]
 n = 0
 for y in data['archive']:
