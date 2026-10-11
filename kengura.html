@@ -3885,6 +3885,13 @@ function isReservedYear(year){
   return reservedYears().includes(String(year)) || reservedYears().includes(year);
 }
 
+/* Nearest trick family for mechanics that have almost no 5-point
+   examples of their own (used only when the same-mechanic pool is empty). */
+const RELATED_MECHANIC = {
+  "multistep-money": "arith-compute", "calendar": "sequence-pattern", "clock": "sequence-pattern",
+  "symmetry": "projection", "arrangement": "counting-ways", "place-value": "digit-puzzle",
+  "state-game": "invariant", "age-relations": "arith-compute",
+};
 function findSimilarArchive(q, sourceYear, limit){
   if(!q.mechanic) return [];
   limit = limit || 4;
@@ -3926,7 +3933,11 @@ function pickPracticeFor(q, sourceYear){
       const adj = pickGenForMechBand(q.mechanic, band === 3 ? 4 : 5);
       if(adj) return {kind:"generator", gen:adj};
     }
-    const items = findSimilarArchive(q, sourceYear, 4);
+    let items = findSimilarArchive(q, sourceYear, 4);
+    // a trick with a single 5-pointer in 26 papers: practise the nearest
+    // related trick at the same band rather than nothing
+    if(!items.length && RELATED_MECHANIC[q.mechanic])
+      items = findSimilarArchive(Object.assign({}, q, {mechanic: RELATED_MECHANIC[q.mechanic]}), sourceYear, 4);
     if(items.length) return {kind:"archive", items};
     // For 5-pt sources, refuse to offer a random fallback – better to
     // show nothing than wrong-band content. Per CLAUDE.md: practicing

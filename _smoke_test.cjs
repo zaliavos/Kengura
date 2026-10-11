@@ -204,6 +204,21 @@ for(const t of ARCHIVE) for(const q of t.questions){
   }
 }
 console.log(`checked ${archiveQs} archive questions`);
+// every 5-pointer must lead somewhere band-honest: a 5-pt generator or
+// same-mechanic 5-pt archive questions (the reserved papers stay out)
+{
+  const kinds = {};
+  const dead = [];
+  for(const t of ARCHIVE) for(const q of t.questions){
+    if(q.points !== 5 || t.year === "2006") continue;
+    const p = pickPracticeFor(q, t.year);
+    kinds[p.kind] = (kinds[p.kind] || 0) + 1;
+    if(p.kind === "none") dead.push(`${t.year}-${q.num}:${q.mechanic}`);
+  }
+  console.log("5-pt practice routes:", JSON.stringify(kinds));
+  check("no 5-pt dead ends", dead.length === 0, dead.join(" "));
+}
+
 
 // ---------- 4. practice routing never downgrades a 5-pt source ----------
 section("pickPracticeFor band routing");
