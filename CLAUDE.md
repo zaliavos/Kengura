@@ -801,3 +801,13 @@ Simulation (84 d, 6 seeds, mastered of 26): 0.8 learn 25.2 · 0.85 flat
   (a shell-mangled `\b` is a literal backspace!), undefined/NaN leaks in
   every main view, contest flag/finish, paper print/entry, notebook,
   parent view with history.
+- **Later in the pass (128–142):** each paper mistake and each 2+-mistake
+  trick group links to its playlist; the paper picker marks ✓ done / 🔒
+  held back; archive cards show "📒 kartoji ×N"; mistakes worksheet print
+  (notebook + parent card); `topUpQueueFromNotebook` feeds ≤ 2 old open
+  mistakes a day into the warm-up review; 📄 badge; "Kaip naudotis" for
+  parents; long words wrap (`overflow-wrap:anywhere`, `hyphens:auto`).
+
+Final check of this pass: `_rebuild_data.py` reproduces the archive;
+simulation (84 d, 6 seeds, of 28 track tricks): 0.8 learn 25.0 · 0.85
+22.3 · 0.7 learn 14.0 · weekend-off 17.3 · erratic 10.0.
