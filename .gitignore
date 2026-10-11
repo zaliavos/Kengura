@@ -27,3 +27,4 @@ desktop.ini
 
 # Local Netlify dev state
 .netlify/
+_sim_store.json
