@@ -505,7 +505,7 @@
      "solution": "28% ? Sakykime, kad prekė kainavo 100 Lt. 2/10 Tada po pirmo nupiginimo ji kainuos 100− 1/10 ·100 = 90 (Lt), o po antro nupiginimo 90 − · 90 = 72 (Lt). Atsakymas A siūlo 30% nupiginimą, – tada prekė kainuotų 100 − 3/10 · 100 = 70 (Lt). Vadinasi, nupiginimas turi būti truputį mažesnis. Tikriname atsakymąD, 28% nupiginimą. Tada prekė kainuotų 100− 28/100 ·100 = 72 (Lt). Renkamės atsakymąD. ! Sakykime, kad prekė kainavo 100A (litų). Tada po pirmo nupiginimo ji kainuos 100A · 0, 9 = 90A (litų), o po antro – 90A·0, 8 = 72A (litų). Todėl nuolaida yra 100A−72A = 28A (litų), o nuolaidos procentinis dydis yra 28/100 A/A · 100 = 28 procentai.",
      "figure": "figures/2000-q25.png",
      "mechanic": "mixture-fraction",
-     "solutionKid": "Gudrybė: antroji nuolaida skaičiuojama nuo jau sumažintos kainos, todėl procentų negalima tiesiog sudėti. Tarkim, prekė kainavo 100 Lt. Po 10 % nuolaidos ji kainuoja 90 Lt. 20 % nuo 90 yra 18, todėl po antros nuolaidos kaina 90 − 18 = 72 Lt. Iš 100 Lt liko 72 Lt, vadinasi, iš viso nuleista 28 Lt, t. y. 28 %. Patikrink: 28 % nuolaida nuo 100 Lt duoda tą pačią 72 Lt kainą. Atsakymas: D) 28%.",
+     "solutionKid": "Gudrybė: antroji nuolaida skaičiuojama nuo jau sumažintos kainos, todėl procentų negalima tiesiog sudėti. Tarkim, prekė kainavo 100 Lt. Po 10 % nuolaidos ji kainuoja 90 Lt. 20 % nuo 90 yra 18, todėl po antros nuolaidos kaina 90 − 18 = 72 Lt. Iš 100 Lt liko 72 Lt, vadinasi, iš viso nuleista 28 Lt, t. y. 28 %. Patikrink: 28 % nuolaida nuo 100 Lt duoda tą pačią 72 Lt kainą. Atsakymas: D) 28 %.",
      "misconceptions": {
       "A": "Sudėjai 10 % + 20 %, bet 20 % skaičiuojama nuo 90 Lt, ne nuo 100 Lt.",
       "C": "72 % – tai likusi kaina, o klausiama nuolaidos."
