@@ -4406,9 +4406,10 @@ function renderArchiveCard(year, q){
     </button>`;
   }).join("");
 
-  const tags = (q.patterns||[]).map(p =>
-    `<span class="pill muted">${escapeHTML(PATTERN_LABEL[p]||p)}</span>`
-  ).join(" ");
+  // The old keyword tags ("Logika", "Skaičiavimas") are coarse, sometimes
+  // contradict the reviewed trick tag and hint at it before solving: only the
+  // trick pill is shown (after an answer or a hint for 4/5-pointers).
+  const tags = "";
   // Mechanic pill (a finer-grained classification than the legacy patterns).
   // Seeing the trick IS the 4/5-point skill: name it only after an answer
   // or once the kid asks for a hint (the hints talk about it anyway).
