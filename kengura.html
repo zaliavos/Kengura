@@ -5575,6 +5575,7 @@ function requestOpenContest(year){
    paper move to the next training day ("Ne dabar"). */
 function renderContestIntro(year){
   state.view = "contestIntro";
+  { const t = ARCHIVE.find(t => String(t.year) === String(year)); if(t) prefetchFigures(t.questions); }   // cached before the clock starts
   const planContest = state._planStep === "core" ? planStepsForToday().find(st => st.act === "contest") : null;
   const diag = !!planContest && needsDiagnosticContest();
   $app.innerHTML = `
@@ -5606,6 +5607,19 @@ function renderContestIntro(year){
   });
 }
 
+/* Warm the service worker's figure cache (cache-first, so a fetch is all
+   it takes). Resolves with how many figures came back OK. */
+async function prefetchFigures(qs, onProgress){
+  let ok = 0, n = 0;
+  const list = qs.filter(q => q && q.figure);
+  for(let i = 0; i < list.length; i += 6){
+    await Promise.all(list.slice(i, i + 6).map(q => fetch(encodeURI(q.figure)).then(r => { if(r.ok) ok++; }).catch(() => {})));
+    n = Math.min(list.length, i + 6);
+    if(onProgress) onProgress(n);
+  }
+  return ok;
+}
+
 function openContest(year){
   const test = ARCHIVE.find(t => t.year === year);
   if(!test){ return; }
@@ -5617,6 +5631,7 @@ function openContest(year){
   state.view = "contest";
   state.contestYear = year;
   state.contestQuestions = qs;
+  prefetchFigures(qs);   // the whole paper's pictures, in case the connection drops mid-test
   state.contestAnswers = {};   // { qnum: chosenLetter }
   state.contestFlags = {};     // { qnum: true } – "abejoju, grįšiu" marks
   state.contestCurrent = 0;
@@ -6104,6 +6119,8 @@ function renderParent(){
         <button class="btn small primary" id="exportBtn">⬇ Eksportuoti progresą (.json)</button>
         <label class="btn small" style="cursor:pointer">⬆ Importuoti iš failo <input type="file" id="importFile" accept="application/json,.json" style="display:none"></label>
       </div>
+      <p class="help-bar" style="margin:10px 0 0">Kelionei be interneto: paveikslėliai įsimenami tik juos pamačius. Šis mygtukas iš karto atsisiunčia visus (~24 MB).</p>
+      <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="offlineAllBtn">📥 Paruošti visus uždavinius be interneto</button><span class="help-bar" id="offlineAllStatus" style="margin:0"></span></div>
     </section>
 
     <section class="card">
@@ -6170,6 +6187,15 @@ function renderParent(){
   if(profileDelete) profileDelete.addEventListener("click", ()=>{ if(confirm(`Ištrinti profilį „${activeProfileName()}“ ir visą jo progresą?`)) deleteProfile(META.active); });
   const exportBtn = document.getElementById("exportBtn");
   if(exportBtn) exportBtn.addEventListener("click", exportProgress);
+  const offlineAllBtn = document.getElementById("offlineAllBtn");
+  if(offlineAllBtn) offlineAllBtn.addEventListener("click", async ()=>{
+    const status = document.getElementById("offlineAllStatus");
+    offlineAllBtn.disabled = true;
+    const all = ARCHIVE.flatMap(t => t.questions);
+    const done = await prefetchFigures(all, n => { if(status) status.textContent = `${n} / ${all.length}…`; });
+    if(status) status.textContent = done === all.length ? `✓ Visi ${all.length} paveikslėliai paruošti` : `Paruošta ${done} iš ${all.length} – patikrink ryšį ir bandyk dar kartą`;
+    offlineAllBtn.disabled = false;
+  });
   const importFile = document.getElementById("importFile");
   if(importFile) importFile.addEventListener("change", e => importProgressFile(e.target.files && e.target.files[0]));
   const goalInput = document.getElementById("weeklyGoalInput");
