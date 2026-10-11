@@ -4468,6 +4468,7 @@ function renderArchiveCard(year, q){
         <b>Klausimas ${q.num}</b>
         <span class="pill">${q.points} t.</span>
         ${mechPill}
+        ${(() => { const m = (store.mistakes || {})[key]; return m && !m.fixedAt ? `<span class="pill bad" title="Šiame uždavinyje jau buvai suklydęs – dabar proga ištaisyti">📒 kartoji${m.times > 1 ? ` ×${m.times}` : ''}</span>` : ''; })()}
         ${tags}
       </div>
       <div class="qprompt">${escapeHTML(q.prompt)}</div>
