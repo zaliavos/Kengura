@@ -63,6 +63,7 @@ patch(('2010', 4), 'o Mikas buvo pastovėjęs ant 20 −10 = 10 laiptelių. Taig
       'o Mikas buvo pastovėjęs ant 21 − 10 = 11 laiptelių. Taigi Mikas dabar stovi ant 12 laiptelio')
 if Q[('2010', 4)]['solution'].startswith('11'): Q[('2010', 4)]['solution'] = '12' + Q[('2010', 4)]['solution'][2:]
 if Q[('2011', 10)]['solution'].startswith('840'): Q[('2011', 10)]['solution'] = '980' + Q[('2011', 10)]['solution'][3:]
+patch(('2015', 26), 'skaičių 38 −16 = 12.', 'skaičių 38 − 16 = 22.')   # booklet arithmetic slip (key C = 22 is right)
 for k in KEYS:   # the booklet's "Teisingas atsakymas X" follows the key
     import re
     Q[k]['solution'] = re.sub(r'((?:[Tt]eisingas atsakymas(?: yra)?|[Rr]enkamės atsakymą)\s*[–-]?\s*)([A-E])(?=\.)',
