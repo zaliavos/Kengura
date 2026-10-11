@@ -7564,7 +7564,7 @@ function renderRecogResult(){
         if(!all.length) return '';
         const [actual, chosen] = all[0][0].split('>');
         const tip = (MECHANIC_METHODOLOGY[actual] || {}).summary || '';
-        return `<div class="explain" style="text-align:left;margin:8px 0">🔀 Dažniausiai painioji: <b>${escapeHTML(MECHANIC_LABEL[actual] || actual)}</b> ↔ ${escapeHTML(MECHANIC_LABEL[chosen] || chosen)}${all[0][1] > 1 ? ` (jau ${all[0][1]} kartus)` : ''}.${tip ? `<div style="margin-top:4px;font-size:13px">Atpažinimo ženklas: ${escapeHTML(tip)}</div>` : ''}</div>`; })()}
+        return `<div class="explain" style="text-align:left;margin:8px 0">🔀 Dažniausiai painioji: <b>${escapeHTML(MECHANIC_LABEL[actual] || actual)}</b> ↔ ${escapeHTML(MECHANIC_LABEL[chosen] || chosen)}${all[0][1] > 1 ? ` (jau ${all[0][1]} ${pluralForm(all[0][1],'kartą','kartus','kartų')})` : ''}.${tip ? `<div style="margin-top:4px;font-size:13px">Atpažinimo ženklas: ${escapeHTML(tip)}</div>` : ''}</div>`; })()}
       <p class="help-bar">${ok >= 8 ? 'Puiku – tipus atpažįsti beveik akimirksniu. Konkurse tai sutaupys brangias minutes.' : ok >= 5 ? 'Neblogai. Kuo greičiau atpažįsti tipą, tuo greičiau žinai, KĄ daryti.' : 'Verta pakartoti gudrybių aprašymus („Gudrybių mokymasis“ skiltyje) – atpažinimas ateina su pažinimu.'}</p>
       <div class="footer-actions" style="justify-content:center;gap:8px">
         <button class="btn ${next ? 'ghost' : 'primary'}" id="recogAgain">Dar kartą</button>
