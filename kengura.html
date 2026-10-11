@@ -3581,11 +3581,12 @@ function renderMistakeBook(){
       <p class="help-bar" style="margin-top:0">Visi uždaviniai, kuriuose suklydai – iš treniruočių ir kontrolinių. Išspręsk teisingai – persikels į „Ištaisyta“.</p>
       ${!items.length ? `<p>Kol kas tuščia – klaidų dar nebuvo. 🎉</p>` : ''}
       ${open.length ? `<h3>Dar mokausi (${open.length})</h3>` + Object.entries(byMech).sort((a, b) => b[1].length - a[1].length).map(([mech, xs]) => `
-        <h4 style="margin:12px 0 4px">${escapeHTML(MECHANIC_LABEL[mech] || mech)} <span class="pill">${xs.length}</span></h4>
+        <h4 style="margin:12px 0 4px;display:flex;align-items:center;gap:8px">${escapeHTML(MECHANIC_LABEL[mech] || mech)} <span class="pill">${xs.length}</span>${xs.length >= 2 && MECHANIC_LABEL[mech] ? `<button class="btn small ghost" data-mb-learn="${mech}" style="margin-left:auto" title="Kelios klaidos tame pačiame tipe – verta pasimokyti pačios gudrybės">Mokytis gudrybės →</button>` : ''}</h4>
         ${xs.sort((a, b) => b.m.lastWrong - a.m.lastWrong).map(row).join('')}`).join('') : ''}
       ${fixed.length ? `<details style="margin-top:14px"><summary><b>✓ Ištaisyta (${fixed.length})</b></summary>${fixed.sort((a, b) => b.m.fixedAt - a.m.fixedAt).map(row).join('')}</details>` : ''}
     </section>`;
   document.getElementById("mbBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
+  $app.querySelectorAll("[data-mb-learn]").forEach(b => b.addEventListener("click", ()=> openPlaylist(b.dataset.mbLearn)));
   $app.querySelectorAll("[data-mistake]").forEach(b => b.addEventListener("click", ()=>{
     const [year, num] = b.dataset.mistake.split("-");
     delete state.archiveAnswers[`${year}-${num}`];            // a clean retry
