@@ -6088,6 +6088,7 @@ function renderContestResults(){
           <p><b>Teisingas:</b> ${q.correct} (${escapeHTML(q.options[q.correct]||'')})</p>
           ${q.misconceptions && q.misconceptions[chosen] ? `<p class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</p>` : ''}
           ${q.solutionKid || q.solution ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
+          ${q.mechanic && MECHANIC_LABEL[q.mechanic] ? `<button class="btn small" data-recap-mech="${q.mechanic}" style="margin-top:6px">Mokytis: ${escapeHTML(MECHANIC_LABEL[q.mechanic])} →</button>` : ''}
         </details>`;
       }).join('')}
       ${wrongs.length ? `<p class="help-bar">📒 Visos ${wrongs.length} ${pluralForm(wrongs.length,'klaida įrašyta','klaidos įrašytos','klaidų įrašyta')} į <a href="#" id="contestMistakeBook">klaidų sąsiuvinį</a> – ten gali bet kada bandyti iš naujo.</p>` : ''}
@@ -6130,6 +6131,7 @@ function renderContestResults(){
   `;
   const toHome = ()=>{ state.view = "home"; renderHome(); };
   document.getElementById("contestBack2").addEventListener("click", toHome);
+  $app.querySelectorAll("[data-recap-mech]").forEach(btn => btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
   const cmb = document.getElementById("contestMistakeBook");
   if(cmb) cmb.addEventListener("click", e => { e.preventDefault(); openMistakeBook(); });
   const reviewed = document.getElementById("contestReviewed");
