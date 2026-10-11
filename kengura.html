@@ -6254,6 +6254,8 @@ function renderContestResults(){
         else if(st[b].skip >= 4 && st[b].ans && st[b].ok / st[b].ans >= 0.7)
           notes.push(`${b} t. bloke atsakei taikliai (${st[b].ok}/${st[b].ans}), bet ${st[b].skip} praleidai – drąsiau: tavo tikslumas leidžia rizikuoti daugiau.`);
       }
+      const stuck = qs.map(q => ({q, ms: (state.contestTimes || {})[q.num] || 0})).filter(x => x.ms >= 6 * 60000 && (x.q.points || 3) < 5).sort((a, b) => b.ms - a.ms)[0];
+      if(stuck) notes.push(`Prie ${stuck.q.num} uždavinio (${stuck.q.points} t.) praleidai ${Math.round(stuck.ms / 60000)} min. Kitą kartą po ~3 min pažymėk 🚩 ir eik toliau – grįši, jei liks laiko.`);
       if(r.timeByBand && r.timeByBand[3] > 20 * 60000) notes.push('3 t. blokui sugaišai daugiau nei 20 min – likusiems laiko lieka per mažai. Treniruok „Greičio sprintą“.');
       if(!notes.length && r.answered >= 25 && pct >= 60) notes.push('Strategija gera: atsakei į daug klausimų ir dažniausiai teisingai. Taip ir toliau!');
       return notes.length ? `<section class="card"><h3>🎯 Strategijos pastabos</h3><ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${notes.map(n => `<li>${n}</li>`).join('')}</ul></section>` : '';
