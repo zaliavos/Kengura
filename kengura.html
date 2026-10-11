@@ -6662,7 +6662,11 @@ function renderPlaylistQuestion(item, opts){
     ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"></div>`
     : "";
   const showHint = mode === "try" && !submitted && state.playlistHintShown[k];
-  const approach = q.solution ? approachFromSolution(q.solution) : null;
+  // hint: this question's own idea, else the trick's generic suggestion; the
+  // official text's first sentence only as a last resort (it often computes
+  // the answer outright)
+  const approach = kidIdeaOf(q) || (q.mechanic && MECHANIC_HINTS[q.mechanic] && MECHANIC_HINTS[q.mechanic].suggest)
+    || (q.solution ? approachFromSolution(q.solution) : null);
   // Calibration inside playlists too (try + mastery): the plan's core is
   // mostly playlists, so without this the parent's confidence stats starve.
   const conf = (state.playlistConf || {})[k] || null;
