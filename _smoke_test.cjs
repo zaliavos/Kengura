@@ -91,7 +91,8 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         openJumpGame, openRaceGame, renderGamePick, openFreeRace, planMinutes, PLAN_STEP_MIN,
         askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay, creditContestActivity,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
-        nextPlanStep, renderRecogResult, $app, playlistMasteryMs};
+        nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
+        parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution};
 `;
 let app;
 try {
@@ -916,6 +917,30 @@ for(const [name, fn] of [
 ]){
   try { fn(); console.log(`ok    ${name}`); }
   catch(e){ check(name, false, "threw: " + e.message); }
+}
+
+// ---------- 9. official solution markers ----------
+section("official solution markers");
+{
+  const P = app.parseOfficialSolution;
+  let r = P("60 ! Apskaičiuokime: 480 : 8 = 60. Teisingas atsakymas – D.");
+  check("value split off", r.value === "60" && r.parts.length === 1 && r.parts[0].label === "Sprendimas", JSON.stringify(r));
+  r = P("3 valandas ? Spėjame. Taigi C. ! Skaičiuojame. !! Kitaip.");
+  check("? ! !! labelled", r.parts.map(p => p.label).join("|") === "Greitas būdas|Sprendimas|Kitas sprendimas", JSON.stringify(r));
+  r = P("! O gal ir atsakymas C netinka? Bet nesunku užpildyti.");
+  check("glued ? is punctuation", r.value === null && r.parts.length === 1, JSON.stringify(r));
+  const html = app.officialSolutionHTML("24 ! Pažymėkime <b> & sudėkime.");
+  check("official html escapes", html.includes("&lt;b&gt;") && html.includes("<b>Atsakymas:</b> 24"), html);
+  check("kid solution wins", app.solutionBlockHTML({solutionKid: "Gudrybė: X.", solution: "1 ! Y"}).includes("Gudrybė"));
+  check("approach skips the value", !/^60/.test(app.approachFromSolution("60 ! Apskaičiuokime visą sumą dalimis.")));
+  // every archive solution parses into non-empty parts and no part still starts with a marker
+  let bad = 0;
+  for(const t of app.ARCHIVE) for(const q of t.questions){
+    if(!q.solution) continue;
+    const pr = P(q.solution);
+    if(!pr.parts.length || pr.parts.some(p => !p.text || /^[!?]\s/.test(p.text))) bad++;
+  }
+  check("archive solutions parse", bad === 0, `${bad} bad`);
 }
 
 // ---------- result ----------

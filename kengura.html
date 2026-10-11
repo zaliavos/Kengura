@@ -4054,8 +4054,8 @@ function approachFromSolution(sol){
   // Solutions begin with the answer value (e.g. "8" or "Pomidorus") followed
   // by either "!" (approach) or "?" (alternative).  We start AT the first
   // such marker so the answer never bleeds into the hint.
-  const markerIdx = sol.search(/[!?]\s/);
-  let s = (markerIdx >= 0 ? sol.slice(markerIdx + 1) : sol).trim();
+  const parsed = parseOfficialSolution(sol);
+  let s = (parsed.parts[0] ? parsed.parts[0].text : sol).trim();
   // also strip a stray leading punctuation
   s = s.replace(/^[\s,;:.-]+/, "");
   // Take only the first sentence to keep the hint a *strategy*, not a
@@ -4318,7 +4318,7 @@ function renderArchiveCard(year, q){
         ${confidentWrong ? `<div style="margin-top:6px;font-size:13px"><b>Buvai tikras, bet suklydai</b> – čia dažniausiai slepiasi klaidingas supratimas, ne atsitiktinė klaida. Perskaityk sprendimą ypač atidžiai: ši užduotis sugrįš jau rytoj.</div>` : ''}
         ${finalMiscText ? `<div class="misconception" style="margin-top:6px;font-size:13px"><b>Tavo klaida:</b>${miscIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalMiscText)}</div>` : ''}
       </div>
-      ${finalSolutionText ? `<div class="explain"><b>Sprendimas:</b>${solutionIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalSolutionText)}</div>` : ''}
+      ${finalSolutionText ? `<div class="explain">${solutionBlockHTML(q, aiSolutionText, solutionIsAi)}</div>` : ''}
     `;
   } else {
     // Show all unlocked hint tiers, accumulated.
@@ -5856,7 +5856,7 @@ function renderContestResults(){
           <p><b>Tavo atsakymas:</b> ${chosen} (${escapeHTML(q.options[chosen]||'')})</p>
           <p><b>Teisingas:</b> ${q.correct} (${escapeHTML(q.options[q.correct]||'')})</p>
           ${q.misconceptions && q.misconceptions[chosen] ? `<p class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</p>` : ''}
-          <p class="explain">${escapeHTML(q.solutionKid || q.solution || '')}</p>
+          ${q.solutionKid || q.solution ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
         </details>`;
       }).join('')}
       ${r.queued ? `<p class="help-bar">✓ ${r.queued} ${pluralForm(r.queued,'klaida pateko','klaidos pateko','klaidų pateko')} į pakartojimo eilę – nuo rytojaus grįš apšilimuose, po ${CONTEST_REVIEW_PER_DAY} per dieną.</p>` : ''}
@@ -5869,7 +5869,7 @@ function renderContestResults(){
       ${skipped.map(q => `<details>
         <summary>${q.num}. (${q.points} t.) ${escapeHTML(q.prompt.slice(0, 100))}${q.prompt.length > 100 ? '…' : ''}</summary>
         <p><b>Teisingas:</b> ${q.correct} (${escapeHTML(q.options[q.correct]||'')})</p>
-        <p class="explain">${escapeHTML(q.solutionKid || q.solution || '')}</p>
+        ${q.solutionKid || q.solution ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
       </details>`).join('')}
     </section>` : ''}
 
@@ -6673,7 +6673,7 @@ function renderPlaylistQuestion(item, opts){
       <div class="options">${optionsHtml}</div>
       ${showHint && approach ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(approach)}</div>` : ''}
       ${submitted && chosen && chosen !== q.correct && q.misconceptions && q.misconceptions[chosen] ? `<div class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</div>` : ''}
-      ${showSol && (q.solutionKid || q.solution) ? `<div class="explain"><b>Sprendimas:</b> ${escapeHTML(q.solutionKid || q.solution)}</div>` : ''}
+      ${showSol && (q.solutionKid || q.solution) ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
       ${submitted ? `<div class="explain" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
         <b>${chosen === q.correct ? 'Teisingai!' : 'Klaida.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>!` : ''}
         Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.
@@ -7869,7 +7869,7 @@ function renderRaceChallenge(){
       <div class="options" id="raceOptions">${optionsHtml}</div>
       ${submitted ? `<div class="explain" style="margin-top:8px">
         ${state.raceChosen === q.correct ? '<b style="color:var(--good)">Teisingai! ✓</b>' : `<b style="color:var(--bad)">Ne. Teisingas – ${q.correct}.</b>`}
-        ${q.solutionKid || q.solution ? `<div style="margin-top:6px;font-size:13px">${escapeHTML((q.solutionKid||q.solution).slice(0,400))}</div>` : ''}
+        ${q.solutionKid || q.solution ? `<div style="margin-top:6px;font-size:13px">${escapeHTML(solutionPlain(q).slice(0,400))}</div>` : ''}
       </div>` : ''}
       <div class="footer-actions">
         ${!submitted
@@ -8363,6 +8363,48 @@ function roundRect(ctx, x, y, w, h, r){
 /* ============================================================
    VIII. UTIL
    ============================================================ */
+/* Official solution booklets mark their parts: the answer value first, then
+   "?" = quick way (spėjimas), "??" = another quick way, "!" = full solution,
+   "!!" = another solution. Turn that into labelled paragraphs instead of
+   showing the raw markers. A "?" glued to a word ("netinka?") is ordinary
+   punctuation – only a free-standing marker counts. */
+const SOLUTION_MARKS = { "?": "Greitas būdas", "??": "Dar vienas greitas būdas", "!": "Sprendimas", "!!": "Kitas sprendimas" };
+function parseOfficialSolution(t){
+  const text = String(t || "").trim();
+  const re = /(?:^|\s)(\?\?|\?|!!|!)(?=\s)/g;
+  const marks = [];
+  let m;
+  while((m = re.exec(text))) marks.push({ mark: m[1], start: m.index + (m[0].length - m[1].length), end: m.index + m[0].length });
+  if(!marks.length) return { value: null, parts: [{ label: "Sprendimas", text }] };
+  const head = text.slice(0, marks[0].start).trim();
+  const value = head && head.length <= 60 && !/[.:;]$/.test(head) ? head : null;
+  const parts = [];
+  if(head && !value) parts.push({ label: "Sprendimas", text: head });
+  marks.forEach((mk, i) => {
+    const body = text.slice(mk.end, i + 1 < marks.length ? marks[i + 1].start : text.length).trim();
+    if(body) parts.push({ label: SOLUTION_MARKS[mk.mark], text: body });
+  });
+  return { value, parts };
+}
+function officialSolutionHTML(t){
+  const { value, parts } = parseOfficialSolution(t);
+  return (value ? `<div><b>Atsakymas:</b> ${escapeHTML(value)}</div>` : "") +
+    parts.map(p => `<div style="margin-top:6px"><b>${p.label}.</b> ${escapeHTML(p.text)}</div>`).join("");
+}
+function solutionPlain(q){
+  if(q.solutionKid) return q.solutionKid;
+  if(!q.solution) return "";
+  return parseOfficialSolution(q.solution).parts.map(p => p.text).join(" ");
+}
+/* One place that decides what a solution box shows: the kid solution, else
+   the official one (labelled), else AI text as the last resort. */
+function solutionBlockHTML(q, aiText, isAi){
+  if(q.solutionKid) return `<b>Sprendimas:</b> ${escapeHTML(q.solutionKid)}`;
+  if(q.solution) return officialSolutionHTML(q.solution);
+  if(aiText) return `<b>Sprendimas:</b>${isAi ? ' <span class="pill" style="font-size:10px">AI</span>' : ''} ${escapeHTML(aiText)}`;
+  return "";
+}
+
 function escapeHTML(s){
   if(s==null) return "";
   if(typeof s !== "string") s = String(s);
