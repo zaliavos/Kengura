@@ -7315,6 +7315,7 @@ function openRecogDrill(){
   state.recogChosen = null;
   state.recogSubmitted = false;
   state.recogCorrect = 0;
+  state.recogTimes = []; state._recogShownIdx = null;
   renderRecog();
 }
 
@@ -7322,6 +7323,7 @@ function renderRecog(){
   const items = state.recogQs;
   const idx = state.recogIdx;
   if(idx >= items.length){ renderRecogResult(); return; }
+  if(!state.recogSubmitted && state._recogShownIdx !== idx){ state._recogShownIdx = idx; state._recogShownAt = Date.now(); }
   const it = items[idx];
   const q = it.q;
   const submitted = state.recogSubmitted;
@@ -7379,6 +7381,9 @@ function renderRecog(){
     state.recogSubmitted = true;
     const right = state.recogChosen === q.mechanic;
     if(right) state.recogCorrect++;
+    // recognition speed: on contest day the trick should be seen in seconds
+    const secs = Math.min(120, Math.round((Date.now() - (state._recogShownAt || Date.now())) / 1000));
+    state.recogTimes = (state.recogTimes || []).concat([{secs, right}]);
     store.recogSeen[`${state.recogQs[state.recogIdx].year}-${q.num}`] = Date.now();
     store.recogStats.attempts++;
     if(right) store.recogStats.correct++;
@@ -7406,6 +7411,8 @@ function renderRecogResult(){
     <section class="card" style="text-align:center">
       <h2>🔍 Atpažinimo rezultatas</h2>
       <p style="font-size:30px;margin:6px 0"><b>${ok} / ${total}</b></p>
+      ${(() => { const ts = state.recogTimes || []; if(!ts.length) return ''; const avg = Math.round(ts.reduce((a, t) => a + t.secs, 0) / ts.length); const fast = ts.filter(t => t.right && t.secs <= 10).length;
+        return `<p style="margin:0 0 6px">⏱ Vidutiniškai <b>${avg} s</b> vienam · greitai (≤ 10 s) ir teisingai: <b>${fast}</b> iš ${ts.length}</p>`; })()}
       <p class="help-bar">${ok >= 8 ? 'Puiku – tipus atpažįsti beveik akimirksniu. Konkurse tai sutaupys brangias minutes.' : ok >= 5 ? 'Neblogai. Kuo greičiau atpažįsti tipą, tuo greičiau žinai, KĄ daryti.' : 'Verta pakartoti gudrybių aprašymus („Gudrybių mokymasis“ skiltyje) – atpažinimas ateina su pažinimu.'}</p>
       <div class="footer-actions" style="justify-content:center;gap:8px">
         <button class="btn ${next ? 'ghost' : 'primary'}" id="recogAgain">Dar kartą</button>
