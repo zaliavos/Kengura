@@ -136,6 +136,9 @@ for(const key of GENERATOR_KEYS){
       check(`${key}#${seed} ${field} clean`, s.length > 0 && !/undefined|NaN/.test(s),
         s.slice(0, 100));
     }
+    // Lithuanian decimal comma: "2,5", never "2.5" (times like 10.30 excluded)
+    const dot = [q.prompt, q.explain, ...opts.map(String)].map(t => String(t || "").replace(/<[^>]*>/g, " ")).find(t => /(^|[^\d:])\d+\.\d+(?![\d.])/.test(String(t || "")) && !/\d\.\d\d\.\d/.test(String(t)));
+    check(`${key}#${seed} decimal comma`, !dot, String(dot).slice(0, 100));
     if(!q.imageOptions){
       check(`${key}#${seed} options clean`, !opts.some(o => /undefined|NaN/.test(String(o))),
         JSON.stringify(opts).slice(0, 120));

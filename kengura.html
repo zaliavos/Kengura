@@ -1078,7 +1078,7 @@ const GENERATORS = {
         correct, distract, suffix:" val.",
         firstStep:`Per 1 valandą jie kartu sumažina atstumą ${v1}+${v2} km. Tai – jų bendras greitis.`,
         hint:`Kai du objektai juda vienas kito link, jų greičiai susideda. Laikas = atstumas ÷ bendras greitis.`,
-        explain:`Bendras greitis: ${v1}+${v2} = ${v1+v2} km/h. Laikas = ${dist} ÷ ${v1+v2} = ${correct} val.`,
+        explain:`Bendras greitis: ${v1}+${v2} = ${v1+v2} km/h. Laikas = ${dist} ÷ ${v1+v2} = ${String(correct).replace(".", ",")} val.`,
         r
       });
     } else {
@@ -2399,9 +2399,11 @@ function makeMC({category, subtopic, difficulty, prompt, correct, distract, suff
     pad++;
   }
   const all = [correct, ...distract.slice(0,4)];
-  const labels = all.map(v=>`${v}${suffix}`);
+  // numbers print with the Lithuanian decimal comma (2,5 val., not 2.5)
+  const lab = v => `${typeof v === "number" ? String(v).replace(".", ",") : v}${suffix}`;
+  const labels = all.map(lab);
   const shuffled = shuffle(r, labels);
-  const correctIndex = shuffled.indexOf(`${correct}${suffix}`);
+  const correctIndex = shuffled.indexOf(lab(correct));
   return {
     category, subtopic, difficulty, prompt, figure: figure||null,
     options: shuffled, correctIndex, hint, firstStep, explain
@@ -4766,8 +4768,8 @@ function renderHome(){
       })() : ''}
       ${store.contests && store.contests.length ? `<div class="top-stats" style="margin-bottom:8px">
         <span class="pill muted">Atlikta: ${store.contests.length}</span>
-        <span class="pill good">Geriausias rezultatas: ${Math.round(Math.max(...store.contests.map(c=>c.scoreWithPenalty || c.points))*4)/4} t.</span>
-        ${store.contests.length >= 2 ? `<span class="pill">Kreivė: ${store.contests.slice(-3).map(c=>Math.round((c.scoreWithPenalty || c.points)*4)/4).join(' → ')} t.</span>` : ''}
+        <span class="pill good">Geriausias rezultatas: ${fmtPts(Math.max(...store.contests.map(c=>c.scoreWithPenalty || c.points)))} t.</span>
+        ${store.contests.length >= 2 ? `<span class="pill">Kreivė: ${store.contests.slice(-3).map(c=>fmtPts(c.scoreWithPenalty || c.points)).join(' → ')} t.</span>` : ''}
       </div>` : ''}
       <details style="margin:6px 0 10px" id="contestStrategy">
         <summary>🎯 Konkurso strategija (perskaityk prieš kontrolinį!)</summary>
@@ -6052,7 +6054,7 @@ function renderContestResults(){
       ${r.byTimer ? `<p class="help-bar"><b>Laikas pasibaigė</b> – kontrolinis baigėsi automatiškai.</p>` : ''}
       <div class="grid two">
         <div class="stat"><b>${r.correct} / ${r.total}</b><span>Teisingi atsakymai (${pct} %)</span></div>
-        <div class="stat"><b>${r.scoreWithPenalty} / ${r.maxPoints}</b><span>Su −25 % bauda</span></div>
+        <div class="stat"><b>${fmtPts(r.scoreWithPenalty)} / ${r.maxPoints}</b><span>Su −25 % bauda</span></div>
         <div class="stat"><b>${r.points} / ${r.maxPoints}</b><span>Be baudos</span></div>
         <div class="stat"><b>${r.answered}</b><span>Atsakyta · ${qs.length - r.answered} praleista</span></div>
         ${r.practisedBefore != null ? `<div class="stat" ${r.practisedBefore >= 6 ? 'style="border-color:var(--accent)"' : ''}><b>${r.practisedBefore} / ${r.total}</b><span>matyta treniruotėse anksčiau${r.practisedBefore >= 6 ? ' · rezultatas gali būti pagražintas' : ' · švarus matavimas'}</span></div>` : ''}
@@ -6107,7 +6109,7 @@ function renderContestResults(){
       ${store.contests.slice(-10).reverse().map(c => `
         <div class="cat-row">
           <span>${new Date(c.when).toLocaleDateString("lt-LT")} (${escapeHTML(c.year)} m.)${c.paper ? ' <span title="Spręsta ant popieriaus">📄</span>' : ''}</span>
-          <span class="pill ${c.scoreWithPenalty/c.maxPoints>=0.7?'good':c.scoreWithPenalty/c.maxPoints>=0.4?'muted':'bad'}">${c.scoreWithPenalty} / ${c.maxPoints}</span>
+          <span class="pill ${c.scoreWithPenalty/c.maxPoints>=0.7?'good':c.scoreWithPenalty/c.maxPoints>=0.4?'muted':'bad'}">${fmtPts(c.scoreWithPenalty)} / ${c.maxPoints}</span>
         </div>
       `).join('')}
     </section>` : ''}
@@ -6256,7 +6258,7 @@ function renderParent(){
 
     ${(store.contests || []).length ? `<section class="card">
       <h3>Kontroliniai (paskutiniai 5)</h3>
-      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${Math.round((c.scoreWithPenalty ?? c.points) * 4) / 4} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.practisedBefore != null ? `${c.practisedBefore}/30 matyta anksčiau` : ''}</span></div>`).join('')}
+      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${fmtPts(c.scoreWithPenalty ?? c.points)} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.practisedBefore != null ? `${c.practisedBefore}/30 matyta anksčiau` : ''}</span></div>`).join('')}
       <p class="help-bar">„Matyta anksčiau“ – kiek to kontrolinio uždavinių vaikas jau buvo sprendęs treniruotėse. Kuo mažiau, tuo sąžiningesnis rezultatas; naujausi metai tam ir rezervuoti.</p>
     </section>` : ''}
 
@@ -7726,7 +7728,7 @@ function renderPlan(){
       ${weekStripHTML()}
       <p class="help-bar">Savaitė: ✅ visa treniruotė · 🟠 šiek tiek dirbta · 📝 kontrolinio diena. Skaičius – tos dienos žvaigždės.</p>
       ${trend.length
-        ? `<p style="margin:6px 0">Kontrolinių kreivė: <b>${trend.map(c => Math.round((c.scoreWithPenalty ?? c.points) * 4)/4).join(' → ')}</b> t. (iš ${trend[trend.length-1].maxPoints})${trend.length >= 2 && trend[trend.length-1].scoreWithPenalty > trend[0].scoreWithPenalty ? ' 📈' : ''}</p>`
+        ? `<p style="margin:6px 0">Kontrolinių kreivė: <b>${trend.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(' → ')}</b> t. (iš ${trend[trend.length-1].maxPoints})${trend.length >= 2 && trend[trend.length-1].scoreWithPenalty > trend[0].scoreWithPenalty ? ' 📈' : ''}</p>`
         : `<p class="help-bar">Atlik kontrolinį – čia matysi rezultatų kreivę.</p>`}
     </section>
     <section class="card">
@@ -7952,7 +7954,7 @@ function weeklyRecapHTML(){
           <div class="stat"><b>${stars} ⭐</b><span>žvaigždžių per savaitę</span></div>
           <div class="stat"><b>${mastered.length}</b><span>${mastered.length ? `įvaldyta: ${mastered.map(m => escapeHTML(MECHANIC_LABEL[m] || m)).join(', ')}` : 'naujų gudrybių įvaldyta'}</span></div>
         </div>
-        ${contests.length ? `<p style="margin:8px 0 0">Kontrolinis: <b>${contests.map(c => Math.round((c.scoreWithPenalty ?? c.points)*4)/4).join(' → ')}</b> t.${contests.some(c => (c.practisedBefore||0) >= 6) ? ' <span class="pill muted" title="Dalis užduočių jau buvo spręstos treniruotėse">dalis matyta</span>' : ''}${prevContests.length ? ` (prieš tai: ${Math.round((prevContests[0].scoreWithPenalty ?? prevContests[0].points)*4)/4} t.${(contests[contests.length-1].scoreWithPenalty ?? 0) > (prevContests[0].scoreWithPenalty ?? 0) ? ' 📈' : ''})` : ''}</p>` : ''}
+        ${contests.length ? `<p style="margin:8px 0 0">Kontrolinis: <b>${contests.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(' → ')}</b> t.${contests.some(c => (c.practisedBefore||0) >= 6) ? ' <span class="pill muted" title="Dalis užduočių jau buvo spręstos treniruotėse">dalis matyta</span>' : ''}${prevContests.length ? ` (prieš tai: ${Math.round((prevContests[0].scoreWithPenalty ?? prevContests[0].points)*4)/4} t.${(contests[contests.length-1].scoreWithPenalty ?? 0) > (prevContests[0].scoreWithPenalty ?? 0) ? ' 📈' : ''})` : ''}</p>` : ''}
         ${focus ? `<div class="footer-actions" style="margin-top:10px">
           <span>${monday ? 'Šios' : 'Kitos'} savaitės tikslas: <b>${escapeHTML(MECHANIC_LABEL[focus] || focus)}</b>${weak && focus === weak.mech ? ` (${Math.round(100*weak.rate)} % klaidų)` : ' (kita take)'}</span>
           <button class="btn small primary" data-recap-mech="${focus}">Mokytis</button>
@@ -8686,6 +8688,8 @@ function solutionBlockHTML(q, aiText, isAi){
   return "";
 }
 
+/* Points can be quarters under the −¼ rule; Lithuanian writes 2,25. */
+function fmtPts(n){ return String(Math.round((Number(n) || 0) * 100) / 100).replace('.', ','); }
 function escapeHTML(s){
   if(s==null) return "";
   if(typeof s !== "string") s = String(s);
