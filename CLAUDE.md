@@ -104,7 +104,7 @@ better practice than a wrong-band random.
   there (see `_fix_keys_audit.py`). The smoke test fails on unkeyed
   questions and broken point bands.
 - Data pipeline order after a re-extraction: `_reextract_solutions.py` →
-  `_fix_keys_audit.py` → `_apply_audit_text.py` (prompts/options) →
+  `_fix_keys_audit.py` → `_apply_clean_solutions.py` → `_apply_audit_text.py` (prompts/options) →
   `_apply_kid_solutions.py` → `_mechanic_review.py`. Figures: `_recrop.py`.
 - Note on `q.hasMissingOptionText`: PDF extraction failed on some option
   text in roughly half the years, but the contest UI handles this fine
