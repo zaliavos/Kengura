@@ -3680,6 +3680,33 @@ function recordArchiveAnswer(year, q, correct, confidence){
 }
 
 /* Return a list of due questions (whose dueAt < now), newest dueAt first. */
+/* Paper mistakes beyond the 3 a paper queues (and any mistake that left the
+   queue unfixed) wait in the notebook. Once a day, when fewer than 3
+   reviews are due, up to 2 such mistakes older than 3 days join the
+   warm-up review (fromContest = warm-up only, never a whole review day). */
+function topUpQueueFromNotebook(){
+  const day = todayKey();
+  store.plan = store.plan || {};
+  if(store.plan.notebookTopUp === day) return 0;
+  store.plan.notebookTopUp = day;
+  const dueCount = Object.values(store.dueQueue).filter(d => d.dueAt <= Date.now()).length;
+  if(dueCount >= 3) return 0;
+  const cutoff = Date.now() - 3 * ONE_DAY_MS;
+  const reserved = new Set(reservedYears().map(String));
+  const pick = Object.entries(store.mistakes || {})
+    .filter(([k, m]) => !m.fixedAt && !store.dueQueue[k] && (m.lastWrong || 0) < cutoff && !reserved.has(String(m.year)))
+    .sort((a, b) => (a[1].lastWrong || 0) - (b[1].lastWrong || 0))
+    .slice(0, 2);
+  for(const [k, m] of pick){
+    const t = ARCHIVE.find(t => String(t.year) === String(m.year));
+    const q = t && t.questions.find(q => q.num === m.num);
+    if(!q || !q.mechanic) continue;
+    store.dueQueue[k] = {year: String(m.year), num: q.num, mech: q.mechanic, band: q.points || 3, dueAt: Date.now(), streak: 0, fromContest: true};
+  }
+  if(pick.length) saveStore(store);
+  return pick.length;
+}
+
 function dueNow(){
   const now = Date.now();
   const out = [];
@@ -4528,6 +4555,7 @@ function renderArchiveCard(year, q){
 const $app = document.getElementById("app");
 
 function renderHome(){
+  topUpQueueFromNotebook();
   state._planStep = null;   // returning home aborts any plan-step attribution
   state._resultsFromPlan = false;
   // Mechanic-level weakness (replaces legacy subStats panel)

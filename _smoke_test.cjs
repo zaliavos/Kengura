@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook};
 `;
 let app;
 try {
@@ -1202,6 +1202,18 @@ section("view text leaks");
     const leak = text.match(/\b(undefined|NaN|null)\b|\[object Object\]/);
     check(`view ${name} has no leaked undefined/NaN`, !leak, leak && JSON.stringify(text.slice(Math.max(0, leak.index - 80), leak.index + 40)));
   }
+}
+
+section("notebook tops up the review queue");
+{
+  const st = app.store;
+  const savedQ = Object.assign({}, st.dueQueue); for(const k of Object.keys(st.dueQueue)) delete st.dueQueue[k];
+  st.mistakes = {"2015-14": {year:"2015", num:14, times:1, lastWrong: Date.now() - 864e5 * 5}, "2015-15": {year:"2015", num:15, times:1, lastWrong: Date.now()}};
+  delete st.plan.notebookTopUp;
+  const n = app.topUpQueueFromNotebook();
+  check("old open mistake joins the warm-up review", n === 1 && st.dueQueue["2015-14"] && st.dueQueue["2015-14"].fromContest && !st.dueQueue["2015-15"], String(n));
+  check("only once a day", app.topUpQueueFromNotebook() === 0);
+  for(const k of Object.keys(st.dueQueue)) delete st.dueQueue[k]; Object.assign(st.dueQueue, savedQ); st.mistakes = {};
 }
 
 // ---------- result ----------
