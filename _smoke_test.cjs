@@ -1258,6 +1258,18 @@ section("why-wrong self-explanation");
   delete store.mistakes[`2016-${q.num}`]; delete store.dueQueue[`2016-${q.num}`]; delete st.archiveAnswers[`2016-${q.num}`];
 }
 
+section("after the contest");
+{
+  const st = app.store; const saved = st.plan.contestDate;
+  const d = new Date(); d.setDate(d.getDate() - 3);
+  st.plan.contestDate = d.toISOString().slice(0, 10); delete st.plan.actualScore;
+  app.state.view = "home"; app.renderHome();
+  check("past contest asks for the real score", app.$app.innerHTML.includes("Kaip sekėsi Kengūroje?"));
+  st.plan.actualScore = 81.25; app.renderHome();
+  check("real score shown with the comparison", app.$app.innerHTML.includes("Kengūros rezultatas: 81,25 t."));
+  st.plan.contestDate = saved; delete st.plan.actualScore;
+}
+
 // ---------- result ----------
 console.log("");
 if(failures){
