@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer};
 `;
 let app;
 try {
@@ -1091,6 +1091,22 @@ section("text hygiene");
   check("no control characters", ctrl.length === 0, ctrl.join(" "));
   check("no header letter glued to the answer value", glued.length === 0, glued.join(" "));
   check("space before %", pct.length === 0, pct.join(" "));
+}
+
+// ---------- 18. mistakes notebook ----------
+section("mistakes notebook");
+{
+  const t = app.ARCHIVE.find(t => t.year === "2019"); const q = t.questions[4];
+  app.recordArchiveAnswer("2019", q, false, null);
+  const m = app.store.mistakes[`2019-${q.num}`];
+  check("wrong answer lands in the notebook", m && m.times === 1 && !m.fixedAt);
+  app.openMistakeBook();
+  check("notebook lists it", app.$app.innerHTML.includes(`data-mistake="2019-${q.num}"`) && app.$app.innerHTML.includes("Dar mokausi"));
+  app.recordArchiveAnswer("2019", q, true, null);
+  check("right answer marks it fixed", !!app.store.mistakes[`2019-${q.num}`].fixedAt);
+  app.openMistakeBook();
+  check("fixed list shown", app.$app.innerHTML.includes("Ištaisyta (1)"));
+  delete app.store.mistakes[`2019-${q.num}`]; delete app.store.dueQueue[`2019-${q.num}`];
 }
 
 // ---------- result ----------

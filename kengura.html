@@ -3092,6 +3092,7 @@ function loadStore(){
     seenQ:{},
     // Per-band mastery + playlist attempt bookkeeping (step-down / parking)
     masteredBand:{},   // { mech: highestBandPassed }
+    mistakes:{},       // mistakes notebook (noteMistake)
     mechAttempts:{},   // { mech: { band: {fails, lastAt} } }
     // Windowed error rate: { mech: [0,1,...] } last ≤10 attempts (1 = wrong)
     mechRecent:{},
@@ -3130,6 +3131,7 @@ function loadStore(){
     o.planDone = o.planDone || {};
     o.seenQ = o.seenQ || {};
     o.masteredBand = o.masteredBand || {};
+    o.mistakes = o.mistakes || {};   // mistakes notebook: { "year-num": {year, num, times, lastWrong, fixedAt} }
     o.mechAttempts = o.mechAttempts || {};
     o.mechRecent = o.mechRecent || {};
     o.recogStats = Object.assign({}, defaults.recogStats, o.recogStats || {});
@@ -3531,10 +3533,65 @@ function growthOpenerFor(q){
 const SR_INTERVALS_DAYS = [1, 3, 7, 14, 30];
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
+/* Mistakes notebook (Klaidų sąsiuvinis): every archive question ever
+   answered wrong stays listed – unlike the review queue, which forgets an
+   item once it graduates. A later right answer marks it fixed. */
+function noteMistake(year, q, correct){
+  store.mistakes = store.mistakes || {};
+  const key = `${year}-${q.num}`;
+  const m = store.mistakes[key];
+  if(!correct){
+    const e = store.mistakes[key] = m || {year: String(year), num: q.num, times: 0, first: Date.now()};
+    e.times++; e.lastWrong = Date.now(); delete e.fixedAt;
+  } else if(m && !m.fixedAt){
+    m.fixedAt = Date.now();
+  }
+}
+function openMistakeBook(){ state.view = "mistakes"; renderMistakeBook(); }
+function renderMistakeBook(){
+  const items = Object.values(store.mistakes || {}).map(m => {
+    const t = ARCHIVE.find(t => String(t.year) === String(m.year));
+    const q = t && t.questions.find(q => q.num === m.num);
+    return q ? {m, q} : null;
+  }).filter(Boolean);
+  const open = items.filter(x => !x.m.fixedAt), fixed = items.filter(x => x.m.fixedAt);
+  const byMech = {};
+  for(const x of open) (byMech[x.q.mechanic || "?"] = byMech[x.q.mechanic || "?"] || []).push(x);
+  const row = x => `<div class="cat-row" style="align-items:center;gap:8px">
+      <span style="flex:1;min-width:0"><b>${escapeHTML(String(x.m.year))} · ${x.q.num}</b> <span class="pill">${x.q.points} t.</span>
+        <span class="help-bar" style="margin:0">${escapeHTML(x.q.prompt.slice(0, 70))}${x.q.prompt.length > 70 ? '…' : ''}</span></span>
+      ${x.m.times > 1 ? `<span class="pill bad" title="Kiek kartų klysta">×${x.m.times}</span>` : ''}
+      <button class="btn small" data-mistake="${escapeHTML(String(x.m.year))}-${x.q.num}">${x.m.fixedAt ? 'Dar kartą' : 'Bandyti'}</button>
+    </div>`;
+  $app.innerHTML = `
+    <section class="card">
+      <button class="nav-back" id="mbBack">← Į pradžią</button>
+      <h2>📒 Klaidų sąsiuvinis</h2>
+      <p class="help-bar" style="margin-top:0">Visi uždaviniai, kuriuose suklydai – iš treniruočių ir kontrolinių. Išspręsk teisingai – persikels į „Ištaisyta“.</p>
+      ${!items.length ? `<p>Kol kas tuščia – klaidų dar nebuvo. 🎉</p>` : ''}
+      ${open.length ? `<h3>Dar mokausi (${open.length})</h3>` + Object.entries(byMech).sort((a, b) => b[1].length - a[1].length).map(([mech, xs]) => `
+        <h4 style="margin:12px 0 4px">${escapeHTML(MECHANIC_LABEL[mech] || mech)} <span class="pill">${xs.length}</span></h4>
+        ${xs.sort((a, b) => b.m.lastWrong - a.m.lastWrong).map(row).join('')}`).join('') : ''}
+      ${fixed.length ? `<details style="margin-top:14px"><summary><b>✓ Ištaisyta (${fixed.length})</b></summary>${fixed.sort((a, b) => b.m.fixedAt - a.m.fixedAt).map(row).join('')}</details>` : ''}
+    </section>`;
+  document.getElementById("mbBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
+  $app.querySelectorAll("[data-mistake]").forEach(b => b.addEventListener("click", ()=>{
+    const [year, num] = b.dataset.mistake.split("-");
+    delete state.archiveAnswers[`${year}-${num}`];            // a clean retry
+    state.archiveYear = year; state.view = "archiveYear";
+    renderArchiveYear();
+    setTimeout(()=>{
+      const el = document.querySelector(`.archive-card[data-year="${year}"][data-qnum="${num}"]`);
+      if(el){ el.scrollIntoView({behavior:"smooth", block:"start"}); el.style.outline = "3px solid var(--accent)"; setTimeout(()=>{ el.style.outline = ""; }, 2500); }
+    }, 60);
+  }));
+}
+
 function recordArchiveAnswer(year, q, correct, confidence){
   logActivity(correct, q.points || 3);
   // Freshness marker – practice pickers avoid recently seen questions.
   store.seenQ[`${year}-${q.num}`] = Date.now();
+  noteMistake(year, q, correct);
   // Confidence stats (independent of mechanic)
   if(confidence && store.confStats[confidence]){
     store.confStats[confidence].attempts++;
@@ -4582,7 +4639,8 @@ function renderHome(){
           ${activityCells.join('')}
         </div>
         ${META.profiles.length > 1 ? `<span class="pill" title="Aktyvus profilis – keisti tėvų rodinyje">👤 ${escapeHTML(activeProfileName() || 'pagrindinis')}</span>` : ''}
-        <button class="btn small ghost" id="parentBtn" style="margin-left:auto" title="Tėvų rodinys – vaiko progresas">👁 Tėvams</button>
+        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai">📒 Klaidos${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
+        <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas">👁 Tėvams</button>
       </div>
       ${mission ? `
         <div class="mission ${mission.style==='warm'?'mission-warm':'mission-primary'}">
@@ -4908,6 +4966,8 @@ function renderHome(){
     }
     renderHome();
   });
+  const mistakeBookBtn = document.getElementById("mistakeBookBtn");
+  if(mistakeBookBtn) mistakeBookBtn.addEventListener("click", openMistakeBook);
   const parentBtn = document.getElementById("parentBtn");
   if(parentBtn) parentBtn.addEventListener("click", openParent);
   const raceChallengeBtn = document.getElementById("raceChallengeBtn");
@@ -5809,6 +5869,7 @@ function finishContest(byTimer){
       byBand[band].ok++;
     } else {
       scoreWithPenalty -= band * 0.25;
+      noteMistake(state.contestYear, q, false);
     }
   });
   creditContestActivity(qs, state.contestAnswers);
