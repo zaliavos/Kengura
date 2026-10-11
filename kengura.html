@@ -6339,7 +6339,9 @@ function exportProgress(){
     const blob = new Blob([JSON.stringify(payload)], {type:"application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url; a.download = `kengura-progresas-${todayKey()}.json`;
+    // file name carries the child's name when there are several profiles
+    const who = (META.profiles.length > 1 ? activeProfileName() : "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    a.href = url; a.download = `kengura-progresas-${who ? who + "-" : ""}${todayKey()}.json`;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=> URL.revokeObjectURL(url), 2000);
     showToast("💾", "Progresas eksportuotas.");
