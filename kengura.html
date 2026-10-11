@@ -6415,7 +6415,8 @@ function renderParent(){
   $app.innerHTML = `
     <section class="card">
       <button class="nav-back" id="parentBack">← Į vaiko rodinį</button>
-      <h2>Tėvų rodinys</h2>
+      <h2>Tėvų rodinys <span class="print-only" style="font-size:14px;font-weight:normal">· ${escapeHTML(activeProfileName ? activeProfileName() : '')} · ${new Date().toLocaleDateString("lt-LT")}</span></h2>
+      <button class="btn small ghost" id="parentPrint" title="Visa ši suvestinė vienu spausdinimu (pvz., mokytojui)">🖨 Spausdinti ataskaitą</button>
       <p class="help-bar">Trumpas vaizdas, kaip vaikui sekasi. Progresas saugomas tik šioje naršyklėje – kitam įrenginiui naudok eksportą žemiau.</p>
 
       <div class="grid two" style="margin-top:14px">
@@ -6592,6 +6593,8 @@ function renderParent(){
   if(profileAdd) profileAdd.addEventListener("click", ()=>{ const n = prompt("Vaiko vardas naujam profiliui:"); if(n) addProfile(n); });
   const profileDelete = document.getElementById("profileDelete");
   if(profileDelete) profileDelete.addEventListener("click", ()=>{ if(confirm(`Ištrinti profilį „${activeProfileName()}“ ir visą jo progresą?`)) deleteProfile(META.active); });
+  const parentPrint = document.getElementById("parentPrint");
+  if(parentPrint) parentPrint.addEventListener("click", ()=>{ document.querySelectorAll("#app details").forEach(d => d.open = true); window.print(); });
   const parentMistakes = document.getElementById("parentMistakes");
   if(parentMistakes) parentMistakes.addEventListener("click", openMistakeBook);
   const parentMistakeSheet = document.getElementById("parentMistakeSheet");
