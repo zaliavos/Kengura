@@ -834,3 +834,25 @@ simulation (84 d, 6 seeds, of 28 track tricks): 0.8 learn 25.0 · 0.85
   paper results; stored on the notebook entry; parent view shows the
   distribution with a tip.
 - **Contest-day checklist (158)** in the strategy card.
+- **Independent review (162):** five reviewer agents re-checked all 750
+  kid solutions against the figures: 39 fixed (wrong picture
+  descriptions, example arithmetic, incomplete arguments, hints that gave
+  the answer away, notes whose slip doesn't produce the option). A second
+  pass with a reshuffled split followed (see the next entry / git log).
+- **AI only as a fallback (175/176):** with a reviewed kid solution behind
+  every question, no AI "Tavo klaida" note and no AI hint tiers are
+  requested; the hand-written ladder + the question's Gudrybė are used.
+- **Cards:** the old keyword pills are gone (177); "📒 kartoji ×N" (132);
+  archive years show "· N/30" done and "Tęsti nuo N" (163/164).
+- **Figures (178):** `_recrop.py` paints out other questions' words and
+  stray drawings inside a crop (own labels stay); 51 PNGs regenerated;
+  FIGS v7.
+- **Home order (171/172):** mission → plan → track → paper → tricks →
+  weak spots → archive → generated test.
+- **More:** strategy/time sections on paper results, paper-to-paper delta
+  (185), flag count in the contest header (180), post-contest "Kaip
+  sekėsi?" card with the real score (168), contest-day message (169),
+  repeated-mistake toast (181), printable parent report (183), export
+  file names per child (184), reduce-motion (179), focus rings (167),
+  corrupt saves kept aside (186). Store size after 120 simulated days:
+  ~50 KB.
