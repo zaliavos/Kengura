@@ -8015,6 +8015,17 @@ function markPlanStepDone(stepOverride){
   checkAchievements();
 }
 /* "none" steps (rest / read) are ticked by hand from the plan view. */
+// The international Kangaroo day is the third Thursday of March; the next
+// one at least 3 weeks away (a closer date leaves no room for a plan).
+function suggestedContestDate(now){
+  now = now || new Date();
+  for(let y = now.getFullYear(); ; y++){
+    const d = new Date(y, 2, 1);
+    d.setDate(1 + ((4 - d.getDay() + 7) % 7) + 14);   // first Thursday + 2 weeks
+    if(d - now > 21 * ONE_DAY_MS) return dateKeyOf(d);
+  }
+}
+
 function markPlanStepDoneManual(id){
   const k = todayKey();
   const d = store.planDone[k] = store.planDone[k] || {};
@@ -8176,7 +8187,8 @@ function renderPlan(){
         </label>
         ${days != null
           ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `liko ${days} d.` : days === 0 ? 'ŠIANDIEN!' : 'jau praėjo'}</span>`
-          : `<span class="help-bar">Nustačius datą planas pats parinks etapą: pamatai → gudrybės → finišas.</span>`}
+          : `<span class="help-bar">Nustačius datą planas pats parinks etapą: pamatai → gudrybės → finišas.</span>
+             <button class="btn small" id="contestDateSuggest" title="Tarptautinė Kengūros diena – trečiasis kovo ketvirtadienis. Tikslią datą patikrinkite mokykloje.">Siūloma: ${new Date(suggestedContestDate() + "T12:00").toLocaleDateString("lt-LT")}</button>`}
         <label style="font-size:14px">Kontrolinio diena:
           <select id="contestWeekdaySel" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
             ${[1,2,3,4,5,6,0].map(d => `<option value="${d}" ${d === wd ? 'selected' : ''}>${WEEKDAY_LONG[d]}</option>`).join('')}
@@ -8219,6 +8231,13 @@ function renderPlan(){
     </section>
   `;
   document.getElementById("planBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
+  const sug = document.getElementById("contestDateSuggest");
+  if(sug) sug.addEventListener("click", ()=>{
+    const inp = document.getElementById("contestDateInput");
+    inp.value = suggestedContestDate();
+    inp.dispatchEvent(new Event("change"));
+    showToast("📅", "Įrašyta numatoma data – trečiasis kovo ketvirtadienis. Patikrinkite mokykloje ir, jei reikia, pataisykite.", 6000);
+  });
   document.getElementById("contestDateInput").addEventListener("change", e => {
     const hadDate = !!store.plan.contestDate;
     if((e.target.value || null) !== store.plan.contestDate){ store.plan.lastActualScore = store.plan.actualScore ?? store.plan.lastActualScore; delete store.plan.actualScore; }   // a new season

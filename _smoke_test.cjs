@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate};
 `;
 let app;
 try {
@@ -1070,6 +1070,10 @@ section("kid answer line matches the option text");
 }
 
 // ---------- 16. contest: flag + withdraw ----------
+section("suggested contest date");
+check("third Thursday of March 2027", app.suggestedContestDate(new Date(2026, 9, 11)) === "2027-03-18", app.suggestedContestDate(new Date(2026, 9, 11)));
+check("too close -> next year", app.suggestedContestDate(new Date(2027, 2, 10)) === "2028-03-16", app.suggestedContestDate(new Date(2027, 2, 10)));
+
 section("contest flag / withdraw");
 {
   const yr = app.contestEligibleYears()[0];
