@@ -693,3 +693,39 @@ intact; weekend-off 0.80 → 24/25, 10 papers, streak 58.
 - **55 — service worker:** shell fetched with `cache: "no-cache"`; cache
   names v2. **Bump `FIGS` in sw.js whenever a figure PNG changes** –
   figures are cache-first, so a device keeps the old picture otherwise.
+
+## Loops 56–75 (2026-10-11, ninth pass – full archive audit)
+
+- **56 — 2024 keys.** The booklet's answer table was wrong on Q1, 2, 4,
+  5, 6, 7, 8, 11 (+ 23, 24 earlier); keys follow the worked solutions.
+- **57/65/70 — official solutions re-extracted** with PyMuPDF
+  (`_reextract_solutions.py`): real word spacing, segmentation by the
+  booklets' own headers, "Žr. Mažylio N" pointers resolved, figure labels
+  dropped from the value line, stacked fractions as a/b (`_pagetext.py`,
+  2000–05 and 2018–25 only). 2014–17 solutions come from `Solutions/`.
+- **58 — point bands by number** (269 questions moved; 2000–12 were all 3).
+- **59 — 10 keys fixed / filled** after an audit of all 777 questions by
+  7 agents + a hand check of each dispute (`_fix_keys_audit.py`).
+- **60 — 601 prompts, 174 option sets** transcribed from the figures
+  (`_audit_text.json`, `_apply_audit_text.py`).
+- **61/62 — `_recrop.py`**: layout-based crops (a drawing belongs to the
+  question whose band holds its centre); 58 flagged figures re-cut and
+  checked by eye; 4 missing questions added. sw.js FIGS v4.
+- **63 — labelled official solutions** (`parseOfficialSolution`,
+  `solutionBlockHTML`): "Atsakymas", "Greitas būdas", "Sprendimas",
+  "Kitas sprendimas" instead of raw ?/!/!! markers.
+- **66 — 271 kid solutions** (152 new 5-pointers + 20 unsolved 3/4-pt),
+  357 misconception notes, 67 trick tags corrected (`_mechanic_review.py`).
+- **67 — simulator seeds the app's Math.random** too: runs reproduce.
+- **69 — `RELATED_MECHANIC`** so a trick with a single 5-pointer still
+  routes to band-matched practice (0 dead ends of 250).
+- **71/72 — `reconcileMasteryWithArchive`** on load: full mastery earned
+  below the new top band becomes partial; due items take the new band.
+- **64/73** smoke guards (Q1–30, bands, keys, split words, routes,
+  solution parsing) and a style pass over the agent texts.
+
+Simulation after this pass (84 d, 6 seeds, mastered of 26 track tricks):
+0.8 learn 22.8 · 0.85 flat 23.8 · 0.7 learn 16.0 · weekend-off 0.8 learn
+17.8 · erratic 0.7 learn miss 30 % 9.2. Same seeds on the pre-audit
+archive: 25.7 / 25.2 / – / 20.5 – the drop is the real 5-point checks
+that many tricks gained, not a regression.
