@@ -5440,7 +5440,7 @@
       "paveikslelis"
      ],
      "correct": "B",
-     "solution": "105◦ K L M N Q P ! Lygiakraščio trikampio KP L kampas P lygus 60◦. Nesunku rasti ir trikampio P KQ kampą P KQ: ∠P KQ = ∠P KL −∠QKL = = 60◦−45◦= 15◦. Todėl \u0002P KQ trečiasis kampas P QK lygus 180◦−60◦−15◦= 105◦. Tiek pat laipsnių turi ir ∠MQL, nes jie kryžminiai. Teisingas atsakymas B.",
+     "solution": "105◦ ! Lygiakraščio trikampio KP L kampas P lygus 60◦. Nesunku rasti ir trikampio P KQ kampą P KQ: ∠P KQ = ∠P KL −∠QKL = = 60◦−45◦= 15◦. Todėl \u0002P KQ trečiasis kampas P QK lygus 180◦−60◦−15◦= 105◦. Tiek pat laipsnių turi ir ∠MQL, nes jie kryžminiai. Teisingas atsakymas B.",
      "figure": "figures/2009-q6.png",
      "mechanic": "geometry-misc"
     },
@@ -5791,7 +5791,7 @@
       "paveikslelis"
      ],
      "correct": "C",
-     "solution": "48 cm2 D N M C A B ! Mažųjų neužtušuotų kvadratų kraštinė – MC = (DC −NM): 2 = = (10 −6): 2 = 2 cm. Todėl vieno kvadratėlio plotas 4 cm2, o visų keturių – 4 · 4 = 16 cm2. Sustūmę neužtušuotus trikampius į centrą, gausime kvadratą, kurio kraštinė lygi NM = 6 cm. Jo plotas 62 = 36 cm2, taigi neužtušuotas plotas lygus 16 + 36 = 52 cm2. Klausiama užtušuotos dalies: 100 − 52 = 48 cm2. Teisingas atsakymas C.",
+     "solution": "48 cm2 ! Mažųjų neužtušuotų kvadratų kraštinė – MC = (DC −NM): 2 = = (10 −6): 2 = 2 cm. Todėl vieno kvadratėlio plotas 4 cm2, o visų keturių – 4 · 4 = 16 cm2. Sustūmę neužtušuotus trikampius į centrą, gausime kvadratą, kurio kraštinė lygi NM = 6 cm. Jo plotas 62 = 36 cm2, taigi neužtušuotas plotas lygus 16 + 36 = 52 cm2. Klausiama užtušuotos dalies: 100 − 52 = 48 cm2. Teisingas atsakymas C.",
      "figure": "figures/2009-q24.png",
      "mechanic": "area-decomp"
     },
@@ -5811,7 +5811,7 @@
       "paveikslelis"
      ],
      "correct": "C",
-     "solution": "6 a a a c c a b b b ! Užrašome sąlygą lygtimis. Pirma eilutė duoda 2a + b = 11, antra a + b + c = 8, pirmas stulpelis a + 2b = 10, trečias 2a + c = 9. Sudėję pirmą ir trečią lygtį, gauname 3a +3b = 21, a +b = 7, todėl iš antros lygties c = 1, tada iš ketvirtos a = 4, o iš pirmos b = 3. Vadinasi, a + b −c = 4 + 3 −1 = 6. Teisingas atsakymas C. SPRENDIMAI !! Galima rasti a + b −c ir neieškant atskirų kintamųjų reikšmių, bet sugalvoti tokį būdą sunkiau. Sudėkime dvigubą pirmą ir dvigubą trečią lygtį ir atimkime trigubą antrą lygtį: 4a + 2b + 2a + 4b −3a −3b −3c = 22 + 20 −24, 3a + 3b −3c = 18, a + b −c = 6.",
+     "solution": "6 ! Užrašome sąlygą lygtimis. Pirma eilutė duoda 2a + b = 11, antra a + b + c = 8, pirmas stulpelis a + 2b = 10, trečias 2a + c = 9. Sudėję pirmą ir trečią lygtį, gauname 3a +3b = 21, a +b = 7, todėl iš antros lygties c = 1, tada iš ketvirtos a = 4, o iš pirmos b = 3. Vadinasi, a + b −c = 4 + 3 −1 = 6. Teisingas atsakymas C. SPRENDIMAI !! Galima rasti a + b −c ir neieškant atskirų kintamųjų reikšmių, bet sugalvoti tokį būdą sunkiau. Sudėkime dvigubą pirmą ir dvigubą trečią lygtį ir atimkime trigubą antrą lygtį: 4a + 2b + 2a + 4b −3a −3b −3c = 22 + 20 −24, 3a + 3b −3c = 18, a + b −c = 6.",
      "figure": "figures/2009-q25.png",
      "mechanic": "arith-compute"
     },
@@ -6731,7 +6731,7 @@
       "skaiciavimas"
      ],
      "correct": "D",
-     "solution": "K N O R A G O A ! Žemiau pateikta schema rodo, kad kiekvienoje lentelėje, išskyrus D, nesunku nurodyti pildymo tvarką. A) B) C) E) K N O K N A K A O K A R R O G A A G O O O A R O G R A N A O N G Lieka įrodyti, kad lentelės D užpildyti tikrai negalima. Įrodymas. Jei tai būtų galima, tai prie K esanti A yra pirmoji parašoma to žodžio A. Todėl „žemoji“ A yra antroji to žodžio A. Bet į ją tada turėtų būti galima ateiti iš prieš ją einančios G, o tai neįmanoma. Todėl teisingas yra atsakymas D. Teisingas atsakymas D.",
+     "solution": "! Žemiau pateikta schema rodo, kad kiekvienoje lentelėje, išskyrus D, nesunku nurodyti pildymo tvarką. A) B) C) E) K N O K N A K A O K A R R O G A A G O O O A R O G R A N A O N G Lieka įrodyti, kad lentelės D užpildyti tikrai negalima. Įrodymas. Jei tai būtų galima, tai prie K esanti A yra pirmoji parašoma to žodžio A. Todėl „žemoji“ A yra antroji to žodžio A. Bet į ją tada turėtų būti galima ateiti iš prieš ją einančios G, o tai neįmanoma. Todėl teisingas yra atsakymas D. Teisingas atsakymas D.",
      "figure": "figures/2011-q11.png",
      "mechanic": "arith-compute",
      "imageOnlyOptions": true
@@ -9029,7 +9029,7 @@
      "mechanic": "casework",
      "figure": "figures/2015-q2.png",
      "correct": "C",
-     "solution": "A G R ! Teisingą atsakymą galima parinkti atmetimo būdu. Paveikslėliuose (žr. žemiau) parodyta, kad aš galiu taip pasukti savo skėtį, kad jis atrodytų taip, kaip atsakymuose A, B, D ir E. R A G N A K O O A) N A G R A G N A K O O B) O O K R A G N A K O O D) R A G N A K O O E) Taigi lieka vienintelis galimas variantas C. Iš tiesų, atsakyme C pavaizduotas skėtis tikrai ne mano, nes raidė R ant šio skėčio užrašyta atbulai.",
+     "solution": "A ! Teisingą atsakymą galima parinkti atmetimo būdu. Paveikslėliuose (žr. žemiau) parodyta, kad aš galiu taip pasukti savo skėtį, kad jis atrodytų taip, kaip atsakymuose A, B, D ir E. R A G N A K O O A) N A G R A G N A K O O B) O O K R A G N A K O O D) R A G N A K O O E) Taigi lieka vienintelis galimas variantas C. Iš tiesų, atsakyme C pavaizduotas skėtis tikrai ne mano, nes raidė R ant šio skėčio užrašyta atbulai.",
      "imageOnlyOptions": true
     },
     {
@@ -12526,7 +12526,7 @@
       "paveikslelis"
      ],
      "correct": "A",
-     "solution": "III II I ! Visų indų aukščiai ir pločiai vienodi, bet jei sultys pakilo iki skirtingo lygio, vadinasi, skiriasi indų ilgiai, kurių nematome žiūrėdami iš priekio. Kuo ilgesnis indas, tuo mažesnį lygį pasiekoa tas pats kiekis sulčių. Vadinasi, III indas yra ilgiausias, o II – trumpiausias. Taip yra tik atsakyme A.",
+     "solution": "III ! Visų indų aukščiai ir pločiai vienodi, bet jei sultys pakilo iki skirtingo lygio, vadinasi, skiriasi indų ilgiai, kurių nematome žiūrėdami iš priekio. Kuo ilgesnis indas, tuo mažesnį lygį pasiekoa tas pats kiekis sulčių. Vadinasi, III indas yra ilgiausias, o II – trumpiausias. Taip yra tik atsakyme A.",
      "figure": "figures/2020-q21.png",
      "mechanic": "mixture-fraction",
      "solutionKid": "Gudrybė: iš priekio matai indo plotį ir aukštį – jie visų vienodi. Skiriasi tik ilgis į gylį, kurio iš priekio nematai, bet matai iš viršaus. Tas pats sulčių kiekis ilgesniame inde pasiskleidžia plačiau, todėl pakyla žemiau. Paveikslėlyje aukščiausiai sultys inde II, žemiau – inde I, žemiausiai – inde III. Vadinasi, II indas trumpiausias, I – vidutinis, III – ilgiausias. Iš viršaus visi stačiakampiai vienodo pločio, o ilgiausias turi būti III, trumpiausias – II. Taip yra tik paveikslėlyje A: B ir C ilgiausias I, D – II, o E visi vienodi. Atsakymas: A) pirmasis paveikslėlis (III ilgiausias, II trumpiausias).",
@@ -13152,7 +13152,7 @@
       "uzdaviniai"
      ],
      "correct": "B",
-     "solution": "X Y ! Dvi vėžes reikia įrengti toje geležinkelio vietoje, kurią traukiniai pasiektų tuo pačiu metu. Traukinys iš Y į X važiuoja 180: 60 = 3 kartus greičiau. Tai reiškia, kad kai traukiniai susitiks, traukinys iš Y į X bus nuvažiavęs tris kartus tiek, kiek nuvažiavo traukinys iš X į Y, o abu kartu jie bus nuvažiavę keturis kartus daugiau nei vien tik traukinys iš X į Y ir kartu tai sudarys visą kelią tarp X ir Y. Kitaip tariant, traukinys iš X į Y bus nuvažiavęs 1 4 viso kelio, taigi 6 4 = 1, 5 iš šešių geležinkelio atkarpų. Vadinasi, dvi vėžes įrengti reikia antroje atkarpoje (pradedant nuo X), o teisingas atsakymas – B.",
+     "solution": "X ! Dvi vėžes reikia įrengti toje geležinkelio vietoje, kurią traukiniai pasiektų tuo pačiu metu. Traukinys iš Y į X važiuoja 180: 60 = 3 kartus greičiau. Tai reiškia, kad kai traukiniai susitiks, traukinys iš Y į X bus nuvažiavęs tris kartus tiek, kiek nuvažiavo traukinys iš X į Y, o abu kartu jie bus nuvažiavę keturis kartus daugiau nei vien tik traukinys iš X į Y ir kartu tai sudarys visą kelią tarp X ir Y. Kitaip tariant, traukinys iš X į Y bus nuvažiavęs 1 4 viso kelio, taigi 6 4 = 1, 5 iš šešių geležinkelio atkarpų. Vadinasi, dvi vėžes įrengti reikia antroje atkarpoje (pradedant nuo X), o teisingas atsakymas – B.",
      "figure": "figures/2021-q20.png",
      "mechanic": "arith-compute",
      "imageOnlyOptions": true

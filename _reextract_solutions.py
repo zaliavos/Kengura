@@ -52,6 +52,21 @@ def join_lines(seg):
     out = re.sub(r'([(„])\s+', r'\1', out)
     return out
 
+def drop_label_lines(seg):
+    """Between the answer value line and the first "?"/"!" paragraph the
+    booklets often leave the figure's labels ("D", "N", "M", "C") - drop
+    lines made only of such short tokens there."""
+    lines = seg.split('\n')
+    out, seen_value, in_head = [], False, True
+    for l in lines:
+        st = l.strip()
+        if in_head and re.match(r'^(\?\??|!!?)(\s|$)', st): in_head = False
+        if in_head and st:
+            if not seen_value: seen_value = True
+            elif all(len(tok) <= 3 for tok in st.split()) and not re.search(r'\d', st): continue
+        out.append(l)
+    return '\n'.join(out)
+
 def segments(text):
     """{(level, num): (letter or None, raw segment)}"""
     segs = {}
@@ -75,6 +90,8 @@ def segments(text):
             segs[key] = (lm.group(1) if lm else None, body[lm.end():] if lm else body)
     return segs
 
+# keys where the booklet itself is wrong (see _fix_keys_audit.py, run after this script)
+BOOKLET_KEY_ERRORS = {('2000', 23), ('2003', 28), ('2005', 24), ('2009', 24), ('2010', 4), ('2011', 10)}
 SOLUTION_BOOKLETS = {'2014': 'Solutions/spGDPRB (1).pdf', '2015': 'Solutions/spGDPRB (2).pdf',
                      '2016': 'Solutions/spGDPRB.pdf', '2017': 'Solutions/spGDPRB (3).pdf'}
 
@@ -110,7 +127,7 @@ def main():
                     mk = re.search(r'(^|\s)[!?]', other_text)
                     body = own_value + ' ' + (other_text[mk.start():] if mk else other_text)
                     via_ref = True
-            new = join_lines(body)
+            new = join_lines(drop_label_lines(body))
             if re.fullmatch(r'.{0,40}Žr\..{0,40}sprendimą\.?', new):
                 new = ''          # pointer to a level whose solutions this booklet lacks
             if via_ref:
@@ -122,7 +139,7 @@ def main():
                 # booklet typos like "Teisingas atsakymas D" under a solution of C
                 new = re.sub(r'((?:[Tt]eisingas atsakymas(?: yra)?|[Rr]enkamės atsakymą)\s*[–-]?\s*)([A-E])(?=\.)',
                              lambda m: m.group(1) + q['correct'], new)
-            if letter and q.get('correct') and letter != q['correct']:
+            if letter and q.get('correct') and letter != q['correct'] and (y['year'], q['num']) not in BOOKLET_KEY_ERRORS:
                 print(f"{y['year']}-{q['num']}: header letter {letter} != key {q['correct']} – kept old"); kept += 1; continue
             old = q.get('solution') or ''
             if not new:

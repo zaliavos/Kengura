@@ -44,6 +44,7 @@ SOL = {
 
 def patch(key, old, new):
     q = Q[key]
+    if new in q['solution']: return          # already patched (re-run)
     assert old in q['solution'], (key, old)
     q['solution'] = q['solution'].replace(old, new)
 
@@ -54,14 +55,14 @@ for k, v in SOL.items():
 patch(('2000', 23), 'po 166 · 6 = 996 lenkimų turėsime padėtį A. Vadinasi, dar po 3 lenkimų gausime padėtį D.',
       'po 333 · 6 = 1998 lenkimų turėsime padėtį A. Vadinasi, dar po 1 lenkimo gausime padėtį E.')
 patch(('2003', 28), 'Taigi x + z = 6.', 'Taigi x + z = 6: klausiama □ + ○ = 6 + 0 = 6.')
-Q[('2003', 28)]['solution'] = '6' + Q[('2003', 28)]['solution'][1:]
+if Q[('2003', 28)]['solution'].startswith('7'): Q[('2003', 28)]['solution'] = '6' + Q[('2003', 28)]['solution'][1:]
 patch(('2009', 24), 'taigi neužtušuotas plotas lygus 16 + 36 = 52 cm2.',
       'taigi neužtušuotas plotas lygus 16 + 36 = 52 cm2. Klausiama užtušuotos dalies: 100 − 52 = 48 cm2.')
 Q[('2009', 24)]['solution'] = Q[('2009', 24)]['solution'].replace('52 cm2', '48 cm2', 1)
 patch(('2010', 4), 'o Mikas buvo pastovėjęs ant 20 −10 = 10 laiptelių. Taigi Mikas dabar stovi ant 11 laiptelio',
       'o Mikas buvo pastovėjęs ant 21 − 10 = 11 laiptelių. Taigi Mikas dabar stovi ant 12 laiptelio')
-Q[('2010', 4)]['solution'] = '12' + Q[('2010', 4)]['solution'][2:]
-Q[('2011', 10)]['solution'] = '980' + Q[('2011', 10)]['solution'][3:]
+if Q[('2010', 4)]['solution'].startswith('11'): Q[('2010', 4)]['solution'] = '12' + Q[('2010', 4)]['solution'][2:]
+if Q[('2011', 10)]['solution'].startswith('840'): Q[('2011', 10)]['solution'] = '980' + Q[('2011', 10)]['solution'][3:]
 for k in KEYS:   # the booklet's "Teisingas atsakymas X" follows the key
     import re
     Q[k]['solution'] = re.sub(r'((?:[Tt]eisingas atsakymas(?: yra)?|[Rr]enkamės atsakymą)\s*[–-]?\s*)([A-E])(?=\.)',
