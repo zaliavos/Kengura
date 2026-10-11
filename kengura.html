@@ -296,6 +296,7 @@
   .methodology h4{margin:0 0 6px;font-size:14px;color:var(--accent)}
   .methodology p{margin:6px 0;font-size:14px;line-height:1.5}
   .methodology .label{font-weight:600;color:#444}
+  @media (prefers-reduced-motion: reduce){ .fx-star{animation:none !important} *{scroll-behavior:auto !important} }
   @media print{
     body{background:#fff}
     .btn,.footer-actions,header.brand,.no-print{display:none !important}
@@ -3412,6 +3413,8 @@ const Fx = (()=>{
   }
   function confetti(count){
     try {
+      // "reduce motion" in the OS: no falling confetti (the sound and toast stay)
+      if(typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const h = host(); if(!h) return;
       const colors = ["#d6451a","#f0b429","#1a7f4a","#1a5fa3","#9b59b6","#ff7ab6"];
       const n = count || 48;
