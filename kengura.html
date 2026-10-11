@@ -4304,7 +4304,7 @@ function renderArchiveYear(){
       renderArchiveYear();
       // Fire AI fetch in parallel – render shows hardcoded blurb first,
       // then re-renders with the AI-specific text once it arrives.
-      if(!_aiEndpointDead && q.correct && !(tier === 3 && kidIdeaOf(q))){
+      if(!_aiEndpointDead && q.correct && !q.solutionKid){
         const opts = aiBuildOpts(year, q, "hint", {tier});
         if(!aiTextFor(opts)){
           aiFetch(opts).then(() => renderArchiveYear());
@@ -4446,7 +4446,8 @@ function renderArchiveCard(year, q){
   const renderHintTier = (tier) => {
     // the last tier names THIS question's trick when a kid solution has one
     const own = tier === 3 ? kidIdeaOf(q) : null;
-    const ai = own ? null : aiHint(tier);
+    // AI hints are a fallback for questions without a reviewed kid solution
+    const ai = own || q.solutionKid ? null : aiHint(tier);
     const fb = fallbackHint[tier];
     const text = own || ai || fb;
     if(!text){
