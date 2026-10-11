@@ -1077,6 +1077,22 @@ section("contest flag / withdraw");
   delete app.store.contestInProgress; st.contestFlags = {}; st.contestAnswers = {};
 }
 
+// ---------- 17. text hygiene ----------
+section("text hygiene");
+{
+  const ctrl = [], glued = [], pct = [];
+  for(const t of app.ARCHIVE) for(const q of t.questions){
+    const k = `${t.year}-${q.num}`;
+    const texts = [q.prompt, q.solution, q.solutionKid, ...Object.values(q.options || {})].filter(Boolean);
+    if(texts.some(x => /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(x))) ctrl.push(k);
+    if(/^[A-E]\d/.test(q.solution || "")) glued.push(k);
+    if(texts.some(x => /\d%/.test(x))) pct.push(k);
+  }
+  check("no control characters", ctrl.length === 0, ctrl.join(" "));
+  check("no header letter glued to the answer value", glued.length === 0, glued.join(" "));
+  check("space before %", pct.length === 0, pct.join(" "));
+}
+
 // ---------- result ----------
 console.log("");
 if(failures){
