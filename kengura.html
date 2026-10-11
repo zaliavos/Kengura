@@ -8655,7 +8655,7 @@ function parseOfficialSolution(t){
     // a part starts at the top (after the answer value) or after a sentence;
     // "kad ! dalyje" / "Sprendimo ? užtenka" refer to a part, they don't open one
     if(marks.length && !/[.!?:;)“"…]$/.test(before)) continue;
-    if(/^(dalyje|dalies|dalį|dalis|dalimi)/.test(after)) continue;
+    if(/^(dalyje|dalies|dalį|dalis|dalimi)\b/.test(after)) continue;
     if(!after) continue;                     // a stray "?" left from a figure at the very end
     marks.push({ mark: m[1], start, end });
   }

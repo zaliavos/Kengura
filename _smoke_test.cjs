@@ -183,7 +183,7 @@ for(const t of ARCHIVE){
 // (they once split "Pasirinkai" into "Pas ir inkai", "įtraukei" into "į traukei").
 for(const t of ARCHIVE) for(const q of t.questions){
   const texts = [q.solutionKid || "", ...Object.values(q.misconceptions || {})];
-  const bad = texts.filter(x => /Pas ir inkai|į trauk|su skaičiuot|nuo trauk|iš dėst|su kabint|Diophantine|parity/i.test(x));
+  const bad = texts.filter(x => /\bPas ir inkai\b|\bį trauk|\bsu skaičiuot|\bnuo trauk|\biš dėst|\bsu kabint|\bDiophantine\b|\bparity\b/i.test(x));
   check(`${t.year}-q${q.num} kid texts are clean`, !bad.length, bad[0]);
 }
 // Kid solutions must reach the official key (the 2013–2025 originals often didn't).
@@ -1090,6 +1090,7 @@ section("text hygiene");
     if(texts.some(x => /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(x))) ctrl.push(k);
     if(/^[A-E]\d/.test(q.solution || "")) glued.push(k);
     if(texts.some(x => /\d%/.test(x))) pct.push(k);
+    if(texts.some(x => /\b(c?m|dm|mm|km)[23]\b/.test(x))) pct.push(k + ":unit2");
   }
   check("no control characters", ctrl.length === 0, ctrl.join(" "));
   check("no header letter glued to the answer value", glued.length === 0, glued.join(" "));
@@ -1139,6 +1140,20 @@ section("paper practice");
   const n0 = app.store.contests.length;
   let ok = true; try { app.openPaperEntry(yr); } catch(e){ ok = false; }
   check("paper entry renders", ok && app.$app.innerHTML.includes("Įvertinti (10 / 30)"));
+}
+
+// ---------- 21. source files carry no stray control characters ----------
+// (a shell-mangled "\b" becomes a literal backspace and silently breaks a regex)
+section("source hygiene");
+{
+  const fsx = require("fs"), pathx = require("path");
+  const bad = [];
+  for(const f of fsx.readdirSync(__dirname)){
+    if(!/\.(py|cjs|js|html)$/.test(f) || f === "kengura-archive.js") continue;
+    const txt = fsx.readFileSync(pathx.join(__dirname, f), "utf8");
+    if(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(txt)) bad.push(f);
+  }
+  check("no control characters in source files", bad.length === 0, bad.join(" "));
 }
 
 // ---------- result ----------
