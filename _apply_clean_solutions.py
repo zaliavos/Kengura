@@ -17,6 +17,8 @@ TYPOS = [
     ('2009-20', 'Jei į m neįeina 45', 'Jei į m neįeina 41'),
     ('2010-30', 'Šešiakojai ir aštunkojai', 'Šešiakojai ir aštuonkojai'),
     ('2010-30', 'vienodų atskymų', 'vienodų atsakymų'),
+    ('2016-15', '258 + 1953 + 765 = 2975', '258 + 1953 + 764 = 2975'),
+    ('2014-9', 'trečias ratas truko 32 minutes', 'trečias ratas truko 34 minutes'),
 ]
 n = 0
 for y in data['archive']:
