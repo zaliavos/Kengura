@@ -7712,13 +7712,13 @@ function planStepsForToday(){
 
   // Contest day and the final two days have their own shape.
   if(days === 0){
-    return [{id:"core", label:"Šiandien konkursas! Sėkmės 🦘 – nieko nebesimokome, tik gerai išsimiegame.", act:"none"}];
+    return [{id:"core", label:"Šiandien konkursas! Sėkmės 🦘 Pusryčiai, du pieštukai, laikrodis. Pradėk nuo visų 3 t., abejotinus praleisk ir grįžk.", act:"none"}];
   }
   if(days === 1){
     return [
       {id:"warmup",   label:"Apšilimas – 2 lengvi klausimai (tik tiek!)", act:"warmup"},
       {id:"core",     label:"Perskaityk konkurso strategiją (pradžios puslapyje, „Kontrolinis“ kortelė)", act:"strategy"},
-      {id:"cooldown", label:"Poilsis. Rytoj – konkursas.", act:"none"},
+      {id:"cooldown", label:"Poilsis ir ankstyvas miegas. Rytoj – konkursas.", act:"none"},
     ];
   }
   if(needsDiagnosticContest()){
