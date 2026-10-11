@@ -3561,7 +3561,7 @@ function noteMistake(year, q, correct){
   }
 }
 /* A worksheet of open mistakes: figures only, answers on a print-only page. */
-function printMistakeSheet(items){
+function printMistakeSheet(items, back){
   state.view = "printMistakes";
   prefetchFigures(items.map(x => x.q));
   $app.innerHTML = `
@@ -3579,7 +3579,7 @@ function printMistakeSheet(items){
       <div class="print-only"><h3>Atsakymai</h3>
         <div class="answer-grid">${items.map((x, i) => `<div><b>${i + 1}.</b> ${x.q.correct}</div>`).join('')}</div></div>
     </section>`;
-  document.getElementById("pmBack").addEventListener("click", openMistakeBook);
+  document.getElementById("pmBack").addEventListener("click", back || openMistakeBook);
   document.getElementById("pmPrint").addEventListener("click", ()=> window.print());
 }
 
@@ -6452,7 +6452,7 @@ function renderParent(){
     const items = Object.values(store.mistakes || {}).filter(m => !m.fixedAt).map(m => {
       const t = ARCHIVE.find(t => String(t.year) === String(m.year)); const q = t && t.questions.find(q => q.num === m.num);
       return q ? {m, q} : null; }).filter(Boolean).sort((a, b) => b.m.lastWrong - a.m.lastWrong).slice(0, 20);
-    printMistakeSheet(items);
+    printMistakeSheet(items, openParent);
   });
   const exportBtn = document.getElementById("exportBtn");
   if(exportBtn) exportBtn.addEventListener("click", exportProgress);
