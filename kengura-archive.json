@@ -208,7 +208,7 @@
       "D": "5",
       "E": "4"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas"
      ],
@@ -227,7 +227,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -247,7 +247,7 @@
       "D": "55",
       "E": "100"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -267,7 +267,7 @@
       "D": "18h 10min",
       "E": "200h"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -286,7 +286,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -305,7 +305,7 @@
       "D": "sumažėtų 5 vienetais",
       "E": "pakistų priklausomai nuo a ir b"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -324,7 +324,7 @@
       "D": "– kas ketvirtą dieną",
       "E": "– kas penktą dieną, F – kas šeštądieną, G – kas septintą"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -343,7 +343,7 @@
       "D": "8",
       "E": "10 1 1 1"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -362,7 +362,7 @@
       "D": "120",
       "E": "Jie atšuoliuos vienu metu"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -381,7 +381,7 @@
       "D": "1",
       "E": "2"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -401,7 +401,7 @@
       "D": "4",
       "E": "2"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -420,7 +420,7 @@
       "D": "70",
       "E": "80"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "erdve"
      ],
@@ -439,7 +439,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -460,7 +460,7 @@
       "D": "15",
       "E": "18"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -478,7 +478,7 @@
       "D": "28%",
       "E": "Kitas atsakymas"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -497,7 +497,7 @@
       "D": "Nustatyti nęimanoma",
       "E": "Visų sąlygų iš pildyti neįmanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -516,7 +516,7 @@
       "D": "20 ◦",
       "E": "Kitas atsakymas 1 1"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "paveikslelis"
      ],
@@ -535,7 +535,7 @@
       "D": "13",
       "E": "14"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -554,7 +554,7 @@
       "D": "24",
       "E": "36"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas",
       "paveikslelis"
@@ -574,7 +574,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija"
@@ -800,7 +800,7 @@
       "D": "Po 12 min",
       "E": "Tai priklauso nuo rato ilgio"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -819,7 +819,7 @@
       "D": "1062",
       "E": "2001"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -838,7 +838,7 @@
       "D": "100",
       "E": "96"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -857,7 +857,7 @@
       "D": "72",
       "E": "88"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -876,7 +876,7 @@
       "D": "14",
       "E": "16"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -895,7 +895,7 @@
       "D": "80 m",
       "E": "100 m"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -914,7 +914,7 @@
       "D": "36 min",
       "E": "40 min"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -933,7 +933,7 @@
       "D": "12",
       "E": "15"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -952,7 +952,7 @@
       "D": "850",
       "E": "900"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -971,7 +971,7 @@
       "D": "60",
       "E": "70"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -990,7 +990,7 @@
       "D": "5 cm",
       "E": "8 cm"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1009,7 +1009,7 @@
       "D": "36",
       "E": "37"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1028,7 +1028,7 @@
       "D": "15",
       "E": "21"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1047,7 +1047,7 @@
       "D": "101",
       "E": "12"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -1066,7 +1066,7 @@
       "D": "84",
       "E": "96"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas",
       "paveikslelis"
@@ -1086,7 +1086,7 @@
       "D": "didesnė už 21",
       "E": "mažesnė už 17"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -1105,7 +1105,7 @@
       "D": "96",
       "E": "85"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "erdve",
       "paveikslelis"
@@ -1125,7 +1125,7 @@
       "D": "15",
       "E": "18"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "logika",
@@ -1146,7 +1146,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -1166,7 +1166,7 @@
       "A": "",
       "D": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -1392,7 +1392,7 @@
       "D": "72m",
       "E": "80m"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -1412,7 +1412,7 @@
       "D": "21",
       "E": "20"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "skaiciavimas"
@@ -1432,7 +1432,7 @@
       "D": "12m",
       "E": "20m"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -1451,7 +1451,7 @@
       "D": "S <S <S <S 3",
       "E": "S <S <S <S"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -1470,7 +1470,7 @@
       "D": "Tadas turi katę",
       "E": "Matas turi šunį"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1489,7 +1489,7 @@
       "D": "20%",
       "E": "5%"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1508,7 +1508,7 @@
       "D": "R <S",
       "E": "R =S"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1527,7 +1527,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1547,7 +1547,7 @@
       "D": "12",
       "E": "18"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika"
      ],
@@ -1566,7 +1566,7 @@
       "D": "240kg",
       "E": "250kg"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1585,7 +1585,7 @@
       "D": "39",
       "E": "43"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -1604,7 +1604,7 @@
       "D": "2 a+3 b",
       "E": "Rasti neįmanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -1623,7 +1623,7 @@
       "D": "16",
       "E": "28"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1642,7 +1642,7 @@
       "D": "125",
       "E": "150"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -1661,7 +1661,7 @@
       "D": "15",
       "E": "9"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika"
      ],
@@ -1680,7 +1680,7 @@
       "D": "3",
       "E": "4"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas"
@@ -1700,7 +1700,7 @@
       "D": "Žalia",
       "E": "Geltona"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika",
       "erdve"
@@ -1720,7 +1720,7 @@
       "D": "20",
       "E": "22"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas",
@@ -1742,7 +1742,7 @@
       "D": "120",
       "E": "121"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "erdve",
       "uzdaviniai",
@@ -1763,7 +1763,7 @@
       "D": "",
       "B": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -1984,7 +1984,7 @@
       "D": "1",
       "E": "Nustatyti neįmanoma"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "logika",
       "skaiciavimas"
@@ -2004,7 +2004,7 @@
       "D": "8",
       "E": "9"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -2024,7 +2024,7 @@
       "D": "49",
       "E": "Nustatyti neįmanoma"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -2044,7 +2044,7 @@
       "D": "60%",
       "E": "75%"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2063,7 +2063,7 @@
       "D": "8",
       "E": "15"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2082,7 +2082,7 @@
       "D": "7",
       "E": "8"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2101,7 +2101,7 @@
       "D": "100",
       "E": "80"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -2120,7 +2120,7 @@
       "D": "2003-04-21",
       "E": "2003-04-22"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2139,7 +2139,7 @@
       "D": "8",
       "E": "16"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2158,7 +2158,7 @@
       "D": "4",
       "E": "5"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas"
      ],
@@ -2177,7 +2177,7 @@
       "D": "264",
       "E": "272"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "logika",
@@ -2199,7 +2199,7 @@
       "D": "1 ir 4",
       "E": "Taip iš kirpti nęimanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -2219,7 +2219,7 @@
       "D": "6",
       "E": "Sudėti neįmanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas",
       "paveikslelis"
@@ -2239,7 +2239,7 @@
       "D": "64",
       "E": "0"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -2259,7 +2259,7 @@
       "D": "6",
       "E": "Daugiau kaip 10"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -2278,7 +2278,7 @@
       "D": "9",
       "E": "10"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -2297,7 +2297,7 @@
       "D": "10100",
       "E": "9900"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -2317,7 +2317,7 @@
       "D": "9",
       "E": "13"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -2338,7 +2338,7 @@
       "D": "45",
       "E": "Rasti neįmanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -2358,7 +2358,7 @@
       "D": "1",
       "E": "Nustatyti neįmanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika",
       "skaiciavimas"
@@ -2583,7 +2583,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "paveikslelis"
      ],
@@ -2603,7 +2603,7 @@
       "D": "20",
       "E": "32"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2622,7 +2622,7 @@
       "D": "6",
       "E": "5"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -2643,7 +2643,7 @@
       "D": "104",
       "E": "102"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2662,7 +2662,7 @@
       "D": "9",
       "E": "15"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "geometrija"
@@ -2682,7 +2682,7 @@
       "D": "4",
       "E": "5"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "logika",
@@ -2703,7 +2703,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "erdve"
      ],
@@ -2723,7 +2723,7 @@
       "D": "36",
       "E": "40"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2742,7 +2742,7 @@
       "D": "Penktadienį",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2762,7 +2762,7 @@
       "D": "44",
       "E": "54"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "geometrija"
@@ -2782,7 +2782,7 @@
       "D": "2",
       "E": "2"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -2802,7 +2802,7 @@
       "D": "54",
       "E": "10"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2821,7 +2821,7 @@
       "D": "10",
       "E": "21"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas",
@@ -2842,7 +2842,7 @@
       "D": "K ir R",
       "E": "M ir T"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -2862,7 +2862,7 @@
       "D": "30",
       "E": "34,50"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -2881,7 +2881,7 @@
       "D": "121",
       "E": "400 10"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -2904,7 +2904,7 @@
       "D": "667",
       "E": "665"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -2923,7 +2923,7 @@
       "D": "8",
       "E": "1"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika",
       "skaiciavimas"
@@ -2943,7 +2943,7 @@
       "D": "13",
       "E": "21"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -2962,7 +2962,7 @@
       "C": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -3185,7 +3185,7 @@
       "D": "30",
       "E": "50"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -3205,7 +3205,7 @@
       "D": "48",
       "E": "50"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -3224,7 +3224,7 @@
       "D": "10",
       "E": "12 3"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -3244,7 +3244,7 @@
       "D": "1",
       "E": "1"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas",
       "uzdaviniai"
@@ -3264,7 +3264,7 @@
       "D": "1:4",
       "E": "5:4"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -3283,7 +3283,7 @@
       "D": "405",
       "E": "2001"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -3302,7 +3302,7 @@
       "D": "8",
       "E": "9"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -3321,7 +3321,7 @@
       "D": "2",
       "E": "1"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -3341,7 +3341,7 @@
       "D": "4",
       "E": "0"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -3361,7 +3361,7 @@
       "D": "9",
       "E": "8"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas"
      ],
@@ -3380,7 +3380,7 @@
       "D": "82",
       "E": "100"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -3400,7 +3400,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -3420,7 +3420,7 @@
       "D": "25",
       "E": "32"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas",
@@ -3441,7 +3441,7 @@
       "D": "2",
       "E": "1"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -3462,7 +3462,7 @@
       "D": "2004",
       "E": "−4"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -3481,7 +3481,7 @@
       "D": "3",
       "E": "21"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -3500,7 +3500,7 @@
       "D": "3",
       "E": "2"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -3519,7 +3519,7 @@
       "D": "597354354",
       "E": "536479879"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -3539,7 +3539,7 @@
       "D": "4",
       "E": "3"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -3558,7 +3558,7 @@
       "B": "",
       "D": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -4352,7 +4352,7 @@
       "D": "64",
       "E": "81"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "skaiciavimas"
@@ -4372,7 +4372,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas",
       "erdve",
@@ -4394,7 +4394,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "erdve",
@@ -4416,7 +4416,7 @@
       "D": "21",
       "E": "20"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -4435,7 +4435,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -4455,7 +4455,7 @@
       "D": "63cm2",
       "E": "72cm2"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -4475,7 +4475,7 @@
       "D": "56km",
       "E": "64km"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -4494,7 +4494,7 @@
       "D": "P ir P perimetrai yra vienodi",
       "E": "P ir P plotai yra lygūs"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "erdve",
@@ -4515,7 +4515,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -4535,7 +4535,7 @@
       "E": "O",
       "B": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -4555,7 +4555,7 @@
       "D": "70",
       "E": "80"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -4574,7 +4574,7 @@
       "D": "1001",
       "E": "10"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -4594,7 +4594,7 @@
       "D": "50",
       "E": "Perimetrai vienodi"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -4613,7 +4613,7 @@
       "D": "14",
       "E": "15"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -4632,7 +4632,7 @@
       "D": "3",
       "E": "Nustatyti nęimanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -4651,7 +4651,7 @@
       "A": "8cm",
       "B": "9cm"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -4670,7 +4670,7 @@
       "C": "1",
       "E": "Priklauso nuo kvadratųtarpusavio padėties"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "paveikslelis"
      ],
@@ -4689,7 +4689,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -4709,7 +4709,7 @@
       "D": "3",
       "E": "1"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas",
@@ -4730,7 +4730,7 @@
       "C": "",
       "D": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -4959,7 +4959,7 @@
       "D": "4",
       "E": "3"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -4978,7 +4978,7 @@
       "D": "H",
       "E": "P"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "paveikslelis"
      ],
@@ -4997,7 +4997,7 @@
       "D": "32cm",
       "E": "Tai priklauso nuo trikampio kraštinių ilgių"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -5017,7 +5017,7 @@
       "D": "10",
       "E": "Nė vienas ir iš vardytųatsakymų"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -5036,7 +5036,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -5056,7 +5056,7 @@
       "D": "9",
       "E": "10"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -5075,7 +5075,7 @@
       "D": "67",
       "E": "93"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "erdve"
      ],
@@ -5094,7 +5094,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "erdve"
      ],
@@ -5114,7 +5114,7 @@
       "C": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -5134,7 +5134,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -5154,7 +5154,7 @@
       "D": "8",
       "E": "9"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -5173,7 +5173,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -5193,7 +5193,7 @@
       "D": "tik iš bet kurio juodo langelio",
       "E": "iš bet kurio langelio"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "logika",
@@ -5214,7 +5214,7 @@
       "D": "12 km",
       "E": "15 km"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "paveikslelis"
      ],
@@ -5233,7 +5233,7 @@
       "D": "2 1 3 4",
       "E": "3 2 1 4"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "paveikslelis"
      ],
@@ -5252,7 +5252,7 @@
       "D": "9",
       "E": "15"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -5271,7 +5271,7 @@
       "D": "1",
       "E": "Tai priklauso nuo ekrano ploto"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -5290,7 +5290,7 @@
       "D": "45",
       "E": "30"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -5310,7 +5310,7 @@
       "D": "21",
       "E": "22"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -5329,7 +5329,7 @@
       "B": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -5554,7 +5554,7 @@
       "D": "5",
       "E": "4"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "skaiciavimas"
@@ -5574,7 +5574,7 @@
       "B": "44",
       "E": "60"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -5593,7 +5593,7 @@
       "D": "174",
       "E": "184"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas",
       "uzdaviniai"
@@ -5613,7 +5613,7 @@
       "D": "64",
       "E": "65 9"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -5632,7 +5632,7 @@
       "D": "dėžutėje N yra kortelė su numeriu 2",
       "E": "dėžutėje N yra kortelė su numeriu 5"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -5651,7 +5651,7 @@
       "D": "7cm",
       "E": "8cm"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -5671,7 +5671,7 @@
       "D": "12000",
       "E": "768"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas",
       "erdve"
@@ -5691,7 +5691,7 @@
       "D": "35",
       "E": "41"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -5710,7 +5710,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika"
      ],
@@ -5730,7 +5730,7 @@
       "D": "5",
       "E": "10"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -5749,7 +5749,7 @@
       "D": "11·55",
       "E": "55"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "logika"
@@ -5769,7 +5769,7 @@
       "D": "18",
       "E": "24"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas",
@@ -5790,7 +5790,7 @@
       "D": "100",
       "E": "105"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -5809,7 +5809,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -5830,7 +5830,7 @@
       "D": "7",
       "E": "8"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas",
       "paveikslelis"
@@ -5850,7 +5850,7 @@
       "D": "60",
       "E": "100"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -5869,7 +5869,7 @@
       "D": "147",
       "E": "168"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -5890,7 +5890,7 @@
       "D": "20",
       "E": "24"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika",
       "skaiciavimas",
@@ -5911,7 +5911,7 @@
       "D": "8",
       "E": "9"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -5931,7 +5931,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika"
      ],
@@ -6154,7 +6154,7 @@
       "D": "20·10+10·20",
       "E": "20:10·20+10"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -6173,7 +6173,7 @@
       "C": "",
       "D": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "paveikslelis"
      ],
@@ -6193,7 +6193,7 @@
       "D": "567",
       "E": "728"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika"
      ],
@@ -6212,7 +6212,7 @@
       "D": "22",
       "E": "24"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "paveikslelis"
      ],
@@ -6231,7 +6231,7 @@
       "D": "8, 52 ir 53",
       "E": "8, 53 ir 54"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -6250,7 +6250,7 @@
       "D": "11",
       "E": "13"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "skaiciavimas",
@@ -6272,7 +6272,7 @@
       "D": "16×16",
       "E": "4×9"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "paveikslelis"
      ],
@@ -6291,7 +6291,7 @@
       "D": "9",
       "E": "10"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "logika",
       "skaiciavimas",
@@ -6312,7 +6312,7 @@
       "D": "3 8",
       "E": "2 9 2"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija"
      ],
@@ -6331,7 +6331,7 @@
       "D": "15",
       "E": "16"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika"
      ],
@@ -6350,7 +6350,7 @@
       "D": "16",
       "E": "Nustatyti nęimanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -6369,7 +6369,7 @@
       "D": "48",
       "E": "72"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -6388,7 +6388,7 @@
       "D": "Paulinai",
       "E": "Arūnui"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas",
       "seka",
@@ -6409,7 +6409,7 @@
       "D": "16",
       "E": "15"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "paveikslelis"
      ],
@@ -6428,7 +6428,7 @@
       "D": "17",
       "E": "20"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -6447,7 +6447,7 @@
       "D": "7",
       "E": "To padaryti nęimanoma"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika",
       "paveikslelis"
@@ -6467,7 +6467,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -6487,7 +6487,7 @@
       "D": "104",
       "E": "118"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -6506,7 +6506,7 @@
       "D": "Tik 4",
       "E": "Bet kuris iš skaičių 1, 2 ir 3"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -6734,7 +6734,7 @@
       "C": "",
       "D": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas"
      ],
@@ -6754,7 +6754,7 @@
       "D": "909",
       "E": "990"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -6774,7 +6774,7 @@
       "D": "96",
       "E": "167"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "paveikslelis"
@@ -6794,7 +6794,7 @@
       "D": "81",
       "E": "100"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "erdve",
@@ -6815,7 +6815,7 @@
       "D": "56",
       "E": "72"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -6835,7 +6835,7 @@
       "D": "3720",
       "E": "30720"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika"
      ],
@@ -6854,7 +6854,7 @@
       "D": "2:1",
       "E": "0:1"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -6873,7 +6873,7 @@
       "D": "4",
       "E": "Tai priklauso nuo to pradinio trikampio"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "skaiciavimas"
@@ -6893,7 +6893,7 @@
       "D": "4",
       "E": "5"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas",
       "paveikslelis"
@@ -6913,7 +6913,7 @@
       "D": "16",
       "E": "20"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "skaiciavimas",
@@ -6934,7 +6934,7 @@
       "D": "5",
       "E": "6"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -6953,7 +6953,7 @@
       "D": "6",
       "E": "7"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika",
       "skaiciavimas"
@@ -6973,7 +6973,7 @@
       "D": "56",
       "E": "64"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -6992,7 +6992,7 @@
       "D": "3",
       "E": "4"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -7011,7 +7011,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -7032,7 +7032,7 @@
       "D": "5",
       "E": "6"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas",
       "paveikslelis"
@@ -7052,7 +7052,7 @@
       "D": "6",
       "E": "8"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas"
@@ -7072,7 +7072,7 @@
       "D": "5 šeštadieniai",
       "E": "5 sekmadieniai"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -7091,7 +7091,7 @@
       "D": "Tik d",
       "E": "Bet kurįiš b ir c"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -7315,7 +7315,7 @@
       "D": "2, 3, 6",
       "E": "2, 5, 6"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -7335,7 +7335,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "erdve",
       "paveikslelis"
@@ -7356,7 +7356,7 @@
       "D": "3",
       "E": "2"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas"
      ],
@@ -7375,7 +7375,7 @@
       "D": "Visada raudoną",
       "E": "Visada mėlyną"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -7397,7 +7397,7 @@
       "D": "72cm2",
       "E": "128cm2"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -7417,7 +7417,7 @@
       "D": "25cm",
       "E": "30cm"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -7437,7 +7437,7 @@
       "D": "5",
       "E": "6"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -7458,7 +7458,7 @@
       "D": "6",
       "E": "8"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "skaiciavimas"
      ],
@@ -7477,7 +7477,7 @@
       "D": "8",
       "E": "9"
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
@@ -7496,7 +7496,7 @@
       "C": "",
       "D": ""
      },
-     "points": 3,
+     "points": 4,
      "patterns": [
       "geometrija",
       "logika",
@@ -7518,7 +7518,7 @@
       "D": "Gėrime „Sveikata“ morkų sulčių daugiau nei citrinų ir apelsinų sulčių kartu",
       "E": "Citrinų sulčių tame gėrime yra mažiausiai"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -7537,7 +7537,7 @@
       "D": "80",
       "E": "100 II"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -7556,7 +7556,7 @@
       "D": "8",
       "E": "9"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -7575,7 +7575,7 @@
       "D": "32",
       "E": "46"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -7594,7 +7594,7 @@
       "D": "8 ir 10",
       "E": "4 ir 3"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -7613,7 +7613,7 @@
       "D": "9",
       "E": "42"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas"
@@ -7633,7 +7633,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -7656,7 +7656,7 @@
       "D": "16cm2",
       "E": "24cm2"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -7676,7 +7676,7 @@
       "D": "6",
       "E": "7"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -8784,7 +8784,7 @@
       "D": "28",
       "E": "29"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -8804,7 +8804,7 @@
       "D": "24",
       "E": "30"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -8822,7 +8822,7 @@
       "D": "48 cm2",
       "E": "72 cm2"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "paveikslelis"
@@ -8841,7 +8841,7 @@
       "D": "90 min",
       "E": "120 min"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -8859,7 +8859,7 @@
       "D": "Tik 7",
       "E": "Tik 8"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -8877,7 +8877,7 @@
       "D": "3",
       "E": "4"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -8895,7 +8895,7 @@
       "D": "Nė vienos dienos",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas",
       "uzdaviniai"
@@ -8915,7 +8915,7 @@
       "D": "22",
       "E": "23"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "logika",
@@ -9359,7 +9359,7 @@
       "D": "20",
       "E": "25"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija"
@@ -9378,7 +9378,7 @@
       "D": "68",
       "E": "76"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -9396,7 +9396,7 @@
       "D": "50",
       "E": "16"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -9414,7 +9414,7 @@
       "D": "24",
       "E": "26"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas",
@@ -9434,7 +9434,7 @@
       "D": "10",
       "E": "12"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -9453,7 +9453,7 @@
       "D": "10",
       "E": "11"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -9471,7 +9471,7 @@
       "D": "8",
       "E": "9"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -9489,7 +9489,7 @@
       "D": "24",
       "E": "32"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas",
       "erdve"
@@ -9920,7 +9920,7 @@
       "D": "6",
       "E": "7"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas"
@@ -9939,7 +9939,7 @@
       "D": "14",
       "E": "16"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija"
      ],
@@ -9957,7 +9957,7 @@
       "D": "15",
       "E": "18"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas",
@@ -9977,7 +9977,7 @@
       "D": "",
       "E": ""
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "erdve",
       "paveikslelis"
@@ -9997,7 +9997,7 @@
       "D": "13",
       "E": "15 6"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -10018,7 +10018,7 @@
       "D": "8",
       "E": "9"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -10036,7 +10036,7 @@
       "D": "6",
       "E": "17"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -10054,7 +10054,7 @@
       "D": "535",
       "E": "537"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika"
      ],
@@ -10504,7 +10504,7 @@
       "D": "13",
       "E": "16"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -10522,7 +10522,7 @@
       "D": "160 km",
       "E": "192 km"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "uzdaviniai"
      ],
@@ -10540,7 +10540,7 @@
       "D": "171",
       "E": "172"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -10559,7 +10559,7 @@
       "D": "8",
       "E": "7"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "skaiciavimas"
      ],
@@ -10577,7 +10577,7 @@
       "D": "Beata, Cilė, Ana",
       "E": "Cilė, Ana, Beata"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "skaiciavimas"
@@ -10596,7 +10596,7 @@
       "D": "7",
       "E": "8"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "aritmetika",
       "geometrija",
@@ -10617,7 +10617,7 @@
       "D": "36",
       "E": "48"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "logika",
       "skaiciavimas"
@@ -10636,7 +10636,7 @@
       "D": "7",
       "E": "8"
      },
-     "points": 3,
+     "points": 5,
      "patterns": [
       "geometrija",
       "skaiciavimas",
