@@ -6432,6 +6432,19 @@ function renderParent(){
         const weakest = parts.slice().sort((a, b) => a.p - b.p)[0];
         return `<p style="margin:8px 0 0">Paskutinių ${last.length} kontrolinių tikslumas: ${parts.map(x => `<b>${x.b} t.</b> ${x.p} %`).join(' · ')}${weakest && weakest.b < 5 && weakest.p < 70 ? ` – <span style="color:var(--bad)">taškai labiausiai byra ${weakest.b} t. bloke; jie lengvesni, todėl čia greičiausias pelnas.</span>` : ''}</p>`;
       })()}
+      ${(() => {
+        const cs = store.contests.slice(-10);
+        if(cs.length < 3) return '';
+        const W = 300, H = 70, pad = 6, max = 120;
+        const xs = i => pad + i * (W - 2 * pad) / (cs.length - 1);
+        const ys = v => H - pad - Math.max(0, v) / max * (H - 2 * pad);
+        const pts = cs.map((c, i) => `${xs(i).toFixed(1)},${ys(c.scoreWithPenalty ?? c.points).toFixed(1)}`).join(' ');
+        return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px;margin-top:8px" role="img" aria-label="Kontrolinių rezultatų kreivė">
+          <line x1="${pad}" x2="${W - pad}" y1="${ys(72)}" y2="${ys(72)}" stroke="var(--line)" stroke-dasharray="4 3"/>
+          <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2"/>
+          ${cs.map((c, i) => `<circle cx="${xs(i).toFixed(1)}" cy="${ys(c.scoreWithPenalty ?? c.points).toFixed(1)}" r="3" fill="var(--accent)"><title>${escapeHTML(String(c.year))}: ${fmtPts(c.scoreWithPenalty ?? c.points)} t.</title></circle>`).join('')}
+        </svg><div class="help-bar" style="margin:0">Paskutiniai ${cs.length} kontroliniai (su bauda, iš 120); brūkšninė linija – 60 %.</div>`;
+      })()}
       <p class="help-bar">„Matyta anksčiau“ – kiek to kontrolinio uždavinių vaikas jau buvo sprendęs treniruotėse. Kuo mažiau, tuo sąžiningesnis rezultatas; naujausi metai tam ir rezervuoti.</p>
     </section>` : ''}
 

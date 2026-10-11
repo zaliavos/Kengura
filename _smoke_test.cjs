@@ -1171,10 +1171,12 @@ section("parent view render");
                     byBand: {3:{ok:6,total:10}, 4:{ok:6,total:10}, 5:{ok:4,total:10}}, practisedBefore: 2});
   st.contests.push({when: Date.now() - 864e5, year: "2020", points: 70, scoreWithPenalty: 66.5, maxPoints: 120, correct: 19, total: 30, answered: 26,
                     byBand: {3:{ok:7,total:10}, 4:{ok:7,total:10}, 5:{ok:5,total:10}}, practisedBefore: 0, paper: true});
+  st.contests.push({when: Date.now(), year: "2021", points: 80, scoreWithPenalty: 74, maxPoints: 120, correct: 21, total: 30, answered: 27, byBand: {3:{ok:8,total:10}, 4:{ok:7,total:10}, 5:{ok:6,total:10}}});
   st.mistakes["2018-3"] = {year:"2018", num:3, times:2, lastWrong: Date.now()};
   let ok = true; try { app.openParent(); } catch(e){ ok = false; console.log(e.message); }
   const h = app.$app.innerHTML;
   check("parent view renders with history", ok && h.includes("3 t.: 6/10") && h.includes("66,5") && h.includes("Klaidų sąsiuvinis"));
+  check("parent view draws the score curve", h.includes("Kontrolinių rezultatų kreivė") && h.includes("<polyline"));
   st.contests = saved; delete st.mistakes["2018-3"];
 }
 
