@@ -4266,8 +4266,13 @@ function renderArchiveCard(year, q){
     `<span class="pill muted">${escapeHTML(PATTERN_LABEL[p]||p)}</span>`
   ).join(" ");
   // Mechanic pill (a finer-grained classification than the legacy patterns).
+  // Seeing the trick IS the 4/5-point skill: name it only after an answer
+  // or once the kid asks for a hint (the hints talk about it anyway).
+  const mechShown = submitted || (ans.hintTier || 0) > 0 || (q.points || 3) === 3;
   const mechPill = q.mechanic
-    ? `<span class="pill" title="Užduoties tipas">${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</span>`
+    ? (mechShown
+        ? `<span class="pill" title="Užduoties tipas">${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</span>`
+        : `<span class="pill muted" title="Gudrybės pavadinimą pamatysi atsakęs arba paprašęs užuominos">Gudrybė: ?</span>`)
     : "";
   const practice = pickPracticeFor(q, year);
   const figureHtml = q.figure
