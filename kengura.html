@@ -6375,7 +6375,7 @@ function renderParent(){
 
     ${(store.contests || []).length ? `<section class="card">
       <h3>Kontroliniai (paskutiniai 5)</h3>
-      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${fmtPts(c.scoreWithPenalty ?? c.points)} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.byBand ? [3,4,5].map(b => c.byBand[b] && c.byBand[b].total ? `${b} t.: ${c.byBand[b].ok}/${c.byBand[b].total}` : '').filter(Boolean).join(' · ') : ''}${c.practisedBefore != null ? ` · ${c.practisedBefore}/30 matyta` : ''}${c.paper ? ' · 📄' : ''}</span></div>`).join('')}
+      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${fmtPts(c.scoreWithPenalty ?? c.points)} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.byBand ? [3,4,5].map(b => c.byBand[b] && c.byBand[b].total ? `${b} t.: ${c.byBand[b].ok}/${c.byBand[b].total}` : '').filter(Boolean).join(' · ') : ''}${c.practisedBefore != null ? ` · ${c.practisedBefore}/30 matyta` : ''}${c.paper ? ' · 📄' : ''}${c.timeByBand && c.timeByBand[3] ? ` · ⏱ 3 t.: ${Math.round(c.timeByBand[3] / 60000)} min` : ''}</span></div>`).join('')}
       ${(() => {
         const last = store.contests.slice(-3).filter(c => c.byBand);
         if(last.length < 2) return '';
