@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Kid-Lithuanian solutions and misconception notes for the 5-point
-Benjamin (Bičiulis) questions, merged into kengura-archive.json/.js by
+"""Kid-Lithuanian solutions and misconception notes for EVERY archive
+question (750 = all 3-, 4- and 5-pointers of 2000-2025; written from the
+figures 2026-10-10/11), merged into kengura-archive.json/.js by
 _apply_kid_solutions.py.
 
 Rewritten 2026-10-10 from the figures + official solutions: the previous
