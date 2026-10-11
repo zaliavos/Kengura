@@ -5,73 +5,165 @@ keyword tagger) named the wrong trick. Applied by running this file."""
 import json, os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 MECHANIC = {
-    "2000-21": "divisibility",   # was counting-ways
-    "2000-23": "iteration",   # was geometry-misc
-    "2000-25": "mixture-fraction",   # was arith-compute
-    "2000-26": "logic-clues",   # was arith-compute
-    "2000-28": "weighing",   # was arith-compute
-    "2000-29": "geometry-misc",   # was arith-compute
-    "2001-26": "digit-puzzle",   # was digit-properties
-    "2001-28": "area-decomp",   # was area-compute
-    "2001-30": "place-value",   # was digit-properties
-    "2002-24": "rate-time",   # was arith-compute
-    "2002-25": "casework",   # was arith-compute
-    "2002-26": "partition",   # was multistep-money
-    "2002-30": "counting-ways",   # was partition
-    "2003-21": "cube-net",   # was geometry-misc
-    "2003-22": "tiling",   # was geometry-misc
-    "2003-23": "sequence-pattern",   # was casework
-    "2003-24": "tiling",   # was area-decomp
-    "2003-28": "digit-puzzle",   # was digit-properties
-    "2004-22": "divisibility",   # was arith-compute
-    "2004-26": "sequence-pattern",   # was geometry-misc
-    "2004-28": "divisibility",   # was casework
-    "2005-30": "logic-clues",   # was casework
-    "2007-22": "place-value",   # was projection
-    "2007-27": "area-decomp",   # was geometry-misc
-    "2007-30": "digit-puzzle",   # was arith-compute
-    "2008-21": "digit-puzzle",   # was casework
-    "2008-22": "logic-clues",   # was casework
-    "2008-23": "invariant",   # was casework
-    "2008-24": "geometry-misc",   # was casework
-    "2008-25": "projection",   # was arith-compute
-    "2008-26": "logic-clues",   # was arith-compute
-    "2008-27": "area-compute",   # was arith-compute
-    "2009-27": "counting-ways",   # was tiling
-    "2009-28": "iteration",   # was arith-compute
-    "2009-30": "casework",   # was area-decomp
-    "2010-22": "counting-ways",   # was casework
-    "2010-23": "iteration",   # was clock
-    "2010-26": "casework",   # was area-decomp
-    "2010-27": "symmetry",   # was casework
-    "2010-28": "sequence-pattern",   # was arith-compute
-    "2011-21": "divisibility",   # was arith-compute
-    "2011-22": "casework",   # was arith-compute
-    "2011-24": "truth-tellers",   # was arith-compute
-    "2011-25": "tiling",   # was area-decomp
-    "2011-27": "counting-ways",   # was casework
-    "2012-21": "mixture-fraction",   # was arith-compute
-    "2012-23": "arith-compute",   # was age-relations
-    "2012-24": "divisibility",   # was arith-compute
-    "2012-25": "arrangement",   # was arith-compute
-    "2012-27": "logic-clues",   # was arith-compute
-    "2012-28": "geometry-misc",   # was iteration
-    "2012-29": "digit-puzzle",   # was arith-compute
-    "2014-23": "casework",   # was arith-compute
-    "2014-24": "counting-ways",   # was arith-compute
-    "2014-28": "casework",   # was arith-compute
-    "2014-30": "partition",   # was casework
-    "2015-23": "casework",   # was arith-compute
-    "2015-24": "divisibility",   # was arith-compute
-    "2015-28": "counting-ways",   # was arith-compute
-    "2016-23": "tiling",   # was arith-compute
-    "2016-24": "arith-compute",   # was geometry-misc
-    "2016-25": "tiling",   # was casework
-    "2016-27": "arith-compute",   # was geometry-misc
-    "2016-28": "digit-puzzle",   # was arith-compute
-    "2016-29": "divisibility",   # was casework
-    "2017-27": "logic-clues",   # was arith-compute
-    "2017-30": "invariant",   # was casework
+    "2000-13": "sequence-pattern",
+    "2000-17": "divisibility",
+    "2000-21": "divisibility",
+    "2000-23": "iteration",
+    "2000-25": "mixture-fraction",
+    "2000-26": "logic-clues",
+    "2000-28": "weighing",
+    "2000-29": "geometry-misc",
+    "2001-11": "divisibility",
+    "2001-13": "arith-compute",
+    "2001-14": "sequence-pattern",
+    "2001-26": "digit-puzzle",
+    "2001-28": "area-decomp",
+    "2001-30": "place-value",
+    "2002-11": "geometry-misc",
+    "2002-24": "rate-time",
+    "2002-25": "casework",
+    "2002-26": "partition",
+    "2002-30": "counting-ways",
+    "2003-11": "geometry-misc",
+    "2003-18": "clock",
+    "2003-21": "cube-net",
+    "2003-22": "tiling",
+    "2003-23": "sequence-pattern",
+    "2003-24": "tiling",
+    "2003-28": "digit-puzzle",
+    "2004-11": "tiling",
+    "2004-13": "digit-puzzle",
+    "2004-15": "truth-tellers",
+    "2004-18": "geometry-misc",
+    "2004-22": "divisibility",
+    "2004-26": "sequence-pattern",
+    "2004-28": "divisibility",
+    "2005-11": "counting-ways",
+    "2005-30": "logic-clues",
+    "2007-12": "logic-clues",
+    "2007-17": "rate-time",
+    "2007-18": "geometry-misc",
+    "2007-19": "geometry-misc",
+    "2007-22": "place-value",
+    "2007-27": "area-decomp",
+    "2007-30": "digit-puzzle",
+    "2008-15": "mixture-fraction",
+    "2008-16": "counting-ways",
+    "2008-18": "projection",
+    "2008-19": "casework",
+    "2008-20": "age-relations",
+    "2008-21": "digit-puzzle",
+    "2008-22": "logic-clues",
+    "2008-23": "invariant",
+    "2008-24": "geometry-misc",
+    "2008-25": "projection",
+    "2008-26": "logic-clues",
+    "2008-27": "area-compute",
+    "2009-11": "divisibility",
+    "2009-12": "area-decomp",
+    "2009-13": "rate-time",
+    "2009-15": "partition",
+    "2009-17": "divisibility",
+    "2009-19": "logic-clues",
+    "2009-20": "divisibility",
+    "2009-27": "counting-ways",
+    "2009-28": "iteration",
+    "2009-30": "casework",
+    "2010-11": "arith-compute",
+    "2010-12": "symmetry",
+    "2010-17": "sequence-pattern",
+    "2010-18": "counting-ways",
+    "2010-19": "area-compute",
+    "2010-22": "counting-ways",
+    "2010-23": "iteration",
+    "2010-26": "casework",
+    "2010-27": "symmetry",
+    "2010-28": "sequence-pattern",
+    "2011-11": "casework",
+    "2011-13": "digit-properties",
+    "2011-15": "sequence-pattern",
+    "2011-17": "logic-clues",
+    "2011-19": "logic-clues",
+    "2011-20": "tiling",
+    "2011-21": "divisibility",
+    "2011-22": "casework",
+    "2011-24": "truth-tellers",
+    "2011-25": "tiling",
+    "2011-27": "counting-ways",
+    "2012-13": "counting-ways",
+    "2012-14": "divisibility",
+    "2012-17": "partition",
+    "2012-18": "iteration",
+    "2012-20": "symmetry",
+    "2012-21": "mixture-fraction",
+    "2012-23": "arith-compute",
+    "2012-24": "divisibility",
+    "2012-25": "arrangement",
+    "2012-27": "logic-clues",
+    "2012-28": "geometry-misc",
+    "2012-29": "digit-puzzle",
+    "2013-11": "counting-ways",
+    "2013-14": "arith-compute",
+    "2013-15": "geometry-misc",
+    "2013-16": "casework",
+    "2013-17": "geometry-misc",
+    "2013-19": "casework",
+    "2014-14": "arrangement",
+    "2014-19": "divisibility",
+    "2014-20": "cube-net",
+    "2014-23": "casework",
+    "2014-24": "counting-ways",
+    "2014-28": "casework",
+    "2014-30": "partition",
+    "2015-14": "cube-net",
+    "2015-17": "area-compute",
+    "2015-18": "logic-clues",
+    "2015-20": "invariant",
+    "2015-23": "casework",
+    "2015-24": "divisibility",
+    "2015-28": "counting-ways",
+    "2016-12": "arith-compute",
+    "2016-13": "rate-time",
+    "2016-19": "divisibility",
+    "2016-23": "tiling",
+    "2016-24": "arith-compute",
+    "2016-25": "tiling",
+    "2016-27": "arith-compute",
+    "2016-28": "digit-puzzle",
+    "2016-29": "divisibility",
+    "2017-14": "arith-compute",
+    "2017-27": "logic-clues",
+    "2017-30": "invariant",
+    "2018-11": "area-decomp",
+    "2018-13": "casework",
+    "2018-14": "truth-tellers",
+    "2018-15": "sequence-pattern",
+    "2018-17": "sequence-pattern",
+    "2019-17": "sequence-pattern",
+    "2019-18": "symmetry",
+    "2020-11": "casework",
+    "2020-14": "cube-color",
+    "2020-16": "geometry-misc",
+    "2020-18": "cube-net",
+    "2020-20": "logic-clues",
+    "2021-15": "area-compute",
+    "2021-16": "place-value",
+    "2021-19": "logic-clues",
+    "2021-20": "rate-time",
+    "2022-11": "invariant",
+    "2022-15": "symmetry",
+    "2022-18": "logic-clues",
+    "2023-12": "digit-puzzle",
+    "2023-15": "truth-tellers",
+    "2023-16": "tiling",
+    "2023-19": "arith-compute",
+    "2023-20": "divisibility",
+    "2024-17": "logic-clues",
+    "2024-20": "logic-clues",
+    "2025-11": "rate-time",
+    "2025-15": "clock",
+    "2025-17": "digit-properties",
+    "2025-19": "logic-clues",
 }
 if __name__ == "__main__":
     J = os.path.join(HERE, "kengura-archive.json")
