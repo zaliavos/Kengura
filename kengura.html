@@ -6255,6 +6255,7 @@ function renderContestResults(){
           ${q.mechanic && MECHANIC_LABEL[q.mechanic] ? `<button class="btn small" data-recap-mech="${q.mechanic}" style="margin-top:6px">Mokytis: ${escapeHTML(MECHANIC_LABEL[q.mechanic])} →</button>` : ''}
         </details>`;
       }).join('')}
+      ${wrongs.length ? `<button class="btn small ghost" id="contestPrintWrongs">🖨 Atsispausdinti šias klaidas</button>` : ''}
       ${wrongs.length ? `<p class="help-bar">📒 ${wrongs.length} ${pluralForm(wrongs.length,'klaida įrašyta','klaidos įrašytos','klaidų įrašyta')} į <a href="#" id="contestMistakeBook">klaidų sąsiuvinį</a> – ten gali bet kada bandyti iš naujo.</p>` : ''}
       ${r.queued ? `<p class="help-bar">✓ ${r.queued} ${pluralForm(r.queued,'klaida pateko','klaidos pateko','klaidų pateko')} į pakartojimo eilę – nuo rytojaus grįš apšilimuose, po ${CONTEST_REVIEW_PER_DAY} per dieną.</p>` : ''}
     </section>` : ''}
@@ -6301,6 +6302,12 @@ function renderContestResults(){
     const box = b.closest("div").parentElement; if(box) box.innerHTML = `<p class="help-bar" style="margin:6px 0">Užrašyta: ${escapeHTML(MISTAKE_REASONS[b.dataset.crWhy])}.</p>`;
   }));
   $app.querySelectorAll("[data-recap-mech]").forEach(btn => btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
+  const cpw = document.getElementById("contestPrintWrongs");
+  if(cpw) cpw.addEventListener("click", ()=>{
+    const items = wrongs.map(q => ({m: (store.mistakes || {})[`${r.year}-${q.num}`] || {year: r.year, num: q.num}, q}));
+    const back = () => { state.view = "home"; renderHome(); };
+    printMistakeSheet(items, back);
+  });
   const cmb = document.getElementById("contestMistakeBook");
   if(cmb) cmb.addEventListener("click", e => { e.preventDefault(); openMistakeBook(); });
   const reviewed = document.getElementById("contestReviewed");
