@@ -7112,6 +7112,7 @@ function renderRecog(){
       </div>
       ${submitted ? `<div class="explain" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'}">
         <b>${right ? 'Taip!' : 'Ne.'}</b> Tai – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</b>.
+        ${(() => { const idea = q.solutionKid && (q.solutionKid.match(/^Gudrybė:\s*(.+?[.!?])(\s|$)/) || [])[1]; return idea ? `<div style="margin-top:6px"><b>Šiame uždavinyje:</b> ${escapeHTML(idea)}</div>` : ''; })()}
         ${summary ? `<div style="margin-top:6px;font-size:13px">${escapeHTML(summary)}</div>` : ''}
       </div>` : ''}
       <div class="footer-actions">
