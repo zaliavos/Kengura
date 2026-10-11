@@ -100,14 +100,17 @@ def locate(doc, n, old):
 # but belong to the previous question (checked by eye)
 FORCE_MASK = {('2017', 14): {'9818192'}, ('2010', 12): {'20', '+', '10'}}
 
-MANUAL = {  # (year, num): (page index, clip) – picture spread over neighbouring questions
+MANUAL = {  # (year, num): (page index, clip[, masks]) – picture spread over neighbouring questions
     ('2003', 5): (4, (71, 308, 469, 439)),
+    # the grid's top row sits beside Q19's options (its centre is above the header)
+    ('2024', 20): (1, (424, 286, 830, 377), [(420, 270, 734, 292)]),
 }
 
 def crop(pdf, n, old, year=None):
     crop.last_masks = []
     if (year, n) in MANUAL:
-        pno, r = MANUAL[(year, n)]
+        pno, r, *mk = MANUAL[(year, n)]
+        crop.last_masks = [fitz.Rect(*m) for m in (mk[0] if mk else [])]
         return fitz.open(os.path.join(HERE, pdf))[pno], fitz.Rect(*r)
     doc = fitz.open(os.path.join(HERE, pdf))
     loc = locate(doc, n, old)
