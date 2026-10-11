@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry};
 `;
 let app;
 try {
@@ -1120,6 +1120,22 @@ section("contest results render");
   check("finishContest renders", ok && app.$app.innerHTML.includes("klaidų sąsiuvinį"));
   app.store.contests.pop(); app.store.mistakes = {};
   delete app.store.contestInProgress;
+}
+
+// ---------- 20. paper practice ----------
+section("paper practice");
+{
+  const yr = app.contestEligibleYears()[2];
+  app.openPrintPaper(yr);
+  const h = app.$app.innerHTML;
+  check("print view has 30 questions and an answer sheet", (h.match(/class="print-q"/g) || []).length === 30 && h.includes("Atsakymų lapas"));
+  check("key is print-only", /class="print-only"><h3>Atsakymai \(tėvams\)/.test(h));
+  app.openPaperEntry(yr);
+  const t = app.ARCHIVE.find(t => t.year === yr);
+  app.state.paperAnswers = Object.fromEntries(t.questions.slice(0, 10).map(q => [q.num, q.correct]));
+  const n0 = app.store.contests.length;
+  let ok = true; try { app.openPaperEntry(yr); } catch(e){ ok = false; }
+  check("paper entry renders", ok && app.$app.innerHTML.includes("Įvertinti (10 / 30)"));
 }
 
 // ---------- result ----------
