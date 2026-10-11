@@ -8106,6 +8106,7 @@ const ACHIEVEMENTS = [
   {id:"plan20",  icon:"🗓", title:"Dvidešimt dienų",    desc:"Užbaik 20 dienų treniruotes",    check:()=> Object.values(store.planDone||{}).filter(d=>d.bonus || (d.warmup&&d.core&&d.cooldown)).length >= 20},
   {id:"contest5",icon:"📚", title:"Penki kontroliniai",  desc:"Užbaik 5 kontrolinius",          check:()=> (store.contests||[]).length >= 5},
   {id:"clean60", icon:"🧼", title:"Švarus rezultatas",   desc:"≥ 60 % kontrolinyje, kurio nematei anksčiau", check:()=> (store.contests||[]).some(c => (c.practisedBefore||0) <= 2 && (c.scoreWithPenalty ?? c.points) >= 0.6 * (c.maxPoints||120))},
+  {id:"pace15",  icon:"⏱", title:"Greitas startas",     desc:"Kontrolinyje 3 t. bloką įveik per ≤ 15 min ir bent 8 iš 10 teisingai", check:()=> (store.contests || []).some(c => c.timeByBand && c.timeByBand[3] > 0 && c.timeByBand[3] <= 15 * 60000 && c.byBand && c.byBand[3] && c.byBand[3].ok >= 8)},
   {id:"paper1",  icon:"📄", title:"Kaip tikrame konkurse", desc:"Išspręsk kontrolinį ant popieriaus ir suvesk atsakymus", check:()=> (store.contests || []).some(c => c.paper)},
   {id:"fix10",   icon:"🩹", title:"Klaidų taisytojas",   desc:"Ištaisyk 10 savo klaidų (klaidų sąsiuvinis)", check:()=> Object.values(store.mistakes || {}).filter(m => m.fixedAt).length >= 10},
   {id:"fix50",   icon:"🛠", title:"Klaidų meistras",     desc:"Ištaisyk 50 savo klaidų",          check:()=> Object.values(store.mistakes || {}).filter(m => m.fixedAt).length >= 50},
