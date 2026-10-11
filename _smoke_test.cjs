@@ -943,6 +943,26 @@ section("official solution markers");
   check("archive solutions parse", bad === 0, `${bad} bad`);
 }
 
+// ---------- 10. archive shape after the 2026-10-11 audit ----------
+section("archive shape (audit)");
+{
+  for(const t of app.ARCHIVE){
+    if(t.year === "2006") continue;            // the Mažylis paper, out of scope
+    const nums = t.questions.map(q => q.num).join(",");
+    check(`${t.year} has Q1-30`, nums === Array.from({length: 30}, (_, i) => i + 1).join(","), nums);
+    const badBand = t.questions.filter(q => q.points !== (q.num <= 10 ? 3 : q.num <= 20 ? 4 : 5));
+    check(`${t.year} point bands`, badBand.length === 0, badBand.map(q => q.num).join(","));
+    const noKey = t.questions.filter(q => !q.correct);
+    check(`${t.year} fully keyed`, noKey.length === 0, noKey.map(q => q.num).join(","));
+  }
+  check("25 contest papers", app.contestEligibleYears().length === 25, app.contestEligibleYears().join(","));
+  // pdfplumber spacing damage must not come back into prompts
+  const damaged = [];
+  for(const t of app.ARCHIVE) for(const q of t.questions)
+    if(t.year !== "2006" && /pavei kslėl|už pildyt|į rašyt|iš kirpt/.test(q.prompt)) damaged.push(`${t.year}-${q.num}`);
+  check("no split-word prompts", damaged.length === 0, damaged.join(","));
+}
+
 // ---------- result ----------
 console.log("");
 if(failures){
