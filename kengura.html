@@ -6264,8 +6264,9 @@ function renderContestResults(){
       <h3>Klaidos (${wrongs.length})</h3>
       ${wrongs.map(q => {
         const chosen = state.contestAnswers[q.num];
+        const spent = Math.round(((state.contestTimes || {})[q.num] || 0) / 60000);
         return `<details>
-          <summary>${q.num}. (${q.points} t.) ${escapeHTML(q.prompt.slice(0, 100))}${q.prompt.length > 100 ? '…' : ''}</summary>
+          <summary>${q.num}. (${q.points} t.)${spent >= 2 ? ` <span class="pill ${spent >= 6 ? 'bad' : 'muted'}" title="Kiek laiko praleidai prie šio uždavinio">⏱ ${spent} min</span>` : ''} ${escapeHTML(q.prompt.slice(0, 100))}${q.prompt.length > 100 ? '…' : ''}</summary>
           <p><b>Tavo atsakymas:</b> ${chosen} (${escapeHTML(q.options[chosen]||'')})</p>
           <p><b>Teisingas:</b> ${q.correct} (${escapeHTML(q.options[q.correct]||'')})</p>
           ${q.misconceptions && q.misconceptions[chosen] ? `<p class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</p>` : ''}
