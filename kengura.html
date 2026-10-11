@@ -4473,7 +4473,9 @@ function renderArchiveCard(year, q){
       }
     }
     // A blind guess at "your mistake" is worse than none: skip picture options.
-    if(wrongLetter && wrongIdx >= 0 && !miscText && !q.imageOnlyOptions && (q.options || {})[wrongLetter]){
+    // Every question has a reviewed kid solution now; an AI "your mistake"
+    // note (written without the figure) is only asked for when there is none.
+    if(!q.solutionKid && wrongLetter && wrongIdx >= 0 && !miscText && !q.imageOnlyOptions && (q.options || {})[wrongLetter]){
       const mOpts = aiBuildOpts(year, q, "misconception", {chosenIdx: wrongIdx});
       aiMiscText = aiTextFor(mOpts);
       if(!aiMiscText && !state.aiBusy[aiStateKey(mOpts)] && !_aiEndpointDead){
