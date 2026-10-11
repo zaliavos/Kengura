@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML};
 `;
 let app;
 try {
@@ -1070,6 +1070,17 @@ section("kid answer line matches the option text");
 }
 
 // ---------- 16. contest: flag + withdraw ----------
+section("kid solution layout");
+{
+  let bad = [];
+  for(const t of app.ARCHIVE) for(const q of t.questions){
+    if(!q.solutionKid) continue;
+    const h = app.kidSolutionHTML(q.solutionKid);
+    if(!h.includes('class="kid-trick"') || !h.includes('class="kid-answer"') || /(t\. y\.|pvz\.)<\/p>/.test(h)) bad.push(`${t.year}-${q.num}`);
+  }
+  check("every kid solution: trick line, steps, answer line", bad.length === 0, bad.slice(0, 10).join(" "));
+}
+
 section("suggested contest date");
 check("third Thursday of March 2027", app.suggestedContestDate(new Date(2026, 9, 11)) === "2027-03-18", app.suggestedContestDate(new Date(2026, 9, 11)));
 check("too close -> next year", app.suggestedContestDate(new Date(2027, 2, 10)) === "2028-03-16", app.suggestedContestDate(new Date(2027, 2, 10)));

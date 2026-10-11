@@ -79,6 +79,9 @@
   .qprompt{font-size:17px;line-height:1.5;margin:8px 0 14px;white-space:pre-wrap}
   .figure{display:flex;justify-content:center;margin:10px 0 14px}
   .figure img{cursor:zoom-in}
+  .kid-sol p{margin:6px 0 0;line-height:1.5}
+  .kid-sol .kid-trick{font-weight:600}
+  .kid-sol .kid-answer{font-weight:600}
   .fig-zoom{position:fixed;inset:0;z-index:1000;background:rgba(20,16,10,.85);overflow:auto;-webkit-overflow-scrolling:touch;cursor:zoom-out}
   .fig-zoom img{display:block;margin:48px auto 24px;background:#fff;border-radius:6px;max-width:none}
   .fig-zoom .fig-zoom-close{position:fixed;top:8px;right:10px;font-size:22px;line-height:1;padding:8px 12px;border:0;border-radius:10px;background:#fff;color:#222;cursor:pointer}
@@ -9236,10 +9239,30 @@ function solutionPlain(q){
   if(!q.solution) return "";
   return parseOfficialSolution(q.solution).parts.map(p => p.text).join(" ");
 }
+/* A kid solution is one run of text ("Gudrybė: … . steps … Atsakymas: X) …").
+   On a phone that is a wall of small print: show the trick as its own line,
+   the steps in short paragraphs (~2 sentences) and the answer line last. */
+function kidSolutionHTML(t){
+  t = String(t || "").trim();
+  const ans = (t.match(/\sAtsakymas:\s*[A-E]\)[^]*$/) || [""])[0];
+  let body = ans ? t.slice(0, t.length - ans.length) : t;
+  const trick = (body.match(/^Gudrybė:\s*.+?[.!?](?=\s|$)/) || [""])[0];
+  body = body.slice(trick.length).trim();
+  // a sentence ends at . ! ? before a capital / digit – but not after "t. y." or "pvz."
+  const sentences = body.split(/(?<!\bt\. y\.|pvz\.)(?<=[.!?])\s+(?=[A-ZĄČĘĖĮŠŲŪŽ„(0-9])/u).filter(Boolean);
+  const paras = [];
+  for(const s of sentences){
+    const last = paras[paras.length - 1];
+    if(last != null && last.length + s.length < 220) paras[paras.length - 1] = last + " " + s; else paras.push(s);
+  }
+  return (trick ? `<p class="kid-trick">💡 ${escapeHTML(trick)}</p>` : "") +
+    paras.map(p => `<p class="kid-step">${escapeHTML(p)}</p>`).join("") +
+    (ans ? `<p class="kid-answer">✅ ${escapeHTML(ans.trim())}</p>` : "");
+}
 /* One place that decides what a solution box shows: the kid solution, else
    the official one (labelled), else AI text as the last resort. */
 function solutionBlockHTML(q, aiText, isAi){
-  if(q.solutionKid) return `<b>Sprendimas:</b> ${escapeHTML(q.solutionKid)}` +
+  if(q.solutionKid) return `<div class="kid-sol"><b>Sprendimas</b>${kidSolutionHTML(q.solutionKid)}</div>` +
     (q.solution ? `<details style="margin-top:8px"><summary style="cursor:pointer">Oficialus sprendimas${/(^|\s)\?\s/.test(q.solution) ? ' (yra greitas būdas)' : ''}</summary>${officialSolutionHTML(q.solution)}</details>` : '');
   if(q.solution) return officialSolutionHTML(q.solution);
   if(aiText) return `<b>Sprendimas:</b>${isAi ? ' <span class="pill" style="font-size:10px">AI</span>' : ''} ${escapeHTML(aiText)}`;
