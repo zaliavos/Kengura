@@ -174,16 +174,26 @@ def crop(pdf, n, old, year=None):
     lo, hi = hr.y0 - 1, (nxt.y0 - 1) if nxt else clip.y1 + 1
     own = [c + (-8, -8, 8, 8) for c in comps if lo - 2 <= (c.y0 + c.y1) / 2 < hi + 2]
     masks = []
+    # a text line with >= 3 words outside the band is a neighbour's sentence or
+    # options row, never a drawing label – it goes even when it touches a drawing
+    from collections import Counter
+    out_lines = Counter(round(w[3] / 3) for w in page.get_text('words')
+                        if clip.intersects(fitz.Rect(w[:4])) and (w[3] <= lo + 1 or w[1] >= hi))
     for w in page.get_text('words'):
         r = fitz.Rect(w[:4])
         if not clip.intersects(r): continue
         outside = r.y1 <= lo + 1 or r.y0 >= hi
+        if outside and out_lines[round(w[3] / 3)] >= 3: masks.append(r + (-1, -1, 1, 1)); continue
         heading = sect_y is not None and abs(w[3] - sect_y) < 2.5   # same baseline as the section heading
         forced = heading or (outside and w[4] in FORCE_MASK.get((year, n), ()))
         if forced or (outside and not any(o.intersects(r) for o in own)): masks.append(r + (-1, -1, 1, 1))
+    # our own words (inside the band) are never painted over – a neighbour's
+    # drawing box or a rotated page banner can overlap them (2017-3, 2021-11)
+    mine = [fitz.Rect(w[:4]) for w in page.get_text('words')
+            if clip.intersects(fitz.Rect(w[:4])) and lo + 1 < (w[1] + w[3]) / 2 < hi]
     for c in comps:
         mid = (c.y0 + c.y1) / 2
-        if clip.intersects(c) and not (lo - 2 <= mid < hi + 2) and not any(o.contains(c) for o in own):
+        if clip.intersects(c) and not (lo - 2 <= mid < hi + 2) and not any(o.contains(c) for o in own)                 and not any(c.intersects(r) for r in mine):
             masks.append(c + (-1, -1, 1, 1))
     crop.last_masks = masks
     return page, clip

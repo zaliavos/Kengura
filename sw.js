@@ -3,7 +3,7 @@
    the next load, offline still opens the app. Figures (png): cache-first,
    filled on demand → a paper the kid has opened once works offline. */
 const SHELL = "kengura-shell-v2";
-const FIGS = "kengura-figs-v11";   // bump whenever a figure PNG is replaced (cache-first!)
+const FIGS = "kengura-figs-v12";   // bump whenever a figure PNG is replaced (cache-first!)
 const SHELL_URLS = ["./", "kengura.html", "kengura-archive.js", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", e => {
