@@ -102,6 +102,12 @@
   .opt.image-opt .opt-figure{width:100%;display:flex;justify-content:center;align-items:center;min-height:80px}
   .opt.image-opt .opt-figure svg{max-width:100%;height:auto;max-height:120px}
   .opt.selected{border-color:var(--accent);background:var(--accent-soft)}
+  .opt-wrap{display:flex;gap:6px;align-items:stretch}
+  .opt-wrap .opt{flex:1 1 auto;min-width:0}
+  .opt-x{flex:0 0 40px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--muted);font:inherit;font-size:15px;cursor:pointer}
+  .opt-x[aria-pressed="true"]{color:var(--bad);border-color:var(--bad)}
+  .opt.struck{opacity:.45}
+  .opt.struck span:not(.letter){text-decoration:line-through}
   .opt.correct{border-color:var(--good);background:var(--good-soft)}
   .opt.correct .letter{background:var(--good);color:#fff}
   .opt.correct::after{content:"\2713";font-weight:700;color:var(--good);margin-left:auto;font-size:18px;line-height:1} /* ✓ */
@@ -5749,6 +5755,7 @@ function persistContestProgress(){
     year: state.contestYear,
     answers: state.contestAnswers,
     flags: state.contestFlags || {},
+    struck: state.contestStruck || {},
     times: state.contestTimes || {},
     current: state.contestCurrent,
     startedAt: state.contestStartedAt,
@@ -5789,6 +5796,7 @@ function renderContestIntro(year){
         <li><b>75 minutės</b> – laikrodis nesustoja</li>
         <li>Už klaidą <b>−25 %</b> to uždavinio taškų, už praleistą – 0 (be baudos)</li>
         <li>Jokių užuominų; uždavinius galima praleisti ir prie jų grįžti (🚩 – pažymėti abejotiną)</li>
+        <li>✕ šalia varianto jį išbraukia, kaip ant popieriaus: atmetus du ar tris, spėti jau verta</li>
         <li><b>Tempas:</b> 3 t. uždaviniai – iki ~15 min, 4 t. – iki ~40 min, likęs laikas – 5 t.</li>
       </ul>
       <p><b>Ar turi dabar ramias 75 minutes?</b> Jei ne – geriau perkelti, negu nutraukti pusiaukelėje.</p>
@@ -5919,6 +5927,7 @@ function openContest(year){
   prefetchFigures(qs);   // the whole paper's pictures, in case the connection drops mid-test
   state.contestAnswers = {};   // { qnum: chosenLetter }
   state.contestFlags = {};     // { qnum: true } – "abejoju, grįšiu" marks
+  state.contestStruck = {};    // { qnum: {letter: true} } – options crossed out
   state.contestTimes = {};     // { qnum: ms spent looking at it }
   state._ctShown = null;
   state.contestCurrent = 0;
@@ -5944,6 +5953,7 @@ function resumeContest(){
   state.contestQuestions = qs;
   state.contestAnswers = saved.answers || {};
   state.contestFlags = saved.flags || {};
+  state.contestStruck = saved.struck || {};
   state.contestTimes = saved.times || {};
   state._ctShown = null;
   state.contestCurrent = Math.min(saved.current || 0, qs.length - 1);
@@ -5981,11 +5991,14 @@ function renderContest(){
   const optionsHtml = ["A","B","C","D","E"].map(letter => {
     const v = q.options[letter]; if(v == null) return "";
     const chosen = state.contestAnswers[q.num];
-    const cls = "opt" + (chosen === letter ? " selected" : "");
-    return `<button type="button" class="${cls}" data-letter="${letter}">
+    const struck = !!((state.contestStruck || {})[q.num] || {})[letter];
+    const cls = "opt" + (chosen === letter ? " selected" : "") + (struck ? " struck" : "");
+    // ✕ = cross the option out, as on the paper: eliminating two or three
+    // options is what makes a guess worth its −¼ risk
+    return `<div class="opt-wrap"><button type="button" class="${cls}" data-letter="${letter}">
       <span class="letter">${letter}</span>
       <span>${escapeHTML(v)}</span>
-    </button>`;
+    </button><button type="button" class="opt-x" data-strike="${letter}" aria-pressed="${struck}" title="${struck ? 'Grąžinti' : 'Išbraukti'} ${letter} variantą" aria-label="${struck ? 'Grąžinti' : 'Išbraukti'} ${letter} variantą">✕</button></div>`;
   }).join("");
   const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
 
@@ -6039,6 +6052,14 @@ function renderContest(){
   `;
 
   document.getElementById("contestOptions").addEventListener("click", e => {
+    const x = e.target.closest("[data-strike]");
+    if(x){
+      const st = state.contestStruck = state.contestStruck || {};
+      const m = st[q.num] = st[q.num] || {};
+      if(m[x.dataset.strike]) delete m[x.dataset.strike]; else m[x.dataset.strike] = true;
+      if(!Object.keys(m).length) delete st[q.num];
+      persistContestProgress(); renderContest(); return;
+    }
     const o = e.target.closest(".opt"); if(!o) return;
     // tapping the chosen answer again withdraws it: under −25 % a blank can
     // be the better choice, exactly as erasing on the real answer sheet

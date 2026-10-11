@@ -1078,6 +1078,11 @@ section("contest flag / withdraw");
   app.renderContest();
   check("flag persisted with progress", (() => { app.persistContestProgress(); return app.store.contestInProgress.flags[q.num] === true; })());
   check("contest html shows the flag", app.$app.innerHTML.includes("contest-pip") && app.$app.innerHTML.includes("flagged"));
+  st.contestStruck = { [q.num]: { C: true } };
+  app.renderContest();
+  check("crossed-out option rendered", /class="opt struck" data-letter="C"/.test(app.$app.innerHTML) && app.$app.innerHTML.includes('data-strike="C" aria-pressed="true"'));
+  check("crossed-out options persisted", (() => { app.persistContestProgress(); return app.store.contestInProgress.struck[q.num].C === true; })());
+  st.contestStruck = {};
   delete app.store.contestInProgress; st.contestFlags = {}; st.contestAnswers = {};
 }
 
