@@ -92,7 +92,8 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         askConfidenceNow, STAR_TIME_VIEWS, mechTargetFor, noteMechAttempt, loadStore, LS_KEY, masteredBandOf, mechTopBand, trackCardHTML, planTaperDays, weekStripHTML, openPlaylist, isTrainingDay, creditContestActivity,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
-        parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution};
+        parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
+        reconcileMasteryWithArchive, store, mechTopBand};
 `;
 let app;
 try {
@@ -976,6 +977,21 @@ section("archive shape (audit)");
   for(const t of app.ARCHIVE) for(const q of t.questions)
     if(t.year !== "2006" && /pavei kslėl|už pildyt|į rašyt|iš kirpt/.test(q.prompt)) damaged.push(`${t.year}-${q.num}`);
   check("no split-word prompts", damaged.length === 0, damaged.join(","));
+}
+
+// ---------- 11. mastery earned on the old point bands ----------
+section("mastery vs re-banded archive");
+{
+  const st = app.store;
+  const mech = "truth-tellers";
+  st.masteredMech[mech] = Date.now(); st.masteredBand[mech] = 4;          // passed 4, top is 5
+  st.masteredMech["casework"] = Date.now(); st.masteredBand["casework"] = app.mechTopBand("casework");
+  st.masteredMech["weighing"] = Date.now(); delete st.masteredBand["weighing"];   // legacy save: no band info
+  const n = app.reconcileMasteryWithArchive();
+  check("band-4 pass is no longer full mastery", !st.masteredMech[mech] && st.masteredBand[mech] === 4, String(n));
+  check("top-band pass stays mastered", !!st.masteredMech["casework"]);
+  check("legacy mastery without band kept", !!st.masteredMech["weighing"]);
+  delete st.masteredMech.casework; delete st.masteredBand.casework; delete st.masteredMech.weighing; delete st.masteredBand[mech];
 }
 
 // ---------- result ----------

@@ -8439,6 +8439,21 @@ startStarTimeHeartbeat();
 if(typeof navigator !== "undefined" && "serviceWorker" in navigator && typeof location !== "undefined" && location.protocol !== "file:"){
   try { navigator.serviceWorker.register("sw.js").catch(()=>{}); } catch(_){}
 }
+/* The 2026-10-11 archive audit moved 269 questions to their real point band,
+   so a trick marked fully mastered at band 3 or 4 may now have 5-pointers
+   to pass. Keep the band that was passed, drop the "fully mastered" mark
+   (the track then shows it half-done and the plan comes back for the 5). */
+function reconcileMasteryWithArchive(){
+  let changed = 0;
+  for(const m of Object.keys(store.masteredMech || {})){
+    const passed = (store.masteredBand || {})[m];
+    const top = mechTopBand(m);
+    if(passed && top && passed < top){ delete store.masteredMech[m]; changed++; }
+  }
+  if(changed) saveStore(store);
+  return changed;
+}
+reconcileMasteryWithArchive();
 checkAchievements();   // retroactively award badges already earned by past activity
 
 // keyboard: 1-5 → answer, Enter → submit/next
