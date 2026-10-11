@@ -6258,7 +6258,15 @@ function renderParent(){
 
     ${(store.contests || []).length ? `<section class="card">
       <h3>Kontroliniai (paskutiniai 5)</h3>
-      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${fmtPts(c.scoreWithPenalty ?? c.points)} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.practisedBefore != null ? `${c.practisedBefore}/30 matyta anksčiau` : ''}</span></div>`).join('')}
+      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${fmtPts(c.scoreWithPenalty ?? c.points)} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.byBand ? [3,4,5].map(b => c.byBand[b] && c.byBand[b].total ? `${b} t.: ${c.byBand[b].ok}/${c.byBand[b].total}` : '').filter(Boolean).join(' · ') : ''}${c.practisedBefore != null ? ` · ${c.practisedBefore}/30 matyta` : ''}${c.paper ? ' · 📄' : ''}</span></div>`).join('')}
+      ${(() => {
+        const last = store.contests.slice(-3).filter(c => c.byBand);
+        if(last.length < 2) return '';
+        const pct = b => { let ok = 0, t = 0; for(const c of last){ ok += (c.byBand[b] || {}).ok || 0; t += (c.byBand[b] || {}).total || 0; } return t ? Math.round(100 * ok / t) : null; };
+        const parts = [3,4,5].map(b => ({b, p: pct(b)})).filter(x => x.p != null);
+        const weakest = parts.slice().sort((a, b) => a.p - b.p)[0];
+        return `<p style="margin:8px 0 0">Paskutinių ${last.length} kontrolinių tikslumas: ${parts.map(x => `<b>${x.b} t.</b> ${x.p} %`).join(' · ')}${weakest && weakest.b < 5 && weakest.p < 70 ? ` – <span style="color:var(--bad)">taškai labiausiai byra ${weakest.b} t. bloke; jie lengvesni, todėl čia greičiausias pelnas.</span>` : ''}</p>`;
+      })()}
       <p class="help-bar">„Matyta anksčiau“ – kiek to kontrolinio uždavinių vaikas jau buvo sprendęs treniruotėse. Kuo mažiau, tuo sąžiningesnis rezultatas; naujausi metai tam ir rezervuoti.</p>
     </section>` : ''}
 
