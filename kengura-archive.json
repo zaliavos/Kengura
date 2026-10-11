@@ -4359,7 +4359,7 @@
       "E": "yra",
       "A": "F",
       "B": "1 1",
-      "D": "m2"
+      "D": "m²"
      },
      "points": 3,
      "patterns": [
@@ -6508,7 +6508,7 @@
       "paveikslelis"
      ],
      "correct": "C",
-     "solution": "48 cm2 ! Mažųjų neužtušuotų kvadratų kraštinė – MC = (DC −NM): 2 = = (10 −6): 2 = 2 cm. Todėl vieno kvadratėlio plotas 4 cm2, o visų keturių – 4 · 4 = 16 cm2. Sustūmę neužtušuotus trikampius į centrą, gausime kvadratą, kurio kraštinė lygi NM = 6 cm. Jo plotas 62 = 36 cm2, taigi neužtušuotas plotas lygus 16 + 36 = 52 cm2. Klausiama užtušuotos dalies: 100 − 52 = 48 cm2. Teisingas atsakymas C.",
+     "solution": "48 cm² ! Mažųjų neužtušuotų kvadratų kraštinė – MC = (DC −NM): 2 = = (10 −6): 2 = 2 cm. Todėl vieno kvadratėlio plotas 4 cm², o visų keturių – 4 · 4 = 16 cm². Sustūmę neužtušuotus trikampius į centrą, gausime kvadratą, kurio kraštinė lygi NM = 6 cm. Jo plotas 62 = 36 cm², taigi neužtušuotas plotas lygus 16 + 36 = 52 cm². Klausiama užtušuotos dalies: 100 − 52 = 48 cm². Teisingas atsakymas C.",
      "figure": "figures/2009-q24.png",
      "mechanic": "area-decomp",
      "solutionKid": "Gudrybė: sustumk keturis baltus trikampius į vieną kvadratą ir skaičiuok baltą plotą. Kampuose – keturi vienodi balti kvadratėliai. Viršutinė kraštinė DC = 10 cm, iš jos NM = 6 cm, likę 4 cm atitenka dviem kvadratėliams, taigi jų kraštinė 2 cm, plotas 4 cm², keturių – 16 cm². Kiekvieno balto trikampio ilgiausia kraštinė lygi 6 cm. Keturis tokius trikampius sudėjus stačiais kampais į vidurį, gaunamas kvadratas 6 × 6 = 36 cm². Baltas plotas 16 + 36 = 52 cm², o užtušuotas 100 − 52 = 48 cm². Patikrink: vienas trikampis 6 · 3 : 2 = 9 cm², keturi – 36 cm². Atsakymas: C) 48 cm².",
@@ -7828,7 +7828,7 @@
       "geometrija"
      ],
      "correct": "D",
-     "solution": "56 ! Kadangi stačiakampio matmenys yra 30 × 28, o dviejų stačiųjų trikampių ilgesniųjų statinių ilgių suma yra lygi stačiakampio pločiui, arba 28, tai ilgesnysis stačiojo trikampio statinis yra 28: 2 = = 14 cm. Iš brėžinio matome, kad du stačiojo trikampio ilgesnieji statiniai (o tai vėl 28) plius dar trumpesnysis statinis yra jau 30, vadinasi, trumpesnysis statinis lygus 30−28 = 2. Todėl visas paryškintas plotas yra 4 · 14 · 2 · 1 = 56 cm2, ir teisingas yra atsakymas D. !! Perstumiame du trikampius taip, kaip parodyta paveikslėlyje. Trikampių dengiama sritis yra stačiakampis, kurio plotas lygus plotų 28·30 ir 4·(14·14) skirtumui. Tas skaičius yra 28·30−28·28 = = 2 · 28 = 56, o tai atsakymas D. 30 cm 28 cm ¥ ¥ ¥ ¥",
+     "solution": "56 ! Kadangi stačiakampio matmenys yra 30 × 28, o dviejų stačiųjų trikampių ilgesniųjų statinių ilgių suma yra lygi stačiakampio pločiui, arba 28, tai ilgesnysis stačiojo trikampio statinis yra 28: 2 = = 14 cm. Iš brėžinio matome, kad du stačiojo trikampio ilgesnieji statiniai (o tai vėl 28) plius dar trumpesnysis statinis yra jau 30, vadinasi, trumpesnysis statinis lygus 30−28 = 2. Todėl visas paryškintas plotas yra 4 · 14 · 2 · 1 = 56 cm², ir teisingas yra atsakymas D. !! Perstumiame du trikampius taip, kaip parodyta paveikslėlyje. Trikampių dengiama sritis yra stačiakampis, kurio plotas lygus plotų 28·30 ir 4·(14·14) skirtumui. Tas skaičius yra 28·30−28·28 = = 2 · 28 = 56, o tai atsakymas D. 30 cm 28 cm ¥ ¥ ¥ ¥",
      "figure": "figures/2011-q23.png",
      "mechanic": "area-compute",
      "solutionKid": "Gudrybė: iš brėžinio išsiaiškink trikampių statinių ilgius – du ilgieji statiniai sudaro visą kraštinę. Stačiakampį dalija dvi vidurio linijos. Du statieji trikampiai, einantys aukštyn ir žemyn, kartu užima visą 28 cm aukštį, todėl ilgasis statinis 28 : 2 = 14 cm. Horizontalioje linijoje telpa du ilgieji statiniai ir vienas trumpasis: 14 + 14 + trumpasis = 30, todėl trumpasis statinis 2 cm. Vieno trikampio plotas 14 · 2 : 2 = 14 cm², keturių – 4 · 14 = 56 cm². Patikrink: 14 + 2 + 14 = 30 – tiksliai stačiakampio ilgis. Atsakymas: D) 56."
@@ -8567,7 +8567,7 @@
       "skaiciavimas"
      ],
      "correct": "B",
-     "solution": "5 ! Pirmiausia nurodysime pjaustymą, kai gaunami tik 5 kvadratai. Dabar reikėtų paaiškinti, kad su mažiau kvadratėlių „neišeina“. Liko įrodyti, kad į mažiau kvadratėlių su sveikomis kraštinėmis tas 6 × 7 stačiakampis nebesukarpomas. Nagrinėkime visus galimus karpinius kvadratėliais pagal didžiausio ilgio kraštinę. Pastebėkime, kad bet kurių dviejų iškerpamųjų kvadratėlių kraštinių ilgių suma negali būti didesnė kaip 7, nes kitaip jie tame stačiakampyje „neprasilenks“. Nagrinėkime 4 atvejus. I. Iškerpamo didžiausio kvadrato kraštinė yra 6. Tada likę kvadratėliai tegali būti vienetiniai, ir jų turi būti daug: 6 · 7 = 42 = 62 + 12 + 12 + 12 + 12 + 12 + 12. Šiuo atveju pradinis stačiakampis 6 × 7 supjaustomas į 7 kvadratėlius. II. Iškerpamojo didžiausio kvadratėlio kraštinė yra 5. Tada kitų mažesnių kvadratėlių kraštinių ilgiai neviršija 2. 42 = 52 + m2 + n2 + · · ·. Vadinasi, 17 = m2 + n2 + · · ·, čia m, n... neviršija 2. Tačiau tada 4 kvadratėlių nepakanka, nes jų bendras plotas bus daugiausiai 4 · 4 = 16. III. Iškerpamojo didžiausio kvadratėlio kraštinė yra 4. Tada 42 = 42 + m2 + n2 + · · ·, čia m, n,... neviršija 3, arba 26 = m2 + n2 + · · ·. Vėl 3 dėmenų nepakaks, nes jei jie visi po 3, tai 26 ̸= 27 = 32 + 32 + 32, o jei yra mažesnių, tai 26 nesurinksime, nes tada surenkame daugiausiai 32 + 32 + 22 = 9 + 9 + 4 = 22, o tai per mažai. IV. Jei didžiausia kraštinė 3 arba mažesnė, tai su 5 tokiais surenkame 32 + 32 + 32 + 32 + 32 = 45 > 42, o jei bent vienas mažesnis, tai tada jau tik daugiausiai 32 + 32 + 32 + 32 + 22 = 40 < 42, o tai jau mažai. Teisingas atsakymas B.",
+     "solution": "5 ! Pirmiausia nurodysime pjaustymą, kai gaunami tik 5 kvadratai. Dabar reikėtų paaiškinti, kad su mažiau kvadratėlių „neišeina“. Liko įrodyti, kad į mažiau kvadratėlių su sveikomis kraštinėmis tas 6 × 7 stačiakampis nebesukarpomas. Nagrinėkime visus galimus karpinius kvadratėliais pagal didžiausio ilgio kraštinę. Pastebėkime, kad bet kurių dviejų iškerpamųjų kvadratėlių kraštinių ilgių suma negali būti didesnė kaip 7, nes kitaip jie tame stačiakampyje „neprasilenks“. Nagrinėkime 4 atvejus. I. Iškerpamo didžiausio kvadrato kraštinė yra 6. Tada likę kvadratėliai tegali būti vienetiniai, ir jų turi būti daug: 6 · 7 = 42 = 62 + 12 + 12 + 12 + 12 + 12 + 12. Šiuo atveju pradinis stačiakampis 6 × 7 supjaustomas į 7 kvadratėlius. II. Iškerpamojo didžiausio kvadratėlio kraštinė yra 5. Tada kitų mažesnių kvadratėlių kraštinių ilgiai neviršija 2. 42 = 52 + m² + n2 + · · ·. Vadinasi, 17 = m² + n2 + · · ·, čia m, n... neviršija 2. Tačiau tada 4 kvadratėlių nepakanka, nes jų bendras plotas bus daugiausiai 4 · 4 = 16. III. Iškerpamojo didžiausio kvadratėlio kraštinė yra 4. Tada 42 = 42 + m² + n2 + · · ·, čia m, n,... neviršija 3, arba 26 = m² + n2 + · · ·. Vėl 3 dėmenų nepakaks, nes jei jie visi po 3, tai 26 ̸= 27 = 32 + 32 + 32, o jei yra mažesnių, tai 26 nesurinksime, nes tada surenkame daugiausiai 32 + 32 + 22 = 9 + 9 + 4 = 22, o tai per mažai. IV. Jei didžiausia kraštinė 3 arba mažesnė, tai su 5 tokiais surenkame 32 + 32 + 32 + 32 + 32 = 45 > 42, o jei bent vienas mažesnis, tai tada jau tik daugiausiai 32 + 32 + 32 + 32 + 22 = 40 < 42, o tai jau mažai. Teisingas atsakymas B.",
      "figure": "figures/2012-q26.png",
      "mechanic": "casework",
      "solutionKid": "Gudrybė: parodyk, kad 5 kvadratų užtenka, o tada patikrink, kad 4 negali užtekti. Pavyzdys (plotis 7, aukštis 6): kairėje apačioje 4 × 4, virš jo du 2 × 2, dešinėje 3 pločio juostoje du 3 × 3. Plotai 16 + 4 + 4 + 9 + 9 = 42. Ar užtektų 4? Jei didžiausias 6 × 6, lieka juosta 6 × 1 – dar 6 vienetiniai. Jei 5 × 5, kiti ne didesni nei 2 × 2, o trys tokie duoda daugiausia 12 < 17. Jei 4 × 4, kiti ne didesni nei 3 × 3, o trys kvadratai duoda 27 arba ne daugiau 22 – niekada 26. Jei visi ne didesni nei 3 × 3, keturi duoda daugiausia 36 < 42. Patikrink: 4 neužtenka, o 5 – pavyzdys yra. Atsakymas: B) 5.",
@@ -8616,7 +8616,7 @@
       "paveikslelis"
      ],
      "correct": "D",
-     "solution": "16 cm2 ! Jei pradinio kvadrato plotas 64 cm2, tai jo kraštinė lygi 8 cm. Lenkiant pirmą kartą, nuo pradinio kvadrato yra atlenkiamas status lygiašonis trikampis, kurio statinis yra lygus pusei pradinio kvadrato kraštinės ilgio. Vadinasi, ilgesnioji patamsinto stačiakampio kraštinė yra lygi irgi pusei to pradinio kvadrato kraštinės, arba 1 2 · 8 = 4 (cm). Antrą kartą atlenkiant iš kitos pusės, yra perlenkiamas pusiau kvadratas, kurio įstrižainė yra lygi 4 pradinio kvadrato įstrižainės. Vadinasi, ir to perlenkiamo pusiau kvadrato kraštinės ilgis yra 3 pradinio kvadrato kraštinės ilgio. SPRENDIMAI Todėl antroji trumpesnioji viršuje ir apačioje esančio patamsinto stačiakampio kraštinė yra lygi 1 pradinio kvadrato kraštinės ilgio, o tai 1 4 · 8 = 2 (cm). Susidaro 2 stačiakampiukai – vienas viršuje, kitas apačioje, su kraštinėmis 2 cm ir 4 cm, taigi jų bendras plotas yra 2 · 2 · 4 = 16 (cm2). Teisingas atsakymas D.",
+     "solution": "16 cm² ! Jei pradinio kvadrato plotas 64 cm², tai jo kraštinė lygi 8 cm. Lenkiant pirmą kartą, nuo pradinio kvadrato yra atlenkiamas status lygiašonis trikampis, kurio statinis yra lygus pusei pradinio kvadrato kraštinės ilgio. Vadinasi, ilgesnioji patamsinto stačiakampio kraštinė yra lygi irgi pusei to pradinio kvadrato kraštinės, arba 1 2 · 8 = 4 (cm). Antrą kartą atlenkiant iš kitos pusės, yra perlenkiamas pusiau kvadratas, kurio įstrižainė yra lygi 4 pradinio kvadrato įstrižainės. Vadinasi, ir to perlenkiamo pusiau kvadrato kraštinės ilgis yra 3 pradinio kvadrato kraštinės ilgio. SPRENDIMAI Todėl antroji trumpesnioji viršuje ir apačioje esančio patamsinto stačiakampio kraštinė yra lygi 1 pradinio kvadrato kraštinės ilgio, o tai 1 4 · 8 = 2 (cm). Susidaro 2 stačiakampiukai – vienas viršuje, kitas apačioje, su kraštinėmis 2 cm ir 4 cm, taigi jų bendras plotas yra 2 · 2 · 4 = 16 (cm²). Teisingas atsakymas D.",
      "figure": "figures/2012-q28.png",
      "mechanic": "geometry-misc",
      "solutionKid": "Gudrybė: išsiaiškink, kur eina lenkimo linijos – tada patamsinti stačiakampiai pasirodo esą 4 cm × 2 cm. Kvadrato plotas 64 cm², tad kraštinė 8 cm. Pirmasis lenkimas eina per dviejų kraštinių vidurio taškus: kairysis kampas nukeliauja į centrą, kraštinėse nuo jo nulenkiama po 4 cm. Antrasis lenkimas eina 2 cm atstumu nuo viršutinio ir apatinio kampų. Viršuje lieka nepadengtas stačiakampis: ilgoji kraštinė – pusė kvadrato kraštinės (4 cm), trumpoji – 2 cm; apačioje lygiai toks pat. Patikrink: 4 · 2 = 8 cm², du tokie – 16 cm², tai ketvirtadalis lapo. Atsakymas: D) 16 cm²."
@@ -9904,11 +9904,11 @@
      "num": 25,
      "prompt": "Trys vienodi stačiakampiai yra kvadrate, kurio kraštinės ilgis 24 cm (žr. paveikslėlį). Kam lygus vieno stačiakampio plotas?",
      "options": {
-      "A": "24 cm2",
-      "B": "32 cm2",
-      "C": "36 cm2",
-      "D": "48 cm2",
-      "E": "72 cm2"
+      "A": "24 cm²",
+      "B": "32 cm²",
+      "C": "36 cm²",
+      "D": "48 cm²",
+      "E": "72 cm²"
      },
      "points": 5,
      "patterns": [
@@ -9918,7 +9918,7 @@
      "mechanic": "area-compute",
      "figure": "figures/2014-q25.png",
      "correct": "E",
-     "solution": "72 cm2 ! Įsižiūrėję į brėžinį, nesunkiai pastebėsite, kad ilgoji mažojo stačiakampio kraštinė yra lygi pusei kvadrato kraštinės, o trumpoji yra lygi pusei pusės, t.y. ketvirtadaliui (brėžinyje vienodu skaičiumi brūkšnelių pažymėtos vienodo ilgio atkarpos): Lieka tik sudauginti: 6 · 12 = 72.",
+     "solution": "72 cm² ! Įsižiūrėję į brėžinį, nesunkiai pastebėsite, kad ilgoji mažojo stačiakampio kraštinė yra lygi pusei kvadrato kraštinės, o trumpoji yra lygi pusei pusės, t.y. ketvirtadaliui (brėžinyje vienodu skaičiumi brūkšnelių pažymėtos vienodo ilgio atkarpos): Lieka tik sudauginti: 6 · 12 = 72.",
      "solutionKid": "Gudrybė: iš paveikslėlio surask, kokią kvadrato kraštinės dalį sudaro stačiakampio ilgoji ir trumpoji kraštinė. Dešinėje stovi du stačiakampiai: vienas nuo viršaus iki vidurio, kitas nuo apačios iki vidurio, tad ilgoji kraštinė – pusė kvadrato, 24 : 2 = 12 cm. Apačioje per visą 24 cm plotį telpa gulinčio ilgoji kraštinė ir dviejų stovinčių trumposios: 24 − 12 = 12 cm, tad viena trumpoji 6 cm. Plotas 12 · 6 = 72 cm². Patikrink: gulinčio aukštis 6 cm – ketvirtadalis kvadrato kraštinės, kaip ir paveikslėlyje. Atsakymas: E) 72 cm²."
     },
     {
@@ -10795,11 +10795,11 @@
      "num": 5,
      "prompt": "Kotryna nubraižė kvadratą, kurio kraštinės ilgis yra 10 cm. Sujungusi kvadrato kraštinių vidurio taškus, ji gavo mažesnį kvadratą. Koks mažesniojo kvadrato plotas?",
      "options": {
-      "A": "10 cm2",
-      "B": "20 cm2",
-      "C": "25 cm2",
-      "D": "40 cm2",
-      "E": "50 cm2"
+      "A": "10 cm²",
+      "B": "20 cm²",
+      "C": "25 cm²",
+      "D": "40 cm²",
+      "E": "50 cm²"
      },
      "points": 3,
      "patterns": [
@@ -11793,11 +11793,11 @@
      "num": 19,
      "prompt": "Trys kvadratai, kurių kraštinių ilgiai yra atitinkamai 2 cm, 4 cm ir 6 cm, nubraižyti taip, kad mažiausiojo kvadrato centras sutampa su viduriniojo kvadrato viršūne, o viduriniojo kvadrato centras – su didžiausiojo kvadrato viršūne (žr. pav.). Koks gautos figūros plotas?",
      "options": {
-      "A": "32 cm2",
-      "B": "51 cm2",
-      "C": "27 cm2",
-      "D": "16 cm2",
-      "E": "6 cm2"
+      "A": "32 cm²",
+      "B": "51 cm²",
+      "C": "27 cm²",
+      "D": "16 cm²",
+      "E": "6 cm²"
      },
      "points": 4,
      "patterns": [
@@ -11807,7 +11807,7 @@
      "figure": "figures/2017-q19.png",
      "correct": "B",
      "solution": "51 cm² ! Trijų kvadratų bendras plotas yra 2² + 4² + 6² = 56 cm². Mažiausias ir vidurinis kvadratai persidengia ketvirtadaliu mažiausiojo kvadrato ploto – 1 cm², o vidurinis ir didžiausias kvadratai persidengia ketvirtadaliu viduriniojo kvadrato ploto – 4 cm². Vadinasi, figūros plotas yra 56 − 1 − 4 = 51 cm².",
-     "solutionKid": "Gudrybė: sudėk visų trijų kvadratų plotus ir atimk persidengimus – kvadratas, kurio centras yra kito kvadrato viršūnėje, persidengia savo ketvirčiu. Plotai: 2 · 2 = 4, 4 · 4 = 16, 6 · 6 = 36, kartu 56 cm². Mažiausiojo ketvirtis: 4 : 4 = 1 cm². Viduriniojo ketvirtis: 16 : 4 = 4 cm². Figūros plotas: 56 − 1 − 4 = 51 cm². Patikrink: mažiausias kvadratas didžiojo neliečia, todėl kitų persidengimų nėra. Atsakymas: B) 51 cm2."
+     "solutionKid": "Gudrybė: sudėk visų trijų kvadratų plotus ir atimk persidengimus – kvadratas, kurio centras yra kito kvadrato viršūnėje, persidengia savo ketvirčiu. Plotai: 2 · 2 = 4, 4 · 4 = 16, 6 · 6 = 36, kartu 56 cm². Mažiausiojo ketvirtis: 4 : 4 = 1 cm². Viduriniojo ketvirtis: 16 : 4 = 4 cm². Figūros plotas: 56 − 1 − 4 = 51 cm². Patikrink: mažiausias kvadratas didžiojo neliečia, todėl kitų persidengimų nėra. Atsakymas: B) 51 cm²."
     },
     {
      "num": 20,
@@ -16379,11 +16379,11 @@
      "num": 13,
      "prompt": "Saulė iš keleto lygių stačiakampių sudėliojo figūrą (žr. pav.). Figūros pagrindo ilgis yra 45 cm, o visos figūros aukštis yra 30 cm. Koks yra vieno stačiakampio plotas?",
      "options": {
-      "A": "24 cm2",
-      "B": "27 cm2",
-      "C": "30 cm2",
-      "D": "33 cm2",
-      "E": "36 cm2"
+      "A": "24 cm²",
+      "B": "27 cm²",
+      "C": "30 cm²",
+      "D": "33 cm²",
+      "E": "36 cm²"
      },
      "points": 4,
      "patterns": [
@@ -16588,11 +16588,11 @@
      "num": 22,
      "prompt": "Koks yra paveikslėlyje pavaizduoto pilkojo stačiakampio plotas?",
      "options": {
-      "A": "12 cm2",
-      "B": "14 cm2",
-      "C": "16 cm2",
-      "D": "18 cm2",
-      "E": "20 cm2"
+      "A": "12 cm²",
+      "B": "14 cm²",
+      "C": "16 cm²",
+      "D": "18 cm²",
+      "E": "20 cm²"
      },
      "points": 5,
      "patterns": [
@@ -17251,11 +17251,11 @@
      "num": 22,
      "prompt": "Pavaizduoto kvadrato kraštinės ilgis lygus 10 cm. Vertikalioji atkarpa dalija kvadratą į du lygius stačiakampius. Koks pilkosios figūros plotas?",
      "options": {
-      "A": "12,5 cm2",
-      "B": "25 cm2",
-      "C": "30 cm2",
-      "D": "40 cm2",
-      "E": "50 cm2"
+      "A": "12,5 cm²",
+      "B": "25 cm²",
+      "C": "30 cm²",
+      "D": "40 cm²",
+      "E": "50 cm²"
      },
      "points": 5,
      "patterns": [

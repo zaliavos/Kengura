@@ -43,7 +43,7 @@ for q in Q.values():
     for L, v in list((q.get('options') or {}).items()):
         if v and pct.search(v): q['options'][L] = pct.sub(lambda m: m.group(1) + ' %', v); n += 1
 # superscripts lost in extraction: cm2 / m3 → cm² / m³ (units or squared variables)
-sup = re.compile(r'(c?m|dm|mm|km)([23])')
+sup = re.compile(r'\b(c?m|dm|mm|km)([23])\b')
 def _sup(t): return sup.sub(lambda m: m.group(1) + ('²' if m.group(2) == '2' else '³'), t)
 for q in Q.values():
     for f in ('prompt', 'solution', 'solutionKid'):
