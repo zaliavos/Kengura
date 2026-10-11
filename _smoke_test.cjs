@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork};
 `;
 let app;
 try {
@@ -1083,6 +1083,17 @@ section("kid solution layout");
     if(!h.includes('class="kid-trick"') || !h.includes('class="kid-answer"') || /(t\. y\.|pvz\.)<\/p>/.test(h)) bad.push(`${t.year}-${q.num}`);
   }
   check("every kid solution: trick line, steps, answer line", bad.length === 0, bad.slice(0, 10).join(" "));
+}
+
+section("speed work from a slow paper");
+{
+  const saved = app.store.contests, ss = app.store.sessions;
+  app.store.sessions = [];
+  app.store.contests = [{when: Date.now() - 2 * 86400000, year: "2015", points: 50, maxPoints: 120, timeByBand: {3: 24 * 60000, 4: 0, 5: 0}}];
+  check("slow 3-point block on a recent paper -> speed work", app.needsSpeedWork() === true);
+  app.store.contests[0].timeByBand[3] = 14 * 60000;
+  check("a 14-min block does not", app.needsSpeedWork() === false);
+  app.store.contests = saved; app.store.sessions = ss;
 }
 
 section("suggested contest date");

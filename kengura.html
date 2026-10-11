@@ -3878,6 +3878,9 @@ function isRecentlySeen(year, num){
 /* True when the last few test sessions show the kid is slow on the 3-pt
    block (avg > 75 s/question vs the 60 s budget) – routes to the sprint. */
 function needsSpeedWork(){
+  // a recent online paper whose 3-point block took > 20 min is the best evidence
+  const lastC = (store.contests || []).filter(c => !c.paper).slice(-1)[0];
+  if(lastC && lastC.timeByBand && Date.now() - lastC.when < 21 * ONE_DAY_MS && (lastC.timeByBand[3] || 0) > 20 * 60000) return true;
   const sessions = (store.sessions || []).slice(-3);
   let ms = 0, n = 0;
   for(const s of sessions){
