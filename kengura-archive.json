@@ -1365,7 +1365,7 @@
       "uzdaviniai"
      ],
      "correct": "D",
-     "solution": "? Kadangi juodų širdelių turi būti dvigubai daugiau, tai iš karto žiūrime į D. Iš tikrųjų – ten 4 juodos ir 2 baltos širdelės. Renkamės atsakymą D. ! Suregistruokime širdelių skaičių taip: juodos, baltos, iš viso. Tada vėriniuose turime 2 + 3 = 5, 6 + 4 = 10, 6 + 6 = 12, 4 + 2 = 6, 2 + 4 = 6. Vėriniai A ir B netinka, nes dvi trečiosios visų širdelių nėra sveikasis skaičius. Vėrinys C netinka, nes juodų širdelių nėra du trečdaliai, o pusė. Vėrinyje D juodų širdelių 4, o tai iš tikrųjų yra dvi trečiosios visų širdelių: 2/3 · 6 = 4. Pagaliau, vėrinyje D juodų širdelių yra 2/6, t. y. viena trečioji. Teisingas atsakymas D.",
+     "solution": "? Kadangi juodų širdelių turi būti dvigubai daugiau, tai iš karto žiūrime į D. Iš tikrųjų – ten 4 juodos ir 2 baltos širdelės. Renkamės atsakymą D. ! Suregistruokime širdelių skaičių taip: juodos, baltos, iš viso. Tada vėriniuose turime 2 + 3 = 5, 6 + 4 = 10, 6 + 6 = 12, 4 + 2 = 6, 2 + 4 = 6. Vėriniai A ir B netinka, nes dvi trečiosios visų širdelių nėra sveikasis skaičius. Vėrinys C netinka, nes juodų širdelių nėra du trečdaliai, o pusė. Vėrinyje D juodų širdelių 4, o tai iš tikrųjų yra dvi trečiosios visų širdelių: 2/3 · 6 = 4. Pagaliau, vėrinyje E juodų širdelių yra 2/6, t. y. viena trečioji. Teisingas atsakymas D.",
      "figure": "figures/2002-q6.png",
      "mechanic": "casework",
      "imageOnlyOptions": true
@@ -4798,7 +4798,7 @@
       "paveikslelis"
      ],
      "correct": "D",
-     "solution": "P1 ir P2 perimetrai yra vienodi ! Apsiriktume manydami, kad perimetrai čia priklauso nuo plotų. Iš tikrųjų kiekvienos srities perimetrą sudaro dvi gretimos lygiagretainio kraštinės ir bendroji laužtė, todėl perimetrai P1 ir P2 lygūs. Vadinasi, teiginys D tikrai teisingas, o A ir B – neteisingi. Kiek painiau su teiginiais apie plotus – C ir E. Jau iš akies matome, kad plotas P2 paveikslėlyje didesnis, taigi minėti teiginiai neteisingi. Būtų blogiau, jeigu iš akies neatskirtume, kuris plotas didesnis. Tada gelbėtų tik žodžiai „tikrai teisingas“ – teiginys C visada teisingas, kad ir kokia laužte jungtume lygiagretainio viršūnes, o teiginiai C ir E teisingi ne visada – tai priklauso nuo laužtės formos ir padėties. Teisingas atsakymas D.",
+     "solution": "P1 ir P2 perimetrai yra vienodi ! Apsiriktume manydami, kad perimetrai čia priklauso nuo plotų. Iš tikrųjų kiekvienos srities perimetrą sudaro dvi gretimos lygiagretainio kraštinės ir bendroji laužtė, todėl perimetrai P1 ir P2 lygūs. Vadinasi, teiginys D tikrai teisingas, o A ir B – neteisingi. Kiek painiau su teiginiais apie plotus – C ir E. Jau iš akies matome, kad plotas P2 paveikslėlyje didesnis, taigi minėti teiginiai neteisingi. Būtų blogiau, jeigu iš akies neatskirtume, kuris plotas didesnis. Tada gelbėtų tik žodžiai „tikrai teisingas“ – teiginys D visada teisingas, kad ir kokia laužte jungtume lygiagretainio viršūnes, o teiginiai C ir E teisingi ne visada – tai priklauso nuo laužtės formos ir padėties. Teisingas atsakymas D.",
      "figure": "figures/2007-q18.png",
      "mechanic": "arith-compute"
     },
@@ -6092,7 +6092,7 @@
       "geometrija"
      ],
      "correct": "C",
-     "solution": "3 ! Sakykime, kad kvadrato kraštinė 1, o stačiakampio kraštinės m ir n (m ⩽ n). Kadangi m·n = 2009, tai 2009 reikia išskaidyti: 2009 = 7 · 287 = 7² · 41. Bet 45² = 2025, todėl 2009 = m · n ⩾ m², m² < 2025, m < 45. Jei į m įeina daugiklis 41, tai toks skaičiaus 2009 daliklis tik vienas (kartotiniai per dideli). Jei į m neįeina 45, tai turime daliklius 1, 7, 49, iš kurių paskutinis per didelis. Iš viso radome tris m reikšmes: 1, 7, 41. Tiek stačiakampių ir galėjo gauti Alius. Teisingas atsakymas C.",
+     "solution": "3 ! Sakykime, kad kvadrato kraštinė 1, o stačiakampio kraštinės m ir n (m ⩽ n). Kadangi m·n = 2009, tai 2009 reikia išskaidyti: 2009 = 7 · 287 = 7² · 41. Bet 45² = 2025, todėl 2009 = m · n ⩾ m², m² < 2025, m < 45. Jei į m įeina daugiklis 41, tai toks skaičiaus 2009 daliklis tik vienas (kartotiniai per dideli). Jei į m neįeina 41, tai turime daliklius 1, 7, 49, iš kurių paskutinis per didelis. Iš viso radome tris m reikšmes: 1, 7, 41. Tiek stačiakampių ir galėjo gauti Alius. Teisingas atsakymas C.",
      "figure": "figures/2009-q20.png",
      "mechanic": "geometry-misc"
     },

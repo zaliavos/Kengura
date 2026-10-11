@@ -10,11 +10,22 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 J = os.path.join(HERE, 'kengura-archive.json')
 data = json.load(open(J, encoding='utf-8'))
 fix = json.load(open(os.path.join(HERE, '_clean_solutions.json'), encoding='utf-8'))
+# typos in the official texts themselves (checked against the question)
+TYPOS = [
+    ('2002-6', 'Pagaliau, vėrinyje D juodų širdelių yra 2/6', 'Pagaliau, vėrinyje E juodų širdelių yra 2/6'),
+    ('2007-18', 'teiginys C visada teisingas', 'teiginys D visada teisingas'),
+    ('2009-20', 'Jei į m neįeina 45', 'Jei į m neįeina 41'),
+]
 n = 0
 for y in data['archive']:
     for q in y['questions']:
         k = f"{y['year']}-{q['num']}"
         if k in fix and q.get('solution') != fix[k]: q['solution'] = fix[k]; n += 1
+Q = {f"{y['year']}-{q['num']}": q for y in data['archive'] for q in y['questions']}
+for k, old, new in TYPOS:
+    if new not in Q[k]['solution']:
+        assert old in Q[k]['solution'], (k, old)
+        Q[k]['solution'] = Q[k]['solution'].replace(old, new); n += 1
 json.dump(data, open(J, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 subprocess.run([sys.executable, os.path.join(HERE, '_regen_js.py')], cwd=HERE, check=True)
 print('cleaned', n)
