@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText};
 `;
 let app;
 try {
@@ -1170,6 +1170,13 @@ section("parent view render");
   const h = app.$app.innerHTML;
   check("parent view renders with history", ok && h.includes("3 t.: 6/10") && h.includes("66,5") && h.includes("Klaidų sąsiuvinis"));
   st.contests = saved; delete st.mistakes["2018-3"];
+}
+
+section("shortText");
+{
+  const long = "Gudrybė: pirmas sakinys yra čia. " + "Antras sakinys ilgas ir ilgas. ".repeat(20) + "Atsakymas: C) 12.";
+  const out = app.shortText(long, 200);
+  check("shortText keeps the answer line and cuts at a sentence", out.length <= 230 && out.endsWith("Atsakymas: C) 12.") && /\. … Atsakymas/.test(out), out);
 }
 
 // ---------- result ----------

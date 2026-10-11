@@ -8151,7 +8151,7 @@ function renderRaceChallenge(){
       <div class="options" id="raceOptions">${optionsHtml}</div>
       ${submitted ? `<div class="explain" style="margin-top:8px">
         ${state.raceChosen === q.correct ? '<b style="color:var(--good)">Teisingai! ✓</b>' : `<b style="color:var(--bad)">Ne. Teisingas – ${q.correct}.</b>`}
-        ${q.solutionKid || q.solution ? `<div style="margin-top:6px;font-size:13px">${escapeHTML(solutionPlain(q).slice(0,400))}</div>` : ''}
+        ${q.solutionKid || q.solution ? `<div style="margin-top:6px;font-size:13px">${escapeHTML(shortText(solutionPlain(q), 420))}</div>` : ''}
       </div>` : ''}
       <div class="footer-actions">
         ${!submitted
@@ -8699,6 +8699,17 @@ function solutionBlockHTML(q, aiText, isAi){
 }
 
 /* Points can be quarters under the −¼ rule; Lithuanian writes 2,25. */
+/* Trim at a sentence end (never mid-word); keep the closing "Atsakymas: …"
+   line of a kid solution, which is what the kid looks for. */
+function shortText(t, n){
+  t = String(t || "");
+  if(t.length <= n) return t;
+  const tail = (t.match(/Atsakymas:[^]*$/) || [""])[0];
+  const room = Math.max(80, n - tail.length - 2);
+  const cut = t.slice(0, room);
+  const end = Math.max(cut.lastIndexOf(". "), cut.lastIndexOf("! "), cut.lastIndexOf("? "));
+  return (end > 40 ? cut.slice(0, end + 1) : cut.replace(/\s+\S*$/, "") + "…") + (tail ? " … " + tail : "");
+}
 function fmtPts(n){ return String(Math.round((Number(n) || 0) * 100) / 100).replace('.', ','); }
 function escapeHTML(s){
   if(s==null) return "";
