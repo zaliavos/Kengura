@@ -5685,6 +5685,7 @@ function persistContestProgress(){
     year: state.contestYear,
     answers: state.contestAnswers,
     flags: state.contestFlags || {},
+    times: state.contestTimes || {},
     current: state.contestCurrent,
     startedAt: state.contestStartedAt,
     endsAt: state.contestEndsAt,
@@ -5853,6 +5854,8 @@ function openContest(year){
   prefetchFigures(qs);   // the whole paper's pictures, in case the connection drops mid-test
   state.contestAnswers = {};   // { qnum: chosenLetter }
   state.contestFlags = {};     // { qnum: true } – "abejoju, grįšiu" marks
+  state.contestTimes = {};     // { qnum: ms spent looking at it }
+  state._ctShown = null;
   state.contestCurrent = 0;
   state.contestStartedAt = Date.now();
   state.contestEndsAt = Date.now() + CONTEST_DURATION_MS;
@@ -5876,6 +5879,8 @@ function resumeContest(){
   state.contestQuestions = qs;
   state.contestAnswers = saved.answers || {};
   state.contestFlags = saved.flags || {};
+  state.contestTimes = saved.times || {};
+  state._ctShown = null;
   state.contestCurrent = Math.min(saved.current || 0, qs.length - 1);
   state.contestStartedAt = saved.startedAt;
   state.contestEndsAt = saved.endsAt;
@@ -5888,10 +5893,20 @@ function resumeContest(){
   renderContest();
 }
 
+/* Time on the question being looked at: credited when the kid moves on
+   (or finishes), capped at 20 min per visit so a forgotten tab can't skew it. */
+function creditContestTime(){
+  if(!state._ctShown) return;
+  const ms = Math.min(20 * 60000, Date.now() - state._ctShown.at);
+  state.contestTimes = state.contestTimes || {};
+  state.contestTimes[state._ctShown.num] = (state.contestTimes[state._ctShown.num] || 0) + ms;
+  state._ctShown = null;
+}
 function renderContest(){
   const qs = state.contestQuestions;
   const idx = state.contestCurrent;
   const q = qs[idx];
+  if(!state._ctShown || state._ctShown.num !== q.num){ creditContestTime(); state._ctShown = {num: q.num, at: Date.now()}; }
   const total = qs.length;
   const answeredCount = Object.keys(state.contestAnswers).length;
   const remain = Math.max(0, state.contestEndsAt - Date.now());
@@ -6007,6 +6022,10 @@ function renderContest(){
 
 function finishContest(byTimer){
   if(state._contestTimerInterval){ clearInterval(state._contestTimerInterval); state._contestTimerInterval = null; }
+  creditContestTime();
+  const times = state.contestTimes || {};
+  const timeByBand = {3:0, 4:0, 5:0};
+  for(const q of state.contestQuestions) timeByBand[q.points || 3] += times[q.num] || 0;
   const qs = state.contestQuestions;
   let points = 0, scoreWithPenalty = 0, correct = 0, answered = 0, maxPoints = 0;
   const byBand = {3:{ok:0,total:0}, 4:{ok:0,total:0}, 5:{ok:0,total:0}};
@@ -6037,7 +6056,8 @@ function finishContest(byTimer){
     year: state.contestYear,
     points, scoreWithPenalty: Math.round(scoreWithPenalty * 4)/4,
     maxPoints, correct, total: qs.length, answered,
-    byBand, byTimer: !!byTimer, practisedBefore,
+    byBand, byTimer: !!byTimer, practisedBefore, timeByBand,
+    slowest: Object.entries(times).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([n, ms]) => ({num: Number(n), ms})),
     queued: queueContestWrongs(state.contestYear, qs, state.contestAnswers),
     answers: Object.fromEntries(qs.map(q => [q.num, state.contestAnswers[q.num] || null])),
   };
@@ -6137,6 +6157,18 @@ function renderContestResults(){
         </div>`;
       }).join('')}
     </section>
+
+    ${r.timeByBand && (r.timeByBand[3] + r.timeByBand[4] + r.timeByBand[5]) > 60000 ? (() => {
+      // budget per band: 3 t. ~1 min, 4 t. ~2,5 min, 5 t. ~3,5 min per question (≈ 70 of 75 min)
+      const budget = {3: 1, 4: 2.5, 5: 3.5};
+      const n = b => qs.filter(q => (q.points || 3) === b).length;
+      const mins = ms => Math.round(ms / 6000) / 10;
+      return `<section class="card">
+      <h3>⏱ Kur dingo laikas</h3>
+      ${[3,4,5].map(b => { const used = mins(r.timeByBand[b]), plan = Math.round(budget[b] * n(b)); const over = used > plan * 1.25;
+        return `<div class="cat-row"><span>${b} t. blokas</span><span class="pill ${over ? 'bad' : 'good'}">${String(used).replace('.', ',')} min</span><span class="help-bar" style="margin:0 0 0 8px">planas ~${plan} min${over ? ' – per ilgai' : ''}</span></div>`; }).join('')}
+      ${(r.slowest || []).length ? `<p style="margin:8px 0 0">Ilgiausiai užtrukai: ${r.slowest.map(x => `<b>${x.num}</b> (${String(mins(x.ms)).replace('.', ',')} min)`).join(', ')}.${mins(r.timeByBand[3]) > Math.round(budget[3] * n(3)) * 1.25 ? ' 3 t. uždaviniai turi eiti greitai – jiems skirk ne daugiau kaip ~15 min.' : ''}</p>` : ''}
+    </section>`; })() : ''}
 
     ${wrongs.length ? `
     <section class="card">

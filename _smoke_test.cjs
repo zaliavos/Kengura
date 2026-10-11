@@ -1123,8 +1123,10 @@ section("contest results render");
   app.openContest(yr);
   const st = app.state;
   st.contestQuestions.forEach((q, i) => { if(i % 2) st.contestAnswers[q.num] = q.correct === "A" ? "B" : "A"; });
+  st.contestTimes = Object.fromEntries(st.contestQuestions.map((q, i) => [q.num, (q.points === 3 ? 90 : q.points === 4 ? 150 : 240) * 1000]));
   let ok = true; try { app.finishContest(false); } catch(e){ ok = false; console.log(e.message); }
   check("finishContest renders", ok && app.$app.innerHTML.includes("klaidų sąsiuvinį"));
+  { const lastC = app.store.contests[app.store.contests.length - 1]; check("time breakdown on results", app.$app.innerHTML.includes("Kur dingo laikas") && app.$app.innerHTML.includes("Ilgiausiai užtrukai") && Math.abs(lastC.timeByBand[3] - 900000) < 1000); }
   app.store.contests.pop(); app.store.mistakes = {};
   delete app.store.contestInProgress;
 }
