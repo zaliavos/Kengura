@@ -8557,6 +8557,21 @@ checkAchievements();   // retroactively award badges already earned by past acti
 
 // keyboard: 1-5 → answer, Enter → submit/next
 document.addEventListener("keydown", e=>{
+  // contest: A–E (or 1–5) choose / withdraw, ←/→ move between questions
+  if(state.view === "contest" && !e.ctrlKey && !e.metaKey && !e.altKey){
+    const qs = state.contestQuestions || [];
+    const q = qs[state.contestCurrent];
+    if(!q) return;
+    const k = e.key.toUpperCase();
+    const letter = "ABCDE".includes(k) && k.length === 1 ? k : (e.key >= "1" && e.key <= "5" ? "ABCDE"[parseInt(e.key, 10) - 1] : null);
+    if(letter){
+      if(state.contestAnswers[q.num] === letter) delete state.contestAnswers[q.num]; else state.contestAnswers[q.num] = letter;
+      persistContestProgress(); renderContest(); e.preventDefault(); return;
+    }
+    if(e.key === "ArrowRight" && state.contestCurrent < qs.length - 1){ state.contestCurrent++; persistContestProgress(); renderContest(); e.preventDefault(); return; }
+    if(e.key === "ArrowLeft" && state.contestCurrent > 0){ state.contestCurrent--; persistContestProgress(); renderContest(); e.preventDefault(); return; }
+    return;
+  }
   if(state.view === "quiz"){
     const q = state.questions[state.current];
     if(!q) return;
