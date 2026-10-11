@@ -133,6 +133,17 @@ def crop(pdf, n, old, year=None):
         mid = (c.y0 + c.y1) / 2
         if mid >= band_bot + 2 and c.y0 < bottom and c.y0 > hr.y1: bottom = max(floor, min(bottom, c.y0 - 2))
     # text of this question decides the width; components inside the band widen it
+    # never cut through a text line or a drawing: snap outwards to whole lines
+    for _ in range(3):
+        for w in page.get_text('words'):
+            r = fitz.Rect(w[:4])
+            if not col.contains(r): continue
+            if r.y0 < top < r.y1 - 1: top = r.y0 - 2
+            if r.y0 + 1 < bottom < r.y1: bottom = r.y1 + 2
+        for c in comps:
+            mid = (c.y0 + c.y1) / 2              # only drawings that are ours
+            if c.y0 < top < c.y1 - 1 and c.height < 80 and mid > top: top = c.y0 - 2
+            if c.y0 + 1 < bottom < c.y1 and c.height < 80 and mid < bottom: bottom = c.y1 + 2
     band = fitz.Rect(col.x0, top, col.x1, bottom)
     xs = [fitz.Rect(w[:4]) for w in page.get_text('words') if band.contains(fitz.Rect(w[:4]))]
     xs += [c for c in comps if band.intersects(c) and c.width < band.width * 0.95]
