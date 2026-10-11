@@ -729,3 +729,36 @@ Simulation after this pass (84 d, 6 seeds, mastered of 26 track tricks):
 17.8 · erratic 0.7 learn miss 30 % 9.2. Same seeds on the pre-audit
 archive: 25.7 / 25.2 / – / 20.5 – the drop is the real 5-point checks
 that many tricks gained, not a regression.
+
+## Loops 76–95 (2026-10-11, tenth pass)
+
+- **76/80 — figures.** Edge sweep (dark pixels on the top/bottom row): 38
+  re-cut by `_recrop.py`, which now snaps to whole text lines and its own
+  drawings. `_trim_figures.py` removed blank strips from 380 figures
+  (2000-30 was 811 of 890 px white). Smoke test checks every figure's
+  file and size. sw.js FIGS v6.
+- **77/82/83/86 — official texts.** Agents repaired 154 official
+  solutions that the kid actually sees (label runs, fractions, powers,
+  split words; part markers kept) → `_clean_solutions.json`; booklet
+  typos patched; a frequency scan fixed 19 spelling slips
+  (`_fix_typos_2026.py`).
+- **81 — parser:** a ?/! inside a sentence ("kaip radome ! dalyje") is a
+  reference, not a new part.
+- **84 — the official solution stays one tap away** under a kid solution
+  ("yra greitas būdas" when it has one).
+- **87 — `_rebuild_data.py`** reruns the whole text layer from the PDFs;
+  verified to reproduce the committed archive.
+- **78 — practice papers newest first** among the least-practised ones
+  (2022, 2018, 2015 … rather than 2000, 2001 …).
+- **79 — recognition drill** leaves out catch-all tags.
+- **88/89 — hints:** the last tier is the question's own "Gudrybė:"
+  sentence (withheld when it names the answer); playlist hints no longer
+  start from the official computation.
+- **91 — 2006 (Mažylis) is not served** (`OUT_OF_SCOPE_YEARS`).
+- **92 — related-trick practice is labelled as such.**
+- **93 — the archive card hides the trick name** on 4/5-pointers until an
+  answer or a hint.
+- **85/90/94 — browser passes** at 360 px: no overflow, no errors.
+
+Simulation (84 d, 6 seeds, mastered of 26): 0.8 learn 25.2 · 0.85 flat
+23.7 · 0.7 learn 15.2 · weekend-off 0.8 learn 17.8 · erratic 9.3.
