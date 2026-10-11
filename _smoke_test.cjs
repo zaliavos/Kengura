@@ -1006,6 +1006,25 @@ section("recognition drill");
   check("recog pool big enough", pool.length >= 150, String(pool.length));
 }
 
+// ---------- 13. every question has a usable figure and text ----------
+section("figures + text present");
+{
+  const fsx = require("fs"), pathx = require("path");
+  const bad = [];
+  for(const t of app.ARCHIVE) for(const q of t.questions){
+    const k = `${t.year}-${q.num}`;
+    const f = pathx.join(__dirname, q.figure || "");
+    if(!q.figure || !fsx.existsSync(f)){ bad.push(k + ":nofile"); continue; }
+    const buf = fsx.readFileSync(f);
+    // PNG IHDR: width @16, height @20
+    const w = buf.readUInt32BE(16), h = buf.readUInt32BE(20);
+    if(w < 300 || h < 50 || h > 1400) bad.push(`${k}:${w}x${h}`);
+    if(!q.prompt || q.prompt.trim().length < 10) bad.push(k + ":prompt");
+    if(!q.options || Object.keys(q.options).join("") !== "ABCDE" && Object.keys(q.options).sort().join("") !== "ABCDE") bad.push(k + ":options");
+  }
+  check("figures and texts usable", bad.length === 0, bad.join(" "));
+}
+
 // ---------- result ----------
 console.log("");
 if(failures){
