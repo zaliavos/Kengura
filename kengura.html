@@ -7021,6 +7021,14 @@ function renderPlaylist(){
       state.playlistConf[k] = b.dataset.plConf;
       renderPlaylist();
     }));
+    card.querySelectorAll("[data-pl-why]").forEach(b => b.addEventListener("click", ()=>{
+      store.mistakes = store.mistakes || {};
+      const [yy, nn] = k.split("-");
+      // the mastery step records its answers at the end – make sure the entry exists
+      const m = store.mistakes[k] = store.mistakes[k] || {year: yy, num: Number(nn), times: 0, first: Date.now(), lastWrong: Date.now()};
+      m.reason = b.dataset.plWhy; m.reasons = m.reasons || {}; m.reasons[m.reason] = (m.reasons[m.reason] || 0) + 1;
+      saveStore(store); renderPlaylist();
+    }));
     const checkBtn = card.querySelector("[data-pl-check]");
     if(checkBtn) checkBtn.addEventListener("click", ()=>{
       if(state.playlistAns[k] == null) return;
@@ -7123,6 +7131,9 @@ function renderPlaylistQuestion(item, opts){
       <div class="options">${optionsHtml}</div>
       ${showHint && approach ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(approach)}</div>` : ''}
       ${submitted && chosen && chosen !== q.correct && q.misconceptions && q.misconceptions[chosen] ? `<div class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</div>` : ''}
+      ${submitted && chosen && chosen !== q.correct ? (() => { const m = (store.mistakes || {})[k]; return m && m.reason
+        ? `<p class="help-bar" style="margin:6px 0">Užrašyta: ${escapeHTML(MISTAKE_REASONS[m.reason] || m.reason)}.</p>`
+        : `<div style="margin:6px 0"><b style="font-size:14px">Kodėl, manai, suklydai?</b><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">${Object.entries(MISTAKE_REASONS).map(([id, t]) => `<button class="btn small ghost" data-pl-why="${id}">${escapeHTML(t)}</button>`).join('')}</div></div>`; })() : ''}
       ${showSol && (q.solutionKid || q.solution) ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
       ${submitted ? `<div class="explain" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
         <b>${chosen === q.correct ? 'Teisingai!' : 'Klaida.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>!` : ''}
