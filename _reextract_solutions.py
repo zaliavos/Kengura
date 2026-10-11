@@ -32,6 +32,7 @@ MAP = {('z','ˇ'):'ž',('s','ˇ'):'š',('c','ˇ'):'č',('Z','ˇ'):'Ž',('S','ˇ'
 def ltnorm(t):
     t = re.sub(r'([A-Za-z])\s?([ˇ˙˛¯])', lambda m: MAP.get((m.group(1), m.group(2)), m.group(0)), t)
     t = t.replace('ﬁ', 'fi').replace('ﬂ', 'fl')
+    t = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', '', t)   # stray control chars from the PDF text layer
     return unicodedata.normalize('NFC', t)
 
 JUNK_LINE = re.compile(r'^(\d{1,3}|Bičiulis.*|Bičiulio užduočių sprendimai|UŽDUOČIŲ SPRENDIMAI|'
@@ -86,7 +87,7 @@ def segments(text):
     for i, x in enumerate(m):
         end = m[i + 1].start() if i + 1 < len(m) else len(text)
         body = text[x.end():end]
-        lm = re.match(r'\s*([A-E])(?=\s|⃝)', body)
+        lm = re.match(r'\s*⃝?\s*([A-E])(?=\s|⃝|\d)', body)   # "C⃝2641" or, via _pagetext, "⃝C2641"
         key = (x.group(1), int(x.group(2)))
         if key not in segs:
             segs[key] = (lm.group(1) if lm else None, body[lm.end():] if lm else body)
