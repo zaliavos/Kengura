@@ -489,12 +489,12 @@
     },
     {
      "num": 25,
-     "prompt": "Padaryti prekei 10% ir 20% nuolaidas paeiliui – tai tas pat, kas padaryti tik vieną nuolaidą. Kokią?",
+     "prompt": "Padaryti prekei 1\u0001 % ir 2\u0001 % nuolaidas paeiliui – tai tas pat, kas padaryti tik vieną nuolaidą. Kokią?",
      "options": {
-      "A": "30%",
-      "B": "15%",
-      "C": "72%",
-      "D": "28%",
+      "A": "3\u0001 %",
+      "B": "1\u0001 %",
+      "C": "7\u0001 %",
+      "D": "2\u0001 %",
       "E": "Kitas atsakymas"
      },
      "points": 5,
@@ -502,7 +502,7 @@
       "uzdaviniai"
      ],
      "correct": "D",
-     "solution": "28% ? Sakykime, kad prekė kainavo 100 Lt. 2/10 Tada po pirmo nupiginimo ji kainuos 100− 1/10 ·100 = 90 (Lt), o po antro nupiginimo 90 − · 90 = 72 (Lt). Atsakymas A siūlo 30% nupiginimą, – tada prekė kainuotų 100 − 3/10 · 100 = 70 (Lt). Vadinasi, nupiginimas turi būti truputį mažesnis. Tikriname atsakymąD, 28% nupiginimą. Tada prekė kainuotų 100− 28/100 ·100 = 72 (Lt). Renkamės atsakymąD. ! Sakykime, kad prekė kainavo 100A (litų). Tada po pirmo nupiginimo ji kainuos 100A · 0, 9 = 90A (litų), o po antro – 90A·0, 8 = 72A (litų). Todėl nuolaida yra 100A−72A = 28A (litų), o nuolaidos procentinis dydis yra 28/100 A/A · 100 = 28 procentai.",
+     "solution": "2\u0001 % ? Sakykime, kad prekė kainavo 100 Lt. 2/10 Tada po pirmo nupiginimo ji kainuos 100− 1/10 ·100 = 90 (Lt), o po antro nupiginimo 90 − · 90 = 72 (Lt). Atsakymas A siūlo 3\u0001 % nupiginimą, – tada prekė kainuotų 100 − 3/10 · 100 = 70 (Lt). Vadinasi, nupiginimas turi būti truputį mažesnis. Tikriname atsakymąD, 2\u0001 % nupiginimą. Tada prekė kainuotų 100− 28/100 ·100 = 72 (Lt). Renkamės atsakymąD. ! Sakykime, kad prekė kainavo 100A (litų). Tada po pirmo nupiginimo ji kainuos 100A · 0, 9 = 90A (litų), o po antro – 90A·0, 8 = 72A (litų). Todėl nuolaida yra 100A−72A = 28A (litų), o nuolaidos procentinis dydis yra 28/100 A/A · 100 = 28 procentai.",
      "figure": "figures/2000-q25.png",
      "mechanic": "mixture-fraction",
      "solutionKid": "Gudrybė: antroji nuolaida skaičiuojama nuo jau sumažintos kainos, todėl procentų negalima tiesiog sudėti. Tarkim, prekė kainavo 100 Lt. Po 10 % nuolaidos ji kainuoja 90 Lt. 20 % nuo 90 yra 18, todėl po antros nuolaidos kaina 90 − 18 = 72 Lt. Iš 100 Lt liko 72 Lt, vadinasi, iš viso nuleista 28 Lt, t. y. 28 %. Patikrink: 28 % nuolaida nuo 100 Lt duoda tą pačią 72 Lt kainą. Atsakymas: D) 28 %.",
@@ -1557,18 +1557,18 @@
      "num": 16,
      "prompt": "Adomas įbėrė 50 g druskos į 200 g vandens. Kiek procentų druskos bus gautame tirpale?",
      "options": {
-      "A": "250%",
-      "B": "50%",
-      "C": "25%",
-      "D": "20%",
-      "E": "5%"
+      "A": "25\u0001 %",
+      "B": "5\u0001 %",
+      "C": "2\u0001 %",
+      "D": "2\u0001 %",
+      "E": "\u0001 %"
      },
      "points": 4,
      "patterns": [
       "uzdaviniai"
      ],
      "correct": "D",
-     "solution": "20% ? Pradėkime spėlioti. Jeigu druska sudarytų 25%, tai vandens būtų 75% – tris kartus daugiau. Jeigu druska sudarytų 20%, tai vanduo – 80%, keturis kartus daugiau. Taip ir yra uždavinyje. Renkamės atsakymą D. ! Mūsų spėjimas buvo gana rizikingas – geriau skaičiuoti. Kadangi tirpalo masė bus 250 g, o druska sudarys penktadalį, tai jos bus 20%. Teisingas atsakymas D.",
+     "solution": "2\u0001 % ? Pradėkime spėlioti. Jeigu druska sudarytų 2\u0001 %, tai vandens būtų 7\u0001 % – tris kartus daugiau. Jeigu druska sudarytų 2\u0001 %, tai vanduo – 8\u0001 %, keturis kartus daugiau. Taip ir yra uždavinyje. Renkamės atsakymą D. ! Mūsų spėjimas buvo gana rizikingas – geriau skaičiuoti. Kadangi tirpalo masė bus 250 g, o druska sudarys penktadalį, tai jos bus 2\u0001 %. Teisingas atsakymas D.",
      "figure": "figures/2002-q16.png",
      "mechanic": "arith-compute"
     },
@@ -3072,7 +3072,7 @@
       "uzdaviniai"
      ],
      "correct": "C",
-     "solution": "C28,50 ? Kadangi dabar pigesniojo disko kaina sudaro 19/20 buvusios, tai ankstesnė kaina sudaro 20/19 dabartinės. Padauginę iš 20 atsakymų kainas, paverstas centais, gauname skaičius 3000, 12 000, 57 000, 60 000, 69 000, bet iš jų tik trečiasis dalijasi iš 19. Renkamės atsakymą C. ! Kadangi diskų kainų skirtumas dabar sudaro 20% \u0001 1/5 dalį \u0002 senosios kainos ir yra lygus 6 litams, tai anksčiau diskai kainavo 5 · 6 = 30 litų. Todėl pigesnysis dabar kainuoja 19/20 · 30 = 28,50 lito. Teisingas atsakymas C.",
+     "solution": "C28,50 ? Kadangi dabar pigesniojo disko kaina sudaro 19/20 buvusios, tai ankstesnė kaina sudaro 20/19 dabartinės. Padauginę iš 20 atsakymų kainas, paverstas centais, gauname skaičius 3000, 12 000, 57 000, 60 000, 69 000, bet iš jų tik trečiasis dalijasi iš 19. Renkamės atsakymą C. ! Kadangi diskų kainų skirtumas dabar sudaro 2\u0001 % \u0001 1/5 dalį \u0002 senosios kainos ir yra lygus 6 litams, tai anksčiau diskai kainavo 5 · 6 = 30 litų. Todėl pigesnysis dabar kainuoja 19/20 · 30 = 28,50 lito. Teisingas atsakymas C.",
      "figure": "figures/2004-q25.png",
      "mechanic": "multistep-money",
      "solutionKid": "Gudrybė: skaičiuok nuo senosios kainos – kainų skirtumas yra 5 % + 15 % = 20 % senosios kainos. Vienas diskas atpigo 5 %, kitas pabrango 15 %, todėl dabar jų kainos skiriasi 20 %, t. y. penktadaliu senosios kainos. Šis penktadalis lygus 6 litams, taigi senoji kaina buvo 5 · 6 = 30 litų. Pigesnysis diskas atpigo 5 %: 5 % iš 30 yra 1,50 lito, todėl dabar jis kainuoja 30 − 1,50 = 28,50 lito. Patikrink: brangesnysis kainuoja 30 + 4,50 = 34,50 lito, o 34,50 − 28,50 = 6 litai. Atsakymas: C) 28,50.",
@@ -5015,7 +5015,7 @@
       "geometrija"
      ],
      "correct": "B",
-     "solution": "12,5% ! Išpjautas gabalas yra stačiakampis gretasienis, kurio matmenys yra 9 × 6 × 3. Iš bloko paviršiaus „dingo“ viršutinė ir kiarioji išpjovos siena, bet prisidėjo joms lygios apatinė ir dešinioji sienos. Vadinasi, bloko paviršius sumažėjo tik priekine ir užpakaline išpjovos sienomis, t. y. 2 · 9 · 3. Bloko paviršius buvo 2(12 · 6 + 12 · 8 + 6 · 8 = 2 · 24(3 + 4 + 2)), taigi jis sumažėjo 2·9·3 2·24·9 = 1 8 dalimi, t. y. 12,5%. Teisingas atsakymas B.",
+     "solution": "12,\u0001 % ! Išpjautas gabalas yra stačiakampis gretasienis, kurio matmenys yra 9 × 6 × 3. Iš bloko paviršiaus „dingo“ viršutinė ir kiarioji išpjovos siena, bet prisidėjo joms lygios apatinė ir dešinioji sienos. Vadinasi, bloko paviršius sumažėjo tik priekine ir užpakaline išpjovos sienomis, t. y. 2 · 9 · 3. Bloko paviršius buvo 2(12 · 6 + 12 · 8 + 6 · 8 = 2 · 24(3 + 4 + 2)), taigi jis sumažėjo 2·9·3 2·24·9 = 1 8 dalimi, t. y. 12,\u0001 %. Teisingas atsakymas B.",
      "figure": "figures/2007-q28.png",
      "mechanic": "area-compute",
      "solutionKid": "Gudrybė: išpjovus gabalą, kai kurios sienelės tik „persikelia“ į kitą vietą ir ploto nekeičia. Išpjautas gabalas yra 9 × 6 × 3 (ilgis 12 − 3 = 9, aukštis 8 − 5 = 3). Dingo jo viršus 9 × 6 ir kairysis šonas 6 × 3, bet atsirado lygiai tokio paties dydžio išpjovos dugnas ir dešinioji sienelė. Iš tikrųjų dingo tik priekinė ir galinė sienelės: 2 · 9 · 3 = 54. Visas paviršius buvo 2 · (12 · 6 + 12 · 8 + 6 · 8) = 2 · 216 = 432. Patikrink: 54 · 8 = 432, taigi dingo 1/8 paviršiaus, o 1/8 = 12,5 %. Atsakymas: B) 12,5 %.",

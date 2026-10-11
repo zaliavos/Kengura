@@ -35,6 +35,13 @@ for k, f, wrong, right in FIX:
     pat = re.escape(wrong) if wrong.startswith(' ') else r'(?<![\wąčęėįšųūž])' + re.escape(wrong) + r'(?![\wąčęėįšųūž])'
     new = re.sub(pat, right, t, flags=re.I)
     if new != t: Q[k][f] = new; n += 1
+# house style (grammar pass 3): a space before % – "20 %"
+pct = re.compile(r'(\d)%')
+for q in Q.values():
+    for f in ('prompt', 'solution', 'solutionKid'):
+        if q.get(f) and pct.search(q[f]): q[f] = pct.sub(r' %', q[f]); n += 1
+    for L, v in list((q.get('options') or {}).items()):
+        if v and pct.search(v): q['options'][L] = pct.sub(r' %', v); n += 1
 json.dump(data, open(J, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 subprocess.run([sys.executable, os.path.join(HERE, '_regen_js.py')], cwd=HERE, check=True)
 print('fixed', n, 'of', len(FIX))
