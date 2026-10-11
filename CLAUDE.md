@@ -856,3 +856,13 @@ simulation (84 d, 6 seeds, of 28 track tricks): 0.8 learn 25.0 · 0.85
   file names per child (184), reduce-motion (179), focus rings (167),
   corrupt saves kept aside (186). Store size after 120 simulated days:
   ~50 KB.
+- **Second independent review (192):** reshuffled split, 25 more fixes
+  (unproved steps argued, wrong figure facts, an answer-giving hint,
+  misconception notes); two official typos (2016-15, 2014-9). Both
+  reviews: 64 fixes in 750 solutions, no answer key in doubt.
+- **Paper results (185–191):** delta to the previous paper, the first
+  paper framed as the starting point, time per wrong answer, a "stuck
+  6+ min" strategy note; notebook rows show the kid's reason.
+- **Final check (193):** `_rebuild_data.py` reproduces the archive, smoke
+  green, no LF-only lines; simulation (84 d, 6 seeds, of 28): 0.8 learn
+  25,0 · 0.85 22,3 · 0.7 learn 14,0 · weekend-off 17,3.
