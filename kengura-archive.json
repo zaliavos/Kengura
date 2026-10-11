@@ -138,7 +138,7 @@
       "aritmetika"
      ],
      "correct": "D",
-     "solution": "4 dvejetų ir 3 penketų ? Atsakymuose dvejetų skaičius yra nuo 2 iki 4, o penketų – nuo 3 iki 5. Todėl „vidutinis“ yra atsakymas C – 3 dvejetai ir 4 penketai. Nuo jo ir pradedame tikrinti. Kadangi 2 · 2 · 2 · 5 · 5 · 5 · 5 = 10 · 10 · 10 · 5 = 5000 yra perdaug. Tai reiškia, kad atsakymas E juo labiau netiks. Bandome atsakymą D: 2 · 2 · 2 · 2 · 5 · 5 · 5 = 10 · 10 · 10 · 2 = 2000. Renkamės atsakymą D. ?? Gavę atsakyme C 5000 matome, kad užtenka 5 pakeisti į 2. Tai reiškia, kad reikia vietoj 3 dvejetų ir 4 penketų imti 4 dvejetus ir 3 penketus. ! Išskaidome: 2000 = 2·1000 = 2·2·500 = 2·2·2·250 = 2·2·2·2·125 = 2·2·2·2·5·25 = 2·2·2·2·5·5·5. Matome, kad 2000 yra 4 dvejetų ir 3 penketų sandauga. !! Kadangi 10 gauname sudauginę 2 ir 5, tai 1000 gauti reikia 3 dvejetų ir 3 penketų, o 2000 – 4 dvejetų ir 3 penketų. B8. Žr. M18 uždavinio sprendimą.",
+     "solution": "4 dvejetų ir 3 penketų ? Atsakymuose dvejetų skaičius yra nuo 2 iki 4, o penketų – nuo 3 iki 5. Todėl „vidutinis“ yra atsakymas C – 3 dvejetai ir 4 penketai. Nuo jo ir pradedame tikrinti. Kadangi 2 · 2 · 2 · 5 · 5 · 5 · 5 = 10 · 10 · 10 · 5 = 5000 yra perdaug. Tai reiškia, kad atsakymas E juo labiau netiks. Bandome atsakymą D: 2 · 2 · 2 · 2 · 5 · 5 · 5 = 10 · 10 · 10 · 2 = 2000. Renkamės atsakymą D. ?? Gavę atsakyme C 5000 matome, kad užtenka 5 pakeisti į 2. Tai reiškia, kad reikia vietoj 3 dvejetų ir 4 penketų imti 4 dvejetus ir 3 penketus. ! Išskaidome: 2000 = 2·1000 = 2·2·500 = 2·2·2·250 = 2·2·2·2·125 = 2·2·2·2·5·25 = 2·2·2·2·5·5·5. Matome, kad 2000 yra 4 dvejetų ir 3 penketų sandauga. !! Kadangi 10 gauname sudauginę 2 ir 5, tai 1000 gauti reikia 3 dvejetų ir 3 penketų, o 2000 – 4 dvejetų ir 3 penketų.",
      "figure": "figures/2000-q7.png",
      "mechanic": "arith-compute"
     },
@@ -158,7 +158,8 @@
      ],
      "figure": "figures/2000-q8.png",
      "mechanic": "arith-compute",
-     "correct": null
+     "correct": "B",
+     "solution": "2 m 40 cm ! Juosta apjuosia dėžę keturis kartus. Dvi juostos eina išilgai: viena aplink šonus, kita per viršų, galus ir apačią – kiekviena po 2 · (30 + 10) = 80 cm. Dvi juostos eina skersai – kiekviena po 2 · (10 + 10) = 40 cm. Iš viso 80 + 80 + 40 + 40 = 240 cm = 2 m 40 cm."
     },
     {
      "num": 9,
@@ -176,7 +177,7 @@
       "uzdaviniai"
      ],
      "correct": "D",
-     "solution": "3 valandas ? Kadangi jau už 1 šokoladuką galima važinėtis 2 valandas, tai atsakymai A, B ir C atkrenta. Už 4 ledinukus galima važinėtis dar 1 valandą, taigi teisingas atsakymas D. ! Faktiškai nieko mes nespėliojome, o suskaičiavome laiką. Žinoma, skaičiuoti galima negudraujant: kadangi 2 šokoladukai atitinka 4 valandas, tai 1 šokoladukas – 2 valandas. Kadangi 12 ledinukų atitinka 3 valandas, tai 1 ledinukas atitinka 12 = 1 4 h. Vadinasi, už 1 šokoladuką ir 4 ledinukus galima važinėtis 2+4· 1 4 = 3 valandas. Žinoma, šis būdas prastesnis už spėjime pateiktą sprendimą. !! Neblogas būdas padauginti Miko duoklę iš tiek, kad skaičiuoti būtų ypač lengva. Kadangi sąlygoje kalbama apie 2 šokoladukus, tai verta dauginti iš 2. Bet sąlygoje kalbama ir apie 12 ledinukų, todėl verta dauginti ir iš 3. Vadinasi, dauginame iš 6 ir sakome: jeigu Mikas duotų Karoliui 6 kartus daugiau – 6 šokoladukus ir 24 ledinukus, tai jis galėtų važinėtis 12 + 6 = 18 valandų. O dabar jis tegali važinėtis 3 valandas. B10. Žr. M10 uždavinio sprendimą.",
+     "solution": "3 valandas ? Kadangi jau už 1 šokoladuką galima važinėtis 2 valandas, tai atsakymai A, B ir C atkrenta. Už 4 ledinukus galima važinėtis dar 1 valandą, taigi teisingas atsakymas D. ! Faktiškai nieko mes nespėliojome, o suskaičiavome laiką. Žinoma, skaičiuoti galima negudraujant: kadangi 2 šokoladukai atitinka 4 valandas, tai 1 šokoladukas – 2 valandas. Kadangi 12 ledinukų atitinka 3 valandas, tai 1 ledinukas atitinka 12 = 1 4 h. Vadinasi, už 1 šokoladuką ir 4 ledinukus galima važinėtis 2+4· 1 4 = 3 valandas. Žinoma, šis būdas prastesnis už spėjime pateiktą sprendimą. !! Neblogas būdas padauginti Miko duoklę iš tiek, kad skaičiuoti būtų ypač lengva. Kadangi sąlygoje kalbama apie 2 šokoladukus, tai verta dauginti iš 2. Bet sąlygoje kalbama ir apie 12 ledinukų, todėl verta dauginti ir iš 3. Vadinasi, dauginame iš 6 ir sakome: jeigu Mikas duotų Karoliui 6 kartus daugiau – 6 šokoladukus ir 24 ledinukus, tai jis galėtų važinėtis 12 + 6 = 18 valandų. O dabar jis tegali važinėtis 3 valandas.",
      "figure": "figures/2000-q9.png",
      "mechanic": "arith-compute"
     },
@@ -272,7 +273,7 @@
       "uzdaviniai"
      ],
      "correct": "B",
-     "solution": "166 h 40 min ? Jei per minutę parašome 100 raidžių, tai per 1 valandą – 6 000 raidžių, per 160 val. – 960 000 raidžių, per 166 valandas – 996 000 raidžių. Vadinasi, atsakymai A, C ir D atkrinta. Per 200 valandų parašome 1 200 000 raidžių, todėl atkrinta ir atsakymas E. Renkamės atsakymą B. ! Vis dėlto paprasčiau skaičiuoti, negu „artėti“ prie miljono. 1 000 000 už 100 daugiau 10000 kartų, tai prireiks 10 000 minučių, o tai yra 10 000/60 = 1 000/6 = 166 4 6 valandos, t. y. 166 h 40 min. Teisingas atsakymas B. B15. Žr. M15 uždavinio sprendimą.",
+     "solution": "166 h 40 min ? Jei per minutę parašome 100 raidžių, tai per 1 valandą – 6 000 raidžių, per 160 val. – 960 000 raidžių, per 166 valandas – 996 000 raidžių. Vadinasi, atsakymai A, C ir D atkrinta. Per 200 valandų parašome 1 200 000 raidžių, todėl atkrinta ir atsakymas E. Renkamės atsakymą B. ! Vis dėlto paprasčiau skaičiuoti, negu „artėti“ prie miljono. 1 000 000 už 100 daugiau 10000 kartų, tai prireiks 10 000 minučių, o tai yra 10 000/60 = 1 000/6 = 166 4 6 valandos, t. y. 166 h 40 min. Teisingas atsakymas B.",
      "figure": "figures/2000-q14.png",
      "mechanic": "arith-compute"
     },
@@ -292,8 +293,9 @@
      ],
      "figure": "figures/2000-q15.png",
      "mechanic": "geometry-misc",
-     "correct": null,
-     "imageOnlyOptions": true
+     "correct": "C",
+     "imageOnlyOptions": true,
+     "solution": "! Jei iš stačiakampio kampo iškerpame stačiakampį, tvoros ilgis nepasikeičia: dvi nukirptos atkarpos pakeičiamos dviem tokio pat ilgio atkarpomis. Todėl B, D ir E tvoros tokio pat ilgio kaip A. C sklype įpjovos yra kraštinių viduryje: kiekviena įpjova prideda du savo gylius. Taigi ilgiausia tvora – C."
     },
     {
      "num": 16,
@@ -444,8 +446,8 @@
       "geometrija",
       "paveikslelis"
      ],
-     "correct": "D",
-     "solution": "? Spėlioti neverta. L K M L K M 1, 2 L K M A L L L L K K K K M M M M B C D E ! Pradinė padėtis pavaizduota atsakyme A. Po pirmo lenkimo gaunama padėtis pavaizduota atsakyme E. Kadangi po antro lenkimo L pereis į apačią, gausime padėtį L K M. Po trečio lenkimo gausime padėtį D, po ketvirto – padėtį C, po penkto – padėtį L K M, po šešto – padėtį A. Toliau padėtys kartosis, todėl po 166 · 6 = 996 lenkimų turėsime padėtį A. Vadinasi, dar po 3 lenkimų gausime padėtį D. B24. Žr. M23 uždavinio sprendimą.",
+     "correct": "E",
+     "solution": "? Spėlioti neverta. L K M L K M 1, 2 L K M A L L L L K K K K M M M M B C D E ! Pradinė padėtis pavaizduota atsakyme A. Po pirmo lenkimo gaunama padėtis pavaizduota atsakyme E. Kadangi po antro lenkimo L pereis į apačią, gausime padėtį L K M. Po trečio lenkimo gausime padėtį D, po ketvirto – padėtį C, po penkto – padėtį L K M, po šešto – padėtį A. Toliau padėtys kartosis, todėl po 333 · 6 = 1998 lenkimų turėsime padėtį A. Vadinasi, dar po 1 lenkimo gausime padėtį E.",
      "figure": "figures/2000-q23.png",
      "mechanic": "geometry-misc",
      "imageOnlyOptions": true
@@ -466,7 +468,8 @@
      ],
      "figure": "figures/2000-q24.png",
      "mechanic": "area-decomp",
-     "correct": null
+     "correct": "B",
+     "solution": "9 ! Šešiakampio plotis 6, aukštis 3, viršutinė ir apatinė kraštinės po 3. Jį sudaro 3 × 3 kvadratas ir du trikampiai, kurių kiekvieno plotas 3 · 1,5 : 2 = 2,25. Šešiakampio plotas 9 + 4,5 = 13,5. Baltojo rombo įstrižainės po 3, jo plotas 3 · 3 : 2 = 4,5. Užtušuota dalis: 13,5 − 4,5 = 9."
     },
     {
      "num": 25,
@@ -787,8 +790,8 @@
      ],
      "figure": "figures/2001-q10.png",
      "mechanic": "geometry-misc",
-     "correct": null,
-     "solution": "Žr. uždavinio M16 sprendimą."
+     "correct": "A",
+     "solution": "2 ! Suskaičiuokime kvadratus dabar: trys dideli 3 × 3, du 2 × 2 (ten, kur dideli kvadratai persidengia) ir trys maži 1 × 1 – iš viso 8. Pridėjus vieną degtuką naujų kvadratų atsiranda per mažai, o dviem degtukais galima uždaryti tris naujus kvadratus, pavyzdžiui, du 1 × 1 ir vieną 2 × 2. Taigi mažiausiai reikia 2 degtukų."
     },
     {
      "num": 11,
@@ -1222,7 +1225,7 @@
       "paveikslelis"
      ],
      "correct": "C",
-     "solution": "Žr. uždavinio M9 sprendimą.",
+     "solution": "",
      "figure": "figures/2002-q2.png",
      "mechanic": "casework",
      "imageOnlyOptions": true
@@ -1261,7 +1264,7 @@
       "uzdaviniai"
      ],
      "correct": "C",
-     "solution": "Žr. uždavinio M20 sprendimą.",
+     "solution": "",
      "figure": "figures/2002-q4.png",
      "mechanic": "arith-compute"
     },
@@ -1418,7 +1421,7 @@
       "skaiciavimas"
      ],
      "correct": "D",
-     "solution": "Žr. uždavinio M22 sprendimą.",
+     "solution": "",
      "figure": "figures/2002-q12.png",
      "mechanic": "casework"
     },
@@ -1475,7 +1478,7 @@
       "uzdaviniai"
      ],
      "correct": "A",
-     "solution": "Žr. uždavinio M13 sprendimą.",
+     "solution": "",
      "figure": "figures/2002-q15.png",
      "mechanic": "casework"
     },
@@ -1817,7 +1820,7 @@
       "skaiciavimas"
      ],
      "correct": "B",
-     "solution": "Žalia Žr. uždavinio M3 sprendimą.",
+     "solution": "",
      "figure": "figures/2003-q2.png",
      "mechanic": "arith-compute"
     },
@@ -1932,7 +1935,7 @@
       "erdve"
      ],
      "correct": "A",
-     "solution": "24 Žr. uždavinio M15 sprendimą.",
+     "solution": "",
      "figure": "figures/2003-q8.png",
      "mechanic": "geometry-misc"
     },
@@ -1951,7 +1954,7 @@
       "paveikslelis"
      ],
      "correct": "C",
-     "solution": "3 Žr. uždavinio M6 sprendimą.",
+     "solution": "",
      "figure": "figures/2003-q9.png",
      "mechanic": "arith-compute"
     },
@@ -2049,7 +2052,7 @@
       "uzdaviniai"
      ],
      "correct": "E",
-     "solution": "a + b Žr. uždavinio M18 sprendimą.",
+     "solution": "",
      "figure": "figures/2003-q14.png",
      "mechanic": "weighing"
     },
@@ -2144,7 +2147,7 @@
       "uzdaviniai"
      ],
      "correct": "B",
-     "solution": "4 Žr. uždavinio M24 sprendimą.",
+     "solution": "",
      "figure": "figures/2003-q19.png",
      "mechanic": "counting-ways"
     },
@@ -2163,7 +2166,7 @@
       "skaiciavimas"
      ],
      "correct": "D",
-     "solution": "4 Žr. uždavinio M21 sprendimą.",
+     "solution": "",
      "figure": "figures/2003-q20.png",
      "mechanic": "arith-compute"
     },
@@ -2185,7 +2188,7 @@
       "paveikslelis"
      ],
      "correct": "A",
-     "solution": "Žr. uždavinio M19 sprendimą.",
+     "solution": "",
      "figure": "figures/2003-q21.png",
      "mechanic": "geometry-misc"
     },
@@ -2245,7 +2248,7 @@
       "paveikslelis"
      ],
      "correct": "D",
-     "solution": "Žr. uždavinio M22 sprendimą.",
+     "solution": "",
      "figure": "figures/2003-q24.png",
      "mechanic": "area-decomp"
     },
@@ -2323,8 +2326,8 @@
       "geometrija",
       "paveikslelis"
      ],
-     "correct": "B",
-     "solution": "7 ! Iš karto aišku, kad kvadratukas reiškia 6: jeigu jis reikštų 5 ar mažiau, tai suma būtų mažesnė už 600 + 600 + 600 = 1800, o jeigu jis reikštų 7 ar daugiau, tai suma būtų didesnė už 700 · 3 = 2100. Turime + 2 0 0 3 Kadangi iš trečio stulpelio į antrą ateina 1 arba 2 mintyse, tai △negali būti didesnis už 7. Bet tada + △< 17, ir iš trečio stulpelio matome, kad + △= 7. Vadinasi, į antrą stulpelį ateina mintyse 1, todėl △= 7, o tada = 0. Gauname + 2 0 0 6 7 7 Teisingas atsakymas B. !! Galima rašyti ir lygtį: pažymėję kvadratuką x, trikampuką y, o skrituliuką z, turime 111x + 110x + z + 100x + 11y = 2003, 321x + 11y + z = 2003. Matome, kad 321x + 99 + 9 ⩾2003, 321x ⩾1995, x ⩾6. Kita vertus, 321x ⩽2003, x < 7. Taigi x = 6, ir 11y + z = 77. Kadangi z skaitmuo ir dalijasi iš 11, tai z = 0, o tada y = 7. Taigi x + z = 6.",
+     "correct": "A",
+     "solution": "6 ! Iš karto aišku, kad kvadratukas reiškia 6: jeigu jis reikštų 5 ar mažiau, tai suma būtų mažesnė už 600 + 600 + 600 = 1800, o jeigu jis reikštų 7 ar daugiau, tai suma būtų didesnė už 700 · 3 = 2100. Turime + 2 0 0 3 Kadangi iš trečio stulpelio į antrą ateina 1 arba 2 mintyse, tai △negali būti didesnis už 7. Bet tada + △< 17, ir iš trečio stulpelio matome, kad + △= 7. Vadinasi, į antrą stulpelį ateina mintyse 1, todėl △= 7, o tada = 0. Gauname + 2 0 0 6 7 7 Teisingas atsakymas A. !! Galima rašyti ir lygtį: pažymėję kvadratuką x, trikampuką y, o skrituliuką z, turime 111x + 110x + z + 100x + 11y = 2003, 321x + 11y + z = 2003. Matome, kad 321x + 99 + 9 ⩾2003, 321x ⩾1995, x ⩾6. Kita vertus, 321x ⩽2003, x < 7. Taigi x = 6, ir 11y + z = 77. Kadangi z skaitmuo ir dalijasi iš 11, tai z = 0, o tada y = 7. Taigi x + z = 6: klausiama □ + ○ = 6 + 0 = 6.",
      "figure": "figures/2003-q28.png",
      "mechanic": "digit-properties"
     },
@@ -2492,7 +2495,7 @@
       "skaiciavimas"
      ],
      "correct": "D",
-     "solution": "Žr. uždavinio M8 sprendimą.",
+     "solution": "",
      "figure": "figures/2004-q6.png",
      "mechanic": "area-decomp",
      "imageOnlyOptions": true
@@ -2569,7 +2572,7 @@
       "aritmetika"
      ],
      "correct": "A",
-     "solution": "0 Žr. uždavinio M20 sprendimą.",
+     "solution": "",
      "figure": "figures/2004-q10.png",
      "mechanic": "digit-properties"
     },
@@ -2648,7 +2651,7 @@
       "uzdaviniai"
      ],
      "correct": "B",
-     "solution": "108 Žr. uždavinio M9 sprendimą.",
+     "solution": "",
      "figure": "figures/2004-q14.png",
      "mechanic": "weighing"
     },
@@ -2848,7 +2851,7 @@
       "skaiciavimas"
      ],
      "correct": "E",
-     "solution": "M ir T Žr. uždavinio M24 sprendimą.",
+     "solution": "",
      "figure": "figures/2004-q24.png",
      "mechanic": "arith-compute"
     },
@@ -3036,7 +3039,7 @@
       "paveikslelis"
      ],
      "correct": "B",
-     "solution": "1 Žr. uždavinio M4 sprendimą.",
+     "solution": "",
      "figure": "figures/2005-q3.png",
      "mechanic": "casework"
     },
@@ -3055,7 +3058,7 @@
       "uzdaviniai"
      ],
      "correct": "C",
-     "solution": "24 Žr. uždavinio M5 sprendimą.",
+     "solution": "",
      "figure": "figures/2005-q4.png",
      "mechanic": "casework"
     },
@@ -3093,7 +3096,7 @@
       "erdve"
      ],
      "correct": "D",
-     "solution": "60 Žr. uždavinio M16 sprendimą.",
+     "solution": "",
      "figure": "figures/2005-q6.png",
      "mechanic": "multistep-money",
      "hasMissingOptionText": true
@@ -3170,7 +3173,7 @@
       "erdve"
      ],
      "correct": "A",
-     "solution": "Žr. uždavinio M24 sprendimą.",
+     "solution": "",
      "figure": "figures/2005-q10.png",
      "mechanic": "casework",
      "imageOnlyOptions": true
@@ -3327,7 +3330,7 @@
       "paveikslelis"
      ],
      "correct": "E",
-     "solution": "1 Žr. uždavinio M14 sprendimą.",
+     "solution": "",
      "figure": "figures/2005-q18.png",
      "mechanic": "area-compute"
     },
@@ -3366,7 +3369,7 @@
       "skaiciavimas"
      ],
      "correct": "E",
-     "solution": "8 Žr. uždavinio M15 sprendimą.",
+     "solution": "",
      "figure": "figures/2005-q20.png",
      "mechanic": "casework"
     },
@@ -3447,8 +3450,8 @@
       "geometrija",
       "skaiciavimas"
      ],
-     "correct": "D",
-     "solution": "4 ! Antro ir trečio skaitmenų dalmens kvadratas (tai skaitmuo!) ne didesnis už 9, taigi dalmuo (jis nelygus vienetui) gali būti 2 arba 3. Taigi antro ir trečio skaitmenų poros galėtų būti 21, 42, 63, 84, 31, 62, 93. Bet tada triženkliai skaičiai būtų 421, 442, 463, 484, 931, 962, 993. Išmetus skaičius, kur skaitmenys kartojasi, lieka 421, 463, 931, 962, – 4 skaičiai. Teisingas atsakymas D.",
+     "correct": "B",
+     "solution": "4 ! Antro ir trečio skaitmenų dalmens kvadratas (tai skaitmuo!) ne didesnis už 9, taigi dalmuo (jis nelygus vienetui) gali būti 2 arba 3. Taigi antro ir trečio skaitmenų poros galėtų būti 21, 42, 63, 84, 31, 62, 93. Bet tada triženkliai skaičiai būtų 421, 442, 463, 484, 931, 962, 993. Išmetus skaičius, kur skaitmenys kartojasi, lieka 421, 463, 931, 962, – 4 skaičiai. Teisingas atsakymas B.",
      "figure": "figures/2005-q24.png",
      "mechanic": "digit-puzzle"
     },
@@ -5814,8 +5817,8 @@
       "geometrija",
       "paveikslelis"
      ],
-     "correct": "D",
-     "solution": "52 cm2 D N M C A B ! Mažųjų neužtušuotų kvadratų kraštinė – MC = (DC −NM): 2 = = (10 −6): 2 = 2 cm. Todėl vieno kvadratėlio plotas 4 cm2, o visų keturių – 4 · 4 = 16 cm2. Sustūmę neužtušuotus trikampius į centrą, gausime kvadratą, kurio kraštinė lygi NM = 6 cm. Jo plotas 62 = 36 cm2, taigi neužtušuotas plotas lygus 16 + 36 = 52 cm2. Teisingas atsakymas D.",
+     "correct": "C",
+     "solution": "48 cm2 D N M C A B ! Mažųjų neužtušuotų kvadratų kraštinė – MC = (DC −NM): 2 = = (10 −6): 2 = 2 cm. Todėl vieno kvadratėlio plotas 4 cm2, o visų keturių – 4 · 4 = 16 cm2. Sustūmę neužtušuotus trikampius į centrą, gausime kvadratą, kurio kraštinė lygi NM = 6 cm. Jo plotas 62 = 36 cm2, taigi neužtušuotas plotas lygus 16 + 36 = 52 cm2. Klausiama užtušuotos dalies: 100 − 52 = 48 cm2. Teisingas atsakymas C.",
      "figure": "figures/2009-q24.png",
      "mechanic": "area-decomp",
      "imageOnlyOptions": true
@@ -6023,8 +6026,8 @@
      "patterns": [
       "uzdaviniai"
      ],
-     "correct": "C",
-     "solution": "11 ! Sakykime, kad Nikas ir Mikas lipdami „pastovi“ ant kiekvieno laiptelio. Iki susitikimo Nikas buvo pastovėjęs ant 9 laiptelių (dabar jis stovi ant 10-to), o Mikas buvo pastovėjęs ant 20 −10 = 10 laiptelių. Taigi Mikas dabar stovi ant 11 laiptelio skaičiuojant nuo viršaus. Teisingas atsakymas C.",
+     "correct": "D",
+     "solution": "12 ! Sakykime, kad Nikas ir Mikas lipdami „pastovi“ ant kiekvieno laiptelio. Iki susitikimo Nikas buvo pastovėjęs ant 9 laiptelių (dabar jis stovi ant 10-to), o Mikas buvo pastovėjęs ant 21 − 10 = 11 laiptelių. Taigi Mikas dabar stovi ant 12 laiptelio skaičiuojant nuo viršaus. Teisingas atsakymas D.",
      "figure": "figures/2010-q4.png",
      "mechanic": "arith-compute"
     },
@@ -6719,8 +6722,8 @@
       "skaiciavimas",
       "uzdaviniai"
      ],
-     "correct": "A",
-     "solution": "840 ! Dvi savaitės – tai ištisos 14 dienų. Todėl jei katinas Murklys kas antrą dieną sugaudavo po pelę, tai jis lygiai 7 dienas sugaudavo po pelę, ir tą dieną jo pieno porcija išaugdavo trečdaliu, o šiaip dienomis jis savo įprastinę porciją vis tiek atsiimdavo. Todėl per 14 dienų jis gavo 14 įprastinių porcijų ir dar 7 priedus po 1/3 porcijos, arba dar 7 · 1 3 = 7 3 = 21 „įprastinės“ porcijos virš tų 14 porcijų, kurias jis ir taip būtų gavęs net ir nieko neveikdamas. Taigi 14 + 2 1 3 = 16 1 3 porcijos, arba verčiant gramais 16 1 3 · 60 = 49 3 · 60 = 49 · 20 = 980 (g). !! Dvi savaitės – tai vėl 14 dienų. Todėl katinas 7 dienas pradrybsojo, gaudamas (tik) po 60 gramų pieno, o per kitas 7 dienas jis išsijudindavo, nustodavo drybsoti ir, pagavęs po pelę, gaudavo trečdaliu porcijos daugiau, arba tokią dieną iš viso jau 60 + 1 3 · 60 = 60 + 20 = 80 (gramų) pieno. Todėl per tas dvi savaites jam iš viso buvo atseikėta 60 · 7 + 80 · 7 = 140 · 7 = 980 gramų pieno. Teisingas atsakymas A.",
+     "correct": "B",
+     "solution": "980 ! Dvi savaitės – tai ištisos 14 dienų. Todėl jei katinas Murklys kas antrą dieną sugaudavo po pelę, tai jis lygiai 7 dienas sugaudavo po pelę, ir tą dieną jo pieno porcija išaugdavo trečdaliu, o šiaip dienomis jis savo įprastinę porciją vis tiek atsiimdavo. Todėl per 14 dienų jis gavo 14 įprastinių porcijų ir dar 7 priedus po 1/3 porcijos, arba dar 7 · 1 3 = 7 3 = 21 „įprastinės“ porcijos virš tų 14 porcijų, kurias jis ir taip būtų gavęs net ir nieko neveikdamas. Taigi 14 + 2 1 3 = 16 1 3 porcijos, arba verčiant gramais 16 1 3 · 60 = 49 3 · 60 = 49 · 20 = 980 (g). !! Dvi savaitės – tai vėl 14 dienų. Todėl katinas 7 dienas pradrybsojo, gaudamas (tik) po 60 gramų pieno, o per kitas 7 dienas jis išsijudindavo, nustodavo drybsoti ir, pagavęs po pelę, gaudavo trečdaliu porcijos daugiau, arba tokią dieną iš viso jau 60 + 1 3 · 60 = 60 + 20 = 80 (gramų) pieno. Todėl per tas dvi savaites jam iš viso buvo atseikėta 60 · 7 + 80 · 7 = 140 · 7 = 980 gramų pieno. Teisingas atsakymas B.",
      "figure": "figures/2011-q10.png",
      "mechanic": "calendar"
     },
@@ -8354,7 +8357,7 @@
    "year": "2014",
    "title": "Kengūra 2014 · Bičiulis (5–6 kl.)",
    "test_pdf": "benjamin_lt (8).pdf",
-   "solutions_pdf": null,
+   "solutions_pdf": "Solutions/spGDPRB (1).pdf",
    "count": 30,
    "source": "benjamin_lt (8).pdf",
    "questions": [
@@ -8374,7 +8377,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2014-q1.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Pažiūrėkime, kaip metams einant kinta skaitmenų suma. Nuo 2014 iki 2019 ji didėja (tad 7 lygi nebus), o pasiekus 2020 sumažėja iki 4. Tada ji vėl pradeda didėti, ir 2023 metais pirmą kartą tampa lygi 7. Taigi laukti reikės 2023 −2014 = 9 metus."
     },
     {
      "num": 2,
@@ -8392,7 +8396,8 @@
      ],
      "mechanic": "weighing",
      "figure": "figures/2014-q2.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "450 g. ! Jei didžioji dalis sveria tiek pat, kiek likusios, tai jos svoris lygus pusei torto svorio. Padaliję 900 g iš dviejų gauname 450 g."
     },
     {
      "num": 3,
@@ -8411,7 +8416,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2014-q3.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Šį uždavinį patogu spręsti tiesiog įsivaizduojant, kad nupieštus žiedus laikote rankose ir lėtai apsukate. Tamsus žiedas atsidurs kairėje, ir bus virš šviesaus žiedo ties viršutiniu žiedų prasilenkimu."
     },
     {
      "num": 4,
@@ -8429,7 +8435,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2014-q4.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Pastebėkime, kad šimtų skaitmenų suma yra lygi norimam rezultatui: 1+1+1 = 3. Vadinasi, sumuodami dešimčių skaitmenis negalime gauti 10 ar daugiau. Vienintelis rezultatas, kurį galime gauti, yra 0, tad tokia ir bus žvaigždutėmis pažymėtų skaitmenų suma."
     },
     {
      "num": 5,
@@ -8447,7 +8454,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2014-q5.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Mažiausias penkiaženklis skaičius yra 10000, o didžiausias keturženklis yra 9999. Jų skirtumas lygus 1."
     },
     {
      "num": 6,
@@ -8466,7 +8474,8 @@
      ],
      "mechanic": "area-compute",
      "figure": "figures/2014-q6.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Gautojo stačiakampio ilgosios kraštinės dvigubai ilgesnės už kvadrato kraštinę, o trumposios – dvigubai trumpesnės. Sudėję jų ilgius, gausime, kad stačiakampio perimetras lygus penkiems kvadrato kraštinės ilgiams. Kadangi kvadrato perimetras lygus 48, tai jo kraštinės ilgis lygus 12. Tuomet stačiakampio perimetras bus 5 · 12 = 60. BIČIULIO UŽDUOČIŲ SPRENDIMAI"
     },
     {
      "num": 7,
@@ -8484,7 +8493,8 @@
      ],
      "mechanic": "geometry-misc",
      "figure": "figures/2014-q7.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Raskime, iš kelių degtukų Kotryna sudėjo kvadratą. Žinome, kad iš viso trikampiui ji panaudojo 18 degtukų, nes trikampis turi tris kraštines, ir kiekvienai iš jų Kotryna panaudojo po 6 degtukus. Kadangi iš viso ji degtukų turėjo 38, tai kvadratui liko 38 −18 = 20. Kvadratas turi keturias vienodo ilgio kraštines, tad padaliję 20 iš 4 gauname ieškomą vienos jo kraštinės ilgį: 5."
     },
     {
      "num": 8,
@@ -8503,7 +8513,8 @@
      ],
      "mechanic": "iteration",
      "figure": "figures/2014-q8.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Truputį paeksperimentavę netruksime pastebėti, kad imant 3 juodus karoliukus iš dešinio galo ir 2 juodus iš kairiojo galo, iš viso nuimsime tris baltus karoliukus. Lieka įsitikinti, kad mažiau baltų karoliukų nuimti nepavyks. Išties, jei nuo dešiniojo galo imtume daugiau nei 3 juodus karoliukus, tektų nuimti bent keturis baltus. Lygiai taip pat, jei nuo kairiojo galo bandytume nuimti daugiau nei 2 juodus, tektų nuimti bent keturis baltus. Vadinasi, 3 juodi iš dešinės ir 2 juodi iš kairės yra daugiausia, ką galime nuimti neviršydami 3 baltų, o kadangi 3 + 2 = 5, tai neturime pasirinkimo – tenka juos ir imti."
     },
     {
      "num": 9,
@@ -8521,7 +8532,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2014-q9.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "Antrame ! Šiame uždavinyje svarbu nesusimaišyti skaičiuojant ratų trukmes. Norint rasti pirmojo rato trukmę, reikia iš laiko, užfiksuoto po 1 rato, atimti starto laiką, gausime 10: 26 −9: 55 = 31 minutę. Norint rasti antrojo rato trukmę, reikia iš laiko, užfiksuoto po 2 rato, atimti laiką užfiksuotą po 1 rato, gausime 10: 54 −10: 26 = 28 minutes. Taip tęsdami, rasime, kad trečias ratas truko 32 minutes, ketvirtas – 35 minutes, penktas – 29 minutes. Matome, kad mažiausiai Haris užtruko antrame rate."
     },
     {
      "num": 10,
@@ -8539,7 +8551,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q10.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Skaičiuokime iš kito galo. Paskutinis ėmė Mažylis, ir jam paėmus pusę saldainių liko 3, vadinasi prieš imant buvo 6. Antrasis nuo galo ėmė Karlsonas, ir paėmė du saldainius, vadinasi prieš jam imant buvo 8. Galiausiai trečiasis nuo galo vėl ėmė Karlsonas, ir paėmė pusę saldainių, vadinasi prieš jam imant buvo 16."
     },
     {
      "num": 11,
@@ -8558,7 +8571,8 @@
      ],
      "mechanic": "tiling",
      "figure": "figures/2014-q11.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "Tai neįmanoma ! Sąlygos figūroje yra dvi baltos plytelės ir šešios juodai baltos. Visos juodai baltos figūros juodo ploto ir balto ploto turi po lygiai, vadinasi iš viso figūroje yra dviem plytelėmis balto ploto daugiau nei juodo. Net ir pridėjus visą juodą plytelę, balto ploto vis vien liks viena plytele daugiau."
     },
     {
      "num": 12,
@@ -8576,7 +8590,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q12.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "1 km į šiaurę ! Pavaizduokime Jono ir Eriko kelius: Jonas Erikas 2km 4km 1km 4km 4km 1km 1km Susumavę atstumus gausime, kad jie abu nuėjo po 3 kilometrus į vakarus, o į pietus Erikas nuėjo vienu kilometru daugiau. Vadinasi, norėdamas sutikti Joną, jis turės dar eiti vieną kilometrą į šiaurę."
     },
     {
      "num": 13,
@@ -8594,7 +8609,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q13.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Žinome, kad 7 vaikai ledus valgo kiekvieną dieną, tad jie juos valgė ir vakar. Vadinasi, iš 13 vakar valgiusių vaikų, tokių, kurie valgo ledus kas antrą dieną, buvo 13 −7 = 6. Tie šeši šiandien ledų nevalgys, bet valgys likę 9 −6 = 3 vakar ledų nevalgę, bet kas antrą dieną juos valgantys vaikai. Pridėję juos prie 7, kurie valgo ledus kiekvieną dieną, gauname 10."
     },
     {
      "num": 14,
@@ -8614,7 +8630,8 @@
      "mechanic": "clock",
      "figure": "figures/2014-q14.png",
      "correct": "B",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "B ! Šį uždavinį patogu spręsti pavaizdavus apskritą stalą ir prie jo sėdinčias kengūras. Tuomet galima tiesiog pabandyti keletą kengūrų apsikeitimo vietomis variantų. Pavyzdžiui, žemiau esančiame paveikslėlyje kengūrą A palikome vietoje ir pažymėjome rodyklėmis vienintelį įmanomą likusių kengūrų susikeitimo būdą: A B C D E A B C D E BIČIULIO UŽDUOČIŲ SPRENDIMAI Matome, kad jei kengūra A liks vietoje, tai po susikeitimo kengūrų tvarka, pradedant nuo A, bus A, C, B, E, D – netinka. Pabandykime vietoje palikti kengūrą B: A B C D E A B C D E Šiuo atveju gauname, kad po susikeitimo kengūrų tvarka bus A, E, B, D, C – tinka! Radome, kad sąlyga tenkinama, jei nesikeičia kengūra B. Žinoma, galime pabandyti likusius variantus ir įsitikinti, kad kitais atvejais kengūrų tvarka bus kitokia."
     },
     {
      "num": 15,
@@ -8633,7 +8650,8 @@
      "mechanic": "geometry-misc",
      "figure": "figures/2014-q15.png",
      "correct": "B",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "B ! Šį uždavinį galima išspręsti pabandžius ir mintyse (ar pavaizdavus ant popieriaus lapo) sudėjus kvadratą iš kurių nors keturių dalių. Tačiau tai nėra lengva, nors iš pirmo žvilgsnio taip neatrodo. Bet kuriuo atveju pabandyti verta, nes net ir nepavykus, greitai suprasime, kur šiame uždavinyje šuo pakastas. Bebandydami pastebėsime, kad kiekviena detalė turi turėti dvi tiesias kraštines, kurios eis sudėtojo kvadrato kraštinėmis. Be tų dviejų tiesių kraštinių kiekviena detalė turi dar po dvi kraštines, kuriomis glausis prie kitos. Glaudžiant detales vieną prie kitos, išgaubta kraštinė gali glaustis tik prie įgaubtos, o tiesi prie tiesios. Pastebėkime, kad po trečią tiesią kraštinę (neskaitant dviejų, kurios bus išorinėmis) turi tik D ir E. Vadinasi, jei imsime vieną iš šių detalių (o juk būtinai imsime!), tai turėsime imti ir kitą. Supratę, kad turėsime imti detales D ir E, svarstome toliau. Jei prie jų bandysime pridėti detales A ir B, tai iš viso turėsime keturias įgaubtas kraštines ir dvi išgaubtas – suporuoti jų nepavyks. Jei prie jų bandysime pridėti detales B ir C, tai bus atvirkščiai: turėsime keturias išgaubtas ir dvi įgaubtas kraštines, tad suporuoti jų taip pat nepavyks. Galiausiai, jei prie D ir E bandysime pridėti detales A ir C, tai turėsime po tris įgaubtas ir po tris išgaubtas kraštines, ir kiek pabandę kvadratą sudėsime:"
     },
     {
      "num": 16,
@@ -8651,7 +8669,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2014-q16.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Raskime, kokius tris vienaženklius skaičius (skaitmenis) turime sudauginti, kad gautume 135. Skaidykime dauginamaisiais: 135 = 5 · 3 · 3 · 3. Skaitmenys sandaugoje keturi, o mums reikia trijų, vadinasi kažkuriuos du turime sudauginti į vieną. Jei dauginsime 3 iš 5, gausime 15 – per daug. Lieka tik dauginti 3 iš 3, nes kitokių skaitmenų neturime. Vadinasi, vienintelis būdas užrašyti 135 kaip trijų skaitmenų sandaugą yra 5 · 3 · 9, tad būtent iš šių trijų skaitmenų ir buvo sudarytas sąlygos triženklis skaičius. Jų suma lygi 17."
     },
     {
      "num": 17,
@@ -8669,7 +8688,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q17.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Raskime 6-viečių staliukų skaičių. Kavinėje iš viso gali susėsti 72 žmonės, o prie 3-viečių ir 4-viečių tik 36 žmonės, vadinasi likę 36 turi tilpti prie 6-viečių staliukų. Padaliję 36 iš 6, randame, kad jų yra 6. Išsiaiškinę tai, žinome, kad iš viso 3-viečių ir 4-viečių staliukų yra 16 −6 = 10, ir prie jų gali susėsti 36 žmonės. Kiek pabandžius nesunku atspėti, kad iš tų dešimties 4 yra 3-viečiai ir 6 yra 4-viečiai. Taip pat galime susidaryti ir lygtį. Pažymėję 3-viečių staliukų skaičių x, gausime, kad kavinėje yra 10 −x 4-viečių staliukų, tad prie jų gali susėsti 3x + 4(10 −x) lankytojų. Prisilyginę 3x + 4(10 −x) = 36 ir išsprendę, rasime atsakymą x = 4."
     },
     {
      "num": 18,
@@ -8687,7 +8707,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q18.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Atidėkime atkarpoje duotus taškus ir atstumus: B C D E F A Atidžiai pažiūrėję į gautą brėžinį, pamatysime, kad keturios trumpos atkarpos persidengia kaip tik ties ieškoma atkarpa BE. Vadinasi, sudėję jų ilgius gausime ilgosios atkarpos AF ilgį plius BE ilgį. Tad BE = 12 + 11 + 12 + 16 −35 = 16."
     },
     {
      "num": 19,
@@ -8705,7 +8726,8 @@
      ],
      "mechanic": "partition",
      "figure": "figures/2014-q19.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "! Įsivaizduokime, kad Rasa du saldainius atskyrė nuo kitų. Likę saldainiai susideda ir į krūveles po 3, ir į krūveles po 5, tad jie sunkumų nesudarys ir galime į juos nekreipti dėmesio. Lieka sugalvoti, kiek saldainių turime pridėti prie tų atskirtųjų dviejų saldainių, kad ir jie išsidalytų į abiejų rūšių krūveles. Pats mažiausiais už 2 didesnis skaičius, besidalijantis ir iš 3 ir iš 5 yra 3·5 = 15. Vadinasi, prie turimų 2 Rasai dar reiks pridėti 13 saldainių. BIČIULIO UŽDUOČIŲ SPRENDIMAI"
     },
     {
      "num": 20,
@@ -8724,7 +8746,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q20.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Iš sąlygos aišku, kad sienai 6 gretimos (turinčios bendrą kraštinę) sienos yra 1, 2, 4 ir 5, vadinasi, priešinga sienai 6 yra siena 3. Sienai 1 gretimos yra sienos 2, 5 ir 6, vadinasi, jai priešinga yra arba siena 3, arba siena 4. Bet siena 3 yra priešingai sienai 6, tad sienai 1 priešinga yra siena 4, ko ir ieškojome."
     },
     {
      "num": 21,
@@ -8749,7 +8772,8 @@
       "E": "Sudėjai 3 + 3 + 3 ir nepastebėjai, kad kai kurie kubeliai išimami dviem vaizdams iš karto."
      },
      "figure": "figures/2014-q21.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Tam, kad matytume nurodytą figūrą ir iš dešinės, ir iš priekio, ir iš viršaus, turime iš kubo išimti bent tris kubelių eiles, pažymėtas paveikslėlyje. Suskaičiavę pažymėtus kubelius, gauname atsakymą 7."
     },
     {
      "num": 22,
@@ -8772,7 +8796,8 @@
       "D": "Likusias 8 minutes skaičiavai nuo dainos A, o ratas prasidėjo nuo C."
      },
      "figure": "figures/2014-q22.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "A ! Sudėkime visų dainų trukmes: 3 + 2: 30 + 2 + 1: 30 + 4 = 13. Jei išeinant Alisai pradėjo skambėti daina C, tai ji pradėjo skambėti ir po 52 minučių, keturis kartus grotuvui pagrojus visą grojaraštį. Pažiūrėkime, ką gros grotuvas pradedant šia 52 minute. Pirmiausia pagros dainą C, kuri trunka 2 minutes. Tuomet ties 54 minute pradės groti dainą D, kuri trunka 1: 30, ties 55: 30 pradės groti dainą E, kuri trunka 4 minutes, o ties 59: 30 pradės groti dainą A, kuri trunka 3 minutes. Tad būtent daina A ir skambės, kai Alisa grįš."
     },
     {
      "num": 23,
@@ -8792,7 +8817,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q23.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "! Pastebėkime, kad vienintelė vieta, kur Dovydas gali įrašyti skaičių 5 yra tarp 1 ir 2. Įrašius 5 tarp jų, o į centrą įrašius 6, gausime, kad šalia 5 esančių skaičių suma lygi 9 – tiek, kiek ir reikia. Įrašius 5 bet kur kitur, ar į centrą įrašius bet kokį kitą skaičių, šalia jo esančių skaičių suma padidės ir sąlygos nebetenkins. Nustatėme, kad 6 turi būti centre. O tuomet žinome, kokie skaičiai bus jo kaimynai: 5, 7, 8 ir 9. Sudėję juos, gauname atsakymą 29."
     },
     {
      "num": 24,
@@ -8810,7 +8836,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q24.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "? Pirmiausia šį uždavinį išspręskime galbūt kiek negriežtai. Nusipieškime dvylika rutuliukų („medžių“), kas antrą nuspalvinkime raudonai, o kas trečią mėlynai: Pastebėkime, kad pirmų šešių medžių nuspalvinimas toks pat, kaip ir antrų šešių, tad galime įtarti, kad jis išliks toks pat ir toliau. Kadangi iš pirmų šešių 2 medžiai liko nenuspalvinti (beržai), tai iš šešiasdešimties jų bus 20. ! Bespalvinant galima sugalvoti ir griežtą sprendimą. Kiek yra beržų, sužinosime radę, kiek yra klevų ir uosių kartu sudėjus, tad skaičiuokime. Žinome, kad kas antras yra klevas (raudona spalva), tad jų yra 60: 2 = 30. Taip pat, kas trečias yra klevas arba uosis (mėlyna spalva), tad jų yra 60: 3 = 20. Atrodytų radome ir kiek yra beržų: 60 −30 −20 = 10, bet atsargiai, nesuklyskime! Tarp tų 20 ir 30 kai kuriuos medžius įskaičiavome du kartus (tą patį rutuliuką nuspalvinome dviem spalvomis). Du kartus įskaičiavome tuos medžius, kurie buvo ir „kas antras“ ir „kas trečias“, o tai reiškia, buvo „kas šeštas“. Jų bus 60: 6 = 10, tad iš viso klevų ir uosių ant kranto auga 20 + 30 −10 = 40, o likę 20 yra beržai."
     },
     {
      "num": 25,
@@ -8829,7 +8856,8 @@
      ],
      "mechanic": "area-compute",
      "figure": "figures/2014-q25.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "72 cm2 ! Įsižiūrėję į brėžinį, nesunkiai pastebėsite, kad ilgoji mažojo stačiakampio kraštinė yra lygi pusei kvadrato kraštinės, o trumpoji yra lygi pusei pusės, t.y. ketvirtadaliui (brėžinyje vienodu skaičiumi brūkšnelių pažymėtos vienodo ilgio atkarpos): Lieka tik sudauginti: 6 · 12 = 72."
     },
     {
      "num": 26,
@@ -8847,7 +8875,8 @@
      ],
      "mechanic": "rate-time",
      "figure": "figures/2014-q26.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Raskime, keliomis minutėmis pirmasis pasiuntinys atvyks anksčiau į pilį, nei antrasis. Įsivaizduokime, kad keliaujame kartu su karaliaus svita, ir, jam paleidus pirmąjį pasiuntinį į pilį mes sustojame ir prisėdame šalia kelio. Pirmasis pasiuntinys joja į dešinę pilies link, o karalius keliauja į kairę rūmų link. Kiek laiko mes prasėdėsime šalia kelio, kol pro mus prajos antrasis pasiuntinys? Skaičiuokime: valandą antrasis pasiuntinys jos su karaliumi, ir nuo mūsų nutols per 5 kilometrus. Tuomet jis pradės joti pilies (ir mūsų) link, ir tuos 5 kilometrus įveiks per pusvalandį. Vadinasi, mes antrąjį pasiuntinį pamatysime po pusantros valandos nuo pirmojo pasiuntimo. Nebesunku suprasti, kad jei ties mumis laiko tarpas tarp pasiuntinių buvo pusantros valandos, tai ir ties pilies vartais jis bus pusantros valandos, arba 90 minučių."
     },
     {
      "num": 27,
@@ -8865,7 +8894,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2014-q27.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "7 arba 8 ! Du Beno skaitmenis, kurių Evita nenuvalė, pažymėkime x ir y. Tuomet iš sąlygos žinome, kad nuvalytasis skaitmuo buvo lygus 15 −x −y. Taip pat žinome naujojo trejeto sandaugą: 3 · x · y = 36, tai yra x · y = 12. Kokius du skaitmenis sudauginę galime gauti 12? Išsirašę 12 daliklius 1, 2, 3, 4, 6, 12 ir padaliję, gauname, kad 12 galime gauti tik kaip 1 · 12, 2 · 6 ir 3 · 4. 12 nėra skaitmuo, tad 1 · 12 atmetame. Lieka du variantai, pirmuoju skaitmenų x ir y suma lygi 8, antruoju 7. Tad ieškomas nuvalytas skaitmuo atitinkamai gali būti arba lygus 7, arba 8. BIČIULIO UŽDUOČIŲ SPRENDIMAI"
     },
     {
      "num": 28,
@@ -8883,7 +8913,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2014-q28.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Pradėkime šį uždavinį spręsti nuo morkų. Žinome, kad per vieną dieną Kvanka gali sugraužti arba 9, arba 4 morkas, o iš viso jis sugraužė 30. Patikrinkime, kelias dienas iš pastarųjų dešimties Kvanka graužė po 9 morkas. Turėjo būti bent viena „devynmorkė“ diena, nes 30 nesidalija iš 4. Taip pat negalėjo būti ir viena „devynmorkė“ dienos, nes 21 nesidalija iš 4. Tikriname 2 „devynmorkes“ dienas: lieka 12 morkų, o 12 iš 4 dalijasi, tinka! Trys „devynmorkės“ dienos taip pat netinka, o daugiau jų būti negali. Nustatėme, kad Kvanka 2 dienas graužė po 9 morkas, ir 3 dienas graužė po 4. Pereikime prie kopūstų. Per tas dienas, kai graužė 9 morkas, Kvanka nesugraužė nei vieno kopūsto, o per tas tris dienas, kai graužė 4 morkas, sugraužė 3 kopūstus. Iš viso jis sugraužė 9 kopūstus, vadinasi likusius 6 graužė per 3 „dvikopūstes“ dienas. Išsiaiškinus Kvankos meniu, belieka viską suskaičiuoti. Jis 2 dienas graužė po 9 morkas, 3 dienas graužė po 4 morkas ir kopūstą ir 3 dienas graužė po 2 kopūstus. Iš viso 8 dienos, vadinasi per likusias 2 dienas jis krimto žolę."
     },
     {
      "num": 29,
@@ -8903,7 +8934,8 @@
      "mechanic": "sequence-pattern",
      "figure": "figures/2014-q29.png",
      "correct": "C",
-     "hasMissingOptionText": true
+     "hasMissingOptionText": true,
+     "solution": "4 dienų ! Pavaizduokime dienas kaip vienas po kito einančius langelius. Šiandien Lietijoje yra saulėta: Žinome, kad prieš saulėtą dieną, dvi paskutinės dienos yra lietingos, tad lietinga buvo ir vakar, ir užvakar: Po kiekvienos lietingos dienos penkta diena taip pat yra lietinga, tad lis užporyt ir už užporyt: Rytoj ir poryt taip pat lis, nes jei būtų saulėta, tai reikštų, kad dvi dienas prieš tai lijo, o mes žinome, kad šiandien nelyja. Sugebėjome nustatyti keturių dienų orą, o penktosios oro nustatyti nebepavyks, nes nei ji yra penkta po lietingos, nei šalia saulėtos. Įdomu, kad jei netyčia ir penktąją dieną lytų, tai saulės Lietijos žmonės nebeišvystų niekada. Tikėkimės, kad taip nenutiks."
     },
     {
      "num": 30,
@@ -8923,7 +8955,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2014-q30.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "? Šis uždavinys gana sunkus: iš pat pradžių neaišku, nuo ko pradėti, o kai jau pasidaro aišku, nėra paprasta sumuoti tiek daug skaičių. Pirma raskime siūlo galą: kodėl vienoks ar kitoks atsakymas gali netikti? Greičiausiai todėl, kad jei į raudoną vazą močiutė įdės per mažai gėlių, tai dedant į kitas dar mažiau visos per gimtadienį gautos 180 gėlių paprasčiausiai netilps. Pabandykime – pasirinkime atsakymą A ir pažiūrėkime, ar tikrai visos gėlės netilps. Jei močiutė į raudonąją vazą merkia 19 gėlių, tai į kitas turės merkti mažiau, o be to, po skirtingą skaičių. Tai reiškia, kad norėdama pamerkti kuo daugiau gėlių, ji į antrąją vazą turės pamerkti 18, į trečiąją 17, į ketvirtąją 16 ir taip iki pat dešimtosios, į kurią ji turės pamerkti 10 gėlių. Kiek gi gėlių ji pamerkė iš viso? Reikia suskaičiuoti tokią nemažą sumą: 19 + 18 + 17 + 16 + 15 + 14 + 13 + 12 + 11 + 10. Žinoma, galima tiesiog imti ir iš eilės šią sumą susumuoti (ką, neturint kitų minčių, konkurso metu greičiausiai ir verta daryti). Kita vertus, sumuojant tokią sumą galima įvelti klaidą, tad mes, turėdami laiko, kiek pagudrausime ir sumuosime poromis: pirmą skaičių sudėsime su paskutiniuoju, antrą su priešpaskutiniuoju ir taip toliau. Kad būtų aiškiau, nuspalvinkime šias poras: 19 + 18 + 17 + 16 + 15 + 14 + 13 + 12 + 11 + 10. Kiekvienos iš šių porų suma ta pati! Žiūrėkite: 19 + 10 = 29 18 + 11 = 29 17 + 12 = 29 16 + 13 = 29 15 + 14 = 29 Aišku, kad tuomet visa suma bus lygi 29 · 5 = 145. Sužinojome du dalykus: kaip sumuoti iš eilės einančius skaičius, ir kad tikrai močiutės gėlės šiuo atveju netelpa. Pabandykime atsakymą B, nujausdami, kad netilps ir šiuo atveju. Vėl mąstome taip pat, ir gauname, kad daugių daugiausiai močiutė gali pamerkti tiek gėlių: 20 + 19 + 18 + 17 + 16 + 15 + 14 + 13 + 12 + 11. Čia dėmenis vėl galima poruoti, gausime penkias poras po 31 (tad iš viso 5 · 31 = 155). Beje, šios sumos kiekvienas skaičius vienetu didesnis už prieš tai jau rastos sumos skaičių. Dešimt vienetu didesnių skaičių duoda dešimtimi didesnę sumą: 145 + 10 = 155. Vėl močiutės rožės netelpa. Imame atsakymą C ir jau žinome ko tikėtis: į raudonąją vazą močiutė pamerks viena rože daugiau nei atsakyme B, tad į visas vazas kartu daugiausiai pamerks dar dešimčia daugiau: 155 + 10 = 165 – vis dar per mažai. Imame atsakymą D, dar dešimčia rožių daugiau 165 + 10 = 175 – irgi per mažai. Lieka atsakymas E, nujaučiame, kad viskas su juo gerai, tad jį ir pažymime. BIČIULIO UŽDUOČIŲ SPRENDIMAI ! Patikrinkime, ar tikrai atsakymas E tinka. Iš pradžių pabandykime pamerkti kuo daugiau rožių: į raudoną vazą merkime 23, o į likusias visas po vieną mažiau: 23 + 22 + 21 + 20 + 19 + 18 + 17 + 16 + 15 + 14. Ši suma nebebaisi, gėlių čia dešimčia daugiau nei daugiausia kiek gavome atsakyme D: 175 + 10 = 185. Matome, kad jų penkiomis per daug, reikia kažkurias išimti. Sekundę pamąstome – o gi viskas čia paprasta: pavyzdžiui, išimkime po vieną iš paskutiniųjų penkių vazų: 23 + 22 + 21 + 20 + 19 + 17 + 16 + 15 + 14 + 13. Net nesumuodami tikrai žinome, kad ši suma lygi 180, ir kad gėles pamerkti pavyko."
     }
    ]
   },
@@ -8931,7 +8964,7 @@
    "year": "2015",
    "title": "Kengūra 2015 · Bičiulis (5–6 kl.)",
    "test_pdf": "benjamin_lt (7).pdf",
-   "solutions_pdf": null,
+   "solutions_pdf": "Solutions/spGDPRB (2).pdf",
    "count": 30,
    "source": "benjamin_lt (7).pdf",
    "questions": [
@@ -8953,7 +8986,8 @@
      "mechanic": "area-decomp",
      "figure": "figures/2015-q1.png",
      "correct": "B",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "? Greitosiomis peržvelgę atsakymus matome, kad trikampis B padalytas į dvi dalis per savo simetrijos ašį ir viena iš šių dalių užtušuota, vadinasi, užtušuota pusė trikampio ploto. Renkamės atsakymą B. ! Lieka įsitikinti, kad paveikslėliuose A, C, D ir E užtušuotas plotas yra arba didesnis, arba mažesnis už pusę figūros ploto. A) C) D) E) Skritulys A padalytas į tris lygias dalis, užtušuota viena dalis, t. y. 3 figūros ploto. Kvadratai C ir D padalyti į keturias dalis, o iš jų užtušuotos atitinkamai trys ir viena dalys, taigi C figūros užtušuota 3 4, o figūros D – 1 4 ploto. Galiausiai, penkiakampyje E užtušuotos dvi iš penkių lygių dalių, o tai yra 2 5 viso figūros ploto."
     },
     {
      "num": 2,
@@ -8972,7 +9006,8 @@
      "mechanic": "casework",
      "figure": "figures/2015-q2.png",
      "correct": "C",
-     "hasMissingOptionText": true
+     "hasMissingOptionText": true,
+     "solution": "A G R ! Teisingą atsakymą galima parinkti atmetimo būdu. Paveikslėliuose (žr. žemiau) parodyta, kad aš galiu taip pasukti savo skėtį, kad jis atrodytų taip, kaip atsakymuose A, B, D ir E. R A G N A K O O A) N A G R A G N A K O O B) O O K R A G N A K O O D) R A G N A K O O E) Taigi lieka vienintelis galimas variantas C. Iš tiesų, atsakyme C pavaizduotas skėtis tikrai ne mano, nes raidė R ant šio skėčio užrašyta atbulai."
     },
     {
      "num": 3,
@@ -8992,7 +9027,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2015-q3.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Matome, kad yra du pilki kvadratėliai, turintys bendrą kraštinę, todėl Tomui reikia perspalvinti =⇒ bent vieną iš jų. Taip pat reikia perspalvinti bent vieną iš juodų kvadratėlių. Paveikslėlyje parodyta, kad dviejų perspalvinimų užtenka uždavinio sąlygai išpildyti."
     },
     {
      "num": 4,
@@ -9010,7 +9046,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q4.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Kiekviena višta, kuri deda kasdien, per 10 dienų padės 10 kiaušinių. Tokių vištų yra 5, tai iš viso jos padės 5 · 10 = 50 kiaušinių. Višta, kuri deda kas antrą dieną, per 10 dienų padės 5 kiaušinius. Tokių vištų irgi yra 5 ir iš viso jos padės 5 · 5 = 25 kiaušinius. Taigi per 10 dienų vištos padės 50 + 25 = 75 kiaušinius. !! Penkios močiutės vištos deda kasdien, tai per 10 dienų jos padės 5 · 10 = 50 kiaušinių. Kitos 5 vištos deda dvigubai rečiau, tai ir kiaušinių padės dvigubai mažiau: 50: 2 = 25. Taigi iš viso vištos padės 50 + 25 = 75 kiaušinius."
     },
     {
      "num": 5,
@@ -9030,7 +9067,8 @@
      ],
      "mechanic": "area-compute",
      "figure": "figures/2015-q5.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "18 cm ! Sąlygoje pasakyta, kad kvadratėlio plotas lygus 4 cm2, todėl jo kraštinės ilgis yra lygus 2 cm. Paryškinta linija eina kvadratėlių kraštinėmis, taigi belieka suskaičiuoti, kiek tokių kraštinių yra. Tokių kraštinių yra 9, todėl visos linijos ilgis lygus 9 · 2 cm = 18 cm."
     },
     {
      "num": 6,
@@ -9048,7 +9086,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q6.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "? Čia laimi tie, kurie mėgsta tikrinti nuo galo. Atsakyme E trupmena 23 12 yra mažesnė už 24 12 = 2, nes padidinus skaitiklį, trupmena padidėja. Kadangi gali būti tik vienas teisingas atsakymas, renkamės E. ! Nesunku patikrinti, kad atsakymai A, B, C ir D netinka: 8 = 23 8 > 2; 9 = 22 9 > 2; 10 = 2 1 10 > 2; 11 = 2. O atsakymas E tinka: 12 = 111 12. !! Patikrinti, ar trupmena mažesnė už 1, labai paprasta – užtenka palyginti skaitiklį su vardikliu. Jei skaitiklis didesnis už vardiklį, tai ir trupmena didesnė už 1, jei skaitiklis mažesnis už vardiklį, tai trupmena mažesnė už 1. Sumažinkime visas trupmenas pusiau, t. y. padauginkime vardiklį iš 2, ir pažiūrėkime, ar trupmena mažesnė už 1: 16 > 1; 18 > 1; 20 > 1; 22 = 1; 24 < 1. Paskutinė trupmena yra mažesnė už vienetą, todėl pradinė trupmena 23 11 bus mažesnė už 2. Renkamės atsakymą E."
     },
     {
      "num": 7,
@@ -9066,7 +9105,8 @@
      ],
      "mechanic": "weighing",
      "figure": "figures/2015-q7.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "? Arbūzas yra lengvesnis už melioną, o kartu jie sveria 8 kg, todėl arbūzas sveria mažiau nei 4 kg, o melionas daugiau nei 4 kg. Pažiūrėję į atsakymus greitai nustatome, kad arbūzas sveria 3 kg, o melionas 5 kg. ! Uždavinį galima išspręsti sudarius paprastą lygčių sistemą. Tarkime, kad arbūzas sveria x kg, o melionas y kg. Tada x + y = 8 ir y −x = 2. Sudėję abi lygtis, gauname 2y = 10, arba y = 5."
     },
     {
      "num": 8,
@@ -9085,7 +9125,8 @@
      ],
      "mechanic": "divisibility",
      "figure": "figures/2015-q8.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "? Septyni duoda liekaną 7 dalijant iš 9, o 2 · 7 = 14 duoda liekaną 5 dalijant iš 9. Taigi spėjame, kad teisingas atsakymas yra C. ! Tarkime skaičius n duoda liekaną 7 dalijant iš 9. Šį skaičių galima užrašyti taip: n = 9k + 7. Padauginę abi lygybės puses iš 2 gausime 2n = 18k + 14 = 18k + 9 + 5 = 9(2k + 1) + 5. Taigi 2n duos liekaną 5 dalijant iš 9."
     },
     {
      "num": 9,
@@ -9103,7 +9144,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q9.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Tarkime, kad augalas turi x šakelių su žiedais ir y šakelių be žiedų. Tuomet jis turi 2x + 5y lapelius. Mes žinome, kad yra 6 šakelės su žiedais ir 32 lapeliai. Taigi x = 6 ir 2 · 6 + 5y = 32. Iš pastarosios lygties randame, kad y = 4. Iš viso šakelių yra x + y = 10. !! Aišku, kad augalas turi 6 „žydinčias“ šakeles. Kiekviena jų turi 2 lapelius, taigi žydinčios šakelės turi 6 · 2 = 12 lapelių. Kiti 32 −12 = 20 lapelių priklauso „penkialapėms“ šakelėms, taigi jų yra 20: 5 = 4. Iš viso yra 6 + 4 šakelių."
     },
     {
      "num": 10,
@@ -9121,7 +9163,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q10.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "4 cm ! Tarkime, kad juosteles ne klijuojame, o tik uždedame vieną ant kitos. Iš sąlygos žinome, kad sudėję 2 juosteles taip, kad persidengimo ilgis būtų 10 cm, gauname 50 cm ilgio juostelę. Dabar vieną juostelę laikykime prispaudę, o kitą traukime tol, kol gausime 56 cm ilgio juostelę. Kiek mes patraukėme? 6 cm. Taigi ir persidengimas sumažėjo 6 cm ir dabar yra lygus 10 cm − 6 cm = 4 cm."
     },
     {
      "num": 11,
@@ -9140,7 +9183,8 @@
      ],
      "mechanic": "area-compute",
      "figure": "figures/2015-q11.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "12 cm ? Intuityviai aišku, kad pristūmus visus kvadratėlius prie krašto (žr. pav.) gausime tokio paties perimetro figūrą. Šios pakeistos figūros perimetras lygus 12 cm. =⇒ ! Įrodykime, kad stumdant kvadratėlius taip, kaip darėme dalyje ?, figūros perimetras nesikeičia. Iš tiesų, stumdant „antro aukšto“ kvadratėlių bloką CDEF, atkarpų AF ir BE ilgių suma nesikeičia, nes AF +BE = AB−EF = 3−2 = 1. Panašiai samprotaudami įrodome, kad CG + HD = CD −GH = 2 −1 = 1. Likusį perimetrą apskaičiuojame suskaičiavę kvadratėlių kraštines, kurių yra 10. F E G H A B C D"
     },
     {
      "num": 12,
@@ -9159,7 +9203,8 @@
      ],
      "mechanic": "calendar",
      "figure": "figures/2015-q12.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "! Skaičiuokime mėnesio ir dienos skaitmenų sumą atskirai. Mėnesiai numeruojami nuo 1 iki 12. Kuris iš šių skaičių turi didžiausią skaitmenų sumą? Čia reikia neapsirikti – didžiausio skaičiaus skaitmenų suma nebūtinai didžiausia. Pavyzdžiui, nors 10 yra didesnis skaičius už 9, bet jo skaitmenų suma yra mažesnė. Mėnesių skaičius gali arba neturėti dešimčių skaitmens (tada galime laikyti, kad dešimčių skaitmuo yra 0: išties, jis nekeičia skaitmenų sumos), arba dešimčių skaičius gali būti lygus 1. Jeigu dešimčių skaitmuo yra 0, tai didžiausias galimas vienetų skaitmuo yra 9, o jei dešimčių skaitmuo yra 1, tai didžiausias vienetų skaitmuo tegali būti 2. Telieka palyginti du skaičius: 09 ir 12. Iš jų didesnę skaitmenų sumą (taigi ir didžiausią skaitmenų sumą iš visų mėnesių numerių) turi 09. Panašiu būdu surasime, kokia mėnesio diena turi didžiausią skaitmenų sumą. Didžiausias dienų skaičius mėnesyje gali būti 31. Taigi, dešimčių skaitmuo kinta nuo 0 iki 3. Kai dešimčių skaitmuo yra 0, 1 arba 2, tai didžiausias vienetų skaitmuo gali būti 9. Tada didžiausią skaitmenų sumą turės ta diena, kurios dešimčių skaitmuo yra didžiausias, t. y. 29 diena. O jei dienos dešimčių skaitmuo yra 3, tai vienetų skaitmuo tegali būti 0 arba 1. Matome, kad taip gausime mažesnę skaitmenų sumą. Taigi, tarp 1 ir 31 didžiausią skaitmenų sumą turi skaičius 29. Kadangi devintas mėnuo – rugsėjis – turi 30 dienų, tai jis turės ir 29-ą dieną (skirtingai nei vasaris, nekeliamaisiais metais turintis tik 28 dienas). Taigi didžiausią skaitmenų sumą Marija gavo rugsėjo 29 d. Ji lygi 9 + 2 + 9 = 20."
     },
     {
      "num": 13,
@@ -9178,7 +9223,8 @@
      ],
      "mechanic": "geometry-misc",
      "figure": "figures/2015-q13.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "2 cm ? Nors visiškai pasitikėti paveikslėliu negalima, matome, kad kairįjį stačiakampį „perkėlę“ į dešinę pusę gautume naują stačiakampį, tartum sulipdytą iš dviejų kvadratėlių. Vadinasi, didžiojo stačiakampio ilgis turėtų būti dvigubai didesnis už plotį, taigi lygus 2 cm. 1 cm ! Įrodykime, kad mūsų spėjimas sprendime ? tikrai teisingas. Trumpesniosios stačiakampio BCFE kraštinės FC ilgį pažymėkime raide x. Atkarpos EF ilgis yra lygus 1 cm, nes EF = BC. Iš kitos pusės, EF = 2x cm, nes EF ilgis lygus dviejų trumpesniųjų kraštinių ilgių sumai. Iš lygties 2x = 1 randame, kad x = 1 2. Tuomet AB = 1 2 + 1 + 1 2 = 2 cm. A B C D E F x 1 cm"
     },
     {
      "num": 14,
@@ -9197,7 +9243,8 @@
      "mechanic": "casework",
      "figure": "figures/2015-q14.png",
      "correct": "C",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "! Įrodykime, kad atsakyme C pavaizduota išklotinė nėra piramidės išklotinė. Tarkime priešingai – ši išklotinė yra piramidės. Iš išklotinės nesunku suprasti, kad šios piramidės pagrindas yra kvadratas, o sienos – lygiakraščiai trikampiai. Piramidės pagrindą pažymėkime raidėmis A, B, C ir D, o viršūnę raide E. Iš išklotinės vėl sulanksčius piramidę, taškas X turi sutapti su vienu iš taškų A, B, C, D arba E. Jis negali sutapti nei su D, nei su E (visi šie taškai yra vienoje sienoje). Taip pat negali sutapti su C, nes tuo atveju sienos XDE ir DEC sutaptų. Taip pat jis negali sutapti su viršūne B, nes tokiu atveju atkarpa XD sutaptų su atkarpa DB, bet XD = DC < DB. Taigi X būtinai sutaps su A. Samprotaudami analogiškai galime parodyti, kad Y būtinai sutaps su D. Bet tokiu atveju sienos XED ir Y AE sutampa, o taip būti negali, nes piramidė turi 5 skirtingas sienas. Kad atsakymuose A, B, D ir E iš tiesų pavaizduotos piramidės išklotinės galima įsitikinti jas išsikirpus ir sulanksčius. A B C D E E X Y"
     },
     {
      "num": 15,
@@ -9215,7 +9262,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2015-q15.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Imkime pirmuosius aštuonis namus. Sugrupuokime juos iš eilės po 2. Tokių porų bus keturios. Žinome, kad bet kuriuose dviejuose gretimuose namuose gyvena ne daugiau nei 6 žmonės, taigi 8 namuose gyvena ne daugiau nei 6 · 4 = 24 žmonės. Devintame name negali gyventi daugiau nei 5 žmonės, nes gretimame aštuntame name gyvena bent 1 žmogus. Vadinasi, kad 9 namuose gyvena ne daugiau nei 24 + 5 = 29 žmonės. Belieka parodyti, kad toks namų apgyvendinimas tikrai įmanomas. Iš tiesų, tarkime, kad pirmame name gyvena 5 žmonės, antrame – 1, tračiame – 5, ketvirtame – 1 ir t. t. Namų su 5 gyventojais yra 5, namų su 1 gyventoju yra 4. Iš viso gatvėje gyvena 5 · 5 + 4 · 1 = 29 žmonės."
     },
     {
      "num": 16,
@@ -9233,7 +9281,8 @@
      ],
      "mechanic": "age-relations",
      "figure": "figures/2015-q16.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "4030 ! Tarkime, kad Saulės gimimo metai lygūs skaičiui x. Tai reiškia, kad šįmet jai sukanka 2015−x metų. Kadangi Saulės gimtadienis jau buvo sausio mėnesį, tai sudėję jos amžių ir gimimo metus gausime (2015−x)+x = 2015. Taip pat samprotaudami ir apie Saulės mamos amžių gauname, kad atsakymas yra 2015 + 2015 = 4030."
     },
     {
      "num": 17,
@@ -9251,7 +9300,8 @@
      ],
      "mechanic": "area-decomp",
      "figure": "figures/2015-q17.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Stačiakampio kraštinių ilgiai yra natūralieji skaičiai, taigi jie yra 12 dalikliai. Turime tris įmanomas stačiakampio kraštinių ilgių poras, kur pirmas skaičius nurodo trumpesniosios kraštinės ilgį, o antras – ilgesniosios: (1, 12), (2, 6), (3, 4). Iš čia jau nesunku rasti visus įmanomus stačiakampio perimetrus: 26, 16, 14. Renkamės atsakymą B."
     },
     {
      "num": 18,
@@ -9271,7 +9321,8 @@
      ],
      "mechanic": "area-decomp",
      "figure": "figures/2015-q18.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "Tik raudona ? Kadangi trikampių kraštinės spalvinamos skirtingomis spalvomis, tai trikampio ABC kraštinė BC ir trikampio BDE kraštinė BD tikrai nėra raudonos. Vadinasi, trikampio BCD kraštinė CD turi būti raudona. raudona x raudona m˙elyna A B C D E F ! Parodysime, kad Matas tikrai gali pabaigti spalvinti trikampius taip, kad visos kiekvieno trikampio kraštinės būtų skirtingų spalvų. Kraštinė DE negali būti nei raudona, nei mėlyna, todėl yra žalia. Kraštinei EF lieka raudona spalva. O toliau jau paprasta: BD – mėlyna, BC – vėl būtinai žalia, tada CD lieka raudona ir AC – mėlyna."
     },
     {
      "num": 19,
@@ -9290,7 +9341,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2015-q19.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "? Netikėta, kad pasirinkti teisingą atsakymą visiškai paprasta. Aišku, kad 12 vaisių neužtektų (pavyzdžiui, ištraukus 5 geltonus obuolius ir 7 žalias kriaušes). Vadinasi, jai tikrai reikia traukti daugiau nei 12 vaisių. Bet toks atsakymas vienintelis. Renkamės atsakymą E. ! Dabar spręskime uždavinį, tarsi atsakymų nė nebūtų. Maiše yra 4 rūšių vaisiai. Austėja tikrai turės tos pačios spalvos obuolį ir kriaušę, jei vaisių bus ištraukusi bent 3 skirtingų rūšių. Net ištraukusi visus dviejų rūšių vaisius, ji dar gali neturėti dviejų skirtingų vienos spalvos vaisių (pavyzdžiui, ištraukusi 5 geltonus obuolius ir 7 žalias kriaušes). Vadinasi, 12 vaisių traukti per mažai. Įrodysime, kad 13 vaisių visada užteks. Iš tikrųjų, dviejų rūšių vaisių daugiausiai yra 12, taigi tarp ištrauktų bus vaisių bent 3 rūšių. Kaip jau minėjome, tarp jų būtinai bus tos pačios spalvos obuolys ir kriaušė."
     },
     {
      "num": 20,
@@ -9309,7 +9361,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2015-q20.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Akivaizdu, kad vienu ėjimu kengūra į langelį A patekti negali. Kita vertus, kengūra gali pasiekti langelį A trimis ėjimais (kairiajame paveikslėlyje parodyti pirmi du). Lieka įrodyti, kad kengūra negali langelio A pasiekti dviem ėjimais. A A Dešiniajame paveikslėlyje raudonai pažymėti langeliai, į kuriuos kengūra gali nušokti pirmu ėjimu. Mėlynai pažymėti tie langeliai, iš kurių kengūra gali pasiekti langelį A. Matome, kad kengūra pirmu ėjimu negali patekti į mėlyną langelį, taigi 2 ėjimų neužtenka."
     },
     {
      "num": 21,
@@ -9328,7 +9381,8 @@
      "mechanic": "digit-puzzle",
      "solutionKid": "Gudrybė: įvertink, kokia didelė gali būti suma. X + X + YY yra triženklis skaičius ZZZ, bet net didžiausia galima suma 9 + 9 + 99 = 117. Vadinasi, ZZZ gali būti tik 111, t. y. Z = 1. Tada X + X + YY = 111. Kadangi X + X yra ne daugiau kaip 18, dviženklis YY turi būti bent 111 − 18 = 93, o toks skaičius su vienodais skaitmenimis yra tik 99. Taigi Y = 9, X + X = 111 − 99 = 12, todėl X = 6. Patikrink: 6 + 6 + 99 = 111, o raidės X, Y, Z žymi skirtingus skaitmenis 6, 9 ir 1. Atsakymas: E) 6.",
      "figure": "figures/2015-q21.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "! Sudėjus du vienaženklius skaičius ir vieną dviženklį skaičių, daugiausiai galima gauti 9+9+99 = = 117. Taigi Z būtinai lygus 1. Sudėję du vienaženklius skaičius, daugiausiai galime gauti 9+9 = 18, todėl Y ⩾8 (kitaip X +X +Y Y ⩽9+9+77 < 100). Lieka išnagrinėti du atvejus. • Y = 8. Tada ZZZ −Y Y = 111−88 = 23 = 2X, bet ši lygtis sveikųjų sprendinių neturi. • Y = 9. Tada ZZZ −Y Y = 111 −99 = 12 = 2X, taigi X = 6. !! Užbaigti uždavinį galima ir kitaip. Žinome, kad Z = 1, Y ⩾8. Bet Z nelyginis, todėl X + X + Y nelyginis. Vadinasi, Y nelyginis, todėl lygus 9. Taigi 2X = 111 −99 = 12, X = 6."
     },
     {
      "num": 22,
@@ -9347,7 +9401,8 @@
      "mechanic": "mixture-fraction",
      "solutionKid": "Gudrybė: skaičiuok nuo galo. Trečioji knyga kainavo pusę likučio ir dar 3 eurus, o po to nieko neliko. Vadinasi, tie 3 eurai – antroji likučio pusė, tad prieš trečiąją knygą Giedrius turėjo 6 eurus (knyga kainavo 6 €). Antroji knyga: pusė turimų pinigų ir 2 eurai, po jos liko 6 eurai. Taigi antroji pusė buvo 2 + 6 = 8, o prieš antrąją knygą jis turėjo 16 eurų (knyga 10 €). Pirmoji knyga: pusė santaupų ir 1 euras, po jos liko 16. Antroji pusė – 1 + 16 = 17, taigi santaupos 34 eurai (knyga 18 €). Patikrink: 18 + 10 + 6 = 34 – išleistos visos santaupos. Atsakymas: C) 34 eurus.",
      "figure": "figures/2015-q22.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "? Giedrius galiausiai išleidžia visas savo santaupas, taigi galime spėti, kad visų knygų kainos buvo „sveiki“ eurai. Jei ši prielaida teisinga, tada pradžioje Giedrius turėjo lyginį skaičių eurų x (lyginis skaičius reikalingas, kad galėtume sveikai padalyti Giedriaus santaupas pusiau ir pridėję dar vieną eurą gauti pirmos knygos kainą). Be to, x 2 −1 taip pat turi būti lyginis skaičius (kad gautume sveiką antros knygos kainą). Vienintelis skaičius atsakymuose, tenkinantis šias sąlygas, yra 34. ! Patogiausia pradėti skaičiuoti iš kito galo. Pusė trečios knygos kainos yra 3 eurai, taigi trečia knyga kainavo 6 eurus. Prie šios sumos pridėję du eurus gausime pusę to, kiek Giedriui liko nusipirkus pirmą knygą: (6 + 2) · 2 = 16 eurų. Toliau tęsdami pridėsime vieną eurą ir vėl padauginsime iš dviejų ir taip gausime visų Giedriaus turėtų santaupų skaičių. Vadinasi, pačioje pradžioje Giedrius turėjo (16 + 1) · 2 = 34 eurus. !! Įsivaizduoti veiksmus iš kito galo gali būti kebloka. Pamėginkime sudaryti lygtį. Tarkime, iš pradžių Giedrius turėjo x eurų. Tada pirmoji knyga kainavo x 2 + 1 eurą, ir Giedriui liko x 2 −1 eurų. Po antrosios knygos jam liko x 2 −1 −2 eurų, o nusipirkęs trečią knygą jis išleido visus savo pinigus, t. y. (x 2 −1 −2)/2 −3 = 0. Tada (x 2 −1 −2)/2 = 3, ir x 2 −1 −2 = 6. Tęsiame toliau: x 2 −1 = (6 + 2) · 2 = 16, ir x = (16 + 1) · 2 = 34."
     },
     {
      "num": 23,
@@ -9366,7 +9421,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q23.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Pažiūrėkime, kokių dviejų natūraliųjų skaičių sandauga lygi 80: 1·80, 2·40, 4·20, 5·16 ir 8·10. Pirmi du skaidiniai mums netinka, nes dauginamųjų suma būtų didesnė už 39. Likusių trijų skaidinių dauginamųjų sumos yra lygios atitinkamai 24, 21, 18. Čia jau nesunku pamatyti, kad 18 + 21 = 39, o kitaip sumos 39 nesudarysi. Vadinasi, pradiniai keturi skaičiai yra 8, 10, 5, 16, o didžiausias iš jų yra 16."
     },
     {
      "num": 24,
@@ -9384,7 +9440,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q24.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Tarkime, kad skaičių 100 padauginę iš 2 arba iš 3, gausime skaičių n, o prie n pridėję 1 arba 2 gausime skaičių m. Skaičius 100 dalijasi iš 4, todėl ir n dalijasi iš 4, bet kai prie n pridėsime 1 arba 2 (iš kurių nei vienas nesidalija iš 4) jau gausime skaičių, kuris iš 4 nesidalija. Taigi m iš 4 tikrai nesidalija. Todėl m yra 3 kartotinis. Remiantis panašiais samprotavimais, kadangi iš m atėmę 1 arba 2 (kurie nesidalija ir iš 3) vėl gautume n, tai matome, kad n nėra 3 kartotinis. Vadinasi, n buvo gautas skaičių 100 dauginant iš dviejų. Dabar jau galime atstatyti visą veiksmų seką: pirmiausia 100 dauginame iš 2, gauname 200. Tada turime pridėti tiek, kad gautume 3 kartotinį, todėl pridedame 1, gauname 201. Galiausiai dalijame iš 3 ir gauname 67."
     },
     {
      "num": 25,
@@ -9402,7 +9459,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2015-q25.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Kuo didesnis bus skaitmuo d, tuo didesnis bus dviženklis skaičius bd, tad imkime d = 9. Kita vertus, kuo mažesnį imsime a, tuo mažesnis bus skaičius ac, tad imkime a = 1. Skaičių c mes norime parinkti kuo mažesnį, bet jis turi būti didesnis už b, todėl galime tikėtis, kad skirtumas bd −ac bus mažiausias, kai c = b + 1. Kadangi bd −ac = 10b + d −10a −c = = 10b + 9 −10 −(b + 1) = 9b −2, tai skirtumas bus didžiausias, kai b bus didžiausias galimas skaitmuo. Kadangi b < c < d, tai didžiausias galimas c yra lygus 8, o tada didžiausias galimas b yra lygus 7. Taigi bd −ac = 79 −18 = 61."
     },
     {
      "num": 26,
@@ -9422,7 +9480,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q26.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Priešingoms kubo viršūnėms C ir E priskirtų skaičių suma 38 yra lygi ant visų kubo sienų užrašytų skaičių sumai. Viršūnės D ir F irgi yra priešingos, todėl joms priskirtų skaičių suma taip pat lygi 38. Taigi viršūnei F Viltė priskyrė skaičių 38 −16 = 12."
     },
     {
      "num": 27,
@@ -9441,7 +9500,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q27.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Tarkime, kad viename vagone yra x kupė. Algis važiuoja 7-tame vagone, todėl 6x < 50 ⩽7x. Kairioji nelygybė reiškia, kad x ⩽8, o dešinioji – kad x ⩾8. Vadinasi, x = 8."
     },
     {
      "num": 28,
@@ -9459,7 +9519,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q28.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Sunumeruokime langelius nuo 1 iki 7, kaip parodyta paveikslėlyje. Pažiūrėkime, kur galime patalpinti viduriniąją kengūrą. Jos negalime dėti nei į 1, nei į 2 langelius, nes tada nebeliks vietos kairiajai kengūrai. Taip pat jos negalima talpinti nei į 6, nei į 7 langelius, nes nebebus kur dėti dešiniosios kengūros. Lieka trys galimi atvejai: • vidurinė kengūra yra 3 langelyje. Tada kairioji kengūra būtinai 1 langelyje, o dešiniąją galime talpinti į bet kurį iš paskutinių trijų langelių – 3 būdai. • vidurinė kengūra yra 4 langelyje. Tada kairiąją galime dėti į 1 arba 2 langelius (2 būdai), o dešinąją, nepriklausomai nuo kairiosios, į 6 arba 7 langelius (irgi 2 būdai). Kadangi kiekvienam iš dviejų kairiosios kengūros padėjimo būdų yra du dešiniosios kengūros padėjimo būdai, tai iš viso yra 2 · 2 = 4 būdai sudėlioti kraštines kengūras, – dar 4 būdai. • vidurinė kengūra yra 5 langelyje. Šis atvejis simetriškas pirmajam. Kairiajai kengūrai galime pasirinkti vieną iš pirmų 3 langelių, o dešiniajai lieka 7 langelis, – vėl 3 būdai. Taigi kengūras apgyvendinti galime 3 + 4 + 3 = 10 būdų."
     },
     {
      "num": 29,
@@ -9477,7 +9538,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2015-q29.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "? Pažymėkime taškus raidėmis A, B, C ir D. A B C D Atstumas tarp taškų A ir D yra didžiausias, t. y. lygus 14. Spėjame, kad AC ir BD ilgiai irgi turėtų būti „dideli“ skaičiai, tad tarkime, kad AC ilgis lygus 12, o BD – 11. Iš čia jau išplaukia, kad CD ilgis lygus 2, o AB ilgis lygus 3. Taigi atstumas tarp taškų B ir C lygus k. Be to, žinome, kad 3 + k + 2 = 14, todėl k = 9. ! O galbūt gali atsitikti taip, kad, pavyzdžiui, taškai B, C ir D bus taip susispietę vienas prie kito, kad atstumas AB bus didesnis už BD? Pabandykime uždavinį išspręsti griežtai. Pastebėkime, kad AB + BC + CD = AD = 14. Taigi kažkurių trijų atkarpų ilgių suma turi būti lygi 14. Nė vienas iš tų trijų skaičių negali būti 12, nes net pridėję prie 12 dvi trumpiausias atkarpas – 2 ir 3 – gausime didesnį skaičių: 12 + 2 + 3 = 17 > 14. Taip pat atsitinka ir su 11, 11 + 2 + 3 = 16. Lieka vienintelis variantas: 2 + 3 + k = 14. Iš čia k = 9. Čia galėtume ir sustoti, bet akylas skaitytojas paklaustų: o gal išdėstyti taškus tiesėje taip, kaip prašoma sąlygoje, apskritai neįmanoma? Čia praverčia sprendimas ?, iš kurio matome, kad toks taškų išdėstymas įmanomas."
     },
     {
      "num": 30,
@@ -9496,7 +9558,8 @@
      ],
      "mechanic": "cube-color",
      "figure": "figures/2015-q30.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Kubo sienas vadinsime kaimyninėmis, jei jos turi bendrą briauną. Jei sienos nėra kaimyninės, jos yra priešingos kubo sienos. Iš pradžių įrodysime, kad tarp raudonai nudažytų sienų yra dvi viena kitai priešingos sienos. Visas kubo sienas suskirstykime į tris priešingų sienų poras. Galimi du atvejai: • iš kiekvienos poros raudonai nuspalvinta po vieną sieną; • raudonai yra nuspalvintos 2 vienos poros sienos ir 1 kitos poros siena. Kadangi kubo siena yra kaimyninė visoms, išskyrus priešingą sieną, tai pirmuoju atveju visos trys raudonai nuspalvintos sienos yra tarpusavyje kaimyninės. Tai reiškia, kad jos turi bendrą viršūnę. Bet tuomet toje viršūnėje esantis kubelis turės tris raudonai nuspalvintas sieneles, o taip būti negali. Vadinasi, raudonai nuspalvintos yra dvi priešingos sienos, o trečioji yra kaimyninė joms abiems. Šios trys sienos tarpusavy sudaro formą, panašią į suoliuką (arba kampuotą U raidę). Tuomet mėlynai nuspalvintos likusios sienos irgi sudarys tokią formą (žr. pav.). Lieka suskaičiuoti kubelius, turinčius ir raudonai, ir mėlynai nuspalvintas sienas. Bent dvi nuspalvintas sienas turi didžiojo kubo viršūnėse ir briaunose esantys kubeliai. Visi viršūnėse esantys kubeliai, kurių yra 8, turės abiejų spalvų sienas. Kubas turi 12 briaunų. Kiekvienoje briaunoje, neskaitant viršūnėse esančių kubelių, dar yra po du kubelius, kurių dvi sienos yra nuspalvintos (juos vadinsime vidiniais briaunų kubeliais). Taigi vidinių briaunų kubelių iš viso yra 2 · 12 = 24, ir mums bus lengviau suskaičiuoti tuos, kurių abi spalvintos sienelės yra vienspalvės. Didžiojo kubo briaunų, kurios būtų tarp dviejų raudonų sienų, yra dvi, tiek pat yra ir briaunų tarp mėlynų sienų, taigi iš viso „vienspalvių“ briaunų yra 2 + 2 = 4. Kiekviena tokia briauna turi 2 vidinius kubelius, taigi iš viso vidinių briaunų kubelių, turinčių abi raudonas arba abi mėlynas nuspalvintas sieneles, yra 4 · 2 = 8, o likusieji 24 −8 vidiniai briaunų kubeliai turės ir raudoną, ir mėlyną sieną. Pridėję 8 viršūninius kubelius, gausime atsakymą: 8 + (24 −8) = 24."
     }
    ]
   },
@@ -9504,7 +9567,7 @@
    "year": "2016",
    "title": "Kengūra 2016 · Bičiulis (5–6 kl.)",
    "test_pdf": "benjamin_lt (6).pdf",
-   "solutions_pdf": null,
+   "solutions_pdf": "Solutions/spGDPRB.pdf",
    "count": 29,
    "source": "benjamin_lt (6).pdf",
    "questions": [
@@ -9524,7 +9587,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q1.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Sudėję pirmus keturis dėmenis gauname 9. Paskutinis dėmuo yra lygus 0, nes jo antras dauginamasis lygus 0. Taigi teisingas atsakymas yra D."
     },
     {
      "num": 2,
@@ -9542,7 +9606,8 @@
      ],
      "mechanic": "mixture-fraction",
      "figure": "figures/2016-q2.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "Dvyliktadalį ! Suskaičiuokime, į kiek dalių Mikas supjaustė picą. Pirmiausia jis supjaustė picą į 4 dalis, o tada kiekvieną iš tų dalių padalijo į 3 gabalėlius. Iš viso susidarė 4·3 = 12 gabalėlių. Vadinasi, vienas gabalėlis sudaro 1 dvyliktadalį visos picos. Teisingas atsakymas yra E."
     },
     {
      "num": 4,
@@ -9560,7 +9625,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2016-q4.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Kai kuriuos atvirukus pažymėkime raidėmis A, B, C ir D, o visus magnetukus skaičiais nuo 1 iki 8, kaip parodyta paveikslėlyje. Lina tikrai negali nuimti nei pirmo, nei 5-to magnetukų, nes tada nukristų atvirukas A arba atvirukas B. Pirmas magnetukas laiko du atvirukus, o 5-tas – tris. Dar lieka du atvirukai C ir D, kurių niekaip neprispausi vienu magnetuku, vadinasi, ant šaldytuvo turi likti mažiausiai keturi magnetukai. Nuėmus 2-ą, 4-ą, 7-ą ir 8-ą magnetukus, nė vienas atvirukas nenukrenta. Taigi Lina daugiausiai gali nuimti keturis magnetukus. A B C D"
     },
     {
      "num": 5,
@@ -9578,7 +9644,8 @@
      ],
      "mechanic": "area-compute",
      "figure": "figures/2016-q5.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "50cm2 ! Padalykime didįjį kvadratą į 4 lygius kvadratėlius, kaip parodyta paveikslėlyje. Kiekvieno kvadratėlio pusė ploto yra užtušuota, vadinasi, ir didžiojo kvadrato pusė ploto yra užtušuota. Didžiojo kvadrato plotas yra 10 cm · 10 cm = 100 cm2. Tuomet Kotrynos nubraižyto mažesniojo kvadrato plotas yra 100 cm2: 2 = 50 cm2. !! Mažesniojo kvadrato viršūnės yra didesniojo kvadrato kraštinių vidurio taškai, todėl nesunku suskaičiuoti mažesniojo kvadrato kraštinės ilgį pagal Pitagoro teoremą: √ 52 + 52 = 5 √ 2 cm. Taigi mažesniojo kvadrato plotas yra (5 √ 2)2 = 50 cm2."
     },
     {
      "num": 6,
@@ -9598,7 +9665,8 @@
      ],
      "mechanic": "area-compute",
      "figure": "figures/2016-q6.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "30 cm ! Pažymėkime lygiašonio trikampio šoninės kraštinės ilgį x, o pagrindą y. Tuomet trikampio perimetras lygus 2x + y = 40, o trapecijos perimetras lygus 2x + 5y = 80. Iš šių lygybių matome, kad 4y = 40, t. y. y = 10. Vadinasi, trapecijos pagrindas lygus 30 cm."
     },
     {
      "num": 7,
@@ -9616,7 +9684,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q7.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Šimtakojis turi 25 · 2 = 50 batų. Vadinasi, jam dar reikia nusipirkti 100 −50 = 50 batų."
     },
     {
      "num": 8,
@@ -9636,7 +9705,8 @@
      ],
      "mechanic": "geometry-misc",
      "figure": "figures/2016-q8.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Jono blokas yra sudarytas iš 2 · 2 · 6 = 24 kubelių. Paulius turi tiek pat kubelių, o pirmasis jo bloko sluoksnis sudarytas iš 6 kubelių, todėl jis sustatė 24: 6 = 4 sluoksnių bloką."
     },
     {
      "num": 9,
@@ -9655,7 +9725,8 @@
      ],
      "mechanic": "counting-ways",
      "figure": "figures/2016-q9.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Lentelėje jau yra antras ir trečias skaičiai, o jų sandauga lygi 2 · 5 = 10. Tomo įrašomų pirmo ir ketvirto skaičių sandauga turi būti lygi 90: 10 = 9. Tokią sandaugą galima sudaryti trimis būdais: 1 · 9, 3 · 3 ir 9 · 1. Taigi ir lentelę galima užpildyti trimis būdais. Teisingas atsakymas yra C."
     },
     {
      "num": 10,
@@ -9673,7 +9744,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q10.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "B ! Įsivaizduokime, kaip lankstoma dėžutė. Perlenkus per taškinę liniją, esančia tarp sienų B ir C, o po to perlenkus per liniją tarp sienų C ir D, taškas 1 sutaps su tašku 2. Tada perlenkus per liniją, esančia tarp sienų D ir E, taškas 3 sutaps su 4. Taigi sienai B sienos A, C, D ir E yra gretimos (turi bendrą kraštinę). Bet dėžutėje tik apatinė siena turi keturias gretimas (kitos turi po tris gretimas sienas). Vadinasi, siena B yra dėžutės apačioje. A B C D E"
     },
     {
      "num": 11,
@@ -9691,7 +9763,8 @@
      ],
      "mechanic": "geometry-misc",
      "figure": "figures/2016-q11.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Peržvelgę atsakymus pastebime, kurias figūras galime gauti suklijavę du vienodus kvadratus: B) C) D) E) Palyginę A atsakymo figūrą su E atsakymo figūra, matome, kad A atsakymo figūros negalime gauti, nes A figūros „stogelio“ kraštinės yra trumpesnės už „pagrindo“ kraštinę."
     },
     {
      "num": 12,
@@ -9709,7 +9782,8 @@
      ],
      "mechanic": "calendar",
      "figure": "figures/2016-q12.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Rimos, Klementinos ir Ievos bendras darbo dienų skaičius yra 2·5 = 10 (kiekvieną dieną dirba dvi iš jų). Rima dirba 3 dienas, Klementina dirba 4 dienas, todėl Ieva dirba 10 −3 −4 = 3 dienas."
     },
     {
      "num": 13,
@@ -9727,7 +9801,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q13.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "C ! Paveikslėlyje parodytos voverių buvimo vietos tuo metu, kai voverė A pačiumpa jai artimiausią riešutą. a b Matome, kad tuo pat metu po riešutą pačiups voverės C, D ir E. Lieka 2 nepačiupti riešutai, pažymėti a ir b. Riešutą a paims voverė B, bet tai bus tik pirmasis jos riešutas. O riešutą b pačiups voverė C, ir tai bus jos antrasis riešutas. Taigi pirmoji du riešutus pačiups voverė C."
     },
     {
      "num": 14,
@@ -9745,7 +9820,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q14.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Tik pusė mergaičių sėdi su berniukais, todėl mergaičių yra dvigubai daugiau, nei berniukų. Pažymėkime berniukų skaičių x. Tada klasėje yra 2x mergaičių. Išsprendę lygtį x + 2x = 30 randame berniukų skaičių x = 10."
     },
     {
      "num": 15,
@@ -9763,7 +9839,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2016-q15.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "2975 ? Duotas skaičius turi 10 skaitmenų, todėl kad ir kaip Gražvydas karpytų juostelę, bent vienas gautas skaičius turės bent 4 skaitmenis. Nesunku pastebėti, kad mažiausias keturženklis skaičius, kurį jis gali iškirpti iš juostelės, yra 1953. Prie šio skaičiaus pridėjęs abu atkirptus skaičius, Gražvydas gaus 258 + 1953 + 765 = 2975. Renkamės atsakymą B. ! Tarkime, kad Gražvydui pavyko sukarpyti juostelę taip, kad gautų trijų skaičių suma yra mažesnė už 2975. Didžiausias jo atkirptas skaičius turi būti keturženklis. Gražvydas galėjo iškirpti tik 2 keturženklius skaičius mažesnius už 2975: 1953 ir 2581. Iškirpęs 1953, jis gauna sumą 2975. Atkirpus 2581, Gražvydui lieka juostelė 953764. Kad ir kaip ją perkirptų, gautų skaičių suma viršys 2975 −2581 = 349. Taigi Gražvydas negali gauti sumos, mažesnės už 2975."
     },
     {
      "num": 16,
@@ -9784,7 +9861,8 @@
      "mechanic": "clock",
      "figure": "figures/2016-q16.png",
      "correct": "E",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "! Šiame uždavinyje svarbiausia suvokti, kad veidrodžio atspindyje kairė susikeičia su dešine. Laikrodžio atspindyje minutinė rodyklė rodo į kairę, vadinasi, tikrame laikrodyje ji rodo į dešinę, t. y. minutinė rodyklė yra ties skaičiumi 3. Prieš 10 minučių ji buvo ties skaičiumi 1. Taigi prieš 10 minučių Dovilė būtų pamačiusi atsakyme E parodytą laikrodžio atspindį."
     },
     {
      "num": 17,
@@ -9802,7 +9880,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q17.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Močiutė iš viso nupirko 12 · 4 = 48 skardines kačių maisto. Šešioms katėms maisto užteks 48: 6 = 8 dienoms."
     },
     {
      "num": 18,
@@ -9821,7 +9900,8 @@
      "mechanic": "digit-puzzle",
      "figure": "figures/2016-q18.png",
      "correct": "D",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "! Žodžio BENJAMI visos raidės yra skirtingos, taigi atitinkamų skaitmenų suma lygi 1 + 2+ +3 + 4 + 5 + 6 + 7 = 28. Raidę N turi atitikti toks skaitmuo, kad 28+N dalytųsi iš 3, t. y. N atitinka 2 arba 5. Dvejetas negali atitikti raidės N, nes skaičius BENJAMIN yra nelyginis. Vadinasi, raidę N atitinka skaitmuo 5."
     },
     {
      "num": 19,
@@ -9839,7 +9919,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q19.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "! Trynukų amžių pažymėkime x. Tada Jono amžius yra x −3, o visų keturių brolių amžių suma yra 4x −3. Kitaip sakant, prie amžių sumos pridėjus 3, rezultatas turi dalytis iš 4. Vienintelis toks skaičius atsakymuose yra 53."
     },
     {
      "num": 20,
@@ -9857,7 +9938,8 @@
      ],
      "mechanic": "area-compute",
      "figure": "figures/2016-q20.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "40 cm ! Jeigu stačiakampio ABCD viršūnėse A, B ir D nukirptume „kampukus“ ir perkeltume juos į mažesniųjų stačiakampių viršūnes (kaip parodyta paveikslėlyje), paryškintų atkarpų ilgių suma išliktų tokia pati, kaip stačiakampio ABCD perimetras – 30 cm. Iki visos paryškintos linijos, nurodytos uždavinio sąlygoje, beliktų kiekviename mažesniajame stačiakampyje pridėti po dar du „kampukus“. Jų ilgių suma yra lygi pusei stačiakampio perimetro, o visų „kampukų“, kuriuos pridėsime, ilgių suma bus pusė mažesniųjų stačiakampių perimetrų sumos – 20: 2 = 10 cm. Sudėję gauname 30 + 10 = 40 cm. Renkamės atsakymą C. !! Galima samprotauti kitaip. Sąlygos paveikslėlyje matome didįjį stačiakampį, tris vidutinius ir tris mažiausius stačiakampius. Visų paveikslėlio atkarpų ilgių suma yra 30 + 20 = 50 cm. Paryškintą laužtę gausime iš visų atkarpų išmetę mažųjų stačiakampių kraštines. Bet mažųjų stačiakampių kraštinės, taigi ir perimetrai, dukart trumpesnės už vidutiniųjų. Vadinasi, jų perimetrų suma yra 1 2 · 20 = 10 cm, o paryškintos laužtės ilgis lygus 50 −10 = 40 cm."
     },
     {
      "num": 21,
@@ -9883,7 +9965,8 @@
      },
      "figure": "figures/2016-q21.png",
      "correct": "D",
-     "hasMissingOptionText": true
+     "hasMissingOptionText": true,
+     "solution": "Jo gimimo metai yra pirminis skaičius. ! Klausimas „Kuris teiginys neteisingas?“ netiesiogiai pasako, kad vienas teiginys yra neteisingas, o kiti keturi teisingi. Pastebėkime, kad jei pirminis skaičius p yra didesnis už 3, tai p nesidalija iš 3 ir jo skaitmenų suma negali būti lygi 12. Vadinasi, jei teiginys D būtų teisingas, tai būtų neteisingi teiginiai A ir C. Taigi teiginys D yra neteisingas. !! Galime patikrinti visus atsakymus. Česlovas Milošas gimė XX amžiuje, todėl antras jo gimimo metų skaitmuo yra 9. Kadangi visų jo gimimo metų skaitmenų sandauga yra 9, tai pirmas, trečias ir ketvirtas skaitmenys lygūs 1. Išsiaiškinome, kad Česlovas Milošas gimė 1911 metais. Patikrinkime visus teiginius: A) Skaitmenų suma 1 + 9 + 1 + 1 = 12, taigi teiginys A teisingas. B) 1911 yra nelyginis skaičius, taigi teiginys B teisingas. C) Kadangi skaičiaus 1911 skaitmenų suma lygi 12, tai skaičius dalijasi iš 3, taigi teiginys C teisingas. D) Skaičius 1911 dalijasi iš 3, todėl teiginys D neteisingas. E) 2016 −1911 = 105, taigi teiginys E teisingas. Vadinasi, reikia rinktis atsakymą D."
     },
     {
      "num": 22,
@@ -9908,7 +9991,8 @@
       "C": "Įskaičiavai skaičių, kuriame skaitmuo mažėja, pvz., 131 arba 1121."
      },
      "figure": "figures/2016-q22.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Paskutinis skaičiaus skaitmuo turi būti mažesnis už 5, nes kitaip skaitmenų suma būtų didesnė už 5. Paskutinį skaitmenį, lygų 4, turi tik vienas skaičius – 14. Jei paskutinis skaitmuo yra 3, tai viduriniams skaitmenims lieka 5 −3 −1 = 1. Vadinasi, skaičius triženklis ir lygus 113. Kai paskutinis skaitmuo lygus 2, tai viduriniai skaitmenys gali būti tik 1 ir 2. Bet jų suma lygi 5 −1 −2 = 3, vadinasi, tai skaitmuo 2 arba skaitmenys 1 ir 1, – 122 ir 1112. Paskutinį skaitmenį, lygų 1, turi tik vienas skaičius – 11111. Taigi Rytis užrašė 5 skaičius."
     },
     {
      "num": 23,
@@ -9927,7 +10011,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q23.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "? Pirmame paveikslėlyje parodyta figūra sudaryta iš 4 kvadratėlių. Antrame paveikslėlyje pavaizduotas kvadratas sudarytas iš 25 kvadratėlių. Taigi iš kvadrato galima iškirpti ne daugiau kaip 6 figūras. Renkamės atsakymą D ! Paveikslėlyje parodytas vienas iš būdų kaip iš kvadrato iškirpti 6 figūras."
     },
     {
      "num": 24,
@@ -9945,7 +10030,8 @@
      ],
      "mechanic": "geometry-misc",
      "figure": "figures/2016-q24.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Tarkime, kad Jurgis davė x stalų. Jei Petras prie stalo statytų po 4 kėdes, tai jam reikėtų 4x kėdžių, bet jis turi tik 4x −6 kėdes. Sustūmus stalus po 2, viena vieta prie kiekvieno stalo dingsta (jos vietą užima pristumtas stalas). Taigi jei Petras statytų prie stalo po 3 kėdes, tai jam liktų 4. Vadinasi, jis turi 3x+4 kėdes. Sulyginę gauname lygtį 4x−6 = 3x+4. Išsprendę randame x = 10."
     },
     {
      "num": 25,
@@ -9965,7 +10051,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2016-q25.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "? Tarkime, kad trikampės plytelės kraštinės ilgis yra 1. Rusnės dėlionė sudėta iš 7 plytelių. Trikampis, kurio kraštinės ilgis lygus 2, būtų sudėtas iš 4 plytelių, taigi iš Rusnės plytelių turime dėlioti didesnį trikampį. Trikampis, kurio kraštinės ilgis lygus 3, būtų sudėtas iš 9 plytelių, tačiau tokio trikampio sudėlioti nepavyksta. Užtat pavyksta sudėlioti trikampį, kurio kraštinės ilgis yra 4 (žr. paveikslėlį). Suskaičiuojame, kad jam reikia pridėti 9 plyteles, todėl renkamės atsakymą B. ! Įsitikinkime, kad tikrai neįmanoma sudėti trikampio, kurio kraštinės ilgis lygus 3. Kai kurios iš Rusnės sudėliotų plytelių sudaro atkarpą, kurios ilgis 3 (paveikslėlyje pažymėta raudona linija). Pastebime, kad ši atkarpa negali būti trikampio kraštinė, nes abiejose jos pusėse yra padėta bent po vieną plytelę. Vadinasi, raudonoji atkarpa bus didžiojo trikampio viduje, lygiagreti vienai iš jo kraštinių. Taigi ši atkarpa bus tikrai trumpesnė už trikampio kraštinę, todėl neįmanoma iš Rusnės dėlionės sudėti trikampio, kurio kraštinės ilgis lygus 3. !! Kad ir kokį sudėtume trikampį, jis dengs išvestas papildomas linijas, taigi ir gautą penkiakampį. Penkiakampio plotas yra 7+ 1 24+ 1 22 = 10 trikampių (nes prisidėjo po pusę keturkampių). Vadinasi, penkiakampį dengiančio trikampio kraštinė didesnė už 3. (Matematikoje tas penkiakampis vadinamas pradinės figūros iškiliuoju apvalkalu.)"
     },
     {
      "num": 26,
@@ -9985,7 +10072,8 @@
      "mechanic": "cube-color",
      "figure": "figures/2016-q26.png",
      "correct": "D",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "! Kube kiekvieno kubelio matosi 3 sienos. Vadinasi, bendras baltų kubelių sienų skaičius dalijasi iš 3. Pavaizduotose penkiose kubo sienose yra 14 baltų kubelių sienų. Likusioje, šeštoje, sienoje turi būti arba 1 arba 4 baltos sienos. Bet jokie du juodi kubeliai nėra greta, nes bent vienoje iš penkių pavaizduotų sienų jie būtų greta. Taigi vienintelis atsakymas, tenkinantis šiuos reikalavimus, yra D. Kubą su pavaizduotomis sienomis tikrai galima sudėti: apatinį sluoksnį sudėkime iš 4 baltų kubelių, o viršutinį – iš 2 juodų ir 2 baltų taip, kad vienspalviai kubeliai neturėtų bendros sienos."
     },
     {
      "num": 27,
@@ -10006,7 +10094,8 @@
      ],
      "mechanic": "geometry-misc",
      "figure": "figures/2016-q27.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "? Pažymėkime tris tuščius skrituliukus raidėmis A, B ir C (žr. pav.). Tada A + 3 + 7 = A + 1 + B. Išsprendę lygtį gauname, kad B = 9. Sudarome lygtį kitoms dviems kraštinėms: 9 + 6 + C = C + 2 + X. Iš čia gauname, kad X = 13. X A C B ! Nesunku įsitikinti, kad į likusius skrituliukus galima įrašyti tokius skaičius, kad kiekvienos penkiakampio kraštinės skaičių suma būtų ta pati (žr. pav)."
     },
     {
      "num": 28,
@@ -10024,7 +10113,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2016-q28.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "! Kadangi + =, tai = 0. Triženklio skaičiaus skaitmenų suma ne didesnė už 27, todėl = 10 arba = 20. Skaičiaus skaitmenų suma yra lyginis skaičius, todėl = 2. Išsprendę lygtį + 2 + = 20, gauname, kad = 9."
     },
     {
      "num": 29,
@@ -10042,7 +10132,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2016-q29.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Tam, kad kiekvienas vaikas gautų po tiek pat obuolių ir po tiek pat kriaušių, reikia, kad 132 ir 204 dalytųsi iš vaikų skaičiaus. 132 = 2 · 2 · 3 · 11, o 204 = 2 · 2 · 3 · 17. Didžiausias skaičius, iš kurio dalijasi ir 132, ir 204, yra 12."
     },
     {
      "num": 30,
@@ -10060,7 +10151,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2016-q30.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "! Duotus triženklius skaičius užrašykime taip: a · 100 + b · 10 + c ir 2 · c · 100 + d · 10 + e. Jų suma lygi (a+2c)·100+(b +d)·10+c +e. Ši suma bus mažiausia, kai šimtų skaitmenų suma a + 2c bus mažiausia. Jei c = 1, tai 2c = 2, ir mažiausias galimas a yra lygus 3, o a + 2c = 5. Jei c = 2, tai 2c = 4, tai mažiausias galimas a yra 1 ir vėl a+2c = 5. Kai c > 2, tai a+2c > 6, todėl šių atvejų galime nebenagrinėti. Dabar žiūrėkime, kuriuo atveju dešimčių skaitmenų suma b+d bus mažiausia. Kai c = 1, 2c = 2 ir a = 3, mažiausi galimi dešimčių skaitmenys gali būti 4 ir 0, o 4 + 0 = 4. Kai c = 2, 2c = 4 ir a = 1, mažiausi galimi dešimčių skaitmenys gali būti 3 ir 0, o 3 + 0 = 3 < 4. Tuomet mažiausias galimas e yra 5 ir visa suma (a+2c)·100+(b+d)·10+c+e = 5·100+3·10+2+5 = = 537."
     }
    ]
   },
@@ -10068,7 +10160,7 @@
    "year": "2017",
    "title": "Kengūra 2017 · Bičiulis (5–6 kl.)",
    "test_pdf": "benjamin_lt (5).pdf",
-   "solutions_pdf": null,
+   "solutions_pdf": "Solutions/spGDPRB (3).pdf",
    "count": 30,
    "source": "benjamin_lt (5).pdf",
    "questions": [
@@ -10088,7 +10180,8 @@
      ],
      "mechanic": "sequence-pattern",
      "figure": "figures/2017-q1.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "? Atsakymą A galima gauti sukeitus antrą ir trečią korteles; atsakymą C gauname sukeitę pirmą ir trečią korteles; sukeitę pirmas dvi korteles gauname atsakymą D; E atsakymą galima gauti sukeitus paskutines dvi korteles. Kadangi bent vienas atsakymas turi būti teisingas, renkamės atsakymą B. ! Atkreipkite dėmesį, kad atsakyme B net trys kortelės yra ne savo vietoje, todėl tokios sekos negalima gauti sukeitus tik dvi korteles vietomis."
     },
     {
      "num": 2,
@@ -10106,7 +10199,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q2.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "4 katės ! Trys musės turi 3 · 6 = 18 kojų, o du vorai – 2 · 8 = 16 kojas. Devyni viščiukai turi 9 · 2 = 18 kojų – tiek pat kiek trys musės. Taigi 24 kojas turės 16: 4 = 4 katės."
     },
     {
      "num": 3,
@@ -10125,7 +10219,8 @@
      "mechanic": "arith-compute",
      "figure": "figures/2017-q3.png",
      "correct": "E",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "! Nesunku pastebėti, kad atsakymuose A, B, C ir D pavaizduotas figūras galima sudėti: A) B) C) D) Įrodykime, kad atsakyme E pavaizduotos figūros negalime sudėti. Pradėkime dėlioti figūrą E nuo „išsikišimų“: Lieka trys langeliai, kurių niekaip neuždengsi sąlygoje nurodyta figūrėle, todėl figūros E sudėti negalima."
     },
     {
      "num": 4,
@@ -10143,7 +10238,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q4.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "2468642 ! Kadangi 1111 × 1111 = 1234321, tai 1111 × 2222 = 1111×1111×2 = 1234321×2 = 2468642."
     },
     {
      "num": 5,
@@ -10161,7 +10257,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2017-q5.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Iš salos A į salą B galima nuvažiuoti bent dviem skirtingais maršrutais, kuriuose nėra bendrų tiltų (žr. kairįjį paveikslėlį). Tam, kad iš salos A į salą B nebūtų galima nuvažiuoti, reikia pakelti bent vieną raudono ir bent vieną mėlyno maršruto tiltą. Taigi reikia pakelti mažiausiai du tiltus. Nesunku įsitikinti, kad pakėlus dešiniajame paveikslėlyje nurodytus tiltus, iš salos A į salą B nuvykti nebepavyks."
     },
     {
      "num": 6,
@@ -10180,7 +10277,8 @@
      "mechanic": "weighing",
      "figure": "figures/2017-q6.png",
      "correct": "A",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "? Iš sąlygos aišku, kad Katrė yra lengvesnė ir už Jonę, ir už Liną. Vienintelis paveikslėlis, kuriame mažiausias raganosis yra viduryje, yra A, todėl jį ir renkamės. ! Žinome, kad lengviausia yra Katrė. Galima išsiaiškinti kuri sunkesnė – Jonė ar Lina. Jonė sveria 500 kg daugiau nei Katrė, o Lina sveria 1000 kg daugiau nei Katrė. Vadinasi, Lina yra sunkesnė už Jonę. Įsitikinome, kad vienintelis paveikslėlis, vaizduojantis Jonę, Katrę ir Liną teisinga tvarka, yra A."
     },
     {
      "num": 7,
@@ -10200,7 +10298,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q7.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "? Kadangi visų skaičių sumą sudaro 3 lygios sumos, tai visų 6 skaičių suma turi dalytis iš 3. Bet sąlygos 5 skaičių suma 5 + 6 + 9 + 11 + 14 = 45 dalijasi iš 3, todėl iš šeštasis skaičius turi dalytis iš 3. Toks yra tik atsakyme E – 15. ! Ant priešingų sienų užrašytų skaičių sumos yra lygios, todėl mažiausias ir didžiausias skaičiai turi būti užrašyti ant priešingų sienų. Nagrinėkime tris atvejus. 1) Mažiausias skaičius yra 5, o didžiausias 14. Tuomet ant priešingų sienų užrašytų skaičių suma lygi 5 + 14 = 19. Tačiau jokių dviejų iš likusių skaičių suma nelygi 19: 6 + 9 = 15, 6 + 11 = 17, o 9 + 11 = 20. Taigi trūksta arba mažiausio, arba didžiausio skaičiaus. 2) Trūksta mažiausio skaičiaus. Tuomet 14 yra didžiausias skaičius, o ant priešingų sienų bus skaičiai 5 ir 11, bei 6 ir 9. Bet 5 + 11 = 16 > 15 = 6 + 9, vadinasi, trūksta didžiausio skaičiaus. 3) Trūksta didžiausio skaičiaus. Kadangi 5 bus pora didžiausiam skaičiui, tai ant priešingų sienų bus skaičiai 6 ir 14, bei 9 ir 11. Patikriname, kad 6 + 14 = 20 = 9 + 11. Vadinasi, didžiausias skaičius yra 15."
     },
     {
      "num": 8,
@@ -10219,7 +10318,8 @@
      ],
      "mechanic": "mixture-fraction",
      "figure": "figures/2017-q8.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Iš viso stačiakampyje yra 3 · 6 = 18 kvadratėlių. Kai Ignas nuspalvins trečdalį kvadratėlių mėlynai ir pusę geltonai, jam liks 18−18 3 −18 2 = 3 kvadratėliai, kuriuos jis nuspalvins raudonai."
     },
     {
      "num": 9,
@@ -10237,7 +10337,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q9.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "! Kol Linas suvalgo 2 slyvas, Justas suvalgo 3 slyvas. Taigi per šį laiką berniukai suvalgo iš viso 5 slyvas ir Justas viena slyva pralenkia Liną. Trisdešimt slyvų suvalgyti jiems reikės 30: 5 = 6 kartus daugiau laiko, todėl Justas pralenks Liną 6 slyvomis."
     },
     {
      "num": 10,
@@ -10256,7 +10357,8 @@
      "mechanic": "casework",
      "figure": "figures/2017-q10.png",
      "correct": "D",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "! Punktyrinės linijos dalija lapą į sritis. Kiekvienoje srityje gali būti daugiausiai 1 skylė. Taip iš karto atmetame atsakymus C ir E. Atsakyme A visos skylės atsiduria ant lenkimo linijos, o taip būti negali (skylės išduriamos, o ne iškerpamos). Jei Matas popieriaus lapą būtų lankstęs kaip pavaizduota atsakyme B, tai skylių eilutė būtų lygiagreti popieriaus lapo kraštui. Lieka atsakymas D, kurį ir renkamės. Kad jis tikrai teisingas, galima įsitikinti sulanksčius popierių kaip parodyta ir jį pradūrus."
     },
     {
      "num": 11,
@@ -10277,7 +10379,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q11.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Paskutinių dviejų skaičių suma lygi 37−21 = 16. Pirmųjų dviejų skaičių suma lygi 37−27 = 10. Todėl pilkojo langelio skaičius lygus 37 −16 −10 = 11. !! Uždavinį galima išspręsti užsirašius lygčių sistemą. Pažymėkime į langelius įrašytus skaičius iš kairės į dešinę raidėmis a, b, c, d, e. Tuomet        a + b + c = 21, c + d + e = 27, a + b + c + d + e = 37. Sudėję pirmas dvi lygtis gauname    a + b + 2c + d + e = 48, a + b + c + d + e = 37. Galiausiai, atėmę antrą lygtį iš pirmos gauname, kad c = 11. Taigi teisingas atsakymas yra D."
     },
     {
      "num": 12,
@@ -10297,7 +10400,8 @@
      ],
      "mechanic": "digit-puzzle",
      "figure": "figures/2017-q12.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Pirmiausia pastebėkime, kad yra tik viena spyna, kurios pirma ir trečia raidės sutampa – DAD. Vadinasi, yra tik vienas skaičius ant raktų, kurio pirmas ir paskutinis skaitmenys sutampa. Mes jį matome ant vieno iš raktų – 414. Taip mes sužinojome, kad raidė D atitinką skaitmenį 4, o raidė A – skaitmenį 1. Yra net keturios spynos, kurių paskutinė raidė yra D, todėl turi būti keturi skaičiai ant spynų, kurie baigiasi skaitmeniu 4. Mes matome tris tokius skaičius, vadinasi, ieškomas skaičius taip pat baigiasi skaitmeniu 4. Vienintelė spyna, kurios paskutinė raidė nėra D, yra HAB, todėl ji atitinka skaičių 812. Taip mes iššifravome likusias dvi raides: H atitinka 8, o B atitinka 2. Dabar jau nesunku pabaigti. Spyna ABD atitinka skaičių 124, spyna AHD atitinka skaičių 184, o spyna BHD – skaičių 284. Ant raktų nematome tik skaičiaus 284, todėl jis yra ant klaustuku pažymėto rakto."
     },
     {
      "num": 13,
@@ -10315,7 +10419,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2017-q13.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "9781920 ! Viltė iš 31-ženklio skaičiaus ištrynė 24 skaitmenis ir gavo 7-ženklį skaičių. Didžiausias 7-ženklis skaičius yra 9999999, bet tokio skaičiaus Viltė negali gauti, nes pradiniame skaičiuje yra tik 2 devynetai. Ji negali gauti net skaičiaus, kuris prasideda dviem devynetais, nes išbraukusi visus skaitmenis iki pirmo devyneto ir visus skaitmenis tarp pirmo ir antro devynetų, ji gautų keturženklį skaičių. Skaičiaus, kuris prasideda 98 ji taip pat negali gauti, nes didžiausias toks skaičius būtų šešiaženklis. O štai 7-ženklį skaičių, kuris prasideda 97 ji gali gauti. Išbraukusi visus skaitmenis iki pirmo devyneto ir išbraukusi visus skaitmenis tarp pirmo devyneto ir antro septyneto Viltė gautų skaičių 97181920. Tai yra 8-ženklis skaičius ir nesunku įsitikinti, kad didžiausią 7-ženklį skaičių ji gaus tada, kai išbrauks pirmą vienetą."
     },
     {
      "num": 14,
@@ -10333,7 +10438,8 @@
      ],
      "mechanic": "geometry-misc",
      "figure": "figures/2017-q14.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Kad ir koks būtų ieškomas skaičius, padauginę jį iš 0 gausime 0. Taigi nesunkiai galime užpildyti visą ratą: −15 × 4 + 6 × 0 + 4"
     },
     {
      "num": 15,
@@ -10353,7 +10459,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q15.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "a yra mažiau negu d ? Pamėginkime įsistatyti tokias a, b, c ir d reikšmes, kad gautume paveikslėlyje parodytas sumas. Tarkime a = 1, tada b = 1, c = 0, o d = 3. Vienintelis teisingas teiginys šiuo atveju yra D. ! Įsitikinkime, kad teiginys D visada yra vienintelis teisingas. Pastebėkime, kad a + b = 2, o b + d = 4. Taigi a < d. Panašiai, a + b = 2, o a + c = 1, todėl b > c. Vienintelis teisingas atsakymas yra D."
     },
     {
      "num": 16,
@@ -10371,7 +10478,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q16.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "16 km ! Pirmą dieną Vytenis nuėjo x kilometrų. Tada antrą dieną jis nuėjo x + 2, trečią x + 4, ketvirtą x + 6, o penktą x + 8 kilometrus. Per 5 dienas jis nuėjo 5x + 20 = 70 kilometrų. Taigi pirmą dieną jis nuėjo 70−20 = 10 km, o ketvirtą – 16 km. !! Vidutiniškai per dieną Vytenis nuėjo 70: 5 = 14 km. Nesunku suprasti, kad tiek jis nuėjo trečiąją dieną. Vadinasi, ketvirtą dieną jis nuėjo 14 + 2 = 16 km."
     },
     {
      "num": 17,
@@ -10392,7 +10500,8 @@
      "mechanic": "symmetry",
      "figure": "figures/2017-q17.png",
      "correct": "E",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "! Atsakymą randame mintyse „atspindėdami“ kengūrą:"
     },
     {
      "num": 18,
@@ -10411,7 +10520,8 @@
      ],
      "mechanic": "clock",
      "figure": "figures/2017-q18.png",
-     "correct": "A"
+     "correct": "A",
+     "solution": "11:45 ! Tomas mano, kad laikrodis vėluoja 8 minutes, todėl laiką jis sužino prie laikrodžio rodmenų pridėjęs 8 minutes. Tomas nusprendė, kad dabar yra 12:00, taigi jo laikrodis rodė 11:52. Tačiau Tomo laikrodis skuba 7 minutes, todėl tikslus laikas yra 11:45."
     },
     {
      "num": 19,
@@ -10429,7 +10539,8 @@
      ],
      "mechanic": "area-compute",
      "figure": "figures/2017-q19.png",
-     "correct": "B"
+     "correct": "B",
+     "solution": "51 cm2 ! Trijų kvadratų bendras plotas yra 22 + 42 + 62 = 56 cm2. Mažiausias ir vidurinis kvadratai persidengia ketvirtadaliu mažiausiojo kvadrato ploto – 1 cm2, o vidurinis ir didžiausias kvadratai persidengia ketvirtadaliu viduriniojo kvadrato ploto – 4 cm2. Vadinasi, figūros plotas yra 56 −1 −4 = 51 cm2."
     },
     {
      "num": 20,
@@ -10447,7 +10558,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2017-q20.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Žaidėjus pagal rezultatyvumą mažėjimo tvarka pažymėkime taip: A, B, C ir Vainius. Vainius daugiausiai galėjo pelnyti vienu įvarčiu mažiau, negu žaidėjas C. Jei C būtų pelnęs 6 įvarčius, tai A ir B kartu būtų pelnę ne mažiau kaip 7+8 = 15 įvarčių. Taigi bendras A, B ir C įvarčių skaičius viršytų 20. O 5 įvarčius žaidėjas C galėjo pelnyti, pavyzdžiui, jei žaidėjai A ir B pelnė atitinkamai 9 ir 6 įvarčius. Vadinasi, Vainius galėjo pelnyti daugiausiai 4 įvarčius. !! Jei Vainius pelnė V įvarčių, tai C ⩾V + 1, B ⩾V + 2, A ⩾V + 3. Bet A + B + C = 20, todėl V + 1 + V + 2 + V + 3 ⩽20, 3V ⩽14, V ⩽4. Vainius tikrai galėjo pelnyti 4 įvarčius, pavyzdžiui, V = 4, C = 5, B = 6, A = 9."
     },
     {
      "num": 21,
@@ -10471,7 +10583,8 @@
      },
      "figure": "figures/2017-q21.png",
      "correct": "A",
-     "imageOnlyOptions": true
+     "imageOnlyOptions": true,
+     "solution": "? Kiekvienas kubelis priklauso vienam iš 9 strypelių. Strypeliai kube gali būti padėti trimis kryptimis. Atsakymuose B, C ir D pavaizduotuose kubuose pažymėti kubeliai, kurie negali priklausyti jokia kryptimi padėtam strypeliui. B) C) D) Panagrinėkime atsakymą E. Priekinės sienos centrinis kubelis gali priklausyti tik per kubo centrą einančiam strypeliui. Matomos šoninės sienos centrinis kubelis taip pat gali priklausyti tik per kubo centrą einančiam strypeliui. Bet du strypeliai negali kirstis. Vadinasi, atsakymas E yra neteisingas. Renkamės atsakymą A. ! Lieka įsitikinti, kad atsakyme A pavaizduotą kubą tikrai galima sudėti (žr. pav.)."
     },
     {
      "num": 22,
@@ -10492,7 +10605,8 @@
      "mechanic": "casework",
      "solutionKid": "Gudrybė: kampinis langelis yra ir eilutės, ir stulpelio pradžia, todėl jame turi būti mažiausias skaičius – 1. Liko skaičiai 2, 3, 4, 5: du iš jų eis į eilutę į dešinę, kiti du – į stulpelį žemyn. Kai išsirenki, kurie du skaičiai eis į eilutę, jų tvarka jau aiški (didėjanti), o likę du stulpelyje irgi stoja didėjimo tvarka. Taigi užtenka suskaičiuoti poras iš 2, 3, 4, 5: 2 ir 3, 2 ir 4, 2 ir 5, 3 ir 4, 3 ir 5, 4 ir 5 – iš viso 6 poros, vadinasi, 6 būdai. Patikrink vieną: eilutė 1, 3, 5, stulpelis 1, 2, 4 – abu didėja. Atsakymas: D) 6.",
      "figure": "figures/2017-q22.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Kadangi skaičius reikia rašyti didėjimo tvarka, tai 1 būtinai turi būti kampiniame langelyje, o 2 būtinai bus arba dešinėje nuo 1, arba po pat 1. Suskaičiuokime, kiek yra būdų surašyti skaičius, kai 2 yra dešinėje nuo 1. Į paskutinį eilutės langelį galima įrašyti bet kurį iš skaičių 3, 4 arba 5. Į likusius du stulpelio langelius įrašome paskutinius du skaičius didėjimo tvarka vieninteliu būdu. Gauname 3 būdus. Kai 2 yra po vienetu, tai panašiai samprotaudami gausime vėl 3 būdus. Visi šie būdai bus skirtingi, vadinasi iš viso skaičius galima surašyti 6 būdais."
     },
     {
      "num": 23,
@@ -10510,7 +10624,8 @@
      ],
      "mechanic": "arrangement",
      "figure": "figures/2017-q23.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "! Paveikslėlyje matome 3 kengūras, kurios žiūri į kairę, ir 5 kengūras, kurios žiūri į dešinę. Kiekviena į kairę žiūrinti kengūra bus sukeista su tomis į dešinę žiūrinčiomis kengūromis, kurias ji mato. Pirmoji į kairę žiūrinti kengūra mato 3 į dešinę žiūrinčias kengūras, o paskutinės dvi kengūros mato po 5 į dešinę žiūrinčias kengūras. Taigi iš viso bus padaryta 3 + 5 + 5 = 13 ėjimų."
     },
     {
      "num": 24,
@@ -10528,7 +10643,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q24.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "144 km ! Kelio ilgį pažymėkime x. Tuomet x −5 8x = 8x = 54 km. Iš paskutinės lygybės randame x = 144 km."
     },
     {
      "num": 25,
@@ -10547,7 +10663,8 @@
      ],
      "mechanic": "digit-properties",
      "figure": "figures/2017-q25.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "! Nagrinėkime tris atvejus: kai skaičiuje yra 2 nuliai, kai yra 1 nulis ir kai visi skaitmenys didesni už 0. (Trys 0 negali būti, nes pirmas skaičiaus skaitmuo būtinai didesnis už 0.) Pirmu atveju skaičiaus paskutiniai 2 skaitmenys yra nuliai, o pirmas skaitmuo gali būti bet kuris didesnis už nulį skaitmuo. Gauname 9 skaičius. Antru atveju nulis gali būti arba antras, arba trečias skaitmuo, o likę du bet kokie nenuliniai skaitmenys. Gauname 2 · 9 · 9 = 162 skaičius. Trečiu atveju vienintelis skaičius, kurio skaitmenų sandauga mažesnė už 2, yra 111. Iš viso gauname 9 + 162 + 1 = 172 skaičius."
     },
     {
      "num": 26,
@@ -10565,7 +10682,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2017-q26.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "! Iš bet kurių 5 rutulių yra bent 1 raudonas, taigi žalių rutulių negali būti daugiau kaip 4. Iš bet kurių 6 rutulių yra bent 1 žalias, todėl raudonų rutulių negali būti daugiau kaip 5. Vadinasi, daugiausiai dėžutėje gali būti 4 + 5 = 9 rutuliai."
     },
     {
      "num": 27,
@@ -10584,7 +10702,8 @@
      ],
      "mechanic": "arith-compute",
      "figure": "figures/2017-q27.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "Beata, Cilė, Ana ! Beata ir Cilė turi lyginiais skaičiais pažymėtų rutulių, vadinasi, Ana priėjo prie dėžutės paskutinė. Beata paėmė rutulį, pažymėtą skaičiumi 45, taigi ji prie dėžutės ėjo prieš Cilę. Vadinasi pirma ėjo Beata, antra – Cilė, o trečia – Ana."
     },
     {
      "num": 28,
@@ -10605,7 +10724,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2017-q28.png",
-     "correct": "D"
+     "correct": "D",
+     "solution": "? Pastebėkime, kad į paveikslėlyje dešinėje pavaizduotą piramidės elementą, Miglė gali įrašyti daugiausiai 2 nelyginius skaičius. Visą piramidę galima padalinti į 3 tokius elementus, ir dar lieka vienas langelis. Taigi nelyginių skaičių bus ne daugiau kaip 2 · 3 + 1 = 7. Spėjame, kad teisingas atsakymas D. ! Lieka įsitikinti, kad tikrai galima įrašyti 7 nelyginius skaičius. Paveikslėlyje parodytas vienas iš būdų (L raidė reiškia lyginį skaičių, o N – nelyginį)."
     },
     {
      "num": 29,
@@ -10624,7 +10744,8 @@
      ],
      "mechanic": "counting-ways",
      "figure": "figures/2017-q29.png",
-     "correct": "E"
+     "correct": "E",
+     "solution": "! Pažymėkime šalis raidėmis A, B, C ir D (žr. pav.). Žemėlapiui nuspalvinti neužtenka 2 spalvų, nes bet kurios dvi iš A, B ir C šalių turi bendrą sieną. Tarkime, kad Julija spalvina žemėlapį 3 spalvomis. Tas tris spalvas ji panaudos spalvindama A, B ir C šalis, o šalį D ji gali spalvinti tik šalies A spalva. Taigi šalį A ji gali spalvinti 4 būdais, tuomet šaliai B lieka 3 galimos spalvos, o šaliai C – 2 spalvos. Vadinasi, žemėlapį 3 spalvomis galima nuspalvinti 4 · 3 · 2 = 24 būdais. Jei Julija žemėlapį spalvina 4 spalvomis, tai visos šalys bus skirtingų spalvų. Kaip ir trijų spalvų atveju, šaliai A Julija gali parinkti vieną iš 4 spalvų, tuomet šaliai B lieka 3 galimos spalvos, o šaliai C – 2 spalvos, o šalį D mergaitė spalvina paskutine likusia spalva. Žemėlapiui 4 spalvomis nuspalvinti yra 4 · 3 · 2 · 1 = 24 būdai. Taigi žemėlapį galima nuspalvinti iš viso 24 + 24 = 48 būdais."
     },
     {
      "num": 30,
@@ -10644,7 +10765,8 @@
      ],
      "mechanic": "casework",
      "figure": "figures/2017-q30.png",
-     "correct": "C"
+     "correct": "C",
+     "solution": "? Uždavinys labai sunkus, bet teisingą atsakymą galima atspėti pabandžius įvairius variantus. Tarkime, kad iš pradžių šviečia šešios lempos, išsidėsčiusios ant lentos įstrižainės (juodieji langeliai, žr. 1 pav.). Kitą minutę užsidegs gretimos lempos virš įstrižainės ir gretimos lempos po įstrižaine (žr. 2 pav.). Trečią minutę pradės šviesti lempos, parodytos 3 paveikslėlyje ir t. t. Po 5 minučių švies visos lempos. 1 pav. 2 pav. 3 pav. Nesėkmingai pabandę su 5 lempom spėjame, kad teisingas atsakymas yra C. ! (Michael Lambrou pasiūlytas sprendimas.) Įrodykime, kad jei pradžioje šviečia mažiau negu šešios lempos, tai visos lempos niekada nešvies. Užtenka parodyti, kad penkių lempų nepakanka. Tam, kad lempa užsidegtų, reikia bent dviejų jai gretimų šviečiančių lempų. Galimi du skirtingi atvejai parodyti 4 ir 5 paveikslėliuose. (Kiti atvejai gaunami pasukus nurodytus.) 4 pav. 5 pav. Pilkas langelis žymi lempą, kuri užsidegs kitą minutę. Pastebėkime, kad pradžioje figūros, sudarytos iš juodų kvadratėlių, perimetras abiem atvejais yra 4 + 4 = 8. Kitą minutę užsidegus pilkame langelyje esančiai lempai (ir pilkam langeliui pavirtus juodam) naujos juodos figūros perimetras nepasikeis (patikrinkite!). Taigi užsidegus naujoms lempoms juodos figūros perimetras negali padidėti. Jei pradžioje šviečia 5 lempos, tai iš juodų kvadratėlių sudarytos figūros perimetras bus daugiausiai 5 · 4 = 20. Tuo tarpu visos lentos perimetras yra 6 · 4 = 24 > 20. Vadinasi, penkių šviečiančių lempų nepakanka."
     }
    ]
   },

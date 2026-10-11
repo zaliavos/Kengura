@@ -35,7 +35,7 @@ def ltnorm(t):
 JUNK_LINE = re.compile(r'^(\d{1,3}|Bičiulis.*|Bičiulio užduočių sprendimai|UŽDUOČIŲ SPRENDIMAI|'
                        r'\d*\s*UŽDUOČIŲ SPRENDIMAI\s*\d*|Kadetas.*|Mažylis.*|KENGŪRA.*)$')
 HDR_MODERN = re.compile(r'(?m)^(\d{1,2})\. ([A-E])\s*$')
-HDR_OLD = re.compile(r'(?m)^([MBKJS])(\d{1,2})\.\s*$')
+HDR_OLD = re.compile(r'(?m)^([MBKJS])(\d{1,2})\.(?=[ \t]*$|\s+Žr\.)')   # "B24." alone or "B24. Žr. M23 ..."
 
 def join_lines(seg):
     lines = [l.strip() for l in seg.split('\n')]
@@ -75,10 +75,18 @@ def segments(text):
             segs[key] = (lm.group(1) if lm else None, body[lm.end():] if lm else body)
     return segs
 
+SOLUTION_BOOKLETS = {'2014': 'Solutions/spGDPRB (1).pdf', '2015': 'Solutions/spGDPRB (2).pdf',
+                     '2016': 'Solutions/spGDPRB.pdf', '2017': 'Solutions/spGDPRB (3).pdf'}
+
 def sq(t): return ''.join(c.lower() for c in t if c.isalnum())
 
 def main():
     data = json.load(open(J, encoding='utf-8'))
+    # 2014-2017: the full solution booklets live in Solutions/ (they were
+    # only used for the answer tables before)
+    for y in data['archive']:
+        if y['year'] in SOLUTION_BOOKLETS and not y.get('solutions_pdf'):
+            y['solutions_pdf'] = SOLUTION_BOOKLETS[y['year']]
     changed = kept = 0
     for y in data['archive']:
         pdf = y.get('solutions_pdf')
@@ -89,7 +97,7 @@ def main():
             hit = segs.get(('B', q['num']))
             if not hit: continue
             letter, body = hit
-            ref = re.search(r'Žr\.\s*(?:uždavinio\s*)?([MKJ])(\d{1,2})\s*sprendim', body) or \
+            ref = re.search(r'Žr\.\s*(?:uždavinio\s*)?([MKJ])(\d{1,2})\s*(?:uždavinio\s*)?sprendim', body) or \
                   re.search(r'Žr\.\s*(Mažylio|Kadeto)\s*(\d{1,2})\s*uždavinio', body)
             via_ref = False
             if ref:
@@ -103,6 +111,8 @@ def main():
                     body = own_value + ' ' + (other_text[mk.start():] if mk else other_text)
                     via_ref = True
             new = join_lines(body)
+            if re.fullmatch(r'.{0,40}Žr\..{0,40}sprendimą\.?', new):
+                new = ''          # pointer to a level whose solutions this booklet lacks
             if via_ref:
                 # the other level orders its options differently: drop its letters
                 parts = re.split(r'(?<=[.!?])\s+', new)
@@ -115,6 +125,9 @@ def main():
             if letter and q.get('correct') and letter != q['correct']:
                 print(f"{y['year']}-{q['num']}: header letter {letter} != key {q['correct']} – kept old"); kept += 1; continue
             old = q.get('solution') or ''
+            if not new:
+                if old: q['solution'] = ''; changed += 1
+                continue
             if len(sq(new)) < 20: continue
             if old:
                 r = difflib.SequenceMatcher(None, sq(old)[:1500], sq(new)[:1500], autojunk=False).ratio()
