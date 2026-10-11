@@ -8424,7 +8424,8 @@ function solutionPlain(q){
 /* One place that decides what a solution box shows: the kid solution, else
    the official one (labelled), else AI text as the last resort. */
 function solutionBlockHTML(q, aiText, isAi){
-  if(q.solutionKid) return `<b>Sprendimas:</b> ${escapeHTML(q.solutionKid)}`;
+  if(q.solutionKid) return `<b>Sprendimas:</b> ${escapeHTML(q.solutionKid)}` +
+    (q.solution ? `<details style="margin-top:8px"><summary style="cursor:pointer">Oficialus sprendimas${/(^|\s)\?\s/.test(q.solution) ? ' (yra greitas būdas)' : ''}</summary>${officialSolutionHTML(q.solution)}</details>` : '');
   if(q.solution) return officialSolutionHTML(q.solution);
   if(aiText) return `<b>Sprendimas:</b>${isAi ? ' <span class="pill" style="font-size:10px">AI</span>' : ''} ${escapeHTML(aiText)}`;
   return "";

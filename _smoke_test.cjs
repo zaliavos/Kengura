@@ -950,6 +950,7 @@ section("official solution markers");
   const html = app.officialSolutionHTML("24 ! Pažymėkime <b> & sudėkime.");
   check("official html escapes", html.includes("&lt;b&gt;") && html.includes("<b>Atsakymas:</b> 24"), html);
   check("kid solution wins", app.solutionBlockHTML({solutionKid: "Gudrybė: X.", solution: "1 ! Y"}).includes("Gudrybė"));
+  check("official stays one tap away", /<details[\s\S]*Oficialus sprendimas \(yra greitas būdas\)[\s\S]*Greitas būdas\./.test(app.solutionBlockHTML({solutionKid: "Gudrybė: X.", solution: "1 ? Spėk. ! Y."})));
   check("approach skips the value", !/^60/.test(app.approachFromSolution("60 ! Apskaičiuokime visą sumą dalimis.")));
   // every archive solution parses into non-empty parts and no part still starts with a marker
   let bad = 0;
