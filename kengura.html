@@ -4567,7 +4567,7 @@ function renderHome(){
         tag: 'Silpniausia vieta',
         title: MECHANIC_LABEL[w.mech] || w.mech,
         body: `Klaidų: ${Math.round(100*w.rate)} %. Vienos serijos užteks, kad šis tipas taptų lengvesnis.`,
-        cta: 'Praktikuotis šio tipo', action: 'playlist', actionData: w.mech, style: 'primary',
+        cta: `Silpniausia: ${MECHANIC_LABEL[w.mech] || w.mech}`, action: 'playlist', actionData: w.mech, style: 'primary',
       });
     }
     if(totalAns === 0) missions.push({
