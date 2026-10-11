@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest};
 `;
 let app;
 try {
@@ -1107,6 +1107,19 @@ section("mistakes notebook");
   app.openMistakeBook();
   check("fixed list shown", app.$app.innerHTML.includes("Ištaisyta (1)"));
   delete app.store.mistakes[`2019-${q.num}`]; delete app.store.dueQueue[`2019-${q.num}`];
+}
+
+// ---------- 19. contest results render (wrongs, notebook link) ----------
+section("contest results render");
+{
+  const yr = app.contestEligibleYears()[1];
+  app.openContest(yr);
+  const st = app.state;
+  st.contestQuestions.forEach((q, i) => { if(i % 2) st.contestAnswers[q.num] = q.correct === "A" ? "B" : "A"; });
+  let ok = true; try { app.finishContest(false); } catch(e){ ok = false; console.log(e.message); }
+  check("finishContest renders", ok && app.$app.innerHTML.includes("klaidų sąsiuvinį"));
+  app.store.contests.pop(); app.store.mistakes = {};
+  delete app.store.contestInProgress;
 }
 
 // ---------- result ----------
