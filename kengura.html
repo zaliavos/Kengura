@@ -4256,7 +4256,9 @@ function renderArchiveYear(){
         ${test.test_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.test_pdf)}" target="_blank">Testo PDF ↗</a>` : ``}
         ${test.solutions_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.solutions_pdf)}" target="_blank">Sprendimai ↗</a>` : ``}
       </div>
-      <p>Spręsk uždavinius – kiekvieną gali pasitikrinti vietoje. „Užuomina“ parodo strategijos kryptį iš oficialaus sprendimo (be paties atsakymo). Po atsakymo gausi pilną sprendimą bei galimybę spręsti panašaus tipo uždavinį.</p>
+      <p>Spręsk uždavinius – kiekvieną gali pasitikrinti vietoje. „Užuomina“ veda trimis pakopomis iki šio uždavinio idėjos (be paties atsakymo). Po atsakymo gausi sprendimą bei galimybę spręsti panašaus tipo uždavinį.</p>
+      ${(() => { const first = test.questions.find(q => !(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`]);
+        return first && first.num > 1 ? `<button class="btn small" id="archContinue" data-q="${first.num}">Tęsti nuo ${first.num} uždavinio →</button>` : ''; })()}
     </section>
     ${test.questions.map(q => renderArchiveCard(test.year, q)).join("")}
     <section class="card"><div class="footer-actions">
@@ -4265,6 +4267,11 @@ function renderArchiveYear(){
   `;
   document.getElementById("back").addEventListener("click", ()=>{state.view="home"; renderHome();});
   document.getElementById("back2").addEventListener("click", ()=>{state.view="home"; renderHome();});
+  const archContinue = document.getElementById("archContinue");
+  if(archContinue) archContinue.addEventListener("click", ()=>{
+    const el = document.querySelector(`.archive-card[data-qnum="${archContinue.dataset.q}"]`);
+    if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+  });
 
   // wire up per-card listeners
   $app.querySelectorAll(".archive-card").forEach(card=>{
