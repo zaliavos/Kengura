@@ -1110,6 +1110,8 @@ section("mistakes notebook");
   check("right answer marks it fixed", !!app.store.mistakes[`2019-${q.num}`].fixedAt);
   app.openMistakeBook();
   check("fixed list shown", app.$app.innerHTML.includes("Ištaisyta (1)"));
+  app.recordArchiveAnswer("2019", q, false, null); app.openMistakeBook();
+  check("notebook offers a worksheet", app.$app.innerHTML.includes("Klaidų lapas (1)"));
   delete app.store.mistakes[`2019-${q.num}`]; delete app.store.dueQueue[`2019-${q.num}`];
 }
 

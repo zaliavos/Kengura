@@ -3558,6 +3558,29 @@ function noteMistake(year, q, correct){
     m.fixedAt = Date.now();
   }
 }
+/* A worksheet of open mistakes: figures only, answers on a print-only page. */
+function printMistakeSheet(items){
+  state.view = "printMistakes";
+  prefetchFigures(items.map(x => x.q));
+  $app.innerHTML = `
+    <section class="card no-print">
+      <button class="nav-back" id="pmBack">← Atgal</button>
+      <h2>🖨 Klaidų lapas</h2>
+      <p class="help-bar" style="margin-top:0">${items.length} ${pluralForm(items.length,'uždavinys','uždaviniai','uždavinių')}, kuriuose buvo suklysta. Atsakymai atsispausdins paskutiniame lape.</p>
+      <button class="btn primary small" id="pmPrint">🖨 Spausdinti</button>
+    </section>
+    <section class="card">
+      <h2 style="margin:0">Klaidų lapas · ${new Date().toLocaleDateString("lt-LT")}</h2>
+      <p style="margin:4px 0 12px">Šiuos uždavinius jau sprendei – dabar išspręsk teisingai. Vardas: ____________</p>
+      ${items.map((x, i) => `<div class="print-q"><b>${i + 1}.</b> <span class="help-bar">(${escapeHTML(String(x.m.year))} m., ${x.q.num} užd.)</span>${x.q.figure ? `<img src="${encodeURI(x.q.figure)}" alt="Klausimas ${x.q.num}">` : `<div>${escapeHTML(x.q.prompt)}</div>`}</div>`).join('')}
+      <div class="print-only print-break"></div>
+      <div class="print-only"><h3>Atsakymai</h3>
+        <div class="answer-grid">${items.map((x, i) => `<div><b>${i + 1}.</b> ${x.q.correct}</div>`).join('')}</div></div>
+    </section>`;
+  document.getElementById("pmBack").addEventListener("click", openMistakeBook);
+  document.getElementById("pmPrint").addEventListener("click", ()=> window.print());
+}
+
 function openMistakeBook(){ state.view = "mistakes"; renderMistakeBook(); }
 function renderMistakeBook(){
   const items = Object.values(store.mistakes || {}).map(m => {
@@ -3579,6 +3602,7 @@ function renderMistakeBook(){
       <button class="nav-back" id="mbBack">← Į pradžią</button>
       <h2>📒 Klaidų sąsiuvinis</h2>
       <p class="help-bar" style="margin-top:0">Visi uždaviniai, kuriuose suklydai – iš treniruočių ir kontrolinių. Išspręsk teisingai – persikels į „Ištaisyta“.</p>
+      ${open.length ? `<button class="btn small" id="mbPrint" title="Neištaisytos klaidos ant popieriaus – atsakymai paskutiniame lape">🖨 Klaidų lapas (${Math.min(open.length, 20)})</button>` : ''}
       ${!items.length ? `<p>Kol kas tuščia – klaidų dar nebuvo. 🎉</p>` : ''}
       ${open.length ? `<h3>Dar mokausi (${open.length})</h3>` + Object.entries(byMech).sort((a, b) => b[1].length - a[1].length).map(([mech, xs]) => `
         <h4 style="margin:12px 0 4px;display:flex;align-items:center;gap:8px">${escapeHTML(MECHANIC_LABEL[mech] || mech)} <span class="pill">${xs.length}</span>${xs.length >= 2 && MECHANIC_LABEL[mech] ? `<button class="btn small ghost" data-mb-learn="${mech}" style="margin-left:auto" title="Kelios klaidos tame pačiame tipe – verta pasimokyti pačios gudrybės">Mokytis gudrybės →</button>` : ''}</h4>
@@ -3587,6 +3611,8 @@ function renderMistakeBook(){
     </section>`;
   document.getElementById("mbBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
   $app.querySelectorAll("[data-mb-learn]").forEach(b => b.addEventListener("click", ()=> openPlaylist(b.dataset.mbLearn)));
+  const mbPrint = document.getElementById("mbPrint");
+  if(mbPrint) mbPrint.addEventListener("click", ()=> printMistakeSheet(open.sort((a, b) => b.m.lastWrong - a.m.lastWrong).slice(0, 20)));
   $app.querySelectorAll("[data-mistake]").forEach(b => b.addEventListener("click", ()=>{
     const [year, num] = b.dataset.mistake.split("-");
     delete state.archiveAnswers[`${year}-${num}`];            // a clean retry
