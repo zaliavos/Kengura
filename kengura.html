@@ -6124,7 +6124,7 @@ function renderContestResults(){
           ${q.mechanic && MECHANIC_LABEL[q.mechanic] ? `<button class="btn small" data-recap-mech="${q.mechanic}" style="margin-top:6px">Mokytis: ${escapeHTML(MECHANIC_LABEL[q.mechanic])} →</button>` : ''}
         </details>`;
       }).join('')}
-      ${wrongs.length ? `<p class="help-bar">📒 Visos ${wrongs.length} ${pluralForm(wrongs.length,'klaida įrašyta','klaidos įrašytos','klaidų įrašyta')} į <a href="#" id="contestMistakeBook">klaidų sąsiuvinį</a> – ten gali bet kada bandyti iš naujo.</p>` : ''}
+      ${wrongs.length ? `<p class="help-bar">📒 ${wrongs.length} ${pluralForm(wrongs.length,'klaida įrašyta','klaidos įrašytos','klaidų įrašyta')} į <a href="#" id="contestMistakeBook">klaidų sąsiuvinį</a> – ten gali bet kada bandyti iš naujo.</p>` : ''}
       ${r.queued ? `<p class="help-bar">✓ ${r.queued} ${pluralForm(r.queued,'klaida pateko','klaidos pateko','klaidų pateko')} į pakartojimo eilę – nuo rytojaus grįš apšilimuose, po ${CONTEST_REVIEW_PER_DAY} per dieną.</p>` : ''}
     </section>` : ''}
 
