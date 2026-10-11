@@ -5667,11 +5667,13 @@ function renderContestIntro(year){
       <p><b>Ar turi dabar ramias 75 minutes?</b> Jei ne – geriau perkelti, negu nutraukti pusiaukelėje.</p>
       <div class="footer-actions" style="flex-wrap:wrap;gap:8px">
         ${planContest ? `<button class="btn ghost" id="ciPostpone">Ne dabar – perkelti į kitą treniruočių dieną</button>` : '<span></span>'}
+        <button class="btn small ghost" id="ciPaper" title="Atsispausdink, spręsk su pieštuku, paskui suvesk atsakymus">🖨 Spręsiu ant popieriaus</button>
         <button class="btn primary" id="ciStart">Pradėti kontrolinį →</button>
       </div>
     </section>`;
   document.getElementById("ciBack").addEventListener("click", ()=>{ state._planStep = null; state.view = "home"; renderHome(); });
   document.getElementById("ciStart").addEventListener("click", ()=> openContest(year));
+  document.getElementById("ciPaper").addEventListener("click", ()=> openPrintPaper(year));
   const pp = document.getElementById("ciPostpone");
   if(pp) pp.addEventListener("click", ()=>{
     store.plan.contestPostponedDay = todayKey();
