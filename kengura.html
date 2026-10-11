@@ -3492,10 +3492,19 @@ const STAR_TIME_TICK_SEC = 20;
 // tab open.
 const STAR_TIME_VIEWS = new Set(["quiz", "playlist", "recog", "archiveYear", "contest", "raceChallenge", "results", "contestResults"]);
 let _lastStarSaveAt = 0;
+// Minute stars stop after this long without a tap, key or scroll – a results
+// page left open on the table is not learning time.
+const STAR_IDLE_MS = 5 * 60000;
+let _lastInputAt = Date.now();
 function startStarTimeHeartbeat(){
+  if(typeof document !== "undefined" && document.addEventListener){
+    for(const ev of ["pointerdown", "keydown", "scroll", "touchstart"])
+      document.addEventListener(ev, ()=>{ _lastInputAt = Date.now(); }, {passive: true, capture: true});
+  }
   setInterval(()=>{
     if(typeof document !== "undefined" && document.hidden) return;
     if(!STAR_TIME_VIEWS.has(state.view)) return;   // parked on the home page ≠ learning
+    if(Date.now() - _lastInputAt > STAR_IDLE_MS) return;
     const s = store.stars;
     s._timeSecRem = (s._timeSecRem || 0) + STAR_TIME_TICK_SEC;
     let gained = 0;
@@ -5154,6 +5163,7 @@ function renderHome(){
   if(reset) reset.addEventListener("click", ()=>{
     if(confirm("Tikrai išvalyti visą progresą?")){
       localStorage.removeItem(LS_KEY);
+      for(const k of Object.keys(store)) delete store[k];   // keys without a default (e.g. recogConfusion) must go too
       Object.assign(store, loadStore());
       renderHome();
     }
@@ -6414,9 +6424,9 @@ function importProgressFile(file){
       const incoming = data && data.app === "kengura" && data.store ? data.store : data;
       if(!incoming || typeof incoming !== "object" || !incoming.activity || !incoming.settings) throw new Error("ne Kengūros progreso failas");
       const qs = Object.values(incoming.activity).reduce((a, c) => a + (c.answered || 0), 0);
-      if(!confirm(`Importuoti progresą (${qs} ${pluralForm(qs,'atsakymas','atsakymai','atsakymų')}, ${Object.keys(incoming.masteredMech || {}).length} įvaldytų gudrybių)?\n\nDabartinis progresas šioje naršyklėje bus pakeistas.`)) return;
-      _storeFrozen = true;   // the unload save must not overwrite the import
+      if(!confirm(`Importuoti progresą (${qs} ${pluralForm(qs,'atsakymas','atsakymai','atsakymų')}, ${(n => `${n} ${pluralForm(n,'įvaldyta gudrybė','įvaldytos gudrybės','įvaldytų gudrybių')}`)(Object.keys(incoming.masteredMech || {}).length)})?\n\nDabartinis progresas šioje naršyklėje bus pakeistas.`)) return;
       localStorage.setItem(LS_KEY, JSON.stringify(incoming));
+      _storeFrozen = true;   // only once it is stored: the unload save must not overwrite the import
       location.reload();
     } catch(e){ alert("Nepavyko importuoti: " + e.message); }
   };
@@ -8458,10 +8468,15 @@ function buildRacePool(){
    2 lives, no 5-question gate. */
 function openFreeRace(){
   if(!(store.games.freeRaces > 0)) return;
-  store.games.freeRaces--;
-  saveStore(store);
-  renderGamePick("medium", 2, "Bilietas panaudotas – kurį žaidimą?");
+  // the ticket is spent when a game starts – backing out of the picker keeps it
+  renderGamePick("medium", 2, "🎟 Bilietas – kurį žaidimą?", ()=>{
+    if(store.games.freeRaces > 0) store.games.freeRaces--;
+    saveStore(store);
+  });
 }
+// One unlock (5-question gate) or one ticket = this many runs; then the
+// game-over screen points back to the questions (or to a ticket in hand).
+const GAME_RUNS_PER_UNLOCK = 3;
 function shuffleInPlace(arr){
   for(let i = arr.length - 1; i > 0; i--){
     const j = Math.floor(Math.random() * (i + 1));
@@ -8644,8 +8659,8 @@ function renderRaceResult(){
           <button class="btn ghost" id="raceHome">Į pradžią</button>
         </div>
       </section>`;
-    document.getElementById("racePlay").addEventListener("click", ()=> openRaceGame(r.difficulty, r.lives));
-    document.getElementById("jumpPlay").addEventListener("click", ()=> openJumpGame(r.difficulty, r.lives));
+    document.getElementById("racePlay").addEventListener("click", ()=>{ state.gameRunsLeft = GAME_RUNS_PER_UNLOCK; openRaceGame(r.difficulty, r.lives); });
+    document.getElementById("jumpPlay").addEventListener("click", ()=>{ state.gameRunsLeft = GAME_RUNS_PER_UNLOCK; openJumpGame(r.difficulty, r.lives); });
     const buyLife = document.getElementById("raceBuyLife");
     if(buyLife) buyLife.addEventListener("click", ()=>{
       if(spendStars(SHOP_LIFE_COST)){ r.lives++; renderRaceResult(); }
@@ -8846,7 +8861,7 @@ function openRaceGame(difficulty, lives){
 }
 
 /* -------- Game picker: one ticket / unlock, two games -------- */
-function renderGamePick(difficulty, lives, title){
+function renderGamePick(difficulty, lives, title, onStart){
   difficulty = difficulty || "medium"; lives = lives || 2;
   state.view = "gamePick";
   $app.innerHTML = `
@@ -8864,8 +8879,9 @@ function renderGamePick(difficulty, lives, title){
         <button class="btn ghost" id="pickHome">Į pradžią</button>
       </div>
     </section>`;
-  document.getElementById("pickRace").addEventListener("click", ()=> openRaceGame(difficulty, lives));
-  document.getElementById("pickJump").addEventListener("click", ()=> openJumpGame(difficulty, lives));
+  const start = open => ()=>{ if(onStart) onStart(); state.gameRunsLeft = GAME_RUNS_PER_UNLOCK; open(difficulty, lives); };
+  document.getElementById("pickRace").addEventListener("click", start(openRaceGame));
+  document.getElementById("pickJump").addEventListener("click", start(openJumpGame));
   document.getElementById("pickHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
 }
 
@@ -9014,6 +9030,8 @@ function renderGameOver(game, score, difficulty, lives, newRecord){
   state.view = "raceOver";
   const isJump = game === "jump";
   const best = isJump ? (store.games.jumpBest || 0) : (store.games.best || 0);
+  state.gameRunsLeft = Math.max(0, (state.gameRunsLeft || 1) - 1);
+  const runs = state.gameRunsLeft, tickets = store.games.freeRaces || 0;
   $app.innerHTML = `
     <section class="card" style="text-align:center">
       <h2>${newRecord ? "🏆 Naujas rekordas!" : (isJump ? "Šuolis baigtas 🦘" : "Lenktynės baigtos 🏁")}</h2>
@@ -9023,14 +9041,19 @@ function renderGameOver(game, score, difficulty, lives, newRecord){
         <span class="pill muted">Geriausias: ${best} m</span>
       </div>
       <div class="footer-actions" style="justify-content:center;gap:8px;flex-wrap:wrap">
-        <button class="btn primary" id="goAgain">${isJump ? '🦘' : '🏎'} Dar kartą (${lives} ${lives===1?'gyvybė':'gyv.'})</button>
-        <button class="btn" id="goOther">${isJump ? '🏎 Lenktynės' : '🦘 Šuolis'}</button>
-        <button class="btn" id="goNewChallenge">Naujas iššūkis</button>
+        ${runs ? `<button class="btn primary" id="goAgain">${isJump ? '🦘' : '🏎'} Dar kartą (liko ${runs})</button>
+        <button class="btn" id="goOther">${isJump ? '🏎 Lenktynės' : '🦘 Šuolis'}</button>` : `<p class="help-bar" style="flex-basis:100%;margin:0">Bandymai baigėsi – nauji atsirakina už 5 uždavinius.</p>`}
+        ${!runs && tickets ? `<button class="btn primary" id="goTicket">🎟 Panaudoti bilietą (${tickets})</button>` : ''}
+        <button class="btn ${runs || tickets ? '' : 'primary'}" id="goNewChallenge">Naujas iššūkis</button>
         <button class="btn ghost" id="goHome">Į pradžią</button>
       </div>
     </section>`;
-  document.getElementById("goAgain").addEventListener("click", ()=> isJump ? openJumpGame(difficulty, lives) : openRaceGame(difficulty, lives));
-  document.getElementById("goOther").addEventListener("click", ()=> isJump ? openRaceGame(difficulty, lives) : openJumpGame(difficulty, lives));
+  const again = document.getElementById("goAgain");
+  if(again) again.addEventListener("click", ()=> isJump ? openJumpGame(difficulty, lives) : openRaceGame(difficulty, lives));
+  const other = document.getElementById("goOther");
+  if(other) other.addEventListener("click", ()=> isJump ? openRaceGame(difficulty, lives) : openJumpGame(difficulty, lives));
+  const ticket = document.getElementById("goTicket");
+  if(ticket) ticket.addEventListener("click", openFreeRace);
   document.getElementById("goNewChallenge").addEventListener("click", openRaceChallenge);
   document.getElementById("goHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
 }

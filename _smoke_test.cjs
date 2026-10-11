@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver};
 `;
 let app;
 try {
@@ -576,7 +576,10 @@ section("minigames");
   check("game picker renders", !threw && state.view === "gamePick", threw || state.view);
   store.games.freeRaces = 1;
   openFreeRace();
-  check("free ticket opens the picker and is consumed", state.view === "gamePick" && store.games.freeRaces === 0);
+  check("free ticket opens the picker, kept until a game starts", state.view === "gamePick" && store.games.freeRaces === 1);
+  store.games.freeRaces = 0;
+  state.gameRunsLeft = 1; app.renderGameOver("race", 100, "easy", 1, false);
+  check("game over after the last run: no free replay", state.gameRunsLeft === 0 && !app.$app.innerHTML.includes('id="goAgain"'));
   // Honest time budget
   const steps = planStepsForToday();
   check("plan minutes positive", planMinutes(steps) > 0);
