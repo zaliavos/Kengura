@@ -5992,7 +5992,7 @@ function renderContest(){
       <div class="contest-header">
         <div>
           <b>Kontrolinis – ${escapeHTML(state.contestYear)} m.</b>
-          <span class="help-bar" style="margin-left:6px">${answeredCount} / ${total} atsakyta</span>
+          <span class="help-bar" style="margin-left:6px">${answeredCount} / ${total} atsakyta${Object.keys(state.contestFlags || {}).length ? ` · 🚩 ${Object.keys(state.contestFlags).length}` : ''}</span>
         </div>
         <div class="contest-timer-box">
           ⏱ <span id="contestTimer">${mm}:${String(ss).padStart(2,"0")}</span>
