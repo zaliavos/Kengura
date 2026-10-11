@@ -103,7 +103,7 @@ better practice than a wrong-band random.
   / "B7." + letter) are the reference, and 6 booklet keys are wrong even
   there (see `_fix_keys_audit.py`). The smoke test fails on unkeyed
   questions and broken point bands.
-- Data pipeline order after a re-extraction: `_reextract_solutions.py` →
+- Data pipeline: `python _rebuild_data.py` runs it all; order after a re-extraction: `_reextract_solutions.py` →
   `_fix_keys_audit.py` → `_apply_clean_solutions.py` → `_apply_audit_text.py` (prompts/options) →
   `_apply_kid_solutions.py` → `_mechanic_review.py` → `_fix_typos_2026.py`. Figures: `_recrop.py`.
 - Note on `q.hasMissingOptionText`: PDF extraction failed on some option
