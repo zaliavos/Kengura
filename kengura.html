@@ -4999,7 +4999,7 @@ function renderHome(){
     ${last ? `
     <section class="card">
       <h3>Paskutinis testas</h3>
-      <p>${new Date(last.when).toLocaleString("lt-LT")} – <b>${last.correct} / ${last.total}</b> teisingai (${last.points} t.)</p>
+      <p>${new Date(last.when).toLocaleString("lt-LT", {dateStyle: "short", timeStyle: "short"})} – <b>${last.correct} / ${last.total}</b> teisingai (${last.points} t.)</p>
     </section>` : ``}
 
     
@@ -6663,7 +6663,7 @@ function renderParent(){
 
     ${last ? `
     <section class="card">
-      <h3>Paskutinis testas (${new Date(last.when).toLocaleString("lt-LT")})</h3>
+      <h3>Paskutinis testas (${new Date(last.when).toLocaleString("lt-LT", {dateStyle: "short", timeStyle: "short"})})</h3>
       <p><b>${last.correct} / ${last.total}</b> teisingai · ${last.points} ${pluralForm(last.points,'taškas','taškai','taškų')}${last.pointsWithPenalty != null ? ` (su −25 % bauda: ${last.pointsWithPenalty})` : ''}</p>
       ${lastBreak ? `<p><b>Klaidų pasiskirstymas:</b></p>${lastBreak}` : ''}
     </section>` : ''}
