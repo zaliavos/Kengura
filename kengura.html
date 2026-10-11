@@ -3564,6 +3564,7 @@ const MISTAKE_REASONS = {
   start: "Nežinojau, nuo ko pradėti",
   guess: "Spėjau",
 };
+const MISTAKE_REASON_SHORT = {read: "sąlyga", calc: "skaičiavimas", start: "nuo ko pradėti", guess: "spėjau"};
 function noteMistake(year, q, correct){
   store.mistakes = store.mistakes || {};
   const key = `${year}-${q.num}`;
@@ -3614,7 +3615,7 @@ function renderMistakeBook(){
   const row = x => `<div class="cat-row" style="align-items:center;gap:8px">
       <span style="flex:1;min-width:0"><b>${escapeHTML(String(x.m.year))} · ${x.q.num}</b> <span class="pill">${x.q.points} t.</span>
         <span class="help-bar" style="margin:0">${escapeHTML(x.q.prompt.slice(0, 70))}${x.q.prompt.length > 70 ? '…' : ''}</span></span>
-      ${x.m.reason ? `<span class="pill muted" title="Tavo nurodyta priežastis">${escapeHTML((MISTAKE_REASONS[x.m.reason] || '').split(' ').slice(-1)[0] === 'skaičiuodamas' ? 'skaičiavimas' : ({read:'sąlyga', calc:'skaičiavimas', start:'nuo ko pradėti', guess:'spėjau'})[x.m.reason] || '')}</span>` : ''}
+      ${x.m.reason ? `<span class="pill muted" title="Tavo nurodyta priežastis">${escapeHTML(MISTAKE_REASON_SHORT[x.m.reason] || '')}</span>` : ''}
       ${x.m.times > 1 ? `<span class="pill bad" title="Kiek kartų klysta">×${x.m.times}</span>` : ''}
       <button class="btn small" data-mistake="${escapeHTML(String(x.m.year))}-${x.q.num}">${x.m.fixedAt ? 'Dar kartą' : 'Bandyti'}</button>
     </div>`;
