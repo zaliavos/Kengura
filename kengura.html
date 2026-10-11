@@ -6107,6 +6107,19 @@ function renderContest(){
   });
 }
 
+// Answers given after crossing out ≥ 2 other options: {n, ok}. Shows the kid
+// that an informed guess (1 of ≤ 3, penalty ¼) is worth taking.
+function contestElimination(qs){
+  let n = 0, ok = 0;
+  for(const q of qs){
+    const a = state.contestAnswers[q.num];
+    const struck = Object.keys((state.contestStruck || {})[q.num] || {}).filter(l => l !== a);
+    if(!a || struck.length < 2) continue;
+    n++; if(a === q.correct) ok++;
+  }
+  return {n, ok};
+}
+
 function finishContest(byTimer){
   if(state._contestTimerInterval){ clearInterval(state._contestTimerInterval); state._contestTimerInterval = null; }
   creditContestTime();
@@ -6147,6 +6160,7 @@ function finishContest(byTimer){
     slowest: Object.entries(times).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([n, ms]) => ({num: Number(n), ms})),
     queued: queueContestWrongs(state.contestYear, qs, state.contestAnswers),
     answers: Object.fromEntries(qs.map(q => [q.num, state.contestAnswers[q.num] || null])),
+    elim: contestElimination(qs),
   };
   store.contests = store.contests || [];
   store.contests.push(result);
@@ -6278,6 +6292,7 @@ function renderContestResults(){
       const stuck = qs.map(q => ({q, ms: (state.contestTimes || {})[q.num] || 0})).filter(x => x.ms >= 6 * 60000 && (x.q.points || 3) < 5).sort((a, b) => b.ms - a.ms)[0];
       if(stuck) notes.push(`Prie ${stuck.q.num} uždavinio (${stuck.q.points} t.) sugaišai ${Math.round(stuck.ms / 60000)} min. Kitą kartą po ~3 min pažymėk 🚩 ir eik toliau – grįši, jei liks laiko.`);
       if(r.timeByBand && r.timeByBand[3] > 20 * 60000) notes.push('3 t. blokui sugaišai daugiau nei 20 min – likusiems laiko lieka per mažai. Treniruok „Greičio sprintą“.');
+      if(r.elim && r.elim.n >= 2) notes.push(`Išbraukęs bent du variantus, atsakei ${r.elim.n} ${pluralForm(r.elim.n,'kartą','kartus','kartų')} – teisingai ${r.elim.ok}. ${r.elim.ok * 3 >= r.elim.n ? 'Taip ir reikia: iš likusių trijų pataikai bent kas trečią kartą, o bauda tik ¼ – toks spėjimas apsimoka.' : 'Iš likusių trijų atsitiktinai pataikoma kas trečią kartą – patikrink, ar neišbraukei teisingo varianto per skubėdamas.'}`);
       if(!notes.length && r.answered >= 25 && pct >= 60) notes.push('Strategija gera: atsakei į daug klausimų ir dažniausiai teisingai. Taip ir toliau!');
       return notes.length ? `<section class="card"><h3>🎯 Strategijos pastabos</h3><ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${notes.map(n => `<li>${n}</li>`).join('')}</ul></section>` : '';
     })()}

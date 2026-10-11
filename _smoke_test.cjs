@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination};
 `;
 let app;
 try {
@@ -1082,7 +1082,10 @@ section("contest flag / withdraw");
   app.renderContest();
   check("crossed-out option rendered", /class="opt struck" data-letter="C"/.test(app.$app.innerHTML) && app.$app.innerHTML.includes('data-strike="C" aria-pressed="true"'));
   check("crossed-out options persisted", (() => { app.persistContestProgress(); return app.store.contestInProgress.struck[q.num].C === true; })());
-  st.contestStruck = {};
+  st.contestAnswers = { [q.num]: q.correct };
+  st.contestStruck = { [q.num]: Object.fromEntries(["A","B","C","D","E"].filter(l => l !== q.correct).slice(0, 2).map(l => [l, true])) };
+  check("elimination stat counts informed guesses", JSON.stringify(app.contestElimination(st.contestQuestions)) === '{"n":1,"ok":1}');
+  st.contestStruck = {}; st.contestAnswers = {};
   delete app.store.contestInProgress; st.contestFlags = {}; st.contestAnswers = {};
 }
 
