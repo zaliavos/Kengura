@@ -1526,8 +1526,8 @@
      "patterns": [
       "aritmetika"
      ],
-     "correct": "A",
-     "solution": "864 ! Didžiausias triženklis skaičius su skirtingais skaitmenimis yra 987, o mažiausias – 123. Jų skirtumas 864. Teisingas atsakymas A.",
+     "correct": "B",
+     "solution": "885 ! Didžiausias triženklis skaičius su skirtingais skaitmenimis yra 987, o mažiausias – 102 (nulis gali stovėti viduryje). Jų skirtumas 987 − 102 = 885. Teisingas atsakymas B.",
      "figure": "figures/2002-q10.png",
      "mechanic": "digit-properties"
     },

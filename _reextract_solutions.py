@@ -100,7 +100,7 @@ FRACTION_YEARS = set(os.environ['PT_YEARS'].split(',')) if os.environ.get('PT_YE
     {'2000', '2001', '2002', '2003', '2004', '2005',
      '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'}
 # keys where the booklet itself is wrong (see _fix_keys_audit.py, run after this script)
-BOOKLET_KEY_ERRORS = {('2000', 23), ('2003', 28), ('2005', 24), ('2009', 24), ('2010', 4), ('2011', 10)}
+BOOKLET_KEY_ERRORS = {('2000', 23), ('2003', 28), ('2005', 24), ('2009', 24), ('2010', 4), ('2011', 10), ('2002', 10)}
 SOLUTION_BOOKLETS = {'2014': 'Solutions/spGDPRB (1).pdf', '2015': 'Solutions/spGDPRB (2).pdf',
                      '2016': 'Solutions/spGDPRB.pdf', '2017': 'Solutions/spGDPRB (3).pdf'}
 

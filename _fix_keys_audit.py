@@ -13,6 +13,8 @@ Each change was checked by hand on the figure / by computation:
   2009-24  D -> C     the official text finds the UNshaded 52; shaded = 100 − 52 = 48
   2010-4   C -> D     21 steps: the 10th from the bottom is the 12th from the top
   2011-10  A -> B     the official text itself ends with 60·7 + 80·7 = 980 g
+  2002-10  A -> B     the smallest three-digit number with different digits is 102,
+                      not 123: 987 − 102 = 885 (864 is the trap)
 (2014-11 was flagged by the audit but the key E is right: the 8 tiles hold
 3 units of dark area and would need 4,5.)
 """
@@ -24,7 +26,7 @@ data = json.load(open(J, encoding='utf-8'))
 Q = {(y['year'], q['num']): q for y in data['archive'] for q in y['questions']}
 
 KEYS = {('2000', 8): 'B', ('2000', 15): 'C', ('2000', 24): 'B', ('2001', 10): 'A', ('2000', 23): 'E',
-        ('2003', 28): 'A', ('2005', 24): 'B', ('2009', 24): 'C', ('2010', 4): 'D', ('2011', 10): 'B'}
+        ('2003', 28): 'A', ('2005', 24): 'B', ('2009', 24): 'C', ('2010', 4): 'D', ('2011', 10): 'B', ('2002', 10): 'B'}
 SOL = {
     ('2000', 8): '2 m 40 cm ! Juosta apjuosia dėžę keturis kartus. Dvi juostos eina išilgai: viena aplink šonus, '
                  'kita per viršų, galus ir apačią – kiekviena po 2 · (30 + 10) = 80 cm. Dvi juostos eina skersai – '
@@ -63,6 +65,8 @@ patch(('2010', 4), 'o Mikas buvo pastovėjęs ant 20 −10 = 10 laiptelių. Taig
       'o Mikas buvo pastovėjęs ant 21 − 10 = 11 laiptelių. Taigi Mikas dabar stovi ant 12 laiptelio')
 if Q[('2010', 4)]['solution'].startswith('11'): Q[('2010', 4)]['solution'] = '12' + Q[('2010', 4)]['solution'][2:]
 if Q[('2011', 10)]['solution'].startswith('840'): Q[('2011', 10)]['solution'] = '980' + Q[('2011', 10)]['solution'][3:]
+patch(('2002', 10), 'o mažiausias – 123. Jų skirtumas 864.', 'o mažiausias – 102 (nulis gali stovėti viduryje). Jų skirtumas 987 − 102 = 885.')
+if Q[('2002', 10)]['solution'].startswith('864'): Q[('2002', 10)]['solution'] = '885' + Q[('2002', 10)]['solution'][3:]
 patch(('2015', 26), 'skaičių 38 −16 = 12.', 'skaičių 38 − 16 = 22.')   # booklet arithmetic slip (key C = 22 is right)
 for k in KEYS:   # the booklet's "Teisingas atsakymas X" follows the key
     import re
