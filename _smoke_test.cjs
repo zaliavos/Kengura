@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress};
 `;
 let app;
 try {
@@ -1060,6 +1060,21 @@ section("kid answer line matches the option text");
     if(!norm(m[2]).includes(norm(opt)) && !norm(opt).includes(norm(m[2]))) bad.push(`${t.year}-${q.num}`);
   }
   check("answer line quotes the keyed option", bad.length === 0, bad.join(" "));
+}
+
+// ---------- 16. contest: flag + withdraw ----------
+section("contest flag / withdraw");
+{
+  const yr = app.contestEligibleYears()[0];
+  app.openContest(yr);
+  const st = app.state;
+  const q = st.contestQuestions[0];
+  const opts = { target: { closest: () => ({ dataset: { letter: "B" } }) } };
+  st.contestAnswers[q.num] = "B"; st.contestFlags[q.num] = true;
+  app.renderContest();
+  check("flag persisted with progress", (() => { app.persistContestProgress(); return app.store.contestInProgress.flags[q.num] === true; })());
+  check("contest html shows the flag", app.$app.innerHTML.includes("contest-pip") && app.$app.innerHTML.includes("flagged"));
+  delete app.store.contestInProgress; st.contestFlags = {}; st.contestAnswers = {};
 }
 
 // ---------- result ----------

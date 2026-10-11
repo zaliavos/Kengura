@@ -275,6 +275,7 @@
   }
   .contest-pip.filled{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
   .contest-pip.current{outline:2px solid var(--accent);outline-offset:1px}
+  .contest-pip.flagged{box-shadow:inset 0 -3px 0 var(--bad)}
   .contest-pip:hover{border-color:var(--accent)}
   .nav-back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;padding:0;margin-bottom:8px}
   .mech-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px}
@@ -5547,6 +5548,7 @@ function persistContestProgress(){
   store.contestInProgress = {
     year: state.contestYear,
     answers: state.contestAnswers,
+    flags: state.contestFlags || {},
     current: state.contestCurrent,
     startedAt: state.contestStartedAt,
     endsAt: state.contestEndsAt,
@@ -5616,6 +5618,7 @@ function openContest(year){
   state.contestYear = year;
   state.contestQuestions = qs;
   state.contestAnswers = {};   // { qnum: chosenLetter }
+  state.contestFlags = {};     // { qnum: true } – "abejoju, grįšiu" marks
   state.contestCurrent = 0;
   state.contestStartedAt = Date.now();
   state.contestEndsAt = Date.now() + CONTEST_DURATION_MS;
@@ -5638,6 +5641,7 @@ function resumeContest(){
   state.contestYear = saved.year;
   state.contestQuestions = qs;
   state.contestAnswers = saved.answers || {};
+  state.contestFlags = saved.flags || {};
   state.contestCurrent = Math.min(saved.current || 0, qs.length - 1);
   state.contestStartedAt = saved.startedAt;
   state.contestEndsAt = saved.endsAt;
@@ -5676,7 +5680,8 @@ function renderContest(){
     const ans = state.contestAnswers[qq.num];
     const cur = i === idx ? " current" : "";
     const filled = ans ? " filled" : "";
-    return `<button class="contest-pip${cur}${filled}" data-jump="${i}" title="Klausimas ${qq.num} (${qq.points} t.)">${qq.num}</button>`;
+    const flagged = (state.contestFlags || {})[qq.num] ? " flagged" : "";
+    return `<button class="contest-pip${cur}${filled}${flagged}" data-jump="${i}" title="Klausimas ${qq.num} (${qq.points} t.)${flagged ? ' – pažymėtas grįžti' : ''}">${qq.num}</button>`;
   }).join("");
 
   $app.innerHTML = `
@@ -5702,12 +5707,14 @@ function renderContest(){
       <div class="qprompt">${escapeHTML(q.prompt)}</div>
       ${figureHtml}
       <div class="options" id="contestOptions">${optionsHtml}</div>
+      ${state.contestAnswers[q.num] ? `<p class="help-bar" style="margin:6px 0 0">Persigalvojai? Paspausk pasirinktą atsakymą dar kartą – jis bus atšauktas (už neatsakytą baudos nėra).</p>` : ''}
 
       <div class="footer-actions">
         <div class="row">
           ${idx > 0 ? `<button class="btn ghost small" id="contestPrev">← Ankstesnis</button>` : ''}
           ${idx < total-1 ? `<button class="btn small" id="contestNext">Kitas →</button>` : ''}
           <button class="btn small ghost" id="contestSkip">Praleisti (atsakyti vėliau)</button>
+          <button class="btn small ghost" id="contestFlag" title="Pažymėk, jei abejoji – juostelėje matysis raudonas brūkšnys">${(state.contestFlags || {})[q.num] ? '🚩 Nuimti žymę' : '🚩 Abejoju – grįšiu'}</button>
         </div>
         <div class="row">
           <button class="btn primary" id="contestFinish">Baigti</button>
@@ -5718,7 +5725,10 @@ function renderContest(){
 
   document.getElementById("contestOptions").addEventListener("click", e => {
     const o = e.target.closest(".opt"); if(!o) return;
-    state.contestAnswers[q.num] = o.dataset.letter;
+    // tapping the chosen answer again withdraws it: under −25 % a blank can
+    // be the better choice, exactly as erasing on the real answer sheet
+    if(state.contestAnswers[q.num] === o.dataset.letter) delete state.contestAnswers[q.num];
+    else state.contestAnswers[q.num] = o.dataset.letter;
     persistContestProgress();
     renderContest();
   });
@@ -5733,6 +5743,12 @@ function renderContest(){
   if(prev) prev.addEventListener("click", ()=>{ state.contestCurrent--; persistContestProgress(); renderContest(); });
   const next = document.getElementById("contestNext");
   if(next) next.addEventListener("click", ()=>{ state.contestCurrent++; persistContestProgress(); renderContest(); });
+  const flagBtn = document.getElementById("contestFlag");
+  if(flagBtn) flagBtn.addEventListener("click", ()=>{
+    state.contestFlags = state.contestFlags || {};
+    if(state.contestFlags[q.num]) delete state.contestFlags[q.num]; else state.contestFlags[q.num] = true;
+    persistContestProgress(); renderContest();
+  });
   const skip = document.getElementById("contestSkip");
   if(skip) skip.addEventListener("click", ()=>{
     // advance to next unanswered
@@ -5746,9 +5762,11 @@ function renderContest(){
   });
   document.getElementById("contestFinish").addEventListener("click", ()=>{
     const unanswered = qs.filter(qq => !state.contestAnswers[qq.num]).length;
-    const msg = unanswered
+    const flaggedN = Object.keys(state.contestFlags || {}).length;
+    const flagLine = flaggedN ? `\n\nPažymėjai grįžti: ${flaggedN} ${pluralForm(flaggedN,'klausimą','klausimus','klausimų')} (raudonas brūkšnys juostelėje).` : "";
+    const msg = (unanswered
       ? `Liko ${unanswered} ${pluralForm(unanswered,'neatsakytas klausimas','neatsakyti klausimai','neatsakytų klausimų')}. Tikrai baigti?\n\nNeatsakyti = 0 taškų (be baudos – kaip realiame konkurse).`
-      : "Tikrai baigti kontrolinį?";
+      : "Tikrai baigti kontrolinį?") + flagLine;
     if(confirm(msg)) finishContest(false);
   });
 }
