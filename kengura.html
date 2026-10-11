@@ -7147,11 +7147,12 @@ function pickContestYear(){
       const t = ARCHIVE.find(x => String(x.year) === String(y));
       return t ? t.questions.filter(q => (store.seenQ || {})[`${t.year}-${q.num}`]).length : 0;
     };
-    // Tie-break is stable within a day (hash of date + year), so the plan's
-    // label, the intro screen and the paper that opens are the same year.
-    const dayHash = y => { let h = 0; for(const ch of todayKey() + "|" + y) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
-    const scored = fresh.map(y => ({y, n: seenCount(y), r: dayHash(y)}));
-    scored.sort((a,b) => a.n - b.n || a.r - b.r);
+    // Least-practised papers first (in steps of 3 questions, so one stray
+    // practice question doesn't decide), then the NEWEST: today's contest
+    // looks like the 2013+ papers, not like 2000. Deterministic, so the plan
+    // label, the intro screen and the paper that opens agree.
+    const scored = fresh.map(y => ({y, n: Math.floor(seenCount(y) / 3)}));
+    scored.sort((a,b) => a.n - b.n || Number(b.y) - Number(a.y));
     return scored[0].y;
   }
   years.sort((a,b) => (played[String(a)] || 0) - (played[String(b)] || 0));
