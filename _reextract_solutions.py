@@ -20,6 +20,8 @@ Run with plain `python` (PyMuPDF lives in the user site-packages).
 """
 import json, os, re, sys, io, difflib, unicodedata, subprocess
 import fitz
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _pagetext import page_text
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 HERE = os.path.dirname(os.path.abspath(__file__))
 J = os.path.join(HERE, 'kengura-archive.json')
@@ -34,7 +36,7 @@ def ltnorm(t):
 
 JUNK_LINE = re.compile(r'^(\d{1,3}|Bičiulis.*|Bičiulio užduočių sprendimai|UŽDUOČIŲ SPRENDIMAI|'
                        r'\d*\s*UŽDUOČIŲ SPRENDIMAI\s*\d*|Kadetas.*|Mažylis.*|KENGŪRA.*)$')
-HDR_MODERN = re.compile(r'(?m)^(\d{1,2})\. ([A-E])\s*$')
+HDR_MODERN = re.compile(r'(?m)^(\d{1,2})\. ([A-E])(?=[ \t]*$|[ \t]+\d)')   # "7. A", or "2. C 2021/29" when _pagetext set the value on the line
 HDR_OLD = re.compile(r'(?m)^([MBKJS])(\d{1,2})\.(?=[ \t]*$|\s+Žr\.)')   # "B24." alone or "B24. Žr. M23 ..."
 
 def join_lines(seg):
@@ -90,6 +92,12 @@ def segments(text):
             segs[key] = (lm.group(1) if lm else None, body[lm.end():] if lm else body)
     return segs
 
+# booklets whose stacked fractions (small numerator over denominator) _pagetext
+# rebuilds as "a/b"; checked by eye - elsewhere figure labels get mixed in.
+# PT_YEARS=2000,2001 overrides it for experiments.
+FRACTION_YEARS = set(os.environ['PT_YEARS'].split(',')) if os.environ.get('PT_YEARS') else \
+    {'2000', '2001', '2002', '2003', '2004', '2005',
+     '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'}
 # keys where the booklet itself is wrong (see _fix_keys_audit.py, run after this script)
 BOOKLET_KEY_ERRORS = {('2000', 23), ('2003', 28), ('2005', 24), ('2009', 24), ('2010', 4), ('2011', 10)}
 SOLUTION_BOOKLETS = {'2014': 'Solutions/spGDPRB (1).pdf', '2015': 'Solutions/spGDPRB (2).pdf',
@@ -108,7 +116,9 @@ def main():
     for y in data['archive']:
         pdf = y.get('solutions_pdf')
         if not pdf: continue
-        text = ltnorm('\n'.join(p.get_text() for p in fitz.open(os.path.join(HERE, pdf))))
+        doc = fitz.open(os.path.join(HERE, pdf))
+        use_pt = y['year'] in FRACTION_YEARS
+        text = ltnorm('\n'.join((page_text(p) if use_pt else p.get_text()) for p in doc))
         segs = segments(text)
         for q in y['questions']:
             hit = segs.get(('B', q['num']))
@@ -130,6 +140,11 @@ def main():
             new = join_lines(drop_label_lines(body))
             if re.fullmatch(r'.{0,40}Žr\..{0,40}sprendimą\.?', new):
                 new = ''          # pointer to a level whose solutions this booklet lacks
+            if q.get('imageOnlyOptions'):
+                # picture options have no value line; stacked figure numbers
+                # can masquerade as one ("2021/29") - drop it
+                mk = re.search(r'(^|\s)(\?\??|!!?)\s', new)
+                if mk and '/' in new[:mk.start()]: new = new[mk.start():].strip()
             if via_ref:
                 # the other level orders its options differently: drop its letters
                 parts = re.split(r'(?<=[.!?])\s+', new)
