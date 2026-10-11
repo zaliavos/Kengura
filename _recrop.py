@@ -115,6 +115,12 @@ def crop(pdf, n, old, year=None):
     page, col, hr, nxt = loc
     top = hr.y0 - 3
     comps = components(page, col)
+    # a section heading ("KLAUSIMAI PO 4 TAŠKUS") under the last question of a band ends it
+    sect = [fitz.Rect(w[:4]) for w in page.get_text('words') if w[4].lower() == 'klausimai'
+            and col.contains(fitz.Rect(w[:4])) and w[1] > hr.y1 and (not nxt or w[1] < nxt.y0)]
+    sect_y = None
+    if sect:
+        nxt = fitz.Rect(min(sect, key=lambda r: r.y0)); sect_y = nxt.y1
     if nxt:
         bottom = nxt.y0 - 2
     else:   # last question of the column: down to its last word / drawing
@@ -169,8 +175,9 @@ def crop(pdf, n, old, year=None):
         r = fitz.Rect(w[:4])
         if not clip.intersects(r): continue
         outside = r.y1 <= lo + 1 or r.y0 >= hi
-        forced = outside and w[4] in FORCE_MASK.get((year, n), ())
-        if outside and (forced or not any(o.intersects(r) for o in own)): masks.append(r + (-1, -1, 1, 1))
+        heading = sect_y is not None and abs(w[3] - sect_y) < 2.5   # same baseline as the section heading
+        forced = heading or (outside and w[4] in FORCE_MASK.get((year, n), ()))
+        if forced or (outside and not any(o.intersects(r) for o in own)): masks.append(r + (-1, -1, 1, 1))
     for c in comps:
         mid = (c.y0 + c.y1) / 2
         if clip.intersects(c) and not (lo - 2 <= mid < hi + 2) and not any(o.contains(c) for o in own):
