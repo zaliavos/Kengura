@@ -8389,7 +8389,17 @@ function parseOfficialSolution(t){
   const re = /(?:^|\s)(\?\?|\?|!!|!)(?=\s)/g;
   const marks = [];
   let m;
-  while((m = re.exec(text))) marks.push({ mark: m[1], start: m.index + (m[0].length - m[1].length), end: m.index + m[0].length });
+  while((m = re.exec(text))){
+    const start = m.index + (m[0].length - m[1].length), end = m.index + m[0].length;
+    const before = text.slice(0, start).trimEnd();
+    const after = text.slice(end).trimStart();
+    // a part starts at the top (after the answer value) or after a sentence;
+    // "kad ! dalyje" / "Sprendimo ? užtenka" refer to a part, they don't open one
+    if(marks.length && !/[.!?:;)“"…]$/.test(before)) continue;
+    if(/^(dalyje|dalies|dalį|dalis|dalimi)/.test(after)) continue;
+    if(!after) continue;                     // a stray "?" left from a figure at the very end
+    marks.push({ mark: m[1], start, end });
+  }
   if(!marks.length) return { value: null, parts: [{ label: "Sprendimas", text }] };
   const head = text.slice(0, marks[0].start).trim();
   const value = head && head.length <= 60 && !/[.:;]$/.test(head) ? head : null;

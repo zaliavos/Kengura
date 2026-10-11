@@ -945,6 +945,8 @@ section("official solution markers");
   check("? ! !! labelled", r.parts.map(p => p.label).join("|") === "Greitas būdas|Sprendimas|Kitas sprendimas", JSON.stringify(r));
   r = P("! O gal ir atsakymas C netinka? Bet nesunku užpildyti.");
   check("glued ? is punctuation", r.value === null && r.parts.length === 1, JSON.stringify(r));
+  r = P("5 ! Pirma. Kaip radome ! dalyje, tinka. ?? Kitaip. ?");
+  check("mid-sentence marker is a reference", r.parts.length === 2 && r.parts[0].text.includes("! dalyje") && r.parts[1].label === "Dar vienas greitas būdas", JSON.stringify(r));
   const html = app.officialSolutionHTML("24 ! Pažymėkime <b> & sudėkime.");
   check("official html escapes", html.includes("&lt;b&gt;") && html.includes("<b>Atsakymas:</b> 24"), html);
   check("kid solution wins", app.solutionBlockHTML({solutionKid: "Gudrybė: X.", solution: "1 ! Y"}).includes("Gudrybė"));
