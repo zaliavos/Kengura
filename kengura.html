@@ -7293,7 +7293,10 @@ function planStepsForToday(){
   const DUE_CORE_MIN = phase === "taper" ? 5 : 10;
   const backlog = phase === "taper" ? due.length : due.filter(d => !d.fromContest).length;
   let core;
-  if(backlog >= DUE_CORE_MIN){
+  // outside the taper a review day takes at most every other day, so a kid
+  // who makes many mistakes still meets new tricks (the warm-up keeps
+  // reviewing 3 a day regardless)
+  if(backlog >= DUE_CORE_MIN && (phase === "taper" || dayParity === 0 || backlog >= 2 * DUE_CORE_MIN)){
     core = {id:"core", label:`Pakartojimas – kur klydai (${Math.min(due.length,10)} užd.)`, act:"due"};
   } else if(phase === "taper"){
     const stale = staleMechanicToRecheck();
