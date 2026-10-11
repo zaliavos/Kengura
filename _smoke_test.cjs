@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent};
 `;
 let app;
 try {
@@ -1154,6 +1154,22 @@ section("source hygiene");
     if(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(txt)) bad.push(f);
   }
   check("no control characters in source files", bad.length === 0, bad.join(" "));
+}
+
+// ---------- 22. parent view with history ----------
+section("parent view render");
+{
+  const st = app.store;
+  const saved = st.contests.slice();
+  st.contests.push({when: Date.now() - 864e5 * 8, year: "2019", points: 60, scoreWithPenalty: 55.75, maxPoints: 120, correct: 16, total: 30, answered: 24,
+                    byBand: {3:{ok:6,total:10}, 4:{ok:6,total:10}, 5:{ok:4,total:10}}, practisedBefore: 2});
+  st.contests.push({when: Date.now() - 864e5, year: "2020", points: 70, scoreWithPenalty: 66.5, maxPoints: 120, correct: 19, total: 30, answered: 26,
+                    byBand: {3:{ok:7,total:10}, 4:{ok:7,total:10}, 5:{ok:5,total:10}}, practisedBefore: 0, paper: true});
+  st.mistakes["2018-3"] = {year:"2018", num:3, times:2, lastWrong: Date.now()};
+  let ok = true; try { app.openParent(); } catch(e){ ok = false; console.log(e.message); }
+  const h = app.$app.innerHTML;
+  check("parent view renders with history", ok && h.includes("3 t.: 6/10") && h.includes("66,5") && h.includes("Klaidų sąsiuvinis"));
+  st.contests = saved; delete st.mistakes["2018-3"];
 }
 
 // ---------- result ----------
