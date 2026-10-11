@@ -1047,6 +1047,21 @@ section("kid idea as hint");
   check("idea never contains the answer line", giveaway.length === 0, giveaway.join(" "));
 }
 
+// ---------- 15. kid solution's final line quotes the right option ----------
+section("kid answer line matches the option text");
+{
+  const norm = t => String(t || "").toLowerCase().replace(/cm2/g, "cm²").replace(/[\s.,–\-]+/g, "");
+  const bad = [];
+  for(const t of app.ARCHIVE) for(const q of t.questions){
+    if(!q.solutionKid) continue;
+    const m = q.solutionKid.match(/Atsakymas:\s*([A-E])\)\s*(.*?)\.?\s*$/);
+    const opt = (q.options || {})[q.correct] || "";
+    if(!m || !/[0-9a-ząčęėįšųūž]/i.test(opt) || !m[2].trim()) continue;     // picture / symbol options
+    if(!norm(m[2]).includes(norm(opt)) && !norm(opt).includes(norm(m[2]))) bad.push(`${t.year}-${q.num}`);
+  }
+  check("answer line quotes the keyed option", bad.length === 0, bad.join(" "));
+}
+
 // ---------- result ----------
 console.log("");
 if(failures){
