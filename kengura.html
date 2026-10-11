@@ -5674,6 +5674,14 @@ function startContestTicker(){
         const mm = Math.floor(remain/60000);
         const ss = Math.floor((remain%60000)/1000);
         tb.textContent = `${mm}:${String(ss).padStart(2,"0")}`;
+        // quiet pace checkpoints (no sound, no popup): 15 min → 3 t., 40 min → 4 t.
+        const elapsed = 75 * 60000 - remain;
+        const left = b => state.contestQuestions.filter(q => (q.points || 3) === b && !state.contestAnswers[q.num]).length;
+        let msg = "";
+        if(elapsed >= 40 * 60000 && left(4) >= 3) msg = `40 min praėjo – dar liko ${left(4)} 4 t. uždavinių. Laikas pereiti prie 5 t.`;
+        else if(elapsed >= 15 * 60000 && elapsed < 40 * 60000 && left(3) >= 3) msg = `15 min praėjo – dar liko ${left(3)} 3 t. uždavinių. Neužstrik – praleisk ir eik toliau.`;
+        const pb = document.getElementById("contestPace");
+        if(pb && pb.textContent !== msg){ pb.textContent = msg; pb.style.display = msg ? "" : "none"; }
       }
     }
   }, 1000);
@@ -5946,6 +5954,7 @@ function renderContest(){
         </div>
       </div>
       <div class="contest-strip">${strip}</div>
+      <p class="help-bar" id="contestPace" style="margin:6px 0 0;display:none;color:var(--bad)"></p>
     </section>
 
     <section class="card">
