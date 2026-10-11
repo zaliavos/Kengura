@@ -5922,7 +5922,7 @@
    "title": "Kengūra 2010 · Bičiulis (5–6 kl.)",
    "test_pdf": "TMK10_lietuviu.pdf",
    "solutions_pdf": "2010spBK.pdf",
-   "count": 29,
+   "count": 30,
    "source": "2010spBK.pdf (sąlygos)",
    "questions": [
     {
@@ -6491,6 +6491,25 @@
      "solution": "Tik 2 ? Sąlygoje nurodytus lygiagretainius iš 4 trikampių vadinkime standartiniais. Nagrinėkime 5 trikampius, kaip parodyta 1 pav. a b c d e 1 pav. Juose įrašytus skaičius pažymėkime a, b, c, d, e. Skaičiai a, b, c, d yra viename standartiniame lygiagretainyje. Todėl tarp jų po vieną kartą yra skaičiai 1, 2, 3, 4. Bet ir tarp skaičių b, c, d, e po vieną kartą yra visi skaičiai 1, 2, 3, 4. Kadangi šiuose dviejuose rinkiniuose skaičiai b, c, d sutampa, tai ir kevirtieji skaičiai sutampa, t. y. a = e. Tuo remdamiesi galime papildyti duotąją lentelę (2 pav.) skaičiais 1, 2, 3. + + + 3 ¥ fi fi 2 pav. Dabar aišku, kad trikampyje, pažymėtame žvaigždute, negali būti nei 1, nei 2, nei 3, o gali būti tik 4. Taigi arba tokios lentelės iš viso nėra, arba žvaigždutė reiškia 4. Kadangi atsakymuose nekalbama apie tai, kad lentelės užpildyti neįmanoma, tai tinka tik atsakymas B. Renkamės atsakymą B. ! Kad sprendimas būtų pilnas, užpildome lentelę iki galo (3 pav.). 3 pav. Teisingas atsakymas B.",
      "figure": "figures/2010-q29.png",
      "mechanic": "geometry-misc"
+    },
+    {
+     "num": 30,
+     "prompt": "Vandenų valdovui tarnauja galvakojai – šešiakojai, septynkojai ir aštuonkojai. Septynkojai visada meluoja, o šešiakojai bei aštuonkojai visada sako tiesą. Susitiko sykį keturi įvairiaspalviai galvakojai. Mėlynasis sako: „Iš viso mes turime 28 kojas.“ Žaliasis sako: „Iš viso mes turime 27 kojas.“ Geltonasis sako: „Iš viso mes turime 26 kojas.“ Raudonasis sako: „Iš viso mes turime 25 kojas.“ Kuris galvakojis pasakė tiesą?",
+     "options": {
+      "A": "Raudonasis",
+      "B": "Mėlynasis",
+      "C": "Žaliasis",
+      "D": "Geltonasis",
+      "E": "Nė vienas"
+     },
+     "points": 5,
+     "patterns": [
+      "logika"
+     ],
+     "correct": "C",
+     "solution": "Žaliasis ! Šešiakojai ir aštunkojai (tiesakalbiai) visada sako tiesą. Todėl jei jų būtų 2 ar daugiau, tai turėtume vienodų atskymų. Vadinasi, tiesakalbių tarp susirinkusių galvakojų yra vienas arba nėra nė vieno, o likusieji – melagiai, t. y. septynkojai. Sakykime, kad tiesakalbių nėra, tada visi 4 galvakojai turi 7 · 4 = 28 kojas. Vadinasi, mėlynasis galvakojis sako tiesą, taigi jis nėra melagis, – prieštara. Vadinasi, tiesakalbis yra vienas, jis turi 6 arba 8 kojas, o likusieji 3 yra melagiai ir kartu turi 3 · 7 = 21 kojas. Taigi, visi 4 galvakojai turi 21 + 6 = 27 arba 21 + 8 = 29 kojas. Kojų tikrai nėra 29: jei taip būtų, tiesakalbis būtų tą ir pasakęs, o tokio atsakymo nėra. Todėl galvakojai turi 27 kojas, o tai pasakė žaliasis galvakojis (jis, žinoma, turi 6 kojas). Teisingas atsakymas C. KADETAS (VII ir VIII klasės)",
+     "figure": "figures/2010-q30.png",
+     "mechanic": "truth-tellers"
     }
    ]
   },
@@ -6499,7 +6518,7 @@
    "title": "Kengūra 2011 · Bičiulis (5–6 kl.)",
    "test_pdf": "TMK11_lietuviu.pdf",
    "solutions_pdf": "2011spBK.pdf",
-   "count": 29,
+   "count": 30,
    "source": "2011spBK.pdf (sąlygos)",
    "questions": [
     {
@@ -7072,6 +7091,25 @@
      "solution": "Tik d ! Teisingame atsakyme glūdi tam tikra optinė apgaulė, nes iš pirmo žvilgsnio gali pasirodyti, kad didinti, jog padidėtų mažiausiai, reikėtų patį mažiausią, o ne patį didžiausią skaičių. Prisiminkime, kad a < b < c < d. Padidinę paeiliui kiekvieną skaičių vienetu, gautume sandaugas (a + 1)bcd, a(b + 1)cd, ab(c + 1)d, abc(d + 1). Atmetus jų bendrą dėmenį abcd, liktų bcd, acd, abd, abc, ir nesunku jas surikiuoti: abc < abd < acd < bcd. Kadangi mažiausias skaičius abc atsirado iš sandaugos abc(d + 1) atmetus bendrą dėmenį abcd, tai toji sandauga abc(d + 1) ir yra pati mažiausia, ir todėl tam, kad sandauga būtų mažiausia, didinti reikia būtent patį didžiausią skaičių, o teisingas yra atsakymas D. Uždavinio filosofija būtų tokia: jeigu kelių skaičių suma yra tokia pati, tai paprastai jų sandauga yra tuo didesnė, kuo tie skaičiai yra mažiau išsimėtę. Lygiai taip išėjo mūsų atveju. Rinkinys a + 1, b, c, d būtų „lygesnis“ už rinkinį a, b, c, d + 1. Pastarasis „labiau išblaškytas“, todėl ir sandauga pasirodė esanti mažiausia iš tų keturių nagrinėtųjų reikšmių. Teisingas atsakymas D. SPRENDIMAI",
      "figure": "figures/2011-q29.png",
      "mechanic": "casework"
+    },
+    {
+     "num": 30,
+     "prompt": "Penkiaženklio skaičiaus skaitmenys yra 1, 2, 3, 4, 5 (tam tikra tvarka). Pirmas to skaičiaus skaitmuo dalijasi iš 1, pirmųjų dviejų skaitmenų sudarytas dviženklis skaičius dalijasi iš 2, pirmųjų trijų – iš 3, pirmųjų keturių – iš 4, o pats tas penkiaženklis skaičius dalijasi iš 5. Kiek yra tokių skaičių?",
+     "options": {
+      "A": "Nė vieno",
+      "B": "1",
+      "C": "2",
+      "D": "5",
+      "E": "10"
+     },
+     "points": 5,
+     "patterns": [
+      "aritmetika"
+     ],
+     "correct": "A",
+     "solution": "Nė vieno ! Šį uždavinį galėtume pavadinti uždaviniu apie „pasluoksniui“ besidalijantį skaičių. Šiuo atveju tikrinti nėra ko, nėra ko ir spėlioti, todėl teks spręsti. Užrašius raidėmis, reikalai atrodo taip: penkiaženklį skaičių užrašome XYZT U, ir turi būti taip: X turi dalytis iš 1, XY – iš 2, XYZ – iš 3, XYZT – iš 4, o jis pats, tas skaičius XYZT U – iš 5. Dėl dalybos iš 1 daug rūpesčių nekyla, kad iš skaitmenų X ir Y sudarytas dviženklis skaičius XY dalytųsi iš 2, jo paskutinis, šiuo atveju skaitmuo Y turi būti lyginis, kad iš skaitmenų X, Y ir Z sudarytas triženklis skaičius dalytųsi iš 3, jo skaitmenų suma turi dalytis iš 3, kad XYZT dalytųsi iš 4, jo paskutinis skaitmuo privalo būti lyginis (nors vien to nepakanka). Na o dėl paties skaičiaus dalybos iš 5, tai paskutinis skaitmuo turi būti 0 arba 5. Bet mes skaitmens 0 savo paslaugoms neturime, todėl paskutinis skaitmuo jau yra 5. Todėl mūsų 5-ženklis skaičius jau truputį aiškesnis – jis yra XYZT 5. Dėl dalybos iš 2 ir iš 4 skaitmenys Y ir T turi būti lyginiai. Mūsų dispozicijoje tėra tik 2 lyginiai skaičiai, 2 ir 4, todėl mes turime tokias galimybes: (A) X2Z45 arba (B) X4Z25. (A) atveju yra atvejai A1 (12345) ir A2 (32145). Tačiau tada tais abiem atvejais yra blogai: nei 1234, nei 3214 nesidalija iš 4 (tam, kad skaičius dalytųsi iš 4 reikia – ir to gana – kad skaičius, sudarytas iš dviejų paskutinių jo skaitmenų, dalytųsi iš 4). Mūsų atveju tie 2 paskutinieji skaitmenys sudaro dviženklius skaičius 34 ir 14, o jie iš 4 nesidalija. Atvejis (B) X4Z25 turi du atvejus: B1 (14325) ir B2 (34125). Dabar su iš 4 skaitmenų sudarytų fragmentų 1432 ir 3412 dalyba iš 4 yra viskas gerai, nes ir 32, ir 12 iš 4 dalijasi. Dabar kitkas blogai: 3-skaitmeniai fragmentai 143 ir 341 nesidalija iš 3, nes abiejų jų skaitmenų suma 1 + 4 + 3 ir 3 + 4 + 1 yra 8 ir iš 3 nesidalija. Todėl nė vieno tinkamo skaičiaus nėra. Teisingas atsakymas A. KADETAS (VII ir VIII klasės)",
+     "figure": "figures/2011-q30.png",
+     "mechanic": "divisibility"
     }
    ]
   },
@@ -7080,7 +7118,7 @@
    "title": "Kengūra 2012 · Bičiulis (5–6 kl.)",
    "test_pdf": "TMK12_lietuviu (1).pdf",
    "solutions_pdf": "2012spBK.pdf",
-   "count": 29,
+   "count": 30,
    "source": "2012spBK.pdf (sąlygos)",
    "questions": [
     {
@@ -7655,6 +7693,25 @@
      "solution": "5 ! Jei Adomo namo numeris yra ART, Romo – RT, o Tomo – T, tai ART RT T Todėl T + T + T vienetų skaitmuo yra 2, vadinasi, T = 4, ir Tomo namo numeris yra 4. Tuomet AR4 R4 Todėl AR + R = 90: AR R Vadinasi, R = 0 arba R = 5. Tačiau R ̸= 0, nes 04 nėra Romo namo numeris, todėl R = 5 (namų numeriai tada 854, 54 ir 4). Teisingas atsakymas C.",
      "figure": "figures/2012-q29.png",
      "mechanic": "arith-compute"
+    },
+    {
+     "num": 30,
+     "prompt": "Aušra sugalvojo du gretimus natūraliuosius skaičius ir vieną jų pasakė Saulei, o kitą – Ryčiui. Saulė ir Rytis žino, kad jų skaičiai yra gretimi. Tada Saulė pasakė Ryčiui: „Aš nežinau tavo skaičiaus.“ Rytis Saulei atsakė: „Aš nežinau tavo skaičiaus.“ Tada Saulė pasakė Ryčiui: „Dabar aš žinau tavo skaičių, jis yra skaičiaus 20 daliklis.“ Koks Saulės skaičius?",
+     "options": {
+      "A": "2",
+      "B": "3",
+      "C": "4",
+      "D": "5",
+      "E": "6"
+     },
+     "points": 5,
+     "patterns": [
+      "logika"
+     ],
+     "correct": "B",
+     "solution": "3 ! Pirmasis Saulės pasakymas „Aš nežinau tavo skaičiaus“ išduoda, jog jos skaičius nėra 1. Toks pat Ryčio pasakymas reiškia, jog jo skaičius taip pat nėra 1. Jei Saulės skaičius būtų 2, tai tuomet Ryčio skaičius turėtų būti 3. Tačiau Saulės antrasis pasakymas išduoda, jog taip būti negali (skaičius 3 nėra skaičiaus 20 daliklis). Taigi Saulės skaičius yra mažiausiai 3. Pastebėsime, jog situacija, kai Saulės skaičius yra 3, o Ryčio – 4 tenkina uždavinio sąlygą. Iš tikrųjų, kadangi Saulės skaičius yra 3, tai ji žino, kad Ryčio skaičius yra 2 arba 4. Tačiau, jei Ryčio skaičius būtų 2, tai po pirmojo Saulės pasakymo „Aš nežinau tavo skaičiaus“ jis žinotų, jog Saulės skaičius nėra 1 (t. y. žinotų, jog Saulės skaičius yra 3) ir negalėtų pasakyti „Aš nežinau tavo skaičiaus“. Taigi Saulė žino, jog Ryčio skaičius negali būti 2, t. y. ji žino, kad Ryčio skaičius yra 4 (skaičiaus 20 daliklis). Teisingas atsakymas B. Pastaba. Jei Saulės skaičius ⩾4, tai Ryčio pasisakymo neužtenka, kad Saulė antruoju savo pasisakymu galėtų pareikšti, jog žino Ryčio skaičių. KADETAS (VII ir VIII klasės)",
+     "figure": "figures/2012-q30.png",
+     "mechanic": "logic-clues"
     }
    ]
   },
@@ -9534,7 +9591,7 @@
    "title": "Kengūra 2016 · Bičiulis (5–6 kl.)",
    "test_pdf": "benjamin_lt (6).pdf",
    "solutions_pdf": "Solutions/spGDPRB.pdf",
-   "count": 29,
+   "count": 30,
    "source": "benjamin_lt (6).pdf",
    "questions": [
     {
@@ -9574,6 +9631,26 @@
      "figure": "figures/2016-q2.png",
      "correct": "E",
      "solution": "Dvyliktadalį ! Suskaičiuokime, į kiek dalių Mikas supjaustė picą. Pirmiausia jis supjaustė picą į 4 dalis, o tada kiekvieną iš tų dalių padalijo į 3 gabalėlius. Iš viso susidarė 4·3 = 12 gabalėlių. Vadinasi, vienas gabalėlis sudaro 1 dvyliktadalį visos picos. Teisingas atsakymas yra E."
+    },
+    {
+     "num": 3,
+     "prompt": "Viela, kurios ilgis 10 cm, sulankstyta, kaip parodyta paveikslėlyje. Viela perkirpta dviejose pažymėtose vietose. Kokie gautų vielos atkarpų ilgiai?",
+     "options": {
+      "A": "2 cm, 3 cm, 5 cm",
+      "B": "2 cm, 2 cm, 6 cm",
+      "C": "1 cm, 4 cm, 5 cm",
+      "D": "1 cm, 3 cm, 6 cm",
+      "E": "3 cm, 3 cm, 4 cm"
+     },
+     "points": 3,
+     "patterns": [
+      "geometrija",
+      "paveikslelis"
+     ],
+     "correct": "A",
+     "solution": "2 cm, 3 cm, 5 cm ! Matome, kad sulankstytoji viela turėjo 10 lygių atkarpų. Vadinasi, vienos atkarpos ilgis lygus 1 cm. Pirmoji dalis sudaryta iš 3 atkarpų, antroji – iš 5, o trečioji – iš 2, taigi dalių ilgiai yra 3 cm, 5 cm ir 2 cm. Teisingas atsakymas yra A.",
+     "figure": "figures/2016-q3.png",
+     "mechanic": "geometry-misc"
     },
     {
      "num": 4,

@@ -113,8 +113,10 @@ def crop(pdf, n, old, year=None):
     if nxt:
         bottom = nxt.y0 - 2
     else:   # last question of the column: down to its last word / drawing
-        ys = [w[3] for w in page.get_text('words') if col.contains(fitz.Rect(w[:4])) and w[1] > hr.y0
-              and not w[4].startswith('©')]
+        words = page.get_text('words')
+        foot = {round(w[1]) for w in words if w[4].startswith('©')}          # copyright footer lines
+        ys = [w[3] for w in words if col.contains(fitz.Rect(w[:4])) and w[1] > hr.y0
+              and all(abs(w[1] - f) > 3 for f in foot)]
         ys += [c.y1 for c in comps if c.y0 > hr.y0 - 40 and c.y1 > hr.y0]
         bottom = (max(ys) + 4) if ys else col.y1 - 8
     # a drawing belongs to the question whose band holds its vertical centre
