@@ -96,6 +96,10 @@ def locate(doc, n, old):
         return page, col, hr, nxt
     return None
 
+# words outside the question's band that sit within a drawing's label margin
+# but belong to the previous question (checked by eye)
+FORCE_MASK = {('2017', 14): {'9818192'}, ('2010', 12): {'20', '+', '10'}}
+
 MANUAL = {  # (year, num): (page index, clip) – picture spread over neighbouring questions
     ('2003', 5): (4, (71, 308, 469, 439)),
 }
@@ -165,7 +169,8 @@ def crop(pdf, n, old, year=None):
         r = fitz.Rect(w[:4])
         if not clip.intersects(r): continue
         outside = r.y1 <= lo + 1 or r.y0 >= hi
-        if outside and not any(o.intersects(r) for o in own): masks.append(r + (-1, -1, 1, 1))
+        forced = outside and w[4] in FORCE_MASK.get((year, n), ())
+        if outside and (forced or not any(o.intersects(r) for o in own)): masks.append(r + (-1, -1, 1, 1))
     for c in comps:
         mid = (c.y0 + c.y1) / 2
         if clip.intersects(c) and not (lo - 2 <= mid < hi + 2) and not any(o.contains(c) for o in own):
