@@ -387,7 +387,7 @@ def walk(data, segment, long_real_words, mode='dry'):
     diffs = []
     for y in data['archive']:
         for q in y['questions']:
-            # solutionKid / misconceptions are hand-written (_solutions_5pt_kid.py)
+            # solutionKid / misconceptions are hand-written (_solutions_kid.py)
             # and clean – re-spacing them inserted 458 stray spaces (2026-10-10).
             for field in ('prompt', 'solution'):
                 if field in q and q[field]:

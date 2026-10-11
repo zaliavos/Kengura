@@ -1,4 +1,4 @@
-"""Apply KID_SOLUTIONS and MISCONCEPTIONS from _solutions_5pt_kid.py
+"""Apply KID_SOLUTIONS and MISCONCEPTIONS from _solutions_kid.py
 to kengura-archive.json (and its .js mirror).
 
 Adds two fields per 5-point archive question:
@@ -10,7 +10,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-import _solutions_5pt_kid as data
+import _solutions_kid as data
 
 ARCHIVE_JSON = os.path.join(HERE, 'kengura-archive.json')
 ARCHIVE_JS   = os.path.join(HERE, 'kengura-archive.js')

@@ -164,7 +164,7 @@ six more upgrades. All six are now shipped:
 `q.misconceptions = { wrongLetter: shortReason }` map. When the kid picks a
 wrong option, the explain box names the *specific misstep* ("Pamiršai, kad
 Alė valgo 1/4 LIKUSIO, ne pradinio"). Data is hand-written in
-`_solutions_5pt_kid.py`, applied via `_apply_kid_solutions.py`.
+`_solutions_kid.py`, applied via `_apply_kid_solutions.py`.
 
 **B. Confidence calibration + negative-scoring mode.** Before submit the kid
 picks one of *Tikrai žinau / Spėju iš dviejų / Atsitiktinai*. Stored in
@@ -181,7 +181,7 @@ and submission shows the per-question full solution as the 4th tier.
 **D. Kid-Lithuanian solutions for all 250 5-pointers** (99 until the 2026-10-11 re-banding; also the 20 lower-band questions without an official solution). `q.solutionKid` is
 shown in place of the auto-extracted official `q.solution` when present.
 Style: 3 short paragraphs (pastebėjimas → veiksmas → patvirtinimas) in
-2nd person voice. Data in `_solutions_5pt_kid.py`.
+2nd person voice. Data in `_solutions_kid.py`.
 
 **E. Parent dashboard.** `/parent` view (button "👁 Tėvams" on home).
 Shows: mastery (X/30 mechanics), this-week activity count, 14-day
@@ -671,7 +671,7 @@ intact; weekend-off 0.80 → 24/25, 10 papers, streak 58.
   hand-written kid texts ("Pas ir inkai"); worse, 74 of 99 kid solutions
   never reached the key and many argued for a wrong answer (written
   without the figures). All rewritten from figure + official solution
-  (`_solutions_5pt_kid.py`, applied by `_apply_kid_solutions.py`); every
+  (`_solutions_kid.py`, applied by `_apply_kid_solutions.py`); every
   one ends "Atsakymas: X) …" with X = key (smoke-checked); misconceptions
   only name a concrete slip. **Never run `_respace_words.py` /
   `_segment_words.py` on solutionKid/misconceptions** (now excluded).

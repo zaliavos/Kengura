@@ -747,8 +747,8 @@
      "solution": "? Matome, kad iškarpa nėra lapo krašte, todėl atsakymai D ir E atkrinta. Aišku, kad skylutė nėra lapo viduryje, todėl atkrinta atsakymas A. Pagaliau, skylutės kraštinė nėra lygiagreti lapo kraštui, todėl atkrinta ir atsakymas B. Renkamės atsakymą C. ! Pabandykime sulenkti lapą C (jis pasuktas pavaizduotas kairėje), kad gautume kažką panašaus į sąlygos paveikslėlyje pavaizduotą sulankstytą lapą. Po pirmo lenkimo per vertikalią ašį gauname viduryje pavaizduotą lapą, po antro lenkimo per horizontalią ašį – dešinėje pavaizduotą lapą. Jis pakankamai panašus į sąlygoje pavaizduotą (beje, sąlygos paveikslėlyje neišlaikyti nelankstyto ir sulankstyto lapo matmenys). Žinoma, konkurso metu galima pasinaudoti sąsiuvinio lapu, – jį sulankstyti ir padaryti skylę.",
      "figure": "figures/2001-q2.png",
      "mechanic": "symmetry",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: išlankstyk lapą mintyse – kiekvienas lenkimas skylutę padvigubina ir atspindi kaip veidrodis. Įpjova padaryta ne per lapo kraštą, todėl išlankstytame lape skylės bus viduje – D ir E netinka. Įpjova ne lapo centre, todėl skylė ne viena – A netinka. Įpjovos kraštai pasvirę, todėl skylės yra rombeliai, ne kvadratėliai – B netinka. Patikrink: sulenk sąsiuvinio lapą du kartus, iškirpk kampuką ir išlankstyk. Atsakymas: C)."
+     "solutionKid": "Gudrybė: išlankstyk lapą mintyse – kiekvienas lenkimas skylutę padvigubina ir atspindi kaip veidrodis. Įpjova padaryta ne per lapo kraštą, todėl išlankstytame lape skylės bus viduje – D ir E netinka. Įpjova ne lapo centre, todėl skylė ne viena – A netinka. Įpjovos kraštai pasvirę, todėl skylės yra rombeliai, ne kvadratėliai – B netinka. Patikrink: sulenk sąsiuvinio lapą du kartus, iškirpk kampuką ir išlankstyk. Atsakymas: C).",
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -859,8 +859,8 @@
      "solution": "! Nesunku suskaičiuoti, kiek kiekvienoje figūroje užtušuota kvadratėlių ir skritulio ketvirtadalių: A 2 ir 2, B 3 ir 0, C 2 ir 2, D 2 ir 2, E 2 1/2 ir 2. Plotai A, C ir D lygūs ir mažesni už E, taigi liko palyginti B ir E. Bet B žymiai mažesnis: 1/2 kvadratėlio tikrai mažiau už 2 skritulio ketvirtadalius (ir net už vieną skritulio ketvirtadalį, žr. paveikslėlį). Teisingas atsakymas E.",
      "figure": "figures/2001-q7.png",
      "mechanic": "area-decomp",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: išmatuok kiekvieną sritį tais pačiais gabalais – kvadratėliais ir skritulio ketvirčiais. A, C ir D turi po 2 kvadratėlius ir 2 skritulio ketvirčius, o E – 2 su puse kvadratėlio ir 2 ketvirčius, tad E už jas didesnė. B turi 3 kvadratėlius ir nė vieno ketvirčio: palyginti su E, B turi pusę kvadratėlio daugiau, bet 2 ketvirčiais mažiau. Patikrink: vienas skritulio ketvirtis užima didesnę kvadratėlio dalį nei pusė. Atsakymas: E)."
+     "solutionKid": "Gudrybė: išmatuok kiekvieną sritį tais pačiais gabalais – kvadratėliais ir skritulio ketvirčiais. A, C ir D turi po 2 kvadratėlius ir 2 skritulio ketvirčius, o E – 2 su puse kvadratėlio ir 2 ketvirčius, tad E už jas didesnė. B turi 3 kvadratėlius ir nė vieno ketvirčio: palyginti su E, B turi pusę kvadratėlio daugiau, bet 2 ketvirčiais mažiau. Patikrink: vienas skritulio ketvirtis užima didesnę kvadratėlio dalį nei pusė. Atsakymas: E).",
+     "imageOnlyOptions": true
     },
     {
      "num": 8,
@@ -1524,12 +1524,12 @@
      "solution": "? Kadangi juodų širdelių turi būti dvigubai daugiau, tai iš karto žiūrime į D. Iš tikrųjų – ten 4 juodos ir 2 baltos širdelės. Renkamės atsakymą D. ! Suregistruokime širdelių skaičių taip: juodos, baltos, iš viso. Tada vėriniuose turime 2 + 3 = 5, 6 + 4 = 10, 6 + 6 = 12, 4 + 2 = 6, 2 + 4 = 6. Vėriniai A ir B netinka, nes dvi trečiosios visų širdelių nėra sveikasis skaičius. Vėrinys C netinka, nes juodų širdelių nėra du trečdaliai, o pusė. Vėrinyje D juodų širdelių 4, o tai iš tikrųjų yra dvi trečiosios visų širdelių: 2/3 · 6 = 4. Pagaliau, vėrinyje E juodų širdelių yra 2/6, t. y. viena trečioji. Teisingas atsakymas D.",
      "figure": "figures/2002-q6.png",
      "mechanic": "mixture-fraction",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: dvi trečiosios reiškia, kad juodų širdelių yra dvigubai daugiau nei baltų. Suskaičiuok juodas ir baltas: A – 2 ir 3, B – 6 ir 4, C – 6 ir 6, D – 4 ir 2, E – 2 ir 4. Tik D juodų dvigubai daugiau nei baltų. Patikrink: D turi 6 širdeles, jų trečdalis yra 2, o du trečdaliai – 4, tiek ir juodų. Atsakymas: D).",
      "misconceptions": {
       "E": "Sukeitei spalvas: čia juodų tik trečdalis, o dvigubai daugiau yra baltų.",
       "C": "Čia juodų ir baltų po lygiai – tai pusė, ne dvi trečiosios."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 7,
@@ -4882,8 +4882,8 @@
      "solution": "! Suskaičiuojame langelius figūrose: jų atitinkamai yra 21, 22, 23, 22, 22. !! Galima ir neskaičiuoti langelių, o lyginti figūras. Figūrų A ir B visi sluoksniai sutampa, ir tik trečiame iš apačios sluoksnyje A turi tris langelius, B – 4. Tą papildomą langelį užtušuokime (taip darykime ir toliau). Dabar lyginame A su C – C dar ir „nosis“ ilgesnė (antras nuo viršaus sluoksnis). Figūra D turi vienu langeliu daugiau nei A – trečiame sluoksnyje. Pagaliau lyginame E su A – E nosis vienu langeliu ilgesnė. Taigi daugiausia langelių turi figūra C.",
      "figure": "figures/2007-q2.png",
      "mechanic": "casework",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: nebūtina skaičiuoti visų langelių – lygink figūras sluoksnis po sluoksnio ir ieškok, kur yra papildomas langelis. B turi vienu langeliu daugiau nei A (trečiame sluoksnyje iš apačios), D – irgi vienu daugiau nei A, o E turi ilgesnę „nosį“. C turi ir tą papildomą langelį, ir ilgesnę nosį. Patikrink suskaičiavęs: A – 21, B – 22, C – 23, D – 22, E – 22. Atsakymas: C)."
+     "solutionKid": "Gudrybė: nebūtina skaičiuoti visų langelių – lygink figūras sluoksnis po sluoksnio ir ieškok, kur yra papildomas langelis. B turi vienu langeliu daugiau nei A (trečiame sluoksnyje iš apačios), D – irgi vienu daugiau nei A, o E turi ilgesnę „nosį“. C turi ir tą papildomą langelį, ir ilgesnę nosį. Patikrink suskaičiavęs: A – 21, B – 22, C – 23, D – 22, E – 22. Atsakymas: C).",
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -5660,8 +5660,8 @@
      "solution": "? Visiškai aišku, kaip iš dviejų trikampių sudėti figūras A, B, C, D (tai parodyta paveikslėliuose). Kadangi Kengūros konkurse tik vienas atsakymas teisingas, lieka paskutinė figūra. ! Įrodyti, kad figūros E sudėti negalima, ne taip jau ir paprasta (beje, stačiakampį įstrižainė dalija į du stačiuosius lygius trikampius, bet sąlygos paveikslėlis leidžia mums laikyti, kad duotieji trikampiai lygiakraščiai. Aišku, kad vienam tam trikampiui negali priklausyti jokios dvi stačiakampio kraštinės. Vadinasi, reikia ne mažiau kaip 4 trikampių, norint nupiešti stačiakampį (iš tikrųjų ir jų neužtenka!).",
      "figure": "figures/2008-q5.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: stačiakampio kraštinės statmenos, o lygiakraščio trikampio kraštinės kertasi 60° kampu – jos nebūna nei statmenos, nei lygiagrečios. Vadinasi, iš vieno trikampio gali būti daugiausia viena stačiakampio kraštinė. Stačiakampis turi 4 kraštines, o trikampių tik 2 – neužtenka. Patikrink: A, B, C ir D sudedamos, kai trikampius dedi greta arba užkloji vieną ant kito. Atsakymas: E)."
+     "solutionKid": "Gudrybė: stačiakampio kraštinės statmenos, o lygiakraščio trikampio kraštinės kertasi 60° kampu – jos nebūna nei statmenos, nei lygiagrečios. Vadinasi, iš vieno trikampio gali būti daugiausia viena stačiakampio kraštinė. Stačiakampis turi 4 kraštines, o trikampių tik 2 – neužtenka. Patikrink: A, B, C ir D sudedamos, kai trikampius dedi greta arba užkloji vieną ant kito. Atsakymas: E).",
+     "imageOnlyOptions": true
     },
     {
      "num": 6,
@@ -6990,8 +6990,8 @@
      "solution": "! Kai pereisime prie dešiniojo paveikslėlio, tai skaitmens 5 „užpakalis“, kuris dabar yra dešinėje, atsidurs kairėje. Kairėje jis bus ir apvertus tą vaizdą žemyn. Tokie yra paveikslėliai A ir C. Dabar panagrinėkime horizontaliąją atkarpą. Ji yra viršuje dešiniame paveikslėlyje taip pat bus viršuje, o apvertus – apačioje. Toks yra paveikslėlis C. Teisingas atsakymas C.",
      "figure": "figures/2010-q2.png",
      "mechanic": "symmetry",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: du atspindžiai – per vertikalią ir per horizontalią liniją – kartu tas pats, kas apversti skaitmenį „aukštyn kojomis“ (pasukti pusę apsisukimo). Pažiūrėk į 4: apačioje dešinėje jis apverstas. Apvertus 5, jo viršutinis brūkšnys atsiduria apačioje, o „pilvukas“, kuris buvo apačioje dešinėje, – viršuje kairėje. Toks yra paveikslėlis C. Patikrink: atspindėk 5 dešinėn (pilvukas pereina kairėn), o paskui žemyn (brūkšnys nusileidžia apačion). Atsakymas: C)."
+     "solutionKid": "Gudrybė: du atspindžiai – per vertikalią ir per horizontalią liniją – kartu tas pats, kas apversti skaitmenį „aukštyn kojomis“ (pasukti pusę apsisukimo). Pažiūrėk į 4: apačioje dešinėje jis apverstas. Apvertus 5, jo viršutinis brūkšnys atsiduria apačioje, o „pilvukas“, kuris buvo apačioje dešinėje, – viršuje kairėje. Toks yra paveikslėlis C. Patikrink: atspindėk 5 dešinėn (pilvukas pereina kairėn), o paskui žemyn (brūkšnys nusileidžia apačion). Atsakymas: C).",
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -7168,8 +7168,8 @@
      "solution": "? Atsakymuose pavaizduotas virveles transformuokime taip, kad pasidarytų aišku, ar ta virvelė sumegzta, ar tik šiaip sulankstyta. Tam virvelės atskirus gabalus „atlenksime“ (kaip, pavyzdžiui, 1 paveikslėlyje) ar „atsuksime“ (kaip 2 pav.). Tai padarę iš karto matome, kad virvelės A ir E nėra mazgai. Toliau, 3 ir 4 pav. parodyta, kaip virvelės B ir C įgauna virvelės E pavidalą, taigi jos taip pat ne mazgai. Lieka virvelė D. Renkamės atsakymą D. ! Liko įsitikinti, kad virvelė D tikrai yra mazgas. Tai nesunku įžiūrėti, atsukus jos gabalą (žr. 5 pav.). Teisingas atsakymas D.",
      "figure": "figures/2010-q10.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: mintyse patrauk virvutę ir pažiūrėk, ar ją galima išpainioti į paprastą kilpą. A ir E – tik sulankstytos kilpos. B ir C, atlenkus ar atsukus vieną gabalą, virsta tokia pat kilpa kaip E. D išpainioti nepavyksta: virvė pakaitomis eina virš savęs ir po savimi kaip tikrame mazge. Patikrink: sek D virvę – kiekvienoje sankryžoje ji keičia „viršų“ į „apačią“, o tokio susipynimo neatlaisvinsi. Atsakymas: D)."
+     "solutionKid": "Gudrybė: mintyse patrauk virvutę ir pažiūrėk, ar ją galima išpainioti į paprastą kilpą. A ir E – tik sulankstytos kilpos. B ir C, atlenkus ar atsukus vieną gabalą, virsta tokia pat kilpa kaip E. D išpainioti nepavyksta: virvė pakaitomis eina virš savęs ir po savimi kaip tikrame mazge. Patikrink: sek D virvę – kiekvienoje sankryžoje ji keičia „viršų“ į „apačią“, o tokio susipynimo neatlaisvinsi. Atsakymas: D).",
+     "imageOnlyOptions": true
     },
     {
      "num": 11,
@@ -7776,8 +7776,8 @@
      "solution": "! A) ir B) pavaizduotos dalys papildyti iki pilno stačiakampio gretasienio netinka, nes yra „vienasluoksnės“. D) irgi netinka, nes kaip papildančioji figūra ji turi tik vieną „posūkį“, o reikia dviejų. C) ir E) turi po 2 „posūkius“, bet C) antrasis posūkis yra ne į tą pusę, o detalė E) – tinka. Teisingas atsakymas E.",
      "figure": "figures/2011-q6.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: žiūrėk ne į statinį, o į jo skylę – tinkama detalė turi būti tikslus skylės „atspaudas“. Trūkstama dalis užima kelis sluoksnius ir lenkiasi du kartus. A ir B per plokščios – jos vieno sluoksnio storio ten, kur skylė gilesnė. D turi tik vieną posūkį, o reikia dviejų. C turi du posūkius, bet antrasis pasuktas į kitą pusę. Patikrink: mintyse įstatyk E į skylę – abu jos posūkiai sutampa su skylės kampais. Atsakymas: E)."
+     "solutionKid": "Gudrybė: žiūrėk ne į statinį, o į jo skylę – tinkama detalė turi būti tikslus skylės „atspaudas“. Trūkstama dalis užima kelis sluoksnius ir lenkiasi du kartus. A ir B per plokščios – jos vieno sluoksnio storio ten, kur skylė gilesnė. D turi tik vieną posūkį, o reikia dviejų. C turi du posūkius, bet antrasis pasuktas į kitą pusę. Patikrink: mintyse įstatyk E į skylę – abu jos posūkiai sutampa su skylės kampais. Atsakymas: E).",
+     "imageOnlyOptions": true
     },
     {
      "num": 7,
@@ -7844,8 +7844,8 @@
      "solution": "! Figūra A gali būti gauta taip: (jungimus rodo punktyrinė linija) Figūra B gali būti gauta taip: Figūra C gali būti gauta taip: Figūra D, atrodanti sudėtingiausiai, gaunama bene paprasčiausiai – išvedus 3 vertikalias linijas: Kadangi pasakyta, jog vienos figūros negalima gauti, tai pagal „Kengūros“ taisykles – netinka vienintelis atsakymas – negalima gauti E. Dėl teorinio negalimumo gauti figūrą E tenka mėginti „samprotauti“. Jei figūros E viršus yra 3-oji dėlionės detalė, tai apačioj prie jos turi prisišlieti o tokia nesusideda – ji turėtų prasidėti kaip 1-oji detalė ir tada prie jos jungtųsi tik 2-oji ir prie jos nebeprišliejama 4-oji dėlionės detalė Jei figūros E viršus yra „sudėtinis“, tai kadangi jis apvaliai prasideda ir apvaliai baigiasi, tai jis negali prasidėti nes tada, kadangi jis turi apvaliai baigtis, tai toliau būtų tik taip: (jei tai visai nebebus apvalios pabaigos). Tačiau jei tai apačiai lieka detalė o E dėlionės apačia yra aiškiai ne tokia. Teisingas atsakymas E.",
      "figure": "figures/2011-q9.png",
      "mechanic": "tiling",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: suskaičiuok apvalius iškilimus ir įdubimus – detalėse jų po lygiai, o sujungus iškilimą su įdubimu dingsta po vieną iš abiejų. Detalėse yra 3 iškilimai (1 + 2) ir 3 įdubimai (1 + 2), todėl bet kurioje sudėtoje figūroje iškilimų ir įdubimų turi būti po lygiai. A, B, C ir D tai tenkina. E figūroje matai 3 iškilimus (du kairėje, vieną dešinėje viršuje) ir tik 1 įdubimą. Patikrink: A turi 1 iškilimą ir 1 įdubimą. Atsakymas: E)."
+     "solutionKid": "Gudrybė: suskaičiuok apvalius iškilimus ir įdubimus – detalėse jų po lygiai, o sujungus iškilimą su įdubimu dingsta po vieną iš abiejų. Detalėse yra 3 iškilimai (1 + 2) ir 3 įdubimai (1 + 2), todėl bet kurioje sudėtoje figūroje iškilimų ir įdubimų turi būti po lygiai. A, B, C ir D tai tenkina. E figūroje matai 3 iškilimus (du kairėje, vieną dešinėje viršuje) ir tik 1 įdubimą. Patikrink: A turi 1 iškilimą ir 1 įdubimą. Atsakymas: E).",
+     "imageOnlyOptions": true
     },
     {
      "num": 10,
@@ -8485,11 +8485,11 @@
      "solution": "! Šešiakampius sunumeruokime: Jungiame gretimus šešiakampius 1 ir 2; 2 ir 3; 3 ir 4; 4 ir 5; 5 ir 6; 6 ir 1. Gauname trikampį. Sujungę šešiakampius 2 ir 4; 4 ir 6 bei 6 ir 2, gauname figūrą C. Teisingas atsakymas C.",
      "figure": "figures/2012-q6.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: pažymėk kiekvieno šešiakampio centrą taškeliu ir jungk tik tuos, kurių šešiakampiai liečiasi kraštine. Šešiakampiai išdėstyti trikampiu: apačioje 3, viduryje 2, viršuje 1. Centrai sudaro didelį trikampį su 6 taškais, o jungdamas gretimus gauni jį padalytą į 4 mažus trikampius. Patikrink: kiekvienas kampinis šešiakampis liečia 2 kaimynus, o kiekvienas kraštinės vidurio – 4. Atsakymas: C).",
      "misconceptions": {
       "A": "Sujungei tik išorinius šešiakampius, bet viduriniai irgi liečiasi tarpusavyje."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 7,
@@ -8535,12 +8535,12 @@
      "solution": "! Brėžinys rodo, kad viršutinė moneta nurieda apatine ketvirtadalį monetos apvado ilgio. Tada kengūrėlių letenėlės „bus pasisukusios taip, kad rodys viena į kitą“, o tokia yra A padėtis. Teisingas atsakymas A.",
      "figure": "figures/2012-q8.png",
      "mechanic": "geometry-misc",
-     "hasMissingOptionText": true,
      "solutionKid": "Gudrybė: riedėdama aplink tokią pačią monetą, moneta apsisuka dvigubai daugiau, nei apeina aplink kitą. Viršutinė moneta nurieda ketvirtadalį rato aplink apatinę. Todėl pati ji pasisuka pusę apsisukimo – kengūrėlė atsiduria galva žemyn. Patikrink: jei moneta nuriedėtų visą ratą, ji apsisuktų 2 kartus. Tokia padėtis pavaizduota A. Atsakymas: A).",
      "misconceptions": {
       "D": "Manei, kad moneta tik pasislenka nesisukdama, bet riedėdama ji sukasi.",
       "E": "Greitis nesvarbus – kiek moneta pasisuka, priklauso tik nuo nuriedėto kelio."
-     }
+     },
+     "hasMissingOptionText": true
     },
     {
      "num": 9,
@@ -9229,8 +9229,8 @@
      "solution": "! Onutė kelyje praleido dvi valandas, nes kelionės pabaigoje laikrodžio minutinė rodyklė buvo ten pat, kur ir pradžioje, o valandinė pasislinko per dvi padalas. Kadangi ji važiavo pastoviu greičiu, tai trečdalį kelio ji bus nuvažiavusi po trečdalio laiko, t.y. 40-ties minučių. Pasukę minutinę rodyklę nuo pradinės padėties per 40 minučių, gauname padėtį, atitinkančią atsakymą D.",
      "figure": "figures/2013-q8.png",
      "mechanic": "clock",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: minutinė rodyklė pradžioje ir pabaigoje toje pačioje vietoje, o valandinė pasislinko per dvi padalas – vadinasi, kelionė truko dvi valandas. Kelias nuvažiuotas pastoviu greičiu, todėl trečdalis kelio – trečdalis laiko, t. y. 40 minučių. Pradžioje minutinė rodyklė rodė į 6 (pusę valandos). Pasukus ją 40 min, ji rodo į 2 (10 min po valandos). Patikrink: 30 + 40 = 70 min, tai valanda ir 10 min. Atsakymas: D)."
+     "solutionKid": "Gudrybė: minutinė rodyklė pradžioje ir pabaigoje toje pačioje vietoje, o valandinė pasislinko per dvi padalas – vadinasi, kelionė truko dvi valandas. Kelias nuvažiuotas pastoviu greičiu, todėl trečdalis kelio – trečdalis laiko, t. y. 40 minučių. Pradžioje minutinė rodyklė rodė į 6 (pusę valandos). Pasukus ją 40 min, ji rodo į 2 (10 min po valandos). Patikrink: 30 + 40 = 70 min, tai valanda ir 10 min. Atsakymas: D).",
+     "imageOnlyOptions": true
     },
     {
      "num": 9,
@@ -9848,12 +9848,12 @@
      "figure": "figures/2014-q3.png",
      "correct": "D",
      "solution": "! Šį uždavinį patogu spręsti tiesiog įsivaizduojant, kad nupieštus žiedus laikote rankose ir lėtai apsukate. Tamsus žiedas atsidurs kairėje, ir bus virš šviesaus žiedo ties viršutiniu žiedų prasilenkimu.",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: žiūrint iš kitos pusės kairė ir dešinė susikeičia, o kiekvienoje sankirtoje priekyje buvęs žiedas atsiduria gale. Iš priekio pilkas žiedas dešinėje, todėl iš galo jis bus kairėje. Viršutinėje sankirtoje iš galo pilkas žiedas bus virš balto, o apatinėje – po baltu. Patikrink: įsivaizduok, kad žiedus laikai rankose ir lėtai apsuki – tai atitinka D. Atsakymas: D).",
      "misconceptions": {
       "A": "Pamiršai, kad žiūrint iš kitos pusės kairė ir dešinė susikeičia – pilkas žiedas turi būti kairėje.",
       "C": "Pamiršai, kad žiūrint iš kitos pusės kairė ir dešinė susikeičia – pilkas žiedas turi būti kairėje."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 4,
@@ -10498,8 +10498,8 @@
      "figure": "figures/2015-q1.png",
      "correct": "B",
      "solution": "? Greitosiomis peržvelgę atsakymus matome, kad trikampis B padalytas į dvi dalis per savo simetrijos ašį ir viena iš šių dalių užtušuota, vadinasi, užtušuota pusė trikampio ploto. Renkamės atsakymą B. ! Lieka įsitikinti, kad paveikslėliuose A, C, D ir E užtušuotas plotas yra arba didesnis, arba mažesnis už pusę figūros ploto. Skritulys A padalytas į tris lygias dalis, užtušuota viena dalis, t. y. 1/3 figūros ploto. Kvadratai C ir D padalyti į keturias dalis, o iš jų užtušuotos atitinkamai trys ir viena dalys, taigi C figūros užtušuota 3/4, o figūros D – 1/4 ploto. Galiausiai, penkiakampyje E užtušuotos dvi iš penkių lygių dalių, o tai yra 2/5 viso figūros ploto.",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: ieškok figūros, kurią linija dalija į dvi vienodas dalis, ir kurios lygiai viena dalis užtušuota. B trikampis perkirptas per simetrijos ašį – abi pusės vienodos, užtušuota viena. A užtušuota 1/3, C – 3/4, D – 1/4, E – 2 iš 5 vienodų trikampių. Patikrink: tik B atveju užtušuota ir neužtušuota dalys sutampa. Atsakymas: B)."
+     "solutionKid": "Gudrybė: ieškok figūros, kurią linija dalija į dvi vienodas dalis, ir kurios lygiai viena dalis užtušuota. B trikampis perkirptas per simetrijos ašį – abi pusės vienodos, užtušuota viena. A užtušuota 1/3, C – 3/4, D – 1/4, E – 2 iš 5 vienodų trikampių. Patikrink: tik B atveju užtušuota ir neužtušuota dalys sutampa. Atsakymas: B).",
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
@@ -10519,8 +10519,8 @@
      "figure": "figures/2015-q2.png",
      "correct": "C",
      "solution": "A ! Teisingą atsakymą galima parinkti atmetimo būdu. Paveikslėliuose (žr. žemiau) parodyta, kad aš galiu taip pasukti savo skėtį, kad jis atrodytų taip, kaip atsakymuose A, B, D ir E. Taigi lieka vienintelis galimas variantas C. Iš tiesų, atsakyme C pavaizduotas skėtis tikrai ne mano, nes raidė R ant šio skėčio užrašyta atbulai.",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: skėtį gali sukti, bet negali pamatyti raidžių veidrodiškai – sukant raidės eilė ir jų kryptis nesikeičia. A, B, D ir E rodo po tris greta esančias raides teisinga tvarka, tik pasuktas. C raidės atrodo kaip veidrodyje (R atbula), o tokio vaizdo pasukdamas negausi. Patikrink: rask kiekvieno paveikslėlio raides ant didžiojo skėčio. Atsakymas: C)."
+     "solutionKid": "Gudrybė: skėtį gali sukti, bet negali pamatyti raidžių veidrodiškai – sukant raidės eilė ir jų kryptis nesikeičia. A, B, D ir E rodo po tris greta esančias raides teisinga tvarka, tik pasuktas. C raidės atrodo kaip veidrodyje (R atbula), o tokio vaizdo pasukdamas negausi. Patikrink: rask kiekvieno paveikslėlio raides ant didžiojo skėčio. Atsakymas: C).",
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -11953,8 +11953,8 @@
      "figure": "figures/2017-q3.png",
      "correct": "E",
      "solution": "! Nesunku pastebėti, kad atsakymuose A, B, C ir D pavaizduotas figūras galima sudėti. Įrodykime, kad atsakyme E pavaizduotos figūros negalime sudėti. Pradėkime dėlioti figūrą E nuo „išsikišimų“. Lieka trys langeliai, kurių niekaip neuždengsi sąlygoje nurodyta figūrėle, todėl figūros E sudėti negalima.",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: pradėk dengti nuo išsikišusių langelių – juos galima uždengti tik vienu būdu. Kiekvienoje figūroje yra 12 langelių, tiek pat, kiek keturiose juostelėse po 3. Figūras A, B, C ir D lengva sudėti. Figūroje E išsikišimus uždengus vieninteliu galimu būdu, lieka trys langeliai, kurie nesudaro tiesios juostelės. Patikrink: B – tai keturios gulsčios juostelės viena po kita. Atsakymas: E)."
+     "solutionKid": "Gudrybė: pradėk dengti nuo išsikišusių langelių – juos galima uždengti tik vienu būdu. Kiekvienoje figūroje yra 12 langelių, tiek pat, kiek keturiose juostelėse po 3. Figūras A, B, C ir D lengva sudėti. Figūroje E išsikišimus uždengus vieninteliu galimu būdu, lieka trys langeliai, kurie nesudaro tiesios juostelės. Patikrink: B – tai keturios gulsčios juostelės viena po kita. Atsakymas: E).",
+     "imageOnlyOptions": true
     },
     {
      "num": 4,
@@ -12017,11 +12017,11 @@
      "figure": "figures/2017-q6.png",
      "correct": "A",
      "solution": "? Iš sąlygos aišku, kad Katrė yra lengvesnė ir už Jonę, ir už Liną. Vienintelis paveikslėlis, kuriame mažiausias raganosis yra viduryje, yra A, todėl jį ir renkamės. ! Žinome, kad lengviausia yra Katrė. Galima išsiaiškinti kuri sunkesnė – Jonė ar Lina. Jonė sveria 500 kg daugiau nei Katrė, o Lina sveria 1000 kg daugiau nei Katrė. Vadinasi, Lina yra sunkesnė už Jonę. Įsitikinome, kad vienintelis paveikslėlis, vaizduojantis Jonę, Katrę ir Liną teisinga tvarka, yra A.",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: palygink visų trijų svorius su Katrės svoriu. Jonė sunkesnė už Katrę 500 kg, Lina – 1000 kg. Vadinasi, Katrė lengviausia, Lina sunkiausia, o Jonė vidutinė. Jonė eina pirma, Katrė – viduryje, Lina – paskutinė, taigi turi būti: vidutinis, mažiausias, didžiausias raganosis. Patikrink: tik paveikslėlyje A mažiausias raganosis yra viduryje. Atsakymas: A).",
      "misconceptions": {
       "E": "Supainiojai: Lina sunkesnė už Jonę, nes 1000 kg daugiau nei 500 kg."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 7,
@@ -12110,8 +12110,8 @@
      "figure": "figures/2017-q10.png",
      "correct": "D",
      "solution": "! Punktyrinės linijos dalija lapą į sritis. Kiekvienoje srityje gali būti daugiausiai 1 skylė. Taip iš karto atmetame atsakymus C ir E. Atsakyme A visos skylės atsiduria ant lenkimo linijos, o taip būti negali (skylės išduriamos, o ne iškerpamos). Jei Matas popieriaus lapą būtų lankstęs kaip pavaizduota atsakyme B, tai skylių eilutė būtų lygiagreti popieriaus lapo kraštui. Lieka atsakymas D, kurį ir renkamės. Kad jis tikrai teisingas, galima įsitikinti sulanksčius popierių kaip parodyta ir jį pradūrus.",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: skylės pradurtos per visus sluoksnius vienu metu, todėl jos yra viena kitos atspindžiai per lenkimo linijas. Linijos dalija lapą į dalis, ir kiekvienoje dalyje gali būti daugiausia viena skylė – taip atkrenta C ir E. A netinka, nes skylės būtų ant lenkimo linijos. B lenkimai duotų skylių eilę, lygiagrečią kraštui. Patikrink: D linijos įstrižos, kaip ir skylių eilė. Atsakymas: D)."
+     "solutionKid": "Gudrybė: skylės pradurtos per visus sluoksnius vienu metu, todėl jos yra viena kitos atspindžiai per lenkimo linijas. Linijos dalija lapą į dalis, ir kiekvienoje dalyje gali būti daugiausia viena skylė – taip atkrenta C ir E. A netinka, nes skylės būtų ant lenkimo linijos. B lenkimai duotų skylių eilę, lygiagrečią kraštui. Patikrink: D linijos įstrižos, kaip ir skylių eilė. Atsakymas: D).",
+     "imageOnlyOptions": true
     },
     {
      "num": 11,
@@ -13362,12 +13362,12 @@
      "solution": "! Pastebėkime, kad 17 = 15 + 2 = 5 · 3 + 2, taigi skaičių 17 užrašysime panaudodami tris brūkšnius ir du taškus. Toks yra atsakymas C. Pastaba. Galbūt skaitytojui sukirbėjo abejonė, ar to paties skaičiaus neįmanoma užrašyti dviem skirtingais būdais? Tarkime, skaičių 6 galime užrašyti su 1 brūkšniu ir 1 tašku (būtent toks yra atsakymas A), bet gal galima parašyti tiesiog 6 taškus? Kad taip nebūtų, geriausia susitarti, kad užrašant skaičių majų būdu galima panaudoti ne daugiau kaip keturis taškus (išties, visi uždavinio atsakymai iš tiesų turi ne daugiau kaip keturis taškus). Tada kiekvienas natūralusis skaičius turės lygiai vieną išraišką majų sistemoje: dalydami skaičių iš 5 su liekana dalmenį gausime brūkšnių skaičių, o dalijant gauta liekana bus taškų skaičius.",
      "figure": "figures/2019-q2.png",
      "mechanic": "place-value",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: pirma paimk kuo daugiau brūkšnių po 5, o likutį užrašyk taškais. 17 = 5 + 5 + 5 + 2, taigi reikia 3 brūkšnių ir 2 taškų. Tokį užrašą rasi variante C. Patikrink: 3 · 5 + 2 = 17; o 13 paveikslėlyje – 2 brūkšniai ir 3 taškai: 10 + 3 = 13. Atsakymas: C).",
      "misconceptions": {
       "E": "Ten 2 brūkšniai ir 2 taškai: 10 + 2 = 12.",
       "D": "Ten 3 brūkšniai ir 4 taškai: 15 + 4 = 19."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -13410,8 +13410,8 @@
      "solution": "! Matome, kad iš visų variantų tik atsakymai C ir D turi tokias katės ausis kaip Katrės piešinyje – juodas, su mažu baltu „trikampėliu“ apačioje. Šie du atsakymai tarpusavy skiriasi nosies forma. Katrės piešinyje nosies forma tokia, kaip atsakymo C. Jį ir renkamės.",
      "figure": "figures/2019-q4.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: lygink tik tas detales, kurias Katrė jau nupiešė – ausis ir nosį. Katrės ausys juodos su mažu baltu trikampėliu apačioje: tokios tik C ir D. Nosis – trikampis smaigaliu žemyn. Tokia nosis yra C, o D nosis kitokia. Patikrink: C sutampa ir ausimis, ir nosimi. Atsakymas: C)."
+     "solutionKid": "Gudrybė: lygink tik tas detales, kurias Katrė jau nupiešė – ausis ir nosį. Katrės ausys juodos su mažu baltu trikampėliu apačioje: tokios tik C ir D. Nosis – trikampis smaigaliu žemyn. Tokia nosis yra C, o D nosis kitokia. Patikrink: C sutampa ir ausimis, ir nosimi. Atsakymas: C).",
+     "imageOnlyOptions": true
     },
     {
      "num": 5,
@@ -13431,8 +13431,8 @@
      "solution": "! Panagrinėkime atsakyme A pavaizduotą kauliuką. Viršutinėje sienelėje nupieštos 2 akutės. Jei šis kauliukas būtų standartinis, tai priešingoje, apatinėje, sienelėje turėtų būti 5 akutės, kad jų abiejų suma būtų lygi 7. Tačiau taip būti negali, nes 5 akutės jau nupieštos ne apatinėje, o paveiksliuko priekyje pavaizduotoje sienelėje. Vadinasi, tai ne standartinis kauliukas. Šį pastebėjimą galime ir apibendrinti: standartinio kauliuko gretimų (t.y. nepriešingų) sienelių akučių suma negali būti lygi 7. Panašiai samprotaujame žiūrėdami į atsakymus B, C ir D: jų visų priekyje ir viršuje pavaizduotų sienelių akučių suma yra lygi 7, taigi jie nėra standartiniai. O štai atsakyme E jokių dviejų matomų sienelių akučių suma nėra lygi 7. Taigi jei apačioje esanti sienelė turi vieną akutę, užpakalinė sienelė – 5 akutes, o kairiajame šone esanti nematoma sienelė – 3 akutes, tai šis kauliukas ir bus standartinis. Kadangi lygiai vienas atsakymas yra teisingas, renkamės atsakymą E.",
      "figure": "figures/2019-q5.png",
      "mechanic": "cube-color",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: priešingos sienelės niekada nesimato kartu, todėl dvi matomos sienelės negali duoti sumos 7. Ieškok matomų porų 1 ir 6, 2 ir 5, 3 ir 4. A rodo 2 ir 5 kartu – netinka. Taip pat patikrink B, C ir D – kiekviename rasi matomą porą su suma 7. Lieka E, kuriame tokios poros nėra. Patikrink: E matomų skaičių poros nesudaro 7. Atsakymas: E)."
+     "solutionKid": "Gudrybė: priešingos sienelės niekada nesimato kartu, todėl dvi matomos sienelės negali duoti sumos 7. Ieškok matomų porų 1 ir 6, 2 ir 5, 3 ir 4. A rodo 2 ir 5 kartu – netinka. Taip pat patikrink B, C ir D – kiekviename rasi matomą porą su suma 7. Lieka E, kuriame tokios poros nėra. Patikrink: E matomų skaičių poros nesudaro 7. Atsakymas: E).",
+     "imageOnlyOptions": true
     },
     {
      "num": 6,
@@ -13549,11 +13549,11 @@
      "solution": "? Galime spėti, kad daugiausia dažų reikės toms figūrėlėms, kurios suklijuotos iš didžiausio skaičiaus kubelių, t. y. iš 6 kubelių suklijuotoms figūrėlėms A ir C. Lygindami šias dvi figūrėles vieną su kita pastebime, kad figūrėlėje C iš dešinės priklijuoti du kubeliai yra greta vienas kito, o figūrėlėje A – atskirai. Dažant šiuos du kubelius figūrėlėje C reikės mažiau dažų nei figūrėlėje A, nes nereikės dažyti šių kubelių sienų, kurios yra suklijuotos viena su kita. Renkamės atsakymą A. ! Dalies ? mintį galime panaudoti ir spręsdami uždavinį nuosekliai. Kiekvienas kubelis turi 6 sienas, todėl galime suskaičiuoti, kiek kiekvienos figūrėlės kubeliai iš viso turi sienų, o tada atimti skaičių tų sienų, kurios figūrėlėje yra suklijuotos tarpusavyje (kiekvienas suklijavimas sutaupo dvi sienas, kurių nebereikia dažyti). A) Figūrėlė sudaryta iš 6 kubelių ir yra suklijuota 5 vietose, todėl iš viso reikės dažyti 6 · 6 −5 · 2 = 36 −10 = 26 sienas. B) 4 kubeliai ir 3 suklijuotos vietos, todėl dažyti reikės 4 · 6 −3 · 2 = 24 −6 = 18 sienų. C) 6 kubeliai ir 6 suklijuotos vietos, todėl dažyti reikės 6 · 6 −6 · 2 = 36 −12 = 24 sienas. D) 5 kubeliai ir 4 suklijuotos vietos, todėl dažyti reikės 5 · 6 −4 · 2 = 30 −8 = 22 sienas. E) 5 kubeliai ir 4 suklijuotos vietos, todėl dažyti reikės 5 · 6 −4 · 2 = 30 −8 = 22 sienas. Daugiausia nudažytų sienų, 26, turės figūrėlė A, todėl teisingas atsakymas – A.",
      "figure": "figures/2019-q10.png",
      "mechanic": "area-compute",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: dažoma tik matoma kubelių paviršiaus dalis, o kiekvienas suklijavimas paslepia 2 sieneles. Daugiausia kubelių (po 6) turi A ir C. Figūroje A kubeliai sujungti grandinėle – 5 suklijavimai, matosi 36 − 10 = 26 sienelės. Figūroje C du kubeliai liečiasi papildomai, todėl paslėpta daugiau ir dažų reikės mažiau. Patikrink: figūros iš 5 kubelių turi dar mažiau sienelių. Atsakymas: A).",
      "misconceptions": {
       "C": "C taip pat iš 6 kubelių, bet ten daugiau suklijuotų sienelių – jų dažyti nereikia."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 11,
@@ -14060,8 +14060,8 @@
      "solution": "! Pažvelkime į kvadrato apatinę eilutę: joje iš kairės į dešinę kvadratukai išsidėstę taip: pilkas, pilkas, baltas, baltas. Pakeitus kvadratukų spalvas, gausime tokią eilę: baltas, baltas, pilkas, pilkas. Iš penkių atsakymų toks yra tik atsakymas D. Belieka patikrinti, kad kitos trys kvadratukų eilutės irgi „apsikeičia“ spalvomis taip, kaip prašo sąlygoje. Būtent taip ir yra (įsitikinkite!). Teisingas atsakymas – D.",
      "figure": "figures/2020-q1.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: užtenka palyginti vieną eilutę – kiekvienas kvadratukas turi pakeisti spalvą. Apatinė eilutė dabar: pilkas, pilkas, baltas, baltas. Pakeitus spalvas: baltas, baltas, pilkas, pilkas. Tokią apatinę eilutę turi tik D. Patikrink kitas eilutes: ten, kur buvo pilka, D yra balta, ir atvirkščiai. Atsakymas: D)."
+     "solutionKid": "Gudrybė: užtenka palyginti vieną eilutę – kiekvienas kvadratukas turi pakeisti spalvą. Apatinė eilutė dabar: pilkas, pilkas, baltas, baltas. Pakeitus spalvas: baltas, baltas, pilkas, pilkas. Tokią apatinę eilutę turi tik D. Patikrink kitas eilutes: ten, kur buvo pilka, D yra balta, ir atvirkščiai. Atsakymas: D).",
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
@@ -14104,8 +14104,8 @@
      "solution": "! Lapeliuose matome po tris figūras, kurių forma – raidė F ir įvairūs šios raidės atspindžiai. Florai sulanksčius lapelį nė viena iš trijų figūrų „neišsikiša“ iš raidės F, o kadangi visos figūros yra vienodo dydžio, tai reiškia, kad sulanksčius lapelį figūros visiškai sutampa. Taip gali atsitikti tik tada, kai prie tos pačios linijos esančios figūros yra viena kitos veidrodiniai atspindžiai (kitaip tariant, jos yra simetriškos linijos atžvilgiu). Peržiūrėję atsakymus matome, kad lapelių dvi viršutinės figūros yra viena kitos atspindžiai variantuose D ir E, bet iš jų tik lapelyje E apatinė figūra „atspindi“ viršutinę dešinę raidę F. Taigi teisingas atsakymas – E.",
      "figure": "figures/2020-q3.png",
      "mechanic": "symmetry",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: sulenkus lapelį, dvi figūrėlės prie tos pačios linijos sutampa tik tada, kai jos yra viena kitos veidrodiniai atspindžiai. Lapelyje E kiekviena figūrėlių pora abipus punktyrinės linijos yra veidrodinis atspindys, todėl sulankstytos jos visos sutampa su F. Kituose lapeliuose bent viena pora nėra atspindys. Patikrink: mintyse perversk kiekvieną figūrėlę per jos liniją. Atsakymas: E)."
+     "solutionKid": "Gudrybė: sulenkus lapelį, dvi figūrėlės prie tos pačios linijos sutampa tik tada, kai jos yra viena kitos veidrodiniai atspindžiai. Lapelyje E kiekviena figūrėlių pora abipus punktyrinės linijos yra veidrodinis atspindys, todėl sulankstytos jos visos sutampa su F. Kituose lapeliuose bent viena pora nėra atspindys. Patikrink: mintyse perversk kiekvieną figūrėlę per jos liniją. Atsakymas: E).",
+     "imageOnlyOptions": true
     },
     {
      "num": 4,
@@ -14759,8 +14759,8 @@
      "solution": "! Statiniams A, B, C ir E sudėti reikės po tris baltas kaladėles, o mes teturime dvi. Statiniui D reikės 2 baltų ir 4 pilkų kaladėlių – būtent tiek, kiek ir parodyta dešinėje. Renkamės atsakymą D.",
      "figure": "figures/2021-q1.png",
      "mechanic": "arith-compute",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: suskaičiuok, kiek baltų kaladėlių reikia kiekvienam statiniui – jų turi būti lygiai dvi. Kaladėlių yra 2 baltos ir 4 pilkos. Statiniuose A, B, C ir E matysi po tris baltas kaladėles – tiek neturime. Statiniui D reikia 2 baltų ir 4 pilkų. Patikrink: D – 6 kaladėlės, 2 baltos. Atsakymas: D)."
+     "solutionKid": "Gudrybė: suskaičiuok, kiek baltų kaladėlių reikia kiekvienam statiniui – jų turi būti lygiai dvi. Kaladėlių yra 2 baltos ir 4 pilkos. Statiniuose A, B, C ir E matysi po tris baltas kaladėles – tiek neturime. Statiniui D reikia 2 baltų ir 4 pilkų. Patikrink: D – 6 kaladėlės, 2 baltos. Atsakymas: D).",
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
@@ -14804,11 +14804,11 @@
      "solution": "! Visos linijos jungia po 5 skaitmenis, tad didžiausio skaičiaus ieškokime tarp tų, kurių pirmas skaitmuo didžiausias. Tokie yra atsakymai B ir E – jų pirmasis skaitmuo 9 sutampa, sutampa ir antrasis skaitmuo – 8, o skiriasi trečiasis skaitmuo: atsakyme E tai 6, o atsakyme B – 5. Renkamės atsakymą E. !! Išrašykime visus atsakyme pavaizduotus skaičius: A) – 15786, B) – 98542, C) – 26847, D) – 65742, E) – 98651. Visi skaičiai penkiaženkliai, didžiausias iš jų yra 98651 – atsakymas E.",
      "figure": "figures/2021-q3.png",
      "mechanic": "place-value",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: visi skaičiai penkiaženkliai, todėl lygink nuo pirmojo skaitmens. Išrašyk: A – 15786, B – 98542, C – 26847, D – 65742, E – 98651. Pirmas skaitmuo 9 yra B ir E, antras abiejuose 8, o trečias: B – 5, E – 6. Didesnis E. Patikrink: 98651 > 98542. Atsakymas: E).",
      "misconceptions": {
       "B": "B ir E prasideda 98, bet trečiasis skaitmuo didesnis E."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 4,
@@ -15493,8 +15493,8 @@
      "solution": "! Prisiminkime, jog lyginiais vadinami tie skaičiai, kurie dalijasi iš 2, o nelyginiais – tie, kurie nesidalija iš 2. Paveikslėlyje lyginiai skaičiai yra 2, 4 ir 6, o nelyginiai yra 1, 3 ir 5. Sujungę taškus su lyginiais numeriais, o po to – su nelyginiais numeriais, matome, jog teisingas atsakymas yra E.",
      "figure": "figures/2022-q2.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: sujunk lyginius taškus atskirai, nelyginius atskirai ir palygink abiejų trikampių kraštinių kryptis su variantais. Lyginiai taškai 2, 4 ir 6: 2 ir 4 yra viduriniame aukštyje kairėje ir dešinėje, tad šis trikampis turi gulsčią kraštinę per vidurį, o trečia jo viršūnė – apatinis kairysis taškas 6. Nelyginiai 1, 5 ir 3: viršuje gulsčia kraštinė nuo 1 iki 5, o 5 yra tiesiai virš 3, todėl dešinėje – stati kraštinė. Patikrink: tik E turi abi gulsčias linijas ir stačią kraštinę dešinėje. Atsakymas: E)."
+     "solutionKid": "Gudrybė: sujunk lyginius taškus atskirai, nelyginius atskirai ir palygink abiejų trikampių kraštinių kryptis su variantais. Lyginiai taškai 2, 4 ir 6: 2 ir 4 yra viduriniame aukštyje kairėje ir dešinėje, tad šis trikampis turi gulsčią kraštinę per vidurį, o trečia jo viršūnė – apatinis kairysis taškas 6. Nelyginiai 1, 5 ir 3: viršuje gulsčia kraštinė nuo 1 iki 5, o 5 yra tiesiai virš 3, todėl dešinėje – stati kraštinė. Patikrink: tik E turi abi gulsčias linijas ir stačią kraštinę dešinėje. Atsakymas: E).",
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -16162,8 +16162,8 @@
      "solution": "? Duotąjį trikampį į du trikampius dalija aukštinė, o tris duotuosius keturkampius – jų įstrižainės (žr. pav.). Todėl atsakymai A–C ir E klaidingi. A) B) C) E) Renkamės atsakymą D. ! Atsakyme D pavaizduoto (taisyklingojo) šešiakampio neįmanoma padalyti į du trikampius tiesia linija. Kad ir kaip jį kirstų tiesi linija, vienoje pusėje nuo jos visada liks bent dvi šešiakampio viršūnės. Tada šešiakampio dalis, esanti toje pusėje nuo linijos, bus keturkampis arba turės dar daugiau kampų. Vadinasi, atsakymas D teisingas. Kad kiti atsakymai klaidingi, įsitikinome ? dalyje.",
      "figure": "figures/2023-q1.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: pabandyk kiekvieną figūrą perkirsti įstrižaine ar aukštine, o jei nepavyksta – suskaičiuok, kiek kampų liktų dalims. Trikampį (A) į du trikampius dalija aukštinė, o stačiakampį (B), trapeciją (C) ir kvadratą (E) – įstrižainė. Šešiakampį kad ir kaip kirstum, vienoje linijos pusėje liks bent dvi jo viršūnės, todėl ta dalis turės bent 4 kampus. Patikrink: trikampis turi tik 3 kampus, o keturkampis – jau ne trikampis. Atsakymas: D)."
+     "solutionKid": "Gudrybė: pabandyk kiekvieną figūrą perkirsti įstrižaine ar aukštine, o jei nepavyksta – suskaičiuok, kiek kampų liktų dalims. Trikampį (A) į du trikampius dalija aukštinė, o stačiakampį (B), trapeciją (C) ir kvadratą (E) – įstrižainė. Šešiakampį kad ir kaip kirstum, vienoje linijos pusėje liks bent dvi jo viršūnės, todėl ta dalis turės bent 4 kampus. Patikrink: trikampis turi tik 3 kampus, o keturkampis – jau ne trikampis. Atsakymas: D).",
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
@@ -16184,14 +16184,14 @@
      "solution": "! Tarkime, kad Bronius jau užpildė lentelę. Jos keturiose eilutėse yra po 8 skaičius, todėl tiesiai po kiekvienu skaičiumi a esantis skaičius visada yra aštuntasis, iš eilės didėjimo tvarka skaičiuojant nuo a. Vadinasi, tiesiai po skaičiumi 12 yra skaičius 12 + 8 = 20, šalia iš dešinės yra skaičius 20 + 1 = 21, o tiesiai po juo – skaičius 21 + 8 = 29.",
      "figure": "figures/2023-q2.png",
      "mechanic": "sequence-pattern",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: kiekvienoje eilutėje yra 8 langeliai, todėl skaičius tiesiai po kitu visada už viršutinį didesnis 8. Po 12 yra 12 + 8 = 20, šalia jo dešinėje 21, o po 21 – 21 + 8 = 29. Figūra: viršuje 12, po juo 20 ir 21, o po 21 – 29. Patikrink: 32 yra paskutinis lentelės langelis (4 eilutės po 8), todėl visi šie langeliai bus užpildyti. Atsakymas: C).",
      "misconceptions": {
       "A": "Po 12 rašei 22 – pridėjai 10, bet eilutėje tik 8 langeliai.",
       "D": "Po 12 rašei 21 – pridėjai 9, o ne 8.",
       "E": "Po 12 rašei 21 – pridėjai 9, o ne 8.",
       "B": "Po 21 rašei 28 – pridėjai 7, o ne 8."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -16892,11 +16892,11 @@
      "solution": "? Iš priešingos pusės juodą siaurą bokštelį iš dalies uždengia šviesiausias bokštelis, ir matosi tik juodojo bokštelio „viršūnėlė“, todėl netinka atsakymai B ir C. Atsakyme E abu siaurieji bokšteliai yra vienodo aukščio, todėl irgi netinka. Taip pat visi bokšteliai turi būti prieš dėžutę, todėl netinka atsakymas D. Renkamės atsakymą A. ! Norint atkurti vaizdą iš priešingos pusės reikia mintyse sukeisti puses vietomis. Paveikslėlyje du bokšteliai stovi kairėje, o vienas dešinėje, todėl žiūrint iš priešingos pusės du bokšeliai stovi dešinėje, o vienas kairėje. Be to, dėžutė yra už visų bokštelių, o juodas bokštelis yra tarp dėžutės ir plačiojo bokštelio. Ir galiausiai, platusis bokštelis yra tokio pačio aukščio, kaip ir siaurasis pilkas bokštelis. Būtent toks yra vaizdas atsakyme A.",
      "figure": "figures/2024-q2.png",
      "mechanic": "projection",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: žiūrint iš priešingos pusės, kairė ir dešinė susikeičia, o tai, kas buvo arčiausiai tavęs, atsiduria toliausiai. Iš kitos pusės bokšteliai bus priekyje, o dėžutė už jų – D netinka. Platusis ir juodas bokšteliai dabar kairėje, todėl iš kitos pusės jie bus dešinėje, o pilkasis – kairėje. Juodas dabar stovi priešais platųjį, todėl iš kitos pusės jį uždengs platusis ir matysis tik juodo viršūnėlė – B ir C netinka. E siaurieji bokšteliai vienodo aukščio – irgi ne. Atsakymas: A).",
      "misconceptions": {
       "D": "Iš kitos pusės dėžutė yra už bokštelių, todėl jų neuždengia."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -16940,8 +16940,8 @@
      "solution": "? Žodis PONIA prasideda tokia pačia raide kaip ir žodis PILKĖ. Taigi žodis PONIA, užrašytas slapta abėcėle, prasideda simboliu. Vienintelis tinkamas atsakymas yra C. ! Kaip jau išsiaiškinome, žodis PONIA prasideda simboliu. Taip pat šiame žodyje bus visi simboliai iš žodžio ONA –, tik dar reikia įterpti raidę I, kurią atitinka antras simbolis iš žodžio PILKĖ –. Taigi žodis PONIA slapta abėcėle užrašomas taip:. Renkamės atsakymą C.",
      "figure": "figures/2024-q4.png",
      "mechanic": "logic-clues",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: kiekviena raidė visada užrašoma tuo pačiu simboliu, todėl reikiamus simbolius pasiskolink iš jau užrašytų žodžių. Iš PILKĖ: P – pirmas simbolis (apskritimas su tašku), I – antras („V“ formos). Iš ONA gauni O, N ir A simbolius. Žodį PONIA sudėk tvarka P, O, N, I, A. Patikrink: tik variantas C prasideda P simboliu ir toliau turi O, N, I, A simbolius būtent šia tvarka. Atsakymas: C)."
+     "solutionKid": "Gudrybė: kiekviena raidė visada užrašoma tuo pačiu simboliu, todėl reikiamus simbolius pasiskolink iš jau užrašytų žodžių. Iš PILKĖ: P – pirmas simbolis (apskritimas su tašku), I – antras („V“ formos). Iš ONA gauni O, N ir A simbolius. Žodį PONIA sudėk tvarka P, O, N, I, A. Patikrink: tik variantas C prasideda P simboliu ir toliau turi O, N, I, A simbolius būtent šia tvarka. Atsakymas: C).",
+     "imageOnlyOptions": true
     },
     {
      "num": 5,
@@ -16961,8 +16961,8 @@
      "solution": "! Atsakyme A abu aitvarai sujungti ta pačia virvute. Atsakyme B dešiniojo aitvaro virvutė nutrūkusi. Atsakymai C ir E netinka, nes juose vaikai laiko tos pačios virvutės skirtingus galus. Kruopščiai patikrinę atsakymą D, įsitikiname, kad jis tikrai tinka (taip pat žr. pav.).",
      "figure": "figures/2024-q5.png",
      "mechanic": "casework",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: kiekviena virvutė turi jungti vieną vaiką su vienu aitvaru, todėl atmesk juosteles, kurios šią taisyklę pažeidžia. A juostelėje abu aitvarai sujungti ta pačia virvute. B juostelėje dešiniojo aitvaro virvutė nutrūksta. C ir E juostelėse abu vaikai laikytų tos pačios virvutės skirtingus galus. Lieka D. Patikrink: įstatęs D į tuščią vietą, nuo kiekvieno aitvaro pirštu nueini iki vis kito vaiko. Atsakymas: D)."
+     "solutionKid": "Gudrybė: kiekviena virvutė turi jungti vieną vaiką su vienu aitvaru, todėl atmesk juosteles, kurios šią taisyklę pažeidžia. A juostelėje abu aitvarai sujungti ta pačia virvute. B juostelėje dešiniojo aitvaro virvutė nutrūksta. C ir E juostelėse abu vaikai laikytų tos pačios virvutės skirtingus galus. Lieka D. Patikrink: įstatęs D į tuščią vietą, nuo kiekvieno aitvaro pirštu nueini iki vis kito vaiko. Atsakymas: D).",
+     "imageOnlyOptions": true
     },
     {
      "num": 6,
@@ -17005,8 +17005,8 @@
      "solution": "! Uždavinio klausimą galime performuluoti taip: raskite du vienos rūšies langelius, kurie yra simetriški punktyrinės linijos atžvilgiu. Pirmame paveikslėlio „dvejete“ tokių langelių nėra. Paveikslėlio „nulyje“ pastebime, kad langeliai yra simetriški punktyrinės linijos atžvilgiu, todėl perlenkus paveikslėlį jie sutaps. Patikrinę likusius paveikslėlio skaitmenis, įsitikiname, kad simetriškų vienos rūšies langelių daugiau nėra.",
      "figure": "figures/2024-q7.png",
      "mechanic": "symmetry",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: perlenkus per punktyrą, sutampa langeliai tame pačiame stulpelyje, vienodai nutolę nuo linijos – vienas virš jos, kitas po ja. Linija eina tarp 2-os ir 3-ios eilučių, todėl sutampa 2-a eilutė su 3-ia, o 1-a su 4-a. Tikrink kiekvieną skaitmenį: nulio kairiajame stulpelyje ir 1-oje, ir 4-oje eilutėje yra langeliai su rombu. Kitur tokios pačios rūšies porų nėra. Patikrink: kitos nulio poros skiriasi (apskritimas ir tamsus, apskritimas ir rombas). Atsakymas: A)."
+     "solutionKid": "Gudrybė: perlenkus per punktyrą, sutampa langeliai tame pačiame stulpelyje, vienodai nutolę nuo linijos – vienas virš jos, kitas po ja. Linija eina tarp 2-os ir 3-ios eilučių, todėl sutampa 2-a eilutė su 3-ia, o 1-a su 4-a. Tikrink kiekvieną skaitmenį: nulio kairiajame stulpelyje ir 1-oje, ir 4-oje eilutėje yra langeliai su rombu. Kitur tokios pačios rūšies porų nėra. Patikrink: kitos nulio poros skiriasi (apskritimas ir tamsus, apskritimas ir rombas). Atsakymas: A).",
+     "imageOnlyOptions": true
     },
     {
      "num": 8,
@@ -17579,8 +17579,8 @@
      "solution": "! Pastebėkime, jog iškirpto kvadrato viršūnės yra mažųjų ornamento kvadratėlių centruose. Nubrėžkime tokį patį centrus jungiantį kvadratą kitoje ornamento vietoje (žr. paveikslėlį greta). Gauname tokį vaizdą, kaip variante B. Taigi teisingas atsakymas B.",
      "figure": "figures/2025-q1.png",
      "mechanic": "geometry-misc",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: ornamentas kartojasi, todėl tokį patį kvadratą gali rasti kitoje, neiškirptoje vietoje. Pažiūrėk, kur yra iškirptos skylės kampai: jie sutampa su mažųjų kvadratėlių centrais. Nubrėžk tokį patį kvadratą, jungiantį keturių kvadratėlių centrus, kitoje ornamento vietoje ir palygink jo vidų su variantais – jis toks kaip B. Patikrink: įstačius B į skylę, visos linijos tęsiasi per kraštus be lūžių. Atsakymas: B)."
+     "solutionKid": "Gudrybė: ornamentas kartojasi, todėl tokį patį kvadratą gali rasti kitoje, neiškirptoje vietoje. Pažiūrėk, kur yra iškirptos skylės kampai: jie sutampa su mažųjų kvadratėlių centrais. Nubrėžk tokį patį kvadratą, jungiantį keturių kvadratėlių centrus, kitoje ornamento vietoje ir palygink jo vidų su variantais – jis toks kaip B. Patikrink: įstačius B į skylę, visos linijos tęsiasi per kraštus be lūžių. Atsakymas: B).",
+     "imageOnlyOptions": true
     },
     {
      "num": 2,
@@ -17600,12 +17600,12 @@
      "solution": "! Galime tiesiog apsukti popieriaus lapą, ant kurio užrašyta uždavinio sąlyga, ir pažiūrėti, koks vaizdas persišviečia kitoje lapo pusėje. Pamatysime tokį vaizdą, kaip atsakyme B. !! Galima ir nesukioti lapo. Kad gautume vaizdą iš lauko pusės, reikia kiekvieną skaitmenį pavaizduoti simetriškai nurodytų vertikalių ašių atžvilgiu (žr. paveikslėlį greta) ir gautus skaitmenis išrikiuoti atvirkščia tvarka. Šitaip vėlgi gausime, jog teisingas atsakymas B.",
      "figure": "figures/2025-q2.png",
      "mechanic": "symmetry",
-     "imageOnlyOptions": true,
      "solutionKid": "Gudrybė: iš lauko pusės užrašas matomas kaip veidrodyje – kiekvienas skaitmuo apsiverčia, o jų tvarka tampa atvirkštinė. Atvirkštine tvarka eina 5, 2, 0, 2. Apverstas 5 šiame šrifte atrodo kaip 2, apverstas 2 – kaip 5, o 0 lieka 0. Taigi matysi 2505. Patikrink: pažiūrėk į lapą prieš šviesą iš kitos pusės – persišviečia būtent toks užrašas. Atsakymas: B).",
      "misconceptions": {
       "C": "Apvertei kiekvieną skaitmenį, bet nepakeitei jų tvarkos.",
       "D": "Surašei skaitmenis atvirkščia tvarka, bet pamiršai kiekvieną apversti."
-     }
+     },
+     "imageOnlyOptions": true
     },
     {
      "num": 3,
@@ -17717,8 +17717,8 @@
      "solution": "! Aišku, kad po 6 ėjimų figūra bus sugrąžinta į pradinę poziciją. Tuomet dar po dviejų ėjimų figūra atrodys kaip variante A. Teisingas atsakymas A.",
      "figure": "figures/2025-q7.png",
      "mechanic": "clock",
-     "imageOnlyOptions": true,
-     "solutionKid": "Gudrybė: figūra sudaryta iš 6 trikampių, todėl po 6 ėjimų ji grįžta į pradinę padėtį. Aštuoni ėjimai – tai 6 ėjimai (vėl pradžia) ir dar 2. Taigi pradinę figūrą pakanka pasukti per du trikampius pagal laikrodžio rodyklę – kiekviena spalvota dalis pasislenka per dvi vietas. Toks vaizdas yra variante A. Patikrink: po pirmo ėjimo (parodyta) dalys pasislinko per vieną vietą, o A jos pasislinkusios dar per vieną. Atsakymas: A)."
+     "solutionKid": "Gudrybė: figūra sudaryta iš 6 trikampių, todėl po 6 ėjimų ji grįžta į pradinę padėtį. Aštuoni ėjimai – tai 6 ėjimai (vėl pradžia) ir dar 2. Taigi pradinę figūrą pakanka pasukti per du trikampius pagal laikrodžio rodyklę – kiekviena spalvota dalis pasislenka per dvi vietas. Toks vaizdas yra variante A. Patikrink: po pirmo ėjimo (parodyta) dalys pasislinko per vieną vietą, o A jos pasislinkusios dar per vieną. Atsakymas: A).",
+     "imageOnlyOptions": true
     },
     {
      "num": 8,
