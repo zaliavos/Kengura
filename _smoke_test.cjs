@@ -661,6 +661,7 @@ section("legacy save");
     check("legacy: games tickets/jump", loaded.games.freeRaces === 0 && loaded.games.jumpBest === 0 && loaded.games.best === 300);
     check("legacy: masteredBand/mechAttempts/recogSeen", loaded.masteredBand && loaded.mechAttempts && loaded.recogSeen);
     check("legacy: old mastery kept", loaded.masteredMech.casework === 1);
+    check("legacy: mistakes notebook defaults to empty", loaded.mistakes && typeof loaded.mistakes === "object" && !Object.keys(loaded.mistakes).length);
   }
   // Old mastery (no masteredBand) reads as full mastery at the top band
   const savedMM = store.masteredMech, savedMB = store.masteredBand;
