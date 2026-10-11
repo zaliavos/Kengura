@@ -4790,7 +4790,10 @@ function renderHome(){
         ).map(t => {
           const inFlight = store.contestInProgress;
           const isCurrent = inFlight && String(inFlight.year) === String(t.year);
-          return `<button class="btn small${isCurrent ? ' primary' : ''}" data-contest-year="${t.year}">${t.year}${isCurrent ? ' · tęsti' : ''}</button>`;
+          const done = (store.contests || []).filter(c => String(c.year) === String(t.year)).slice(-1)[0];
+          const held = !done && reservedYears().map(String).includes(String(t.year));
+          const tip = done ? `Jau spręsta: ${fmtPts(done.scoreWithPenalty ?? done.points)} / ${done.maxPoints}` : held ? 'Pasiliktas paskutinėms repeticijoms – geriau spręsti arčiau konkurso' : 'Dar nespręsta';
+          return `<button class="btn small${isCurrent ? ' primary' : held ? ' ghost' : ''}" data-contest-year="${t.year}" title="${escapeHTML(tip)}">${t.year}${isCurrent ? ' · tęsti' : done ? ' ✓' : held ? ' 🔒' : ''}</button>`;
         }).join('')}
       </div>
       <p class="help-bar" style="margin:10px 0 4px">Tikrasis konkursas – ant popieriaus. Atsispausdink kontrolinį, spręsk su pieštuku ir laikrodžiu, o atsakymus suvesk į programą.</p>
