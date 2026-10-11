@@ -5468,7 +5468,7 @@ function renderResults(){
       <div class="grid two">
         <div class="stat"><b>${correct} / ${total}</b><span>Teisingų atsakymų</span></div>
         <div class="stat"><b>${points} / ${maxPoints}</b><span>Surinkti taškai</span></div>
-        ${negativeOn ? `<div class="stat"><b>${(Math.round(pointsWithPenalty*4)/4).toFixed(2)} / ${maxPoints}</b><span>Su −25% bauda</span></div>` : ''}
+        ${negativeOn ? `<div class="stat"><b>${fmtPts(pointsWithPenalty)} / ${maxPoints}</b><span>Su −25 % bauda</span></div>` : ''}
       </div>
       ${earlyNote}
     </section>
@@ -5873,7 +5873,7 @@ function renderContest(){
       <div class="qmeta">
         <b>Klausimas ${q.num}</b>
         <span class="pill">${q.points} t.</span>
-        <span class="pill bad">−${(q.points*0.25).toFixed(2)} už klaidą</span>
+        <span class="pill bad">−${fmtPts(q.points*0.25)} už klaidą</span>
       </div>
       <div class="qprompt">${escapeHTML(q.prompt)}</div>
       ${figureHtml}
