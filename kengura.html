@@ -6977,7 +6977,7 @@ function renderPlaylist(){
       ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery", hideMech: isMixed})).join('')}
       ${state.playlistTimeExpired && !allDone ? `
         <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
-          <b>Laikas baigėsi.</b> Neatsakyti uždaviniai lieka kaip neteisingos. Spausk „Baigti“, kad pamatytum rezultatą.
+          <b>Laikas baigėsi.</b> Neatsakyti uždaviniai lieka kaip neteisingi. Spausk „Baigti“, kad pamatytum rezultatą.
         </div>
       ` : ``}
       ${allDone ? (()=>{
