@@ -4789,56 +4789,6 @@ function renderHome(){
     ${!ARCHIVE_LOAD_FAILED ? trackCardHTML() : ''}
 
     <section class="card">
-      <h3>Naujas testas</h3>
-      <div class="grid two">
-        <div>
-          <p style="margin-top:0"><b>Kiek klausimų?</b></p>
-          <div class="row" id="countOpts">
-            ${[10,15,20,25,30].map(n=>{
-              const isKen = n===30;
-              const label = isKen ? `30 <span style="font-size:11px;font-weight:500">(Kengūra)</span>` : n;
-              return `<button class="btn ${store.settings.count===n?"primary":""}" data-count="${n}" title="${isKen?'Realus Kengūros formatas: 75 min, sudėtingumai 3+4+5':''}">${label}</button>`;
-            }).join("")}
-          </div>
-          ${kengura ? `<p class="help-bar">Realus Kengūros formatas: 30 klausimų, sudėtingumas paskirstytas 3+4+5 taškų grupėmis. Jei laikrodis įjungtas – 75 min.</p>` : ``}
-        </div>
-        <div>
-          <p style="margin-top:0"><b>Sudėtingumas (taškai)</b></p>
-          <div class="row" id="diffOpts">
-            ${[3,4,5].map(d=>{
-              const on = store.settings.difficulties.includes(d);
-              const dis = kengura ? "disabled" : "";
-              return `<button class="btn ${on?"primary":""}" data-diff="${d}" ${dis}>${d} t.</button>`;
-            }).join("")}
-          </div>
-          <p class="help-bar">${kengura ? "30 klausimų režime sudėtingumas fiksuotas." : "Kelis galima derinti."}</p>
-        </div>
-      </div>
-      <div class="row" style="margin-top:10px;align-items:center;gap:14px;flex-wrap:wrap">
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px">
-          <input type="checkbox" id="timerToggle" ${store.settings.useTimer?"checked":""}/>
-          Laikrodis (${minutes} min)
-        </label>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Realiame Kengūros konkurse už klaidą atimama 25 % to uždavinio taškų">
-          <input type="checkbox" id="negScoreToggle" ${store.settings.negativeScore?"checked":""}/>
-          „−25 %“ už klaidą (kaip realiame konkurse)
-        </label>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Po atsakymo klausti, kiek esi tikras. Praleisk, jei nenori – nebūtina.">
-          <input type="checkbox" id="askConfToggle" ${store.settings.askConfidence?"checked":""}/>
-          Klausti pasitikėjimo
-        </label>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Garsai už teisingą / klaidingą atsakymą, apdovanojimus ir laikrodį. Kontrolinyje tylu (tik 5 min įspėjimas).">
-          <input type="checkbox" id="soundToggle" ${store.settings.sound !== false ?"checked":""}/>
-          🔊 Garsai
-        </label>
-      </div>
-      <div class="footer-actions">
-        <span class="help-bar">Klausimai sugeneruojami iš šablonų – kaskart kiti.</span>
-        <button class="btn primary" id="startBtn">Pradėti testą (${newTestSizeLabel()})</button>
-      </div>
-    </section>
-
-    <section class="card">
       <h3>Kontrolinis (kaip realiame Kengūros konkurse)</h3>
       <p style="margin-top:0">Tikrų ankstesnių metų testas. <b>75 minutės. 30 klausimų. −25 % už klaidą.</b> Jokios pagalbos: be užuominų, be pasitikėjimo klausimo, be panašių užduočių. Geriausia – kartą per savaitę iki pat konkurso.</p>
       ${store.contestInProgress ? (()=>{
@@ -4929,6 +4879,56 @@ function renderHome(){
         </div>`;
       }).join("")}
     </section>` : ``}
+
+    <section class="card">
+      <h3>Naujas testas</h3>
+      <div class="grid two">
+        <div>
+          <p style="margin-top:0"><b>Kiek klausimų?</b></p>
+          <div class="row" id="countOpts">
+            ${[10,15,20,25,30].map(n=>{
+              const isKen = n===30;
+              const label = isKen ? `30 <span style="font-size:11px;font-weight:500">(Kengūra)</span>` : n;
+              return `<button class="btn ${store.settings.count===n?"primary":""}" data-count="${n}" title="${isKen?'Realus Kengūros formatas: 75 min, sudėtingumai 3+4+5':''}">${label}</button>`;
+            }).join("")}
+          </div>
+          ${kengura ? `<p class="help-bar">Realus Kengūros formatas: 30 klausimų, sudėtingumas paskirstytas 3+4+5 taškų grupėmis. Jei laikrodis įjungtas – 75 min.</p>` : ``}
+        </div>
+        <div>
+          <p style="margin-top:0"><b>Sudėtingumas (taškai)</b></p>
+          <div class="row" id="diffOpts">
+            ${[3,4,5].map(d=>{
+              const on = store.settings.difficulties.includes(d);
+              const dis = kengura ? "disabled" : "";
+              return `<button class="btn ${on?"primary":""}" data-diff="${d}" ${dis}>${d} t.</button>`;
+            }).join("")}
+          </div>
+          <p class="help-bar">${kengura ? "30 klausimų režime sudėtingumas fiksuotas." : "Kelis galima derinti."}</p>
+        </div>
+      </div>
+      <div class="row" style="margin-top:10px;align-items:center;gap:14px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px">
+          <input type="checkbox" id="timerToggle" ${store.settings.useTimer?"checked":""}/>
+          Laikrodis (${minutes} min)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Realiame Kengūros konkurse už klaidą atimama 25 % to uždavinio taškų">
+          <input type="checkbox" id="negScoreToggle" ${store.settings.negativeScore?"checked":""}/>
+          „−25 %“ už klaidą (kaip realiame konkurse)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Po atsakymo klausti, kiek esi tikras. Praleisk, jei nenori – nebūtina.">
+          <input type="checkbox" id="askConfToggle" ${store.settings.askConfidence?"checked":""}/>
+          Klausti pasitikėjimo
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Garsai už teisingą / klaidingą atsakymą, apdovanojimus ir laikrodį. Kontrolinyje tylu (tik 5 min įspėjimas).">
+          <input type="checkbox" id="soundToggle" ${store.settings.sound !== false ?"checked":""}/>
+          🔊 Garsai
+        </label>
+      </div>
+      <div class="footer-actions">
+        <span class="help-bar">Klausimai sugeneruojami iš šablonų – kaskart kiti.</span>
+        <button class="btn primary" id="startBtn">Pradėti testą (${newTestSizeLabel()})</button>
+      </div>
+    </section>
 
     ${last ? `
     <section class="card">
