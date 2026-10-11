@@ -2931,6 +2931,7 @@ const MECHANIC_HINTS = {
 };
 
 const CATEGORY_LABEL = {
+  archyvas:"Tikri 3 t. uždaviniai (sprintas)",
   aritmetika:"Aritmetika",
   geometrija:"Geometrija",
   logika:"Logika",
@@ -7104,6 +7105,16 @@ function renderPlaylist(){
           }
         }
       }
+    }
+    if(state.playlistSprint && submittedCount){
+      // the real-question sprint counts as a session, so needsSpeedWork()
+      // sees its pace too (it read only the generated sprints)
+      const spent = Math.min(Date.now() - (state.playlistTimerStart || Date.now()), playlistMasteryMs(items));
+      store.sessions.push({when: Date.now(), total: items.length, correct: correctCount, points: correctCount * 3,
+        pointsWithPenalty: correctCount * 3 - (submittedCount - correctCount) * 0.75, bandTime: {3: spent, 4: 0, 5: 0},
+        early: submittedCount < items.length, sprint: true, archive: true, answered: submittedCount,
+        questions: items.map(it => { const k = `${it.year}-${it.q.num}`; return {difficulty: 3, category: "archyvas", correct: !!state.playlistSubmitted[k] && state.playlistAns[k] === it.q.correct, answered: !!state.playlistSubmitted[k]}; })});
+      if(store.sessions.length > 30) store.sessions = store.sessions.slice(-30);
     }
     if(state.playlistRetry){
       // the second try is the contest day's "review the mistakes" step
