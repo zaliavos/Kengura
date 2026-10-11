@@ -1127,6 +1127,7 @@ section("contest results render");
   let ok = true; try { app.finishContest(false); } catch(e){ ok = false; console.log(e.message); }
   check("finishContest renders", ok && app.$app.innerHTML.includes("klaidų sąsiuvinį"));
   { const lastC = app.store.contests[app.store.contests.length - 1]; check("time breakdown on results", app.$app.innerHTML.includes("Kur dingo laikas") && app.$app.innerHTML.includes("Ilgiausiai užtrukai") && Math.abs(lastC.timeByBand[3] - 900000) < 1000); }
+  check("strategy notes on results", app.$app.innerHTML.includes("Strategijos pastabos"));
   app.store.contests.pop(); app.store.mistakes = {};
   delete app.store.contestInProgress;
 }

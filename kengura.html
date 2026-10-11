@@ -6170,6 +6170,26 @@ function renderContestResults(){
       ${(r.slowest || []).length ? `<p style="margin:8px 0 0">Ilgiausiai užtrukai: ${r.slowest.map(x => `<b>${x.num}</b> (${String(mins(x.ms)).replace('.', ',')} min)`).join(', ')}.${mins(r.timeByBand[3]) > Math.round(budget[3] * n(3)) * 1.25 ? ' 3 t. uždaviniai turi eiti greitai – jiems skirk ne daugiau kaip ~15 min.' : ''}</p>` : ''}
     </section>`; })() : ''}
 
+    ${(() => {
+      // strategy notes from the answer pattern (rules, not AI)
+      const ans = state.contestAnswers || {};
+      const st = {3:{ans:0,ok:0,skip:0}, 4:{ans:0,ok:0,skip:0}, 5:{ans:0,ok:0,skip:0}};
+      for(const q of qs){ const b = q.points || 3, a = ans[q.num]; if(!a) st[b].skip++; else { st[b].ans++; if(a === q.correct) st[b].ok++; } }
+      const notes = [];
+      if(st[3].skip) notes.push(`Praleidai ${st[3].skip} ${pluralForm(st[3].skip,'lengviausią (3 t.) uždavinį','lengviausius (3 t.) uždavinius','lengviausių (3 t.) uždavinių')}. Juos verta išspręsti visus – tai greičiausi taškai.`);
+      for(const b of [4, 5]){
+        const wrong = st[b].ans - st[b].ok;
+        const gain = st[b].ok * b, loss = wrong * b * 0.25;
+        if(st[b].ans >= 3 && st[b].ok / st[b].ans < 0.35)
+          notes.push(`${b} t. bloke teisingi tik ${st[b].ok} iš ${st[b].ans} atsakytų: bauda atėmė ${fmtPts(loss)} t. Kai nesi tikras ir negali atmesti bent dviejų variantų – praleisk.`);
+        else if(st[b].skip >= 4 && st[b].ans && st[b].ok / st[b].ans >= 0.7)
+          notes.push(`${b} t. bloke atsakei taikliai (${st[b].ok}/${st[b].ans}), bet ${st[b].skip} praleidai – drąsiau: tavo tikslumas leidžia rizikuoti daugiau.`);
+      }
+      if(r.timeByBand && r.timeByBand[3] > 20 * 60000) notes.push('3 t. blokui sugaišai daugiau nei 20 min – likusiems laiko lieka per mažai. Treniruok „Greičio sprintą“.');
+      if(!notes.length && r.answered >= 25 && pct >= 60) notes.push('Strategija gera: atsakei į daug klausimų ir dažniausiai teisingai. Taip ir toliau!');
+      return notes.length ? `<section class="card"><h3>🎯 Strategijos pastabos</h3><ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${notes.map(n => `<li>${n}</li>`).join('')}</ul></section>` : '';
+    })()}
+
     ${wrongs.length ? `
     <section class="card">
       <h3>Klaidos (${wrongs.length})</h3>
