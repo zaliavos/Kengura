@@ -381,6 +381,16 @@ in `store.contests` (last 30 retained).
   fill, and bans algebra/factorial/mod notation in kid-facing hint copy.
   **Run it after every change to kengura.html.**
 - `figures/` — per-question PNGs.
+- Data layer (2026-10-11), run all with `python _rebuild_data.py`:
+  `_reextract_solutions.py` (+ `_pagetext.py` for stacked fractions),
+  `_fix_keys_audit.py`, `_apply_clean_solutions.py` (+ `_clean_solutions.json`),
+  `_apply_audit_text.py` (+ `_audit_text.json`), `_apply_kid_solutions.py`
+  (+ `_solutions_kid.py`), `_mechanic_review.py`, `_fix_typos_2026.py`.
+  One-off: `_fix_keys_2024.py`, `_fix_points.py`, `_add_missing_questions.py`.
+- Figures: `_recrop.py` (layout-based crops), `_trim_figures.py` (blank
+  strips); bump `FIGS` in `sw.js` after changing any PNG.
+- `_plan_sim.cjs` — plan simulator (seeded, reproducible).
+- `Solutions/` — 2006 + the full 2014–2017 solution booklets.
 - `*.pdf` — source materials. `200xLT.pdf` and `TMK0x_lietuviu.pdf` are
   test booklets; `200xspB.pdf` and `200xkengura.pdf` are solution
   compendiums; `benjamin_lt (*).pdf` are the modern (2013+) test booklets.
