@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear};
 `;
 let app;
 try {
@@ -1240,6 +1240,20 @@ section("archive 3-point sprint");
   check("archive sprint: 10 real 3-pointers with a clock", st.playlistSprint && st.playlistContent.mastery.length === 10 && st.playlistContent.mastery.every(x => x.q.points === 3) && h.includes("pl-countdown") && h.includes("sprintas"));
   app.openPlaylist("weighing");
   check("a normal playlist is not a sprint", !app.state.playlistSprint);
+}
+
+section("why-wrong self-explanation");
+{
+  const st = app.state, store = app.store;
+  const t = app.ARCHIVE.find(t => t.year === "2016"); const q = t.questions[5];
+  const wrong = ["A","B","C","D","E"].find(L => L !== q.correct);
+  app.recordArchiveAnswer("2016", q, false, null);
+  st.archiveAnswers[`2016-${q.num}`] = {chosen: wrong, chosenLetter: wrong, submitted: true};
+  st.archiveYear = "2016"; app.renderArchiveYear();
+  check("wrong answer asks why", app.$app.innerHTML.includes("Kodėl, manai, suklydai?") && app.$app.innerHTML.includes('data-why="read"'));
+  store.mistakes[`2016-${q.num}`].reason = "calc"; app.renderArchiveYear();
+  check("chosen reason is shown back", app.$app.innerHTML.includes("Užrašyta: Suklydau skaičiuodamas"));
+  delete store.mistakes[`2016-${q.num}`]; delete store.dueQueue[`2016-${q.num}`]; delete st.archiveAnswers[`2016-${q.num}`];
 }
 
 // ---------- result ----------
