@@ -24,6 +24,10 @@ class FakeDate extends RealDate {
   static now(){ return NOW; }
 }
 global.Date = FakeDate;
+// the app's own shuffles (content picks, tie-breaks) follow the seed too, so a
+// run is reproducible and two code versions can be compared seed by seed
+let appRng = Number((process.argv.find(a => a.startsWith("--seed=")) || "--seed=42").slice(7)) * 7919 + 1;
+Math.random = () => { appRng = (appRng * 1103515245 + 12345) & 0x7fffffff; return appRng / 0x7fffffff; };
 const EXPORTS = `return {store, state, planStepsForToday, planPhase, daysToContest, isContestDay, needsDiagnosticContest,
   nextMechanicToLearn, dueNow, markPlanStepDone, archiveQsForMech, MECHANIC_ORDER, MECHANIC_LABEL, recordArchiveAnswer,
   noteMechAttempt, masteredBandOf, mechTopBand, creditContestActivity,
@@ -97,5 +101,5 @@ for(let day = 0; day <= CONTEST_IN; day++){
 console.log(log.join("\n"));
 console.log("\n--- core-step tally by phase ---"); console.log(JSON.stringify(tally, null, 1));
 if(skipped) console.log("days skipped:", skipped, " streak at end:", store.streak.count);
-console.log("full mastery:", Object.keys(store.masteredMech).length, " partial:", Object.keys(store.masteredBand).filter(m => !store.masteredMech[m]).length, "/", app.trackMechanics().length, " contests:", store.contests.length, " dueQueue:", Object.keys(store.dueQueue).length, " stars:", store.stars.total);
+console.log("full mastery:", app.trackMechanics().filter(m => store.masteredMech[m]).length, " partial:", app.trackMechanics().filter(m => store.masteredBand[m] && !store.masteredMech[m]).length, "/", app.trackMechanics().length, " contests:", store.contests.length, " dueQueue:", Object.keys(store.dueQueue).length, " stars:", store.stars.total);
 console.log("unmastered:", app.MECHANIC_ORDER.filter(m => !store.masteredMech[m] && app.trackMechanics().includes(m)).join(","));
