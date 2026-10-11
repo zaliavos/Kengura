@@ -6354,7 +6354,7 @@ function renderParent(){
       <h3>📒 Klaidų sąsiuvinis</h3>
       <p style="margin:0 0 8px">Neištaisytų: <b>${open.length}</b> · ištaisytų: <b>${fixed}</b>${repeat ? ` · <span style="color:var(--bad)">kartojasi: <b>${repeat}</b></span>` : ''}</p>
       <p class="help-bar" style="margin:0 0 8px">Pasikartojanti klaida (tas pats uždavinys 2+ kartus) – geriausia vieta pasikalbėti kartu: paprašyk vaiko paaiškinti savo kelią.</p>
-      <button class="btn small" id="parentMistakes">Atverti sąsiuvinį</button>
+      <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="parentMistakes">Atverti sąsiuvinį</button>${open.length ? `<button class="btn small ghost" id="parentMistakeSheet">🖨 Klaidų lapas savaitgaliui</button>` : ''}</div>
     </section>`;
     })()}
 
@@ -6447,6 +6447,13 @@ function renderParent(){
   if(profileDelete) profileDelete.addEventListener("click", ()=>{ if(confirm(`Ištrinti profilį „${activeProfileName()}“ ir visą jo progresą?`)) deleteProfile(META.active); });
   const parentMistakes = document.getElementById("parentMistakes");
   if(parentMistakes) parentMistakes.addEventListener("click", openMistakeBook);
+  const parentMistakeSheet = document.getElementById("parentMistakeSheet");
+  if(parentMistakeSheet) parentMistakeSheet.addEventListener("click", ()=>{
+    const items = Object.values(store.mistakes || {}).filter(m => !m.fixedAt).map(m => {
+      const t = ARCHIVE.find(t => String(t.year) === String(m.year)); const q = t && t.questions.find(q => q.num === m.num);
+      return q ? {m, q} : null; }).filter(Boolean).sort((a, b) => b.m.lastWrong - a.m.lastWrong).slice(0, 20);
+    printMistakeSheet(items);
+  });
   const exportBtn = document.getElementById("exportBtn");
   if(exportBtn) exportBtn.addEventListener("click", exportProgress);
   const offlineAllBtn = document.getElementById("offlineAllBtn");
