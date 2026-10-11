@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint};
 `;
 let app;
 try {
@@ -1231,6 +1231,15 @@ section("recognition result: speed + mix-up");
   const h = app.$app.innerHTML;
   check("recognition result shows speed and the mix-up", h.includes("Vidutiniškai <b>10 s</b>") && h.includes("Dažniausiai painioji") && h.includes("(jau 2 kartus)"), h.slice(0, 200));
   app.store.recogConfusion = {};
+}
+
+section("archive 3-point sprint");
+{
+  app.openArchiveSprint();
+  const h = app.$app.innerHTML, st = app.state;
+  check("archive sprint: 10 real 3-pointers with a clock", st.playlistSprint && st.playlistContent.mastery.length === 10 && st.playlistContent.mastery.every(x => x.q.points === 3) && h.includes("pl-countdown") && h.includes("sprintas"));
+  app.openPlaylist("weighing");
+  check("a normal playlist is not a sprint", !app.state.playlistSprint);
 }
 
 // ---------- result ----------

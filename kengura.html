@@ -6650,6 +6650,7 @@ function stopPlaylistTimer(){
 function openPlaylist(mech, forcedBand){
   stopPlaylistTimer();
   state.view = "playlist";
+  state.playlistSprint = false;
   state.playlistMech = mech;
   // Stale mastery → light 2-question retest instead of the full playlist.
   // Pass keeps mastery fresh; fail clears it and offers the full playlist.
@@ -6694,6 +6695,7 @@ function openDueQueue(limit){
   if(!items.length) return;
   stopPlaylistTimer();
   state.view = "playlist";
+  state.playlistSprint = false;
   state.playlistMech = "__due__";
   state.playlistRetest = false;
   state.playlistRecorded = false;
@@ -6721,6 +6723,9 @@ function renderPlaylist(){
   const titleHtml = isDue
     ? `<h2 style="margin:0 0 4px">Pasikartoti laukia</h2>
        <p class="help-bar" style="margin:0">Šios užduotys sugrįžo iš tavo kartojimo eilės. Atsakyk teisingai – jos pereis į kitą intervalą (1 d. → 3 d. → 7 d. → 14 d. → 30 d. → įvaldyta).</p>`
+    : isMixed && state.playlistSprint
+    ? `<h2 style="margin:0 0 4px">⚡ Tikrų 3 t. uždavinių sprintas</h2>
+       <p class="help-bar" style="margin:0">10 uždavinių iš ankstesnių konkursų, ~1 min kiekvienam – tokiu tempu konkurse įveiksi pirmąjį bloką.</p>`
     : isMixed
     ? `<h2 style="margin:0 0 4px">Mišrus rinkinys</h2>
        <p class="help-bar" style="margin:0">Gudrybė nenurodyta – kaip konkurse. Pirmiausia atpažink, KOKS tai uždavinio tipas, tada spręsk. Tipas pasirodys po atsakymo.</p>`
@@ -6777,7 +6782,7 @@ function renderPlaylist(){
     const enough = b => archiveQsForMech(mech, b).length >= 2;
     const lowerBand = special ? null : bands.filter(b => b < content.sourceBand && enough(b)).pop() || null;
     const higherBand = !special && content.sourceBand < 5 && bands.includes(5) && enough(5) ? 5 : null;
-    const timerHtml = special ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ ${fmtMs(playlistMasteryMs(items))}</span>`;
+    const timerHtml = special && !state.playlistSprint ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ ${fmtMs(playlistMasteryMs(items))}</span>`;
     const headWord = isDue ? 'Pakartojimo eilė' : isMixed ? 'Mišrus rinkinys' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
     body = `
       <p><b>${headWord}:</b> ${items.length} užduotys, ${special?'be laiko':'be užuominų'}. ${timerHtml}${allDone ? '' : ' Atsakyk į visas, paskui paspausk „Baigti“.'}</p>
@@ -6953,7 +6958,7 @@ function renderPlaylist(){
   // Mastery-step countdown: tick the visible timer, expire at the contest pace.
   // (due queue and mixed sets use step 3 with no time pressure – skip timer.)
   stopPlaylistTimer();
-  if(step === 3 && !special && !state.playlistTimeExpired && state.playlistTimerStart){
+  if(step === 3 && (!special || state.playlistSprint) && !state.playlistTimeExpired && state.playlistTimerStart){
     const tick = () => {
       const remainingMs = playlistMasteryMs(content.mastery) - (Date.now() - state.playlistTimerStart);
       const span = document.getElementById("plCountdown");
@@ -7228,6 +7233,35 @@ function startSprint(){
 /* -------- Mixed set: interleaved practice, mechanic hidden ---------
    Blocked playlists are right for first acquisition; retention and the
    "which trick is this?" skill need mixed practice with the label off. */
+/* Real 3-point sprint: 10 archive 3-pointers (unseen first, held-out papers
+   excluded) against the contest clock – ~1 min each. The generated sprint
+   trains arithmetic speed; this one trains the actual first block. */
+function openArchiveSprint(){
+  const reserved = new Set(reservedYears().map(String));
+  const pool = [];
+  for(const t of ARCHIVE){
+    if(reserved.has(String(t.year))) continue;
+    for(const q of t.questions) if(q.correct && (q.points || 3) === 3) pool.push({year: t.year, q});
+  }
+  const unseen = pool.filter(x => !isRecentlySeen(x.year, x.q.num));
+  const source = unseen.length >= 10 ? unseen : pool;
+  shuffleInPlace(source);
+  const items = source.slice(0, 10);
+  if(items.length < 5){ alert("Per mažai 3 t. uždavinių."); return; }
+  stopPlaylistTimer();
+  state.view = "playlist";
+  state.playlistSprint = true;
+  state.playlistMech = "__mixed__";
+  state.playlistRetest = false;
+  state.playlistRecorded = false;
+  state.playlistStep = 3;
+  state.playlistContent = {sourceBand:3, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistConf = {};
+  state.playlistTimerStart = 0;
+  state.playlistTimeExpired = false;
+  renderPlaylist();
+}
+
 function openMixedSet(count){
   count = count || 6;
   const recentMechs = Object.keys(store.mechRecent || {});
@@ -7259,6 +7293,7 @@ function openMixedSet(count){
   if(items.length < 3){ alert("Per mažai tinkamų užduočių mišriam rinkiniui."); return; }
   stopPlaylistTimer();
   state.view = "playlist";
+  state.playlistSprint = false;
   state.playlistMech = "__mixed__";
   state.playlistRetest = false;
   state.playlistRecorded = false;
@@ -7776,7 +7811,10 @@ function launchPlanStep(s){
     renderQuiz();
   } else if(s.act === "due"){ openDueQueue(); }
   else if(s.act === "dueWarm"){ openDueQueue(3); }
-  else if(s.act === "sprint"){ startSprint(); }
+  else if(s.act === "sprint"){
+    // alternate: generated arithmetic sprint / real 3-pointers from past papers
+    if(Math.floor(Date.now() / ONE_DAY_MS) % 4 >= 2) openArchiveSprint(); else startSprint();
+  }
   else if(s.act === "playlist"){ openPlaylist(s.arg, s.band || undefined); }
   else if(s.act === "mixed"){ openMixedSet(6); }
   else if(s.act === "recog"){ openRecogDrill(); }
