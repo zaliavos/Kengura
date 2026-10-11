@@ -4575,8 +4575,8 @@ function renderArchiveCard(year, q){
     practiceBtn = `<button class="btn small" data-practice="${practice.gen}" title="Sugeneruotas to paties tipo uždavinys">Praktikuotis šio tipo</button>`;
   } else if(practice.kind === "archive"){
     practiceBtn = practice.related
-      ? `<button class="btn small" data-practice-archive="1" title="Šios gudrybės 5 t. uždavinių archyve daugiau nėra – giminingos gudrybės (${escapeHTML(MECHANIC_LABEL[practice.related] || practice.related)}) to paties sudėtingumo uždavinys">Giminingos gudrybės užduotis (${practice.items.length})</button>`
-      : `<button class="btn small" data-practice-archive="1" title="Panašus uždavinys iš archyvo (tos pačios gudrybės ir to paties sudėtingumo)">Panaši užduotis iš archyvo (${practice.items.length})</button>`;
+      ? `<button class="btn small" data-practice-archive="1" title="Šios gudrybės 5 t. uždavinių archyve daugiau nėra – giminingos gudrybės (${escapeHTML(MECHANIC_LABEL[practice.related] || practice.related)}) to paties sudėtingumo uždavinys">Giminingos gudrybės uždavinys (${practice.items.length})</button>`
+      : `<button class="btn small" data-practice-archive="1" title="Panašus uždavinys iš archyvo (tos pačios gudrybės ir to paties sudėtingumo)">Panašus uždavinys iš archyvo (${practice.items.length})</button>`;
   } else if(practice.kind === "fallback"){
     practiceBtn = `<button class="btn small ghost" data-practice="${practice.gen}" title="Tikslaus to paties tipo generatoriaus dar nėra – tai tik kitas šio sudėtingumo uždavinys">Praktikuotis (kito tipo)</button>`;
   } else {
@@ -6019,7 +6019,7 @@ function renderContest(){
       <span>${escapeHTML(v)}</span>
     </button><button type="button" class="opt-x" data-strike="${letter}" aria-pressed="${struck}" title="${struck ? 'Grąžinti' : 'Išbraukti'} ${letter} variantą" aria-label="${struck ? 'Grąžinti' : 'Išbraukti'} ${letter} variantą">✕</button></div>`;
   }).join("");
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
+  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Uždavinio paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
 
   // Question strip showing all 30; answered are filled
   const strip = qs.map((qq, i) => {
@@ -6640,7 +6640,7 @@ function renderParent(){
     </section>` : `
     <section class="card">
       <h3>Silpnesnės gudrybės</h3>
-      <p class="empty">Statistikos kol kas neužtenka. Vaikui reikia atsakyti bent į 4 to paties tipo užduotis, kad pamatytume tendenciją.</p>
+      <p class="empty">Statistikos kol kas neužtenka. Vaikui reikia atsakyti bent į 4 tos pačios gudrybės uždavinius, kad pamatytume tendenciją.</p>
     </section>`}
 
     ${last ? `
@@ -7000,7 +7000,7 @@ function renderPlaylist(){
               <span class="star">⭐</span>${content.sourceBand && content.sourceBand < mechTopBand(state.playlistMech)
                 ? `<b>Šaunu! Įveikta ${content.sourceBand} t. lygiu.</b> Kitas žingsnis – šios gudrybės ${mechTopBand(state.playlistMech)} t. uždaviniai; planas juos pasiūlys.`
                 : `<b>Šaunu! Gudrybė įvaldyta.</b> Pažymėjome kaip įvaldytą – pasimatysime vėl po ${masteryDecayDays()} d.`}
-              <br><span class="muted small">Visos ${items.length} užduotys teisingos${content.sourceBand ? ` (${content.sourceBand} t. lygis)` : ''}.</span>
+              <br><span class="muted small">Visi ${items.length} atsakymai teisingi${content.sourceBand ? ` (${content.sourceBand} t. lygis)` : ''}.</span>
              </div>`
           : `<div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
               <b>Dar ne visai.</b>
@@ -7266,7 +7266,7 @@ function renderPlaylistQuestion(item, opts){
     </button>`;
   }).join("");
   const figureHtml = q.figure
-    ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"></div>`
+    ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Uždavinio paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"></div>`
     : "";
   const showHint = mode === "try" && !submitted && state.playlistHintShown[k];
   // hint: this question's own idea, else the trick's generic suggestion; the
@@ -7627,7 +7627,7 @@ function renderRecog(){
   const q = it.q;
   const submitted = state.recogSubmitted;
   const right = submitted && state.recogChosen === q.mechanic;
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
+  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Uždavinio paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
   const summary = (MECHANIC_METHODOLOGY[q.mechanic] || {}).summary || "";
   $app.innerHTML = `
     <section class="card">
@@ -8486,7 +8486,7 @@ function rewardsCardHTML(){
       ${goal ? `<div style="margin-bottom:10px">
         <div class="footer-actions" style="margin:0"><span style="font-size:14px">Savaitės tikslas: <b>${weekStars} / ${goal} ⭐</b>${reward ? ` → 🎁 ${escapeHTML(reward)}` : ''}</span>${weekStars >= goal ? '<span class="pill good">pasiekta! 🎉</span>' : ''}</div>
         <div class="goal-bar"><div style="width:${goalPct}%"></div></div>
-        <span class="help-bar">Žvaigždės: 1 už kiekvieną užduotį, 2 už teisingą 4 t., 3 už teisingą 5 t., +1 už aktyvią minutę, +${PLAN_DAY_BONUS} už visą dienos planą.</span>
+        <span class="help-bar">Žvaigždės: 1 už kiekvieną atsakytą uždavinį, 2 už teisingą 4 t., 3 už teisingą 5 t., +1 už aktyvią minutę, +${PLAN_DAY_BONUS} už visą dienos planą.</span>
       </div>` : ''}
       <div class="row">
         <button class="btn primary" id="raceChallengeBtn">Pradėti iššūkį →</button>
@@ -8611,7 +8611,7 @@ function renderRaceChallenge(){
     </button>`;
   }).join("");
 
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Užduoties paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
+  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Uždavinio paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
   const pips = qs.map((qq,i)=>{
     const done = i < idx || (i === idx && submitted);
     const cur = i === idx;
