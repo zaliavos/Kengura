@@ -101,7 +101,9 @@ def locate(doc, n, old):
 FORCE_MASK = {('2017', 14): {'9818192'}, ('2010', 12): {'20', '+', '10'}}
 
 # page areas painted out in an automatic crop (checked by eye)
-EXTRA_MASK = {('2003', 4): [(383, 290, 475, 470)]}   # Q5's ring drawing beside Q3-Q5
+EXTRA_MASK = {('2003', 4): [(383, 290, 475, 470)],   # Q5's ring drawing beside Q3-Q5
+              ('2014', 8): [(296, 105, 412, 170)],    # top of Q9's lap-time table
+              ('2014', 9): [(8, 88, 296, 122)]}       # Q8's last line above Q9 (the table starts beside it)
 
 MANUAL = {  # (year, num): (page index, clip[, masks]) – picture spread over neighbouring questions
     ('2003', 5): (4, (71, 320, 469, 439), [(71, 312, 386, 397)]),   # Q3/Q4 text beside the drawing painted out
