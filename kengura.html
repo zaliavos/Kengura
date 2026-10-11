@@ -6232,6 +6232,9 @@ function renderContestResults(){
           <p><b>Teisingas:</b> ${q.correct} (${escapeHTML(q.options[q.correct]||'')})</p>
           ${q.misconceptions && q.misconceptions[chosen] ? `<p class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</p>` : ''}
           ${q.solutionKid || q.solution ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
+          ${(() => { const mk = `${r.year}-${q.num}`, m = (store.mistakes || {})[mk]; return m && m.reason
+            ? `<p class="help-bar" style="margin:6px 0">Užrašyta: ${escapeHTML(MISTAKE_REASONS[m.reason] || m.reason)}.</p>`
+            : `<div style="margin:6px 0"><b style="font-size:14px">Kodėl, manai, suklydai?</b><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">${Object.entries(MISTAKE_REASONS).map(([id, t]) => `<button class="btn small ghost" data-cr-why="${id}" data-cr-key="${mk}">${escapeHTML(t)}</button>`).join('')}</div></div>`; })()}
           ${q.mechanic && MECHANIC_LABEL[q.mechanic] ? `<button class="btn small" data-recap-mech="${q.mechanic}" style="margin-top:6px">Mokytis: ${escapeHTML(MECHANIC_LABEL[q.mechanic])} →</button>` : ''}
         </details>`;
       }).join('')}
@@ -6275,6 +6278,11 @@ function renderContestResults(){
   `;
   const toHome = ()=>{ state.view = "home"; renderHome(); };
   document.getElementById("contestBack2").addEventListener("click", toHome);
+  $app.querySelectorAll("[data-cr-why]").forEach(b => b.addEventListener("click", ()=>{
+    const m = (store.mistakes || {})[b.dataset.crKey];
+    if(m){ m.reason = b.dataset.crWhy; m.reasons = m.reasons || {}; m.reasons[m.reason] = (m.reasons[m.reason] || 0) + 1; saveStore(store); }
+    const box = b.closest("div").parentElement; if(box) box.innerHTML = `<p class="help-bar" style="margin:6px 0">Užrašyta: ${escapeHTML(MISTAKE_REASONS[b.dataset.crWhy])}.</p>`;
+  }));
   $app.querySelectorAll("[data-recap-mech]").forEach(btn => btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
   const cmb = document.getElementById("contestMistakeBook");
   if(cmb) cmb.addEventListener("click", e => { e.preventDefault(); openMistakeBook(); });
