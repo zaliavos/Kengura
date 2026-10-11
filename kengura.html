@@ -6424,7 +6424,7 @@ function renderParent(){
     });
     const items = Object.entries(breakdown).sort((a,b)=>b[1]-a[1]);
     if(items.length){
-      lastBreak = `<ul style="margin:6px 0 0">${items.map(([c,n]) => `<li>${escapeHTML(CATEGORY_LABEL[c]||c)} – ${n} klaida</li>`).join('')}</ul>`;
+      lastBreak = `<ul style="margin:6px 0 0">${items.map(([c,n]) => `<li>${escapeHTML(CATEGORY_LABEL[c]||c)} – ${n} ${pluralForm(n,'klaida','klaidos','klaidų')}</li>`).join('')}</ul>`;
     }
   }
 
@@ -6437,7 +6437,7 @@ function renderParent(){
 
       <div class="grid two" style="margin-top:14px">
         <div class="stat"><b>${masteredCount} / ${totalMechs}</b><span>Įvaldytos gudrybės</span></div>
-        <div class="stat"><b>${weekAnswered}</b><span>Šios savaitės atsakymai (${weekCorrect} teisingų)</span></div>
+        <div class="stat"><b>${weekAnswered}</b><span>Šios savaitės atsakymai (${weekCorrect} ${pluralForm(weekCorrect,'teisingas','teisingi','teisingų')})</span></div>
         ${(()=>{
           const cw = Object.values(store.dueQueue || {}).filter(i => i.confWrong).length;
           return cw ? `<div class="stat" style="border-color:var(--bad)"><b>${cw}</b><span>„Tikrai žinau“ klaidos eilėje – klaidingi supratimai, ne atsitiktinumai</span></div>` : '';
