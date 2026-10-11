@@ -89,18 +89,23 @@ better practice than a wrong-band random.
 - Figures: all 26 years × all questions have a `q.figure` (re-extraction
   passes on 2026-05-06; details under "Contest simulator + final figure
   pass" further down).
-- 2010, 2011, 2012, 2016 have 29 questions instead of 30.
-- Contest-sim eligibility (kengura.html ~line 3115): year passes only if
-  every Q has a `correct` letter AND year is not 2006. Reason 2006 is
-  excluded: the 2006 source PDF is **Mažylis (3-4 grade), not Bičiulis**
-  — every Q is 3-point, so a kid scoring 30/30 on it would walk away
-  with a false sense of contest readiness. With these gates: **23 of 26
-  years surface** (excluded: 2000, 2001, 2006).
-- Four 2000/2001 answer keys (2000-Q8/15/24, 2001-Q10) are intentionally
-  `correct: null`. These were hand-guessed at ~60-70 % confidence on
-  2026-05-08; until a Mažylis-section solution PDF for 2000/2001 is
-  located (or a math teacher verifies), the keys stay null. With one or
-  more unkeyed Qs, those years can't be graded fairly in contest mode.
+- Every paper has Q1–30 (2010–12 Q30 and 2016 Q3 were added on
+  2026-10-11, `_add_missing_questions.py`). Points follow the number:
+  Q1–10 = 3, Q11–20 = 4, Q21–30 = 5 (`_fix_points.py`; until 2026-10-11
+  2000–2012 were all stored as 3-pointers).
+- Contest-sim eligibility (`contestEligibleYears`): every Q keyed AND year
+  is not 2006. Reason 2006 is excluded: the 2006 source PDF is **Mažylis
+  (3-4 grade), not Bičiulis** — every Q is 3-point, so a kid scoring 30/30
+  on it would walk away with a false sense of contest readiness. Since the
+  2026-10-11 audit keyed 2000/2001 too: **25 of 26 years surface**.
+- **Answer keys: trust the worked solution, not the answer table.** The
+  2024 booklet's printed table was wrong 10 times; solution headers ("7. A"
+  / "B7." + letter) are the reference, and 6 booklet keys are wrong even
+  there (see `_fix_keys_audit.py`). The smoke test fails on unkeyed
+  questions and broken point bands.
+- Data pipeline order after a re-extraction: `_reextract_solutions.py` →
+  `_fix_keys_audit.py` → `_apply_audit_text.py` (prompts/options) →
+  `_apply_kid_solutions.py` → `_mechanic_review.py`. Figures: `_recrop.py`.
 - Note on `q.hasMissingOptionText`: PDF extraction failed on some option
   text in roughly half the years, but the contest UI handles this fine
   (letter-only buttons + the figure shows the real options). Don't filter
@@ -173,7 +178,7 @@ kengura.html holds 4-tier ladders for every mechanic. The "Užuomina"
 button on archive cards now reveals one tier per tap (1/3 → 2/3 → 3/3),
 and submission shows the per-question full solution as the 4th tier.
 
-**D. Kid-Lithuanian solutions for all 99 5-pointers.** `q.solutionKid` is
+**D. Kid-Lithuanian solutions for all 250 5-pointers** (99 until the 2026-10-11 re-banding; also the 20 lower-band questions without an official solution). `q.solutionKid` is
 shown in place of the auto-extracted official `q.solution` when present.
 Style: 3 short paragraphs (pastebėjimas → veiksmas → patvirtinimas) in
 2nd person voice. Data in `_solutions_5pt_kid.py`.
