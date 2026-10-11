@@ -1105,6 +1105,13 @@ section("text hygiene");
     if(texts.some(x => /\b(c?m|dm|mm|km)[23]\b/.test(x))) pct.push(k + ":unit2");
   }
   check("no control characters", ctrl.length === 0, ctrl.join(" "));
+  const debris = [];
+  for(const t of app.ARCHIVE) for(const q of t.questions){
+    if(t.year === "2006") continue;
+    const s = q.solution || "";
+    if(/SPRENDIMAI|KADETAS \(|◦/.test(s) || /––/.test(q.prompt || "")) debris.push(`${t.year}-${q.num}`);
+  }
+  check("no page headers / ◦ / –– in official texts", debris.length === 0, debris.join(" "));
   check("no header letter glued to the answer value", glued.length === 0, glued.join(" "));
   check("space before %", pct.length === 0, pct.join(" "));
 }
