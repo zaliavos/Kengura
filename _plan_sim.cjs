@@ -91,7 +91,7 @@ for(let day = 0; day <= Math.min(CONTEST_IN, STOP); day++){
     for(const d of due){ const t = app.ARCHIVE.find(x => String(x.year) === String(d.year)); const q = t.questions.find(q => q.num === d.num); app.recordArchiveAnswer(t.year, q, rand() < SKILL + 0.15, null); }
     log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} due x${due.length}`);
   } else if(core.act === "sprint"){
-    store.sessions.push({when: NOW, sprint: true, questions: [], bandTime: {}});
+    { const ok = Math.round(10 * SKILL); store.sessions.push({when: NOW, sprint: true, total: 10, correct: ok, points: ok * 3, pointsWithPenalty: ok * 3 - (10 - ok) * 0.75, answered: 10, early: false, questions: [], bandTime: {3: 10 * 70000}}); }
     log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} sprint`);
   } else {
     log.push(`${day.toString().padStart(2)} ${phase.padEnd(10)} ${core.act}`);

@@ -4836,7 +4836,7 @@ function renderHome(){
 
     <section class="card">
       <h3>Kontrolinis (kaip realiame Kengūros konkurse)</h3>
-      <p style="margin-top:0">Tikrų ankstesnių metų testas. <b>75 minutės. 30 klausimų. −25 % už klaidą.</b> Jokios pagalbos: be užuominų, be pasitikėjimo klausimo, be panašių užduočių. Geriausia – kartą per savaitę iki pat konkurso.</p>
+      <p style="margin-top:0">Tikrų ankstesnių metų testas. <b>75 minutės. 30 klausimų. −25 % už klaidą.</b> Jokios pagalbos: be užuominų, be pasitikėjimo klausimo, be panašių uždavinių. Geriausia – kartą per savaitę iki pat konkurso.</p>
       ${store.contestInProgress ? (()=>{
         const cp = store.contestInProgress;
         const remainMs = cp.endsAt - Date.now();
@@ -5622,7 +5622,7 @@ function renderResults(){
 
     <section class="card">
       <h3>Tempas pagal sudėtingumą</h3>
-      <p style="margin-top:0;font-size:13px;color:var(--muted)">Rekomenduojama: 3 t. ≈ 1 min, 4 t. ≈ 2,5 min, 5 t. ≈ 5 min užduočiai. Atitinka 75 min/30 klausimų formatą.</p>
+      <p style="margin-top:0;font-size:13px;color:var(--muted)">Rekomenduojama: 3 t. ≈ 1 min, 4 t. ≈ 2,5 min, 5 t. ≈ 5 min uždaviniui. Atitinka 75 min/30 klausimų formatą.</p>
       ${[3,4,5].map(b => {
         if(!bandCount[b]) return '';
         const sec = Math.round(bandTime[b]/1000);
@@ -6977,7 +6977,7 @@ function renderPlaylist(){
       ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery", hideMech: isMixed})).join('')}
       ${state.playlistTimeExpired && !allDone ? `
         <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
-          <b>Laikas baigėsi.</b> Neatsakytos užduotys lieka kaip neteisingos. Spausk „Baigti“, kad pamatytum rezultatą.
+          <b>Laikas baigėsi.</b> Neatsakyti uždaviniai lieka kaip neteisingos. Spausk „Baigti“, kad pamatytum rezultatą.
         </div>
       ` : ``}
       ${allDone ? (()=>{
@@ -7029,7 +7029,7 @@ function renderPlaylist(){
       </div>
     `;
   } else {
-    body = `<p class="empty">Šios gudrybės archyve užduočių neužtenka. Grįžk ir pasirink kitą.</p>
+    body = `<p class="empty">Šios gudrybės archyve uždavinių neužtenka. Grįžk ir pasirink kitą.</p>
       <div class="footer-actions"><button class="btn ghost" id="plBack">← Į pradžią</button></div>`;
   }
 
@@ -7599,7 +7599,7 @@ function isRecogRecentlySeen(year, num){
 
 function openRecogDrill(){
   const pool = buildRecogPool();
-  if(pool.length < 10){ alert("Per mažai užduočių atpažinimo treniruotei."); return; }
+  if(pool.length < 10){ alert("Per mažai uždavinių atpažinimo treniruotei."); return; }
   const mechSet = [...new Set(pool.map(x => x.q.mechanic))];
   shuffleInPlace(pool);
   // Freshness: questions not shown in the drill for 2 weeks come first, so
