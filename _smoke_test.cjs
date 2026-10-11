@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry};
 `;
 let app;
 try {
@@ -1089,6 +1089,15 @@ section("contest flag / withdraw");
   st.contestStruck = { [q.num]: Object.fromEntries(["A","B","C","D","E"].filter(l => l !== q.correct).slice(0, 2).map(l => [l, true])) };
   check("elimination stat counts informed guesses", JSON.stringify(app.contestElimination(st.contestQuestions)) === '{"n":1,"ok":1}');
   st.contestStruck = {}; st.contestAnswers = {};
+  // second try: wrong + skipped, easiest first, no clock
+  const rec = {when: 12345, year: yr, answers: Object.fromEntries(st.contestQuestions.map(qq => [qq.num, qq.num <= 25 ? qq.correct : null]))};
+  rec.answers[22] = rec.answers[22] === "A" ? "B" : "A";
+  app.store.contests.push(rec);
+  const its = app.contestRetryItems(rec);
+  check("retry = wrong + skipped questions", its.length === 6 && its[0].q.num === 22, its.map(x => x.q.num).join(","));
+  app.openContestRetry(12345);
+  check("retry opens a clock-free set", st.view === "playlist" && st.playlistRetry === 12345 && app.$app.innerHTML.includes("Antras bandymas") && !app.$app.innerHTML.includes("plCountdown"));
+  app.store.contests = app.store.contests.filter(c => c.when !== 12345); st.playlistRetry = null;
   delete app.store.contestInProgress; st.contestFlags = {}; st.contestAnswers = {};
 }
 

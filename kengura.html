@@ -6320,6 +6320,15 @@ function renderContestResults(){
       return notes.length ? `<section class="card"><h3>🎯 Strategijos pastabos</h3><ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${notes.map(n => `<li>${n}</li>`).join('')}</ul></section>` : '';
     })()}
 
+    ${(() => {
+      const rec = (store.contests || []).find(x => x.when === r.when) || r;
+      if(rec.retry) return `<section class="card"><h3>🔁 Antras bandymas</h3><p style="margin:0">Be laikrodžio išsprendei ${rec.retry.ok} iš ${rec.retry.n}${rec.retry.pts ? ` – <b>+${rec.retry.pts} t.</b>, prarasti dėl laiko ar skubėjimo` : ''}.</p></section>`;
+      const n = contestRetryItems(rec).length;
+      return n ? `<section class="card" style="border-color:var(--accent)"><h3>🔁 Antras bandymas – prieš žiūrint sprendimus</h3>
+        <p style="margin:0 0 8px">Pabandyk dar kartą ${n} ${pluralForm(n,'uždavinį','uždavinius','uždavinių')}, kuriuos praleidai ar suklydai – be laikrodžio. Sužinosi, kiek taškų nubėgo dėl laiko, o kiek – dėl to, ko dar nemoki. Žemiau esančių sprendimų kol kas nežiūrėk!</p>
+        <button class="btn primary small" id="contestRetry">🔁 Spręsti dar kartą</button></section>` : '';
+    })()}
+
     ${wrongs.length ? `
     <section class="card">
       <h3>Klaidos (${wrongs.length})</h3>
@@ -6403,6 +6412,8 @@ function renderContestResults(){
   document.getElementById("contestBack").addEventListener("click", ()=>{
     state.view = "home"; renderHome();
   });
+  const retry = document.getElementById("contestRetry");
+  if(retry) retry.addEventListener("click", ()=> openContestRetry(r.when));
 }
 
 /* Backup / restore: the whole store as a JSON download, and back. */
@@ -6525,7 +6536,7 @@ function renderParent(){
 
     ${(store.contests || []).length ? `<section class="card">
       <h3>Kontroliniai (paskutiniai 5)</h3>
-      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${fmtPts(c.scoreWithPenalty ?? c.points)} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.byBand ? [3,4,5].map(b => c.byBand[b] && c.byBand[b].total ? `${b} t.: ${c.byBand[b].ok}/${c.byBand[b].total}` : '').filter(Boolean).join(' · ') : ''}${c.practisedBefore != null ? ` · ${c.practisedBefore}/30 matyta` : ''}${c.paper ? ' · 📄' : ''}${c.timeByBand && c.timeByBand[3] ? ` · ⏱ 3 t.: ${Math.round(c.timeByBand[3] / 60000)} min` : ''}</span></div>`).join('')}
+      ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${fmtPts(c.scoreWithPenalty ?? c.points)} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.byBand ? [3,4,5].map(b => c.byBand[b] && c.byBand[b].total ? `${b} t.: ${c.byBand[b].ok}/${c.byBand[b].total}` : '').filter(Boolean).join(' · ') : ''}${c.practisedBefore != null ? ` · ${c.practisedBefore}/30 matyta` : ''}${c.paper ? ' · 📄' : ''}${c.retry && c.retry.pts ? ` · 🔁 +${c.retry.pts} t. be laiko` : ''}${c.timeByBand && c.timeByBand[3] ? ` · ⏱ 3 t.: ${Math.round(c.timeByBand[3] / 60000)} min` : ''}</span></div>`).join('')}
       ${(() => {
         const last = store.contests.slice(-3).filter(c => c.byBand);
         if(last.length < 2) return '';
@@ -6813,6 +6824,7 @@ function openPlaylist(mech, forcedBand){
   stopPlaylistTimer();
   state.view = "playlist";
   state.playlistSprint = false;
+  state.playlistRetry = null;
   state.playlistMech = mech;
   // Stale mastery → light 2-question retest instead of the full playlist.
   // Pass keeps mastery fresh; fail clears it and offers the full playlist.
@@ -6859,6 +6871,7 @@ function openDueQueue(limit){
   stopPlaylistTimer();
   state.view = "playlist";
   state.playlistSprint = false;
+  state.playlistRetry = null;
   state.playlistMech = "__due__";
   state.playlistRetest = false;
   state.playlistRecorded = false;
@@ -6887,6 +6900,9 @@ function renderPlaylist(){
   const titleHtml = isDue
     ? `<h2 style="margin:0 0 4px">Laikas pakartoti</h2>
        <p class="help-bar" style="margin:0">Šie uždaviniai sugrįžo iš tavo kartojimo eilės. Atsakyk teisingai – jie pereis į kitą intervalą (1 d. → 3 d. → 7 d. → 14 d. → 30 d. → įvaldyta).</p>`
+    : isMixed && state.playlistRetry
+    ? `<h2 style="margin:0 0 4px">🔁 Antras bandymas</h2>
+       <p class="help-bar" style="margin:0">Kontrolinio klaidos ir praleisti uždaviniai – be laikrodžio. Sprendimą pamatysi tik atsakęs. Taip sužinosi, kiek taškų nubėgo dėl laiko ir skubėjimo, o kiek – dėl to, ko dar nemoki.</p>`
     : isMixed && state.playlistSprint
     ? `<h2 style="margin:0 0 4px">⚡ Tikrų 3 t. uždavinių sprintas</h2>
        <p class="help-bar" style="margin:0">10 uždavinių iš ankstesnių konkursų, ~1 min kiekvienam – tokiu tempu konkurse įveiksi pirmąjį bloką.</p>`
@@ -6947,9 +6963,9 @@ function renderPlaylist(){
     const lowerBand = special ? null : bands.filter(b => b < content.sourceBand && enough(b)).pop() || null;
     const higherBand = !special && content.sourceBand < 5 && bands.includes(5) && enough(5) ? 5 : null;
     const timerHtml = special && !state.playlistSprint ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ ${fmtMs(playlistMasteryMs(items))}</span>`;
-    const headWord = isDue ? 'Pakartojimo eilė' : isMixed ? 'Mišrus rinkinys' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
+    const headWord = isDue ? 'Pakartojimo eilė' : state.playlistRetry ? 'Antras bandymas' : isMixed ? 'Mišrus rinkinys' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
     body = `
-      <p><b>${headWord}:</b> ${items.length} užduotys, ${special?'be laiko':'be užuominų'}. ${timerHtml}${allDone ? '' : ' Atsakyk į visas, paskui paspausk „Baigti“.'}</p>
+      <p><b>${headWord}:</b> ${items.length} ${pluralForm(items.length,'uždavinys','uždaviniai','uždavinių')}, ${special?'be laiko':'be užuominų'}. ${timerHtml}${allDone ? '' : ' Atsakyk į visas, paskui paspausk „Baigti“.'}</p>
       ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery", hideMech: isMixed})).join('')}
       ${state.playlistTimeExpired && !allDone ? `
         <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
@@ -6957,10 +6973,17 @@ function renderPlaylist(){
         </div>
       ` : ``}
       ${allDone ? (()=>{
+        if(special && state.playlistRetry){
+          const pts = items.filter(it => state.playlistAns[`${it.year}-${it.q.num}`] === it.q.correct).reduce((a, it) => a + (it.q.points || 3), 0);
+          return `<div class="explain" style="background:var(--good-soft);border:1px solid var(--good)">
+            <b>Antru bandymu išsprendei ${correctCount} iš ${items.length}.</b>
+            ${pts ? `Tai <b>${pts} t.</b>, kuriuos kontroliniame praradai ne dėl žinių, o dėl laiko ar skubėjimo – juos susigrąžins ramesnis tempas ir 🚩 žymės.` : 'Šie uždaviniai kol kas per sunkūs – jų gudrybes rasi sprendimuose ir plane.'}
+          </div>`;
+        }
         if(special){
           return `<div class="explain" style="background:var(--good-soft);border:1px solid var(--good)">
             <b>${isDue ? 'Pakartojimas atliktas!' : 'Rinkinys atliktas!'}</b>
-            <span class="muted small">Teisingai atsakyta į ${correctCount} iš ${items.length} užduočių.</span>
+            <span class="muted small">Teisingai atsakyta į ${correctCount} iš ${items.length} ${pluralForm(items.length,'uždavinio','uždavinių','uždavinių')}.</span>
           </div>`;
         }
         if(retest){
@@ -7064,6 +7087,11 @@ function renderPlaylist(){
           }
         }
       }
+    }
+    if(state.playlistRetry){
+      const c = (store.contests || []).find(x => x.when === state.playlistRetry);
+      if(c && submittedCount) c.retry = {n: items.length, ok: correctCount,
+        pts: items.filter(it => state.playlistSubmitted[`${it.year}-${it.q.num}`] && state.playlistAns[`${it.year}-${it.q.num}`] === it.q.correct).reduce((a, it) => a + (it.q.points || 3), 0)};
     }
     recordPlaylistAnswers();
     saveStore(store);
@@ -7439,12 +7467,46 @@ function openArchiveSprint(){
   stopPlaylistTimer();
   state.view = "playlist";
   state.playlistSprint = true;
+  state.playlistRetry = null;
   state.playlistMech = "__mixed__";
   state.playlistRetest = false;
   state.playlistRecorded = false;
   state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand:3, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistConf = {};
+  state.playlistTimerStart = 0;
+  state.playlistTimeExpired = false;
+  renderPlaylist();
+}
+
+// "Antras bandymas": a paper's wrong + skipped questions again, no clock and
+// no solutions until each is answered. Separates points lost to time and
+// haste from points lost to not knowing how (stored as contest.retry).
+const RETRY_MAX = 10;
+function contestRetryItems(c){
+  const t = ARCHIVE.find(t => String(t.year) === String(c.year));
+  if(!t || !c.answers) return [];
+  const miss = t.questions.filter(q => q.correct && c.answers[q.num] !== q.correct);
+  // easier first: a missed 3-pointer is the cheapest point to win back
+  miss.sort((a, b) => (a.points || 3) - (b.points || 3) || a.num - b.num);
+  return miss.slice(0, RETRY_MAX).map(q => ({year: t.year, q}));
+}
+function openContestRetry(when){
+  const c = (store.contests || []).find(x => x.when === when);
+  if(!c) return;
+  const items = contestRetryItems(c);
+  if(!items.length) return;
+  stopPlaylistTimer();
+  state.view = "playlist";
+  state.playlistSprint = false;
+  state.playlistRetry = when;
+  state.playlistMech = "__mixed__";
+  state.playlistRetest = false;
+  state.playlistRecorded = false;
+  state.playlistFinalized = false;
+  state.playlistStep = 3;
+  state.playlistContent = {sourceBand: 3, worked: null, tryQ: null, mastery: items, bandsAvailable: []};
   state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
@@ -7483,6 +7545,7 @@ function openMixedSet(count){
   stopPlaylistTimer();
   state.view = "playlist";
   state.playlistSprint = false;
+  state.playlistRetry = null;
   state.playlistMech = "__mixed__";
   state.playlistRetest = false;
   state.playlistRecorded = false;
