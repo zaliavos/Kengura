@@ -98,14 +98,19 @@ def locate(doc, n, old):
 
 # words outside the question's band that sit within a drawing's label margin
 # but belong to the previous question (checked by eye)
-FORCE_MASK = {('2017', 14): {'9818192'}, ('2010', 12): {'20', '+', '10'}}
+FORCE_MASK = {('2017', 14): {'9818192'}, ('2010', 12): {'20', '+', '10'}, ('2007', 25): {'A', 'B'}}
 
 # page areas painted out in an automatic crop (checked by eye)
 EXTRA_MASK = {('2003', 4): [(383, 290, 475, 470)],   # Q5's ring drawing beside Q3-Q5
               ('2014', 8): [(296, 105, 412, 170)],    # top of Q9's lap-time table
               ('2014', 9): [(8, 88, 296, 122)],       # Q8's last line above Q9 (the table starts beside it)
               ('2013', 2): [(700, 180, 830, 236)],    # Q1's number machine reaches down beside Q2
-              ('2010', 18): [(348, 150, 470, 228)]}   # Q17's dot square reaches down beside Q18
+              ('2010', 18): [(348, 150, 470, 228)],   # Q17's dot square reaches down beside Q18
+              ('2007', 25): [(300, 143, 440, 195)],   # labels of Q26's square
+              ('2000', 1): [(370, 100, 500, 240), (100, 100, 500, 126)],   # booklet mascot + level title
+              ('2001', 1): [(370, 100, 500, 255), (100, 100, 500, 141)]}
+
+FIG_SOURCE = {'2007': '2007kengura.pdf'}   # figures come from the compendium (as in _refigure.py)
 
 MANUAL = {  # (year, num): (page index, clip[, masks]) – picture spread over neighbouring questions
     ('2003', 5): (4, (71, 320, 469, 439), [(71, 312, 386, 397)]),   # Q3/Q4 text beside the drawing painted out
@@ -216,8 +221,9 @@ if __name__ == '__main__':
     outdir = os.environ.get('RECROP_OUT', os.path.join(HERE, 'figures'))
     for spec in sys.argv[1:]:
         yr, n = spec.split('-'); n = int(n)
-        old = Y[yr]['test_pdf'] in ('2000LT.pdf', '2001LT.pdf', '2002LT.pdf', '2004LT.pdf', '2005LT.pdf', '2006LT.pdf', '2007kengura.pdf', '2008LT.pdf')
-        r = crop(Y[yr]['test_pdf'], n, old, yr)
+        pdf = FIG_SOURCE.get(yr, Y[yr]['test_pdf'])
+        old = pdf in ('2000LT.pdf', '2001LT.pdf', '2002LT.pdf', '2004LT.pdf', '2005LT.pdf', '2006LT.pdf', '2007kengura.pdf', '2008LT.pdf')
+        r = crop(pdf, n, old, yr)
         if not r: print(spec, 'NOT FOUND'); continue
         page, clip = r
         pix = page.get_pixmap(clip=clip, matrix=fitz.Matrix(ZOOM, ZOOM), alpha=False)
