@@ -811,3 +811,26 @@ Simulation (84 d, 6 seeds, mastered of 26): 0.8 learn 25.2 · 0.85 flat
 Final check of this pass: `_rebuild_data.py` reproduces the archive;
 simulation (84 d, 6 seeds, of 28 track tricks): 0.8 learn 25.0 · 0.85
 22.3 · 0.7 learn 14.0 · weekend-off 17.3 · erratic 10.0.
+
+## Loops 146–195 (2026-10-11, twelfth pass)
+
+- **Time on practice papers (146/149/150/151/159):** `creditContestTime`
+  records time per question (saved with progress); results show
+  "⏱ Kur dingo laikas" per block against 1 / 2,5 / 3,5 min per question
+  and the slowest three; quiet pace checkpoints at 15 min (3 t.) and
+  40 min (4 t.); the one pace plan (15 / 40 min) is the same in the
+  intro, the strategy card and the checkpoints.
+- **Strategy notes (147):** rule-based tips after each paper (skipped
+  3-pointers, low-accuracy guessing vs the −¼ penalty, too timid, slow
+  first block).
+- **Recognition drill (148/152/153):** seconds per answer; the most
+  frequent trick mix-up (`store.recogConfusion`) with the trick's
+  one-line recognition tip; top mix-ups in the parent view.
+- **Real 3-point sprint (155):** `openArchiveSprint` – 10 archive
+  3-pointers on the contest clock; the plan alternates it with the
+  generated sprint.
+- **Self-explanation (156/157/160):** "Kodėl, manai, suklydai?" chips
+  (`MISTAKE_REASONS`) after wrong answers in archive cards, playlists and
+  paper results; stored on the notebook entry; parent view shows the
+  distribution with a tip.
+- **Contest-day checklist (158)** in the strategy card.
