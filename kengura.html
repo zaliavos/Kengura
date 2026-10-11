@@ -6364,6 +6364,7 @@ function renderParent(){
         })()}
         ${store.recogStats && store.recogStats.attempts ? `<div class="stat"><b>${Math.round(100*store.recogStats.correct/store.recogStats.attempts)} %</b><span>Gudrybės atpažinimas (${store.recogStats.attempts} ${pluralForm(store.recogStats.attempts,'bandymas','bandymai','bandymų')})</span></div>` : ''}
       </div>
+      ${(() => { const top = Object.entries(store.recogConfusion || {}).sort((a, b) => b[1] - a[1]).slice(0, 3); return top.length ? `<p style="margin:8px 0 0">🔀 Dažniausiai painiojamos gudrybės: ${top.map(([p, n]) => { const [a, c] = p.split('>'); return `<b>${escapeHTML(MECHANIC_LABEL[a] || a)}</b> ↔ ${escapeHTML(MECHANIC_LABEL[c] || c)} (${n})`; }).join('; ')}</p>` : ''; })()}
     </section>
 
     <section class="card">
