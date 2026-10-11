@@ -3567,6 +3567,9 @@ function noteMistake(year, q, correct){
     e.times++; e.lastWrong = Date.now(); delete e.fixedAt;
   } else if(m && !m.fixedAt){
     m.fixedAt = Date.now();
+    // beating a mistake made twice or more deserves a word (toast only – this
+    // also runs while a playlist records its answers in bulk, so no sound)
+    if((m.times || 0) >= 2){ try { showToast("🩹", `Įveikei uždavinį, kuriame klydai ${m.times} kartus. Štai taip ir mokomasi!`, 4000); } catch(_){} }
   }
 }
 /* A worksheet of open mistakes: figures only, answers on a print-only page. */
