@@ -4931,16 +4931,17 @@ function renderHome(){
     ${ARCHIVE.length ? `
     <section class="card">
       <h3>Originalūs „Kengūros“ testai</h3>
-      <p style="margin-top:0">Rinkis iš ${ARCHIVE.length} ankstesnių metų testų (${ARCHIVE[0].year}–${ARCHIVE[ARCHIVE.length-1].year}). Visi klausimai – su atsakymų raktais ir oficialiais sprendimais (jei yra), su originalo paveikslėliais.</p>
+      <p style="margin-top:0">Rinkis iš ${ARCHIVE.length} ankstesnių metų testų (${ARCHIVE[0].year}–${ARCHIVE[ARCHIVE.length-1].year}). Visi klausimai – su atsakymų raktais, vaikui parašytais ir oficialiais sprendimais bei originalo paveikslėliais.</p>
       <div class="row" id="archiveYears" style="margin-top:6px">
         ${ARCHIVE.map(t => {
           const has = t.questions.some(q=>q.correct);
           const locked = isReservedYear(t.year);
           if(locked) return `<button class="btn small" disabled title="Rezervuota kontroliniams – atsirakins, kai šie metai bus išspręsti kaip kontrolinis">🔒 ${t.year}</button>`;
-          return `<button class="btn small${has?" primary":""}" data-year="${t.year}" title="${has?"su atsakymais":"tik klausimai"}">${t.year}${has?"":" *"}</button>`;
+          const seen = t.questions.filter(q => (store.seenQ || {})[`${t.year}-${q.num}`]).length;
+          return `<button class="btn small${seen ? '' : ' primary'}" data-year="${t.year}" title="${seen ? `Jau spręsta ${seen} iš ${t.questions.length}` : 'Dar nespręsta'}">${t.year}${seen ? ` · ${seen}/${t.questions.length}` : ''}</button>`;
         }).join("")}
       </div>
-      <p class="help-bar" style="margin-top:10px">Užduočių sprendimas su pilnu vertinimu: pasirink atsakymą A–E, gauk užuominą iš oficialaus sprendimo, paspaudęs „Patikrinti“, pamatysi rezultatą bei pilną sprendimą. <span style="opacity:.7">* metai be atsakymo (tik klausimai) · 🔒 naujausi metai laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį</span></p>
+      <p class="help-bar" style="margin-top:10px">Pasirink atsakymą A–E; prireikus imk užuominą (trys pakopos), paspaudęs „Patikrinti“ pamatysi rezultatą ir sprendimą. <span style="opacity:.7">Skaičius prie metų – kiek tų metų uždavinių jau spręsta · 🔒 naujausi metai laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį</span></p>
     </section>` : ``}
 
     <section class="card">
