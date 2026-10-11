@@ -6193,6 +6193,9 @@ function renderContestResults(){
       <button class="nav-back" id="contestBack">← Į pradžią</button>
       <h2>Kontrolinio rezultatai – ${escapeHTML(r.year)} m.</h2>
       ${r.byTimer ? `<p class="help-bar"><b>Laikas pasibaigė</b> – kontrolinis baigėsi automatiškai.</p>` : ''}
+      ${(() => { const prev = (store.contests || []).filter(c => c.when < r.when).slice(-1)[0]; if(!prev) return '';
+        const delta = (r.scoreWithPenalty ?? r.points) - (prev.scoreWithPenalty ?? prev.points);
+        return `<p style="margin:4px 0 8px">${delta > 0 ? `📈 <b>+${fmtPts(delta)} t.</b> daugiau nei praėjusiame kontroliniame (${escapeHTML(String(prev.year))} m.). Puiku!` : delta < 0 ? `Šįkart ${fmtPts(-delta)} t. mažiau nei praėjusį kartą (${escapeHTML(String(prev.year))} m.) – metai būna skirtingo sunkumo; žiūrėk, kur dingo taškai žemiau.` : 'Tiek pat kaip praėjusį kartą.'}</p>`; })()}
       <div class="grid two">
         <div class="stat"><b>${r.correct} / ${r.total}</b><span>Teisingi atsakymai (${pct} %)</span></div>
         <div class="stat"><b>${fmtPts(r.scoreWithPenalty)} / ${r.maxPoints}</b><span>Su −25 % bauda</span></div>
