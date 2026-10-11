@@ -7089,6 +7089,9 @@ function renderPlaylist(){
       }
     }
     if(state.playlistRetry){
+      // the second try is the contest day's "review the mistakes" step
+      const pd = store.planDone[todayKey()] || {};
+      if(submittedCount && pd.core && !pd.cooldown && planStepsForToday().some(st => st.id === "cooldown" && st.act === "none")) markPlanStepDoneManual("cooldown");
       const c = (store.contests || []).find(x => x.when === state.playlistRetry);
       if(c && submittedCount) c.retry = {n: items.length, ok: correctCount,
         pts: items.filter(it => state.playlistSubmitted[`${it.year}-${it.q.num}`] && state.playlistAns[`${it.year}-${it.q.num}`] === it.q.correct).reduce((a, it) => a + (it.q.points || 3), 0)};
@@ -7905,7 +7908,7 @@ function planStepsForToday(){
     return [
       {id:"warmup",   label:"Apšilimas – 2 lengvi klausimai", act:"warmup"},
       {id:"core",     label:`Diagnostinis kontrolinis – ${yr} m. (30 užd., 75 min)`, act:"contest", arg:yr},
-      {id:"cooldown", label:"Po kontrolinio: peržiūrėk klaidas rezultatų puslapyje", act:"none"},
+      {id:"cooldown", label:"Po kontrolinio: 🔁 antras bandymas ir klaidų peržiūra rezultatų puslapyje", act:"none"},
     ];
   }
   if(isContestDay(today)){
@@ -7913,7 +7916,7 @@ function planStepsForToday(){
     return [
       {id:"warmup",   label:"Apšilimas – 2 lengvi klausimai", act:"warmup"},
       {id:"core",     label:`Kontrolinis${yr ? ` – ${yr} m.` : ''} (30 užd., 75 min)`, act:"contest", arg:yr},
-      {id:"cooldown", label:"Po kontrolinio: peržiūrėk klaidas rezultatų puslapyje", act:"none"},
+      {id:"cooldown", label:"Po kontrolinio: 🔁 antras bandymas ir klaidų peržiūra rezultatų puslapyje", act:"none"},
     ];
   }
 
