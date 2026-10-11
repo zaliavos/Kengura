@@ -7938,6 +7938,7 @@ function weeklyRecapHTML(){
   const toTs   = rows[6].date.getTime() + ONE_DAY_MS;
   const mastered = Object.entries(store.masteredMech || {}).filter(([m, t]) => t >= fromTs && t < toTs).map(([m]) => m);
   const contests = (store.contests || []).filter(c => c.when >= fromTs && c.when < toTs);
+  const fixedWeek = Object.values(store.mistakes || {}).filter(m => m.fixedAt >= fromTs && m.fixedAt < toTs).length;
   const prevContests = (store.contests || []).filter(c => c.when < fromTs).slice(-1);
   const weak = weakestMechanics(6).find(w => w.showAttempts >= 4) || null;   // ≥ 4 samples before naming a weakness
   const next = nextMechanicToLearn();
@@ -7954,7 +7955,8 @@ function weeklyRecapHTML(){
           <div class="stat"><b>${stars} ⭐</b><span>žvaigždžių per savaitę</span></div>
           <div class="stat"><b>${mastered.length}</b><span>${mastered.length ? `įvaldyta: ${mastered.map(m => escapeHTML(MECHANIC_LABEL[m] || m)).join(', ')}` : 'naujų gudrybių įvaldyta'}</span></div>
         </div>
-        ${contests.length ? `<p style="margin:8px 0 0">Kontrolinis: <b>${contests.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(' → ')}</b> t.${contests.some(c => (c.practisedBefore||0) >= 6) ? ' <span class="pill muted" title="Dalis užduočių jau buvo spręstos treniruotėse">dalis matyta</span>' : ''}${prevContests.length ? ` (prieš tai: ${Math.round((prevContests[0].scoreWithPenalty ?? prevContests[0].points)*4)/4} t.${(contests[contests.length-1].scoreWithPenalty ?? 0) > (prevContests[0].scoreWithPenalty ?? 0) ? ' 📈' : ''})` : ''}</p>` : ''}
+        ${fixedWeek ? `<p style="margin:8px 0 0">🩹 Ištaisei <b>${fixedWeek}</b> ${pluralForm(fixedWeek,'savo klaidą','savo klaidas','savo klaidų')} – būtent taip ir mokomasi!</p>` : ''}
+        ${contests.length ? `<p style="margin:8px 0 0">Kontrolinis: <b>${contests.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(' → ')}</b> t.${contests.some(c => (c.practisedBefore||0) >= 6) ? ' <span class="pill muted" title="Dalis užduočių jau buvo spręstos treniruotėse">dalis matyta</span>' : ''}${prevContests.length ? ` (prieš tai: ${fmtPts(prevContests[0].scoreWithPenalty ?? prevContests[0].points)} t.${(contests[contests.length-1].scoreWithPenalty ?? 0) > (prevContests[0].scoreWithPenalty ?? 0) ? ' 📈' : ''})` : ''}</p>` : ''}
         ${focus ? `<div class="footer-actions" style="margin-top:10px">
           <span>${monday ? 'Šios' : 'Kitos'} savaitės tikslas: <b>${escapeHTML(MECHANIC_LABEL[focus] || focus)}</b>${weak && focus === weak.mech ? ` (${Math.round(100*weak.rate)} % klaidų)` : ' (kita take)'}</span>
           <button class="btn small primary" data-recap-mech="${focus}">Mokytis</button>
