@@ -4760,7 +4760,7 @@ function renderHome(){
     <section class="card hero-card">
       <div class="hero-row">
         <div class="hero-streak" aria-label="Dienų iš eilės">
-          <span class="streak-flame">${store.streak.count>0?'🔥':'·'}</span>
+          <span class="streak-flame"${store.streak.count>0 ? '' : ' style="opacity:.3;filter:grayscale(1)"'}>🔥</span>
           <span class="streak-num">${store.streak.count||0}</span>
           <span class="streak-label">d. iš eilės</span>
           ${(()=>{ const left = 2 - ((store.streak.freezeMonth === monthKey()) ? (store.streak.freezesUsed || 0) : 0); return left > 0 ? `<span class="streak-label" title="Praleista diena serijos nenutraukia – ${left} kart${left === 1 ? 'ą' : 'us'} šį mėnesį">❄️${left}</span>` : ''; })()}
