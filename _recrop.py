@@ -100,8 +100,11 @@ def locate(doc, n, old):
 # but belong to the previous question (checked by eye)
 FORCE_MASK = {('2017', 14): {'9818192'}, ('2010', 12): {'20', '+', '10'}}
 
+# page areas painted out in an automatic crop (checked by eye)
+EXTRA_MASK = {('2003', 4): [(383, 290, 475, 470)]}   # Q5's ring drawing beside Q3-Q5
+
 MANUAL = {  # (year, num): (page index, clip[, masks]) – picture spread over neighbouring questions
-    ('2003', 5): (4, (71, 308, 469, 439)),
+    ('2003', 5): (4, (71, 320, 469, 439), [(71, 312, 386, 397)]),   # Q3/Q4 text beside the drawing painted out
     # the grid's top row sits beside Q19's options (its centre is above the header)
     ('2024', 20): (1, (424, 286, 830, 377), [(420, 270, 734, 292)]),
 }
@@ -198,7 +201,7 @@ def crop(pdf, n, old, year=None):
         mid = (c.y0 + c.y1) / 2
         if clip.intersects(c) and not (lo - 2 <= mid < hi + 2) and not any(o.contains(c) for o in own)                 and not any(c.intersects(r) for r in mine):
             masks.append(c + (-1, -1, 1, 1))
-    crop.last_masks = masks
+    crop.last_masks = masks + [fitz.Rect(*m) for m in EXTRA_MASK.get((year, n), [])]
     return page, clip
 
 if __name__ == '__main__':
