@@ -206,6 +206,10 @@ for(const t of ARCHIVE) for(const q of t.questions){
     check(`${t.year}-q${q.num} figure is not a copy of ${seenFig.get(h)}`, !seenFig.has(h));
     seenFig.set(h, `${t.year}-q${q.num}`);
   }
+  // no orphan PNGs (a cut fragment, figures/2019-q66.png, lay there unused)
+  const used = new Set(ARCHIVE.flatMap(t => t.questions.map(q => q.figure)).filter(Boolean).map(f => path.basename(f)));
+  const orphans = fs.readdirSync(path.join(__dirname, "figures")).filter(f => f.endsWith(".png") && !used.has(f) && !f.startsWith("2006-"));   // 2006 (Mažylis) is kept but not served
+  check("no unused figure files", orphans.length === 0, orphans.join(" "));
 }
 console.log(`checked ${archiveQs} archive questions`);
 // every 5-pointer must lead somewhere band-honest: a 5-pt generator or
