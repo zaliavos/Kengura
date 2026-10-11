@@ -998,6 +998,9 @@ section("mastery vs re-banded archive");
   app.reconcileMasteryWithArchive();
   check("due item follows the archive band", st.dueQueue["2000-25"].band === 5, JSON.stringify(st.dueQueue["2000-25"]));
   delete st.dueQueue["2000-25"];
+  st.dueQueue["2006-3"] = {year:"2006", num:3, mech:"casework", band:3, dueAt:0, streak:0};
+  app.reconcileMasteryWithArchive();
+  check("out-of-scope 2006 is not served", !app.ARCHIVE.some(t => String(t.year) === "2006") && !st.dueQueue["2006-3"]);
   delete st.masteredMech.casework; delete st.masteredBand.casework; delete st.masteredMech.weighing; delete st.masteredBand[mech];
 }
 

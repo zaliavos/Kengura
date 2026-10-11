@@ -3838,7 +3838,10 @@ function stopTimer(){
 /* ============================================================
    VII. ARCHIVE (real Kangaroo tests, parsed from PDFs)
    ============================================================ */
-const ARCHIVE = (window.KENGURA_ARCHIVE && window.KENGURA_ARCHIVE.archive) || [];
+// 2006 is a Mažylis (grade 3-4) paper and was never audited: out of scope
+// for a Bičiulis trainer, so it is not served anywhere (data kept in the file)
+const OUT_OF_SCOPE_YEARS = new Set(["2006"]);
+const ARCHIVE = ((window.KENGURA_ARCHIVE && window.KENGURA_ARCHIVE.archive) || []).filter(t => !OUT_OF_SCOPE_YEARS.has(String(t.year)));
 const ARCHIVE_LOAD_FAILED = !window.KENGURA_ARCHIVE || !Array.isArray(window.KENGURA_ARCHIVE.archive) || window.KENGURA_ARCHIVE.archive.length === 0;
 
 // Pattern label → user-facing Lithuanian label
@@ -8486,9 +8489,10 @@ function reconcileMasteryWithArchive(){
     if(passed && top && passed < top){ delete store.masteredMech[m]; changed++; }
   }
   // queued reviews remember the band they were answered at
-  for(const d of Object.values(store.dueQueue || {})){
+  for(const [k, d] of Object.entries(store.dueQueue || {})){
     const t = ARCHIVE.find(t => String(t.year) === String(d.year));
     const q = t && t.questions.find(q => q.num === d.num);
+    if(!q){ delete store.dueQueue[k]; changed++; continue; }     // e.g. a 2006 item
     if(q && q.points && d.band !== q.points){ d.band = q.points; changed++; }
     if(q && q.mechanic && d.mech !== q.mechanic){ d.mech = q.mechanic; changed++; }
   }
