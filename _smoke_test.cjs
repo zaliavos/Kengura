@@ -1270,6 +1270,20 @@ section("after the contest");
   st.plan.contestDate = saved; delete st.plan.actualScore;
 }
 
+section("corrupt save is kept, not overwritten");
+{
+  const {loadStore, LS_KEY} = app;
+  const key = LS_KEY;
+  const before = localStorageStub.getItem(key);
+  localStorageStub.setItem(key, "{not json");
+  let s2, threw = false;
+  try { s2 = loadStore(); } catch(e){ threw = true; }
+  const backups = [...localStorageStub._m.keys()].filter(k => k.startsWith(key + "_corrupt_"));
+  check("corrupt save loads defaults and keeps a copy", !threw && s2 && Array.isArray(s2.sessions) && backups.length === 1 && localStorageStub.getItem(backups[0]) === "{not json");
+  for(const k of backups) localStorageStub.removeItem(k);
+  if(before == null) localStorageStub.removeItem(key); else localStorageStub.setItem(key, before);
+}
+
 // ---------- result ----------
 console.log("");
 if(failures){

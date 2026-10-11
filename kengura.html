@@ -3154,6 +3154,12 @@ function loadStore(){
     if(!Array.isArray(o.shop.colors) || !o.shop.colors.length) o.shop.colors = ["classic"];
     return o;
   }catch(e){
+    // unreadable save: keep a copy before anything overwrites it (a parent
+    // can still rescue it from the browser's storage), then start fresh
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if(raw) localStorage.setItem(`${LS_KEY}_corrupt_${new Date().toISOString().slice(0, 10)}`, raw);
+    } catch(_){}
     return defaults;
   }
 }
