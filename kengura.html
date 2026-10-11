@@ -8450,6 +8450,13 @@ function reconcileMasteryWithArchive(){
     const top = mechTopBand(m);
     if(passed && top && passed < top){ delete store.masteredMech[m]; changed++; }
   }
+  // queued reviews remember the band they were answered at
+  for(const d of Object.values(store.dueQueue || {})){
+    const t = ARCHIVE.find(t => String(t.year) === String(d.year));
+    const q = t && t.questions.find(q => q.num === d.num);
+    if(q && q.points && d.band !== q.points){ d.band = q.points; changed++; }
+    if(q && q.mechanic && d.mech !== q.mechanic){ d.mech = q.mechanic; changed++; }
+  }
   if(changed) saveStore(store);
   return changed;
 }

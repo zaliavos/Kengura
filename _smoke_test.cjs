@@ -991,6 +991,10 @@ section("mastery vs re-banded archive");
   check("band-4 pass is no longer full mastery", !st.masteredMech[mech] && st.masteredBand[mech] === 4, String(n));
   check("top-band pass stays mastered", !!st.masteredMech["casework"]);
   check("legacy mastery without band kept", !!st.masteredMech["weighing"]);
+  st.dueQueue["2000-25"] = {year:"2000", num:25, mech:"arith-compute", band:3, dueAt:0, streak:0};
+  app.reconcileMasteryWithArchive();
+  check("due item follows the archive band", st.dueQueue["2000-25"].band === 5, JSON.stringify(st.dueQueue["2000-25"]));
+  delete st.dueQueue["2000-25"];
   delete st.masteredMech.casework; delete st.masteredBand.casework; delete st.masteredMech.weighing; delete st.masteredBand[mech];
 }
 
