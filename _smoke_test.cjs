@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf};
 `;
 let app;
 try {
@@ -1026,6 +1026,22 @@ section("figures + text present");
     if(!q.options || Object.keys(q.options).join("") !== "ABCDE" && Object.keys(q.options).sort().join("") !== "ABCDE") bad.push(k + ":options");
   }
   check("figures and texts usable", bad.length === 0, bad.join(" "));
+}
+
+// ---------- 14. question-specific last hint ----------
+section("kid idea as hint");
+{
+  check("idea sentence", app.kidIdeaOf({solutionKid: "Gudrybė: apversk melą. Toliau 3 + 4 = 7."}) === "apversk melą.");
+  check("idea naming the answer is withheld", app.kidIdeaOf({solutionKid: "Gudrybė: parodyk, kad 5 užtenka. X.", options:{A:"4",B:"5"}, correct:"B"}) === null);
+  let n = 0, giveaway = [];
+  for(const t of app.ARCHIVE) for(const q of t.questions){
+    const idea = app.kidIdeaOf(q);
+    if(!q.solutionKid) continue;
+    if(idea) n++;
+    if(idea && /Atsakymas:/.test(idea)) giveaway.push(`${t.year}-${q.num}`);
+  }
+  check("most kid solutions give an idea sentence", n >= 250, String(n));
+  check("idea never contains the answer line", giveaway.length === 0, giveaway.join(" "));
 }
 
 // ---------- result ----------

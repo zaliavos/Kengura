@@ -4060,6 +4060,19 @@ function aiBuildOpts(year, q, kind, extra){
   };
 }
 
+/* "Gudrybė: <one sentence>." – the opening line of a kid solution is a
+   hint aimed at this very question, without giving the numbers away. */
+function kidIdeaOf(q){
+  const m = q && q.solutionKid && q.solutionKid.match(/^Gudrybė:\s*(.+?[.!?])(\s|$)/);
+  if(!m) return null;
+  // never hand over the answer: an idea that names the correct value is skipped
+  const val = String((q.options || {})[q.correct] || "").trim();
+  if(val && val.length <= 8){
+    const esc = val.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    if(new RegExp("(^|[^\\d,])" + esc + "($|[^\\d,])").test(m[1])) return null;
+  }
+  return m[1];
+}
 function approachFromSolution(sol){
   if(!sol) return "";
   // Solutions begin with the answer value (e.g. "8" or "Pomidorus") followed
@@ -4142,7 +4155,7 @@ function renderArchiveYear(){
       renderArchiveYear();
       // Fire AI fetch in parallel – render shows hardcoded blurb first,
       // then re-renders with the AI-specific text once it arrives.
-      if(!_aiEndpointDead && q.correct){
+      if(!_aiEndpointDead && q.correct && !(tier === 3 && kidIdeaOf(q))){
         const opts = aiBuildOpts(year, q, "hint", {tier});
         if(!aiTextFor(opts)){
           aiFetch(opts).then(() => renderArchiveYear());
@@ -4277,9 +4290,11 @@ function renderArchiveCard(year, q){
   };
   const fallbackHint = {1: hints?.notice, 2: hints?.ask, 3: hints?.suggest};
   const renderHintTier = (tier) => {
-    const ai = aiHint(tier);
+    // the last tier names THIS question's trick when a kid solution has one
+    const own = tier === 3 ? kidIdeaOf(q) : null;
+    const ai = own ? null : aiHint(tier);
     const fb = fallbackHint[tier];
-    const text = ai || fb;
+    const text = own || ai || fb;
     if(!text){
       return aiHintBusy(tier)
         ? `<div class="hint tier-${tier}"><b>${tierLabels[tier-1]}:</b> <i>kraunasi…</i></div>`
