@@ -101,6 +101,7 @@ MANUAL = {  # (year, num): (page index, clip) – picture spread over neighbouri
 }
 
 def crop(pdf, n, old, year=None):
+    crop.last_masks = []
     if (year, n) in MANUAL:
         pno, r = MANUAL[(year, n)]
         return fitz.open(os.path.join(HERE, pdf))[pno], fitz.Rect(*r)
@@ -152,6 +153,24 @@ def crop(pdf, n, old, year=None):
     else:
         x0, x1 = col.x0 + 4, col.x1 - 4
     clip = fitz.Rect(x0, top, x1, bottom) & page.rect
+    # Neighbour debris: words of the previous / next question that the
+    # rectangle had to include (a picture starting beside the previous
+    # question's options). They get painted white - unless they sit on one
+    # of our own drawings (labels like "2 cm"). Same for other questions'
+    # drawings poking into the rectangle.
+    lo, hi = hr.y0 - 1, (nxt.y0 - 1) if nxt else clip.y1 + 1
+    own = [c + (-8, -8, 8, 8) for c in comps if lo - 2 <= (c.y0 + c.y1) / 2 < hi + 2]
+    masks = []
+    for w in page.get_text('words'):
+        r = fitz.Rect(w[:4])
+        if not clip.intersects(r): continue
+        outside = r.y1 <= lo + 1 or r.y0 >= hi
+        if outside and not any(o.intersects(r) for o in own): masks.append(r + (-1, -1, 1, 1))
+    for c in comps:
+        mid = (c.y0 + c.y1) / 2
+        if clip.intersects(c) and not (lo - 2 <= mid < hi + 2) and not any(o.contains(c) for o in own):
+            masks.append(c + (-1, -1, 1, 1))
+    crop.last_masks = masks
     return page, clip
 
 if __name__ == '__main__':
@@ -164,5 +183,12 @@ if __name__ == '__main__':
         r = crop(Y[yr]['test_pdf'], n, old, yr)
         if not r: print(spec, 'NOT FOUND'); continue
         page, clip = r
-        page.get_pixmap(clip=clip, matrix=fitz.Matrix(ZOOM, ZOOM)).save(os.path.join(outdir, f'{yr}-q{n}.png'))
+        pix = page.get_pixmap(clip=clip, matrix=fitz.Matrix(ZOOM, ZOOM), alpha=False)
+        for m in getattr(crop, 'last_masks', []):
+            r = (m & clip)
+            if r.is_empty: continue
+            # the pixmap lives in page coordinates × ZOOM (its irect isn't at 0,0)
+            ir = fitz.IRect(int(r.x0 * ZOOM), int(r.y0 * ZOOM), int(r.x1 * ZOOM) + 1, int(r.y1 * ZOOM) + 1)
+            pix.set_rect(ir, (255, 255, 255))
+        pix.save(os.path.join(outdir, f'{yr}-q{n}.png'))
         print(spec, 'page', page.number + 1, [round(v) for v in clip])
