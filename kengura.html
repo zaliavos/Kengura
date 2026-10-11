@@ -6566,6 +6566,12 @@ function renderParent(){
           ${cs.map((c, i) => `<circle cx="${xs(i).toFixed(1)}" cy="${ys(c.scoreWithPenalty ?? c.points).toFixed(1)}" r="3" fill="var(--accent)"><title>${escapeHTML(String(c.year))}: ${fmtPts(c.scoreWithPenalty ?? c.points)} t.</title></circle>`).join('')}
         </svg><div class="help-bar" style="margin:0">Paskutiniai ${cs.length} ${pluralForm(cs.length,'kontrolinis','kontroliniai','kontrolinių')} (su bauda, iš 120); brūkšninė linija – 60 %.</div>`;
       })()}
+      ${(() => {
+        const rs = store.contests.filter(c => c.retry && c.retry.n);
+        if(!rs.length) return '';
+        const avg = rs.reduce((a, c) => a + (c.retry.pts || 0), 0) / rs.length;
+        return `<p style="margin:8px 0 0">🔁 Antras bandymas be laikrodžio (${rs.length} ${pluralForm(rs.length,'kontrolinis','kontroliniai','kontrolinių')}): vidutiniškai <b>+${fmtPts(Math.round(avg * 4) / 4)} t.</b> – tiek taškų kainuoja tempas ir skubėjimas.${avg >= 12 ? ' <span style="color:var(--bad)">Daug: verta treniruoti tempą (sprintai) ir 🚩 strategiją, ne tik gudrybes.</span>' : ''}</p>`;
+      })()}
       <p class="help-bar">„Matyta anksčiau“ – kiek to kontrolinio uždavinių vaikas jau buvo sprendęs treniruotėse. Kuo mažiau, tuo sąžiningesnis rezultatas; naujausi metai tam ir rezervuoti.</p>
     </section>` : ''}
 
