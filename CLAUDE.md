@@ -866,3 +866,54 @@ simulation (84 d, 6 seeds, of 28 track tricks): 0.8 learn 25.0 · 0.85
 - **Final check (193):** `_rebuild_data.py` reproduces the archive, smoke
   green, no LF-only lines; simulation (84 d, 6 seeds, of 28): 0.8 learn
   25,0 · 0.85 22,3 · 0.7 learn 14,0 · weekend-off 17,3.
+
+## Loops 196–245 (2026-10-11, thirteenth pass)
+
+- **Three review agents** (logic bugs, Lithuanian wording, archive text)
+  and one **visual audit of all 751 figures** drove most of this pass.
+- **Bugs fixed (203–210):** a mastery check counted letters that were
+  tapped but never sent (a timed-out set could pass); leaving a passed
+  check by the top button lost the mastery (`finalizePlaylist` is now
+  idempotent and runs from `exitHome`); sprint/mixed sets ticked the plan
+  with nothing answered; the worked example (solution on screen) paid
+  stars and stats; grading a paper inherited an online run's times and
+  deleted an unfinished online contest; "Praleisti" with all answered
+  submitted the paper; a repeated mistake never asked "why?" again; game
+  tickets were spent on opening the picker; one unlock gave endless
+  replays (now `GAME_RUNS_PER_UNLOCK` = 3); minute stars on an idle open
+  page (`STAR_IDLE_MS`); reset kept keys without defaults; UTC day parity
+  (`localDayNum()`, calendar-day `dateKeyOffset`).
+- **Contest simulator:** ✕ crosses an option out (198, saved with the
+  run); `contestElimination` → strategy note on informed guesses (201);
+  **"🔁 Antras bandymas"** (216) – the paper's wrong + skipped questions
+  again without the clock before reading solutions; `contest.retry` =
+  points lost to time and haste, shown on results, in the parent view
+  (average, 237), and it ticks the contest day's review step (219); a
+  slow 3-point block on a recent paper triggers speed work (238); the
+  real 3-point sprint is stored as a session (239).
+- **Reading:** kid solutions render as 💡 trick line / short paragraphs /
+  ✅ answer line (`kidSolutionHTML`, 226); tap a picture to enlarge it
+  (`wireFigureZoom`, 222).
+- **Plan:** one-tap suggested contest date, the third Thursday of March
+  (`suggestedContestDate`, 221).
+- **Wording (199/200/217/236):** numeral agreement, "uždavinys" (not
+  "užduotis"), "sugaišai" for time (praleisti = skip), "gudrybė" (not
+  "tipas"), parent view consistently "jūs".
+- **Archive text (211–213):** `_fix_typos_2026.py` now also strips
+  booklet page headers, figure-label runs after the answer sentence,
+  "◦" → "°", "cm 2" → "cm²", unit spacing, "––"; smoke guard.
+- **Figures (196, 214–215, 228–234):** `_recrop.py` gained section-heading
+  and copyright-footer stops, never paints over the question's own words,
+  paints out foreign text lines (≥ 3 words), `FORCE_MASK`, `EXTRA_MASK`,
+  `MANUAL` crops with masks and `FIG_SOURCE` (2007 comes from the
+  compendium). ~140 figures re-cut and compared side by side (old | new
+  contact sheets) before adoption; 2024-20 shows all 4 rows again, 2003-5
+  /2019-12/2003-19 hold one question each. FIGS v17. Smoke: no orphan PNGs.
+- **Simulator:** `--start`, `--stop`, `--dump=<file>` (import-shaped store
+  for browser checks; `_sim_store.json` is git-ignored).
+- **Pitfalls:** in this Git Bash, `sed -i` turns CRLF files into LF and
+  heredoc Python halves backslashes ("\1" → chr(1)) – edit via Python with
+  newline='' and build backslashes with chr(92).
+- **Final check:** `_rebuild_data.py` reproduces the archive; smoke green;
+  simulation (84 d, 6 seeds, of 28): 0.8 learn 24,7 · 0.85 22,0 ·
+  0.7 learn 14,7 · weekend-off 17,0 · erratic 9,8.
