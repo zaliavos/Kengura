@@ -1119,7 +1119,9 @@ section("mistakes notebook");
   check("right answer marks it fixed", !!app.store.mistakes[`2019-${q.num}`].fixedAt);
   app.openMistakeBook();
   check("fixed list shown", app.$app.innerHTML.includes("Ištaisyta (1)"));
+  app.store.mistakes[`2019-${q.num}`].reason = "calc";
   app.recordArchiveAnswer("2019", q, false, null); app.openMistakeBook();
+  check("a new slip asks 'why?' again", app.store.mistakes[`2019-${q.num}`].reason === undefined);
   check("notebook offers a worksheet", app.$app.innerHTML.includes("Klaidų lapas (1)"));
   delete app.store.mistakes[`2019-${q.num}`]; delete app.store.dueQueue[`2019-${q.num}`];
 }

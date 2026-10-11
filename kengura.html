@@ -3578,6 +3578,7 @@ function noteMistake(year, q, correct){
   if(!correct){
     const e = store.mistakes[key] = m || {year: String(year), num: q.num, times: 0, first: Date.now()};
     e.times++; e.lastWrong = Date.now(); delete e.fixedAt;
+    delete e.reason;   // a new slip gets its own "why?" – the counts in e.reasons stay
   } else if(m && !m.fixedAt){
     m.fixedAt = Date.now();
     // beating a mistake made twice or more deserves a word (toast only – this
@@ -5903,9 +5904,12 @@ function openPaperEntry(year){
       state.contestYear = t.year;
       state.contestQuestions = t.questions.filter(q => q.correct).slice(0, 30);
       state.contestAnswers = Object.assign({}, state.paperAnswers);
-      state.contestFlags = {};
+      state.contestFlags = {}; state.contestStruck = {};
+      state.contestTimes = {}; state._ctShown = null;   // no clock on paper – don't inherit an online run's times
       state.paperAnswers = {};
+      state._gradingPaper = true;
       finishContest(false);
+      state._gradingPaper = false;
       const last = store.contests[store.contests.length - 1];
       if(last){ last.paper = true; saveStore(store); checkAchievements(); }
     });
@@ -6093,8 +6097,11 @@ function renderContest(){
       const k = (i + j) % qs.length;
       if(!state.contestAnswers[qs[k].num]){ state.contestCurrent = k; persistContestProgress(); renderContest(); return; }
     }
-    // all answered
-    finishContest(false);
+    // all answered: go on to the next 🚩 question (or simply the next one) –
+    // finishing stays the job of "Baigti", never a side effect of skipping
+    const fl = qs.map((qq, k) => k).filter(k => (state.contestFlags || {})[qs[k].num] && k !== state.contestCurrent);
+    state.contestCurrent = fl.find(k => k > state.contestCurrent) ?? fl[0] ?? (state.contestCurrent + 1) % qs.length;
+    persistContestProgress(); renderContest();
   });
   document.getElementById("contestFinish").addEventListener("click", ()=>{
     const unanswered = qs.filter(qq => !state.contestAnswers[qq.num]).length;
@@ -6165,7 +6172,8 @@ function finishContest(byTimer){
   store.contests = store.contests || [];
   store.contests.push(result);
   if(store.contests.length > 30) store.contests = store.contests.slice(-30);
-  store.contestInProgress = null;   // finished – drop the resume snapshot
+  // finished – drop the resume snapshot (grading a paper leaves an unfinished online run alone)
+  if(!state._gradingPaper) store.contestInProgress = null;
   saveStore(store);
   checkAchievements();
   // A finished paper ticks the plan's contest step – also when the contest
@@ -6802,6 +6810,7 @@ function openPlaylist(mech, forcedBand){
   }
   state.playlistRetest = retest;
   state.playlistRecorded = false;
+  state.playlistFinalized = false;
   state.playlistContent = pickPlaylistContent(mech, retest ? (masteredBandOf(mech) || undefined) : forcedBand);
   if(retest){
     state.playlistContent.mastery = (state.playlistContent.mastery || []).slice(0, 2);
@@ -6838,6 +6847,7 @@ function openDueQueue(limit){
   state.playlistMech = "__due__";
   state.playlistRetest = false;
   state.playlistRecorded = false;
+  state.playlistFinalized = false;
   state.playlistStep = 3;       // jump straight to mastery step (just answers)
   state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
@@ -7000,11 +7010,15 @@ function renderPlaylist(){
   // Full completion: record answers + apply mastery / retest bookkeeping.
   function finalizePlaylist(){
     stopPlaylistTimer();
+    if(state.playlistFinalized) return;   // "← Į pradžią" after a button that already finalized
+    state.playlistFinalized = true;
     const items = content.mastery || [];
+    // only submitted answers count – a letter tapped but never sent is unanswered
     const correctCount = items.filter(it => {
       const k = `${it.year}-${it.q.num}`;
-      return state.playlistAns[k] === it.q.correct;
+      return state.playlistSubmitted[k] && state.playlistAns[k] === it.q.correct;
     }).length;
+    const submittedCount = items.filter(it => state.playlistSubmitted[`${it.year}-${it.q.num}`]).length;
     const passed = correctCount === items.length && items.length >= 2;
     let newlyMastered = false;
     if(!special){
@@ -7038,7 +7052,9 @@ function renderPlaylist(){
     }
     recordPlaylistAnswers();
     saveStore(store);
-    markPlanStepDone();
+    // as in finishQuiz: the plan step counts only when at least half was answered
+    if(submittedCount >= Math.ceil(items.length / 2)) markPlanStepDone();
+    else state._planStep = null;
     if(passed && !special){
       Fx.celebrate("mastery");
       const full = !!store.masteredMech[state.playlistMech];
@@ -7051,7 +7067,11 @@ function renderPlaylist(){
   // Wire common controls
   const exitHome = ()=>{
     stopPlaylistTimer();
-    if(step === 3){
+    const all = (content.mastery || []).length && (content.mastery || []).every(it => state.playlistSubmitted[`${it.year}-${it.q.num}`]);
+    if(step === 3 && all){
+      // every item answered: leaving by the top button must not lose the mastery
+      finalizePlaylist();
+    } else if(step === 3){
       recordPlaylistAnswers();   // don't lose answered questions
       // Bailing out of a mastery check after a miss is a failed attempt –
       // otherwise quitting whenever the first answer is wrong dodges the
@@ -7148,9 +7168,12 @@ function renderPlaylist(){
       if(askConfidenceNow() && !(state.playlistConf || {})[k]) return;   // pick confidence first
       if(state.playlistTimeExpired) return;
       state.playlistSubmitted[k] = true;
-      // For try/worked steps (not mastery), record one answer right away
-      if(state.playlistStep !== 3){
-        const it = state.playlistStep === 1 ? content.worked : content.tryQ;
+      // The try step records its answer right away; the worked example had its
+      // solution on screen, so it only counts as seen (no stars, no stats)
+      if(state.playlistStep === 1 && content.worked){
+        store.seenQ[`${content.worked.year}-${content.worked.q.num}`] = Date.now();
+      } else if(state.playlistStep !== 3){
+        const it = content.tryQ;
         if(it){
           recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct, (state.playlistConf || {})[k] || null);
         }
@@ -7404,6 +7427,7 @@ function openArchiveSprint(){
   state.playlistMech = "__mixed__";
   state.playlistRetest = false;
   state.playlistRecorded = false;
+  state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand:3, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistConf = {};
@@ -7447,6 +7471,7 @@ function openMixedSet(count){
   state.playlistMech = "__mixed__";
   state.playlistRetest = false;
   state.playlistRecorded = false;
+  state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
