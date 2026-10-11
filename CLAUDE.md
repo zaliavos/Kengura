@@ -762,3 +762,32 @@ that many tricks gained, not a regression.
 
 Simulation (84 d, 6 seeds, mastered of 26): 0.8 learn 25.2 · 0.85 flat
 23.7 · 0.7 learn 15.2 · weekend-off 0.8 learn 17.8 · erratic 9.3.
+
+## Loops 96–145 (2026-10-11, eleventh pass)
+
+- **Kid solutions for every question (105/123):** agents wrote the 242
+  four-pointers and 237 three-pointers from the figures; with the earlier
+  ones `_solutions_kid.py` (renamed from `_solutions_5pt_kid.py`) holds
+  750 solutions + 854 misconception notes; `_mechanic_review.py` holds 256
+  trick-tag corrections. One more booklet key error: **2002-10 → B** (0
+  may be a middle digit: 987 − 102 = 885).
+- **Contest simulator:** flag a doubtful question (🚩), withdraw an answer
+  (tap again), keyboard A–E / 1–5 / ←→, figures prefetched before the
+  clock starts; parent view can cache all figures for offline use.
+- **Paper practice (111/112/126):** `openPrintPaper` prints a paper (key on
+  a print-only page), `openPaperEntry` grades the answer sheet; 📄 in the
+  history; offered from the contest card and the contest intro.
+- **Mistakes notebook (104/106/107/108/115):** `store.mistakes` via
+  `noteMistake` (practice + papers); "📒 Klaidos" view, badges 🩹/🛠,
+  parent card, contest-results link, weekly recap line.
+- **Hints & drill:** recognition drill shows the problem's own Gudrybė;
+  parent view breaks papers down by band.
+- **Plan:** review cores at most every other day before the taper (100).
+- **Text style:** decimal comma in scores and generated answers
+  (`fmtPts`, `makeMC`), "20 %", "cm²"; answer values never glued to a
+  header letter; control characters stripped.
+- **Smoke guards added:** kid answer line = option text, text hygiene,
+  decimal comma in generators, source files free of control characters
+  (a shell-mangled `\b` is a literal backspace!), undefined/NaN leaks in
+  every main view, contest flag/finish, paper print/entry, notebook,
+  parent view with history.
