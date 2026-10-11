@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick};
 `;
 let app;
 try {
@@ -1177,6 +1177,28 @@ section("shortText");
   const long = "Gudrybė: pirmas sakinys yra čia. " + "Antras sakinys ilgas ir ilgas. ".repeat(20) + "Atsakymas: C) 12.";
   const out = app.shortText(long, 200);
   check("shortText keeps the answer line and cuts at a sentence", out.length <= 230 && out.endsWith("Atsakymas: C) 12.") && /\. … Atsakymas/.test(out), out);
+}
+
+// ---------- 23. no "undefined" / "NaN" leaks in any main view ----------
+section("view text leaks");
+{
+  const views = {
+    home: () => { app.state.view = "home"; app.renderHome(); },
+    plan: () => app.openPlan(),
+    parent: () => app.openParent(),
+    mistakes: () => app.openMistakeBook(),
+    recog: () => app.openRecogDrill(),
+    mixed: () => app.openMixedSet(6),
+    playlist: () => app.openPlaylist("weighing"),
+    games: () => app.renderGamePick("medium", 2),
+    print: () => app.openPrintPaper(app.contestEligibleYears()[0]),
+  };
+  for(const [name, fn] of Object.entries(views)){
+    try { fn(); } catch(e){ check(`view ${name} renders`, false, e.message); continue; }
+    const text = app.$app.innerHTML.replace(/<[^>]*>/g, " ");
+    const leak = text.match(/\b(undefined|NaN|null)\b|\[object Object\]/);
+    check(`view ${name} has no leaked undefined/NaN`, !leak, leak && JSON.stringify(text.slice(Math.max(0, leak.index - 80), leak.index + 40)));
+  }
 }
 
 // ---------- result ----------

@@ -8443,6 +8443,7 @@ function openRaceGame(difficulty, lives){
 
 /* -------- Game picker: one ticket / unlock, two games -------- */
 function renderGamePick(difficulty, lives, title){
+  difficulty = difficulty || "medium"; lives = lives || 2;
   state.view = "gamePick";
   $app.innerHTML = `
     <section class="card" style="text-align:center">
