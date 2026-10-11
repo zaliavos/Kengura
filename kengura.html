@@ -7325,7 +7325,7 @@ function openRecogDrill(){
   state.recogChosen = null;
   state.recogSubmitted = false;
   state.recogCorrect = 0;
-  state.recogTimes = []; state._recogShownIdx = null;
+  state.recogTimes = []; state._recogShownIdx = null; state.recogMixups = [];
   renderRecog();
 }
 
@@ -7394,6 +7394,12 @@ function renderRecog(){
     // recognition speed: on contest day the trick should be seen in seconds
     const secs = Math.min(120, Math.round((Date.now() - (state._recogShownAt || Date.now())) / 1000));
     state.recogTimes = (state.recogTimes || []).concat([{secs, right}]);
+    if(!right){   // which tricks get mixed up – the pair is the lesson
+      const pair = `${q.mechanic}>${state.recogChosen}`;
+      store.recogConfusion = store.recogConfusion || {};
+      store.recogConfusion[pair] = (store.recogConfusion[pair] || 0) + 1;
+      state.recogMixups = (state.recogMixups || []).concat([pair]);
+    }
     store.recogSeen[`${state.recogQs[state.recogIdx].year}-${q.num}`] = Date.now();
     store.recogStats.attempts++;
     if(right) store.recogStats.correct++;
@@ -7423,6 +7429,11 @@ function renderRecogResult(){
       <p style="font-size:30px;margin:6px 0"><b>${ok} / ${total}</b></p>
       ${(() => { const ts = state.recogTimes || []; if(!ts.length) return ''; const avg = Math.round(ts.reduce((a, t) => a + t.secs, 0) / ts.length); const fast = ts.filter(t => t.right && t.secs <= 10).length;
         return `<p style="margin:0 0 6px">⏱ Vidutiniškai <b>${avg} s</b> vienam · greitai (≤ 10 s) ir teisingai: <b>${fast}</b> iš ${ts.length}</p>`; })()}
+      ${(() => { const all = Object.entries(store.recogConfusion || {}).filter(([p]) => (state.recogMixups || []).includes(p)).sort((a, b) => b[1] - a[1]);
+        if(!all.length) return '';
+        const [actual, chosen] = all[0][0].split('>');
+        const tip = (MECHANIC_METHODOLOGY[actual] || {}).summary || '';
+        return `<div class="explain" style="text-align:left;margin:8px 0">🔀 Dažniausiai painioji: <b>${escapeHTML(MECHANIC_LABEL[actual] || actual)}</b> ↔ ${escapeHTML(MECHANIC_LABEL[chosen] || chosen)}${all[0][1] > 1 ? ` (jau ${all[0][1]} kartus)` : ''}.${tip ? `<div style="margin-top:4px;font-size:13px">Atpažinimo ženklas: ${escapeHTML(tip)}</div>` : ''}</div>`; })()}
       <p class="help-bar">${ok >= 8 ? 'Puiku – tipus atpažįsti beveik akimirksniu. Konkurse tai sutaupys brangias minutes.' : ok >= 5 ? 'Neblogai. Kuo greičiau atpažįsti tipą, tuo greičiau žinai, KĄ daryti.' : 'Verta pakartoti gudrybių aprašymus („Gudrybių mokymasis“ skiltyje) – atpažinimas ateina su pažinimu.'}</p>
       <div class="footer-actions" style="justify-content:center;gap:8px">
         <button class="btn ${next ? 'ghost' : 'primary'}" id="recogAgain">Dar kartą</button>
