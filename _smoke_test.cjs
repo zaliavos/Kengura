@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state};
 `;
 let app;
 try {
@@ -996,6 +996,14 @@ section("mastery vs re-banded archive");
   check("due item follows the archive band", st.dueQueue["2000-25"].band === 5, JSON.stringify(st.dueQueue["2000-25"]));
   delete st.dueQueue["2000-25"];
   delete st.masteredMech.casework; delete st.masteredBand.casework; delete st.masteredMech.weighing; delete st.masteredBand[mech];
+}
+
+// ---------- 12. recognition drill asks for real tricks ----------
+section("recognition drill");
+{
+  const pool = app.buildRecogPool();
+  check("recog pool has no catch-all tags", !pool.some(x => ["arith-compute","geometry-misc"].includes(x.q.mechanic)));
+  check("recog pool big enough", pool.length >= 150, String(pool.length));
 }
 
 // ---------- result ----------

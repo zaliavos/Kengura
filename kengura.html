@@ -6869,6 +6869,8 @@ function openMixedSet(count){
    The real 5-point bottleneck is recognising WHICH trick a problem
    hides. Show a 4/5-pt question; the kid picks the mechanic (not the
    answer) from 4 options. 10 per round, no solving required. */
+/* Catch-all tags: fine for stats, useless as an answer to "which trick?" */
+const RECOG_CATCH_ALL = new Set(["arith-compute", "geometry-misc"]);
 function buildRecogPool(){
   const pool = [];
   const reserved = new Set(reservedYears().map(String));
@@ -6877,6 +6879,7 @@ function buildRecogPool(){
     for(const q of t.questions){
       if((q.points || 3) < 4) continue;
       if(!q.mechanic || !MECHANIC_LABEL[q.mechanic]) continue;
+      if(RECOG_CATCH_ALL.has(q.mechanic)) continue;   // "just compute" is not a trick to recognise
       pool.push({year:t.year, q});
     }
   }
