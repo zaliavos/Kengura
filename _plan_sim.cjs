@@ -18,7 +18,11 @@ const html = fs.readFileSync(path.join(DIR,"kengura.html"),"utf8");
 const m = html.match(/<script>\s*("use strict";[\s\S]*?)<\/script>\s*<\/body>/);
 // ---- fake clock ----
 const RealDate = Date;
-let NOW = new RealDate(2026, 9, 12, 18, 0, 0).getTime();   // Monday 2026-10-12 18:00
+// --start=YYYY-MM-DD moves day 0 (default Monday 2026-10-12); --stop=N ends
+// the run after day N; --dump=<file> writes the final store as an export
+// file the app's parent view can import (for looking at a realistic store).
+const argOf = k => (process.argv.find(a => a.startsWith(`--${k}=`)) || "").slice(k.length + 3);
+let NOW = argOf("start") ? new RealDate(argOf("start") + "T18:00:00").getTime() : new RealDate(2026, 9, 12, 18, 0, 0).getTime();
 class FakeDate extends RealDate {
   constructor(...a){ if(a.length === 0) super(NOW); else super(...a); }
   static now(){ return NOW; }
@@ -54,7 +58,8 @@ let rng = Number((process.argv.find(a => a.startsWith("--seed=")) || "--seed=42"
 const log = []; const tally = {};
 const seenMastery = new Set();
 let skipped = 0;
-for(let day = 0; day <= CONTEST_IN; day++){
+const STOP = argOf("stop") ? parseInt(argOf("stop"), 10) : CONTEST_IN;
+for(let day = 0; day <= Math.min(CONTEST_IN, STOP); day++){
   if(SKIP_DAYS.has(new RealDate(NOW).getDay()) || (MISS > 0 && rand() < MISS)){ skipped++; NOW += 24*60*60*1000; continue; }
   const steps = app.planStepsForToday();
   const core = steps.find(s => s.id === "core") || steps[0];
@@ -75,7 +80,7 @@ for(let day = 0; day <= CONTEST_IN; day++){
     let ok = 0;
     const pm = pMech(core.arg); exposure[core.arg] = (exposure[core.arg] || 0) + 1;
     for(const it of content.mastery){ const r = rand() < pm; if(r) ok++; app.recordArchiveAnswer(it.year, it.q, r, null); seenMastery.add(`${it.year}-${it.q.num}`); }
-    if(content.worked) app.recordArchiveAnswer(content.worked.year, content.worked.q, true, null);
+    if(content.worked) store.seenQ[`${content.worked.year}-${content.worked.q.num}`] = NOW;   // as the app: the worked example only counts as seen
     if(content.tryQ) app.recordArchiveAnswer(content.tryQ.year, content.tryQ.q, rand() < pm, null);
     const passed = ok === content.mastery.length && content.mastery.length >= 2;   // same rule as finalizePlaylist
     app.noteMechAttempt(core.arg, content.sourceBand, passed);
@@ -103,3 +108,4 @@ console.log("\n--- core-step tally by phase ---"); console.log(JSON.stringify(ta
 if(skipped) console.log("days skipped:", skipped, " streak at end:", store.streak.count);
 console.log("full mastery:", app.trackMechanics().filter(m => store.masteredMech[m]).length, " partial:", app.trackMechanics().filter(m => store.masteredBand[m] && !store.masteredMech[m]).length, "/", app.trackMechanics().length, " contests:", store.contests.length, " dueQueue:", Object.keys(store.dueQueue).length, " stars:", store.stars.total);
 console.log("unmastered:", app.MECHANIC_ORDER.filter(m => !store.masteredMech[m] && app.trackMechanics().includes(m)).join(","));
+if(argOf("dump")) fs.writeFileSync(argOf("dump"), JSON.stringify({app: "kengura", version: 1, exportedAt: new RealDate(NOW).toISOString(), store}));
