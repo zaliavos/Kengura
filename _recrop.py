@@ -103,12 +103,16 @@ FORCE_MASK = {('2017', 14): {'9818192'}, ('2010', 12): {'20', '+', '10'}}
 # page areas painted out in an automatic crop (checked by eye)
 EXTRA_MASK = {('2003', 4): [(383, 290, 475, 470)],   # Q5's ring drawing beside Q3-Q5
               ('2014', 8): [(296, 105, 412, 170)],    # top of Q9's lap-time table
-              ('2014', 9): [(8, 88, 296, 122)]}       # Q8's last line above Q9 (the table starts beside it)
+              ('2014', 9): [(8, 88, 296, 122)],       # Q8's last line above Q9 (the table starts beside it)
+              ('2013', 2): [(700, 180, 830, 236)],    # Q1's number machine reaches down beside Q2
+              ('2010', 18): [(348, 150, 470, 228)]}   # Q17's dot square reaches down beside Q18
 
 MANUAL = {  # (year, num): (page index, clip[, masks]) – picture spread over neighbouring questions
     ('2003', 5): (4, (71, 320, 469, 439), [(71, 312, 386, 397)]),   # Q3/Q4 text beside the drawing painted out
     # the grid's top row sits beside Q19's options (its centre is above the header)
     ('2024', 20): (1, (424, 286, 830, 377), [(420, 270, 734, 292)]),
+    ('2013', 1): (0, (426, 186, 828, 232), [(426, 229, 702, 232), (700, 230.6, 830, 232)]),     # machine drawing runs past Q2's header (Q2's cubes start below)
+    ('2010', 17): (10, (66, 156, 469, 223), [(66, 206, 348, 223)]),     # dot square runs past Q18's header (Q18's flowers below)
 }
 
 def crop(pdf, n, old, year=None):
