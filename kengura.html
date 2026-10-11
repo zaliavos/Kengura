@@ -303,6 +303,8 @@
     .print-break{break-before:page;page-break-before:always}
     .card{box-shadow:none !important;border:none !important}
   }
+  /* long Lithuanian words and number strings must wrap on a 360 px phone */
+  .qprompt,.explain,.hint,.opt span{overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
   .print-q{margin:0 0 14px}
   .print-only{display:none}
   @media print{ .print-only{display:block} }
