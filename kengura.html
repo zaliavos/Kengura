@@ -3936,12 +3936,14 @@ function pickPracticeFor(q, sourceYear){
       const adj = pickGenForMechBand(q.mechanic, band === 3 ? 4 : 5);
       if(adj) return {kind:"generator", gen:adj};
     }
-    let items = findSimilarArchive(q, sourceYear, 4);
+    let items = findSimilarArchive(q, sourceYear, 4), related = null;
     // a trick with a single 5-pointer in 26 papers: practise the nearest
     // related trick at the same band rather than nothing
-    if(!items.length && RELATED_MECHANIC[q.mechanic])
-      items = findSimilarArchive(Object.assign({}, q, {mechanic: RELATED_MECHANIC[q.mechanic]}), sourceYear, 4);
-    if(items.length) return {kind:"archive", items};
+    if(!items.length && RELATED_MECHANIC[q.mechanic]){
+      related = RELATED_MECHANIC[q.mechanic];
+      items = findSimilarArchive(Object.assign({}, q, {mechanic: related}), sourceYear, 4);
+    }
+    if(items.length) return related ? {kind:"archive", items, related} : {kind:"archive", items};
     // For 5-pt sources, refuse to offer a random fallback – better to
     // show nothing than wrong-band content. Per CLAUDE.md: practicing
     // a 3-pt arithmetic problem after a 5-pt parity puzzle erodes
@@ -4375,7 +4377,9 @@ function renderArchiveCard(year, q){
   if(practice.kind === "generator"){
     practiceBtn = `<button class="btn small" data-practice="${practice.gen}" title="Sugeneruotas to paties tipo uždavinys">Praktikuotis šio tipo</button>`;
   } else if(practice.kind === "archive"){
-    practiceBtn = `<button class="btn small" data-practice-archive="1" title="Panašus uždavinys iš archyvo (tos pačios gudrybės ir to paties sudėtingumo)">Panaši užduotis iš archyvo (${practice.items.length})</button>`;
+    practiceBtn = practice.related
+      ? `<button class="btn small" data-practice-archive="1" title="Šios gudrybės 5 t. uždavinių archyve daugiau nėra – giminingos gudrybės (${escapeHTML(MECHANIC_LABEL[practice.related] || practice.related)}) to paties sudėtingumo uždavinys">Giminingos gudrybės užduotis (${practice.items.length})</button>`
+      : `<button class="btn small" data-practice-archive="1" title="Panašus uždavinys iš archyvo (tos pačios gudrybės ir to paties sudėtingumo)">Panaši užduotis iš archyvo (${practice.items.length})</button>`;
   } else if(practice.kind === "fallback"){
     practiceBtn = `<button class="btn small ghost" data-practice="${practice.gen}" title="Tikslaus to paties tipo generatoriaus dar nėra – tai tik kitas šio sudėtingumo uždavinys">Praktikuotis (kito tipo)</button>`;
   } else {
