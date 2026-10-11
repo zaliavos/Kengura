@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog};
 `;
 let app;
 try {
@@ -1217,6 +1217,20 @@ section("notebook tops up the review queue");
   check("old open mistake joins the warm-up review", n === 1 && st.dueQueue["2015-14"] && st.dueQueue["2015-14"].fromContest && !st.dueQueue["2015-15"], String(n));
   check("only once a day", app.topUpQueueFromNotebook() === 0);
   for(const k of Object.keys(st.dueQueue)) delete st.dueQueue[k]; Object.assign(st.dueQueue, savedQ); st.mistakes = {};
+}
+
+section("recognition result: speed + mix-up");
+{
+  app.openRecogDrill();
+  const st = app.state;
+  st.recogTimes = [{secs: 6, right: true}, {secs: 14, right: false}];
+  st.recogMixups = ["truth-tellers>logic-clues"];
+  app.store.recogConfusion = {"truth-tellers>logic-clues": 2};
+  st.recogIdx = st.recogQs.length;
+  app.renderRecog();
+  const h = app.$app.innerHTML;
+  check("recognition result shows speed and the mix-up", h.includes("Vidutiniškai <b>10 s</b>") && h.includes("Dažniausiai painioji") && h.includes("(jau 2 kartus)"), h.slice(0, 200));
+  app.store.recogConfusion = {};
 }
 
 // ---------- result ----------
