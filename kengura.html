@@ -78,6 +78,10 @@
   .qmeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;color:var(--muted);font-size:13px}
   .qprompt{font-size:17px;line-height:1.5;margin:8px 0 14px;white-space:pre-wrap}
   .figure{display:flex;justify-content:center;margin:10px 0 14px}
+  .figure img{cursor:zoom-in}
+  .fig-zoom{position:fixed;inset:0;z-index:1000;background:rgba(20,16,10,.85);overflow:auto;-webkit-overflow-scrolling:touch;cursor:zoom-out}
+  .fig-zoom img{display:block;margin:48px auto 24px;background:#fff;border-radius:6px;max-width:none}
+  .fig-zoom .fig-zoom-close{position:fixed;top:8px;right:10px;font-size:22px;line-height:1;padding:8px 12px;border:0;border-radius:10px;background:#fff;color:#222;cursor:pointer}
   .figure svg{max-width:100%;height:auto;background:#fffaf0;border-radius:10px;border:1px solid var(--line)}
   .options{display:grid;gap:8px}
   .options.image-options{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
@@ -8026,6 +8030,31 @@ function suggestedContestDate(now){
   }
 }
 
+// Tap a question picture to see it at full resolution (small text on a
+// 360 px phone); the picture can be panned, a tap or Esc closes it.
+function wireFigureZoom(){
+  if(typeof document === "undefined" || !document.addEventListener) return;
+  document.addEventListener("click", e => {
+    const img = e.target && e.target.closest && e.target.closest(".figure img");
+    if(!img || document.querySelector(".fig-zoom")) return;
+    const box = document.createElement("div");
+    box.className = "fig-zoom";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-label", "Padidintas paveikslėlis");
+    box.innerHTML = `<button class="fig-zoom-close" aria-label="Uždaryti">✕</button><img src="${img.getAttribute("src")}" alt="${escapeHTML(img.alt || '')}">`;   // natural size (the PNGs are 2,7× the page)
+    const close = () => { box.remove(); document.removeEventListener("keydown", onKey); };
+    const onKey = ev => { if(ev.key === "Escape") close(); };
+    box.addEventListener("click", ev => { if(!ev.target.closest("img") || ev.target.closest(".fig-zoom-close")) close(); });
+    const big = box.querySelector("img");
+    // about twice the size it had on the page, never past its own pixels
+    const fit = () => { if(big.naturalWidth) big.style.width = Math.round(Math.min(big.naturalWidth, Math.max(window.innerWidth * 1.6, (img.clientWidth || 0) * 2))) + "px"; };
+    if(big.complete) fit(); else big.addEventListener("load", fit);
+    big.addEventListener("click", close);
+    document.addEventListener("keydown", onKey);
+    document.body.appendChild(box);
+  });
+}
+
 function markPlanStepDoneManual(id){
   const k = todayKey();
   const d = store.planDone[k] = store.planDone[k] || {};
@@ -9247,6 +9276,7 @@ function shortPrompt(p){
    ============================================================ */
 renderHome();
 startStarTimeHeartbeat();
+wireFigureZoom();
 // Offline: a tiny service worker caches the app shell + figures on demand
 // (network-first for the shell so updates land immediately).
 if(typeof navigator !== "undefined" && "serviceWorker" in navigator && typeof location !== "undefined" && location.protocol !== "file:"){
