@@ -14556,7 +14556,7 @@
      "patterns": [
       "uzdaviniai"
      ],
-     "correct": "B",
+     "correct": "D",
      "solution": "60 ! Apskaičiuokime: 20·24 20·8·3 = = 60. 2·0+2·4 8 Teisingas atsakymas – D.",
      "figure": "figures/2024-q1.png",
      "mechanic": "arith-compute"
@@ -14575,7 +14575,7 @@
      "patterns": [
       "uzdaviniai"
      ],
-     "correct": "C",
+     "correct": "A",
      "solution": "? Iš priešingos pusės juodą siaurą bokštelį iš dalies už dengia šviesiausias bokštelis, ir matosi tik juodojo bokštelio „viršūnėlė“, todėl netinka atsakymai B ir C. Atsakyme E abu siaurieji bokšteliai yra vienodoau kščio, to dėlirginetinka. Tai ppatvisi bokšteliaituribūti priešdėžutę, todėl netinka atsakymas D. Renkamės atsakymą A. ! Norint atkurti vaizdą iš priešingos pusės reikia mintyse sukeisti puses vietomis. Pavei kslėlyje du bokšteliai stovi kairėje, o vienas dešinėje, todėl žiūrint iš priešingos pusės du bokšeliai stovi dešinėje, o vienas kairėje. Be to, dėžutė yra už visų bokštelių, o juodas bokštelis yra tarp dėžutės ir plačiojo bokštelio. Ir galiausiai, platusis bokštelis yra tokio pačio aukščio, kaip ir siaurasis pilkas bokštelis. Būtent toks yra vaizdas atsakyme A.",
      "figure": "figures/2024-q2.png",
      "mechanic": "casework",
@@ -14614,7 +14614,7 @@
      "patterns": [
       "uzdaviniai"
      ],
-     "correct": "D",
+     "correct": "C",
      "solution": "? Žodis PONIA prasideda tokia pačia raide kaip ir žodis PILKĖ. Taigi žodis PONIA, užrašytas slapta abėcėle, prasideda simboliu . Vienintelis tinkamas atsakymas yra C. ! Kaip jau išsiaiškinome, žodis PONIA prasideda simboliu . Taip pat šiame žodyje bus visi simboliai iš žodžio ONA – , tik dar reikia į terpti raidę I, kurią atitinka antras simbolis iš žodžio PILKĖ – . Taigi žodis PONIA slapta abėcėle užrašomas taip: . Renkamės atsakymą C. 10",
      "figure": "figures/2024-q4.png",
      "mechanic": "casework",
@@ -14634,7 +14634,7 @@
      "patterns": [
       "paveikslelis"
      ],
-     "correct": "B",
+     "correct": "D",
      "solution": "! Atsakyme A abu aitvarai sujungti ta pačia virvute. Atsakyme B dešin- iojo aitvaro virvutė nutrūkusi. Atsakymai C ir E netinka, nes juose vaikai laiko tos pačios virvutės skirtingus galus. Kruopščiai patikrinę atsakymą D, į sitikiname, kad jis tikrai tinka (taip pat žr. pav.).",
      "figure": "figures/2024-q5.png",
      "mechanic": "casework",
@@ -14654,7 +14654,7 @@
      "patterns": [
       "skaiciavimas"
      ],
-     "correct": "B",
+     "correct": "E",
      "solution": "3 ! Pirmą po pietę Ūla suvalgė 14 : 2 = 7 sausainius, o jos šuo suėdė 1 sausainį, ir liko 14−7−1 = 6 sausainiai. Antrą po pietę Ūla suvalgė 6 : 2 = 3 sausainius, šuo suėdė 1, ir liko 6−3−1 = 2 sausainiai. Trečią po pietę Ūla suvalgė 1, ir jos šuo suėdė paskutinį likusį sausainį. Iš viso jis suėdė 3 sausainius.",
      "figure": "figures/2024-q6.png",
      "mechanic": "arith-compute"
@@ -14673,7 +14673,7 @@
      "patterns": [
       "paveikslelis"
      ],
-     "correct": "B",
+     "correct": "A",
      "solution": "! Uždavinio klausimą galime performuluoti taip: raskite du vienos rūšies langelius, kurie yra simetriški punktyrinės linijos atžvilgiu. Pirmame pavei kslėlio „dvejete“ tokių langelių nėra. Pavei kslėlio „nulyje“ pastebime, kad langeliai yra simetriški punktyrinės linijos atžvilgiu, todėl perlenkus pavei kslėlį jie sutaps. Patikrinę likusius pavei kslėlio skaitmenis, į sitikiname, kad simetriškų vienos rūšies langelių daugiau nėra.",
      "figure": "figures/2024-q7.png",
      "mechanic": "casework",
@@ -14693,7 +14693,7 @@
      "patterns": [
       "paveikslelis"
      ],
-     "correct": "C",
+     "correct": "B",
      "solution": "7 cm ! Pieštuko nueitas kelias buvo ilgesnis nei 3+1+2 = 6 cm, nes brėžiant figūrą Tomui teko bent bent vieną atkarpą pieštuku praeiti du kartus. O tokiu atveju pieštuko kelias trumpiausias būtųtada, kai karto jam oji atkarpapati trumpiausia –1cm. Išties, To masgalėjo pradėti brėžti figūrą, pavyzdžiui, nuo kairiojo figūros galo, nubrėžti 3 cm atkarpą, tada 1 cm atkarpą, grįžti ja atgal ir nubrėžti 2 cm atkarpą. Iš viso jo pieštukas tada nueitų 3+1+1+2 = 7 cm kelią.",
      "figure": "figures/2024-q8.png",
      "mechanic": "arith-compute"
@@ -14753,7 +14753,7 @@
       "skaiciavimas",
       "paveikslelis"
      ],
-     "correct": "E",
+     "correct": "B",
      "solution": "6 ! Skaitydami sąlygą prisimename, kad kvadratas yra ir rombas, ir stačiakampis. Ne stačiakampiai (t. y. tik rombai) yra 24−15 = 9 figūrėlės. Vadinasi, likę 15−9 = 6 rombai kartu yra ir stačiakampiai – t. y. kvadratai. Renkamės atsakymą B.",
      "figure": "figures/2024-q11.png",
      "mechanic": "geometry-misc"
