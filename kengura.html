@@ -328,6 +328,44 @@
   /* ---- Rewards / achievements ---- */
   .reward-card{background:linear-gradient(180deg,#fff 0%,#fff7ee 100%)}
   .ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+  /* ---- Home tabs ---- */
+  .tab-pane[hidden]{display:none}
+  .tab-pane > .card > h3:first-child{margin-top:0}
+  .hero-top{padding:10px 14px}
+  .hero-top .hero-row{margin:0;flex-wrap:nowrap}
+  .hero-top .hero-activity{display:none}   /* the 14-day strip lives in the recap and the parent view */
+  /* phone: the status strip is one line – numbers and icons only */
+  @media(max-width:519px){
+    .brand small,.wide-only{display:none}
+    header.brand{padding:10px 14px}
+    .brand h1{font-size:15px}
+    .hero-top{padding:8px 10px}
+    .hero-top .hero-row{gap:8px;flex-wrap:nowrap}
+    .hero-top .streak-label{display:none}
+    .hero-top .hero-streak{padding:5px 9px}
+    .hero-top .streak-num{font-size:18px}
+    .hero-top .btn.small{padding:6px 9px}
+    .weak-row{flex-wrap:wrap;row-gap:6px}
+    .weak-row > span:first-child{flex:1 1 100%;font-weight:600}
+    .weak-row .bar{margin-left:0}
+  }
+  .weak-row .pill{white-space:nowrap}
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--paper);
+    border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.06);
+    padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  .tabbar-in{max-width:780px;margin:0 auto;display:flex}
+  .tab{flex:1;min-width:0;appearance:none;border:0;background:none;cursor:pointer;position:relative;
+    display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px 9px;
+    color:var(--muted);font:600 11px/1.1 inherit;border-top:3px solid transparent}
+  .tab .tab-ico{font-size:21px;line-height:1;filter:grayscale(.7);opacity:.8}
+  .tab .tab-lbl{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tab.on{color:var(--accent);border-top-color:var(--accent)}
+  .tab.on .tab-ico{filter:none;opacity:1}
+  .tab:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+  .tab-dot{position:absolute;top:6px;left:calc(50% + 10px);width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .tabbar-spacer{height:calc(70px + env(safe-area-inset-bottom))}
+  @media(min-width:520px){ .tab{flex-direction:row;justify-content:center;gap:6px;font-size:13px;padding:12px 4px} .tab-dot{top:8px;left:auto;right:8px} }
+  @media print{ .tabbar,.tabbar-spacer,.hero-top{display:none !important} }
   .ach-badge{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;
     border:1px solid var(--line);border-radius:12px;background:#faf6ec;opacity:.45;
     filter:grayscale(1);text-align:center;transition:transform .12s}
@@ -3957,6 +3995,7 @@ const store = loadStore();
 
 const state = {
   view:"home",      // home | quiz | results | review
+  homeTab:"today",  // home tab; every app start opens on "today"
   questions:[],
   current:0,
   answers:[],       // {qIndex, chosen, correct, hintUsed}
@@ -4632,6 +4671,27 @@ function renderArchiveCard(year, q){
    ============================================================ */
 const $app = document.getElementById("app");
 
+/* Home is split into tabs (2026-10-12): one long page had grown to 14
+   cards. All panes are rendered; a tab switch only toggles [hidden], so
+   every button keeps its wiring and the smoke test sees the whole page. */
+const HOME_TABS = [
+  {id: 'today',    icon: '🏠', label: 'Šiandien'},
+  {id: 'learn',    icon: '🧠', label: 'Gudrybės'},
+  {id: 'tests',    icon: '📝', label: 'Konkursas'},
+  {id: 'practice', icon: '📚', label: 'Uždaviniai'},
+  {id: 'me',       icon: '⭐', label: 'Prizai'},
+];
+function setHomeTab(id, opts){
+  if(!HOME_TABS.some(t => t.id === id)) return;
+  state.homeTab = id;
+  $app.querySelectorAll('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== id; });
+  $app.querySelectorAll('[data-tab]').forEach(b => {
+    const on = b.dataset.tab === id;
+    b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on));
+  });
+  if(!(opts && opts.keepScroll)) try { window.scrollTo(0, 0); } catch(_){}
+}
+
 function renderHome(){
   topUpQueueFromNotebook();
   state._planStep = null;   // returning home aborts any plan-step attribution
@@ -4762,13 +4822,20 @@ function renderHome(){
       return (MECHANIC_LABEL[a]||a).localeCompare(MECHANIC_LABEL[b]||b, "lt");
     });
 
+  const tab = HOME_TABS.some(t => t.id === state.homeTab) ? state.homeTab : 'today';
+  const pane = id => `<div class="tab-pane" data-pane="${id}"${id === tab ? '' : ' hidden'}>`;
+  const tabDots = {
+    today: (()=>{ const st = planStepsForToday(); const pd = store.planDone[todayKey()] || {}; return st.some(x => !pd[x.id]); })(),
+    tests: !!store.contestInProgress,
+    me: (store.games.freeRaces || 0) > 0,
+  };
   $app.innerHTML = `
     ${ARCHIVE_LOAD_FAILED ? `
     <section class="card" style="background:var(--bad-soft);border:1px solid var(--bad)">
       <h3 style="margin-top:0">⚠ Duomenų failas nepasiekiamas</h3>
       <p>Nepavyko įkelti <code>kengura-archive.js</code>. Archyvas, kontroliniai ir gudrybės – išjungti, kol failas nebus rastas. Patikrink, ar failas yra šalia <code>kengura.html</code> ir ar puslapis perkrautas „kietai“ (Ctrl+Shift+R).</p>
     </section>` : ``}
-    <section class="card hero-card">
+    <section class="card hero-top">
       <div class="hero-row">
         <div class="hero-streak" aria-label="Dienų iš eilės">
           <span class="streak-flame"${store.streak.count>0 ? '' : ' style="opacity:.3;filter:grayscale(1)"'}>🔥</span>
@@ -4785,9 +4852,12 @@ function renderHome(){
           ${activityCells.join('')}
         </div>
         ${META.profiles.length > 1 ? `<span class="pill" title="Aktyvus profilis – keisti tėvų rodinyje">👤 ${escapeHTML(activeProfileName() || 'pagrindinis')}</span>` : ''}
-        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai">📒 Klaidos${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
-        <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas">👁 Tėvams</button>
+        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis">📒<span class="wide-only"> Klaidos</span>${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
+        <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas" aria-label="Tėvams">👁<span class="wide-only"> Tėvams</span></button>
       </div>
+    </section>
+    ${pane("today")}
+    <section class="card hero-card">
       ${mission ? `
         <div class="mission ${mission.style==='warm'?'mission-warm':'mission-primary'}">
           <div class="mission-meta">${mission.tag}</div>
@@ -4836,8 +4906,57 @@ function renderHome(){
       </section>`;
     })() : ''}
 
+    </div>
+    ${pane("learn")}
     ${!ARCHIVE_LOAD_FAILED ? trackCardHTML() : ''}
 
+    ${weakMechs.length ? `
+    <section class="card">
+      <h3>Tavo silpnesnės temos</h3>
+      ${weakMechs.map(w=>{
+        const pct = Math.round(100*w.rate);
+        return `<div class="cat-row weak-row">
+          <span>${escapeHTML(MECHANIC_LABEL[w.mech]||w.mech)}</span>
+          <div class="bar"><div style="width:${pct}%"></div></div>
+          <span class="pill ${pct>40?"bad":"muted"}">${pct} % klaidų (${w.showWrong}/${w.showAttempts})</span>
+          <button class="btn small" data-mech-playlist="${w.mech}" style="margin-left:8px">Mokytis</button>
+        </div>`;
+      }).join("")}
+    </section>` : ``}
+
+    <section class="card">
+      <h3>Gudrybių mokymasis</h3>
+      <p style="margin-top:0">Kiekvienas Kengūros 5 taškų uždavinys slepia VIENĄ gudrybę. Šio sąrašo „Mokytis“ mygtukas atveria 4 žingsnių seriją: ① perskaityk gudrybės aprašymą, ② peržiūrėk pavyzdį su sprendimu, ③ pabandyk su užuominomis, ④ įveik 3 uždavinius be jų.</p>
+      <details id="allMechs">
+      <summary>Visos gudrybės (${mechsForPlaylist.length}) – su klaidų procentais</summary>
+      <div class="mech-list" style="margin-top:8px">
+        ${mechsForPlaylist.map(m=>{
+          const has5 = mechBands[m].has(5);
+          const mst = store.mechStats[m] || {};
+          let attempts = 0, wrong = 0;
+          for(const b of [3,4,5]){ if(mst[b]){ attempts += mst[b].attempts; wrong += mst[b].wrong; }}
+          const ratePct = attempts ? Math.round(100*wrong/attempts) : null;
+          const mastered = !!store.masteredMech[m];
+          const stale = isMechMasteryStale(m);
+          const ageDays = mechMasteryAgeDays(m);
+          return `<div class="mech-row">
+            <div class="mech-head">
+              <span class="mech-title">${escapeHTML(MECHANIC_LABEL[m]||m)}</span>
+              ${has5 ? `<span class="pill bad">5 t.</span>` : `<span class="pill muted">${mechBands[m].has(4)?'4 t.':'3 t.'}</span>`}
+              ${mastered && !stale ? `<span class="pill good">įvaldyta ✓</span>` : ``}
+              ${!mastered && masteredBandOf(m) ? `<span class="pill good" style="opacity:.75" title="Įveikta žemesniu lygiu – liko ${mechTopBand(m)} t.">įveikta ${masteredBandOf(m)} t.</span>` : ``}
+              ${stale ? `<span class="mech-stale-pill" title="Įvaldyta prieš ${ageDays} d. – verta pakartoti">? po ${ageDays} d.</span>` : ``}
+              ${ratePct != null ? `<span class="pill ${ratePct>40?"bad":(ratePct>20?"muted":"good")}">${ratePct} % klaidų</span>` : ``}
+            </div>
+            <button class="btn small primary" data-mech-playlist="${m}">${stale ? 'Pakartoti' : 'Mokytis'}</button>
+          </div>`;
+        }).join("")}
+      </div>
+      </details>
+    </section>
+
+    </div>
+    ${pane("tests")}
     <section class="card">
       <h3>Kontrolinis (kaip realiame Kengūros konkurse)</h3>
       <p style="margin-top:0">Tikrų ankstesnių metų testas. <b>75 minutės. 30 klausimų. −25 % už klaidą.</b> Jokios pagalbos: be užuominų, be pasitikėjimo klausimo, be panašių uždavinių. Geriausia – kartą per savaitę iki pat konkurso.</p>
@@ -4886,50 +5005,8 @@ function renderHome(){
       <button class="btn small" id="printPaperBtn">🖨 Popierinis kontrolinis</button>
     </section>
 
-    ${rewardsCardHTML()}
-
-    <section class="card">
-      <h3>Gudrybių mokymasis</h3>
-      <p style="margin-top:0">Kiekvienas Kengūros 5 taškų uždavinys slepia VIENĄ gudrybę. Šio sąrašo „Mokytis“ mygtukas atveria 4 žingsnių seriją: ① perskaityk gudrybės aprašymą, ② peržiūrėk pavyzdį su sprendimu, ③ pabandyk su užuominomis, ④ įveik 3 uždavinius be jų.</p>
-      <div class="mech-list">
-        ${mechsForPlaylist.map(m=>{
-          const has5 = mechBands[m].has(5);
-          const mst = store.mechStats[m] || {};
-          let attempts = 0, wrong = 0;
-          for(const b of [3,4,5]){ if(mst[b]){ attempts += mst[b].attempts; wrong += mst[b].wrong; }}
-          const ratePct = attempts ? Math.round(100*wrong/attempts) : null;
-          const mastered = !!store.masteredMech[m];
-          const stale = isMechMasteryStale(m);
-          const ageDays = mechMasteryAgeDays(m);
-          return `<div class="mech-row">
-            <div class="mech-head">
-              <span class="mech-title">${escapeHTML(MECHANIC_LABEL[m]||m)}</span>
-              ${has5 ? `<span class="pill bad">5 t.</span>` : `<span class="pill muted">${mechBands[m].has(4)?'4 t.':'3 t.'}</span>`}
-              ${mastered && !stale ? `<span class="pill good">įvaldyta ✓</span>` : ``}
-              ${!mastered && masteredBandOf(m) ? `<span class="pill good" style="opacity:.75" title="Įveikta žemesniu lygiu – liko ${mechTopBand(m)} t.">įveikta ${masteredBandOf(m)} t.</span>` : ``}
-              ${stale ? `<span class="mech-stale-pill" title="Įvaldyta prieš ${ageDays} d. – verta pakartoti">? po ${ageDays} d.</span>` : ``}
-              ${ratePct != null ? `<span class="pill ${ratePct>40?"bad":(ratePct>20?"muted":"good")}">${ratePct} % klaidų</span>` : ``}
-            </div>
-            <button class="btn small primary" data-mech-playlist="${m}">${stale ? 'Pakartoti' : 'Mokytis'}</button>
-          </div>`;
-        }).join("")}
-      </div>
-    </section>
-
-    ${weakMechs.length ? `
-    <section class="card">
-      <h3>Tavo silpnesnės temos</h3>
-      ${weakMechs.map(w=>{
-        const pct = Math.round(100*w.rate);
-        return `<div class="cat-row">
-          <span>${escapeHTML(MECHANIC_LABEL[w.mech]||w.mech)}</span>
-          <div class="bar"><div style="width:${pct}%"></div></div>
-          <span class="pill ${pct>40?"bad":"muted"}">${pct} % klaidų (${w.showWrong}/${w.showAttempts})</span>
-          <button class="btn small" data-mech-playlist="${w.mech}" style="margin-left:8px">Mokytis</button>
-        </div>`;
-      }).join("")}
-    </section>` : ``}
-
+    </div>
+    ${pane("practice")}
     ${ARCHIVE.length ? `
     <section class="card">
       <h3>Originalūs „Kengūros“ testai</h3>
@@ -4985,10 +5062,6 @@ function renderHome(){
           <input type="checkbox" id="askConfToggle" ${store.settings.askConfidence?"checked":""}/>
           Klausti pasitikėjimo
         </label>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Garsai už teisingą / klaidingą atsakymą, apdovanojimus ir laikrodį. Kontrolinyje tylu (tik 5 min įspėjimas).">
-          <input type="checkbox" id="soundToggle" ${store.settings.sound !== false ?"checked":""}/>
-          🔊 Garsai
-        </label>
       </div>
       <div class="footer-actions">
         <span class="help-bar">Klausimai sugeneruojami iš šablonų – kaskart kiti.</span>
@@ -5004,6 +5077,20 @@ function renderHome(){
 
     
 
+    </div>
+    ${pane("me")}
+    ${rewardsCardHTML()}
+
+    <section class="card">
+      <h3 style="margin-top:0">⚙ Nustatymai</h3>
+      <div class="row" style="align-items:center;gap:14px">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Garsai už teisingą / klaidingą atsakymą, apdovanojimus ir laikrodį. Kontrolinyje tylu (tik 5 min įspėjimas).">
+          <input type="checkbox" id="soundToggle" ${store.settings.sound !== false ?"checked":""}/>
+          🔊 Garsai
+        </label>
+      </div>
+    </section>
+
     <section class="card">
       <details>
         <summary>Apie šį treniruoklį</summary>
@@ -5016,6 +5103,13 @@ function renderHome(){
         </p>
       </details>
     </section>
+    </div>
+    <nav class="tabbar" id="homeTabs" role="tablist" aria-label="Skiltys">
+      <div class="tabbar-in">
+        ${HOME_TABS.map(t => `<button role="tab" class="tab${t.id === tab ? ' on' : ''}" data-tab="${t.id}" aria-selected="${t.id === tab}"><span class="tab-ico">${t.icon}</span><span class="tab-lbl">${t.label}</span>${tabDots[t.id] ? '<i class="tab-dot" aria-label="yra ką veikti"></i>' : ''}</button>`).join('')}
+      </div>
+    </nav>
+    <div class="tabbar-spacer"></div>
   `;
 
   document.getElementById("countOpts").addEventListener("click", e=>{
@@ -5083,7 +5177,8 @@ function renderHome(){
     } else if(act === "mixed"){
       openMixedSet(6);
     } else {
-      // newTest – scroll user down to the new-test section
+      // newTest – open the practice tab at the new-test section
+      setHomeTab("practice");
       const target = $app.querySelector("#startBtn");
       if(target) target.scrollIntoView({behavior:"smooth", block:"center"});
     }
@@ -5189,6 +5284,10 @@ function renderHome(){
     const b = e.target.closest("[data-year]"); if(!b) return;
     openArchiveYear(b.dataset.year);
   });
+  $app.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", ()=>{
+    if(b.dataset.tab !== state.homeTab) Sfx.play("click");
+    setHomeTab(b.dataset.tab);
+  }));
 }
 
 /* "15 klausimų · 38 min" — every button that starts a free test says how
@@ -6648,7 +6747,7 @@ function renderParent(){
       <h3>Silpnesnės gudrybės – siūlome serijas</h3>
       ${worst.map(w => {
         const pct = Math.round(100*w.rate);
-        return `<div class="cat-row">
+        return `<div class="cat-row weak-row">
           <span>${escapeHTML(MECHANIC_LABEL[w.mech]||w.mech)}</span>
           <div class="bar"><div style="width:${pct}%;background:var(--bad)"></div></div>
           <span class="pill bad">${pct} % klaidų</span>
@@ -8146,7 +8245,7 @@ function launchPlanStep(s){
   else if(s.act === "strategy"){
     // Reading step: tick it and jump to the strategy explainer on home.
     markPlanStepDone();
-    state.view = "home"; renderHome();
+    state.view = "home"; state.homeTab = "tests"; renderHome();
     try { const d = document.getElementById("contestStrategy"); if(d){ d.open = true; d.scrollIntoView({behavior:"smooth"}); } } catch(_){}
   }
   else if(s.act === "none"){ markPlanStepDone(); renderPlan(); }

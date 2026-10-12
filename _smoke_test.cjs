@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab};
 `;
 let app;
 try {
@@ -437,8 +437,12 @@ section("macro-cycle + stars");
   check("track card renders nodes", (th.match(/track-node/g) || []).length === tm.length, String((th.match(/track-node/g) || []).length));
   check("track card has a finish flag", th.includes("track-flag"));
   app.logActivity(true, 5);   // one answered 5-pointer → recap has something to show
+  // on Mondays the recap shows LAST week: put the answer there too
+  const recapMoved = new Date().getDay() === 1 ? app.weekActivity(1)[2].key : null;
+  if(recapMoved) store.activity[recapMoved] = {...store.activity[app.todayKey()]};
   check("recap renders (activity exists)", weeklyRecapHTML().includes("apžvalga"));
   check("recap counts the answer", weeklyRecapHTML().includes("1</b><span>uždavinys"));
+  if(recapMoved) delete store.activity[recapMoved];
   const rh = rewardsCardHTML();
   check("rewards shows weekly goal", rh.includes("Savaitės tikslas"));
   check("rewards shows free race button", rh.includes('id="freeRaceBtn"'));
@@ -1327,6 +1331,28 @@ section("after the contest");
   st.plan.actualScore = 81.25; app.renderHome();
   check("real score shown with the comparison", app.$app.innerHTML.includes("Kengūros rezultatas: 81,25 t."));
   st.plan.contestDate = saved; delete st.plan.actualScore;
+}
+
+section("home tabs");
+{
+  app.state.view = "home"; app.state.homeTab = "today"; app.renderHome();
+  const h = app.$app.innerHTML;
+  const panes = [...h.matchAll(/<div class="tab-pane" data-pane="(\w+)"( hidden)?>/g)];
+  check("one pane per tab", panes.length === app.HOME_TABS.length, String(panes.length));
+  check("only the active pane is visible", panes.filter(p => !p[2]).map(p => p[1]).join() === "today");
+  check("tab bar lists every tab", app.HOME_TABS.every(t => h.includes(`data-tab="${t.id}"`)));
+  const paneOf = needle => { const i = h.indexOf(needle); let last = null; for(const p of panes) if(p.index < i) last = p[1]; return i < 0 ? "missing" : last; };
+  check("mission on today", paneOf('id="planBtn"') === "today");
+  check("track + tricks on learn", paneOf('data-mech-playlist') === "learn");
+  check("papers on tests", paneOf('id="contestYears"') === "tests");
+  check("archive + free test on practice", paneOf('id="archiveYears"') === "practice" && paneOf('id="startBtn"') === "practice");
+  check("rewards + settings on me", paneOf('id="soundToggle"') === "me" && paneOf("Lenktynių iššūkis") === "me");
+  check("status row above the panes", h.indexOf('id="parentBtn"') < panes[0].index);
+  app.state.homeTab = "tests"; app.renderHome();
+  check("re-render keeps the chosen tab", /data-pane="tests">/.test(app.$app.innerHTML));
+  app.state.homeTab = "bogus"; app.renderHome();
+  check("unknown tab falls back to today", /data-pane="today">/.test(app.$app.innerHTML));
+  app.state.homeTab = "today";
 }
 
 section("corrupt save is kept, not overwritten");

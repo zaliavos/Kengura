@@ -917,3 +917,16 @@ simulation (84 d, 6 seeds, of 28 track tricks): 0.8 learn 25.0 · 0.85
 - **Final check:** `_rebuild_data.py` reproduces the archive; smoke green;
   simulation (84 d, 6 seeds, of 28): 0.8 learn 24,7 · 0.85 22,0 ·
   0.7 learn 14,7 · weekend-off 17,0 · erratic 9,8.
+
+## Home tabs (2026-10-12)
+
+The home page had grown to 14 stacked cards. It is now five tabs with a
+bottom tab bar (`HOME_TABS`, `setHomeTab`, `state.homeTab`; every start
+opens on "today"): **Šiandien** (mission, plan, recap, post-contest),
+**Gudrybės** (track, weak spots, full trick list collapsed),
+**Konkursas** (papers, strategy, paper print), **Uždaviniai** (archive
+years, generated test, last test), **Prizai** (race/shop/badges,
+settings, about/reset). A one-line status strip (streak, stars, 📒, 👁)
+sits above every tab. All panes are rendered and only `[hidden]` is
+toggled, so wiring and smoke checks see the whole page; a re-render keeps
+the tab. Dots on tabs: undone plan steps, unfinished paper, game tickets.
