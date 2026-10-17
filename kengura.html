@@ -66,11 +66,13 @@
   .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
   .btn.primary:hover{background:#bf3c14}
   .btn.ghost{background:transparent}
-  .btn.small{padding:7px 10px;font-size:13px}
+  .btn.small{padding:8px 12px;font-size:14px;min-height:40px}
+  /* children's motor control: every tap target ≥ 40 px tall, options ≥ 48 px */
+  .btn{min-height:44px}
   .btn[disabled]{opacity:.55;cursor:not-allowed}
   .pill{
     display:inline-block;padding:3px 9px;border-radius:999px;
-    font-size:12px;background:var(--accent-soft);color:var(--accent);font-weight:600;
+    font-size:13px;background:var(--accent-soft);color:var(--accent);font-weight:600;
   }
   .pill.muted{background:#f1ecdf;color:var(--muted)}
   .pill.good{background:var(--good-soft);color:var(--good)}
@@ -81,17 +83,17 @@
   .figure img{cursor:zoom-in}
   /* typed question text behind the figure (see questionBodyHTML) */
   details.qtext{margin:-6px 0 12px;border:0;background:none;padding:0}
-  details.qtext > summary{cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);list-style:none;display:inline-flex;align-items:center;gap:6px;padding:2px 0}
+  details.qtext > summary{cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);list-style:none;display:inline-flex;align-items:center;gap:6px;padding:2px 0}
   /* picture answers: five letter circles in a row, not five empty bars */
   .opt.opt-letter-only{justify-content:center;padding:12px 8px}
   .opt.opt-letter-only .letter{margin:0}
   .qtext summary::-webkit-details-marker{display:none}
-  .qtext summary .qtext-aa{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 5px;font-weight:700;font-size:11px;background:#fffaf0}
+  .qtext summary .qtext-aa{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 5px;font-weight:700;font-size:12px;background:#fffaf0}
   details.qtext > summary .qtext-lbl::after{content:"Rodyti tekstą"}
   details.qtext[open] > summary .qtext-lbl::after{content:"Slėpti tekstą"}
   details.qtext[open] > summary{color:var(--ink)}
   .qtext .qprompt{font-size:15px;margin:6px 0 4px;padding:8px 10px;background:#fffaf0;border:1px dashed var(--line);border-radius:8px}
-  .fig-zoom-hint{display:none;font-size:11px;color:var(--muted);text-align:center;margin:-10px 0 10px}
+  .fig-zoom-hint{display:none;font-size:12px;color:var(--muted);text-align:center;margin:-10px 0 10px}
   @media(max-width:600px){.fig-zoom-hint{display:block}}
   .ptable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
   .kid-sol p{margin:6px 0 0;line-height:1.5}
@@ -106,7 +108,7 @@
   .opt{
     display:flex;align-items:flex-start;gap:10px;
     padding:11px 12px;border:1px solid var(--line);border-radius:12px;
-    background:#fffaf0;cursor:pointer;font-size:15px;line-height:1.4;
+    background:#fffaf0;cursor:pointer;font-size:15px;line-height:1.4;min-height:48px;align-items:center;
     transition:background .12s, border-color .12s;
     /* options are <button> elements (keyboard-focusable) – reset UA styles */
     appearance:none;-webkit-appearance:none;
@@ -115,9 +117,9 @@
   .btn:focus-visible,.opt:focus-visible,.contest-pip:focus-visible,summary:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .opt:hover{background:#fff1de}
   .opt .letter{
-    width:26px;height:26px;border-radius:50%;background:var(--accent-soft);
+    width:30px;height:30px;border-radius:50%;background:var(--accent-soft);
     color:var(--accent);font-weight:700;display:grid;place-items:center;
-    flex:0 0 26px;font-size:13px;
+    flex:0 0 30px;font-size:14px;
   }
   .opt.image-opt{flex-direction:column;align-items:center;text-align:center;padding:10px 6px;gap:6px}
   .opt.image-opt .letter{margin:0}
@@ -180,17 +182,17 @@
     display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fffaf0;
   }
   .switch button{
-    border:0;background:transparent;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--muted);font-weight:600;
+    border:0;background:transparent;padding:8px 12px;font-size:14px;min-height:40px;cursor:pointer;color:var(--muted);font-weight:600;
   }
   .switch button.on{background:var(--accent);color:#fff}
   .empty{color:var(--muted);font-style:italic}
   .top-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-  .top-stats .pill{font-size:12px}
+  .top-stats .pill{font-size:13px}
 
   /* Hero block: streak + activity strip + mission card */
   .hero-card{padding:18px}
   .hero-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-  .hero-streak{display:flex;align-items:baseline;gap:4px;background:#fff4e8;border:1px solid var(--accent-soft);
+  .hero-streak{display:flex;align-items:baseline;gap:4px;min-height:40px;background:#fff4e8;border:1px solid var(--accent-soft);
     border-radius:14px;padding:8px 12px}
   .streak-flame{font-size:18px;line-height:1}
   .streak-num{font-size:22px;font-weight:800;color:var(--accent)}
@@ -204,11 +206,11 @@
   .mission{padding:14px;border-radius:12px;margin-bottom:8px}
   .mission-primary{background:linear-gradient(180deg, #fff4d8 0%, #ffe6a8 100%);border:1px solid var(--accent)}
   .mission-warm{background:#fff1ec;border:1px dashed #e5704a}
-  .mission-meta{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  .mission-meta{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
   .mission-title{margin:4px 0 6px;font-size:20px;line-height:1.25}
   .mission-body{margin:0 0 12px;font-size:14px;color:#3a2c11}
   .recent-mastery{background:var(--good-soft);border:1px solid var(--good);padding:8px 12px;border-radius:10px;margin-top:8px;font-size:14px}
-  .muted.small{font-size:12px;color:var(--muted)}
+  .muted.small{font-size:13px;color:var(--muted)}
 
   /* Mastery celebration – used on the playlist mastery-pass message */
   @keyframes mastery-pop{
@@ -221,7 +223,7 @@
 
   /* Mechanic decay pill in playlist menu */
   .mech-stale-pill{display:inline-block;background:#fff;border:1px solid var(--accent);
-    color:var(--accent);font-size:11px;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:600}
+    color:var(--accent);font-size:12px;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:600}
 
   /* ---- Effects: toasts, floating stars, confetti ---- */
   .toast{pointer-events:auto;background:var(--accent);color:#fff;padding:10px 16px;border-radius:14px;
@@ -243,8 +245,8 @@
 
   /* ---- Learning track (30-node path) ---- */
   .track{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center;margin:10px 0 6px}
-  .track-node{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:#fff;
-    display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);
+  .track-node{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:#fff;
+    display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--muted);
     cursor:pointer;position:relative;transition:transform .15s}
   .track-node:hover{transform:scale(1.12)}
   .track-node.done{background:var(--good);border-color:var(--good);color:#fff}
@@ -265,7 +267,7 @@
   .phase-build{background:#fff1d6;color:#9a5a00;border:1px solid #f0c27a}
   .phase-taper{background:var(--bad-soft);color:var(--bad);border:1px solid #e9a0a7}
   .week-strip{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-  .week-day{flex:1 1 0;min-width:44px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:6px 2px;font-size:11px;background:#fff}
+  .week-day{flex:1 1 0;min-width:44px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:6px 2px;font-size:12px;background:#fff}
   .week-day .wd{font-weight:700;color:var(--muted)}
   .week-day .ic{font-size:18px;line-height:1.3}
   .week-day.today{border-color:var(--accent);background:#fff4e8}
@@ -276,7 +278,7 @@
   .tl-bars{display:flex;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
   .tl-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;border-right:1px solid #fff}
   .tl-today{position:absolute;top:-4px;width:3px;height:34px;background:#5e3300;border-radius:2px;transform:translateX(-50%)}
-  .tl-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+  .tl-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px}
   .track-caption{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:14px}
   .goal-bar{height:10px;background:#efe6d2;border-radius:5px;overflow:hidden;margin:6px 0}
   .goal-bar > div{height:100%;background:linear-gradient(90deg,#f0b429,#f08a1c);border-radius:5px;transition:width .4s}
@@ -284,7 +286,7 @@
     background:#f1ecdf;border:1px solid var(--line);border-bottom-width:2px;
     border-radius:6px;padding:1px 6px;font-size:12px;font-family:inherit;color:#444;
   }
-  .help-bar{font-size:12px;color:var(--muted);margin-top:6px}
+  .help-bar{font-size:13px;color:var(--muted);margin-top:6px}
   .confidence-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0;padding:8px 12px;background:#fff7ec;border:1px dashed var(--line);border-radius:10px}
   .misconception{padding:6px 8px;background:#fff;border-radius:6px}
   .tier-1, .tier-2, .tier-3{margin-bottom:6px}
@@ -301,15 +303,15 @@
   .contest-timer-box{font-size:18px;font-weight:700;color:var(--accent);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-variant-numeric:tabular-nums}
   .contest-strip{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
   .contest-pip{
-    width:30px;height:30px;border-radius:6px;border:1px solid var(--line);
-    background:#fff;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;
+    width:36px;height:36px;border-radius:8px;border:1px solid var(--line);
+    background:#fff;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;
     display:inline-grid;place-items:center;
   }
   .contest-pip.filled{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
   .contest-pip.current{outline:2px solid var(--accent);outline-offset:1px}
   .contest-pip.flagged{box-shadow:inset 0 -3px 0 var(--bad)}
   .contest-pip:hover{border-color:var(--accent)}
-  .nav-back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;padding:0;margin-bottom:8px}
+  .nav-back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;font-size:15px;padding:8px 0;min-height:40px;margin:-8px 0 2px}
   .mech-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px}
   .mech-row{
     display:flex;flex-direction:column;gap:8px;padding:10px 12px;
@@ -328,7 +330,7 @@
   .methodology h4{margin:0 0 6px;font-size:14px;color:var(--accent)}
   .methodology p{margin:6px 0;font-size:14px;line-height:1.5}
   .methodology .label{font-weight:600;color:#444}
-  @media (prefers-reduced-motion: reduce){ .fx-star{animation:none !important} *{scroll-behavior:auto !important} }
+  @media (prefers-reduced-motion: reduce){ .fx-star,.track-node.current,.mastery-pass{animation:none !important} *{scroll-behavior:auto !important;transition:none !important} }
   @media print{
     body{background:#fff}
     .btn,.footer-actions,header.brand,.no-print{display:none !important}
@@ -369,13 +371,21 @@
     .weak-row .bar{margin-left:0}
   }
   .weak-row .pill{white-space:nowrap}
+  /* phones: reading text one step larger (NN/g: children need ≥ 14 px; the
+     contest figure is already small on a 360 px screen) */
+  @media(max-width:600px){
+    .opt{font-size:16px}
+    .explain,.hint,.methodology p,.firststep{font-size:15px}
+    .qtext .qprompt{font-size:16px}
+    .mission-body{font-size:15px}
+  }
   .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--paper);
     border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.06);
     padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
   .tabbar-in{max-width:780px;margin:0 auto;display:flex}
   .tab{flex:1;min-width:0;appearance:none;border:0;background:none;cursor:pointer;position:relative;
     display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px 9px;
-    color:var(--muted);font:600 11px/1.1 inherit;border-top:3px solid transparent}
+    color:var(--muted);font-family:inherit;font-weight:600;font-size:12px;line-height:1.1;border-top:3px solid transparent}
   .tab .tab-ico{font-size:21px;line-height:1;filter:grayscale(.7);opacity:.8}
   .tab .tab-lbl{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .tab.on{color:var(--accent);border-top-color:var(--accent)}
@@ -391,7 +401,7 @@
   .ach-badge.on{opacity:1;filter:none;background:var(--accent-soft);border-color:var(--accent)}
   .ach-badge.on:hover{transform:translateY(-2px)}
   .ach-ico{font-size:26px;line-height:1}
-  .ach-name{font-size:11px;font-weight:600;color:var(--ink);line-height:1.15}
+  .ach-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.15}
   /* ---- Racing minigame ---- */
   .race-hud{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0}
   .race-canvas-wrap{display:flex;justify-content:center}
@@ -4607,7 +4617,7 @@ function renderArchiveCard(year, q){
     const opener = right ? '' : growthOpenerFor(q);
     const confidentWrong = !right && ans.confidence === 'a';
     bottom = `<div class="explain" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
-        <b>${right ? "Teisingai!" : "Klaida."}</b>${right && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>!` : ''}
+        <b>${right ? "✓ Teisingai." : "Ne šis atsakymas."}</b>${right && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         ${q.correct ? ` Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.` : ''}
         ${opener ? `<div class="opener" style="margin-top:6px;font-size:13px;font-style:italic">${escapeHTML(opener)}</div>` : ''}
         ${confidentWrong ? `<div style="margin-top:6px;font-size:13px"><b>Buvai tikras, bet suklydai</b> – čia dažniausiai slepiasi klaidingas supratimas, ne atsitiktinė klaida. Perskaityk sprendimą ypač atidžiai: šis uždavinys sugrįš jau rytoj.</div>` : ''}
@@ -5046,7 +5056,7 @@ function renderHome(){
           return `<button class="btn small${seen ? '' : ' primary'}" data-year="${t.year}" title="${seen ? `Jau spręsta ${seen} iš ${t.questions.length}` : 'Dar nespręsta'}">${t.year}${seen ? ` · ${seen}/${t.questions.length}` : ''}</button>`;
         }).join("")}
       </div>
-      <p class="help-bar" style="margin-top:10px">Pasirink atsakymą A–E; prireikus imk užuominą (trys pakopos), paspaudęs „Patikrinti“ pamatysi rezultatą ir sprendimą. <span style="opacity:.7">Skaičius prie metų – kiek tų metų uždavinių jau spręsta · 🔒 naujausi metai laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį</span></p>
+      <p class="help-bar" style="margin-top:10px">Skaičius prie metų – kiek jau spręsta. 🔒 – laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį.</p>
     </section>` : ``}
 
     <section class="card">
@@ -5120,10 +5130,9 @@ function renderHome(){
     <section class="card">
       <details>
         <summary>Apie šį treniruoklį</summary>
-        <p>Klausimų stilius pagal Tarptautinį matematikos konkursą „Kengūra“ (Benjamin – 5–6 klasė). Klausimai – su <b>5 atsakymo variantais (A–E)</b> ir trijų sunkumo lygių (3, 4, 5 taškai).</p>
-        <p><b>Užuomina</b> nepasako atsakymo – ji parodo <i>kelią</i>, kuriuo verta eiti. Jei ja pasinaudoji, atsakymas vis tiek įskaitomas, bet pažymimas atskirai.</p>
-        <p>Po testo pamatysi savo klaidas, o kiekvienai – galėsi spręsti <b>panašų uždavinį</b>, kad įsitvirtintum.</p>
-        <p>Originalūs PDF testai šalia šio failo – su paveikslėliais. Tipų klasifikatorius automatiškai priskiria kiekvienam senam klausimui temų kategorijas (geometrija, logika, skaičiavimas, …).</p>
+        <p>Uždaviniai – iš tikrų „Kengūros“ konkursų (Bičiulis, 5–6 klasė). Kiekvienas turi 5 atsakymus (A–E) ir vertę: 3, 4 arba 5 taškai.</p>
+        <p><b>Užuomina</b> atsakymo nepasako – ji parodo, nuo ko pradėti.</p>
+        <p>Suklydęs uždavinys sugrįš pakartojimui, o sprendimas parodys, kur slėpėsi gudrybė.</p>
         <p style="color:var(--muted);font-size:13px;margin-top:6px">
           <button class="btn small ghost" id="resetBtn">Išvalyti progresą</button>
         </p>
@@ -5744,7 +5753,7 @@ function renderResults(){
       <h3>🏃 Sprinto verdiktas</h3>
       <p>Vidutiniškai <b>${avg} s</b> klausimui (tikslas – 60 s) · teisingų <b>${correct}/${total}</b>.</p>
       <p class="help-bar">${fast && sharp
-        ? 'Puiku! 3 taškų blokas konkurse turi būti greitas IR tikslus – tu jau moki šitą dalį.'
+        ? '3 taškų blokas – greitas ir tikslus. Šią konkurso dalį jau moki.'
         : !fast
         ? 'Dar lėtoka. 3 taškų uždaviniai konkurse – tavo bankas: spręsk sprintus dažniau, kol veiksmai taps automatiniai.'
         : 'Greitis geras – dabar pagerink tikslumą: geriau 55 s ir teisingai, nei 40 s ir klaida su −25 % bauda.'}</p>
@@ -5814,7 +5823,7 @@ function renderResults(){
 
     <section class="card">
       <h3>Klaidos (${wrongs.length})</h3>
-      ${wrongs.length === 0 ? `<p class="empty">Šaunuolis – nė vienos klaidos!</p>`:
+      ${wrongs.length === 0 ? `<p class="empty">Nė vienos klaidos – visi sprendimai pasiteisino.</p>`:
         wrongs.map(({q,ans,i})=>{
           const renderOpt = (idx)=>{
             if(idx == null) return "<i>nepasirinkta</i>";
@@ -6411,7 +6420,7 @@ function renderContestResults(){
       ${r.byTimer ? `<p class="help-bar"><b>Laikas pasibaigė</b> – kontrolinis baigėsi automatiškai.</p>` : ''}
       ${(() => { const prev = (store.contests || []).filter(c => c.when < r.when).slice(-1)[0]; if(!prev) return `<p style="margin:4px 0 8px">🏁 Tai tavo pirmasis kontrolinis – <b>atskaitos taškas</b>. Kiek taškų – nesvarbu; kitą kartą pamatysi, kiek pasistūmėjai.</p>`;
         const delta = (r.scoreWithPenalty ?? r.points) - (prev.scoreWithPenalty ?? prev.points);
-        return `<p style="margin:4px 0 8px">${delta > 0 ? `📈 <b>+${fmtPts(delta)} t.</b> daugiau nei praėjusiame kontroliniame (${escapeHTML(String(prev.year))} m.). Puiku!` : delta < 0 ? `Šįkart ${fmtPts(-delta)} t. mažiau nei praėjusį kartą (${escapeHTML(String(prev.year))} m.) – metai būna skirtingo sunkumo; žemiau pažiūrėk, kur dingo taškai.` : 'Tiek pat, kiek praėjusį kartą.'}</p>`; })()}
+        return `<p style="margin:4px 0 8px">${delta > 0 ? `📈 <b>+${fmtPts(delta)} t.</b> daugiau nei praėjusiame kontroliniame (${escapeHTML(String(prev.year))} m.).` : delta < 0 ? `Šįkart ${fmtPts(-delta)} t. mažiau nei praėjusį kartą (${escapeHTML(String(prev.year))} m.) – metai būna skirtingo sunkumo; žemiau pažiūrėk, kur dingo taškai.` : 'Tiek pat, kiek praėjusį kartą.'}</p>`; })()}
       <div class="grid two">
         <div class="stat"><b>${r.correct} / ${r.total}</b><span>Teisingi atsakymai (${pct} %)</span></div>
         <div class="stat"><b>${fmtPts(r.scoreWithPenalty)} / ${r.maxPoints}</b><span>Su −25 % bauda</span></div>
@@ -7393,8 +7402,8 @@ function renderPlaylist(){
         return passed
           ? `<div class="explain mastery-pass" style="background:var(--good-soft);border:1px solid var(--good)">
               <span class="star">⭐</span>${content.sourceBand && content.sourceBand < mechTopBand(state.playlistMech)
-                ? `<b>Šaunu! Įveikta ${content.sourceBand} t. lygiu.</b> Kitas žingsnis – šios gudrybės ${mechTopBand(state.playlistMech)} t. uždaviniai; planas juos pasiūlys.`
-                : `<b>Šaunu! Gudrybė įvaldyta.</b> Pažymėjome kaip įvaldytą – pasimatysime vėl po ${masteryDecayDays()} d.`}
+                ? `<b>Įveikta ${content.sourceBand} t. lygiu!</b> Kitas žingsnis – šios gudrybės ${mechTopBand(state.playlistMech)} t. uždaviniai; planas juos pasiūlys.`
+                : `<b>Gudrybė įvaldyta!</b> Pažymėjome kaip įvaldytą – pasimatysime vėl po ${masteryDecayDays()} d.`}
               <br><span class="muted small">Visi ${items.length} atsakymai teisingi${content.sourceBand ? ` (${content.sourceBand} t. lygis)` : ''}.</span>
              </div>`
           : `<div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
@@ -7740,7 +7749,7 @@ function renderPlaylistQuestion(item, opts){
         : `<div style="margin:6px 0"><b style="font-size:14px">Kodėl, manai, suklydai?</b><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">${Object.entries(MISTAKE_REASONS).map(([id, t]) => `<button class="btn small ghost" data-pl-why="${id}">${escapeHTML(t)}</button>`).join('')}</div></div>`; })() : ''}
       ${showSol && (q.solutionKid || q.solution) ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
       ${submitted ? `<div class="explain" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
-        <b>${chosen === q.correct ? 'Teisingai!' : 'Klaida.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>!` : ''}
+        <b>${chosen === q.correct ? '✓ Teisingai.' : 'Ne šis atsakymas.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.${dueAfter}
       </div>` : ''}
       <div class="footer-actions">
@@ -9106,7 +9115,7 @@ function renderRaceChallenge(){
       ${imageOnly?`<p class="help-bar">Atsakymai – paveikslėlyje. Rink raidę A–E.</p>`:''}
       <div class="options" id="raceOptions">${optionsHtml}</div>
       ${submitted ? `<div class="explain" style="margin-top:8px">
-        ${state.raceChosen === q.correct ? '<b style="color:var(--good)">Teisingai! ✓</b>' : `<b style="color:var(--bad)">Ne. Teisingas – ${q.correct}.</b>`}
+        ${state.raceChosen === q.correct ? '<b style="color:var(--good)">✓ Teisingai.</b>' : `<b style="color:var(--bad)">Ne. Teisingas – ${q.correct}.</b>`}
         ${q.solutionKid || q.solution ? `<div style="margin-top:6px;font-size:13px">${escapeHTML(shortText(solutionPlain(q), 420))}</div>` : ''}
       </div>` : ''}
       <div class="footer-actions">
