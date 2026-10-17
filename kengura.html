@@ -3626,7 +3626,7 @@ const STAR_TIME_TICK_SEC = 20;
 // Views where a minute counts as practice. Home, plan, parent view and
 // the reward games earn nothing per minute – a kid will try leaving the
 // tab open.
-const STAR_TIME_VIEWS = new Set(["quiz", "playlist", "recog", "archiveYear", "contest", "raceChallenge", "results", "contestResults"]);
+const STAR_TIME_VIEWS = new Set(["quiz", "playlist", "recog", "think", "archiveYear", "contest", "raceChallenge", "results", "contestResults"]);
 let _lastStarSaveAt = 0;
 // Minute stars stop after this long without a tap, key or scroll – a results
 // page left open on the table is not learning time.
@@ -5337,6 +5337,12 @@ function renderHome(){
     </section>` : ``}
 
     <section class="card">
+      <h3>Mąstymo treniruotės</h3>
+      <p class="help-bar" style="margin-top:0">Trumpos, be laikrodžio: atpažinti gudrybę, rasti svetimą klaidą, sudėlioti sprendimą.</p>
+      <div class="row"><button class="btn" id="recogHomeBtn">🔍 Kokia gudrybė?</button><button class="btn" id="thinkBtn">🧠 Kur suklydo Tomas?</button></div>
+    </section>
+
+    <section class="card">
       <h3>Gudrybių mokymasis</h3>
       <p style="margin-top:0">Kiekvienas 5 t. uždavinys slepia gudrybę. „Mokytis“ – keturi žingsniai: gudrybė → pavyzdys → pabandyk → patikra.</p>
       <details id="allMechs">
@@ -5649,6 +5655,10 @@ function renderHome(){
   if(mistakeBookBtn) mistakeBookBtn.addEventListener("click", openMistakeBook);
   const parentBtn = document.getElementById("parentBtn");
   if(parentBtn) parentBtn.addEventListener("click", openParent);
+  const thinkBtn = document.getElementById("thinkBtn");
+  if(thinkBtn) thinkBtn.addEventListener("click", openThinkDrill);
+  const recogHomeBtn = document.getElementById("recogHomeBtn");
+  if(recogHomeBtn) recogHomeBtn.addEventListener("click", openRecogDrill);
   // Phones have no hover: a tap on the streak / stars explains them.
   const tapToast = (id, fn) => { const el = document.getElementById(id); if(!el) return; const go = () => showToast(...fn()); el.addEventListener("click", go); el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); } }); };
   tapToast("heroStreak", () => {
@@ -8786,6 +8796,143 @@ function renderRecogResult(){
   document.getElementById("recogHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
 }
 
+/* -------- Mąstymo treniruotė: someone else's slip + putting steps in order --------
+   Two kinds of item, alternating. "Kur suklydo Tomas?" – an erroneous
+   example: Tomas picked a wrong letter and the kid matches it to the slip
+   that produces it (the question's own notes, 2–3 letters), then sees the
+   right answer. Finding and explaining another's error helps delayed
+   learning (Adams, McLaren et al.; Große & Renkl). "Sudėliok sprendimą" –
+   the kid solution's steps shuffled; tap them in order (reading the
+   reasoning, not just the answer). No clock, one star per item. */
+const THINK_ITEMS = 6;
+function buildThinkItems(){
+  const reserved = new Set(reservedYears().map(String));
+  const slip = [], order = [];
+  for(const t of ARCHIVE){
+    if(reserved.has(String(t.year)) || OUT_OF_SCOPE_YEARS.has(String(t.year))) continue;
+    for(const q of t.questions){
+      if((q.points || 3) < 4 || !q.correct) continue;
+      const notes = Object.entries(q.misconceptions || {}).filter(([L, txt]) => L !== q.correct && q.options && q.options[L] != null && txt && txt.length > 15);
+      if(notes.length >= 2) slip.push({kind: "slip", year: t.year, q, notes});
+      const parts = q.solutionKid ? kidSolutionParts(q.solutionKid) : null;
+      if(parts && parts.paras.length >= 3 && parts.paras.length <= 5) order.push({kind: "order", year: t.year, q, parts});
+    }
+  }
+  const fresh = arr => shuffleInPlace(arr).sort((a, b) => (isRecentlySeen(a.year, a.q.num) ? 1 : 0) - (isRecentlySeen(b.year, b.q.num) ? 1 : 0));
+  fresh(slip); fresh(order);
+  const items = [];
+  for(let i = 0; items.length < THINK_ITEMS && (slip.length || order.length); i++){
+    const src = (i % 2 === 0 && slip.length) || !order.length ? slip : order;
+    const it = src.shift();
+    if(it.kind === "slip"){
+      const pick = it.notes[Math.floor(Math.random() * it.notes.length)];
+      it.chosen = pick[0];
+      it.choices = shuffleInPlace(it.notes.slice(0, 3).some(n => n[0] === pick[0]) ? it.notes.slice(0, 3) : [pick].concat(it.notes.filter(n => n[0] !== pick[0]).slice(0, 2)));
+    } else {
+      it.shuffled = shuffleInPlace(it.parts.paras.map((p, i) => i));
+      if(it.shuffled.every((v, i) => v === i)) it.shuffled.reverse();
+    }
+    items.push(it);
+  }
+  return items;
+}
+function openThinkDrill(){
+  const items = buildThinkItems();
+  if(items.length < 2){ showToast("🧠", "Kol kas per mažai uždavinių šiai treniruotei."); return; }
+  state.view = "think";
+  state.think = {items, idx: 0, ok: 0, pick: null, done: false, order: [], misses: 0};
+  renderThink();
+}
+function renderThink(){
+  const T = state.think, it = T.items[T.idx], q = it.q;
+  const head = `<div class="contest-header"><div><b>🧠 Mąstymo treniruotė</b> <span class="help-bar" style="margin-left:6px">${T.idx + 1} / ${T.items.length}</span></div><button class="btn ghost small" id="thinkQuit">← Pradžia</button></div>`;
+  let body = "";
+  if(it.kind === "slip"){
+    const right = T.done && T.pick === it.chosen;
+    body = `<h3 style="margin:4px 0">Kur suklydo Tomas?</h3>
+      <p class="help-bar" style="margin:0 0 8px">Tomas pasirinko <b>${it.chosen}</b>${q.options[it.chosen] ? ` (${escapeHTML(q.options[it.chosen])})` : ''}. Kuri klaida veda būtent prie šio atsakymo?</p>
+      ${questionBodyHTML(q, {lazy:false})}
+      <div class="options">${it.choices.map(([L, txt]) => {
+        let cls = "opt";
+        if(T.done && L === it.chosen) cls += " correct"; else if(T.done && L === T.pick) cls += " wrong"; else if(!T.done && T.pick === L) cls += " selected";
+        return `<button type="button" class="${cls}" data-think-pick="${L}"${T.done ? ' disabled' : ''}><span>${escapeHTML(txt)}</span></button>`; }).join('')}</div>
+      ${T.done ? `<div class="explain verdict" role="status" tabindex="-1" style="background:${right ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${right ? 'var(--good)' : 'var(--bad)'}"><b>${right ? '✓ Teisingai' : 'Ne ši'}.</b> ${right ? 'Būtent ši klaida duoda' : 'Prie'} <b>${it.chosen}</b>${right ? '.' : ' veda kita – pažymėta žaliai.'} Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct] ? ` (${escapeHTML(q.options[q.correct])})` : ''}.</div>
+        <details style="margin-top:8px"><summary>Sprendimas</summary><div class="explain">${solutionBlockHTML(q)}</div></details>` : ''}`;
+  } else {
+    const placed = T.order;
+    const done = placed.length === it.parts.paras.length;
+    body = `<h3 style="margin:4px 0">Sudėliok sprendimą</h3>
+      <p class="help-bar" style="margin:0 0 8px">Spręsti nereikia. Spausk žingsnius iš eilės – nuo pirmo iki paskutinio.</p>
+      ${questionBodyHTML(q, {lazy:false})}
+      ${it.parts.trick ? `<p class="kid-trick" style="margin:6px 0">💡 ${escapeHTML(it.parts.trick)}</p>` : ''}
+      ${placed.length ? `<ol class="think-placed" style="margin:6px 0 10px 18px;padding:0">${placed.map(i => `<li style="margin:4px 0">${escapeHTML(it.parts.paras[i])}</li>`).join('')}</ol>` : ''}
+      ${!done ? `<div class="options">${it.shuffled.filter(i => !placed.includes(i)).map(i => `<button type="button" class="opt${T.wrongTap === i ? ' wrong' : ''}" data-think-step="${i}"><span>${escapeHTML(it.parts.paras[i])}</span></button>`).join('')}</div>
+        ${T.wrongTap != null ? `<p class="help-bar" role="status" style="color:var(--bad)">Ne šis – ko reikia prieš jį?</p>` : ''}` : `<div class="explain verdict" role="status" tabindex="-1" style="background:var(--good-soft);border:1px solid var(--good)"><b>✓ Sudėliota${T.misses ? ` (pataisymų: ${T.misses})` : ' iš pirmo karto'}.</b> ${it.parts.ans ? escapeHTML(it.parts.ans.trim()) : ''}</div>`}`;
+  }
+  const finished = it.kind === "slip" ? T.done : T.order.length === it.parts.paras.length;
+  $app.innerHTML = `<section class="card">${head}</section>
+    <section class="card">${body}
+      <div class="footer-actions"><div class="row"></div><div class="row">
+        ${it.kind === "slip" && !T.done ? `<button class="btn primary" id="thinkCheck"${T.pick ? '' : ' disabled'}>Patikrinti</button>` : ''}
+        ${finished ? `<button class="btn primary" id="thinkNext">${T.idx < T.items.length - 1 ? 'Kitas →' : 'Rezultatai →'}</button>` : ''}
+      </div></div>
+    </section>`;
+  document.getElementById("thinkQuit").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
+  $app.querySelectorAll("[data-think-pick]").forEach(b => b.addEventListener("click", ()=>{ if(T.done) return; T.pick = b.dataset.thinkPick; renderThink(); }));
+  const chk = document.getElementById("thinkCheck");
+  if(chk) chk.addEventListener("click", ()=>{
+    if(!T.pick) return;
+    T.done = true;
+    const right = T.pick === it.chosen;
+    if(right) T.ok++;
+    thinkRecord("slip", right, it);
+    Sfx.play(right ? "correct" : "wrong");
+    renderThink();
+    try { const v = $app.querySelector(".verdict"); if(v){ v.scrollIntoView({behavior: smoothScroll(), block: "center"}); v.focus({preventScroll: true}); } } catch(_){}
+  });
+  $app.querySelectorAll("[data-think-step]").forEach(b => b.addEventListener("click", ()=>{
+    const i = Number(b.dataset.thinkStep);
+    if(i === T.order.length){
+      T.order.push(i); T.wrongTap = null;
+      if(T.order.length === it.parts.paras.length){
+        const right = T.misses === 0;
+        if(right) T.ok++;
+        thinkRecord("order", right, it);
+        Sfx.play("correct");
+      }
+    } else { T.wrongTap = i; T.misses++; }
+    renderThink();
+  }));
+  const nx = document.getElementById("thinkNext");
+  if(nx) nx.addEventListener("click", ()=>{
+    if(T.idx >= T.items.length - 1){ renderThinkResult(); return; }
+    T.idx++; T.pick = null; T.done = false; T.order = []; T.misses = 0; T.wrongTap = null;
+    renderThink(); toTop();
+  });
+}
+function thinkRecord(kind, right, it){
+  store.thinkStats = store.thinkStats || {};
+  const s = store.thinkStats[kind] = store.thinkStats[kind] || {a: 0, ok: 0};
+  s.a++; if(right) s.ok++;
+  store.seenQ[`${it.year}-${it.q.num}`] = Date.now();
+  logActivity(right, 3);   // real thinking work: streak + one star, no mechanic stats
+  saveStore(store);
+}
+function renderThinkResult(){
+  const T = state.think;
+  state.view = "thinkResult";
+  $app.innerHTML = `<section class="card" style="text-align:center">
+    <h2>🧠 Mąstymo treniruotė</h2>
+    <p style="font-size:30px;margin:6px 0"><b>${T.ok} / ${T.items.length}</b></p>
+    <p class="help-bar">Kas randa svetimą klaidą, rečiau ją padaro pats. Kas moka sudėlioti sprendimą, tas jį ir supranta.</p>
+    <div class="footer-actions" style="justify-content:center;gap:8px">
+      <button class="btn primary" id="thinkAgain">Dar kartą</button>
+      <button class="btn ghost" id="thinkHome">Į pradžią</button>
+    </div></section>`;
+  document.getElementById("thinkAgain").addEventListener("click", openThinkDrill);
+  document.getElementById("thinkHome").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
+}
+
 /* -------- Treniruočių planas: contest countdown + daily session ------- */
 function daysToContest(){
   const d = store.plan && store.plan.contestDate;
@@ -10329,8 +10476,7 @@ function solutionPlain(q){
 /* opts.fade (worked-example fading, 2026-10-17): the worked step of a
    playlist hides the answer line and – with ≥ 2 steps – the last step, so the
    kid completes the example instead of only reading it. */
-function kidSolutionHTML(t, opts){
-  const fade = !!(opts && opts.fade);
+function kidSolutionParts(t){
   t = String(t || "").trim();
   const ans = (t.match(/\sAtsakymas:\s*[A-E]\)[^]*$/) || [""])[0];
   let body = ans ? t.slice(0, t.length - ans.length) : t;
@@ -10343,6 +10489,11 @@ function kidSolutionHTML(t, opts){
     const last = paras[paras.length - 1];
     if(last != null && last.length + s.length < 220) paras[paras.length - 1] = last + " " + s; else paras.push(s);
   }
+  return {trick, paras, ans};
+}
+function kidSolutionHTML(t, opts){
+  const fade = !!(opts && opts.fade);
+  const {trick, paras, ans} = kidSolutionParts(t);
   if(fade){
     const hideLast = paras.length >= 2;
     return (trick ? `<p class="kid-trick">💡 ${escapeHTML(trick)}</p>` : "") +

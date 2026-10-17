@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openThinkDrill, buildThinkItems, renderThink, reservedYears, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
 `;
 let app;
 try {
@@ -1485,6 +1485,65 @@ section("kids' UX pass: focus mode, view hook");
   const v = st.view; st.view = "plan"; st.view = v;
   check("state.view stays a plain readable property", st.view === v && Object.keys(st).includes("view"));
   st.view = "home"; app.renderHome();
+}
+
+section("second kids' pass: a11y, sets, streak, gate, thinking drill");
+{
+  const st = app.state, store = app.store;
+  const dk = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const keep = JSON.stringify(store.streak), keepTd = store.plan.trainingDays;
+  store.plan.trainingDays = [0,1,2,3,4,5,6];
+  store.streak = {count: 12, lastDay: dk(new Date(Date.now() - 10 * 86400000)), freezesUsed: 0, freezeMonth: ""};
+  check("live streak: a broken run shows 0, not the stored count", app.liveStreak() === 0);
+  store.streak.lastDay = dk(new Date(Date.now() - 86400000));
+  check("live streak: yesterday keeps it", app.liveStreak() === 12);
+  store.streak = JSON.parse(keep); store.plan.trainingDays = keepTd;
+  const g = JSON.stringify(store.games);
+  store.games.gateDay = app.todayKey(); store.games.gateTries = 3;
+  check("game gate: 3 tries a day", app.gateTriesLeft() === 0);
+  store.games.gateDay = "2000-01-01";
+  check("game gate: a new day resets", app.gateTriesLeft() === 3);
+  store.games = JSON.parse(g);
+  // notebook set: one question at a time, back to the notebook
+  const keepM = JSON.stringify(store.mistakes || {});
+  const t = app.ARCHIVE.find(x => x.year === "2019");
+  store.mistakes = {};
+  for(const n of [4, 12, 23]) store.mistakes[`2019-${n}`] = {year: "2019", num: n, times: 1, first: 1, lastWrong: n};
+  app.openMistakeSet();
+  let h = app.$app.innerHTML;
+  check("notebook set opens as a set", st.view === "playlist" && st.playlistFromBook === true && h.includes("Klaidų sąsiuvinis"));
+  check("sets show one question at a time", (h.match(/class="card playlist-q"[^>]*hidden/g) || []).length === 2 && h.includes("data-pl-pip") && h.includes('id="plNextQ"'));
+  store.mistakes = JSON.parse(keepM);
+  // timed check: verdict now, solutions and why-chips when the set is over
+  const mech = t.questions.find(q => q.points === 5 && q.mechanic).mechanic;
+  app.openPlaylist(mech);
+  st.playlistStep = 3; app.renderPlaylist();
+  const items = st.playlistContent.mastery;
+  if(items.length >= 2){
+    const k = `${items[0].year}-${items[0].q.num}`;
+    st.playlistAns[k] = items[0].q.correct === "A" ? "B" : "A"; st.playlistSubmitted[k] = true;
+    app.renderPlaylist(); h = app.$app.innerHTML;
+    check("timed check holds solutions until the set ends", h.includes("Sprendimai – kai baigsi rinkinį") && !h.includes("Kodėl, manai, suklydai"));
+  }
+  app.stopPlaylistTimer && app.stopPlaylistTimer();
+  // thinking drill
+  app.openThinkDrill();
+  const T = st.think;
+  check("thinking drill opens with both kinds", st.view === "think" && T.items.length === 6 && T.items.some(i => i.kind === "slip") && T.items.some(i => i.kind === "order"));
+  check("slip items: the chosen wrong letter's note is among the choices", T.items.filter(i => i.kind === "slip").every(i => i.chosen !== i.q.correct && i.choices.some(c => c[0] === i.chosen)));
+  check("order items start shuffled", T.items.filter(i => i.kind === "order").every(i => i.shuffled.some((v, j) => v !== j)));
+  const reserved = new Set(app.reservedYears().map(String));
+  let bad = 0; for(let r = 0; r < 20; r++) for(const i of app.buildThinkItems()) if(reserved.has(String(i.year)) || i.year === "2006") bad++;
+  check("thinking drill never uses held-out papers", bad === 0, `${bad}`);
+  const oi = T.items.findIndex(i => i.kind === "order");
+  T.idx = oi; T.order = T.items[oi].parts.paras.map((p, j) => j); app.renderThink();
+  check("ordering: a finished order shows the answer line", app.$app.innerHTML.includes("Sudėliota"));
+  // a11y markers
+  st.view = "home"; app.renderHome(); h = app.$app.innerHTML;
+  check("home tabs use aria-current, no half tab pattern", h.includes('aria-current="page"') && !h.includes('role="tab"'));
+  check("badges are buttons with how-to labels", h.includes('class="ach-badge') && h.includes("data-badge=") && !/<div class="ach-badge/.test(h));
+  check("contest tab recommends one paper", h.includes("Kitas kontrolinis:"));
+  check("thinking drills have a door", h.includes('id="thinkBtn"') && h.includes('id="recogHomeBtn"'));
 }
 
 section("corrupt save is kept, not overwritten");
