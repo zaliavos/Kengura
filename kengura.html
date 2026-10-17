@@ -3738,7 +3738,7 @@ function noteMistake(year, q, correct){
     m.fixedAt = Date.now();
     // beating a mistake made twice or more deserves a word (toast only – this
     // also runs while a playlist records its answers in bulk, so no sound)
-    if((m.times || 0) >= 2){ try { showToast("🩹", `Įveikei uždavinį, kuriame klydai ${m.times} ${pluralForm(m.times,'kartą','kartus','kartų')}. Štai taip ir mokomasi!`, 4000); } catch(_){} }
+    if((m.times || 0) >= 2){ try { showToast("🩹", `Įveikei uždavinį, kuriame klydai ${m.times} ${pluralForm(m.times,'kartą','kartus','kartų')}. Taip ir mokomasi.`, 4000); } catch(_){} }
   }
 }
 /* A worksheet of open mistakes: figures only, answers on a print-only page. */
@@ -3755,7 +3755,7 @@ function printMistakeSheet(items, back){
     <section class="card">
       <h2 style="margin:0">Klaidų lapas · ${new Date().toLocaleDateString("lt-LT")}</h2>
       <p style="margin:4px 0 12px">Šiuos uždavinius jau sprendei – dabar išspręsk teisingai. Vardas: ____________</p>
-      ${items.map((x, i) => `<div class="print-q"><b>${i + 1}.</b> <span class="help-bar">(${escapeHTML(String(x.m.year))} m., ${x.q.num} užd.)</span>${x.q.figure ? `<img src="${encodeURI(x.q.figure)}" alt="Klausimas ${x.q.num}">` : `<div>${escapeHTML(x.q.prompt)}</div>`}</div>`).join('')}
+      ${items.map((x, i) => `<div class="print-q"><b>${i + 1}.</b> <span class="help-bar">(${escapeHTML(String(x.m.year))} m., ${x.q.num} užd.)</span>${x.q.figure ? `<img src="${encodeURI(x.q.figure)}" alt="${x.q.num} uždavinys">` : `<div>${escapeHTML(x.q.prompt)}</div>`}</div>`).join('')}
       <div class="print-only print-break"></div>
       <div class="print-only"><h3>Atsakymai</h3>
         <div class="answer-grid">${items.map((x, i) => `<div><b>${i + 1}.</b> ${x.q.correct}</div>`).join('')}</div></div>
@@ -5165,7 +5165,7 @@ function renderHome(){
     if(needsSpeedWork()) missions.push({
       tag: 'Greitis',
       title: '3 taškų sprintas',
-      body: 'Paskutiniuose testuose 3 t. uždaviniai užtrunka per ilgai. 10 klausimų per 10 min – konkurse tai tavo bankas.',
+      body: 'Paskutiniuose testuose 3 t. uždaviniai užtrunka per ilgai. 10 uždavinių per 10 min – konkurse jie greiti taškai.',
       cta: 'Bėgti sprintą', action: 'sprint', style: 'primary',
     });
     if(weakMechs && weakMechs.length){
@@ -5311,7 +5311,7 @@ function renderHome(){
         <div class="footer-actions" style="margin-top:0">
           <div>
             <h3 style="margin:0">📅 Šiandienos treniruotė <span class="phase-pill ${ph.cls}" style="margin-left:6px;vertical-align:middle">${ph.icon} ${ph.label}</span></h3>
-            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : '⚠ <b>Konkurso data nenustatyta</b> – nustatyk ją plane, ir treniruotės prisitaikys · '}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${!steps.length ? '🛌 poilsio diena pagal tvarkaraštį' : `${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}`}</span>
+            <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas</b> · ' : '⚠ <b>Konkurso data nenustatyta</b> – nustatyk ją plane, ir treniruotės prisitaikys · '}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${!steps.length ? '🛌 poilsio diena pagal tvarkaraštį' : `${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? '' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}`}</span>
           </div>
           <button class="btn ${planProg < steps.length && !(mission && mission.action === 'planStep') ? 'primary' : 'ghost'}" id="planBtn">${planProg < steps.length && !(mission && mission.action === 'planStep') ? 'Tęsti planą →' : 'Atverti planą'}</button>
         </div>
@@ -5338,7 +5338,7 @@ function renderHome(){
 
     <section class="card">
       <h3>Gudrybių mokymasis</h3>
-      <p style="margin-top:0">Kiekvienas Kengūros 5 taškų uždavinys slepia VIENĄ gudrybę. Šio sąrašo „Mokytis“ mygtukas atveria 4 žingsnių seriją: ① perskaityk gudrybės aprašymą, ② peržiūrėk pavyzdį su sprendimu, ③ pabandyk su užuominomis, ④ įveik 3 uždavinius be jų.</p>
+      <p style="margin-top:0">Kiekvienas 5 t. uždavinys slepia gudrybę. „Mokytis“ – keturi žingsniai: gudrybė → pavyzdys → pabandyk → patikra.</p>
       <details id="allMechs">
       <summary>Visos gudrybės (${mechsForPlaylist.length}) – su klaidų procentais</summary>
       <div class="mech-list" style="margin-top:8px">
@@ -5389,17 +5389,20 @@ function renderHome(){
         ${store.contests.length >= 2 ? `<span class="pill">Kreivė: ${store.contests.slice(-3).map(c=>fmtPts(c.scoreWithPenalty || c.points)).join(' → ')} t.</span>` : ''}
       </div>` : ''}
       <details style="margin:6px 0 10px" id="contestStrategy">
-        <summary>🎯 Konkurso strategija (perskaityk prieš kontrolinį!)</summary>
-        <p style="font-size:14px;margin-top:8px">1) Pirmiausia – visi 3 taškų klausimai (1–10). Jie lengviausi, bet jų taškai tokie pat tikri. Tikslas – per ~15 min.</p>
-        <p style="font-size:14px">2) Tada 4 taškų blokas. Užstrigai ilgiau nei 3 minutes – praleisk ir grįžk vėliau.</p>
-        <p style="font-size:14px">3) 5 taškų uždaviniams palik ~35 min. Juose ieškok gudrybės, ne ilgo skaičiavimo – jei skaičiuoji penktą minutę, greičiausiai nepastebėjai gudrybės.</p>
-        <p style="font-size:14px">4) Spėti verta tik tada, kai gali atmesti bent 2 variantus. Kitaip – praleisk: už praleistą baudos nėra, už klaidą – minus ketvirtis taškų.</p>
-        <p style="font-size:14px">5) Atsakymai – tavo įrankis: dažnai greičiau įstatyti variantus į sąlygą ir patikrinti, negu spręsti nuo nulio. Sprendimuose toks kelias pažymėtas „Greitas būdas“.</p>
-        <p style="font-size:14px">6) Laikrodis: pasitikrink ties 15 min (ar baigei 3 t.?) ir ties 40 min (ar baigei 4 t.?) – likęs laikas 5 t. uždaviniams.</p>
-        <p style="font-size:14px">7) Konkurso dieną: du pieštukai ir trintukas, laikrodis (telefono neleis), išvakarėse anksti eik miegoti, ryte pavalgyk pusryčius. Atsakymų lape žymėk atidžiai – patikrink, ar žymi būtent to uždavinio langelį.</p>
+        <summary>🎯 Konkurso strategija – perskaityk prieš kontrolinį</summary>
+        <ul style="font-size:15px;margin:8px 0 0 18px;padding:0;line-height:1.6">
+          <li><b>Iki 15 min</b> – visi 3 t. uždaviniai (1–10).</li>
+          <li><b>Iki 40 min</b> – 4 t. blokas. Užstrigai ilgiau nei 3 min – praleisk, grįši.</li>
+          <li><b>5 t.</b> – ieškok gudrybės; skaičiuoji penktą minutę – greičiausiai jos nepastebėjai.</li>
+          <li><b>Spėk</b> tik atmetęs bent 2 variantus (už klaidą −¼, už praleistą – 0). Dažnai greičiau įstatyti variantus į sąlygą.</li>
+        </ul>
+        <details style="margin-top:8px"><summary>Konkurso dienos sąrašas</summary>
+          <p style="font-size:14px;margin:6px 0 0">Du pieštukai ir trintukas, laikrodis (telefono neleis). Išvakarėse anksti miegoti, ryte – pusryčiai. Atsakymų lape patikrink, ar žymi būtent to uždavinio langelį.</p>
+        </details>
       </details>
-      <p style="margin-bottom:6px"><b>Pasirink metus:</b></p>
-      <div class="row" id="contestYears">
+      ${(() => { if(store.contestInProgress) return ''; const y = pickContestYear(); return y ? `<p style="margin:4px 0 8px"><button class="btn primary" data-contest-year="${y}" title="Mažiausiai treniruotėse matytas popierius">Kitas kontrolinis: ${y} m. →</button></p>` : ''; })()}
+      <details style="margin:0 0 6px"><summary>Pasirinkti kitus metus</summary>
+      <div class="row" id="contestYears" style="margin-top:8px">
         ${ARCHIVE.filter(t =>
           t.year !== '2006' &&                                      // 2006 source PDF is Mažylis (3-4 grade), not Bičiulis – wrong contest tier
           t.questions.length >= 28 &&
@@ -5413,6 +5416,7 @@ function renderHome(){
           return `<button class="btn small${isCurrent ? ' primary' : held ? ' ghost' : ''}" data-contest-year="${t.year}" title="${escapeHTML(tip)}">${t.year}${isCurrent ? ' · tęsti' : done ? ' ✓' : held ? ' 🔒' : ''}</button>`;
         }).join('')}
       </div>
+      </details>
       <p class="help-bar" style="margin:10px 0 4px">Tikrasis konkursas – ant popieriaus. Atsispausdink kontrolinį, spręsk su pieštuku ir laikrodžiu, o atsakymus suvesk į programą.</p>
       <button class="btn small" id="printPaperBtn">🖨 Popierinis kontrolinis</button>
     </section>
@@ -5422,7 +5426,7 @@ function renderHome(){
     ${ARCHIVE.length ? `
     <section class="card">
       <h3>Originalūs „Kengūros“ testai</h3>
-      <p style="margin-top:0">Rinkis iš ${ARCHIVE.length} ankstesnių metų testų (${ARCHIVE[0].year}–${ARCHIVE[ARCHIVE.length-1].year}). Visi klausimai – su atsakymų raktais, vaikui parašytais ir oficialiais sprendimais bei originalo paveikslėliais.</p>
+      <p style="margin-top:0">Rinkis iš ${ARCHIVE.length} ankstesnių metų testų (${ARCHIVE[0].year}–${ARCHIVE[ARCHIVE.length-1].year}). Visi uždaviniai – su atsakymais, sprendimais ir originalo paveikslėliais.</p>
       <div class="row" id="archiveYears" style="margin-top:6px">
         ${ARCHIVE.map(t => {
           const has = t.questions.some(q=>q.correct);
@@ -5439,7 +5443,7 @@ function renderHome(){
       <h3>Naujas testas</h3>
       <div class="grid two">
         <div>
-          <p style="margin-top:0"><b>Kiek klausimų?</b></p>
+          <p style="margin-top:0"><b>Kiek uždavinių?</b></p>
           <div class="row" id="countOpts">
             ${[10,15,20,25,30].map(n=>{
               const isKen = n===30;
@@ -5447,7 +5451,7 @@ function renderHome(){
               return `<button class="btn ${store.settings.count===n?"primary":""}" data-count="${n}" title="${isKen?'Realus Kengūros formatas: 75 min, sudėtingumai 3+4+5':''}">${label}</button>`;
             }).join("")}
           </div>
-          ${kengura ? `<p class="help-bar">Realus Kengūros formatas: 30 klausimų, sudėtingumas paskirstytas 3+4+5 taškų grupėmis. Jei laikrodis įjungtas – 75 min.</p>` : ``}
+          ${kengura ? `<p class="help-bar">Realus Kengūros formatas: 30 uždavinių, sudėtingumas paskirstytas 3+4+5 taškų grupėmis. Jei laikrodis įjungtas – 75 min.</p>` : ``}
         </div>
         <div>
           <p style="margin-top:0"><b>Sudėtingumas (taškai)</b></p>
@@ -5458,7 +5462,7 @@ function renderHome(){
               return `<button class="btn ${on?"primary":""}" data-diff="${d}" ${dis}>${d} t.</button>`;
             }).join("")}
           </div>
-          <p class="help-bar">${kengura ? "30 klausimų režime sudėtingumas fiksuotas." : "Kelis galima derinti."}</p>
+          <p class="help-bar">${kengura ? "30 uždavinių režime sudėtingumas fiksuotas." : "Kelis galima derinti."}</p>
         </div>
       </div>
       <div class="row" style="margin-top:10px;align-items:center;gap:14px;flex-wrap:wrap">
@@ -5510,7 +5514,7 @@ function renderHome(){
         <p><b>Užuomina</b> atsakymo nepasako – ji parodo, nuo ko pradėti.</p>
         <p>Suklydęs uždavinys sugrįš pakartojimui, o sprendimas parodys, kur slėpėsi gudrybė.</p>
         <p style="color:var(--muted);font-size:13px;margin-top:6px">
-          <button class="btn small ghost" id="resetBtn">Išvalyti progresą</button>
+          <button class="btn small ghost" id="resetBtn">${META.parentPin ? '🔒 ' : ''}Išvalyti progresą</button>
         </p>
       </details>
     </section>
@@ -5703,7 +5707,11 @@ function renderHome(){
   document.getElementById("startBtn").addEventListener("click", startQuiz);
   const reset = document.getElementById("resetBtn");
   if(reset) reset.addEventListener("click", ()=>{
-    if(confirm("Tikrai išvalyti visą progresą?")){
+    if(META.parentPin){
+      const p = prompt("Progresą išvalyti gali tėvai. Įveskite tėvų kodą:");
+      if(p == null || String(p).trim() !== String(META.parentPin)) return;
+    }
+    if(confirm("Tikrai išvalyti visą progresą? To atšaukti nebus galima.")){
       localStorage.removeItem(LS_KEY);
       for(const k of Object.keys(store)) delete store[k];   // keys without a default (e.g. recogConfusion) must go too
       Object.assign(store, loadStore());
@@ -5726,7 +5734,7 @@ function renderHome(){
 function newTestSizeLabel(){
   const n = store.settings.count;
   const mins = (store.settings.kenguraMode || n === 30) ? 75 : Math.round(n * 2.5);
-  return `${n} ${pluralForm(n,'klausimas','klausimai','klausimų')}${store.settings.useTimer ? ` · ${mins} min` : ''}`;
+  return `${n} ${pluralForm(n,'uždavinys','uždaviniai','uždavinių')}${store.settings.useTimer ? ` · ${mins} min` : ''}`;
 }
 
 function startQuiz(){
@@ -6153,7 +6161,7 @@ function renderResults(){
     const fast = avg <= 60, sharp = correct >= Math.ceil(total*0.8);
     return `<section class="card">
       <h3>🏃 Sprinto verdiktas</h3>
-      <p>Vidutiniškai <b>${avg} s</b> klausimui (tikslas – 60 s) · teisingų <b>${correct}/${total}</b>.</p>
+      <p>Vidutiniškai <b>${avg} s</b> uždaviniui (tikslas – 60 s) · teisingų <b>${correct}/${total}</b>.</p>
       <p class="help-bar">${fast && sharp
         ? '3 taškų blokas – greitas ir tikslus. Šią konkurso dalį jau moki.'
         : !fast
@@ -6432,7 +6440,7 @@ function openPrintPaper(year){
     <section class="card">
       <h2 style="margin:0">Kengūra ${escapeHTML(String(t.year))} · Bičiulis (5–6 kl.)</h2>
       <p style="margin:4px 0 12px">75 minutės · be skaičiuotuvo · už klaidą −¼ to uždavinio taškų, už praleistą 0 · Vardas: ____________</p>
-      ${t.questions.map(q => `<div class="print-q">${q.figure ? `<img src="${encodeURI(q.figure)}" alt="Klausimas ${q.num}">` : `<b>${q.num}.</b> ${escapeHTML(q.prompt)}`}</div>`).join('')}
+      ${t.questions.map(q => `<div class="print-q">${q.figure ? `<img src="${encodeURI(q.figure)}" alt="${q.num} uždavinys">` : `<b>${q.num}.</b> ${escapeHTML(q.prompt)}`}</div>`).join('')}
       <div class="print-break"></div>
       <h3>Atsakymų lapas</h3>
       <div class="answer-grid">${t.questions.map(q => `<div><b>${q.num}.</b> </div>`).join('')}</div>
@@ -6498,7 +6506,7 @@ function openContest(year){
   if(!test){ return; }
   const qs = test.questions.filter(q => q.correct).slice(0, 30);
   if(qs.length < 28){
-    alert(`${year} m. neturi pakankamai klausimų su atsakymais kontroliniam.`);
+    alert(`${year} m. neturi pakankamai uždavinių su atsakymais kontroliniam.`);
     return;
   }
   state.view = "contest";
@@ -6586,7 +6594,7 @@ function renderContest(){
     const cur = i === idx ? " current" : "";
     const filled = ans ? " filled" : "";
     const flagged = (state.contestFlags || {})[qq.num] ? " flagged" : "";
-    return `<button class="contest-pip${cur}${filled}${flagged}" data-jump="${i}" title="Klausimas ${qq.num} (${qq.points} t.)${flagged ? ' – pažymėtas grįžti' : ''}">${qq.num}</button>`;
+    return `<button class="contest-pip${cur}${filled}${flagged}" data-jump="${i}" title="${qq.num} uždavinys (${qq.points} t.)${flagged ? ' – pažymėtas grįžti' : ''}">${qq.num}</button>`;
   }).join("");
 
   $app.innerHTML = `
@@ -6680,9 +6688,9 @@ function renderContest(){
   document.getElementById("contestFinish").addEventListener("click", ()=>{
     const unanswered = qs.filter(qq => !state.contestAnswers[qq.num]).length;
     const flaggedN = Object.keys(state.contestFlags || {}).length;
-    const flagLine = flaggedN ? `\n\nPažymėjai grįžti: ${flaggedN} ${pluralForm(flaggedN,'klausimą','klausimus','klausimų')} (raudonas brūkšnys juostelėje).` : "";
+    const flagLine = flaggedN ? `\n\nPažymėjai grįžti: ${flaggedN} ${pluralForm(flaggedN,'uždavinį','uždavinius','uždavinių')} (raudonas brūkšnys juostelėje).` : "";
     const msg = (unanswered
-      ? `Liko ${unanswered} ${pluralForm(unanswered,'neatsakytas klausimas','neatsakyti klausimai','neatsakytų klausimų')}. Tikrai baigti?\n\nNeatsakyti = 0 taškų (be baudos – kaip realiame konkurse).`
+      ? `Liko ${unanswered} ${pluralForm(unanswered,'neatsakytas uždavinys','neatsakyti uždaviniai','neatsakytų uždavinių')}. Tikrai baigti?\n\nNeatsakyti = 0 taškų (be baudos – kaip realiame konkurse).`
       : "Tikrai baigti kontrolinį?") + flagLine;
     if(confirm(msg)) finishContest(false);
   });
@@ -8934,7 +8942,7 @@ function planStepsForToday(){
 
   // Contest day and the final two days have their own shape.
   if(days === 0){
-    return [{id:"core", label:"Šiandien konkursas! Sėkmės 🦘 Pusryčiai, du pieštukai, laikrodis. Pradėk nuo 3 t. uždavinių; abejotinus praleisk ir grįžk prie jų vėliau.", act:"none"}];
+    return [{id:"core", label:"Šiandien konkursas. Sėkmės 🦘 Pusryčiai, du pieštukai, laikrodis. Pradėk nuo 3 t. uždavinių; abejotinus praleisk ir grįžk prie jų vėliau.", act:"none"}];
   }
   if(days === 1){
     return [
@@ -9045,11 +9053,12 @@ function markPlanStepDone(stepOverride){
   const allDone = steps.length > 0 && steps.every(s => d[s.id] || s.act === "none");
   if(allDone && !d.bonus){
     d.bonus = true;
+    for(const s of steps) if(s.act === "none") d[s.id] = true;   // the tab dot and "x/y" count read the ticks
     store.games.freeRaces = (store.games.freeRaces || 0) + 1;
     awardStars("fromBonus", PLAN_DAY_BONUS);
     Fx.floatStars(PLAN_DAY_BONUS);
     Fx.celebrate("plan");
-    showToast("📅", `Dienos treniruotė atlikta! <b>+${PLAN_DAY_BONUS} ⭐</b> ir žaidimų bilietas 🎟`, 5500);
+    showToast("📅", `Dienos treniruotė atlikta. <b>+${PLAN_DAY_BONUS} ⭐</b> ir žaidimų bilietas 🎟`, 5500);
   }
   saveStore(store);
   checkAchievements();
@@ -9523,7 +9532,7 @@ function postContestCardHTML(){
   const avg = papers.length ? papers.reduce((a, c) => a + (c.scoreWithPenalty ?? c.points), 0) / papers.length : null;
   if(p.actualScore != null) return `<section class="card">
       <h3>🏆 Kengūros rezultatas: ${fmtPts(p.actualScore)} t.</h3>
-      <p style="margin:0">${avg != null ? `Kontrolinių vidurkis prieš konkursą buvo ${fmtPts(Math.round(avg * 4) / 4)} t. ${p.actualScore >= avg ? 'Konkurse pavyko geriau nei treniruotėse – puiku! 🎉' : 'Konkurse sekėsi kiek prasčiau nei treniruotėse – taip būna; svarbiausia, ką išmokai.'}` : ''}</p>
+      <p style="margin:0">${avg != null ? `Kontrolinių vidurkis prieš konkursą buvo ${fmtPts(Math.round(avg * 4) / 4)} t. ${p.actualScore >= avg ? 'Konkurse pavyko geriau nei treniruotėse – pasiruošimas atsipirko.' : 'Konkurse sekėsi kiek prasčiau nei treniruotėse – taip būna; svarbiausia, ką išmokai.'}` : ''}</p>
       <p class="help-bar" style="margin:8px 0 0">Kitais metais vėl? Plane (📅) įrašyk naują konkurso datą – planas prasidės iš naujo, o visas progresas liks.</p>
     </section>`;
   return `<section class="card">
@@ -9554,20 +9563,21 @@ function weeklyRecapHTML(){
   const focus = weak && weak.rate >= 0.4 ? weak.mech : next;
   const fmt = d => `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   const title = monday ? 'Praėjusios savaitės apžvalga' : 'Šios savaitės apžvalga';
+  const planned = rows.filter(r => isTrainingDay(r.date)).length || 7;   // a 5-day plan is 5/5, not 5/7
   return `
     <section class="card" style="background:linear-gradient(180deg,#fffdf7,#fff6e3)">
       <details ${monday ? 'open' : ''}>
-        <summary style="cursor:pointer"><b>📊 ${title}</b> <span class="help-bar" style="margin-left:6px">${fmt(rows[0].date)} – ${fmt(rows[6].date)} · ${active.length}/7 d. · ${answered} užd. · ${stars} ⭐</span></summary>
+        <summary style="cursor:pointer"><b>📊 ${title}</b> <span class="help-bar" style="margin-left:6px">${fmt(rows[0].date)} – ${fmt(rows[6].date)} · ${active.length}/${planned} d. · ${answered} užd. · ${stars} ⭐</span></summary>
         <div class="grid two" style="margin-top:10px">
-          <div class="stat"><b>${active.length} / 7</b><span>aktyvios dienos</span></div>
+          <div class="stat"><b>${Math.min(active.length, planned)} / ${planned}</b><span>treniruočių dienos${active.length > planned ? ` (+${active.length - planned} papildomai)` : ''}</span></div>
           <div class="stat"><b>${answered}</b><span>${pluralForm(answered,'uždavinys','uždaviniai','uždavinių')}${answered ? ` · ${Math.round(100*correct/answered)} % teisingai` : ''}</span></div>
           <div class="stat"><b>${stars} ⭐</b><span>${pluralForm(stars,'žvaigždė','žvaigždės','žvaigždžių')} per savaitę</span></div>
           <div class="stat"><b>${mastered.length}</b><span>${mastered.length ? `įvaldyta: ${mastered.map(m => escapeHTML(MECHANIC_LABEL[m] || m)).join(', ')}` : 'naujų gudrybių įvaldyta'}</span></div>
         </div>
-        ${fixedWeek ? `<p style="margin:8px 0 0">🩹 Ištaisei <b>${fixedWeek}</b> ${pluralForm(fixedWeek,'savo klaidą','savo klaidas','savo klaidų')} – būtent taip ir mokomasi!</p>` : ''}
+        ${fixedWeek ? `<p style="margin:8px 0 0">🩹 Ištaisei <b>${fixedWeek}</b> ${pluralForm(fixedWeek,'savo klaidą','savo klaidas','savo klaidų')}. Taip ir mokomasi.</p>` : ''}
         ${contests.length ? `<p style="margin:8px 0 0">${contests.length > 1 ? 'Kontroliniai' : 'Kontrolinis'}: <b>${contests.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(' → ')}</b> t.${contests.some(c => (c.practisedBefore||0) >= 6) ? ' <span class="pill muted" title="Dalis uždavinių jau buvo spręsta treniruotėse">dalis matyta</span>' : ''}${prevContests.length ? ` (prieš tai: ${fmtPts(prevContests[0].scoreWithPenalty ?? prevContests[0].points)} t.${(contests[contests.length-1].scoreWithPenalty ?? 0) > (prevContests[0].scoreWithPenalty ?? 0) ? ' 📈' : ''})` : ''}</p>` : ''}
         ${focus ? `<div class="footer-actions" style="margin-top:10px">
-          <span>${monday ? 'Šios' : 'Kitos'} savaitės tikslas: <b>${escapeHTML(MECHANIC_LABEL[focus] || focus)}</b>${weak && focus === weak.mech ? ` (${Math.round(100*weak.rate)} % klaidų)` : ' (kita tavo Gudrybių take)'}</span>
+          <span>${monday ? 'Šios' : 'Kitos'} savaitės tikslas: <b>${escapeHTML(MECHANIC_LABEL[focus] || focus)}</b>${weak && focus === weak.mech ? ` (${Math.round(100*weak.rate)} % klaidų)` : ' (kita gudrybė tavo take)'}</span>
           <button class="btn small primary" data-recap-mech="${focus}">Mokytis</button>
         </div>` : ''}
       </details>
@@ -9596,7 +9606,7 @@ function rewardsCardHTML(){
       <h3>🏁 Žaidimų iššūkis</h3>
       <p style="margin-top:0">5 uždaviniai (${planPhase() === 'foundation' && masteredCount() < 5 ? '3–4' : '4–5'} t.). Bent <b>3 teisingi</b> – atrakinsi žaidimus. Daugiau teisingų – daugiau gyvybių.</p>
       <div class="top-stats" style="margin-bottom:10px">
-        <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} ${pluralForm(s.total||0,'žvaigždė','žvaigždės','žvaigždžių')}</span>
+        <span class="pill" title="Iš uždavinių: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} ${pluralForm(s.total||0,'žvaigždė','žvaigždės','žvaigždžių')}</span>
         <span class="pill good">🏆 Pasiekimai: ${unlocked}/${ACHIEVEMENTS.length}</span>
         ${best>0?`<span class="pill muted">🏎 Rekordas: ${best} m</span>`:''}
         ${(store.games.jumpBest||0)>0?`<span class="pill muted">🦘 Rekordas: ${store.games.jumpBest} m</span>`:''}

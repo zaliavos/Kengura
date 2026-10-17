@@ -773,9 +773,9 @@ section("no surprises");
   const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
   const inDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return keyOf(d); };
   store.settings.count = 30; store.settings.useTimer = true;
-  check("new-test label states size and time", newTestSizeLabel() === "30 klausimų · 75 min", newTestSizeLabel());
+  check("new-test label states size and time", newTestSizeLabel() === "30 uždavinių · 75 min", newTestSizeLabel());
   store.settings.count = 15;
-  check("15 → 38 min", newTestSizeLabel() === "15 klausimų · 38 min", newTestSizeLabel());
+  check("15 → 38 min", newTestSizeLabel() === "15 uždavinių · 38 min", newTestSizeLabel());
   check("results footer is plan-aware", html.includes('id="planNextBtn"') && html.includes("Toliau pagal planą"));
   check("contest start goes through the intro, not confirm", /renderContestIntro\(year\);\s*\}/.test(html) && !html.includes("Pradėti kontrolinį testą iš"));
   // diagnostic day: intro renders; "Ne dabar" moves the paper
