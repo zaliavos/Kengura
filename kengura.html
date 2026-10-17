@@ -5345,7 +5345,7 @@ function renderHome(){
     <section class="card">
       <h3>Mąstymo treniruotės</h3>
       <p class="help-bar" style="margin-top:0">Trumpos, be laikrodžio: atpažinti gudrybę, rasti svetimą klaidą, sudėlioti sprendimą, prisiminti gudrybę.</p>
-      <div class="row"><button class="btn" id="recogHomeBtn">🔍 Kokia gudrybė?</button><button class="btn" id="thinkBtn">🧠 Kur suklydo Tomas?</button><button class="btn" id="recallBtn">🃏 Prisimink gudrybę</button></div>
+      <div class="row"><button class="btn" id="recogHomeBtn">🔍 Kokia gudrybė?</button><button class="btn" id="thinkBtn">🧠 Kur suklydo klasės draugas?</button><button class="btn" id="recallBtn">🃏 Prisimink gudrybę</button></div>
     </section>
 
     <section class="card">
@@ -8850,6 +8850,7 @@ function renderRecogResult(){
    the kid solution's steps shuffled; tap them in order (reading the
    reasoning, not just the answer). No clock, one star per item. */
 const THINK_ITEMS = 6;
+const THINK_NAMES = ["Tomas", "Ugnė", "Matas", "Emilija", "Jonas", "Gabija"];   // "suklydo" / "pasirinko" fit both
 function buildThinkItems(){
   const reserved = new Set(reservedYears().map(String));
   const slip = [], order = [];
@@ -8894,8 +8895,9 @@ function renderThink(){
   let body = "";
   if(it.kind === "slip"){
     const right = T.done && T.pick === it.chosen;
-    body = `<h3 style="margin:4px 0">Kur suklydo Tomas?</h3>
-      <p class="help-bar" style="margin:0 0 8px">Tomas pasirinko <b>${it.chosen}</b>${q.options[it.chosen] ? ` (${escapeHTML(q.options[it.chosen])})` : ''}. Kuri klaida veda būtent prie šio atsakymo?</p>
+    const who = THINK_NAMES[keyHash(`${it.year}-${q.num}`) % THINK_NAMES.length];
+    body = `<h3 style="margin:4px 0">Kur suklydo ${who}?</h3>
+      <p class="help-bar" style="margin:0 0 8px">${who} pasirinko <b>${it.chosen}</b>${q.options[it.chosen] ? ` (${escapeHTML(q.options[it.chosen])})` : ''}. Kuri klaida veda būtent prie šio atsakymo?</p>
       ${questionBodyHTML(q, {lazy:false})}
       <div class="options">${it.choices.map(([L, txt]) => {
         let cls = "opt";
