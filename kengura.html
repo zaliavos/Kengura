@@ -311,6 +311,15 @@
   .contest-pip.current{outline:2px solid var(--accent);outline-offset:1px}
   .contest-pip.flagged{box-shadow:inset 0 -3px 0 var(--bad)}
   .contest-pip:hover{border-color:var(--accent)}
+  .contest-pip.good{background:var(--good-soft);color:var(--good);border-color:var(--good)}
+  .contest-pip.bad{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+  .arch-strip{margin-top:12px}
+  /* focus mode: prev / position / next where the thumb is */
+  .arch-nav{position:sticky;bottom:0;z-index:4;display:flex;align-items:center;gap:10px;justify-content:space-between;
+    margin:0 -4px 14px;padding:10px 12px;background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+  .arch-nav .btn{min-width:64px}
+  .arch-nav .arch-pos{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
   .nav-back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;font-size:15px;padding:8px 0;min-height:40px;margin:-8px 0 2px}
   .mech-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px}
   .mech-row{
@@ -4044,6 +4053,47 @@ const state = {
   timerInterval:null,
 };
 
+/* Phone back button + scroll (2026-10-17). Children leave a screen with the
+   system back gesture, which used to close the whole app, and a new screen
+   opened at the old scroll offset (mid-page). Every view change now starts
+   at the top, and a non-home view holds one history entry: "back" closes an
+   open picture, else presses the view's own exit button, so its cleanup
+   (timers, mastery bookkeeping, game loops) runs exactly as on a tap. */
+const NAV_EXIT_IDS = ["back","plBackTop","mbBack","pmBack","ciBack","ppBack","peBack","contestBack",
+  "gateBack","parentBack","backBtn","planBack","recogQuit","recogHome","raceGameQuit","raceQuit",
+  "raceHome","jumpQuit","pickHome","goHome","homeBtn","exitBtn"];
+(function hookViewNavigation(){
+  let view = state.view;
+  const canHistory = () => typeof history !== "undefined" && history && typeof history.pushState === "function";
+  const ensureEntry = () => {
+    if(view !== "home" && canHistory() && !(history.state && history.state.kv)){
+      try { history.pushState({kv: 1}, ""); } catch(_){}
+    }
+  };
+  Object.defineProperty(state, "view", {
+    enumerable: true,
+    get(){ return view; },
+    set(v){
+      const changed = v !== view;
+      view = v;
+      if(!changed) return;
+      try { if(typeof window !== "undefined" && window.scrollTo) window.scrollTo(0, 0); } catch(_){}
+      ensureEntry();
+    },
+  });
+  if(typeof window === "undefined" || !window.addEventListener) return;
+  window.addEventListener("popstate", () => {
+    const zoom = document.querySelector(".fig-zoom");
+    if(zoom){ zoom.remove(); ensureEntry(); return; }
+    if(view === "home") return;
+    const exit = document.querySelector("#app .nav-back")
+      || NAV_EXIT_IDS.map(id => document.getElementById(id)).find(Boolean);
+    if(exit) exit.click();
+    else { state.view = "home"; renderHome(); }   // e.g. a running contest: it stays resumable
+    ensureEntry();   // a cancelled exit (quiz confirm) keeps the screen – and its entry
+  });
+})();
+
 /* Confidence picker applies to normal quizzes, never inside the speed
    sprint (it would add a tap per question and skew the 3-pt pace). */
 function askConfidenceNow(){
@@ -4351,6 +4401,60 @@ function approachFromSolution(sol){
   return s;
 }
 
+/* Focus mode: which question of a paper is on screen (per year, this
+   session). Starts at the first question not met yet. */
+function archiveFocusNum(test, visible, firstNew){
+  state.archiveFocus = state.archiveFocus || {};
+  let n = state.archiveFocus[test.year];
+  if(!visible.some(q => q.num === n)) n = (firstNew && visible.some(q => q.num === firstNew.num) ? firstNew : visible[0]).num;
+  state.archiveFocus[test.year] = n;
+  return n;
+}
+function goArchiveQ(num){
+  state.archiveFocus = state.archiveFocus || {};
+  state.archiveFocus[state.archiveYear] = num;
+  renderArchiveYear();
+  try { window.scrollTo(0, 0); } catch(_){}
+}
+/* Keyboard + swipe for the focus mode: ← → between questions, A–E / 1–5
+   picks an option, Enter checks. Installed once; acts only on that view. */
+(function wireArchiveFocusKeys(){
+  if(typeof document === "undefined" || !document.addEventListener) return;
+  const active = () => state.view === "archiveYear" && !store.settings.archiveList && !document.querySelector(".fig-zoom");
+  const card = () => document.querySelector(".archive-card:not([hidden])");
+  document.addEventListener("keydown", e => {
+    if(!active() || e.ctrlKey || e.metaKey || e.altKey) return;
+    if(e.target && e.target.closest && e.target.closest("input,textarea,select")) return;
+    const c = card(); if(!c) return;
+    const k = e.key;
+    if(k === "ArrowLeft" || k === "ArrowRight"){
+      const b = document.getElementById(k === "ArrowLeft" ? "archPrev" : "archNext");
+      if(b && !b.disabled){ e.preventDefault(); b.click(); }
+      return;
+    }
+    const L = /^[a-eA-E]$/.test(k) ? k.toUpperCase() : /^[1-5]$/.test(k) ? "ABCDE"[Number(k) - 1] : null;
+    if(L){ const o = c.querySelector(`.opt[data-letter="${L}"]`); if(o){ e.preventDefault(); o.click(); } return; }
+    if(k === "Enter" && !(e.target && e.target.closest && e.target.closest("button,summary,a"))){
+      const s = c.querySelector("[data-action=submit]") || c.querySelector("[data-next-q]");
+      if(s){ e.preventDefault(); s.click(); }
+    }
+  });
+  let sx = null, sy = 0;
+  document.addEventListener("touchstart", e => {
+    sx = null;
+    if(!active() || e.touches.length !== 1 || (e.target.closest && e.target.closest(".ptable-wrap,.contest-strip,canvas"))) return;
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+  }, {passive: true});
+  document.addEventListener("touchend", e => {
+    if(sx == null || !active()) return;
+    const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    sx = null;
+    if(Math.abs(dx) < 80 || Math.abs(dy) > 50) return;
+    const b = document.getElementById(dx < 0 ? "archNext" : "archPrev");
+    if(b && !b.disabled) b.click();
+  }, {passive: true});
+})();
+
 function renderArchiveYear(){
   const test = ARCHIVE.find(t => t.year === state.archiveYear);
   if(!test){ state.view="home"; renderHome(); return; }
@@ -4367,6 +4471,25 @@ function renderArchiveYear(){
     }
   });
   const pdfHref = test.solutions_pdf ? encodeURI(test.solutions_pdf) : (test.test_pdf ? encodeURI(test.test_pdf) : null);
+  const isNew = q => !(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`];
+  const firstNew = test.questions.find(isNew);
+  const newN = test.questions.filter(isNew).length;
+  const visible = test.questions.filter(q => !state._archiveOnlyNew || isNew(q) || (state.archiveAnswers[`${test.year}-${q.num}`] || {}).chosen != null);
+  // One question at a time (2026-10-17): a whole paper as one page was
+  // ~18 000 px of scrolling on a phone. Every card is still rendered (wiring
+  // and smoke checks see all of them); only the current one is not [hidden].
+  const focus = !store.settings.archiveList && visible.length > 0;
+  const cur = focus ? archiveFocusNum(test, visible, firstNew) : null;
+  const pos = focus ? visible.findIndex(q => q.num === cur) : -1;
+  if(focus){
+    // time on the question starts when the kid first sees it (shown after "Patikrinti")
+    const k = `${test.year}-${cur}`, a = state.archiveAnswers[k] || {};
+    if(!a.submitted && !a.shownAt) state.archiveAnswers[k] = {...a, shownAt: Date.now()};
+  }
+  const pipCls = q => {
+    const a = state.archiveAnswers[`${test.year}-${q.num}`] || {};
+    return a.submitted ? (a.chosenLetter === q.correct ? ' good' : ' bad') : (a.chosen != null ? ' filled' : '');
+  };
   $app.innerHTML = `
     <section class="card">
       <button class="nav-back" id="back">← Į pradžią</button>
@@ -4377,12 +4500,16 @@ function renderArchiveYear(){
         ${test.test_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.test_pdf)}" target="_blank">Testo PDF ↗</a>` : ``}
         ${test.solutions_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.solutions_pdf)}" target="_blank">Sprendimai ↗</a>` : ``}
       </div>
-      <p>Pasirink atsakymą ir spausk „Patikrinti“. Užstrigai? „Užuomina“ pakuždės kelią trimis žingsniais, bet atsakymo nepasakys. Po atsakymo pamatysi sprendimą.</p>
-      ${(() => { const isNew = q => !(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`];
-        const first = test.questions.find(isNew); const newN = test.questions.filter(isNew).length;
-        return `<div class="row" style="gap:8px;flex-wrap:wrap">${first && first.num > 1 ? `<button class="btn small" id="archContinue" data-q="${first.num}">Tęsti nuo ${first.num} uždavinio →</button>` : ''}${newN && newN < total ? `<button class="btn small ${state._archiveOnlyNew ? 'primary' : 'ghost'}" id="archOnlyNew" aria-pressed="${!!state._archiveOnlyNew}">${state._archiveOnlyNew ? `Rodomi tik neišspręsti (${newN}) – rodyti visus` : `Tik neišspręsti (${newN})`}</button>` : ''}</div>`; })()}
+      ${focus ? '' : `<p>Pasirink atsakymą ir spausk „Patikrinti“. Užstrigai? „Užuomina“ parodys, nuo ko pradėti, bet atsakymo nepasakys.</p>`}
+      <div class="row" style="gap:8px;flex-wrap:wrap">${!focus && firstNew && firstNew.num > 1 ? `<button class="btn small" id="archContinue" data-q="${firstNew.num}">Tęsti nuo ${firstNew.num} uždavinio →</button>` : ''}${newN && newN < total ? `<button class="btn small ${state._archiveOnlyNew ? 'primary' : 'ghost'}" id="archOnlyNew" aria-pressed="${!!state._archiveOnlyNew}">${state._archiveOnlyNew ? `Rodomi tik neišspręsti (${newN}) – rodyti visus` : `Tik neišspręsti (${newN})`}</button>` : ''}<button class="btn small ghost" id="archLayout" title="${focus ? 'Visi uždaviniai vienas po kito' : 'Po vieną uždavinį ekrane'}">${focus ? '☰ Visi sąraše' : '▣ Po vieną'}</button></div>
+      ${focus ? `<div class="contest-strip arch-strip" role="tablist" aria-label="Uždaviniai">${visible.map(q => `<button class="contest-pip${pipCls(q)}${q.num === cur ? ' current' : ''}" data-goq="${q.num}" role="tab" aria-selected="${q.num === cur}" aria-label="${q.num} uždavinys">${q.num}</button>`).join('')}</div>` : ''}
     </section>
-    ${test.questions.filter(q => !state._archiveOnlyNew || (!(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`]) || (state.archiveAnswers[`${test.year}-${q.num}`] || {}).chosen != null).map(q => renderArchiveCard(test.year, q)).join("")}
+    ${visible.map(q => renderArchiveCard(test.year, q, focus ? {hidden: q.num !== cur, next: visible[pos + 1] || null} : null)).join("")}
+    ${focus ? `<nav class="arch-nav" aria-label="Uždavinių naršymas">
+      <button class="btn" id="archPrev" ${pos > 0 ? '' : 'disabled'} aria-label="Ankstesnis uždavinys">←</button>
+      <span class="arch-pos">${pos + 1} / ${visible.length}</span>
+      <button class="btn${(state.archiveAnswers[`${test.year}-${cur}`] || {}).submitted ? ' primary' : ''}" id="archNext" ${pos < visible.length - 1 ? '' : 'disabled'} aria-label="Kitas uždavinys">Kitas →</button>
+    </nav>` : ''}
     <section class="card"><div class="footer-actions">
       <button class="btn ghost" id="back2">← Į pradžią</button>
     </div></section>
@@ -4391,11 +4518,21 @@ function renderArchiveYear(){
   document.getElementById("back2").addEventListener("click", ()=>{state.view="home"; renderHome();});
   const archOnlyNew = document.getElementById("archOnlyNew");
   if(archOnlyNew) archOnlyNew.addEventListener("click", ()=>{ state._archiveOnlyNew = !state._archiveOnlyNew; renderArchiveYear(); });
+  document.getElementById("archLayout").addEventListener("click", ()=>{
+    store.settings.archiveList = !store.settings.archiveList; saveStore(store); renderArchiveYear();
+  });
   const archContinue = document.getElementById("archContinue");
   if(archContinue) archContinue.addEventListener("click", ()=>{
     const el = document.querySelector(`.archive-card[data-qnum="${archContinue.dataset.q}"]`);
     if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
   });
+  if(focus){
+    $app.querySelectorAll("[data-goq]").forEach(b => b.addEventListener("click", () => goArchiveQ(Number(b.dataset.goq))));
+    const prev = document.getElementById("archPrev"), next = document.getElementById("archNext");
+    if(prev) prev.addEventListener("click", () => pos > 0 && goArchiveQ(visible[pos - 1].num));
+    if(next) next.addEventListener("click", () => pos < visible.length - 1 && goArchiveQ(visible[pos + 1].num));
+    $app.querySelectorAll("[data-next-q]").forEach(b => b.addEventListener("click", () => goArchiveQ(Number(b.dataset.nextQ))));
+  }
 
   // wire up per-card listeners
   $app.querySelectorAll(".archive-card").forEach(card=>{
@@ -4448,7 +4585,8 @@ function renderArchiveYear(){
     if(submitBtn) submitBtn.addEventListener("click", ()=>{
       const cur = state.archiveAnswers[key] || {};
       if(cur.chosenLetter == null) return;
-      state.archiveAnswers[key] = {...cur, submitted: true};
+      const took = cur.shownAt ? Math.round((Date.now() - cur.shownAt) / 1000) : 0;
+      state.archiveAnswers[key] = {...cur, submitted: true, tookSec: took > 0 && took < 1800 ? took : null};
       // legacy: record into pattern-level catStats (kept for backwards compat)
       if(q.correct && q.patterns && q.patterns.length){
         const cat = q.patterns[0];
@@ -4478,8 +4616,11 @@ function renderArchiveYear(){
       // Pick a random one to jump to its year, then scroll to that question.
       const target = items[Math.floor(Math.random()*items.length)];
       state.archiveYear = target.year;
+      state.archiveFocus = state.archiveFocus || {};
+      state.archiveFocus[target.year] = target.q.num;
       state.view = "archiveYear";
       renderArchiveYear();
+      if(!store.settings.archiveList){ try { window.scrollTo(0, 0); } catch(_){} return; }
       // Scroll into view on next tick.
       setTimeout(()=>{
         const el = document.querySelector(`.archive-card[data-year="${target.year}"][data-qnum="${target.q.num}"]`);
@@ -4493,7 +4634,7 @@ function renderArchiveYear(){
   });
 }
 
-function renderArchiveCard(year, q){
+function renderArchiveCard(year, q, focusOpts){
   const key = `${year}-${q.num}`;
   const ans = state.archiveAnswers[key] || {};
   const submitted = !!ans.submitted;
@@ -4670,7 +4811,7 @@ function renderArchiveCard(year, q){
     practiceBtn = `<span class="help-bar" title="Šio tipo 5 t. generatoriaus dar nėra. Pasirink kitą gudrybę ar archyvo metus.">Atskiro to paties tipo uždavinio nėra – pasirink mokytis šios gudrybės.</span>`;
   }
   return `
-    <section class="card archive-card" data-year="${year}" data-qnum="${q.num}">
+    <section class="card archive-card" data-year="${year}" data-qnum="${q.num}"${focusOpts && focusOpts.hidden ? ' hidden' : ''}>
       <div class="qmeta">
         <b>${q.num} uždavinys</b>
         <span class="pill">${q.points} t.</span>
@@ -4687,6 +4828,11 @@ function renderArchiveCard(year, q){
         ${["a","b","c"].map(c => `<button class="btn small ghost" role="radio" aria-checked="false" data-conf="${c}">${confLabels[c]}</button>`).join("")}
       </div>` : ''}
       ${conf ? `<div class="help-bar">Pasitikėjimas: <b>${confLabels[conf]}</b></div>` : ''}
+      ${submitted && ans.tookSec ? (() => {
+        // metacognition: how long it took vs the contest budget for this band
+        const budget = PACE_SEC[q.points] || PACE_SEC[4];
+        return `<div class="help-bar">⏱ Sprendei ${fmtMs(ans.tookSec * 1000)} · konkurse ${q.points} t. uždaviniui verta skirti iki ~${String(Math.round(budget / 6) / 10).replace('.', ',')} min${ans.tookSec > budget * 1.5 ? ' – konkurse tokį verta praleisti ir grįžti vėliau' : ''}.</div>`;
+      })() : ''}
       <div class="footer-actions">
         <div class="row">
           ${!submitted && q.correct && (hints || !_aiEndpointDead) && hintTier < 3 ? `<button class="btn small ghost" data-action="hint">Užuomina (${hintTier+1}/3)</button>` : ''}
@@ -4695,6 +4841,7 @@ function renderArchiveCard(year, q){
         <div class="row">
           ${canSubmit && (!askConf || conf) ? `<button class="btn small primary" data-action="submit">Patikrinti</button>` : ''}
           ${practiceBtn}
+          ${submitted && focusOpts && focusOpts.next ? `<button class="btn small primary" data-next-q="${focusOpts.next.num}">Kitas uždavinys →</button>` : ''}
         </div>
       </div>
     </section>

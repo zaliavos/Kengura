@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ};
 `;
 let app;
 try {
@@ -1420,6 +1420,30 @@ section("archive filter + parent summary");
   app.openParent(); h = app.$app.innerHTML;
   check("parent view: 7-day and per-mechanic tables", h.includes("Paskutinės 7 dienos po vieną") && h.includes("Visos gudrybės po vieną") && h.includes('id="parentCopy"'));
   app.state.view = "home"; app.renderHome();
+}
+
+section("kids' UX pass: focus mode, view hook");
+{
+  const st = app.state, store = app.store;
+  const t = app.ARCHIVE.find(t => String(t.year) === "2019");
+  store.settings.archiveList = false; st._archiveOnlyNew = false; st.archiveFocus = {};
+  st.archiveYear = t.year; st.view = "archiveYear"; app.renderArchiveYear();
+  let h = app.$app.innerHTML;
+  const cards = (h.match(/class="card archive-card"[^>]*>/g) || []);
+  check("focus mode: all 30 cards rendered, 29 hidden", cards.length === 30 && cards.filter(c => / hidden>$/.test(c)).length === 29);
+  check("focus mode: strip + prev/next", (h.match(/data-goq="/g) || []).length === 30 && h.includes('id="archPrev"') && h.includes('id="archNext"') && h.includes("1 / 30"));
+  app.goArchiveQ(5); h = app.$app.innerHTML;
+  check("focus mode: jump to a question", h.includes("5 / 30") && /data-qnum="5">/.test(h));
+  const q5 = t.questions.find(q => q.num === 5);
+  st.archiveAnswers[`2019-5`] = {...st.archiveAnswers[`2019-5`], chosen: q5.correct, chosenLetter: q5.correct, submitted: true, tookSec: 400};
+  app.renderArchiveYear(); h = app.$app.innerHTML;
+  check("focus mode: after checking, next question + time vs budget", h.includes('data-next-q="6"') && h.includes("Sprendei 6:40") && h.includes("verta praleisti") && h.includes('contest-pip good current'));
+  store.settings.archiveList = true; app.renderArchiveYear(); h = app.$app.innerHTML;
+  check("list mode: no hidden cards, no strip", !/archive-card"[^>]* hidden>/.test(h) && !h.includes('id="archNext"') && h.includes("▣ Po vieną"));
+  store.settings.archiveList = false; delete st.archiveAnswers[`2019-5`];
+  const v = st.view; st.view = "plan"; st.view = v;
+  check("state.view stays a plain readable property", st.view === v && Object.keys(st).includes("view"));
+  st.view = "home"; app.renderHome();
 }
 
 section("corrupt save is kept, not overwritten");
