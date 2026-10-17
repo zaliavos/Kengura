@@ -1440,7 +1440,14 @@ section("kids' UX pass: focus mode, view hook");
   check("focus mode: after checking, next question + time vs budget", h.includes('data-next-q="6"') && h.includes("Sprendei 6:40") && h.includes("verta praleisti") && h.includes('contest-pip good current'));
   store.settings.archiveList = true; app.renderArchiveYear(); h = app.$app.innerHTML;
   check("list mode: no hidden cards, no strip", !/archive-card"[^>]* hidden>/.test(h) && !h.includes('id="archNext"') && h.includes("▣ Po vieną"));
-  store.settings.archiveList = false; delete st.archiveAnswers[`2019-5`];
+  // second try: first miss crosses the option out and holds the solution back
+  const q7 = t.questions.find(q => q.num === 7), miss = ["A","B","C","D","E"].find(L => L !== q7.correct && q7.options[L] != null);
+  st.archiveAnswers[`2019-7`] = {firstWrong: miss}; app.goArchiveQ(7); h = app.$app.innerHTML;
+  const card7 = h.split('data-qnum="7"')[1].split('data-qnum="8"')[0];
+  check("second try: struck option, retry note, no solution yet", card7.includes(`opt struck" data-letter="${miss}" disabled`) && card7.includes("Pabandyk dar kartą") && card7.includes('data-action="reveal"') && !card7.includes("Teisingas atsakymas"));
+  st.archiveAnswers[`2019-7`] = {firstWrong: miss, chosen: q7.correct, chosenLetter: q7.correct, submitted: true}; app.renderArchiveYear(); h = app.$app.innerHTML;
+  check("second try: right on the second go is named", h.includes("iš antro karto") && h.includes(`opt wrong" data-letter="${miss}"`));
+  store.settings.archiveList = false; delete st.archiveAnswers[`2019-5`]; delete st.archiveAnswers[`2019-7`];
   const v = st.view; st.view = "plan"; st.view = v;
   check("state.view stays a plain readable property", st.view === v && Object.keys(st).includes("view"));
   st.view = "home"; app.renderHome();

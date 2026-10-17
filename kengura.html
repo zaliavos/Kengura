@@ -4547,6 +4547,7 @@ function renderArchiveYear(){
       opt.addEventListener("click", ()=>{
         if(ans.submitted) return;
         const letter = opt.dataset.letter;
+        if(letter === ans.firstWrong) return;   // already ruled out on the first try
         state.archiveAnswers[key] = {...ans, chosen: letter, chosenLetter: letter};
         renderArchiveYear();
       });
@@ -4581,14 +4582,30 @@ function renderArchiveYear(){
       });
     });
 
+    const revealBtn = card.querySelector("[data-action=reveal]");
+    if(revealBtn) revealBtn.addEventListener("click", ()=>{
+      const cur = state.archiveAnswers[key] || {};
+      state.archiveAnswers[key] = {...cur, submitted: true, chosen: cur.firstWrong, chosenLetter: cur.firstWrong};
+      renderArchiveYear();
+    });
+
     const submitBtn = card.querySelector("[data-action=submit]");
     if(submitBtn) submitBtn.addEventListener("click", ()=>{
       const cur = state.archiveAnswers[key] || {};
       if(cur.chosenLetter == null) return;
       const took = cur.shownAt ? Math.round((Date.now() - cur.shownAt) / 1000) : 0;
-      state.archiveAnswers[key] = {...cur, submitted: true, tookSec: took > 0 && took < 1800 ? took : null};
+      const right = cur.chosenLetter === q.correct;
+      // Second try (Beast Academy style): the first miss is recorded as a miss,
+      // but the solution waits – the wrong option is crossed out and the kid
+      // gets the note on that slip and one more go.
+      const firstTry = !cur.firstWrong;
+      if(q.correct && !right && firstTry){
+        state.archiveAnswers[key] = {...cur, firstWrong: cur.chosenLetter, chosen: null, chosenLetter: null};
+      } else {
+        state.archiveAnswers[key] = {...cur, submitted: true, tookSec: took > 0 && took < 1800 ? took : null};
+      }
       // legacy: record into pattern-level catStats (kept for backwards compat)
-      if(q.correct && q.patterns && q.patterns.length){
+      if(firstTry && q.correct && q.patterns && q.patterns.length){
         const cat = q.patterns[0];
         const c = store.catStats[cat] = store.catStats[cat] || {attempts:0, wrong:0};
         c.attempts++;
@@ -4597,10 +4614,14 @@ function renderArchiveYear(){
       }
       // mechanic-level stats + spaced-repetition queue + confidence
       if(q.correct){
-        recordArchiveAnswer(year, q, cur.chosenLetter === q.correct, cur.confidence);
-        Sfx.play(cur.chosenLetter === q.correct ? "correct" : "wrong");
+        if(firstTry) recordArchiveAnswer(year, q, right, cur.confidence);
+        Sfx.play(right ? "correct" : "wrong");
       }
       renderArchiveYear();
+      try {
+        const v = document.querySelector(`.archive-card[data-year="${year}"][data-qnum="${qnum}"] .verdict`);
+        if(v && v.scrollIntoView) v.scrollIntoView({behavior: "smooth", block: "center"});
+      } catch(_){}
     });
 
     const practiceBtn = card.querySelector("[data-practice]");
@@ -4655,17 +4676,20 @@ function renderArchiveCard(year, q, focusOpts){
     let extra = "";
     if(submitted){
       if(q.correct === letter) extra = " correct";
-      else if(ans.chosenLetter === letter) extra = " wrong";
+      else if(ans.chosenLetter === letter || ans.firstWrong === letter) extra = " wrong";
+    } else if(ans.firstWrong === letter){
+      extra = " struck";
     } else if(ans.chosenLetter === letter){
       extra = " selected";
     }
+    const off = !submitted && ans.firstWrong === letter ? ' disabled aria-disabled="true"' : '';
     if(isImageOnly){
       // Just letter pill, large enough to tap
-      return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}">
+      return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}"${off}>
         <span class="letter">${letter}</span>
       </button>`;
     }
-    return `<button type="button" class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}">
+    return `<button type="button" class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}"${off}>
       <span class="letter">${letter}</span>
       <span>${isEmptyOpt ? '<i style="color:var(--muted)">– atsakymas paveikslėlyje –</i>' : escapeHTML(v)}</span>
     </button>`;
@@ -4695,8 +4719,10 @@ function renderArchiveCard(year, q, focusOpts){
   // Misconception line: when wrong answer is submitted, look up
   // q.misconceptions[chosenLetter] and surface it.
   const wrongLetter = submitted && ans.chosenLetter !== q.correct ? ans.chosenLetter : null;
-  const miscText = wrongLetter && q.misconceptions && q.misconceptions[wrongLetter]
-    ? q.misconceptions[wrongLetter] : null;
+  // a miss on the first try keeps its note after a right second try
+  const missLetter = wrongLetter || (submitted ? ans.firstWrong : null) || null;
+  const miscText = missLetter && q.misconceptions && q.misconceptions[missLetter]
+    ? q.misconceptions[missLetter] : null;
 
   // AI text resolution – prefer per-question AI text over generic blurb.
   const aiHint = (tier) => q.correct && q.mechanic
@@ -4757,14 +4783,14 @@ function renderArchiveCard(year, q, focusOpts){
     const solutionIsAi = !q.solutionKid && !q.solution && !!aiSolutionText;
     const opener = right ? '' : growthOpenerFor(q);
     const confidentWrong = !right && ans.confidence === 'a';
-    bottom = `<div class="explain" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
-        <b>${right ? "✓ Teisingai." : "Ne šis atsakymas."}</b>${right && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
+    bottom = `<div class="explain verdict" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
+        <b>${right ? (ans.firstWrong ? "✓ Teisingai – iš antro karto." : "✓ Teisingai.") : "Ne šis atsakymas."}</b>${right && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         ${q.correct ? ` Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.` : ''}
         ${opener ? `<div class="opener" style="margin-top:6px;font-size:13px;font-style:italic">${escapeHTML(opener)}</div>` : ''}
         ${confidentWrong ? `<div style="margin-top:6px;font-size:13px"><b>Buvai tikras, bet suklydai</b> – čia dažniausiai slepiasi klaidingas supratimas, ne atsitiktinė klaida. Perskaityk sprendimą ypač atidžiai: šis uždavinys sugrįš jau rytoj.</div>` : ''}
-        ${finalMiscText ? `<div class="misconception" style="margin-top:6px;font-size:13px"><b>Tavo klaida:</b>${miscIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalMiscText)}</div>` : ''}
+        ${finalMiscText ? `<div class="misconception" style="margin-top:6px;font-size:13px"><b>${right ? 'Pirmą kartą' : 'Tavo klaida'}:</b>${miscIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalMiscText)}</div>` : ''}
       </div>
-      ${!right ? (() => {
+      ${!right || ans.firstWrong ? (() => {
         // self-explanation: the kid names why it went wrong (stored in the notebook)
         const m = (store.mistakes || {})[key];
         const picked = m && m.reason;
@@ -4777,6 +4803,14 @@ function renderArchiveCard(year, q, focusOpts){
   } else {
     // Show all unlocked hint tiers, accumulated.
     const blocks = [];
+    if(ans.firstWrong){
+      const note = q.misconceptions && q.misconceptions[ans.firstWrong];
+      blocks.push(`<div class="explain verdict retry" style="background:var(--bad-soft);border:1px solid var(--bad)">
+        <b>Ne ${ans.firstWrong}.</b> Pabandyk dar kartą – vieną variantą jau atmetei.
+        ${note ? `<div class="misconception" style="margin-top:6px"><b>Kur galėjo slėptis klaida:</b> ${escapeHTML(note)}</div>` : ''}
+        <div class="row" style="margin-top:8px"><button class="btn small ghost" data-action="reveal">Rodyti sprendimą</button></div>
+      </div>`);
+    }
     if(hintTier >= 1) blocks.push(renderHintTier(1));
     if(hintTier >= 2) blocks.push(renderHintTier(2));
     if(hintTier >= 3) blocks.push(renderHintTier(3));
@@ -7389,7 +7423,7 @@ function openPlaylist(mech, forcedBand){
   }
   state.playlistAns = {};       // key: "year-num" -> chosen letter
   state.playlistSubmitted = {}; // key -> bool
-  state.playlistHintShown = {}; // key -> bool
+  state.playlistHintShown = {}; state.playlistFirstWrong = {}; // key -> bool
   state.playlistConf = {};      // key -> a|b|c
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
@@ -7422,7 +7456,7 @@ function openDueQueue(limit){
   state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
   state.playlistSubmitted = {};
-  state.playlistHintShown = {};
+  state.playlistHintShown = {}; state.playlistFirstWrong = {};
   state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
@@ -7517,7 +7551,12 @@ function renderPlaylist(){
         ${timerHtml}
         ${allDone || submittedCount === 0 ? '' : `<span class="help-bar" style="margin:0">${submittedCount}/${items.length} atsakyta</span>`}
       </div>
-      ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery", hideMech: isMixed})).join('')}
+      <div class="progress" role="progressbar" aria-label="Atsakyta" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${submittedCount}" style="margin:8px 0 0"><div style="width:${items.length ? Math.round(100 * submittedCount / items.length) : 0}%"></div></div>
+      ${items.map((it, i) => {
+        // after an answer: one tap to the next question still open
+        const nx = items.slice(i + 1).concat(items.slice(0, i)).find(o => !state.playlistSubmitted[`${o.year}-${o.q.num}`]);
+        return renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery", hideMech: isMixed, nextKey: nx && !state.playlistTimeExpired ? `${nx.year}-${nx.q.num}` : null});
+      }).join('')}
       ${state.playlistTimeExpired && !allDone ? `
         <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
           <b>Laikas baigėsi.</b> Neatsakyti uždaviniai lieka kaip neteisingi. Spausk „Baigti“, kad pamatytum rezultatą.
@@ -7752,6 +7791,7 @@ function renderPlaylist(){
       opt.addEventListener("click", ()=>{
         if(state.playlistSubmitted[k]) return;
         if(state.playlistTimeExpired) return;
+        if(opt.dataset.letter === (state.playlistFirstWrong || {})[k]) return;
         state.playlistAns[k] = opt.dataset.letter;
         renderPlaylist();
       });
@@ -7774,12 +7814,26 @@ function renderPlaylist(){
       if(state.playlistAns[k] == null) return;
       if(askConfidenceNow() && !(state.playlistConf || {})[k]) return;   // pick confidence first
       if(state.playlistTimeExpired) return;
+      // the try step gets a second go (as archive cards): first miss recorded,
+      // option crossed out, solution held back
+      const tryIt = state.playlistStep === 2 && content.tryQ && `${content.tryQ.year}-${content.tryQ.q.num}` === k ? content.tryQ : null;
+      state.playlistFirstWrong = state.playlistFirstWrong || {};
+      const hadMiss = !!state.playlistFirstWrong[k];
+      if(tryIt && !hadMiss && state.playlistAns[k] !== tryIt.q.correct){
+        state.playlistFirstWrong[k] = state.playlistAns[k];
+        delete state.playlistAns[k];
+        recordArchiveAnswer(tryIt.year, tryIt.q, false, (state.playlistConf || {})[k] || null);
+        Sfx.play("wrong");
+        renderPlaylist();
+        scrollToPlaylistQ(k, ".verdict");
+        return;
+      }
       state.playlistSubmitted[k] = true;
       // The try step records its answer right away; the worked example had its
       // solution on screen, so it only counts as seen (no stars, no stats)
       if(state.playlistStep === 1 && content.worked){
         store.seenQ[`${content.worked.year}-${content.worked.q.num}`] = Date.now();
-      } else if(state.playlistStep !== 3){
+      } else if(state.playlistStep !== 3 && !hadMiss){
         const it = content.tryQ;
         if(it){
           recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct, (state.playlistConf || {})[k] || null);
@@ -7790,7 +7844,16 @@ function renderPlaylist(){
         if(it) Sfx.play(state.playlistAns[k] === it.q.correct ? "correct" : "wrong");
       }
       renderPlaylist();
+      scrollToPlaylistQ(k, ".verdict");
     });
+    const revealBtn = card.querySelector("[data-pl-reveal]");
+    if(revealBtn) revealBtn.addEventListener("click", () => {
+      state.playlistAns[k] = (state.playlistFirstWrong || {})[k];
+      state.playlistSubmitted[k] = true;
+      renderPlaylist();
+    });
+    const gotoBtn = card.querySelector("[data-pl-goto]");
+    if(gotoBtn) gotoBtn.addEventListener("click", () => scrollToPlaylistQ(gotoBtn.dataset.plGoto));
     const hintBtn = card.querySelector("[data-pl-hint]");
     if(hintBtn) hintBtn.addEventListener("click", ()=>{
       state.playlistHintShown[k] = true;
@@ -7802,6 +7865,17 @@ function renderPlaylist(){
       renderPlaylist();
     });
   });
+}
+
+/* After an answer the verdict comes into view; "Kitas uždavinys" scrolls to
+   the next open question (mastery sets show all questions at once). */
+function scrollToPlaylistQ(key, inner){
+  try {
+    const [y, n] = String(key).split("-");
+    const card = document.querySelector(`.playlist-q[data-year="${y}"][data-qnum="${n}"]`);
+    const el = card && (inner ? card.querySelector(inner) || card : card);
+    if(el && el.scrollIntoView) el.scrollIntoView({behavior: "smooth", block: inner ? "center" : "start"});
+  } catch(_){}
 }
 
 function renderPlaylistQuestion(item, opts){
@@ -7828,19 +7902,23 @@ function renderPlaylistQuestion(item, opts){
     : ' Pakartosime rytoj.');
   // picture answers (see renderArchiveCard): letter circles only
   const isImageOnly = !!q.imageOnlyOptions;
+  const firstWrong = (state.playlistFirstWrong || {})[k] || null;
   const optionsHtml = ["A","B","C","D","E"].map(letter => {
     const v = q.options[letter];
     if(v == null) return "";
     let extra = "";
     if(submitted){
       if(q.correct === letter) extra = " correct";
-      else if(chosen === letter) extra = " wrong";
+      else if(chosen === letter || firstWrong === letter) extra = " wrong";
+    } else if(firstWrong === letter){
+      extra = " struck";
     } else if(chosen === letter){
       extra = " selected";
     }
-    if(isImageOnly) return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}"><span class="letter">${letter}</span></button>`;
+    const off = !submitted && firstWrong === letter ? ' disabled aria-disabled="true"' : '';
+    if(isImageOnly) return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}"${off}><span class="letter">${letter}</span></button>`;
     const isEmptyOpt = String(v).trim() === "";
-    return `<button type="button" class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}">
+    return `<button type="button" class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}"${off}>
       <span class="letter">${letter}</span>
       <span>${isEmptyOpt ? '<i style="color:var(--muted)">– atsakymas paveikslėlyje –</i>' : escapeHTML(v)}</span>
     </button>`;
@@ -7874,7 +7952,7 @@ function renderPlaylistQuestion(item, opts){
          <button class="btn small primary" data-pl-check ${canCheck ? '' : 'disabled'}>Patikrinti</button>`;
   } else { // mastery
     footer = submitted
-      ? ''
+      ? (opts.nextKey ? `<button class="btn small primary" data-pl-goto="${opts.nextKey}">Kitas uždavinys ↓</button>` : '')
       : `${confRow}<button class="btn small primary" data-pl-check ${canCheck ? '' : 'disabled'}>Atsakyti</button>`;
   }
   return `
@@ -7889,16 +7967,21 @@ function renderPlaylistQuestion(item, opts){
       ${questionBodyHTML(q, {lazy:false})}
       ${imageHint}
       <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
+      ${submitted ? `<div class="explain verdict" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
+        <b>${chosen === q.correct ? (firstWrong ? '✓ Teisingai – iš antro karto.' : '✓ Teisingai.') : 'Ne šis atsakymas.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
+        Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.${dueAfter}
+      </div>` : ''}
+      ${!submitted && firstWrong ? `<div class="explain verdict retry" style="background:var(--bad-soft);border:1px solid var(--bad)">
+        <b>Ne ${firstWrong}.</b> Pabandyk dar kartą – vieną variantą jau atmetei.
+        ${q.misconceptions && q.misconceptions[firstWrong] ? `<div class="misconception" style="margin-top:6px"><b>Kur galėjo slėptis klaida:</b> ${escapeHTML(q.misconceptions[firstWrong])}</div>` : ''}
+        <div class="row" style="margin-top:8px"><button class="btn small ghost" data-pl-reveal>Rodyti sprendimą</button></div>
+      </div>` : ''}
       ${showHint && approach ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(approach)}</div>` : ''}
-      ${submitted && chosen && chosen !== q.correct && q.misconceptions && q.misconceptions[chosen] ? `<div class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</div>` : ''}
-      ${submitted && chosen && chosen !== q.correct ? (() => { const m = (store.mistakes || {})[k]; return m && m.reason
+      ${submitted && (chosen !== q.correct ? chosen : firstWrong) && q.misconceptions && q.misconceptions[chosen !== q.correct ? chosen : firstWrong] ? `<div class="explain"><b>${chosen === q.correct ? 'Pirmą kartą' : 'Tavo klaida'}:</b> ${escapeHTML(q.misconceptions[chosen !== q.correct ? chosen : firstWrong])}</div>` : ''}
+      ${submitted && chosen && (chosen !== q.correct || firstWrong) ? (() => { const m = (store.mistakes || {})[k]; return m && m.reason
         ? `<p class="help-bar" style="margin:6px 0">Užrašyta: ${escapeHTML(MISTAKE_REASONS[m.reason] || m.reason)}.</p>`
         : `<div style="margin:6px 0"><b style="font-size:14px">Kodėl, manai, suklydai?</b><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">${Object.entries(MISTAKE_REASONS).map(([id, t]) => `<button class="btn small ghost" data-pl-why="${id}">${escapeHTML(t)}</button>`).join('')}</div></div>`; })() : ''}
       ${showSol && (q.solutionKid || q.solution) ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
-      ${submitted ? `<div class="explain" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
-        <b>${chosen === q.correct ? '✓ Teisingai.' : 'Ne šis atsakymas.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
-        Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.${dueAfter}
-      </div>` : ''}
       <div class="footer-actions">
         <div class="row"></div>
         <div class="row">${footer}</div>
@@ -8055,7 +8138,7 @@ function openArchiveSprint(){
   state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand:3, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
-  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistConf = {};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
@@ -8088,7 +8171,7 @@ function openContestRetry(when){
   state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand: 3, worked: null, tryQ: null, mastery: items, bandsAvailable: []};
-  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistConf = {};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
@@ -8135,7 +8218,7 @@ function openMixedSet(count){
   state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
   state.playlistSubmitted = {};
-  state.playlistHintShown = {};
+  state.playlistHintShown = {}; state.playlistFirstWrong = {};
   state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
