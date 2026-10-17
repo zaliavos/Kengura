@@ -7116,6 +7116,8 @@ function parentAdvice(){
   }
   const repeat = Object.values(store.mistakes || {}).filter(m => !m.fixedAt && (m.times || 0) >= 2).length;
   if(repeat >= 2) tips.push({icon:'📒', text:`${repeat} ${pluralForm(repeat,'uždavinys kartojasi','uždaviniai kartojasi','uždavinių kartojasi')} – ta pati klaida 2+ kartus. Geriausia vieta pasikalbėti: paprašykite vaiko paaiškinti savo sprendimo kelią.`, action:'mistakes', cta:'Sąsiuvinis'});
+  const se = store.selfExplain;
+  if(se && se.a >= 6 && se.ok / se.a < 0.6) tips.push({icon:'🧠', text:`Po teisingo atsakymo vaikas tik ${Math.round(100 * se.ok / se.a)} % kartų atpažįsta mintį, kuri jį atvedė – dalis atsakymų gali būti atspėti. „Mąstymo treniruotė“ (gudrybių skiltyje) moko skaityti sprendimą ir rasti klaidą.`, action:'think', cta:'Atverti'});
   const lastPaper = (store.contests || []).slice(-1)[0];
   if(store.plan.contestDate && days != null && days > 7 && (!lastPaper || Date.now() - lastPaper.when > 14 * ONE_DAY_MS)) tips.push({icon:'🕒', text: lastPaper ? 'Paskutinis kontrolinis – prieš daugiau nei dvi savaites. Kontrolinis kartą per savaitę parodo tikrą lygį ir moko tempo.' : 'Kontrolinio dar nebuvo – diagnostinis parodys, nuo ko pradėti.', action:'contestTab', cta:'Kontroliniai'});
   if(!tips.length) tips.push({icon:'✅', text:'Viskas vyksta pagal planą: treniruotės reguliarios, aiškių silpnų vietų nėra. Palaikykite ritmą: kartą per savaitę paprašykite vaiko papasakoti, kaip išsprendė jam patikusį uždavinį, ir pagirkite už būdą, ne už gabumus.'});
@@ -7490,6 +7492,7 @@ function renderParent(){
     else if(a === 'playlist') openPlaylist(arg);
     else if(a === 'sprint') startSprint();
     else if(a === 'mistakes') openMistakeBook();
+    else if(a === 'think') openThinkDrill();
     else if(a === 'contestTab'){ state.view = "home"; state.homeTab = "tests"; renderHome(); }
   }));
   $app.querySelectorAll("[data-recap-mech]").forEach(btn=> btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
@@ -9728,6 +9731,8 @@ const ACHIEVEMENTS = [
   {id:"jump500", icon:"🌵", title:"Šuolininkas",        desc:"Šuolyje pasiek 500 m",            check:()=> (store.games.jumpBest||0) >= 500},
   {id:"perfect5",icon:"🎯", title:"Tobula penketa",     desc:"5/5 žaidimų iššūkyje",         check:()=> (store.games.bestChallengeCorrect||0) >= 5},
   {id:"contest1",icon:"📝", title:"Pirmas kontrolinis", desc:"Užbaik kontrolinį testą",        check:()=> (store.contests||[]).length >= 1},
+  {id:"think10", icon:"🕵", title:"Klaidų detektyvas",  desc:"Rask 10 svetimų klaidų",          check:()=> (((store.thinkStats||{}).slip||{}).ok||0) >= 10},
+  {id:"order10", icon:"🧱", title:"Sprendimo statytojas", desc:"Sudėliok 10 sprendimų be pataisymų", check:()=> (((store.thinkStats||{}).order||{}).ok||0) >= 10},
   {id:"recog20", icon:"🔍", title:"Gudrybių atpažintojas",       desc:"Atpažink 20 gudrybių",           check:()=> ((store.recogStats||{}).correct||0) >= 20},
   {id:"plan5",   icon:"📅", title:"Planuotojas",        desc:"Užbaik 5 dienų treniruotes",     check:()=> Object.values(store.planDone||{}).filter(d=>d.warmup&&d.core&&d.cooldown).length >= 5},
   {id:"plan20",  icon:"🗓", title:"Dvidešimt dienų",    desc:"Užbaik 20 dienų treniruotes",    check:()=> Object.values(store.planDone||{}).filter(d=>d.bonus || (d.warmup&&d.core&&d.cooldown)).length >= 20},
