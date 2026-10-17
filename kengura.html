@@ -79,6 +79,16 @@
   .qprompt{font-size:17px;line-height:1.5;margin:8px 0 14px;white-space:pre-wrap}
   .figure{display:flex;justify-content:center;margin:10px 0 14px}
   .figure img{cursor:zoom-in}
+  /* typed question text behind the figure (see questionBodyHTML) */
+  details.qtext{margin:-6px 0 12px;border:0;background:none;padding:0}
+  details.qtext > summary{cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);list-style:none;display:inline-flex;align-items:center;gap:6px;padding:2px 0}
+  /* picture answers: five letter circles in a row, not five empty bars */
+  .opt.opt-letter-only{justify-content:center;padding:12px 8px}
+  .opt.opt-letter-only .letter{margin:0}
+  .qtext summary::-webkit-details-marker{display:none}
+  .qtext summary .qtext-aa{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 5px;font-weight:700;font-size:11px;background:#fffaf0}
+  .qtext[open] summary{color:var(--ink)}
+  .qtext .qprompt{font-size:15px;margin:6px 0 4px;padding:8px 10px;background:#fffaf0;border:1px dashed var(--line);border-radius:8px}
   .kid-sol p{margin:6px 0 0;line-height:1.5}
   .kid-sol .kid-trick{font-weight:600}
   .kid-sol .kid-answer{font-weight:600}
@@ -4506,9 +4516,6 @@ function renderArchiveCard(year, q){
         : `<span class="pill muted" title="Gudrybės pavadinimą pamatysi atsakęs arba paprašęs užuominos">Gudrybė: ?</span>`)
     : "";
   const practice = pickPracticeFor(q, year);
-  const figureHtml = q.figure
-    ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Klausimas ${q.num} (originalas)" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>`
-    : "";
 
   // Hint ladder: 4 tiers per mechanic – notice → ask → suggest → tell.
   // The 4th tier is the per-question full solution.
@@ -4637,15 +4644,15 @@ function renderArchiveCard(year, q){
   return `
     <section class="card archive-card" data-year="${year}" data-qnum="${q.num}">
       <div class="qmeta">
-        <b>Klausimas ${q.num}</b>
+        <b>${q.num} uždavinys</b>
         <span class="pill">${q.points} t.</span>
         ${mechPill}
         ${(() => { const m = (store.mistakes || {})[key]; return m && !m.fixedAt && !(submitted && (m.times || 0) <= 1) ? `<span class="pill bad" title="Šiame uždavinyje jau buvai suklydęs – dabar proga ištaisyti">📒 kartoji${m.times > 1 ? ` ×${m.times}` : ''}</span>` : ''; })()}
         ${tags}
       </div>
-      <div class="qprompt">${escapeHTML(q.prompt)}</div>
-      ${figureHtml}
-      <div class="options">${optionsHtml}</div>
+      ${questionBodyHTML(q)}
+      ${imageHint}
+      <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
       ${bottom}
       ${showConfidence ? `<div class="confidence-row" role="radiogroup" aria-label="Kiek esi tikras?">
         <span class="help-bar" style="margin:0 8px 0 0">Kiek esi tikras?</span>
@@ -6127,11 +6134,9 @@ function renderContest(){
     // options is what makes a guess worth its −¼ risk
     return `<div class="opt-wrap"><button type="button" class="${cls}" data-letter="${letter}">
       <span class="letter">${letter}</span>
-      <span>${escapeHTML(v)}</span>
+      <span>${String(v).trim() === "" ? '<i style="color:var(--muted)">– atsakymas paveikslėlyje –</i>' : escapeHTML(v)}</span>
     </button><button type="button" class="opt-x" data-strike="${letter}" aria-pressed="${struck}" title="${struck ? 'Grąžinti' : 'Išbraukti'} ${letter} variantą" aria-label="${struck ? 'Grąžinti' : 'Išbraukti'} ${letter} variantą">✕</button></div>`;
   }).join("");
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Uždavinio paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
-
   // Question strip showing all 30; answered are filled
   const strip = qs.map((qq, i) => {
     const ans = state.contestAnswers[qq.num];
@@ -6158,12 +6163,11 @@ function renderContest(){
 
     <section class="card">
       <div class="qmeta">
-        <b>Klausimas ${q.num}</b>
+        <b>${q.num} uždavinys</b>
         <span class="pill">${q.points} t.</span>
         <span class="pill bad">−${fmtPts(q.points*0.25)} už klaidą</span>
       </div>
-      <div class="qprompt">${escapeHTML(q.prompt)}</div>
-      ${figureHtml}
+      ${questionBodyHTML(q, {lazy:false})}
       <div class="options" id="contestOptions">${optionsHtml}</div>
       ${state.contestAnswers[q.num] ? `<p class="help-bar" style="margin:6px 0 0">Persigalvojai? Paspausk pasirinktą atsakymą dar kartą – jis bus atšauktas (už neatsakytą baudos nėra).</p>` : ''}
 
@@ -7015,8 +7019,8 @@ function renderPlaylist(){
   const step = state.playlistStep;
 
   const titleHtml = isDue
-    ? `<h2 style="margin:0 0 4px">Laikas pakartoti</h2>
-       <p class="help-bar" style="margin:0">Šie uždaviniai sugrįžo iš tavo kartojimo eilės. Atsakyk teisingai – jie pereis į kitą intervalą (1 d. → 3 d. → 7 d. → 14 d. → 30 d. → įvaldyta).</p>`
+    ? `<h2 style="margin:0 0 4px">🔁 Pakartojimas</h2>
+       <p class="help-bar" style="margin:0">Šiuos uždavinius jau sprendei ir suklydai. Išspręsk juos dar kartą ramiai – kai pavyks kelis kartus iš eilės, jie iš sąrašo dings.</p>`
     : isMixed && state.playlistRetry
     ? `<h2 style="margin:0 0 4px">🔁 Antras bandymas</h2>
        <p class="help-bar" style="margin:0">Kontrolinio klaidos ir praleisti uždaviniai – be laikrodžio. Sprendimą pamatysi tik atsakęs. Taip sužinosi, kiek taškų nubėgo dėl laiko ir skubėjimo, o kiek – dėl to, ko dar nemoki.</p>`
@@ -7080,9 +7084,18 @@ function renderPlaylist(){
     const lowerBand = special ? null : bands.filter(b => b < content.sourceBand && enough(b)).pop() || null;
     const higherBand = !special && content.sourceBand < 5 && bands.includes(5) && enough(5) ? 5 : null;
     const timerHtml = special && !state.playlistSprint ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ ${fmtMs(playlistMasteryMs(items))}</span>`;
-    const headWord = isDue ? 'Pakartojimo eilė' : state.playlistRetry ? 'Antras bandymas' : isMixed ? 'Mišrus rinkinys' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
+    // One quiet pill row instead of a sentence of instructions: the kid sees
+    // how many, whether there is a clock, and (mastery) that all must be right.
+    const headWord = isDue ? '' : state.playlistRetry ? '' : isMixed ? '' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
     body = `
-      <p><b>${headWord}:</b> ${items.length} ${pluralForm(items.length,'uždavinys','uždaviniai','uždavinių')}, ${special?'be laiko':'be užuominų'}. ${timerHtml}${allDone ? '' : ' Atsakyk į visus, paskui paspausk „Baigti“.'}</p>
+      <div class="qmeta pl-head" style="margin:8px 0 0">
+        ${headWord ? `<b>${headWord}</b>` : ''}
+        <span class="pill">${items.length} ${pluralForm(items.length,'uždavinys','uždaviniai','uždavinių')}</span>
+        ${special && !state.playlistSprint ? `<span class="pill muted">be laiko</span>` : `<span class="pill muted">be užuominų</span>`}
+        ${!special && !retest ? `<span class="pill muted" title="Įvaldymui visi atsakymai turi būti teisingi">visi turi būti teisingi</span>` : ''}
+        ${timerHtml}
+        ${allDone || submittedCount === 0 ? '' : `<span class="help-bar" style="margin:0">${submittedCount}/${items.length} atsakyta</span>`}
+      </div>
       ${items.map(it => renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery", hideMech: isMixed})).join('')}
       ${state.playlistTimeExpired && !allDone ? `
         <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
@@ -7380,6 +7393,20 @@ function renderPlaylistQuestion(item, opts){
   // Mixed sets hide the mechanic until the answer is in – recognising the
   // trick is the point. It's revealed with the feedback.
   const hideMech = !!opts.hideMech && !submitted;
+  // Review items say why they are back and, after the answer, when they return
+  const dueItem = state.playlistMech === "__due__" ? (store.dueQueue || {})[k] : null;
+  const dueNote = dueItem ? (dueItem.confWrong
+    ? `<span class="pill bad" title="Praeitą kartą buvai tikras, bet suklydai">buvai tikras, bet suklydai</span>`
+    : (dueItem.streak || 0) > 0
+      ? `<span class="pill good">jau ${dueItem.streak} ${dueItem.streak === 1 ? 'kartą' : 'kartus'} iš eilės teisingai</span>`
+      : `<span class="pill muted">${dueItem.fromContest ? 'klaida kontroliniame' : 'praeitą kartą suklydai'}</span>`) : '';
+  const dueAfter = !dueItem ? '' : (chosen === q.correct
+    ? ((dueItem.streak || 0) + 1 >= SR_INTERVALS_DAYS.length
+        ? ' Įveikta – šis uždavinys nebegrįš. 🎉'
+        : ` Sugrįš dar kartą po ${SR_INTERVALS_DAYS[Math.min((dueItem.streak || 0) + 1, SR_INTERVALS_DAYS.length - 1)]} d.`)
+    : ' Pakartosime rytoj.');
+  // picture answers (see renderArchiveCard): letter circles only
+  const isImageOnly = !!q.imageOnlyOptions;
   const optionsHtml = ["A","B","C","D","E"].map(letter => {
     const v = q.options[letter];
     if(v == null) return "";
@@ -7390,14 +7417,16 @@ function renderPlaylistQuestion(item, opts){
     } else if(chosen === letter){
       extra = " selected";
     }
-    return `<button type="button" class="opt${extra}" data-letter="${letter}">
+    if(isImageOnly) return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}"><span class="letter">${letter}</span></button>`;
+    const isEmptyOpt = String(v).trim() === "";
+    return `<button type="button" class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}">
       <span class="letter">${letter}</span>
-      <span>${escapeHTML(v)}</span>
+      <span>${isEmptyOpt ? '<i style="color:var(--muted)">– atsakymas paveikslėlyje –</i>' : escapeHTML(v)}</span>
     </button>`;
   }).join("");
-  const figureHtml = q.figure
-    ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Uždavinio paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"></div>`
-    : "";
+  const imageHint = isImageOnly
+    ? `<p class="help-bar" style="margin:0 0 6px"><b>Atsakymai – paveikslėlyje.</b> Pažymėk raidę pagal pasirinktą pavyzdį.</p>`
+    : (q.hasMissingOptionText ? `<p class="help-bar" style="margin:0 0 6px">Kai kurie atsakymai – paveikslėlyje (be teksto). Pažymėk raidę.</p>` : '');
   const showHint = mode === "try" && !submitted && state.playlistHintShown[k];
   // hint: this question's own idea, else the trick's generic suggestion; the
   // official text's first sentence only as a last resort (it often computes
@@ -7430,14 +7459,15 @@ function renderPlaylistQuestion(item, opts){
   return `
     <section class="card playlist-q" data-year="${year}" data-qnum="${q.num}" style="margin-top:12px">
       <div class="qmeta">
-        <b>${escapeHTML(year)} · K${q.num}</b>
+        <b>${q.num} uždavinys</b><span class="help-bar" style="margin:0">${escapeHTML(year)} m.</span>
         <span class="pill">${q.points} t.</span>
         ${q.mechanic && !hideMech ? `<span class="pill muted">${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</span>` : ''}
         ${hideMech ? `<span class="pill">❓ kokia gudrybė?</span>` : ''}
+        ${dueNote}
       </div>
-      <div class="qprompt">${escapeHTML(q.prompt)}</div>
-      ${figureHtml}
-      <div class="options">${optionsHtml}</div>
+      ${questionBodyHTML(q, {lazy:false})}
+      ${imageHint}
+      <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
       ${showHint && approach ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(approach)}</div>` : ''}
       ${submitted && chosen && chosen !== q.correct && q.misconceptions && q.misconceptions[chosen] ? `<div class="explain"><b>Tavo klaida:</b> ${escapeHTML(q.misconceptions[chosen])}</div>` : ''}
       ${submitted && chosen && chosen !== q.correct ? (() => { const m = (store.mistakes || {})[k]; return m && m.reason
@@ -7446,7 +7476,7 @@ function renderPlaylistQuestion(item, opts){
       ${showSol && (q.solutionKid || q.solution) ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
       ${submitted ? `<div class="explain" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
         <b>${chosen === q.correct ? 'Teisingai!' : 'Klaida.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>!` : ''}
-        Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.
+        Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.${dueAfter}
       </div>` : ''}
       <div class="footer-actions">
         <div class="row"></div>
@@ -7757,7 +7787,6 @@ function renderRecog(){
   const q = it.q;
   const submitted = state.recogSubmitted;
   const right = submitted && state.recogChosen === q.mechanic;
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Uždavinio paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
   const summary = (MECHANIC_METHODOLOGY[q.mechanic] || {}).summary || "";
   $app.innerHTML = `
     <section class="card">
@@ -7769,8 +7798,7 @@ function renderRecog(){
     </section>
     <section class="card">
       <div class="qmeta"><span class="pill ${q.points===5?'bad':''}">${q.points} t.</span><span class="pill muted">${escapeHTML(it.year)} m.</span></div>
-      <div class="qprompt">${escapeHTML(q.prompt)}</div>
-      ${figureHtml}
+      ${questionBodyHTML(q, {lazy:false})}
       <div class="options" id="recogOptions">
         ${it.opts.map((m, i) => {
           let cls = "opt";
@@ -8785,7 +8813,6 @@ function renderRaceChallenge(){
     </button>`;
   }).join("");
 
-  const figureHtml = q.figure ? `<div class="figure"><img src="${encodeURI(q.figure)}" alt="Uždavinio paveikslėlis" style="max-width:100%;border-radius:8px;border:1px solid var(--line)" loading="lazy"></div>` : "";
   const pips = qs.map((qq,i)=>{
     const done = i < idx || (i === idx && submitted);
     const cur = i === idx;
@@ -8802,12 +8829,11 @@ function renderRaceChallenge(){
     </section>
     <section class="card">
       <div class="qmeta">
-        <b>Klausimas ${idx+1} / 5</b>
+        <b>${idx+1} / 5</b>
         <span class="pill ${q.points===5?'bad':''}">${q.points} t.</span>
         <span class="pill muted">${escapeHTML(q.year)} m.</span>
       </div>
-      <div class="qprompt">${escapeHTML(q.prompt)}</div>
-      ${figureHtml}
+      ${questionBodyHTML(q, {lazy:false})}
       ${imageOnly?`<p class="help-bar">Atsakymai – paveikslėlyje. Rink raidę A–E.</p>`:''}
       <div class="options" id="raceOptions">${optionsHtml}</div>
       ${submitted ? `<div class="explain" style="margin-top:8px">
@@ -9401,6 +9427,34 @@ function shortText(t, n){
   return (end > 40 ? cut.slice(0, end + 1) : cut.replace(/\s+\S*$/, "") + "…") + (tail ? " … " + tail : "");
 }
 function fmtPts(n){ return String(Math.round((Number(n) || 0) * 100) / 100).replace('.', ','); }
+/* The figure of an archive question is the question as printed – text,
+   drawing and options – so the typed prompt would only repeat it. The
+   figure comes first; the text sits behind a small "Aa" toggle (useful on a
+   narrow phone, for copying and for screen readers). The toggle's state is
+   remembered in store.settings.showQText (see the document-level listener
+   in wireQTextToggle). */
+function questionBodyHTML(q, opts){
+  opts = opts || {};
+  const text = `<div class="qprompt">${escapeHTML(q.prompt)}</div>`;
+  if(!q.figure) return text;
+  const alt = opts.alt || `${q.num ? q.num + ' uždavinys' : 'Uždavinys'} – originalus tekstas ir paveikslėlis`;
+  const fig = `<div class="figure"><img src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'}></div>`;
+  const open = !!(store.settings && store.settings.showQText);
+  return `${fig}<details class="qtext" data-qtext${open ? ' open' : ''}><summary><span class="qtext-aa">Aa</span> Tekstas</summary>${text}</details>`;
+}
+function wireQTextToggle(){
+  if(typeof document === "undefined" || !document.addEventListener) return;
+  // "toggle" does not bubble – listen in the capture phase
+  document.addEventListener("toggle", e => {
+    const d = e.target;
+    if(!d || !d.matches || !d.matches("details[data-qtext]")) return;
+    if(!!store.settings.showQText === !!d.open) return;
+    store.settings.showQText = !!d.open;
+    saveStore(store);
+    // keep every other card on the page in step
+    document.querySelectorAll("details[data-qtext]").forEach(o => { if(o !== d) o.open = d.open; });
+  }, true);
+}
 function escapeHTML(s){
   if(s==null) return "";
   if(typeof s !== "string") s = String(s);
@@ -9420,6 +9474,7 @@ function shortPrompt(p){
 renderHome();
 startStarTimeHeartbeat();
 wireFigureZoom();
+wireQTextToggle();
 // Offline: a tiny service worker caches the app shell + figures on demand
 // (network-first for the shell so updates land immediately).
 if(typeof navigator !== "undefined" && "serviceWorker" in navigator && typeof location !== "undefined" && location.protocol !== "file:"){
