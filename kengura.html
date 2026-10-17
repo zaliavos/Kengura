@@ -284,6 +284,10 @@
   .misconception{padding:6px 8px;background:#fff;border-radius:6px}
   .tier-1, .tier-2, .tier-3{margin-bottom:6px}
   .activity-grid{display:flex;gap:3px;margin-top:8px;flex-wrap:wrap}
+  .ptable{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  .ptable th,.ptable td{padding:5px 6px;text-align:right;border-bottom:1px dashed var(--line);white-space:nowrap}
+  .ptable th:first-child,.ptable td:first-child{text-align:left}
+  .ptable th{color:var(--muted);font-weight:600}
   .activity-cell{width:14px;height:14px;border-radius:3px;background:#f1ecdf}
   .activity-cell.lvl1{background:#ffe6d8}
   .activity-cell.lvl2{background:#fbb582}
@@ -3323,6 +3327,10 @@ function logActivity(correct, band){
   const a = store.activity[k] = store.activity[k] || {answered:0, correct:0};
   a.answered++;
   if(correct) a.correct++;
+  // per-band tally for the parent view (accuracy by block over the last weeks)
+  const bb = a.byBand = a.byBand || {};
+  const slot = bb[band || 3] = bb[band || 3] || {a:0, ok:0};
+  slot.a++; if(correct) slot.ok++;
   bumpStreakForToday();
   const n = starsForAnswer(correct, band || 3);
   awardStars("fromQ", n);
@@ -3569,6 +3577,8 @@ function startStarTimeHeartbeat(){
     if(Date.now() - _lastInputAt > STAR_IDLE_MS) return;
     const s = store.stars;
     s._timeSecRem = (s._timeSecRem || 0) + STAR_TIME_TICK_SEC;
+    // active seconds per day – the parent view shows minutes, not just counts
+    { const a = store.activity[todayKey()] = store.activity[todayKey()] || {answered:0, correct:0}; a.sec = (a.sec || 0) + STAR_TIME_TICK_SEC; }
     let gained = 0;
     while(s._timeSecRem >= 60){ s._timeSecRem -= 60; gained++; }
     if(gained){
@@ -4753,9 +4763,9 @@ function renderHome(){
       });
     }
     if(due.length) missions.push({
-      tag: 'Pakartojimo eilė',
+      tag: 'Pakartojimas',
       title: `Šiandien laukia ${due.length} ${pluralForm(due.length,'uždavinys','uždaviniai','uždavinių')}`,
-      body: 'Tu jau juos esi sprendęs – pažiūrėkime, ar dar pameni.',
+      body: 'Juose jau buvai suklydęs – pažiūrėkime, ar dabar pavyks.',
       cta: 'Pradėti pakartojimą', action: 'due', style: 'primary',
     });
     if(needsSpeedWork()) missions.push({
@@ -4794,8 +4804,8 @@ function renderHome(){
     });
     missions.push({
       tag: 'Toliau',
-      title: 'Pakartoti gerai pavyksta',
-      body: 'Pakartojimo eilė tuščia. Pabandyk naują testą arba pasirink gudrybę žemiau.',
+      title: 'Klaidų pakartoti nėra',
+      body: 'Šiandien nieko nelaukia. Pabandyk naują testą arba pasirink gudrybę skiltyje „Gudrybės“.',
       cta: 'Pradėti testą', action: 'newTest', style: 'ghost',
     });
   }
@@ -4878,7 +4888,8 @@ function renderHome(){
         <div class="recent-mastery">⭐ Šiandien įvaldyta: ${todayMastered.map(m=>`<b>${escapeHTML(MECHANIC_LABEL[m]||m)}</b>`).join(', ')}</div>
       `:''}
       <div class="muted small" style="margin-top:8px">
-        ${store.sessions.length} ${pluralForm(store.sessions.length,'testas','testai','testų')} · ${totalAns} ${pluralForm(totalAns,'klausimas','klausimai','klausimų')}${totalAns?` · ${Math.round(100*totalRight/totalAns)} % teisingų`:''}
+        ${(()=>{ const all = totalQuestionsAnswered(); const ok = Object.values(store.activity || {}).reduce((s, a) => s + (a.correct || 0), 0);
+          return all ? `Iš viso išspręsta ${all} ${pluralForm(all,'uždavinys','uždaviniai','uždavinių')} · ${Math.round(100 * ok / all)} % teisingai${(store.contests || []).length ? ` · ${store.contests.length} ${pluralForm(store.contests.length,'kontrolinis','kontroliniai','kontrolinių')}` : ''}` : 'Dar nieko neišspręsta – pats laikas pradėti.'; })()}
       </div>
     </section>
 
@@ -6330,6 +6341,9 @@ function creditContestActivity(qs, answers){
     const ok = letter === q.correct;
     a.answered++;
     if(ok) a.correct++;
+    const bb = a.byBand = a.byBand || {};
+    const slot = bb[q.points || 3] = bb[q.points || 3] || {a:0, ok:0};
+    slot.a++; if(ok) slot.ok++;
     stars += starsForAnswer(ok, q.points || 3);
   }
   bumpStreakForToday();
@@ -6464,7 +6478,7 @@ function renderContestResults(){
       }).join('')}
       ${wrongs.length ? `<button class="btn small ghost" id="contestPrintWrongs">🖨 Atsispausdinti šias klaidas</button>` : ''}
       ${wrongs.length ? `<p class="help-bar">📒 ${wrongs.length} ${pluralForm(wrongs.length,'klaida įrašyta','klaidos įrašytos','klaidų įrašyta')} į <a href="#" id="contestMistakeBook">klaidų sąsiuvinį</a> – ten gali bet kada bandyti iš naujo.</p>` : ''}
-      ${r.queued ? `<p class="help-bar">✓ ${r.queued} ${pluralForm(r.queued,'klaida pateko','klaidos pateko','klaidų pateko')} į pakartojimo eilę – nuo rytojaus grįš apšilimuose, po ${CONTEST_REVIEW_PER_DAY} per dieną.</p>` : ''}
+      ${r.queued ? `<p class="help-bar">✓ ${r.queued} ${pluralForm(r.queued,'klaidą','klaidas','klaidų')} pakartosi nuo rytojaus – apšilimuose, po ${CONTEST_REVIEW_PER_DAY} per dieną.</p>` : ''}
     </section>` : ''}
 
     ${skipped.length ? `
@@ -6564,90 +6578,235 @@ function importProgressFile(file){
   reader.readAsText(file);
 }
 
+/* ============================================================
+   PARENT VIEW – control + statistics.
+   Order: this week → what to do → settings (the controls a parent owns)
+   → progress over weeks → papers → details → data.
+   ============================================================ */
+function activityMinutes(a){ return a ? Math.round((a.sec || 0) / 60) : 0; }
+/* One week (0 = this one, 1 = last …) summed up for the parent view. */
+function weekSummary(weeksBack){
+  const rows = weekActivity(weeksBack);
+  const fromTs = rows[0].date.getTime(), toTs = rows[6].date.getTime() + ONE_DAY_MS;
+  const s = {rows, fromTs, toTs, active:0, answered:0, correct:0, min:0, stars:0, trainingDays:0, missed:0};
+  const now = Date.now();
+  for(const r of rows){
+    const a = r.a;
+    if(a && a.answered){ s.active++; s.answered += a.answered; s.correct += a.correct || 0; }
+    s.min += activityMinutes(a);
+    s.stars += (a && a.stars) || 0;
+    if(r.date.getTime() <= now && isTrainingDay(r.date)){
+      s.trainingDays++;
+      if(!(a && a.answered) && r.key !== todayKey()) s.missed++;
+    }
+  }
+  s.papers = (store.contests || []).filter(c => c.when >= fromTs && c.when < toTs);
+  s.mastered = Object.values(store.masteredMech || {}).filter(t => t >= fromTs && t < toTs).length;
+  return s;
+}
+/* Accuracy by block over the last N days (from activity[day].byBand). */
+function bandAccuracyDays(days){
+  const out = {3:{a:0, ok:0}, 4:{a:0, ok:0}, 5:{a:0, ok:0}};
+  for(let i = 0; i < days; i++){
+    const a = store.activity[dateKeyOffset(i)];
+    if(!a || !a.byBand) continue;
+    for(const b of [3,4,5]){ const s = a.byBand[b]; if(s){ out[b].a += s.a || 0; out[b].ok += s.ok || 0; } }
+  }
+  return out;
+}
+/* Up to three rule-based pointers for the parent – what the numbers mean
+   and what to do about it. */
+function parentAdvice(){
+  const tips = [];
+  const week = weekSummary(0);
+  const days = daysToContest();
+  if(!store.plan.contestDate) tips.push({icon:'📅', text:'Įrašykite konkurso datą – tada planas pats parinks etapą ir pasiūlys kontrolinius.', action:'plan', cta:'Nustatyti'});
+  if(week.missed >= 2) tips.push({icon:'🛌', text:`Šią savaitę praleistos ${week.missed} treniruočių dienos. Geriau 15 min kasdien negu valanda sekmadienį – arba sumažinkite treniruočių dienų skaičių.`, action:'settings', cta:'Dienos'});
+  const worst = weakestMechanics(8).filter(w => w.showAttempts >= 4 && w.rate >= 0.4)[0];
+  if(worst) tips.push({icon:'🧩', text:`Silpniausia gudrybė – ${MECHANIC_LABEL[worst.mech] || worst.mech} (${Math.round(100 * worst.rate)} % klaidų). Viena serija su pavyzdžiu dažniausiai ją pataiso.`, action:'playlist', arg:worst.mech, cta:'Atverti seriją'});
+  const ca = store.confStats && store.confStats.a;
+  if(ca && ca.attempts >= 5 && (ca.attempts - ca.wrong) / ca.attempts < 0.8) tips.push({icon:'🎯', text:`„Tikrai žinau“ pasirodo teisinga tik ${Math.round(100 * (ca.attempts - ca.wrong) / ca.attempts)} % kartų. Konkurse tai brangu (−25 %): paprašykite, kad prieš žymėdamas atsakymą vaikas jį patikrintų atvirkščiu veiksmu.`});
+  if(needsSpeedWork()) tips.push({icon:'⚡', text:'3 taškų uždaviniai sprendžiami per lėtai – lengviausi taškai lieka nesurinkti. Planas siūlo sprintus; verta juos daryti su laikrodžiu.', action:'sprint', cta:'Sprintas'});
+  const last3 = (store.contests || []).slice(-3).filter(c => c.byBand);
+  if(last3.length >= 2){
+    let ok = 0, t = 0; for(const c of last3){ ok += (c.byBand[3] || {}).ok || 0; t += (c.byBand[3] || {}).total || 0; }
+    if(t && ok / t < 0.7) tips.push({icon:'📝', text:`Kontroliniuose 3 t. blokas – tik ${Math.round(100 * ok / t)} %. Tai lengviausi taškai: konkurse pirmiausia jie, ir tik tada 5 t. uždaviniai.`, action:'contestTab', cta:'Kontroliniai'});
+  }
+  const repeat = Object.values(store.mistakes || {}).filter(m => !m.fixedAt && (m.times || 0) >= 2).length;
+  if(repeat >= 2) tips.push({icon:'📒', text:`${repeat} ${pluralForm(repeat,'uždavinys kartojasi','uždaviniai kartojasi','uždavinių kartojasi')} – ta pati klaida 2+ kartus. Geriausia vieta pasikalbėti: paprašykite vaiko paaiškinti savo sprendimo kelią.`, action:'mistakes', cta:'Sąsiuvinis'});
+  const lastPaper = (store.contests || []).slice(-1)[0];
+  if(store.plan.contestDate && days != null && days > 7 && (!lastPaper || Date.now() - lastPaper.when > 14 * ONE_DAY_MS)) tips.push({icon:'🕒', text: lastPaper ? 'Paskutinis kontrolinis – prieš daugiau nei dvi savaites. Kontrolinis kartą per savaitę parodo tikrą lygį ir moko tempo.' : 'Kontrolinio dar nebuvo – diagnostinis parodys, nuo ko pradėti.', action:'contestTab', cta:'Kontroliniai'});
+  if(!tips.length) tips.push({icon:'✅', text:'Viskas vyksta pagal planą: treniruotės reguliarios, aiškių silpnų vietų nėra. Palaikykite ritmą ir nepamirškite savaitės prizo.'});
+  return tips.slice(0, 3);
+}
+
 function openParent(){
+  if(META.parentPin && !state._parentUnlocked){ state.view = "parentGate"; renderParentGate(); return; }
   state.view = "parent";
   renderParent();
+}
+
+/* Optional parent code (META.parentPin, shared by all profiles). A soft
+   lock against curious fingers on the prize and the settings – not a
+   security feature. Recovery = export, clear site data, import. */
+function renderParentGate(){
+  $app.innerHTML = `
+    <section class="card" style="max-width:440px;margin:0 auto">
+      <button class="nav-back" id="gateBack">← Į vaiko rodinį</button>
+      <h2>🔒 Tėvų rodinys</h2>
+      <p class="help-bar" style="margin-top:0">Įveskite tėvų kodą.</p>
+      <div class="row" style="gap:8px;align-items:center">
+        <input type="password" id="gatePin" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" aria-label="Tėvų kodas" style="font:inherit;font-size:20px;letter-spacing:6px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;width:140px">
+        <button class="btn primary" id="gateOk">Atrakinti</button>
+      </div>
+      <p class="help-bar" id="gateMsg" style="min-height:1.2em;margin:6px 0 0"></p>
+      <details style="margin-top:12px"><summary>Pamiršote kodą?</summary>
+        <p class="help-bar" style="margin:6px 0">Kodas saugomas tik šioje naršyklėje. Eksportuokite progresą, naršyklėje išvalykite šios svetainės duomenis ir importuokite failą atgal – kodo nebebus.</p>
+        <button class="btn small" id="gateExport">⬇ Eksportuoti progresą (.json)</button>
+      </details>
+    </section>`;
+  const pin = document.getElementById("gatePin");
+  const tryUnlock = () => {
+    if(String(pin.value || "") === String(META.parentPin)){ state._parentUnlocked = true; openParent(); }
+    else { document.getElementById("gateMsg").textContent = "Neteisingas kodas."; pin.value = ""; pin.focus(); }
+  };
+  document.getElementById("gateOk").addEventListener("click", tryUnlock);
+  pin.addEventListener("keydown", e => { if(e.key === "Enter") tryUnlock(); });
+  document.getElementById("gateBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
+  document.getElementById("gateExport").addEventListener("click", exportProgress);
+  try { pin.focus(); } catch(_){}
 }
 
 function renderParent(){
   const totalMechs = trackMechanics().length;   // mechanics actually on the track, not all 30
   const masteredCount = Object.keys(store.masteredMech || {}).length;
+  const partialCount = Object.keys(store.masteredBand || {}).filter(m => !store.masteredMech[m]).length;
+  const days = daysToContest();
+  const wd = (store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6;
+  const week = weekSummary(0);
+  const weeks = [0,1,2,3].map(weekSummary);
+  const anyMinutes = weeks.some(w => w.min > 0);
+  const band30 = bandAccuracyDays(30);
+  const band30Any = [3,4,5].some(b => band30[b].a > 0);
   // 14-day streak grid
-  const days = [];
-  const now = new Date();
+  const grid = [];
   for(let i = 13; i >= 0; i--){
-    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
-    const m = String(d.getMonth()+1).padStart(2,"0");
-    const da = String(d.getDate()).padStart(2,"0");
-    const k = `${d.getFullYear()}-${m}-${da}`;
+    const k = dateKeyOffset(i);
     const a = store.activity[k];
     let lvl = 0;
-    if(a){
-      if(a.answered >= 20) lvl = 3;
-      else if(a.answered >= 10) lvl = 2;
-      else if(a.answered >= 1) lvl = 1;
-    }
-    days.push({date: k, label: `${da}.${m}`, lvl, count: a?a.answered:0, ok: a?a.correct:0});
+    if(a){ if(a.answered >= 20) lvl = 3; else if(a.answered >= 10) lvl = 2; else if(a.answered >= 1) lvl = 1; }
+    const [, m, da] = k.split("-");
+    grid.push({label: `${da}.${m}`, lvl, count: a ? a.answered : 0, min: activityMinutes(a)});
   }
-
-  // This week's activity
-  let weekAnswered = 0, weekCorrect = 0;
-  days.slice(7).forEach(d => { weekAnswered += d.count; weekCorrect += d.ok; });
-
-  // Worst 3 mechanics
-  const worst = weakestMechanics(8).filter(w => w.showAttempts >= 4).slice(0, 3);   // ≥ 4 samples before calling it weak
-
-  // Last session
+  // Worst 3 mechanics (≥ 4 samples before calling it weak)
+  const worst = weakestMechanics(8).filter(w => w.showAttempts >= 4).slice(0, 3);
+  // Last generated test
   const last = store.sessions[store.sessions.length-1];
   let lastBreak = '';
   if(last && last.questions){
     const breakdown = {};
-    last.questions.forEach(q => {
-      if(q.correct) return;
-      const c = q.category || 'kita';
-      breakdown[c] = (breakdown[c] || 0) + 1;
-    });
+    last.questions.forEach(q => { if(q.correct) return; const c = q.category || 'kita'; breakdown[c] = (breakdown[c] || 0) + 1; });
     const items = Object.entries(breakdown).sort((a,b)=>b[1]-a[1]);
-    if(items.length){
-      lastBreak = `<ul style="margin:6px 0 0">${items.map(([c,n]) => `<li>${escapeHTML(CATEGORY_LABEL[c]||c)} – ${n} ${pluralForm(n,'klaida','klaidos','klaidų')}</li>`).join('')}</ul>`;
-    }
+    if(items.length) lastBreak = `<ul style="margin:6px 0 0">${items.map(([c,n]) => `<li>${escapeHTML(CATEGORY_LABEL[c]||c)} – ${n} ${pluralForm(n,'klaida','klaidos','klaidų')}</li>`).join('')}</ul>`;
   }
+  const fmtW = w => { const d = w.rows[0].date, e = w.rows[6].date; return `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} – ${String(e.getMonth()+1).padStart(2,'0')}-${String(e.getDate()).padStart(2,'0')}`; };
+  const tips = parentAdvice();
+  const lastPaper = (store.contests || []).slice(-1)[0];
 
   $app.innerHTML = `
     <section class="card">
       <button class="nav-back" id="parentBack">← Į vaiko rodinį</button>
-      <h2>Tėvų rodinys <span class="print-only" style="font-size:14px;font-weight:normal">· ${escapeHTML(activeProfileName ? activeProfileName() : '')} · ${new Date().toLocaleDateString("lt-LT")}</span></h2>
-      <button class="btn small ghost" id="parentPrint" title="Visa ši suvestinė vienu spausdinimu (pvz., mokytojui)">🖨 Spausdinti ataskaitą</button>
-      <p class="help-bar">Trumpas vaizdas, kaip vaikui sekasi. Progresas saugomas tik šioje naršyklėje – kitam įrenginiui naudokite eksportą žemiau.</p>
-
-      <div class="grid two" style="margin-top:14px">
-        <div class="stat"><b>${masteredCount} / ${totalMechs}</b><span>Įvaldytos gudrybės</span></div>
-        <div class="stat"><b>${weekAnswered}</b><span>Šios savaitės atsakymai (${weekCorrect} ${pluralForm(weekCorrect,'teisingas','teisingi','teisingų')})</span></div>
-        ${(()=>{
-          const cw = Object.values(store.dueQueue || {}).filter(i => i.confWrong).length;
-          return cw ? `<div class="stat" style="border-color:var(--bad)"><b>${cw}</b><span>„Tikrai žinau“ klaidos eilėje – klaidingi supratimai, ne atsitiktinumai</span></div>` : '';
-        })()}
-        ${store.recogStats && store.recogStats.attempts ? `<div class="stat"><b>${Math.round(100*store.recogStats.correct/store.recogStats.attempts)} %</b><span>Gudrybės atpažinimas (${store.recogStats.attempts} ${pluralForm(store.recogStats.attempts,'bandymas','bandymai','bandymų')})</span></div>` : ''}
+      <div class="footer-actions" style="margin-top:0;align-items:flex-start">
+        <h2 style="margin:0">Tėvams${activeProfileName() ? ` · ${escapeHTML(activeProfileName())}` : ''} <span class="print-only" style="font-size:14px;font-weight:normal">· ${new Date().toLocaleDateString("lt-LT")}</span></h2>
+        <button class="btn small ghost" id="parentPrint" title="Visa ši suvestinė vienu spausdinimu (pvz., mokytojui)">🖨 Ataskaita</button>
       </div>
-      ${(() => { const top = Object.entries(store.recogConfusion || {}).sort((a, b) => b[1] - a[1]).slice(0, 3); return top.length ? `<p style="margin:8px 0 0">🔀 Dažniausiai painiojamos gudrybės: ${top.map(([p, n]) => { const [a, c] = p.split('>'); return `<b>${escapeHTML(MECHANIC_LABEL[a] || a)}</b> ↔ ${escapeHTML(MECHANIC_LABEL[c] || c)} (${n})`; }).join('; ')}</p>` : ''; })()}
+      <p class="help-bar">${days != null && days >= 0 ? `Iki konkurso <b>${days} d.</b> · etapas: <b>${PLAN_PHASE[planPhase()].label}</b>` : 'Konkurso data nenustatyta'} · serija <b>${store.streak.count || 0} d.</b> · įvaldyta <b>${masteredCount}/${totalMechs}</b> gudrybių${lastPaper ? ` · paskutinis kontrolinis <b>${fmtPts(lastPaper.scoreWithPenalty ?? lastPaper.points)}</b> / ${lastPaper.maxPoints}` : ''}</p>
+
+      <h3 style="margin:10px 0 6px">Ši savaitė</h3>
+      <div class="grid two">
+        <div class="stat"><b>${week.active} / ${week.trainingDays || 7}</b><span>treniruočių dienos${week.missed ? ` · praleista ${week.missed}` : ''}</span></div>
+        <div class="stat"><b>${week.answered}</b><span>${pluralForm(week.answered,'uždavinys','uždaviniai','uždavinių')}${week.answered ? ` · ${Math.round(100 * week.correct / week.answered)} % teisingai` : ''}</span></div>
+        <div class="stat"><b>${week.min ? `${week.min} min` : '–'}</b><span>${week.min ? `aktyvaus laiko · ~${Math.round(week.min / Math.max(1, week.active))} min per dieną` : 'aktyvaus laiko – skaičiuojamas nuo šios versijos'}</span></div>
+        <div class="stat"><b>${week.stars} ⭐</b><span>${store.plan.weeklyStarGoal ? `iš ${store.plan.weeklyStarGoal} savaitės tikslo${week.stars >= store.plan.weeklyStarGoal ? ' – pasiekta 🎉' : ''}` : 'žvaigždės šią savaitę'}</span></div>
+      </div>
+      ${week.papers.length || week.mastered ? `<p class="help-bar" style="margin:8px 0 0">${week.papers.length ? `📝 ${week.papers.length === 1 ? 'Kontrolinis' : 'Kontroliniai'}: ${week.papers.map(c => `${fmtPts(c.scoreWithPenalty ?? c.points)} t.`).join(', ')}` : ''}${week.papers.length && week.mastered ? ' · ' : ''}${week.mastered ? `🧩 įvaldyta gudrybių: ${week.mastered}` : ''}</p>` : ''}
     </section>
 
     <section class="card">
-      <h3>🎁 Savaitės tikslas ir prizas</h3>
-      <p class="help-bar" style="margin-top:0">Žvaigždžių tikslas per savaitę (pirmadienis–sekmadienis) ir tikras prizas, kurį pažadate. Kasdienė 20–30 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.</p>
-      <div class="row" style="align-items:center;gap:10px;flex-wrap:wrap">
-        <label style="font-size:14px">Tikslas (⭐ per savaitę):
+      <h3 style="margin-top:0">💡 Ką verta daryti</h3>
+      ${tips.map(t => `<div class="cat-row" style="gap:10px;align-items:flex-start"><span style="flex:1;min-width:0;font-size:14px"><span style="margin-right:6px">${t.icon}</span>${escapeHTML(t.text)}</span>${t.action ? `<button class="btn small" data-advice="${t.action}" data-advice-arg="${escapeHTML(t.arg || '')}">${escapeHTML(t.cta || 'Atverti')}</button>` : ''}</div>`).join('')}
+    </section>
+
+    <section class="card" id="parentSettings">
+      <h3 style="margin-top:0">⚙ Nustatymai</h3>
+      <div class="row" style="align-items:center;gap:10px;margin:4px 0;flex-wrap:wrap">
+        <label style="font-size:14px">Konkurso data:
+          <input type="date" id="pContestDate" value="${store.plan.contestDate || ''}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
+        </label>
+        ${days != null
+          ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `liko ${days} d.` : days === 0 ? 'ŠIANDIEN!' : 'jau praėjo'}</span>`
+          : `<button class="btn small" id="pDateSuggest" title="Tarptautinė Kengūros diena – trečiasis kovo ketvirtadienis. Tikslią datą patikrinkite mokykloje.">Siūloma: ${new Date(suggestedContestDate() + "T12:00").toLocaleDateString("lt-LT")}</button>`}
+        <label style="font-size:14px">Kontrolinio diena:
+          <select id="pWeekday" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
+            ${[1,2,3,4,5,6,0].map(d => `<option value="${d}" ${d === wd ? 'selected' : ''}>${WEEKDAY_LONG[d]}</option>`).join('')}
+          </select>
+        </label>
+      </div>
+      <div class="row" style="align-items:center;gap:6px;margin:6px 0;flex-wrap:wrap">
+        <span style="font-size:14px">Treniruočių dienos:</span>
+        ${[1,2,3,4,5,6,0].map(dd => `<button class="btn small ${isTrainingDay(new Date(2024, 0, 7 + dd)) ? 'primary' : ''}" data-p-train-day="${dd}" title="${WEEKDAY_LONG[dd]}">${WEEKDAY_SHORT[dd]}</button>`).join('')}
+        <span class="help-bar" style="margin:0">Serija ir planas praleistų dienų neskaičiuoja.</span>
+      </div>
+      <div class="row" style="align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0">
+        <label style="font-size:14px">Savaitės tikslas (⭐):
           <input type="number" id="weeklyGoalInput" min="0" step="10" value="${store.plan.weeklyStarGoal || 0}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;width:90px">
         </label>
         <label style="font-size:14px;flex:1 1 220px">Prizas:
           <input type="text" id="weeklyRewardInput" maxlength="60" placeholder="pvz., kinas, ledai, žaidimo vakaras" value="${escapeHTML(store.plan.weeklyReward || '')}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;width:100%">
         </label>
-        <span class="pill ${starsThisWeek() >= (store.plan.weeklyStarGoal || Infinity) ? 'good' : 'muted'}">Šią savaitę: ${starsThisWeek()} ⭐</span>
       </div>
-      <p class="help-bar">Etapas: <b>${PLAN_PHASE[planPhase()].label}</b>${daysToContest() != null && daysToContest() >= 0 ? ` · iki konkurso ${daysToContest()} d.` : ' · konkurso data nenustatyta (plane)'} · kontrolinio diena: ${WEEKDAY_LONG[(store.plan.contestWeekday != null) ? store.plan.contestWeekday : 6]}</p>
+      <p class="help-bar" style="margin:0 0 8px">Kasdienė 20–30 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.</p>
+      <div class="row" style="align-items:center;gap:14px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Po atsakymo klausti, kiek vaikas tikras – rodo, ar jis skiria žinojimą nuo spėjimo"><input type="checkbox" id="pAskConf" ${store.settings.askConfidence ? 'checked' : ''}> Klausti pasitikėjimo</label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Testuose atimti 25 % už klaidą, kaip konkurse"><input type="checkbox" id="pNegScore" ${store.settings.negativeScore ? 'checked' : ''}> −25 % už klaidą</label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px"><input type="checkbox" id="pSound" ${store.settings.sound !== false ? 'checked' : ''}> 🔊 Garsai</label>
+      </div>
+      <div class="row" style="align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <span style="font-size:14px">🔒 Tėvų kodas:</span>
+        ${META.parentPin
+          ? `<span class="pill good">nustatytas</span><button class="btn small ghost" id="pPinClear">Panaikinti</button>`
+          : `<input type="password" id="pPinNew" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" placeholder="4–6 skaitmenys" aria-label="Naujas tėvų kodas" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;width:150px"><button class="btn small" id="pPinSet">Nustatyti</button>`}
+        <span class="help-bar" style="margin:0">Be kodo tėvų rodinį gali atverti ir vaikas (prizas, nustatymai). Užsirašykite – pamiršus jį atstatys tik naršyklės duomenų valymas (prieš tai eksportuokite progresą).</span>
+      </div>
     </section>
 
-    ${weeklyRecapHTML()}
+    <section class="card">
+      <h3 style="margin-top:0">📈 Pažanga</h3>
+      <div class="cat-row" style="padding-left:0;padding-right:0">
+        <span>Įvaldytos gudrybės</span>
+        <div class="bar"><div style="width:${totalMechs ? Math.round(100 * masteredCount / totalMechs) : 0}%;background:var(--good)"></div></div>
+        <span class="pill good">${masteredCount} / ${totalMechs}${partialCount ? ` <span style="font-weight:400">(+${partialCount} iš dalies)</span>` : ''}</span>
+      </div>
+      ${band30Any ? `<p style="margin:10px 0 4px;font-size:14px"><b>Tikslumas per 30 d. pagal bloką:</b> ${[3,4,5].map(b => band30[b].a ? `${b} t. <b>${Math.round(100 * band30[b].ok / band30[b].a)} %</b> <span class="help-bar" style="margin:0">(${band30[b].a})</span>` : `${b} t. –`).join(' · ')}</p>
+      <p class="help-bar" style="margin:0 0 8px">Konkurse 3 t. blokas turėtų būti ≥ 80 %, 4 t. ≥ 60 %; 5 t. – 40 % jau geras rezultatas.</p>` : ''}
+      <table class="ptable" aria-label="Paskutinės 4 savaitės">
+        <thead><tr><th>Savaitė</th><th>Dienos</th><th>Užd.</th><th>Tikslumas</th>${anyMinutes ? '<th>Min</th>' : ''}<th>⭐</th><th>Kontr.</th></tr></thead>
+        <tbody>${weeks.map((w, i) => `<tr${i === 0 ? ' style="font-weight:600"' : ''}>
+          <td>${i === 0 ? 'ši' : i === 1 ? 'praėjusi' : fmtW(w)}</td>
+          <td>${w.active}${w.trainingDays ? `/${w.trainingDays}` : ''}</td>
+          <td>${w.answered || '–'}</td>
+          <td>${w.answered ? `${Math.round(100 * w.correct / w.answered)} %` : '–'}</td>
+          ${anyMinutes ? `<td>${w.min || '–'}</td>` : ''}
+          <td>${w.stars || '–'}</td>
+          <td>${w.papers.length ? w.papers.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(', ') : '–'}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+      <p class="help-bar">Dienos – aktyvios iš treniruočių dienų; kontrolinio rezultatas – su −25 % bauda, iš 120.</p>
+      <div class="activity-grid" style="margin-top:6px">
+        ${grid.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} ${pluralForm(d.count,'uždavinys','uždaviniai','uždavinių')}${d.min ? `, ${d.min} min` : ''}"></div>`).join('')}
+      </div>
+      <p class="help-bar" style="margin:4px 0 0">Paskutinės 14 dienų: kuo tamsesnė ląstelė, tuo daugiau spręsta. Tikslas – ne kiek, o kasdien.</p>
+    </section>
 
     ${(store.contests || []).length ? `<section class="card">
       <h3>Kontroliniai (paskutiniai 5)</h3>
@@ -6682,15 +6841,23 @@ function renderParent(){
       <p class="help-bar">„Matyta anksčiau“ – kiek to kontrolinio uždavinių vaikas jau buvo sprendęs treniruotėse. Kuo mažiau, tuo sąžiningesnis rezultatas; naujausi metai tam ir rezervuoti.</p>
     </section>` : ''}
 
+    ${worst.length ? `
     <section class="card">
-      <h3>👤 Profiliai</h3>
-      <p class="help-bar" style="margin-top:0">Keli vaikai viename įrenginyje – kiekvienas su savo progresu, planu ir žvaigždėmis. Aktyvus: <b>${escapeHTML(activeProfileName() || 'pagrindinis')}</b>.</p>
-      <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
-        ${META.profiles.map(pr => `<button class="btn small ${pr.id === META.active ? 'primary' : ''}" data-profile="${pr.id}">${escapeHTML(pr.name || 'pagrindinis')}${pr.id === META.active ? ' ✓' : ''}</button>`).join('')}
-        <button class="btn small" id="profileAdd">＋ Naujas profilis</button>
-        ${META.active ? `<button class="btn small ghost" id="profileDelete">🗑 Ištrinti šį profilį</button>` : ''}
-      </div>
-    </section>
+      <h3>Silpnesnės gudrybės – siūlome serijas</h3>
+      ${worst.map(w => {
+        const pct = Math.round(100*w.rate);
+        return `<div class="cat-row weak-row">
+          <span>${escapeHTML(MECHANIC_LABEL[w.mech]||w.mech)}</span>
+          <div class="bar"><div style="width:${pct}%;background:var(--bad)"></div></div>
+          <span class="pill bad">${pct} % klaidų</span>
+          <button class="btn small primary" data-mech-playlist="${w.mech}" style="margin-left:8px">Atverti seriją</button>
+        </div>`;
+      }).join('')}
+    </section>` : `
+    <section class="card">
+      <h3>Silpnesnės gudrybės</h3>
+      <p class="empty">Statistikos kol kas neužtenka. Vaikui reikia atsakyti bent į 4 tos pačios gudrybės uždavinius, kad pamatytume tendenciją.</p>
+    </section>`}
 
     ${(() => {
       const ms = Object.values(store.mistakes || {});
@@ -6711,6 +6878,54 @@ function renderParent(){
     </section>`;
     })()}
 
+    ${(store.confStats.a.attempts + store.confStats.b.attempts + store.confStats.c.attempts) > 0 ? `
+    <section class="card">
+      <h3>Pasitikėjimas ir tikrumas</h3>
+      <p style="margin-top:0;font-size:13px;color:var(--muted)">Prieš atsakydamas vaikas pasako, kiek yra tikras. Jei „Tikrai žinau“ tikslumas žemas, vaikas dažnai būna pernelyg užtikrintas – tai brangu kontrolinyje su −25 % bauda.</p>
+      ${[
+        {k:'a', label:'Tikrai žinau'},
+        {k:'b', label:'Spėju iš dviejų'},
+        {k:'c', label:'Atsitiktinai'},
+      ].map(({k,label}) => {
+        const s = store.confStats[k];
+        if(!s.attempts) return '';
+        const ok = s.attempts - s.wrong;
+        const pct = Math.round(100*ok/s.attempts);
+        const danger = k === 'a' && pct < 80 && s.attempts >= 5;
+        return `<div class="cat-row">
+          <span>${label}</span>
+          <div class="bar"><div style="width:${pct}%;background:${danger?'var(--bad)':'var(--good)'}"></div></div>
+          <span class="pill ${danger?'bad':(pct>=80?'good':'muted')}">${ok}/${s.attempts} (${pct} %)</span>
+        </div>`;
+      }).join('')}
+      ${(()=>{ const cw = Object.values(store.dueQueue || {}).filter(i => i.confWrong).length; return cw ? `<p class="help-bar" style="margin:8px 0 0">„Tikrai žinau“ klaidų pakartojimuose: <b>${cw}</b> – tai klaidingi supratimai, ne atsitiktinumai; jos kartojamos pirmos.</p>` : ''; })()}
+    </section>` : ''}
+
+    ${store.recogStats && store.recogStats.attempts ? `<section class="card">
+      <h3>Gudrybės atpažinimas</h3>
+      <p style="margin:0">Teisingai atpažinta <b>${Math.round(100*store.recogStats.correct/store.recogStats.attempts)} %</b> (${store.recogStats.attempts} ${pluralForm(store.recogStats.attempts,'bandymas','bandymai','bandymų')}). Konkurse 5 t. uždavinys prasideda nuo gudrybės atpažinimo – tai pats sunkiausias žingsnis.</p>
+      ${(() => { const top = Object.entries(store.recogConfusion || {}).sort((a, b) => b[1] - a[1]).slice(0, 3); return top.length ? `<p style="margin:8px 0 0">🔀 Dažniausiai painiojamos: ${top.map(([p, n]) => { const [a, c] = p.split('>'); return `<b>${escapeHTML(MECHANIC_LABEL[a] || a)}</b> ↔ ${escapeHTML(MECHANIC_LABEL[c] || c)} (${n})`; }).join('; ')}</p>` : ''; })()}
+    </section>` : ''}
+
+    ${last ? `
+    <section class="card">
+      <h3>Paskutinis sugeneruotas testas (${new Date(last.when).toLocaleString("lt-LT", {dateStyle: "short", timeStyle: "short"})})</h3>
+      <p><b>${last.correct} / ${last.total}</b> teisingai · ${last.points} ${pluralForm(last.points,'taškas','taškai','taškų')}${last.pointsWithPenalty != null ? ` (su −25 % bauda: ${last.pointsWithPenalty})` : ''}</p>
+      ${lastBreak ? `<p><b>Klaidų pasiskirstymas:</b></p>${lastBreak}` : ''}
+    </section>` : ''}
+
+    ${weeklyRecapHTML()}
+
+    <section class="card">
+      <h3>👤 Profiliai</h3>
+      <p class="help-bar" style="margin-top:0">Keli vaikai viename įrenginyje – kiekvienas su savo progresu, planu ir žvaigždėmis. Aktyvus: <b>${escapeHTML(activeProfileName() || 'pagrindinis')}</b>.</p>
+      <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
+        ${META.profiles.map(pr => `<button class="btn small ${pr.id === META.active ? 'primary' : ''}" data-profile="${pr.id}">${escapeHTML(pr.name || 'pagrindinis')}${pr.id === META.active ? ' ✓' : ''}</button>`).join('')}
+        <button class="btn small" id="profileAdd">＋ Naujas profilis</button>
+        ${META.active ? `<button class="btn small ghost" id="profileDelete">🗑 Ištrinti šį profilį</button>` : ''}
+      </div>
+    </section>
+
     <section class="card">
       <details>
         <summary><b>📖 Kaip naudotis (tėvams)</b></summary>
@@ -6721,7 +6936,7 @@ function renderParent(){
           <li><b>Kiekvienas uždavinys turi vaikui parašytą sprendimą</b> ir „Tavo klaida“ paaiškinimą; oficialus sprendimas – po vienu paspaudimu.</li>
           <li><b>Užuominos</b> eina nuo bendros iki šio uždavinio idėjos – verta skatinti jas naudoti prieš žiūrint sprendimą.</li>
           <li><b>Po kontrolinio</b> – „Kur dingo laikas“ ir „Strategijos pastabos“: pažiūrėkite kartu, kur prarasta daugiausia taškų ir minučių.</li>
-          <li><b>„Kodėl, manai, suklydai?“</b> – vaikas pats įvardija klaidos priežastį; jų suvestinė – žemiau, klaidų sąsiuvinio kortelėje.</li>
+          <li><b>„Kodėl, manai, suklydai?“</b> – vaikas pats įvardija klaidos priežastį; jų suvestinė – klaidų sąsiuvinio kortelėje.</li>
           <li><b>Be interneto</b>: žemiau – „Paruošti visus uždavinius be interneto“.</li>
         </ul>
       </details>
@@ -6737,63 +6952,17 @@ function renderParent(){
       <p class="help-bar" style="margin:10px 0 0">Kelionei be interneto: paveikslėliai įsimenami tik juos pamačius. Šis mygtukas iš karto atsisiunčia visus (~24 MB).</p>
       <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="offlineAllBtn">📥 Paruošti visus uždavinius be interneto</button><span class="help-bar" id="offlineAllStatus" style="margin:0"></span></div>
     </section>
-
-    <section class="card">
-      <h3>14 dienų aktyvumas</h3>
-      <div class="activity-grid">
-        ${days.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} ${pluralForm(d.count,'atsakymas','atsakymai','atsakymų')}"></div>`).join('')}
-      </div>
-      <p class="help-bar">Kuo tamsesnė ląstelė, tuo daugiau dirbta tą dieną. Tikslas – ne kiek, o kasdien.</p>
-    </section>
-
-    ${worst.length ? `
-    <section class="card">
-      <h3>Silpnesnės gudrybės – siūlome serijas</h3>
-      ${worst.map(w => {
-        const pct = Math.round(100*w.rate);
-        return `<div class="cat-row weak-row">
-          <span>${escapeHTML(MECHANIC_LABEL[w.mech]||w.mech)}</span>
-          <div class="bar"><div style="width:${pct}%;background:var(--bad)"></div></div>
-          <span class="pill bad">${pct} % klaidų</span>
-          <button class="btn small primary" data-mech-playlist="${w.mech}" style="margin-left:8px">Atverti seriją</button>
-        </div>`;
-      }).join('')}
-    </section>` : `
-    <section class="card">
-      <h3>Silpnesnės gudrybės</h3>
-      <p class="empty">Statistikos kol kas neužtenka. Vaikui reikia atsakyti bent į 4 tos pačios gudrybės uždavinius, kad pamatytume tendenciją.</p>
-    </section>`}
-
-    ${last ? `
-    <section class="card">
-      <h3>Paskutinis testas (${new Date(last.when).toLocaleString("lt-LT", {dateStyle: "short", timeStyle: "short"})})</h3>
-      <p><b>${last.correct} / ${last.total}</b> teisingai · ${last.points} ${pluralForm(last.points,'taškas','taškai','taškų')}${last.pointsWithPenalty != null ? ` (su −25 % bauda: ${last.pointsWithPenalty})` : ''}</p>
-      ${lastBreak ? `<p><b>Klaidų pasiskirstymas:</b></p>${lastBreak}` : ''}
-    </section>` : ''}
-
-    ${(store.confStats.a.attempts + store.confStats.b.attempts + store.confStats.c.attempts) > 0 ? `
-    <section class="card">
-      <h3>Pasitikėjimo kalibracija</h3>
-      <p style="margin-top:0;font-size:13px;color:var(--muted)">Jei „Tikrai žinau“ tikslumas žemas, vaikas dažnai būna pernelyg užtikrintas – tai brangu kontrolinyje su −25 % bauda.</p>
-      ${[
-        {k:'a', label:'Tikrai žinau'},
-        {k:'b', label:'Spėju iš dviejų'},
-        {k:'c', label:'Atsitiktinai'},
-      ].map(({k,label}) => {
-        const s = store.confStats[k];
-        if(!s.attempts) return '';
-        const ok = s.attempts - s.wrong;
-        const pct = Math.round(100*ok/s.attempts);
-        const danger = k === 'a' && pct < 80 && s.attempts >= 5;
-        return `<div class="cat-row">
-          <span>${label}</span>
-          <div class="bar"><div style="width:${pct}%;background:${danger?'var(--bad)':'var(--good)'}"></div></div>
-          <span class="pill ${danger?'bad':(pct>=80?'good':'muted')}">${ok}/${s.attempts} (${pct}%)</span>
-        </div>`;
-      }).join('')}
-    </section>` : ''}
   `;
   document.getElementById("parentBack").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
+  $app.querySelectorAll("[data-advice]").forEach(b => b.addEventListener("click", ()=>{
+    const a = b.dataset.advice, arg = b.dataset.adviceArg;
+    if(a === 'plan') openPlan();
+    else if(a === 'settings'){ const el = document.getElementById("parentSettings"); if(el && el.scrollIntoView) el.scrollIntoView({behavior:"smooth", block:"start"}); }
+    else if(a === 'playlist') openPlaylist(arg);
+    else if(a === 'sprint') startSprint();
+    else if(a === 'mistakes') openMistakeBook();
+    else if(a === 'contestTab'){ state.view = "home"; state.homeTab = "tests"; renderHome(); }
+  }));
   $app.querySelectorAll("[data-recap-mech]").forEach(btn=> btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
   $app.querySelectorAll("[data-profile]").forEach(b => b.addEventListener("click", ()=>{ if(b.dataset.profile !== META.active) switchProfile(b.dataset.profile); }));
   const profileAdd = document.getElementById("profileAdd");
@@ -6824,6 +6993,24 @@ function renderParent(){
   });
   const importFile = document.getElementById("importFile");
   if(importFile) importFile.addEventListener("change", e => importProgressFile(e.target.files && e.target.files[0]));
+  // settings
+  const dateInp = document.getElementById("pContestDate");
+  if(dateInp) dateInp.addEventListener("change", e => { applyContestDate(e.target.value); renderParent(); });
+  const sug = document.getElementById("pDateSuggest");
+  if(sug) sug.addEventListener("click", ()=>{
+    applyContestDate(suggestedContestDate());
+    showToast("📅", "Įrašyta numatoma data – trečiasis kovo ketvirtadienis. Patikrinkite mokykloje ir, jei reikia, pataisykite.", 6000);
+    renderParent();
+  });
+  const wdSel = document.getElementById("pWeekday");
+  if(wdSel) wdSel.addEventListener("change", e => { store.plan.contestWeekday = parseInt(e.target.value, 10); saveStore(store); renderParent(); });
+  $app.querySelectorAll("[data-p-train-day]").forEach(btn => btn.addEventListener("click", ()=>{
+    const dd = parseInt(btn.dataset.pTrainDay, 10);
+    let td = (store.plan.trainingDays || [0,1,2,3,4,5,6]).slice();
+    if(td.includes(dd)){ if(td.length <= 2) return; td = td.filter(x => x !== dd); } else td.push(dd);
+    store.plan.trainingDays = td.sort((a,b)=>a-b);
+    saveStore(store); renderParent();
+  }));
   const goalInput = document.getElementById("weeklyGoalInput");
   if(goalInput) goalInput.addEventListener("change", e => {
     const v = parseInt(e.target.value, 10);
@@ -6835,6 +7022,18 @@ function renderParent(){
     store.plan.weeklyReward = String(e.target.value || '').slice(0, 60);
     saveStore(store);
   });
+  const bind = (id, key, invert) => { const el = document.getElementById(id); if(el) el.addEventListener("change", e => { store.settings[key] = invert ? !e.target.checked : !!e.target.checked; saveStore(store); }); };
+  bind("pAskConf", "askConfidence"); bind("pNegScore", "negativeScore"); bind("pSound", "sound");
+  const pinSet = document.getElementById("pPinSet");
+  if(pinSet) pinSet.addEventListener("click", ()=>{
+    const v = String((document.getElementById("pPinNew") || {}).value || "").trim();
+    if(!/^\d{4,6}$/.test(v)){ showToast("🔒", "Kodas – 4–6 skaitmenys.", 3000); return; }
+    META.parentPin = v; saveMeta(META); state._parentUnlocked = true;
+    showToast("🔒", "Tėvų kodas nustatytas. Užsirašykite jį.", 4000);
+    renderParent();
+  });
+  const pinClear = document.getElementById("pPinClear");
+  if(pinClear) pinClear.addEventListener("click", ()=>{ delete META.parentPin; saveMeta(META); renderParent(); });
   $app.querySelectorAll("[data-mech-playlist]").forEach(btn=>{
     btn.addEventListener("click", ()=>{ openPlaylist(btn.dataset.mechPlaylist); });
   });
@@ -8280,6 +8479,22 @@ function launchPlanStep(s){
 }
 
 function openPlan(){ state.view = "plan"; renderPlan(); }
+/* Contest date change – shared by the plan view and the parent view. */
+function applyContestDate(value){
+  const hadDate = !!store.plan.contestDate;
+  if((value || null) !== store.plan.contestDate){ store.plan.lastActualScore = store.plan.actualScore ?? store.plan.lastActualScore; delete store.plan.actualScore; }   // a new season
+  store.plan.contestDate = value || null;
+  if(store.plan.contestDate && !store.plan.startDate) store.plan.startDate = todayKey();   // anchors the taper length + timeline
+  // Prep mode: the two contest-critical habits go on when a date is first
+  // set – calibration ("Tikrai žinau?") and the real −25 % penalty. Both
+  // stay user-toggleable on the home settings row.
+  if(store.plan.contestDate && !hadDate){
+    store.settings.askConfidence = true;
+    store.settings.negativeScore = true;
+    showToast("🎯", "Įjungta: pasitikėjimo klausimas ir −25 % už klaidą (kaip konkurse). Išjungti gali pradžios puslapyje.", 6000);
+  }
+  saveStore(store);
+}
 
 const WEEKDAY_SHORT = ["Sk","Pr","An","Tr","Kt","Pn","Št"];   // getDay() order
 const WEEKDAY_LONG  = ["Sekmadienis","Pirmadienis","Antradienis","Trečiadienis","Ketvirtadienis","Penktadienis","Šeštadienis"];
@@ -8419,19 +8634,7 @@ function renderPlan(){
     showToast("📅", "Įrašyta numatoma data – trečiasis kovo ketvirtadienis. Patikrinkite mokykloje ir, jei reikia, pataisykite.", 6000);
   });
   document.getElementById("contestDateInput").addEventListener("change", e => {
-    const hadDate = !!store.plan.contestDate;
-    if((e.target.value || null) !== store.plan.contestDate){ store.plan.lastActualScore = store.plan.actualScore ?? store.plan.lastActualScore; delete store.plan.actualScore; }   // a new season
-    store.plan.contestDate = e.target.value || null;
-    if(store.plan.contestDate && !store.plan.startDate) store.plan.startDate = todayKey();   // anchors the taper length + timeline
-    // Prep mode: the two contest-critical habits go on when a date is first
-    // set – calibration ("Tikrai žinau?") and the real −25 % penalty. Both
-    // stay user-toggleable on the home settings row.
-    if(store.plan.contestDate && !hadDate){
-      store.settings.askConfidence = true;
-      store.settings.negativeScore = true;
-      showToast("🎯", "Įjungta: pasitikėjimo klausimas ir −25 % už klaidą (kaip konkurse). Išjungti gali pradžios puslapyje.", 6000);
-    }
-    saveStore(store);
+    applyContestDate(e.target.value);
     renderPlan();
   });
   $app.querySelectorAll("[data-train-day]").forEach(btn => btn.addEventListener("click", ()=>{
