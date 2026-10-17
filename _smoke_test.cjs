@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes};
 `;
 let app;
 try {
@@ -1353,6 +1353,56 @@ section("home tabs");
   app.state.homeTab = "bogus"; app.renderHome();
   check("unknown tab falls back to today", /data-pane="today">/.test(app.$app.innerHTML));
   app.state.homeTab = "today";
+}
+
+section("figure-first question body + parent view");
+{
+  const t = app.ARCHIVE.find(t => String(t.year) === "2024"); const q = t.questions.find(q => q.num === 16);
+  const body = app.questionBodyHTML(q);
+  check("figure comes before the typed text", body.indexOf('<div class="figure">') < body.indexOf('class="qprompt"') && body.includes('data-qtext') && !body.includes(' open>'));
+  app.store.settings.showQText = true;
+  check("Aa toggle remembers the preference", app.questionBodyHTML(q).includes('data-qtext open'));
+  app.store.settings.showQText = false;
+  check("no figure → text only", app.questionBodyHTML({prompt:"x", options:{}}) === '<div class="qprompt">x</div>');
+  // picture-only options in a playlist card
+  const io = t.questions.find(q => q.imageOnlyOptions) || app.ARCHIVE.flatMap(t => t.questions.map(q => ({t, q}))).find(x => x.q.imageOnlyOptions);
+  const ioQ = io && io.q ? io.q : io; const ioYear = io && io.t ? io.t.year : t.year;
+  app.state.playlistMech = "__mixed__"; app.state.playlistAns = {}; app.state.playlistSubmitted = {}; app.state.playlistHintShown = {}; app.state.playlistConf = {};
+  const card = app.renderPlaylistQuestion({year: ioYear, q: ioQ}, {showSolution:false, mode:"mastery"});
+  check("picture-only options render as letter circles", (card.match(/opt-letter-only/g) || []).length === 5 && card.includes("image-options") && card.includes("Atsakymai – paveikslėlyje"));
+  // review card explains why the question is back and when it returns
+  const k = `${t.year}-${q.num}`;
+  app.store.dueQueue[k] = {year: t.year, num: q.num, mech: q.mechanic, band: q.points, dueAt: Date.now() - 1000, streak: 1};
+  app.state.playlistMech = "__due__"; app.state.playlistAns = {[k]: q.correct}; app.state.playlistSubmitted = {[k]: true};
+  const due = app.renderPlaylistQuestion({year: t.year, q}, {showSolution:true, mode:"mastery"});
+  check("review card: streak pill + next return", due.includes("jau 1 kartą iš eilės teisingai") && due.includes("Sugrįš dar kartą po 7 d."));
+  app.state.playlistAns = {[k]: q.correct === "A" ? "B" : "A"};
+  check("review card: wrong → tomorrow", app.renderPlaylistQuestion({year: t.year, q}, {showSolution:true, mode:"mastery"}).includes("Pakartosime rytoj"));
+  delete app.store.dueQueue[k]; app.state.playlistAns = {}; app.state.playlistSubmitted = {};
+  // review intro has no interval chain
+  app.store.dueQueue[k] = {year: t.year, num: q.num, mech: q.mechanic, band: q.points, dueAt: Date.now() - 1000, streak: 0};
+  app.openDueQueue(3);
+  const ph = app.$app.innerHTML;
+  check("review intro is kid-worded", ph.includes("Pakartojimas") && !ph.includes("1 d. → 3 d.") && !ph.includes("Pakartojimo eilė") && !ph.includes("paspausk „Baigti“"));
+  delete app.store.dueQueue[k];
+  // parent view: week tiles, advice, controls, table
+  app.store.activity[app.todayKey()] = Object.assign(app.store.activity[app.todayKey()] || {answered:0, correct:0}, {sec: 1500, byBand: {3:{a:4, ok:4}, 5:{a:2, ok:1}}});
+  app.openParent();
+  const h = app.$app.innerHTML;
+  check("parent view: week tiles + advice + settings + table", h.includes("Ši savaitė") && h.includes("Ką verta daryti") && h.includes('id="pContestDate"') && h.includes('data-p-train-day') && h.includes('class="ptable"') && h.includes("25 min"));
+  check("parent view: accuracy by block", h.includes("Tikslumas per 30 d.") && h.includes("3 t. <b>100 %</b>"));
+  check("parent advice is capped at three", app.parentAdvice().length >= 1 && app.parentAdvice().length <= 3);
+  const ws = app.weekSummary(0);
+  check("weekSummary counts minutes", ws.min >= 25 && ws.answered >= 0);
+  // parent code gate
+  app.META.parentPin = "1234"; app.state._parentUnlocked = false;
+  app.openParent();
+  check("parent code gates the view", app.state.view === "parentGate" && app.$app.innerHTML.includes('id="gatePin"') && app.$app.innerHTML.includes("Eksportuoti"));
+  app.state._parentUnlocked = true; app.openParent();
+  check("unlocked → parent view", app.state.view === "parent" && app.$app.innerHTML.includes("nustatytas"));
+  delete app.META.parentPin; app.state._parentUnlocked = false;
+  delete app.store.activity[app.todayKey()].byBand; delete app.store.activity[app.todayKey()].sec;
+  app.state.view = "home"; app.renderHome();
 }
 
 section("corrupt save is kept, not overwritten");

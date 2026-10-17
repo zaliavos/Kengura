@@ -4357,12 +4357,12 @@ function renderArchiveYear(){
       <button class="nav-back" id="back">← Į pradžią</button>
       <h2>${escapeHTML(test.title)}</h2>
       <div class="top-stats">
-        <span class="pill">${total} ${pluralForm(total,'klausimas','klausimai','klausimų')}</span>
+        <span class="pill">${total} ${pluralForm(total,'uždavinys','uždaviniai','uždavinių')}</span>
         ${answered ? `<span class="pill good">${correct}/${answered} teisingai</span>` : ``}
         ${test.test_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.test_pdf)}" target="_blank">Testo PDF ↗</a>` : ``}
         ${test.solutions_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.solutions_pdf)}" target="_blank">Sprendimai ↗</a>` : ``}
       </div>
-      <p>Spręsk uždavinius – kiekvieną gali pasitikrinti vietoje. „Užuomina“ veda trimis pakopomis iki šio uždavinio idėjos (be paties atsakymo). Po atsakymo gausi sprendimą bei galimybę spręsti panašaus tipo uždavinį.</p>
+      <p>Pasirink atsakymą ir spausk „Patikrinti“. Užstrigai? „Užuomina“ pakuždės kelią trimis žingsniais, bet atsakymo nepasakys. Po atsakymo pamatysi sprendimą.</p>
       ${(() => { const first = test.questions.find(q => !(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`]);
         return first && first.num > 1 ? `<button class="btn small" id="archContinue" data-q="${first.num}">Tęsti nuo ${first.num} uždavinio →</button>` : ''; })()}
     </section>
@@ -4642,8 +4642,8 @@ function renderArchiveCard(year, q){
     practiceBtn = `<button class="btn small" data-practice="${practice.gen}" title="Sugeneruotas to paties tipo uždavinys">Praktikuotis šio tipo</button>`;
   } else if(practice.kind === "archive"){
     practiceBtn = practice.related
-      ? `<button class="btn small" data-practice-archive="1" title="Šios gudrybės 5 t. uždavinių archyve daugiau nėra – giminingos gudrybės (${escapeHTML(MECHANIC_LABEL[practice.related] || practice.related)}) to paties sudėtingumo uždavinys">Giminingos gudrybės uždavinys (${practice.items.length})</button>`
-      : `<button class="btn small" data-practice-archive="1" title="Panašus uždavinys iš archyvo (tos pačios gudrybės ir to paties sudėtingumo)">Panašus uždavinys iš archyvo (${practice.items.length})</button>`;
+      ? `<button class="btn small" data-practice-archive="1" title="Šios gudrybės 5 t. uždavinių archyve daugiau nėra – giminingos gudrybės (${escapeHTML(MECHANIC_LABEL[practice.related] || practice.related)}) to paties sudėtingumo uždavinys (yra ${practice.items.length})">Panašus uždavinys (gimininga gudrybė)</button>`
+      : `<button class="btn small" data-practice-archive="1" title="Tos pačios gudrybės ir to paties sudėtingumo uždavinys iš kitų metų (yra ${practice.items.length})">Panašus uždavinys</button>`;
   } else if(practice.kind === "fallback"){
     practiceBtn = `<button class="btn small ghost" data-practice="${practice.gen}" title="Tikslaus to paties tipo generatoriaus dar nėra – tai tik kitas šio sudėtingumo uždavinys">Praktikuotis (kito tipo)</button>`;
   } else {
