@@ -326,7 +326,8 @@
     margin:0 -4px 14px;padding:10px 12px;background:var(--paper);border:1px solid var(--line);border-radius:14px;
     box-shadow:0 -4px 16px rgba(0,0,0,.08)}
   .arch-nav .btn{min-width:64px}
-  .arch-nav .arch-pos{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  .arch-nav .arch-pos{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;text-align:center}
+  .arch-nav .kbd-hint{font-weight:400;font-size:13px}
   .nav-back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;font-size:15px;padding:8px 0;min-height:40px;margin:-8px 0 2px}
   .mech-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px}
   .mech-row{
@@ -4538,7 +4539,7 @@ function renderArchiveYear(){
     ${visible.map(q => renderArchiveCard(test.year, q, focus ? {hidden: q.num !== cur, next: visible[pos + 1] || null} : null)).join("")}
     ${focus ? `<nav class="arch-nav" aria-label="Uždavinių naršymas">
       <button class="btn" id="archPrev" ${pos > 0 ? '' : 'disabled'} aria-label="Ankstesnis uždavinys">←</button>
-      <span class="arch-pos">${pos + 1} / ${visible.length}</span>
+      <span class="arch-pos">${pos + 1} / ${visible.length}<span class="wide-only kbd-hint"> · <kbd>A</kbd>–<kbd>E</kbd> atsakymas, <kbd>Enter</kbd> tikrinti, <kbd>←</kbd> <kbd>→</kbd></span></span>
       <button class="btn${(state.archiveAnswers[`${test.year}-${cur}`] || {}).submitted ? ' primary' : ''}" id="archNext" ${pos < visible.length - 1 ? '' : 'disabled'} aria-label="Kitas uždavinys">Kitas →</button>
     </nav>` : ''}
     <section class="card"><div class="footer-actions">
@@ -4916,6 +4917,7 @@ function renderArchiveCard(year, q, focusOpts){
       const note = q.misconceptions && q.misconceptions[ans.firstWrong];
       blocks.push(`<div class="explain verdict retry" style="background:var(--bad-soft);border:1px solid var(--bad)">
         <b>Ne ${ans.firstWrong}.</b> Pabandyk dar kartą – vieną variantą jau atmetei.
+        ${ans.confidence === 'a' ? `<div style="margin-top:6px">🎯 <b>Buvai tikras</b> – tokia klaida vertingiausia: perskaityk sąlygą iš naujo ir rask vietą, kur samprotavimas nuėjo ne ten.</div>` : ''}
         ${note ? `<div class="misconception" style="margin-top:6px"><b>Kur galėjo slėptis klaida:</b> ${escapeHTML(note)}</div>` : ''}
         <div class="row" style="margin-top:8px"><button class="btn small ghost" data-action="reveal">Rodyti sprendimą</button></div>
       </div>`);
@@ -5093,9 +5095,9 @@ function renderHome(){
     }
     if(totalAns === 0) missions.push({
       tag: 'Pradžia',
-      title: 'Pirmas testas',
-      body: 'Greitas 15 klausimų rinkinys, kad pradėtum.',
-      cta: 'Pradėti', action: 'newTest', style: 'primary',
+      title: 'Pirmieji Kengūros uždaviniai',
+      body: 'Tikri konkurso uždaviniai, po vieną. Pradėk nuo lengviausių – 3 taškų. Užstrigęs spausk „Užuomina“.',
+      cta: 'Pradėti', action: 'firstPaper', style: 'primary',
     });
     const nextT = nextMechanicTarget();
     if(nextT) missions.push({
@@ -5501,6 +5503,13 @@ function renderHome(){
       startSprint();
     } else if(act === "mixed"){
       openMixedSet(6);
+    } else if(act === "firstPaper"){
+      // newest keyed paper that is not held back for contests, from Q1
+      const t = [...ARCHIVE].reverse().find(t => !OUT_OF_SCOPE_YEARS.has(String(t.year)) && !isReservedYear(t.year) && t.questions.every(q => q.correct));
+      if(!t) return;
+      state.archiveYear = t.year; state._archiveOnlyNew = false;
+      state.archiveFocus = state.archiveFocus || {}; state.archiveFocus[t.year] = 1;
+      state.view = "archiveYear"; renderArchiveYear();
     } else {
       // newTest – open the practice tab at the new-test section
       setHomeTab("practice");
