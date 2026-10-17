@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Kengūra 5–6 klasė · treniruoklis</title>
 <link rel="manifest" href="manifest.webmanifest" />
-<meta name="theme-color" content="#d6451a" />
+<meta name="theme-color" content="#b83a12" />
 <link rel="icon" href="icon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="icon.svg" />
 <style>
@@ -13,14 +13,15 @@
     --bg:#fff8ec;
     --paper:#ffffff;
     --ink:#1d1d1f;
-    --muted:#6b6b73;
-    --accent:#d6451a;        /* Kangaroo orange-red */
+    --muted:#5f5f66;
+    --accent:#b83a12;        /* Kangaroo orange-red, darkened for 4.5:1 text contrast */
     --accent-soft:#ffe6d8;
-    --good:#1a7f4a;
+    --good:#16703f;
     --good-soft:#dff4e6;
     --bad:#a31621;
     --bad-soft:#fde2e4;
     --line:#e6dcc6;
+    --line-strong:#958466;   /* borders of things you tap: 3:1 against white */
     --shadow:0 2px 0 rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
     --radius:14px;
     --pad:18px;
@@ -64,12 +65,12 @@
   .btn:hover{background:#fff3df}
   .btn:active{transform:translateY(1px)}
   .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .btn.primary:hover{background:#bf3c14}
+  .btn.primary:hover{background:#9e310f}
   .btn.ghost{background:transparent}
   .btn.small{padding:8px 12px;font-size:14px;min-height:40px}
   /* children's motor control: every tap target ≥ 40 px tall, options ≥ 48 px */
   .btn{min-height:44px}
-  .btn[disabled]{opacity:.55;cursor:not-allowed}
+  .btn[disabled]{opacity:1;background:#f1ecdf;color:var(--muted);border-color:var(--line);cursor:not-allowed}
   .pill{
     display:inline-block;padding:3px 9px;border-radius:999px;
     font-size:13px;background:var(--accent-soft);color:var(--accent);font-weight:600;
@@ -83,7 +84,7 @@
   .figure img{cursor:zoom-in}
   /* typed question text behind the figure (see questionBodyHTML) */
   details.qtext{margin:-6px 0 12px;border:0;background:none;padding:0}
-  details.qtext > summary{cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);list-style:none;display:inline-flex;align-items:center;gap:6px;padding:8px 0;min-height:36px}
+  details.qtext > summary{cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);list-style:none;display:inline-flex;align-items:center;gap:6px;padding:8px 0;min-height:44px}
   /* picture answers: five letter circles in a row, not five empty bars */
   .opt.opt-letter-only{justify-content:center;padding:12px 8px}
   .opt.opt-letter-only .letter{margin:0}
@@ -93,7 +94,7 @@
   details.qtext[open] > summary .qtext-lbl::after{content:"Slėpti tekstą"}
   details.qtext[open] > summary{color:var(--ink)}
   .qtext .qprompt{font-size:15px;margin:6px 0 4px;padding:8px 10px;background:#fffaf0;border:1px dashed var(--line);border-radius:8px}
-  .fig-zoom-hint{display:none;font-size:12px;color:var(--muted);text-align:center;margin:-10px 0 10px}
+  .fig-zoom-hint{display:none;font-size:13px;color:var(--muted);text-align:center;margin:-10px 0 10px}
   @media(max-width:600px){.fig-zoom-hint{display:block}}
   .ptable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
   .kid-sol p{margin:6px 0 0;line-height:1.5}
@@ -104,20 +105,20 @@
   .kid-sol .kid-gap{border:1px dashed var(--accent);border-radius:8px;padding:6px 10px;background:#fff;color:var(--accent);font-weight:600}
   .fig-zoom{position:fixed;inset:0;z-index:1000;background:rgba(20,16,10,.85);overflow:auto;-webkit-overflow-scrolling:touch;cursor:zoom-out}
   .fig-zoom img{display:block;margin:48px auto 24px;background:#fff;border-radius:6px;max-width:none}
-  .fig-zoom .fig-zoom-close{position:fixed;top:8px;right:10px;font-size:22px;line-height:1;padding:8px 12px;border:0;border-radius:10px;background:#fff;color:#222;cursor:pointer}
+  .fig-zoom .fig-zoom-close{position:fixed;top:8px;right:10px;font-size:22px;line-height:1;padding:8px 12px;min-width:44px;min-height:44px;border:0;border-radius:10px;background:#fff;color:#222;cursor:pointer}
   .figure svg{max-width:100%;height:auto;background:#fffaf0;border-radius:10px;border:1px solid var(--line)}
   .options{display:grid;gap:8px}
   .options.image-options{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
   .opt{
     display:flex;align-items:flex-start;gap:10px;
-    padding:11px 12px;border:1px solid var(--line);border-radius:12px;
+    padding:11px 12px;border:1px solid var(--line-strong);border-radius:12px;
     background:#fffaf0;cursor:pointer;font-size:15px;line-height:1.4;min-height:48px;align-items:center;
     transition:background .12s, border-color .12s;
     /* options are <button> elements (keyboard-focusable) – reset UA styles */
     appearance:none;-webkit-appearance:none;
     width:100%;font-family:inherit;text-align:left;color:inherit;margin:0;
   }
-  .btn:focus-visible,.opt:focus-visible,.contest-pip:focus-visible,summary:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .btn:focus-visible,.opt:focus-visible,.contest-pip:focus-visible,summary:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,.opt-x:focus-visible,.track-node:focus-visible,.switch button:focus-visible,.nav-back:focus-visible,[role=button]:focus-visible,.fig-zoom-close:focus-visible,.fig-btn:focus-visible,.ach-badge:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .opt:hover{background:#fff1de}
   .opt .letter{
     width:30px;height:30px;border-radius:50%;background:var(--accent-soft);
@@ -128,12 +129,13 @@
   .opt.image-opt .letter{margin:0}
   .opt.image-opt .opt-figure{width:100%;display:flex;justify-content:center;align-items:center;min-height:80px}
   .opt.image-opt .opt-figure svg{max-width:100%;height:auto;max-height:120px}
-  .opt.selected{border-color:var(--accent);background:var(--accent-soft)}
+  .opt.selected{border-color:var(--accent);border-width:2px;padding:10px 11px;background:var(--accent-soft)}
+  .opt.selected .letter{background:var(--accent);color:#fff}
   .opt-wrap{display:flex;gap:6px;align-items:stretch}
   .opt-wrap .opt{flex:1 1 auto;min-width:0}
-  .opt-x{flex:0 0 40px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--muted);font:inherit;font-size:15px;cursor:pointer}
+  .opt-x{flex:0 0 44px;border:1px solid var(--line-strong);border-radius:12px;background:transparent;color:var(--muted);font:inherit;font-size:18px;cursor:pointer}
   .opt-x[aria-pressed="true"]{color:var(--bad);border-color:var(--bad)}
-  .opt.struck{opacity:.45}
+  .opt.struck{opacity:.7}
   .opt.struck span:not(.letter){text-decoration:line-through}
   .opt.correct{border-color:var(--good);background:var(--good-soft)}
   .opt.correct .letter{background:var(--good);color:#fff}
@@ -157,17 +159,18 @@
   .danger-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:flex-end}
   .btn.danger{color:var(--bad);border-color:#f3c8cb;background:#fff5f6}
   .btn.danger:hover{background:#fce3e6}
-  .subtopic{font-size:11px;color:var(--muted);margin-left:2px}
+  .subtopic{font-size:13px;color:var(--muted);margin-left:2px}
   .footer-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
   .progress{height:6px;background:#f1ecdf;border-radius:999px;overflow:hidden;margin:4px 0 14px}
   .progress > div{height:100%;background:var(--accent);transition:width .25s}
   .hint{
     margin-top:12px;border-left:3px solid var(--accent);padding:10px 12px;
-    background:#fff4e8;border-radius:8px;font-size:14px;color:#5b3a20;
+    background:#fff4e8;border-radius:8px;font-size:14px;color:#5b3a20;line-height:1.55;
   }
   .explain{
-    margin-top:12px;padding:10px 12px;border-radius:8px;background:#f7f3e7;font-size:14px;
+    margin-top:12px;padding:10px 12px;border-radius:8px;background:#f7f3e7;font-size:14px;line-height:1.55;
   }
+  .kid-sol p,.methodology p{max-width:68ch}
   .grid{display:grid;gap:10px}
   @media(min-width:520px){.grid.two{grid-template-columns:1fr 1fr}}
   .stat{padding:10px;border:1px solid var(--line);border-radius:10px;background:#fffaf0}
@@ -199,7 +202,7 @@
     border-radius:14px;padding:8px 12px}
   .streak-flame{font-size:18px;line-height:1}
   .streak-num{font-size:22px;font-weight:800;color:var(--accent)}
-  .streak-label{font-size:12px;color:var(--muted)}
+  .streak-label{font-size:13px;color:var(--muted)}
   .hero-activity{display:flex;gap:3px;align-items:center}
   .act-cell{width:14px;height:14px;border-radius:3px;background:#efe6d2;display:inline-block;border:1px solid transparent}
   .act-cell.lvl1{background:#ffe1b8}
@@ -209,7 +212,7 @@
   .mission{padding:14px;border-radius:12px;margin-bottom:8px}
   .mission-primary{background:linear-gradient(180deg, #fff4d8 0%, #ffe6a8 100%);border:1px solid var(--accent)}
   .mission-warm{background:#fff1ec;border:1px dashed #e5704a}
-  .mission-meta{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  .mission-meta{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
   .mission-title{margin:4px 0 6px;font-size:20px;line-height:1.25}
   .mission-body{margin:0 0 12px;font-size:14px;color:#3a2c11}
   .recent-mastery{background:var(--good-soft);border:1px solid var(--good);padding:8px 12px;border-radius:10px;margin-top:8px;font-size:14px}
@@ -257,7 +260,7 @@
   .track-node.part{background:linear-gradient(180deg,#fff 50%,var(--good-soft) 50%);border-color:var(--good);color:var(--good)}
   .track-node.current{background:var(--accent);border-color:var(--accent);color:#fff;
     box-shadow:0 0 0 4px var(--accent-soft);animation:track-pulse 1.6s ease-in-out infinite}
-  @keyframes track-pulse{0%,100%{box-shadow:0 0 0 4px var(--accent-soft)}50%{box-shadow:0 0 0 8px rgba(214,69,26,.15)}}
+  @keyframes track-pulse{0%,100%{box-shadow:0 0 0 4px var(--accent-soft)}50%{box-shadow:0 0 0 8px rgba(184,58,18,.15)}}
   .track-link{width:10px;height:3px;background:var(--line);border-radius:2px}
   .track-link.done{background:var(--good)}
   .track-flag{font-size:22px;margin-left:4px}
@@ -265,7 +268,7 @@
   .track-bar > div{height:100%;background:linear-gradient(90deg,var(--good),#5ec08a);border-radius:4px;transition:width .4s}
 
   /* ---- Plan: phase pill + week strip ---- */
-  .phase-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.03em}
+  .phase-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:700;letter-spacing:.03em}
   .phase-foundation{background:#e3f0ff;color:#1a5fa3;border:1px solid #9cc4f0}
   .phase-build{background:#fff1d6;color:#9a5a00;border:1px solid #f0c27a}
   .phase-taper{background:var(--bad-soft);color:var(--bad);border:1px solid #e9a0a7}
@@ -276,12 +279,12 @@
   .week-day.today{border-color:var(--accent);background:#fff4e8}
   .week-day.done{background:var(--good-soft);border-color:var(--good)}
   .week-day.contest{background:#fff1d6}
-  .week-day.off{opacity:.55;background:#f6f3ff}
+  .week-day.off{opacity:.75;background:#f6f3ff}
   .tl{position:relative;margin:10px 0 6px}
   .tl-bars{display:flex;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
-  .tl-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;border-right:1px solid #fff}
+  .tl-seg{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;border-right:1px solid #fff}
   .tl-today{position:absolute;top:-4px;width:3px;height:34px;background:#5e3300;border-radius:2px;transform:translateX(-50%)}
-  .tl-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px}
+  .tl-labels{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:4px}
   .track-caption{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:14px}
   .goal-bar{height:10px;background:#efe6d2;border-radius:5px;overflow:hidden;margin:6px 0}
   .goal-bar > div{height:100%;background:linear-gradient(90deg,#f0b429,#f08a1c);border-radius:5px;transition:width .4s}
@@ -301,13 +304,13 @@
   .activity-cell{width:14px;height:14px;border-radius:3px;background:#f1ecdf}
   .activity-cell.lvl1{background:#ffe6d8}
   .activity-cell.lvl2{background:#fbb582}
-  .activity-cell.lvl3{background:#d6451a}
+  .activity-cell.lvl3{background:var(--accent)}
   .contest-header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
   .contest-timer-box{font-size:18px;font-weight:700;color:var(--accent);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-variant-numeric:tabular-nums}
   .contest-strip{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
   .contest-pip{
-    width:36px;height:36px;border-radius:8px;border:1px solid var(--line);
-    background:#fff;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;
+    width:40px;height:40px;border-radius:8px;border:1px solid var(--line-strong);
+    background:#fff;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;
     display:inline-grid;place-items:center;
   }
   .contest-pip.filled{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
@@ -341,7 +344,13 @@
   .step-pip.now{background:var(--accent);color:#fff}
   .playlist-steps{display:flex;align-items:center;gap:6px;margin:6px 0 14px}
   .playlist-steps span{color:var(--muted);font-size:13px}
-  input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
+  input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent)}
+  label:has(> input[type=checkbox]){min-height:44px;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+  input[type=number],input[type=text],input[type=date],input[type=password],input:not([type]),select{border:1px solid var(--line-strong);border-radius:8px;min-height:40px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  label:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+  .fig-focus{cursor:zoom-in}
+  .fig-focus:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
   .pl-countdown{display:inline-block;padding:2px 8px;border-radius:10px;background:#f1ecdf;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;margin-left:6px}
   .pl-countdown.warn{background:var(--bad-soft);color:var(--bad)}
   .methodology{padding:14px;background:#fff7ec;border:1px solid var(--line);border-radius:10px;margin-bottom:12px}
@@ -355,6 +364,8 @@
     .print-q{break-inside:avoid;page-break-inside:avoid}
     .print-break{break-before:page;page-break-before:always}
     .card{box-shadow:none !important;border:none !important}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .opt{break-inside:avoid;box-shadow:none}
   }
   /* long Lithuanian words and number strings must wrap on a 360 px phone */
   .qprompt,.explain,.hint,.opt span{overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
@@ -414,12 +425,14 @@
   @media(min-width:520px){ .tab{flex-direction:row;justify-content:center;gap:6px;font-size:13px;padding:12px 4px} .tab-dot{top:8px;left:auto;right:8px} }
   @media print{ .tabbar,.tabbar-spacer,.hero-top,#parentSettings,#parentCopy,#parentPrint,.nav-back{display:none !important} }
   .ach-badge{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;
-    border:1px solid var(--line);border-radius:12px;background:#faf6ec;opacity:.45;
-    filter:grayscale(1);text-align:center;transition:transform .12s}
-  .ach-badge.on{opacity:1;filter:none;background:var(--accent-soft);border-color:var(--accent)}
+    border:1px solid var(--line);border-radius:12px;background:#faf6ec;
+    text-align:center;transition:transform .12s;font-family:inherit;cursor:pointer;width:100%}
+  .ach-badge:not(.on) .ach-ico{filter:grayscale(1);opacity:.45}
+  .ach-badge:not(.on) .ach-name{color:var(--muted);font-weight:500}
+  .ach-badge.on{background:var(--accent-soft);border-color:var(--accent)}
   .ach-badge.on:hover{transform:translateY(-2px)}
   .ach-ico{font-size:26px;line-height:1}
-  .ach-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.15}
+  .ach-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.15}
   /* ---- Racing minigame ---- */
   .race-hud{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0}
   .race-canvas-wrap{display:flex;justify-content:center}
@@ -3563,12 +3576,15 @@ function showToast(icon, html, ms){
     if(!host){
       host = document.createElement("div");
       host.id = "achToastHost";
-      host.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:10000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none";
+      host.setAttribute("role", "status");
+      host.setAttribute("aria-live", "polite");
+      host.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom));z-index:10000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none";
       document.body.appendChild(host);
     }
     const el = document.createElement("div");
     el.className = "toast";
-    el.innerHTML = `<span style="font-size:22px">${icon}</span><span>${html}</span>`;
+    el.style.pointerEvents = "none";
+    el.innerHTML = `<span style="font-size:22px" aria-hidden="true">${icon}</span><span>${html}</span>`;
     host.appendChild(el);
     setTimeout(()=>{ el.classList.add("on"); }, 30);
     setTimeout(()=>{ el.classList.remove("on"); setTimeout(()=> el.remove(), 300); }, ms || 4200);
@@ -3771,7 +3787,7 @@ function renderMistakeBook(){
     renderArchiveYear();
     setTimeout(()=>{
       const el = document.querySelector(`.archive-card[data-year="${year}"][data-qnum="${num}"]`);
-      if(el){ el.scrollIntoView({behavior:"smooth", block:"start"}); el.style.outline = "3px solid var(--accent)"; setTimeout(()=>{ el.style.outline = ""; }, 2500); }
+      if(el){ el.scrollIntoView({behavior:smoothScroll(), block:"start"}); el.style.outline = "3px solid var(--accent)"; setTimeout(()=>{ el.style.outline = ""; }, 2500); }
     }, 60);
   }));
 }
@@ -4466,7 +4482,7 @@ function goArchiveQ(num){
     }
     const L = /^[a-eA-E]$/.test(k) ? k.toUpperCase() : /^[1-5]$/.test(k) ? "ABCDE"[Number(k) - 1] : null;
     if(L){ const o = c.querySelector(`.opt[data-letter="${L}"]`); if(o){ e.preventDefault(); o.click(); } return; }
-    if(k === "Enter" && !(e.target && e.target.closest && e.target.closest("button,summary,a"))){
+    if(k === "Enter" && !(e.target && e.target.closest && e.target.closest("button,summary,a,[role=button]"))){
       const s = c.querySelector("[data-action=submit]") || c.querySelector("[data-next-q]");
       if(s){ e.preventDefault(); s.click(); }
     }
@@ -4534,7 +4550,7 @@ function renderArchiveYear(){
       </div>
       ${focus ? '' : `<p>Pasirink atsakymą ir spausk „Patikrinti“. Užstrigai? „Užuomina“ parodys, nuo ko pradėti, bet atsakymo nepasakys.</p>`}
       <div class="row" style="gap:8px;flex-wrap:wrap">${!focus && firstNew && firstNew.num > 1 ? `<button class="btn small" id="archContinue" data-q="${firstNew.num}">Tęsti nuo ${firstNew.num} uždavinio →</button>` : ''}${newN && newN < total ? `<button class="btn small ${state._archiveOnlyNew ? 'primary' : 'ghost'}" id="archOnlyNew" aria-pressed="${!!state._archiveOnlyNew}">${state._archiveOnlyNew ? `Rodomi tik neišspręsti (${newN}) – rodyti visus` : `Tik neišspręsti (${newN})`}</button>` : ''}<button class="btn small ghost" id="archLayout" title="${focus ? 'Visi uždaviniai vienas po kito' : 'Po vieną uždavinį ekrane'}">${focus ? '☰ Visi sąraše' : '▣ Po vieną'}</button></div>
-      ${focus ? `<div class="contest-strip arch-strip" role="tablist" aria-label="Uždaviniai">${visible.map(q => `<button class="contest-pip${pipCls(q)}${q.num === cur ? ' current' : ''}" data-goq="${q.num}" role="tab" aria-selected="${q.num === cur}" aria-label="${q.num} uždavinys">${q.num}</button>`).join('')}</div>` : ''}
+      ${focus ? `<div class="contest-strip arch-strip" role="group" aria-label="Uždaviniai">${visible.map(q => `<button class="contest-pip${pipCls(q)}${q.num === cur ? ' current' : ''}" data-goq="${q.num}"${q.num === cur ? ' aria-current="step"' : ''} aria-label="${q.num} uždavinys">${q.num}</button>`).join('')}</div>` : ''}
     </section>
     ${visible.map(q => renderArchiveCard(test.year, q, focus ? {hidden: q.num !== cur, next: visible[pos + 1] || null} : null)).join("")}
     ${(() => {
@@ -4570,7 +4586,7 @@ function renderArchiveYear(){
   const archContinue = document.getElementById("archContinue");
   if(archContinue) archContinue.addEventListener("click", ()=>{
     const el = document.querySelector(`.archive-card[data-qnum="${archContinue.dataset.q}"]`);
-    if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+    if(el) el.scrollIntoView({behavior:smoothScroll(), block:"start"});
   });
   if(focus){
     $app.querySelectorAll("[data-goq]").forEach(b => b.addEventListener("click", () => goArchiveQ(Number(b.dataset.goq))));
@@ -4687,7 +4703,8 @@ function renderArchiveYear(){
       renderArchiveYear();
       try {
         const v = document.querySelector(`.archive-card[data-year="${year}"][data-qnum="${qnum}"] .verdict`);
-        if(v && v.scrollIntoView) v.scrollIntoView({behavior: "smooth", block: "center"});
+        if(v && v.scrollIntoView) v.scrollIntoView({behavior: smoothScroll(), block: "center"});
+        if(v && v.focus) v.focus({preventScroll: true});
       } catch(_){}
     });
 
@@ -4713,7 +4730,7 @@ function renderArchiveYear(){
       setTimeout(()=>{
         const el = document.querySelector(`.archive-card[data-year="${target.year}"][data-qnum="${target.q.num}"]`);
         if(el){
-          el.scrollIntoView({behavior:"smooth", block:"start"});
+          el.scrollIntoView({behavior:smoothScroll(), block:"start"});
           el.style.outline = "3px solid var(--accent)";
           setTimeout(()=>{ el.style.outline = ""; }, 2500);
         }
@@ -4790,7 +4807,7 @@ function renderArchiveCard(year, q, focusOpts){
     } else if(ans.chosenLetter === letter){
       extra = " selected";
     }
-    const off = !submitted && ans.firstWrong === letter ? ' disabled aria-disabled="true"' : '';
+    const off = (!submitted && ans.firstWrong === letter ? ' disabled aria-disabled="true"' : '') + (extra === ' selected' ? ' aria-pressed="true"' : '');
     if(isImageOnly){
       // Just letter pill, large enough to tap
       return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}"${off}>
@@ -4852,7 +4869,7 @@ function renderArchiveCard(year, q, focusOpts){
         ? `<div class="hint tier-${tier}"><b>${tierLabels[tier-1]}:</b> <i>kraunasi…</i></div>`
         : "";
     }
-    const aiTag = ai ? ` <span class="pill" title="AI sugeneruota užuomina šiam uždaviniui" style="font-size:10px">AI</span>` : "";
+    const aiTag = ai ? ` <span class="pill" title="AI sugeneruota užuomina šiam uždaviniui" aria-label="sugeneruota dirbtinio intelekto" style="font-size:12px">AI</span>` : "";
     const busyTag = !ai && aiHintBusy(tier) ? ` <i style="color:var(--muted);font-size:12px">(kraunasi geresnė…)</i>` : "";
     return `<div class="hint tier-${tier}"><b>${tierLabels[tier-1]}:</b>${aiTag} ${escapeHTML(text)}${busyTag}</div>`;
   };
@@ -4902,12 +4919,12 @@ function renderArchiveCard(year, q, focusOpts){
         : ans.seAnswer === 'other'
           ? `<div class="help-bar">Ne visai – ta mintis iš kito uždavinio (${escapeHTML(MECHANIC_LABEL[se.otherMech] || se.otherMech)}). Šiam tiko: <b>${escapeHTML(se.own)}</b></div>`
           : '';
-    bottom = `<div class="explain verdict" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
+    bottom = `<div class="explain verdict" role="status" tabindex="-1" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
         <b>${right ? (ans.firstWrong ? "✓ Teisingai – iš antro karto." : "✓ Teisingai.") : "Ne šis atsakymas."}</b>${right && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         ${q.correct ? ` Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.` : ''}
         ${opener ? `<div class="opener" style="margin-top:6px;font-size:13px;font-style:italic">${escapeHTML(opener)}</div>` : ''}
         ${confidentWrong ? `<div style="margin-top:6px;font-size:13px"><b>Buvai tikras, bet suklydai</b> – čia dažniausiai slepiasi klaidingas supratimas, ne atsitiktinė klaida. Perskaityk sprendimą ypač atidžiai: šis uždavinys sugrįš jau rytoj.</div>` : ''}
-        ${finalMiscText ? `<div class="misconception" style="margin-top:6px;font-size:13px"><b>${right ? 'Pirmą kartą' : 'Tavo klaida'}:</b>${miscIsAi?' <span class="pill" style="font-size:10px">AI</span>':''} ${escapeHTML(finalMiscText)}</div>` : ''}
+        ${finalMiscText ? `<div class="misconception" style="margin-top:6px;font-size:13px"><b>${right ? 'Pirmą kartą' : 'Tavo klaida'}:</b>${miscIsAi?' <span class="pill" aria-label="sugeneruota dirbtinio intelekto" style="font-size:12px">AI</span>':''} ${escapeHTML(finalMiscText)}</div>` : ''}
       </div>
       ${!right || ans.firstWrong ? (() => {
         // self-explanation: the kid names why it went wrong (stored in the notebook)
@@ -4928,7 +4945,7 @@ function renderArchiveCard(year, q, focusOpts){
       <div style="margin-top:6px">Jei vis tiek nežinai, nuo ko pradėti, spausk „Užuomina“ dar kartą.</div></div>`);
     if(ans.firstWrong){
       const note = q.misconceptions && q.misconceptions[ans.firstWrong];
-      blocks.push(`<div class="explain verdict retry" style="background:var(--bad-soft);border:1px solid var(--bad)">
+      blocks.push(`<div class="explain verdict retry" role="status" tabindex="-1" style="background:var(--bad-soft);border:1px solid var(--bad)">
         <b>Ne ${ans.firstWrong}.</b> Pabandyk dar kartą – vieną variantą jau atmetei.
         ${ans.confidence === 'a' ? `<div style="margin-top:6px">🎯 <b>Buvai tikras</b> – tokia klaida vertingiausia: perskaityk sąlygą iš naujo ir rask vietą, kur samprotavimas nuėjo ne ten.</div>` : ''}
         ${note ? `<div class="misconception" style="margin-top:6px"><b>Kur galėjo slėptis klaida:</b> ${escapeHTML(note)}</div>` : ''}
@@ -5027,7 +5044,7 @@ function setHomeTab(id, opts){
   $app.querySelectorAll('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== id; });
   $app.querySelectorAll('[data-tab]').forEach(b => {
     const on = b.dataset.tab === id;
-    b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on));
+    b.classList.toggle('on', on); if(on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
   });
   if(!(opts && opts.keepScroll)) try { window.scrollTo(0, 0); } catch(_){}
 }
@@ -5177,13 +5194,13 @@ function renderHome(){
     </section>` : ``}
     <section class="card hero-top">
       <div class="hero-row">
-        <div class="hero-streak" id="heroStreak" role="button" tabindex="0" aria-label="Dienų iš eilės – paspausk, kad sužinotum daugiau" style="cursor:pointer">
+        <div class="hero-streak" id="heroStreak" role="button" tabindex="0" aria-label="${store.streak.count||0} d. iš eilės – paspausk, kad sužinotum daugiau" style="cursor:pointer">
           <span class="streak-flame"${store.streak.count>0 ? '' : ' style="opacity:.3;filter:grayscale(1)"'}>🔥</span>
           <span class="streak-num">${store.streak.count||0}</span>
           <span class="streak-label">d. iš eilės</span>
           ${(()=>{ const left = 2 - ((store.streak.freezeMonth === monthKey()) ? (store.streak.freezesUsed || 0) : 0); return left > 0 ? `<span class="streak-label" title="Praleista diena serijos nenutraukia – ${left} kart${left === 1 ? 'ą' : 'us'} šį mėnesį">❄️${left}</span>` : ''; })()}
         </div>
-        <div class="hero-streak" id="heroStars" role="button" tabindex="0" aria-label="Žvaigždės – paspausk, kad sužinotum daugiau" title="Iš viso žvaigždžių · laisvų parduotuvei: ${starsAvailable()}" style="cursor:pointer">
+        <div class="hero-streak" id="heroStars" role="button" tabindex="0" aria-label="${(store.stars && store.stars.total) || 0} žvaigžd. – paspausk, kad sužinotum daugiau" title="Iš viso žvaigždžių · laisvų parduotuvei: ${starsAvailable()}" style="cursor:pointer">
           <span class="streak-flame">⭐</span>
           <span class="streak-num">${(store.stars && store.stars.total) || 0}</span>
           <span class="streak-label">${pluralForm((store.stars && store.stars.total) || 0,'žvaigždė','žvaigždės','žvaigždžių')}${(store.plan && store.plan.weeklyStarGoal) ? ` · sav. ${starsThisWeek()}/${store.plan.weeklyStarGoal}` : ''}</span>
@@ -5192,7 +5209,7 @@ function renderHome(){
           ${activityCells.join('')}
         </div>
         ${META.profiles.length > 1 ? `<span class="pill" title="Aktyvus profilis – keisti tėvų rodinyje">👤 ${escapeHTML(activeProfileName() || 'pagrindinis')}</span>` : ''}
-        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis">📒<span class="wide-only"> Klaidos</span>${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
+        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}">📒<span class="wide-only"> Klaidos</span>${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
         <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas${META.parentPin ? ' (su kodu)' : ''}" aria-label="Tėvams">${META.parentPin ? '🔒' : '👁'}<span class="wide-only"> Tėvams</span></button>
       </div>
     </section>
@@ -5372,7 +5389,7 @@ function renderHome(){
           <div class="row" id="countOpts">
             ${[10,15,20,25,30].map(n=>{
               const isKen = n===30;
-              const label = isKen ? `30 <span style="font-size:11px;font-weight:500">(Kengūra)</span>` : n;
+              const label = isKen ? `30 <span style="font-size:13px;font-weight:500">(Kengūra)</span>` : n;
               return `<button class="btn ${store.settings.count===n?"primary":""}" data-count="${n}" title="${isKen?'Realus Kengūros formatas: 75 min, sudėtingumai 3+4+5':''}">${label}</button>`;
             }).join("")}
           </div>
@@ -5444,9 +5461,9 @@ function renderHome(){
       </details>
     </section>
     </div>
-    <nav class="tabbar" id="homeTabs" role="tablist" aria-label="Skiltys">
+    <nav class="tabbar" id="homeTabs" aria-label="Skiltys">
       <div class="tabbar-in">
-        ${HOME_TABS.map(t => `<button role="tab" class="tab${t.id === tab ? ' on' : ''}" data-tab="${t.id}" aria-selected="${t.id === tab}"><span class="tab-ico">${t.icon}</span><span class="tab-lbl">${t.label}</span>${tabDots[t.id] ? '<i class="tab-dot" aria-label="yra ką veikti"></i>' : ''}</button>`).join('')}
+        ${HOME_TABS.map(t => `<button class="tab${t.id === tab ? ' on' : ''}" data-tab="${t.id}"${t.id === tab ? ' aria-current="page"' : ''}><span class="tab-ico" aria-hidden="true">${t.icon}</span><span class="tab-lbl">${t.label}</span>${tabDots[t.id] ? '<i class="tab-dot" aria-label="yra ką veikti"></i>' : ''}</button>`).join('')}
       </div>
     </nav>
     <div class="tabbar-spacer"></div>
@@ -5527,7 +5544,7 @@ function renderHome(){
       // newTest – open the practice tab at the new-test section
       setHomeTab("practice");
       const target = $app.querySelector("#startBtn");
-      if(target) target.scrollIntoView({behavior:"smooth", block:"center"});
+      if(target) target.scrollIntoView({behavior:smoothScroll(), block:"center"});
     }
   };
   const missionBtn = document.getElementById("missionBtn");
@@ -6485,7 +6502,7 @@ function renderContest(){
     const cls = "opt" + (chosen === letter ? " selected" : "") + (struck ? " struck" : "");
     // ✕ = cross the option out, as on the paper: eliminating two or three
     // options is what makes a guess worth its −¼ risk
-    return `<div class="opt-wrap"><button type="button" class="${cls}" data-letter="${letter}">
+    return `<div class="opt-wrap"><button type="button" class="${cls}" data-letter="${letter}" aria-pressed="${chosen === letter}">
       <span class="letter">${letter}</span>
       <span>${String(v).trim() === "" ? '<i style="color:var(--muted)">– atsakymas paveikslėlyje –</i>' : escapeHTML(v)}</span>
     </button><button type="button" class="opt-x" data-strike="${letter}" aria-pressed="${struck}" title="${struck ? 'Grąžinti' : 'Išbraukti'} ${letter} variantą" aria-label="${struck ? 'Grąžinti' : 'Išbraukti'} ${letter} variantą">✕</button></div>`;
@@ -6511,7 +6528,7 @@ function renderContest(){
         </div>
       </div>
       <div class="contest-strip">${strip}</div>
-      <p class="help-bar" id="contestPace" style="margin:6px 0 0;display:none;color:var(--bad)"></p>
+      <p class="help-bar" id="contestPace" role="status" style="margin:6px 0 0;display:none;color:var(--bad)"></p>
     </section>
 
     <section class="card">
@@ -7333,7 +7350,7 @@ function renderParent(){
       <p class="help-bar" style="margin-top:0">Visas progresas gyvena šioje naršyklėje. Prieš valant naršyklę ar keičiant įrenginį – eksportuokite failą; kitame įrenginyje – importuokite. Importas pakeičia dabartinį progresą.</p>
       <div class="row" style="gap:8px;flex-wrap:wrap">
         <button class="btn small primary" id="exportBtn">⬇ Eksportuoti progresą (.json)</button>
-        <label class="btn small" style="cursor:pointer">⬆ Importuoti iš failo <input type="file" id="importFile" accept="application/json,.json" style="display:none"></label>
+        <label class="btn small" style="cursor:pointer">⬆ Importuoti iš failo <input type="file" id="importFile" accept="application/json,.json" class="sr-only"></label>
       </div>
       <p class="help-bar" style="margin:10px 0 0">Kelionei be interneto: paveikslėliai įsimenami tik juos pamačius. Šis mygtukas iš karto atsisiunčia visus (~24 MB).</p>
       <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="offlineAllBtn">📥 Paruošti visus uždavinius be interneto</button><span class="help-bar" id="offlineAllStatus" style="margin:0"></span></div>
@@ -7343,7 +7360,7 @@ function renderParent(){
   $app.querySelectorAll("[data-advice]").forEach(b => b.addEventListener("click", ()=>{
     const a = b.dataset.advice, arg = b.dataset.adviceArg;
     if(a === 'plan') openPlan();
-    else if(a === 'settings'){ const el = document.getElementById("parentSettings"); if(el && el.scrollIntoView) el.scrollIntoView({behavior:"smooth", block:"start"}); }
+    else if(a === 'settings'){ const el = document.getElementById("parentSettings"); if(el && el.scrollIntoView) el.scrollIntoView({behavior:smoothScroll(), block:"start"}); }
     else if(a === 'playlist') openPlaylist(arg);
     else if(a === 'sprint') startSprint();
     else if(a === 'mistakes') openMistakeBook();
@@ -7676,7 +7693,7 @@ function renderPlaylist(){
     const enough = b => archiveQsForMech(mech, b).length >= 2;
     const lowerBand = special ? null : bands.filter(b => b < content.sourceBand && enough(b)).pop() || null;
     const higherBand = !special && content.sourceBand < 5 && bands.includes(5) && enough(5) ? 5 : null;
-    const timerHtml = special && !state.playlistSprint ? '' : `<span class="pl-countdown" id="plCountdown" aria-live="polite">⏱ ${fmtMs(playlistMasteryMs(items))}</span>`;
+    const timerHtml = special && !state.playlistSprint ? '' : `<span class="pl-countdown" id="plCountdown">⏱ ${fmtMs(playlistMasteryMs(items))}</span>`;
     // One quiet pill row instead of a sentence of instructions: the kid sees
     // how many, whether there is a clock, and (mastery) that all must be right.
     const headWord = isDue ? '' : state.playlistRetry ? '' : isMixed ? '' : (retest ? 'Pakartojimo patikra' : 'Įvaldymo testas');
@@ -7913,7 +7930,7 @@ function renderPlaylist(){
       }
       if(span){
         span.textContent = `⏱ ${fmtMs(remainingMs)}`;
-        if(remainingMs < 60000) span.classList.add("warn");
+        if(remainingMs < 60000 && !span.classList.contains("warn")){ span.classList.add("warn"); span.setAttribute("role", "status"); span.setAttribute("aria-label", "Liko mažiau nei minutė"); }
       }
     };
     tick();
@@ -8014,8 +8031,14 @@ function scrollToPlaylistQ(key, inner){
     const [y, n] = String(key).split("-");
     const card = document.querySelector(`.playlist-q[data-year="${y}"][data-qnum="${n}"]`);
     const el = card && (inner ? card.querySelector(inner) || card : card);
-    if(el && el.scrollIntoView) el.scrollIntoView({behavior: "smooth", block: inner ? "center" : "start"});
+    if(el && el.scrollIntoView) el.scrollIntoView({behavior: smoothScroll(), block: inner ? "center" : "start"});
+    if(inner && el && el.focus && el.classList && el.classList.contains("verdict")) el.focus({preventScroll: true});
   } catch(_){}
+}
+
+/* JS smooth scrolling ignores the CSS reduced-motion override – ask once per call. */
+function smoothScroll(){
+  try { return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"; } catch(_){ return "smooth"; }
 }
 
 function renderPlaylistQuestion(item, opts){
@@ -8055,7 +8078,7 @@ function renderPlaylistQuestion(item, opts){
     } else if(chosen === letter){
       extra = " selected";
     }
-    const off = !submitted && firstWrong === letter ? ' disabled aria-disabled="true"' : '';
+    const off = (!submitted && firstWrong === letter ? ' disabled aria-disabled="true"' : '') + (extra === ' selected' ? ' aria-pressed="true"' : '');
     if(isImageOnly) return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}"${off}><span class="letter">${letter}</span></button>`;
     const isEmptyOpt = String(v).trim() === "";
     return `<button type="button" class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}"${off}>
@@ -8108,11 +8131,11 @@ function renderPlaylistQuestion(item, opts){
       ${mode === "worked" && !submitted && q.solutionKid ? `<div class="explain kid-sol worked-faded"><b>Pavyzdys</b>${kidSolutionHTML(q.solutionKid, {fade: true})}</div>` : ''}
       ${imageHint}
       <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
-      ${submitted ? `<div class="explain verdict" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
+      ${submitted ? `<div class="explain verdict" role="status" tabindex="-1" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
         <b>${chosen === q.correct ? (firstWrong ? '✓ Teisingai – iš antro karto.' : '✓ Teisingai.') : 'Ne šis atsakymas.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.${dueAfter}
       </div>` : ''}
-      ${!submitted && firstWrong ? `<div class="explain verdict retry" style="background:var(--bad-soft);border:1px solid var(--bad)">
+      ${!submitted && firstWrong ? `<div class="explain verdict retry" role="status" tabindex="-1" style="background:var(--bad-soft);border:1px solid var(--bad)">
         <b>Ne ${firstWrong}.</b> Pabandyk dar kartą – vieną variantą jau atmetei.
         ${q.misconceptions && q.misconceptions[firstWrong] ? `<div class="misconception" style="margin-top:6px"><b>Kur galėjo slėptis klaida:</b> ${escapeHTML(q.misconceptions[firstWrong])}</div>` : ''}
         <div class="row" style="margin-top:8px"><button class="btn small ghost" data-pl-reveal>Rodyti sprendimą</button></div>
@@ -8837,8 +8860,9 @@ function wireFigureZoom(){
     box.className = "fig-zoom";
     box.setAttribute("role", "dialog");
     box.setAttribute("aria-label", "Padidintas paveikslėlis");
+    box.setAttribute("aria-modal", "true");
     box.innerHTML = `<button class="fig-zoom-close" aria-label="Uždaryti">✕</button><img src="${img.getAttribute("src")}" alt="${escapeHTML(img.alt || '')}">`;   // natural size (the PNGs are 2,7× the page)
-    const close = () => { box.remove(); document.removeEventListener("keydown", onKey); };
+    const close = () => { box.remove(); document.removeEventListener("keydown", onKey); try { img.focus({preventScroll: true}); } catch(_){} };
     const onKey = ev => { if(ev.key === "Escape") close(); };
     box.addEventListener("click", ev => { if(!ev.target.closest("img") || ev.target.closest(".fig-zoom-close")) close(); });
     const big = box.querySelector("img");
@@ -8848,6 +8872,24 @@ function wireFigureZoom(){
     big.addEventListener("click", close);
     document.addEventListener("keydown", onKey);
     document.body.appendChild(box);
+    try { box.querySelector(".fig-zoom-close").focus(); } catch(_){}
+  });
+  // Enter / Space on a focused picture opens it, like a tap
+  document.addEventListener("keydown", e => {
+    if(e.key !== "Enter" && e.key !== " ") return;
+    const img = e.target && e.target.closest && e.target.closest(".figure img");
+    if(!img) return;
+    e.preventDefault();
+    img.click();
+  });
+  // a badge tap says how it is earned (phones have no hover)
+  document.addEventListener("click", e => {
+    const b = e.target && e.target.closest && e.target.closest("[data-badge]");
+    if(!b) return;
+    const a = (typeof ACHIEVEMENTS !== "undefined" ? ACHIEVEMENTS : []).find(x => x.id === b.dataset.badge);
+    if(!a) return;
+    const on = !!(store.achievements || {})[a.id];
+    showToast(a.icon, `<b>${escapeHTML(a.title)}</b> – ${escapeHTML(a.desc)}${on ? '' : ' <span style="opacity:.8">(dar neuždirbta)</span>'}`, 4500);
   });
 }
 
@@ -8919,7 +8961,7 @@ function launchPlanStep(s){
     // Reading step: tick it and jump to the strategy explainer on home.
     markPlanStepDone();
     state.view = "home"; state.homeTab = "tests"; renderHome();
-    try { const d = document.getElementById("contestStrategy"); if(d){ d.open = true; d.scrollIntoView({behavior:"smooth"}); } } catch(_){}
+    try { const d = document.getElementById("contestStrategy"); if(d){ d.open = true; d.scrollIntoView({behavior:smoothScroll()}); } } catch(_){}
   }
   else if(s.act === "none"){ markPlanStepDone(); renderPlan(); }
 }
@@ -9261,7 +9303,7 @@ function postContestCardHTML(){
   return `<section class="card">
       <h3>🦘 Kaip sekėsi Kengūroje?</h3>
       <p style="margin:0 0 8px">Konkursas jau įvyko. Kai sužinosi rezultatą, įrašyk jį – palyginsime su kontroliniais.</p>
-      <div class="row" style="gap:8px;align-items:center"><input type="number" id="actualScoreIn" min="0" max="150" step="0.25" placeholder="taškai" style="width:7em;padding:6px">
+      <div class="row" style="gap:8px;align-items:center"><input type="number" id="actualScoreIn" min="0" max="150" step="0.25" placeholder="taškai" aria-label="Konkurso taškai" inputmode="decimal" style="width:7em;padding:8px 10px;min-height:44px">
       <button class="btn small primary" id="actualScoreSave">Įrašyti</button></div>
     </section>`;
 }
@@ -9318,10 +9360,10 @@ function rewardsCardHTML(){
   const freeRaces = store.games.freeRaces || 0;
   const badges = ACHIEVEMENTS.map(a=>{
     const on = !!store.achievements[a.id];
-    return `<div class="ach-badge${on?' on':''}" title="${escapeHTML(a.title)} – ${escapeHTML(a.desc)}">
-      <span class="ach-ico">${a.icon}</span>
+    return `<button type="button" class="ach-badge${on?' on':''}" data-badge="${a.id}" aria-label="${escapeHTML(a.title)} – ${escapeHTML(a.desc)}${on ? '' : ' (dar neuždirbta)'}">
+      <span class="ach-ico" aria-hidden="true">${a.icon}</span>
       <span class="ach-name">${escapeHTML(a.title)}</span>
-    </div>`;
+    </button>`;
   }).join("");
   return `
     <section class="card reward-card">
@@ -9789,8 +9831,8 @@ function renderGamePick(difficulty, lives, title, onStart){
         <span class="pill">${'❤️'.repeat(lives)} ${lives} ${lives===1?'gyvybė':'gyvybės'}</span>
       </div>
       <div class="grid two" style="margin-top:12px">
-        <button class="btn primary" id="pickRace" style="padding:18px 10px;font-size:17px">🏎 Lenktynės<br><span style="font-size:12px;font-weight:500;opacity:.85">lenk mašinas · rekordas ${store.games.best||0} m</span></button>
-        <button class="btn primary" id="pickJump" style="padding:18px 10px;font-size:17px">🦘 Kengūros šuolis<br><span style="font-size:12px;font-weight:500;opacity:.85">peršok kliūtis · rekordas ${store.games.jumpBest||0} m</span></button>
+        <button class="btn primary" id="pickRace" style="padding:18px 10px;font-size:17px">🏎 Lenktynės<br><span style="font-size:13px;font-weight:500;opacity:.9">lenk mašinas · rekordas ${store.games.best||0} m</span></button>
+        <button class="btn primary" id="pickJump" style="padding:18px 10px;font-size:17px">🦘 Kengūros šuolis<br><span style="font-size:13px;font-weight:500;opacity:.9">peršok kliūtis · rekordas ${store.games.jumpBest||0} m</span></button>
       </div>
       <div class="footer-actions" style="justify-content:center;margin-top:12px">
         <button class="btn ghost" id="pickHome">Į pradžią</button>
@@ -10069,7 +10111,7 @@ function solutionBlockHTML(q, aiText, isAi){
   if(q.solutionKid) return `<div class="kid-sol"><b>Sprendimas</b>${kidSolutionHTML(q.solutionKid)}</div>` +
     (q.solution ? `<details style="margin-top:8px"><summary style="cursor:pointer">Oficialus sprendimas${/(^|\s)\?\s/.test(q.solution) ? ' (yra greitas būdas)' : ''}</summary>${officialSolutionHTML(q.solution)}</details>` : '');
   if(q.solution) return officialSolutionHTML(q.solution);
-  if(aiText) return `<b>Sprendimas:</b>${isAi ? ' <span class="pill" style="font-size:10px">AI</span>' : ''} ${escapeHTML(aiText)}`;
+  if(aiText) return `<b>Sprendimas:</b>${isAi ? ' <span class="pill" aria-label="sugeneruota dirbtinio intelekto" style="font-size:12px">AI</span>' : ''} ${escapeHTML(aiText)}`;
   return "";
 }
 
@@ -10097,7 +10139,7 @@ function questionBodyHTML(q, opts){
   const text = `<div class="qprompt">${escapeHTML(q.prompt)}</div>`;
   if(!q.figure) return text;
   const alt = opts.alt || `${q.num ? q.num + ' uždavinys' : 'Uždavinys'} – originalus tekstas ir paveikslėlis`;
-  const fig = `<div class="figure"><img src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'}></div><div class="fig-zoom-hint">🔍 Paspausk paveikslėlį, kad padidintum</div>`;
+  const fig = `<div class="figure"><img class="fig-focus" tabindex="0" role="button" aria-label="${escapeHTML(alt ? alt + ' – padidinti' : 'Padidinti paveikslėlį')}" src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'}></div><div class="fig-zoom-hint">🔍 Paspausk paveikslėlį, kad padidintum</div>`;
   // On a phone the figure's print is too small to read, so the text starts
   // open there; an explicit choice (either way) wins.
   const pref = store.settings ? store.settings.showQText : null;
