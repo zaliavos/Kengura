@@ -3748,6 +3748,31 @@ function printMistakeSheet(items, back){
 }
 
 function openMistakeBook(){ state.view = "mistakes"; renderMistakeBook(); }
+/* Retrieval practice on the kid's own slips: up to 6 open mistakes, oldest
+   first, untimed, solutions after each answer – then back to the notebook. */
+function openMistakeSet(){
+  const items = Object.values(store.mistakes || {}).filter(m => !m.fixedAt)
+    .sort((a, b) => (a.lastWrong || 0) - (b.lastWrong || 0))
+    .map(m => { const t = ARCHIVE.find(t => String(t.year) === String(m.year)); const q = t && t.questions.find(q => q.num === m.num); return q && q.correct ? {year: t.year, q} : null; })
+    .filter(Boolean).slice(0, 6);
+  if(!items.length) return;
+  stopPlaylistTimer();
+  state.view = "playlist";
+  state.playlistSprint = false;
+  state.playlistRetry = null;
+  state.playlistMech = "__due__";
+  state.playlistRetest = false;
+  state.playlistRecorded = false;
+  state.playlistFinalized = false;
+  state.playlistStep = 3;
+  state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistConf = {};
+  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistFocusKey = null;
+  state.playlistFromBook = true;
+  state.playlistTimerStart = 0;
+  state.playlistTimeExpired = false;
+  renderPlaylist();
+}
 function renderMistakeBook(){
   const items = Object.values(store.mistakes || {}).map(m => {
     const t = ARCHIVE.find(t => String(t.year) === String(m.year));
@@ -3769,6 +3794,7 @@ function renderMistakeBook(){
       <button class="nav-back" id="mbBack">← Į pradžią</button>
       <h2>📒 Klaidų sąsiuvinis</h2>
       <p class="help-bar" style="margin-top:0">Visi uždaviniai, kuriuose suklydai – iš treniruočių ir kontrolinių. Išspręsk teisingai – persikels į „Ištaisyta“.</p>
+      ${open.length ? `<button class="btn primary" id="mbSet">Spręsti klaidas (${Math.min(open.length, 6)}) →</button> ` : ''}
       ${open.length ? `<button class="btn small" id="mbPrint" title="Neištaisytos klaidos ant popieriaus – atsakymai paskutiniame lape">🖨 Klaidų lapas (${Math.min(open.length, 20)})</button>` : ''}
       ${!items.length ? `<p>Kol kas tuščia – klaidų dar nebuvo.</p>` : ''}
       ${open.length ? `<h3>Dar mokausi (${open.length})</h3>` + Object.entries(byMech).sort((a, b) => b[1].length - a[1].length).map(([mech, xs]) => `
@@ -3778,6 +3804,8 @@ function renderMistakeBook(){
     </section>`;
   document.getElementById("mbBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
   $app.querySelectorAll("[data-mb-learn]").forEach(b => b.addEventListener("click", ()=> openPlaylist(b.dataset.mbLearn)));
+  const mbSet = document.getElementById("mbSet");
+  if(mbSet) mbSet.addEventListener("click", openMistakeSet);
   const mbPrint = document.getElementById("mbPrint");
   if(mbPrint) mbPrint.addEventListener("click", ()=> printMistakeSheet(open.sort((a, b) => b.m.lastWrong - a.m.lastWrong).slice(0, 20)));
   $app.querySelectorAll("[data-mistake]").forEach(b => b.addEventListener("click", ()=>{
@@ -6126,12 +6154,30 @@ function renderResults(){
         ${negativeOn ? `<div class="stat"><b>${fmtPts(pointsWithPenalty)} / ${maxPoints}</b><span>Su −25 % bauda</span></div>` : ''}
       </div>
       ${earlyNote}
+      <div class="footer-actions" style="flex-wrap:wrap;gap:8px;margin-top:12px">
+        ${(()=>{
+          const next = state._resultsFromPlan ? planNextButtonHTML() : '';
+          const size = newTestSizeLabel();
+          if(next) return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
+            <button class="btn ghost" id="againBtn" title="Ne plano dalis">Naujas testas (${size})</button>
+            ${next}`;
+          if(state._resultsFromPlan){
+            const reward = planRewardButtonHTML();
+            return `<span class="help-bar" style="margin:0">🎉 Šiandienos planas atliktas.</span>
+            <button class="btn ghost" id="againBtn">Naujas testas (${size})</button>
+            <button class="btn ${reward ? 'ghost' : 'primary'}" id="homeBtn">Į pradžią</button>${reward}`;
+          }
+          return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
+            <button class="btn primary" id="againBtn">Naujas testas (${size})</button>`;
+        })()}
+      </div>
     </section>
     ${sprintBanner}
+    ${total < 5 ? '<details class="card"><summary><b>Daugiau statistikos</b> <span class="help-bar">tempas, pasitikėjimas, temos</span></summary>' : ''}
 
     <section class="card">
       <h3>Tempas pagal sudėtingumą</h3>
-      <p style="margin-top:0;font-size:13px;color:var(--muted)">Rekomenduojama: 3 t. ≈ 1 min, 4 t. ≈ 2,5 min, 5 t. ≈ 5 min uždaviniui. Atitinka 75 min/30 klausimų formatą.</p>
+      <p style="margin-top:0;font-size:13px;color:var(--muted)">Rekomenduojama: 3 t. ≈ 1 min, 4 t. ≈ 2,5 min, 5 t. ≈ 5 min uždaviniui. Atitinka konkurso 75 min / 30 uždavinių.</p>
       ${[3,4,5].map(b => {
         if(!bandCount[b]) return '';
         const sec = Math.round(bandTime[b]/1000);
@@ -6139,7 +6185,7 @@ function renderResults(){
         const pct = budget > 0 ? Math.min(150, Math.round(100*sec/budget)) : 0;
         const overrun = sec > budget * 1.25;
         return `<div class="cat-row">
-          <span>${b} t. (${bandCount[b]} kl.)</span>
+          <span>${b} t. (${bandCount[b]} užd.)</span>
           <div class="bar"><div style="width:${Math.min(100,pct)}%;background:${overrun?'var(--bad)':'var(--accent)'}"></div></div>
           <span class="pill ${overrun?'bad':'muted'}">${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} / ${Math.floor(budget/60)}:${String(budget%60).padStart(2,'0')}</span>
         </div>`;
@@ -6178,6 +6224,7 @@ function renderResults(){
         </div>`;
       }).join("")}
     </section>
+    ${total < 5 ? '</details>' : ''}
 
     <section class="card">
       <h3>Klaidos (${wrongs.length})</h3>
@@ -6207,25 +6254,6 @@ function renderResults(){
       }
     </section>
 
-    <section class="card">
-      <div class="footer-actions" style="flex-wrap:wrap;gap:8px">
-        ${(()=>{
-          const next = state._resultsFromPlan ? planNextButtonHTML() : '';
-          const size = newTestSizeLabel();
-          if(next) return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
-            <button class="btn ghost" id="againBtn" title="Ne plano dalis">Naujas testas (${size})</button>
-            ${next}`;
-          if(state._resultsFromPlan){
-            const reward = planRewardButtonHTML();
-            return `<span class="help-bar" style="margin:0">🎉 Šiandienos planas atliktas.</span>
-            <button class="btn ghost" id="againBtn">Naujas testas (${size})</button>
-            <button class="btn ${reward ? 'ghost' : 'primary'}" id="homeBtn">Į pradžią</button>${reward}`;
-          }
-          return `<button class="btn ghost" id="homeBtn">← Į pradžią</button>
-            <button class="btn primary" id="againBtn">Naujas testas (${size})</button>`;
-        })()}
-      </div>
-    </section>
   `;
 
   document.getElementById("homeBtn").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
@@ -7609,7 +7637,7 @@ function openPlaylist(mech, forcedBand){
   }
   state.playlistAns = {};       // key: "year-num" -> chosen letter
   state.playlistSubmitted = {}; // key -> bool
-  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; // key -> bool
+  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistFocusKey = null; state.playlistFromBook = false; state.playlistRecogPick = {}; // key -> bool
   state.playlistConf = {};      // key -> a|b|c
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
@@ -7642,7 +7670,7 @@ function openDueQueue(limit){
   state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
   state.playlistSubmitted = {};
-  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {};
+  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistFocusKey = null; state.playlistFromBook = false; state.playlistRecogPick = {};
   state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
@@ -7659,7 +7687,10 @@ function renderPlaylist(){
   const content = state.playlistContent;
   const step = state.playlistStep;
 
-  const titleHtml = isDue
+  const titleHtml = isDue && state.playlistFromBook
+    ? `<h2 style="margin:0 0 4px">📒 Klaidų sąsiuvinis</h2>
+       <p class="help-bar" style="margin:0">Uždaviniai, kuriuose suklydai. Be laikrodžio – sprendimą pamatysi atsakęs.</p>`
+    : isDue
     ? `<h2 style="margin:0 0 4px">🔁 Pakartojimas</h2>
        <p class="help-bar" style="margin:0">Šiuos uždavinius jau sprendei ir suklydai. Išspręsk juos dar kartą ramiai – kai pavyks kelis kartus iš eilės, jie iš sąrašo dings.</p>`
     : isMixed && state.playlistRetry
@@ -7738,15 +7769,30 @@ function renderPlaylist(){
         ${allDone || submittedCount === 0 ? '' : `<span class="help-bar" style="margin:0">${submittedCount}/${items.length} atsakyta</span>`}
       </div>
       <div class="progress" role="progressbar" aria-label="Atsakyta" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${submittedCount}" style="margin:8px 0 0"><div style="width:${items.length ? Math.round(100 * submittedCount / items.length) : 0}%"></div></div>
+      ${(() => {
+        // one question on screen; the strip shows where the others stand
+        const keys = items.map(it => `${it.year}-${it.q.num}`);
+        if(!keys.includes(state.playlistFocusKey)){
+          const open = keys.find(kk => !state.playlistSubmitted[kk]);
+          state.playlistFocusKey = open || keys[0] || null;
+        }
+        if(items.length < 2) return '';
+        return `<div class="contest-strip arch-strip" role="group" aria-label="Uždaviniai">${items.map((it, i) => { const kk = keys[i]; const sub = state.playlistSubmitted[kk];
+          const cls = sub ? (state.playlistAns[kk] === it.q.correct ? ' good' : ' bad') : '';
+          return `<button class="contest-pip${cls}${kk === state.playlistFocusKey ? ' current' : ''}" data-pl-pip="${kk}"${kk === state.playlistFocusKey ? ' aria-current="step"' : ''} aria-label="${i + 1} uždavinys${sub ? ' – atsakyta' : ''}">${i + 1}</button>`; }).join('')}</div>`;
+      })()}
       ${items.map((it, i) => {
         // after an answer: one tap to the next question still open
         const nx = items.slice(i + 1).concat(items.slice(0, i)).find(o => !state.playlistSubmitted[`${o.year}-${o.q.num}`]);
         const timed = !special || state.playlistSprint;
         return renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery",
           holdFeedback: timed && !allDone && !state.playlistTimeExpired,
+          hidden: items.length > 1 && `${it.year}-${it.q.num}` !== state.playlistFocusKey,
           hideMech: isMixed && !state.playlistSprint && !state.playlistRetry,
           nextKey: nx && !state.playlistTimeExpired ? `${nx.year}-${nx.q.num}` : null});
       }).join('')}
+      ${items.length > 1 ? (() => { const fi = items.findIndex(it => `${it.year}-${it.q.num}` === state.playlistFocusKey);
+        return `<nav class="arch-nav" aria-label="Uždaviniai"><button class="btn small" id="plPrevQ" aria-label="Ankstesnis uždavinys"${fi <= 0 ? ' disabled' : ''}>←</button><span class="arch-pos">${fi + 1} / ${items.length}</span><button class="btn small" id="plNextQ" aria-label="Kitas uždavinys"${fi >= items.length - 1 ? ' disabled' : ''}>→</button></nav>`; })() : ''}
       ${state.playlistTimeExpired && !allDone ? `
         <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
           <b>Laikas baigėsi.</b> Neatsakyti uždaviniai lieka kaip neteisingi. Spausk „Baigti“, kad pamatytum rezultatą.
@@ -7930,12 +7976,19 @@ function renderPlaylist(){
   const backTop = document.getElementById("plBackTop");
   if(backTop) backTop.addEventListener("click", exitHome);
   const back = document.getElementById("plBack");
-  if(back) back.addEventListener("click", exitHome);
+  if(back) back.addEventListener("click", ()=>{ const fb = state.playlistFromBook; exitHome(); if(fb){ state.playlistFromBook = false; state.playlistRecogPick = {}; openMistakeBook(); } });
+  // focus-mode navigation inside a set
+  $app.querySelectorAll("[data-pl-pip]").forEach(b => b.addEventListener("click", ()=> plFocus(b.dataset.plPip)));
+  const plSteps = d => { const items = (content && content.mastery) || []; const keys = items.map(it => `${it.year}-${it.q.num}`); const i = keys.indexOf(state.playlistFocusKey) + d; if(i >= 0 && i < keys.length) plFocus(keys[i]); };
+  const pPrev = document.getElementById("plPrevQ"), pNext = document.getElementById("plNextQ");
+  if(pPrev) pPrev.addEventListener("click", ()=> plSteps(-1));
+  if(pNext) pNext.addEventListener("click", ()=> plSteps(1));
   const next = document.getElementById("plNext");
   if(next) next.addEventListener("click", ()=>{ state.playlistStep++; renderPlaylist(); toTop(); });
   const done = document.getElementById("plDone");
   if(done) done.addEventListener("click", ()=>{
     finalizePlaylist();
+    if(state.playlistFromBook){ state.playlistFromBook = false; state.playlistRecogPick = {}; openMistakeBook(); return; }
     state.view = "home";
     renderHome();
   });
@@ -8051,7 +8104,7 @@ function renderPlaylist(){
       renderPlaylist();
     });
     const gotoBtn = card.querySelector("[data-pl-goto]");
-    if(gotoBtn) gotoBtn.addEventListener("click", () => scrollToPlaylistQ(gotoBtn.dataset.plGoto));
+    if(gotoBtn) gotoBtn.addEventListener("click", () => plFocus(gotoBtn.dataset.plGoto));
     const hintBtn = card.querySelector("[data-pl-hint]");
     if(hintBtn) hintBtn.addEventListener("click", ()=>{
       // an early tap on a 4/5-pointer first gets three questions to ask oneself
@@ -8061,6 +8114,20 @@ function renderPlaylist(){
       state.playlistHintShown[k] = true;
       renderPlaylist();
     });
+    card.querySelectorAll("[data-pl-recog]").forEach(b => b.addEventListener("click", ()=>{
+      state.playlistRecogPick = state.playlistRecogPick || {};
+      if(state.playlistRecogPick[k]) return;
+      state.playlistRecogPick[k] = b.dataset.plRecog;
+      const it = ((content && content.mastery) || []).find(x => `${x.year}-${x.q.num}` === k);
+      if(it){
+        const right = b.dataset.plRecog === it.q.mechanic;
+        store.recogStats = store.recogStats || {attempts:0, correct:0};
+        store.recogStats.attempts++; if(right) store.recogStats.correct++;
+        if(!right){ const pair = `${it.q.mechanic}>${b.dataset.plRecog}`; store.recogConfusion = store.recogConfusion || {}; store.recogConfusion[pair] = (store.recogConfusion[pair] || 0) + 1; }
+        saveStore(store);
+      }
+      renderPlaylist();
+    }));
     const anotherBtn = card.querySelector("[data-pl-anothertry]");
     if(anotherBtn) anotherBtn.addEventListener("click", ()=>{
       if(!content.extraTry) return;
@@ -8093,6 +8160,43 @@ function scrollToPlaylistQ(key, inner){
 /* A re-render inside the same view (next item) doesn't pass the view hook's
    scroll reset – the next figure would start above the screen on a phone. */
 function toTop(){ try { window.scrollTo(0, 0); } catch(_){} }
+function plFocus(key){
+  state.playlistFocusKey = key;
+  renderPlaylist();
+  try { const c = document.querySelector(".playlist-q:not([hidden])"); window.scrollTo(0, c ? Math.max(0, c.getBoundingClientRect().top + window.scrollY - 8) : 0); } catch(_){}
+}
+
+/* Keys in sets and the recognition drill, as in the archive focus mode:
+   A–E / 1–5 pick, Enter checks or moves on, ← → between questions. */
+(function wirePracticeKeys(){
+  if(typeof document === "undefined" || !document.addEventListener) return;
+  document.addEventListener("keydown", e => {
+    if(state.view !== "playlist" && state.view !== "recog") return;
+    if(e.ctrlKey || e.metaKey || e.altKey || document.querySelector(".fig-zoom")) return;
+    if(e.target && e.target.closest && e.target.closest("input,textarea,select")) return;
+    const k = e.key;
+    const scope = state.view === "recog" ? document.getElementById("recogOptions") : document.querySelector(".playlist-q:not([hidden])");
+    if(!scope) return;
+    if(state.view === "playlist" && (k === "ArrowLeft" || k === "ArrowRight")){
+      const b = document.getElementById(k === "ArrowLeft" ? "plPrevQ" : "plNextQ");
+      if(b && !b.disabled){ e.preventDefault(); b.click(); }
+      return;
+    }
+    const L = /^[a-eA-E]$/.test(k) ? k.toUpperCase() : /^[1-5]$/.test(k) ? "ABCDE"[Number(k) - 1] : null;
+    if(L){
+      const opts = [...scope.querySelectorAll(".opt")];
+      const o = state.view === "recog" ? opts["ABCDE".indexOf(L)] : scope.querySelector(`.opt[data-letter="${L}"]`);
+      if(o && !o.disabled){ e.preventDefault(); o.click(); }
+      return;
+    }
+    if(k === "Enter" && !(e.target && e.target.closest && e.target.closest("button,summary,a,[role=button]"))){
+      const s = state.view === "recog"
+        ? (document.getElementById("recogSubmit") || document.getElementById("recogNext"))
+        : (scope.querySelector("[data-pl-check]") || scope.querySelector("[data-pl-goto]") || scope.querySelector("[data-pl-nextstep]"));
+      if(s && !s.disabled){ e.preventDefault(); s.click(); }
+    }
+  });
+})();
 
 /* JS smooth scrolling ignores the CSS reduced-motion override – ask once per call. */
 function smoothScroll(){
@@ -8113,6 +8217,18 @@ function renderPlaylistQuestion(item, opts){
   // Mixed sets hide the mechanic until the answer is in – recognising the
   // trick is the point. It's revealed with the feedback.
   const hideMech = !!opts.hideMech && !submitted;
+  // ...and asks for it: four trick names, one tap, logged like the drill
+  const recogPick = (state.playlistRecogPick || {})[k];
+  let recogRow = '';
+  if(hideMech && q.mechanic && MECHANIC_LABEL[q.mechanic]){
+    const others = MECHANIC_ORDER.filter(m => m !== q.mechanic && MECHANIC_LABEL[m]);
+    const h = keyHash(k);
+    const picks = [q.mechanic, others[h % others.length], others[(h >>> 3) % others.length], others[(h >>> 6) % others.length]];
+    const choices = [...new Set(picks)].sort((a, b) => keyHash(k + a) - keyHash(k + b));
+    recogRow = recogPick
+      ? `<p class="help-bar" style="margin:4px 0 8px">${recogPick === q.mechanic ? '✓ Atpažinai' : 'Ne visai – tai'}: <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.</p>`
+      : `<div style="margin:4px 0 8px"><b style="font-size:14px">Kokia gudrybė?</b> <span class="help-bar" style="margin:0">(nebūtina)</span><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">${choices.map(m => `<button class="btn small ghost" data-pl-recog="${m}">${escapeHTML(MECHANIC_LABEL[m])}</button>`).join('')}</div></div>`;
+  }
   // Review items say why they are back and, after the answer, when they return
   const dueItem = state.playlistMech === "__due__" ? (store.dueQueue || {})[k] : null;
   const dueNote = dueItem ? (dueItem.confWrong
@@ -8183,11 +8299,11 @@ function renderPlaylistQuestion(item, opts){
          <button class="btn small primary" data-pl-check ${canCheck ? '' : 'disabled'}>Patikrinti</button>`;
   } else { // mastery
     footer = submitted
-      ? (opts.nextKey ? `<button class="btn small primary" data-pl-goto="${opts.nextKey}">Kitas uždavinys ↓</button>` : '')
+      ? (opts.nextKey ? `<button class="btn small primary" data-pl-goto="${opts.nextKey}">Kitas uždavinys →</button>` : '')
       : `${confRow}<button class="btn small primary" data-pl-check ${canCheck ? '' : 'disabled'}>Atsakyti</button>`;
   }
   return `
-    <section class="card playlist-q" data-year="${year}" data-qnum="${q.num}" style="margin-top:12px">
+    <section class="card playlist-q" data-year="${year}" data-qnum="${q.num}" style="margin-top:12px"${opts.hidden ? ' hidden' : ''}>
       <div class="qmeta">
         <b>${q.num} uždavinys</b><span class="help-bar" style="margin:0">${escapeHTML(year)} m.</span>
         <span class="pill">${q.points} t.</span>
@@ -8196,6 +8312,7 @@ function renderPlaylistQuestion(item, opts){
         ${dueNote}
       </div>
       ${questionBodyHTML(q, {lazy:false})}
+      ${recogRow}
       ${mode === "worked" && !submitted && q.solutionKid ? `<div class="explain kid-sol worked-faded"><b>Pavyzdys</b>${kidSolutionHTML(q.solutionKid, {fade: true})}</div>` : ''}
       ${imageHint}
       <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
@@ -8372,7 +8489,7 @@ function openArchiveSprint(){
   state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand:3, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
-  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistConf = {};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistFocusKey = null; state.playlistFromBook = false; state.playlistRecogPick = {}; state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
@@ -8405,7 +8522,7 @@ function openContestRetry(when){
   state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand: 3, worked: null, tryQ: null, mastery: items, bandsAvailable: []};
-  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistConf = {};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistFocusKey = null; state.playlistFromBook = false; state.playlistRecogPick = {}; state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
@@ -8452,7 +8569,7 @@ function openMixedSet(count){
   state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
   state.playlistSubmitted = {};
-  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {};
+  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistFocusKey = null; state.playlistFromBook = false; state.playlistRecogPick = {};
   state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
