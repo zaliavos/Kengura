@@ -1044,3 +1044,62 @@ mapped onto a code + 375 px numeric audit of every view.
   harness on `python -m http.server`. The app saves on unload – set
   `_storeFrozen = true` in the frame before clearing or restoring
   localStorage, or the reload writes the old in-memory store back.
+
+## Second kids' pass: a11y, flows, learning methods (2026-10-17, loops 51–150)
+
+Four reviews (practice flows; home/contest/games; accessibility; research on
+methods the app lacked) drove 100 loops, then an independent diff review.
+
+- **Accessibility (51–66).** Tokens darkened for 4.5:1 text (`--accent`
+  #b83a12, `--good` #16703f, `--muted` #5f5f66) plus `--line-strong` for the
+  borders of things you tap. Selected options: 2 px border, filled letter,
+  `aria-pressed` on every option. Verdicts are `role="status"`, focused after
+  a check; toasts are a polite live region above the tab bar and never block
+  taps; the mastery countdown speaks only at the last minute. JS scrolling
+  goes through `smoothScroll()` (reduced motion). Keyboard figure zoom with
+  focus in/out, badges are buttons that toast how they are earned, home tabs
+  use `aria-current` (no half tab pattern), 40–44 px pips/summaries/checkbox
+  rows/inputs, print keeps colours.
+- **Practice flows (67–86).** Timed checks (mastery, 3-pt sprint) and mixed
+  sets show only the verdict until the set ends (`holdFeedback` – one trick's
+  first solution would give the rest away; delayed feedback in mixed sets).
+  Sets run one question at a time like the archive (`playlistFocusKey`,
+  number strip, `plPrevQ/plNextQ`, `plFocus`); keys in sets and the drill
+  (`wirePracticeKeys`). Next items call `toTop()`. `askConfidenceNow` is
+  scoped to the sprint's own view. The try step has try-first, a two-rung
+  hint ladder (notice → this problem's idea) and one spare try
+  (`content.extraTry`) after a miss. Notebook: "Spręsti klaidas" set
+  (`openMistakeSet`, `playlistFromBook` → every back returns to the
+  notebook) and "Bandyti" lands on the exact card. Mixed sets ask
+  "Kokia gudrybė?" (optional, logged like the drill). Quiz results lead with
+  the next step; the generated sprint has a skip and no hints.
+- **Home/contest/games (87–106).** `liveStreak()` (shared `streakGap`) shows
+  0 for a broken run. Game challenge: `GATE_TRIES_PER_DAY` = 3, counted when
+  a try starts. One name: "Žaidimų iššūkis/bilietas", "pasiekimas". Contest:
+  one forward button (next unanswered), finish primary only when all are
+  answered; second attempt above the solutions, which stay folded until it
+  is done (`_showContestSolutions`). Plan view: today's steps first,
+  settings in a fold, read-only behind the parent code (reset too). Contest
+  tab: one recommended paper. Recap counts planned training days. The day
+  bonus ticks hand-ticked steps – except a paper day's review step.
+- **Learning methods (107–120).** Thinking drill (`openThinkDrill`):
+  "Kur suklydo …?" – match a classmate's wrong letter to the slip note that
+  produces it (questions with ≥ 2 notes) – and "Sudėliok sprendimą" – tap the
+  kid solution's steps (`kidSolutionParts`) in order. Trick cards
+  (`openRecallCards`) for recall from memory, rated, streak only. Playlist
+  step 0 first shows the try problem ("pusė minutės", `playlistPeeked` = its
+  key). "Palygink abu kelius" under official quick ways. Contest intro:
+  optional worry note (never saved) + reappraisal line. Kid's week goal as an
+  if–then plan (`store.ifThen`, today tab, contest intro, parent view).
+  Parent "🍽 Šiandien paklauskite" (`parentAskToday`): an unseen 3/4-pt
+  question on a trick met today. A "check it back" line before checking a
+  5-pointer. ✏️ pen on every figure (`wireSketch`; pads restore after a
+  re-render, cleared when a paper starts).
+- **Checks.** Smoke section "second kids' pass"; two 375 px browser passes
+  (no overflow, leaks or console errors); simulator (84 d, 6 seeds, of 28):
+  0.8 learn 24,0 · 0.85 23,7 · 0.7 learn 14,5 · weekend-off 16,3 ·
+  erratic 9,7. Dark mode is still open: ~54 literal colours and 322 inline
+  styles need tokens first.
+- **Editing tip.** In this Git Bash, heredoc Python mangles non-ASCII and
+  backslashes; write edit scripts with the Write tool and apply them
+  (old/new pairs, each must match exactly once).
