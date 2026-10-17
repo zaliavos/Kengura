@@ -3318,6 +3318,33 @@ function daysSinceLastActivity(){
 //   * yesterday → count++
 //   * gap of 1 day (i.e. missed yesterday) → use a freeze (max 2/month) and count++
 //   * larger gap → streak resets to 1
+/* Training days between the last active day and today (+1): 1 = yesterday,
+   rest days don't count. Shared by the bump and the live display. */
+function streakGap(lastDay, today){
+  const [ly,lm,ld] = lastDay.split('-').map(Number);
+  const [ty,tm,td] = today.split('-').map(Number);
+  const lastTs = Date.UTC(ly, lm-1, ld);
+  const todayTs = Date.UTC(ty, tm-1, td);
+  const calGap = Math.round((todayTs - lastTs) / ONE_DAY_MS);
+  let missed = 0;
+  for(let i = 1; i < calGap && i < 400; i++){
+    const wd = new Date(lastTs + i * ONE_DAY_MS).getUTCDay();
+    if(((store.plan && store.plan.trainingDays) || [0,1,2,3,4,5,6]).includes(wd)) missed++;
+  }
+  return calGap <= 0 ? calGap : missed + 1;
+}
+/* The streak as the kid should see it today: still alive if the next answer
+   would continue it, 0 if it would restart (the stored count only resets on
+   that next answer – showing "🔥 12" to a kid back after a week is a lie). */
+function liveStreak(){
+  const s = store.streak || {};
+  if(!s.lastDay || !s.count) return 0;
+  const today = todayKey();
+  if(s.lastDay === today) return s.count;
+  const gap = streakGap(s.lastDay, today);
+  const freezesLeft = s.freezeMonth === monthKey() ? (s.freezesUsed || 0) < 2 : true;
+  return gap <= 1 || (gap === 2 && freezesLeft) ? s.count : 0;
+}
 function bumpStreakForToday(){
   const today = todayKey();
   const s = store.streak;
@@ -3336,17 +3363,7 @@ function bumpStreakForToday(){
   // Gap = missed TRAINING days + 1, so a weekend-off kid keeps the streak
   // across Saturday/Sunday. Calendar days that are not training days are
   // skipped; the day the kid answers on always counts.
-  const [ly,lm,ld] = s.lastDay.split('-').map(Number);
-  const [ty,tm,td] = today.split('-').map(Number);
-  const lastTs = Date.UTC(ly, lm-1, ld);
-  const todayTs = Date.UTC(ty, tm-1, td);
-  const calGap = Math.round((todayTs - lastTs) / ONE_DAY_MS);
-  let missed = 0;
-  for(let i = 1; i < calGap && i < 400; i++){
-    const wd = new Date(lastTs + i * ONE_DAY_MS).getUTCDay();
-    if((store.plan.trainingDays || [0,1,2,3,4,5,6]).includes(wd)) missed++;
-  }
-  const gap = calGap <= 0 ? calGap : missed + 1;
+  const gap = streakGap(s.lastDay, today);
   if(gap === 1){
     s.count++;
   } else if(gap === 2 && s.freezesUsed < 2){
@@ -5092,13 +5109,12 @@ function renderHome(){
   state._planStep = null;   // returning home aborts any plan-step attribution
   state._resultsFromPlan = false;
   // Mechanic-level weakness (replaces legacy subStats panel)
-  const weakMechs = weakestMechanics(6);
+  const weakMechs = weakestMechanics(6).filter(w => w.rate > 0 && w.showAttempts >= 4);
   // Spaced-repetition queue: how many items are due today
   const due = dueNow();
 
   const last = store.sessions[store.sessions.length-1];
-  const totalAns = Object.values(store.catStats).reduce((a,c)=>a+c.attempts,0);
-  const totalRight = Object.values(store.catStats).reduce((a,c)=>a+(c.attempts-c.wrong),0);
+  const totalAns = totalQuestionsAnswered() + Object.values(store.catStats).reduce((a,c)=>a+c.attempts,0);
   const kengura = store.settings.count === 30;
   const minutes = Math.round(store.settings.count * 2.5);
 
@@ -5157,8 +5173,8 @@ function renderHome(){
       missions.push({
         tag: 'Silpniausia vieta',
         title: MECHANIC_LABEL[w.mech] || w.mech,
-        body: `Klaidų: ${Math.round(100*w.rate)} %. Vienos serijos užteks, kad šis tipas taptų lengvesnis.`,
-        cta: `Silpniausia: ${MECHANIC_LABEL[w.mech] || w.mech}`, action: 'playlist', actionData: w.mech, style: 'primary',
+        body: `Klaidų: ${Math.round(100*w.rate)} %. Viena serija su pavyzdžiu dažnai padeda šiai gudrybei tapti lengvesnei.`,
+        cta: 'Mokytis', action: 'playlist', actionData: w.mech, style: 'primary',
       });
     }
     if(totalAns === 0) missions.push({
@@ -5177,7 +5193,7 @@ function renderHome(){
     if(Object.keys(store.mechRecent || {}).length >= 2) missions.push({
       tag: 'Mišri treniruotė',
       title: 'Atpažink gudrybę pats',
-      body: 'Uždaviniai be tipo etiketės – kaip tikrame konkurse.',
+      body: 'Uždaviniai be gudrybės pavadinimo – kaip tikrame konkurse.',
       cta: 'Mišrus rinkinys', action: 'mixed', style: 'primary',
     });
     missions.push({
@@ -5232,9 +5248,9 @@ function renderHome(){
     </section>` : ``}
     <section class="card hero-top">
       <div class="hero-row">
-        <div class="hero-streak" id="heroStreak" role="button" tabindex="0" aria-label="${store.streak.count||0} d. iš eilės – paspausk, kad sužinotum daugiau" style="cursor:pointer">
-          <span class="streak-flame"${store.streak.count>0 ? '' : ' style="opacity:.3;filter:grayscale(1)"'}>🔥</span>
-          <span class="streak-num">${store.streak.count||0}</span>
+        <div class="hero-streak" id="heroStreak" role="button" tabindex="0" aria-label="${liveStreak()} d. iš eilės – paspausk, kad sužinotum daugiau" style="cursor:pointer">
+          <span class="streak-flame"${liveStreak()>0 ? '' : ' style="opacity:.3;filter:grayscale(1)"'}>🔥</span>
+          <span class="streak-num">${liveStreak()}</span>
           <span class="streak-label">d. iš eilės</span>
           ${(()=>{ const left = 2 - ((store.streak.freezeMonth === monthKey()) ? (store.streak.freezesUsed || 0) : 0); return left > 0 ? `<span class="streak-label" title="Praleista diena serijos nenutraukia – ${left} kart${left === 1 ? 'ą' : 'us'} šį mėnesį">❄️${left}</span>` : ''; })()}
         </div>
@@ -5480,7 +5496,7 @@ function renderHome(){
     <section class="card">
       <h3 style="margin-top:0">⚙ Nustatymai</h3>
       <div class="row" style="align-items:center;gap:14px">
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Garsai už teisingą / klaidingą atsakymą, apdovanojimus ir laikrodį. Kontrolinyje tylu (tik 5 min įspėjimas).">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Garsai už teisingą / klaidingą atsakymą, pasiekimus ir laikrodį. Kontrolinyje tylu (tik 5 min įspėjimas).">
           <input type="checkbox" id="soundToggle" ${store.settings.sound !== false ?"checked":""}/>
           🔊 Garsai
         </label>
@@ -5632,7 +5648,7 @@ function renderHome(){
   // Phones have no hover: a tap on the streak / stars explains them.
   const tapToast = (id, fn) => { const el = document.getElementById(id); if(!el) return; const go = () => showToast(...fn()); el.addEventListener("click", go); el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); } }); };
   tapToast("heroStreak", () => {
-    const n = store.streak.count || 0;
+    const n = liveStreak();
     const left = 2 - ((store.streak.freezeMonth === monthKey()) ? (store.streak.freezesUsed || 0) : 0);
     const td = (store.plan.trainingDays || []).length;
     return ["🔥", `<b>${n} ${pluralForm(n,'diena','dienos','dienų')} iš eilės.</b> Serija auga kiekvieną treniruočių dieną, kai išsprendi bent vieną uždavinį${td && td < 7 ? ' (poilsio dienos jos nenutraukia)' : ''}. ❄️ – praleista diena serijos nenutraukia: liko ${Math.max(0, left)} ${pluralForm(Math.max(0, left),'kartas','kartai','kartų')} šį mėnesį.`, 6000];
@@ -7066,7 +7082,7 @@ function parentSummaryText(){
   const lines = [
     `Kengūra${activeProfileName() ? ` – ${activeProfileName()}` : ''} · savaitė ${fmt(w.rows[0].date)} – ${fmt(w.rows[6].date)}`,
     `Treniruočių dienos: ${w.active}/${w.trainingDays || 7}${w.missed ? ` (praleista ${w.missed})` : ''} · uždaviniai: ${w.answered}${w.answered ? ` (${Math.round(100 * w.correct / w.answered)} % teisingai)` : ''}${w.min ? ` · aktyvus laikas: ${w.min} min` : ''} · ⭐ ${w.stars}${store.plan.weeklyStarGoal ? `/${store.plan.weeklyStarGoal}` : ''}`,
-    `Įvaldyta gudrybių: ${mastered}/${total}${w.mastered ? ` (+${w.mastered} šią savaitę)` : ''} · serija: ${store.streak.count || 0} d.`,
+    `Įvaldyta gudrybių: ${mastered}/${total}${w.mastered ? ` (+${w.mastered} šią savaitę)` : ''} · serija: ${liveStreak()} d.`,
   ];
   if(w.papers.length) lines.push(`Kontroliniai: ${w.papers.map(c => `${c.year} m. – ${fmtPts(c.scoreWithPenalty ?? c.points)}/${c.maxPoints}`).join(', ')}`);
   if(worst.length) lines.push(`Silpniausia: ${worst.map(x => `${MECHANIC_LABEL[x.mech] || x.mech} (${Math.round(100 * x.rate)} % klaidų)`).join(', ')}`);
@@ -7156,7 +7172,7 @@ function renderParent(){
         <h2 style="margin:0">Tėvams${activeProfileName() ? ` · ${escapeHTML(activeProfileName())}` : ''} <span class="print-only" style="font-size:14px;font-weight:normal">· ${new Date().toLocaleDateString("lt-LT")}</span></h2>
         <div class="row" style="gap:6px"><button class="btn small ghost" id="parentCopy" title="Trumpa savaitės santrauka tekstu – įklijuokite į žinutę antram tėvui ar mokytojui">📋 Santrauka</button><button class="btn small ghost" id="parentPrint" title="Visa ši suvestinė vienu spausdinimu (pvz., mokytojui)">🖨 Ataskaita</button></div>
       </div>
-      <p class="help-bar">${days != null && days >= 0 ? `Iki konkurso <b>${days} d.</b> · etapas: <b>${PLAN_PHASE[planPhase()].label}</b>` : 'Konkurso data nenustatyta'} · serija <b>${store.streak.count || 0} d.</b> · įvaldyta <b>${masteredCount}/${totalMechs}</b> gudrybių${lastPaper ? ` · paskutinis kontrolinis <b>${fmtPts(lastPaper.scoreWithPenalty ?? lastPaper.points)}</b> / ${lastPaper.maxPoints}` : ''}</p>
+      <p class="help-bar">${days != null && days >= 0 ? `Iki konkurso <b>${days} d.</b> · etapas: <b>${PLAN_PHASE[planPhase()].label}</b>` : 'Konkurso data nenustatyta'} · serija <b>${liveStreak()} d.</b> · įvaldyta <b>${masteredCount}/${totalMechs}</b> gudrybių${lastPaper ? ` · paskutinis kontrolinis <b>${fmtPts(lastPaper.scoreWithPenalty ?? lastPaper.points)}</b> / ${lastPaper.maxPoints}` : ''}</p>
 
       <h3 style="margin:10px 0 6px">Ši savaitė</h3>
       <div class="grid two">
@@ -8111,7 +8127,7 @@ function renderPlaylist(){
       const t = (state.playlistTryAt || {})[k];
       const tq = content.tryQ && content.tryQ.q;
       if(t && tq && tryFirstPending(tq, t)){ t.tryFirstNote = true; renderPlaylist(); return; }
-      state.playlistHintShown[k] = true;
+      state.playlistHintShown[k] = (Number(state.playlistHintShown[k]) || 0) + 1;
       renderPlaylist();
     });
     card.querySelectorAll("[data-pl-recog]").forEach(b => b.addEventListener("click", ()=>{
@@ -8277,6 +8293,10 @@ function renderPlaylistQuestion(item, opts){
     || (q.solution ? approachFromSolution(q.solution) : null);
   // Calibration inside playlists too (try + mastery): the plan's core is
   // mostly playlists, so without this the parent's confidence stats starve.
+  // hint ladder: first what to notice (the trick's own ladder), then this problem's idea
+  const notice = q.mechanic && MECHANIC_HINTS[q.mechanic] && MECHANIC_HINTS[q.mechanic].notice;
+  const hintTiers = [notice, approach].filter((h, i, a) => h && a.indexOf(h) === i);
+  const hintCount = Math.min(hintTiers.length, Number(state.playlistHintShown[k]) || 0);
   const conf = (state.playlistConf || {})[k] || null;
   const needConf = askConfidenceNow() && mode !== "worked" && !submitted && !!chosen;
   const canCheck = chosen && !(needConf && !conf);
@@ -8295,7 +8315,7 @@ function renderPlaylistQuestion(item, opts){
       ? (spare
         ? `<button class="btn small" data-pl-nextstep>Vis tiek į patikrą</button><button class="btn small primary" data-pl-anothertry>Dar vienas bandomasis →</button>`
         : `<button class="btn small primary" data-pl-nextstep>Toliau – įvaldymo testas</button>`)
-      : `${confRow}${approach && !state.playlistHintShown[k] ? `<button class="btn small ghost" data-pl-hint>Užuomina</button>` : ''}
+      : `${confRow}${hintCount < hintTiers.length ? `<button class="btn small ghost" data-pl-hint>Užuomina${hintTiers.length > 1 ? ` (${hintCount + 1}/${hintTiers.length})` : ''}</button>` : ''}
          <button class="btn small primary" data-pl-check ${canCheck ? '' : 'disabled'}>Patikrinti</button>`;
   } else { // mastery
     footer = submitted
@@ -8326,7 +8346,7 @@ function renderPlaylistQuestion(item, opts){
         <div class="row" style="margin-top:8px"><button class="btn small ghost" data-pl-reveal>Rodyti sprendimą</button></div>
       </div>` : ''}
       ${tryAt && tryAt.tryFirstNote && !submitted && !showHint ? TRY_FIRST_NOTE_HTML : ''}
-      ${showHint && approach ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(approach)}</div>` : ''}
+      ${showHint ? hintTiers.slice(0, hintCount).map((h, i) => `<div class="hint"><b>Užuomina ${i + 1}/${hintTiers.length}:</b> ${escapeHTML(h)}</div>`).join('') : ''}
       ${submitted && hold ? `<p class="help-bar" style="margin:6px 0">Sprendimai – kai baigsi rinkinį.</p>` : ''}
       ${submitted && !hold && (chosen !== q.correct ? chosen : firstWrong) && q.misconceptions && q.misconceptions[chosen !== q.correct ? chosen : firstWrong] ? `<div class="explain"><b>${chosen === q.correct ? 'Pirmą kartą' : 'Tavo klaida'}:</b> ${escapeHTML(q.misconceptions[chosen !== q.correct ? chosen : firstWrong])}</div>` : ''}
       ${submitted && !hold && chosen && (chosen !== q.correct || firstWrong) ? (() => { const m = (store.mistakes || {})[k]; return m && m.reason
@@ -9351,10 +9371,10 @@ function masteredCount(){
 /* Achievement catalogue. Each `check` reads the live store and returns true
    once the badge is earned. Order = display order. */
 const ACHIEVEMENTS = [
-  {id:"q10",     icon:"🌱", title:"Pradžia",            desc:"Atsakyk į 10 klausimų",            check:()=> totalQuestionsAnswered() >= 10},
-  {id:"q50",     icon:"🚀", title:"Įsibėgėjau",         desc:"Atsakyk į 50 klausimų",            check:()=> totalQuestionsAnswered() >= 50},
-  {id:"q100",    icon:"💯", title:"Šimtukas",           desc:"Atsakyk į 100 klausimų",           check:()=> totalQuestionsAnswered() >= 100},
-  {id:"q500",    icon:"🏅", title:"Maratonas",          desc:"Atsakyk į 500 klausimų",           check:()=> totalQuestionsAnswered() >= 500},
+  {id:"q10",     icon:"🌱", title:"Pradžia",            desc:"Atsakyk į 10 uždavinių",            check:()=> totalQuestionsAnswered() >= 10},
+  {id:"q50",     icon:"🚀", title:"Įsibėgėjau",         desc:"Atsakyk į 50 uždavinių",            check:()=> totalQuestionsAnswered() >= 50},
+  {id:"q100",    icon:"💯", title:"Šimtukas",           desc:"Atsakyk į 100 uždavinių",           check:()=> totalQuestionsAnswered() >= 100},
+  {id:"q500",    icon:"🏅", title:"Maratonas",          desc:"Atsakyk į 500 uždavinių",           check:()=> totalQuestionsAnswered() >= 500},
   {id:"star50",  icon:"⭐", title:"Žvaigždžių rinkėjas", desc:"Surink 50 žvaigždžių",           check:()=> (store.stars.total||0) >= 50},
   {id:"star200", icon:"🌟", title:"Žvaigždynas",        desc:"Surink 200 žvaigždžių",          check:()=> (store.stars.total||0) >= 200},
   {id:"star500", icon:"✨", title:"Supernova",          desc:"Surink 500 žvaigždžių",          check:()=> (store.stars.total||0) >= 500},
@@ -9365,14 +9385,14 @@ const ACHIEVEMENTS = [
   {id:"streak7", icon:"🔥", title:"Savaitė iš eilės",   desc:"7 dienos iš eilės",              check:()=> (store.streak.count||0) >= 7},
   {id:"streak30",icon:"🔥", title:"Mėnuo iš eilės",     desc:"30 dienų iš eilės",              check:()=> (store.streak.count||0) >= 30},
   {id:"race1",   icon:"🏁", title:"Pirmos lenktynės",   desc:"Sužaisk lenktynes",              check:()=> (store.games.plays||0) >= 1},
-  {id:"raceHard",icon:"🏎", title:"Pro lygis",          desc:"Atrakink sunkų lygį (5/5)",      check:()=> !!store.games.hardUnlocked},
+  {id:"raceHard",icon:"🏎", title:"Sunkus lygis",       desc:"Atrakink sunkų lygį (5/5)",      check:()=> !!store.games.hardUnlocked},
   {id:"race500", icon:"🏆", title:"Greitėk",            desc:"Lenktynėse pasiek 500 m",        check:()=> (store.games.best||0) >= 500},
-  {id:"race1000",icon:"👑", title:"Greičio demonas",    desc:"Lenktynėse pasiek 1000 m",       check:()=> (store.games.best||0) >= 1000},
+  {id:"race1000",icon:"👑", title:"Tūkstantis metrų",    desc:"Lenktynėse pasiek 1000 m",       check:()=> (store.games.best||0) >= 1000},
   {id:"jump1",   icon:"🦘", title:"Pirmas šuolis",      desc:"Sužaisk Kengūros šuolį",          check:()=> (store.games.jumpPlays||0) >= 1},
   {id:"jump500", icon:"🌵", title:"Šuolininkas",        desc:"Šuolyje pasiek 500 m",            check:()=> (store.games.jumpBest||0) >= 500},
-  {id:"perfect5",icon:"🎯", title:"Tobula penketa",     desc:"5/5 lenktynių iššūkyje",         check:()=> (store.games.bestChallengeCorrect||0) >= 5},
+  {id:"perfect5",icon:"🎯", title:"Tobula penketa",     desc:"5/5 žaidimų iššūkyje",         check:()=> (store.games.bestChallengeCorrect||0) >= 5},
   {id:"contest1",icon:"📝", title:"Pirmas kontrolinis", desc:"Užbaik kontrolinį testą",        check:()=> (store.contests||[]).length >= 1},
-  {id:"recog20", icon:"🔍", title:"Tipų žinovas",       desc:"Atpažink 20 gudrybių",           check:()=> ((store.recogStats||{}).correct||0) >= 20},
+  {id:"recog20", icon:"🔍", title:"Gudrybių atpažintojas",       desc:"Atpažink 20 gudrybių",           check:()=> ((store.recogStats||{}).correct||0) >= 20},
   {id:"plan5",   icon:"📅", title:"Planuotojas",        desc:"Užbaik 5 dienų treniruotes",     check:()=> Object.values(store.planDone||{}).filter(d=>d.warmup&&d.core&&d.cooldown).length >= 5},
   {id:"plan20",  icon:"🗓", title:"Dvidešimt dienų",    desc:"Užbaik 20 dienų treniruotes",    check:()=> Object.values(store.planDone||{}).filter(d=>d.bonus || (d.warmup&&d.core&&d.cooldown)).length >= 20},
   {id:"contest5",icon:"📚", title:"Penki kontroliniai",  desc:"Užbaik 5 kontrolinius",          check:()=> (store.contests||[]).length >= 5},
@@ -9409,11 +9429,11 @@ function showAchievementToast(list){
   // After an app update the retroactive check can earn many badges at
   // once (legacy saves) – one summary toast instead of a stack of ten.
   if(list.length > 3){
-    showToast("🏆", `${list.length} ${pluralForm(list.length,'naujas apdovanojimas','nauji apdovanojimai','naujų apdovanojimų')}! Pažiūrėk apdovanojimų lentelę.`, 5000);
+    showToast("🏆", `${list.length} ${pluralForm(list.length,'naujas pasiekimas','nauji pasiekimai','naujų pasiekimų')} – juos rasi skiltyje „Prizai“.`, 5000);
     return;
   }
   list.forEach((a, i) => {
-    setTimeout(()=> showToast(a.icon, `Apdovanojimas: <b>${escapeHTML(a.title)}</b>`), i * 150);
+    setTimeout(()=> showToast(a.icon, `Pasiekimas: <b>${escapeHTML(a.title)}</b>`), i * 150);
   });
 }
 
@@ -9558,8 +9578,8 @@ function rewardsCardHTML(){
   }).join("");
   return `
     <section class="card reward-card">
-      <h3>🏁 Lenktynių iššūkis</h3>
-      <p style="margin-top:0">Išspręsk <b>5 sunkius uždavinius</b> (4–5 t.). Bent <b>3 teisingi</b> – atrakinsi žaidimą. Kuo daugiau teisingų, tuo daugiau gyvybių (3 → ❤, 4 → ❤❤, 5 → ❤❤❤).</p>
+      <h3>🏁 Žaidimų iššūkis</h3>
+      <p style="margin-top:0">5 uždaviniai (${planPhase() === 'foundation' && masteredCount() < 5 ? '3–4' : '4–5'} t.). Bent <b>3 teisingi</b> – atrakinsi žaidimus. Daugiau teisingų – daugiau gyvybių.</p>
       <div class="top-stats" style="margin-bottom:10px">
         <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} ${pluralForm(s.total||0,'žvaigždė','žvaigždės','žvaigždžių')}</span>
         <span class="pill good">🏆 Pasiekimai: ${unlocked}/${ACHIEVEMENTS.length}</span>
@@ -9589,7 +9609,7 @@ function rewardsCardHTML(){
           ${store.shop.night
             ? `<button class="btn small" data-shop-night="1">🌙 Naktinė trasa${store.shop.nightOn ? ' ✓' : ' · įjungti'}</button>`
             : `<button class="btn small" data-shop-night="1" ${starsAvailable() < SHOP_NIGHT_COST ? 'disabled' : ''}>🌙 Naktinė trasa · ${SHOP_NIGHT_COST} ⭐</button>`}
-          <button class="btn small" data-shop-ticket="1" ${starsAvailable() < SHOP_TICKET_COST ? 'disabled' : ''} title="Lenktynės be 5 klausimų vartų">🎟 Lenktynių bilietas · ${SHOP_TICKET_COST} ⭐</button>
+          <button class="btn small" data-shop-ticket="1" ${starsAvailable() < SHOP_TICKET_COST ? 'disabled' : ''} title="Žaidimas be 5 uždavinių iššūkio">🎟 Žaidimų bilietas · ${SHOP_TICKET_COST} ⭐</button>
         </div>
         <p class="help-bar">Spalvos ir trasa veikia lenktynių žaidime. Papildomą gyvybę (${SHOP_LIFE_COST} ⭐) galima nusipirkti prieš pat lenktynes.</p>
       </details>
@@ -9637,10 +9657,19 @@ function shuffleInPlace(arr){
   return arr;
 }
 
+const GATE_TRIES_PER_DAY = 3;
+function gateTriesLeft(){
+  const g = store.games || {};
+  return g.gateDay === todayKey() ? Math.max(0, GATE_TRIES_PER_DAY - (g.gateTries || 0)) : GATE_TRIES_PER_DAY;
+}
 function openRaceChallenge(){
+  if(gateTriesLeft() <= 0){
+    showToast("🏁", "Šiandien iššūkį jau bandei 3 kartus. Rytoj – vėl. Šiandien gali spręsti pagal planą.", 5000);
+    return;
+  }
   const pool = buildRacePool();
   if(pool.length < 5){
-    alert("Per mažai tinkamų klausimų iššūkiui.");
+    alert("Per mažai tinkamų uždavinių iššūkiui.");
     return;
   }
   // Prefer a mix: aim for at least two top-band questions when available.
@@ -9704,7 +9733,7 @@ function renderRaceChallenge(){
   $app.innerHTML = `
     <section class="card">
       <div class="contest-header">
-        <div><b>🏁 Lenktynių iššūkis</b> <span class="help-bar" style="margin-left:6px">Teisingų: ${state.raceCorrect}</span></div>
+        <div><b>🏁 Žaidimų iššūkis</b> <span class="help-bar" style="margin-left:6px">Teisingų: ${state.raceCorrect}</span></div>
         <button class="btn ghost small" id="raceQuit">← Pradžia</button>
       </div>
       <div class="contest-strip">${pips}</div>
@@ -9762,6 +9791,8 @@ function renderRaceChallenge(){
 
 function finishRaceChallenge(){
   const correct = state.raceCorrect;
+  if(store.games.gateDay !== todayKey()){ store.games.gateDay = todayKey(); store.games.gateTries = 0; }
+  store.games.gateTries = (store.games.gateTries || 0) + 1;
   store.games.bestChallengeCorrect = Math.max(store.games.bestChallengeCorrect || 0, correct);
   const unlocked = correct >= 3;
   let difficulty = null, lives = 0;
@@ -9784,28 +9815,29 @@ function renderRaceResult(){
   if(!r.unlocked){
     $app.innerHTML = `
       <section class="card" style="text-align:center">
-        <h2>Beveik! 🏁</h2>
-        <p>Teisingų atsakymų: <b>${r.correct} / 5</b>.</p>
-        <p>Lenktynėms atrakinti reikia <b>bent 3 teisingų</b>. Pabandyk dar kartą – kiekvienas teisingas atsakymas duoda žvaigždžių ⭐.</p>
+        <h2>${r.correct === 2 ? 'Beveik' : `Šįkart ${r.correct} / 5`}</h2>
+        ${r.correct === 2 ? `<p>Teisingų: <b>2 / 5</b>.</p>` : ''}
+        <p>Žaidimams atrakinti reikia <b>bent 3 teisingų</b>. Prieš kitą bandymą verta ramiai perskaityti sprendimus – kitą kartą panaši gudrybė bus lengvesnė.</p>
+        ${gateTriesLeft() > 0 ? `<p class="help-bar">Šiandien dar ${gateTriesLeft()} ${pluralForm(gateTriesLeft(),'bandymas','bandymai','bandymų')}.</p>` : `<p class="help-bar">Šiandien bandymai baigėsi – rytoj vėl.</p>`}
         <div class="footer-actions" style="justify-content:center;gap:8px">
-          <button class="btn primary" id="raceRetry">Bandyti dar kartą</button>
+          ${gateTriesLeft() > 0 ? `<button class="btn primary" id="raceRetry">Bandyti dar kartą</button>` : ''}
           <button class="btn ghost" id="raceHome">Į pradžią</button>
         </div>
       </section>`;
   } else {
     $app.innerHTML = `
       <section class="card" style="text-align:center">
-        <h2>Atrakinta! 🎉</h2>
+        <h2>Atrakinta 🏁</h2>
         <p>Teisingų: <b>${r.correct} / 5</b></p>
         <div class="top-stats" style="justify-content:center;margin:10px 0">
           <span class="pill ${r.difficulty==='hard'?'bad':(r.difficulty==='medium'?'':'good')}">Lygis: ${DIFF_LABEL[r.difficulty]}</span>
-          <span class="pill">${'❤️'.repeat(r.lives)} ${r.lives} ${r.lives===1?'gyvybė':'gyvybės'}</span>
+          <span class="pill" aria-label="${r.lives} ${pluralForm(r.lives,'gyvybė','gyvybės','gyvybių')}">${'❤️'.repeat(r.lives)}</span>
         </div>
-        <p class="help-bar">Vairuok rodyklėmis ← → (arba mygtukais). Lenk kitas mašinas, kuo ilgiau – tuo daugiau metrų!</p>
+        <p class="help-bar">Lenktynės: rodyklės ← → arba mygtukai. Šuolis: tarpas arba bakstelėjimas.</p>
         ${r.lives < 5 && starsAvailable() >= SHOP_LIFE_COST ? `<p><button class="btn small" id="raceBuyLife">➕ Papildoma gyvybė už ${SHOP_LIFE_COST} ⭐ (turi ${starsAvailable()})</button></p>` : ''}
         <div class="footer-actions" style="justify-content:center;gap:8px;flex-wrap:wrap">
           <button class="btn primary" id="racePlay">🏎 Žaisti lenktynes</button>
-          <button class="btn primary" id="jumpPlay">🦘 Kengūros šuolis</button>
+          <button class="btn" id="jumpPlay">🦘 Kengūros šuolis</button>
           <button class="btn ghost" id="raceHome">Į pradžią</button>
         </div>
       </section>`;

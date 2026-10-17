@@ -1350,7 +1350,7 @@ section("home tabs");
   check("track + tricks on learn", paneOf('data-mech-playlist') === "learn");
   check("papers on tests", paneOf('id="contestYears"') === "tests");
   check("archive + free test on practice", paneOf('id="archiveYears"') === "practice" && paneOf('id="startBtn"') === "practice");
-  check("rewards + settings on me", paneOf('id="soundToggle"') === "me" && paneOf("Lenktynių iššūkis") === "me");
+  check("rewards + settings on me", paneOf('id="soundToggle"') === "me" && paneOf("Žaidimų iššūkis") === "me");
   check("status row above the panes", h.indexOf('id="parentBtn"') < panes[0].index);
   app.state.homeTab = "tests"; app.renderHome();
   check("re-render keeps the chosen tab", /data-pane="tests">/.test(app.$app.innerHTML));
