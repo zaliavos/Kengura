@@ -83,7 +83,7 @@
   .figure img{cursor:zoom-in}
   /* typed question text behind the figure (see questionBodyHTML) */
   details.qtext{margin:-6px 0 12px;border:0;background:none;padding:0}
-  details.qtext > summary{cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);list-style:none;display:inline-flex;align-items:center;gap:6px;padding:2px 0}
+  details.qtext > summary{cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);list-style:none;display:inline-flex;align-items:center;gap:6px;padding:8px 0;min-height:36px}
   /* picture answers: five letter circles in a row, not five empty bars */
   .opt.opt-letter-only{justify-content:center;padding:12px 8px}
   .opt.opt-letter-only .letter{margin:0}
@@ -317,6 +317,10 @@
   .contest-pip.good{background:var(--good-soft);color:var(--good);border-color:var(--good)}
   .contest-pip.bad{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
   .arch-strip{margin-top:12px}
+  @media(max-width:600px){
+    .contest-strip{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:3px 2px 6px;scroll-snap-type:x proximity}
+    .contest-strip .contest-pip{flex:0 0 auto;scroll-snap-align:center}
+  }
   /* focus mode: prev / position / next where the thumb is */
   .arch-nav{position:sticky;bottom:0;z-index:4;display:flex;align-items:center;gap:10px;justify-content:space-between;
     margin:0 -4px 14px;padding:10px 12px;background:var(--paper);border:1px solid var(--line);border-radius:14px;
@@ -331,11 +335,12 @@
   }
   .mech-row .mech-head{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
   .mech-row .mech-title{font-weight:600;font-size:14px;flex:1;min-width:0}
-  .step-pip{display:inline-block;width:20px;height:20px;border-radius:50%;line-height:20px;text-align:center;font-size:12px;font-weight:700;background:#f1ecdf;color:var(--muted)}
+  .step-pip{display:inline-block;width:26px;height:26px;border-radius:50%;line-height:26px;text-align:center;font-size:13px;font-weight:700;background:#f1ecdf;color:var(--muted)}
   .step-pip.done{background:var(--good);color:#fff}
   .step-pip.now{background:var(--accent);color:#fff}
   .playlist-steps{display:flex;align-items:center;gap:6px;margin:6px 0 14px}
-  .playlist-steps span{color:var(--muted);font-size:12px}
+  .playlist-steps span{color:var(--muted);font-size:13px}
+  input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
   .pl-countdown{display:inline-block;padding:2px 8px;border-radius:10px;background:#f1ecdf;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;margin-left:6px}
   .pl-countdown.warn{background:var(--bad-soft);color:var(--bad)}
   .methodology{padding:14px;background:#fff7ec;border:1px solid var(--line);border-radius:10px;margin-bottom:12px}
@@ -4414,6 +4419,17 @@ function approachFromSolution(sol){
 
 /* Focus mode: which question of a paper is on screen (per year, this
    session). Starts at the first question not met yet. */
+/* Phones show the 30-number strip as one scrollable row (5 wrapped rows
+   pushed the question below the fold); keep the current number in view.
+   scrollLeft only – scrollIntoView would also move the page. */
+function centerStripPip(){
+  try {
+    const strip = document.querySelector("#app .contest-strip");
+    const cur = strip && strip.querySelector(".contest-pip.current");
+    if(cur && strip.scrollWidth > strip.clientWidth) strip.scrollLeft = cur.offsetLeft - strip.offsetLeft - strip.clientWidth / 2 + cur.offsetWidth / 2;
+  } catch(_){}
+}
+
 function archiveFocusNum(test, visible, firstNew){
   state.archiveFocus = state.archiveFocus || {};
   let n = state.archiveFocus[test.year];
@@ -4425,7 +4441,11 @@ function goArchiveQ(num){
   state.archiveFocus = state.archiveFocus || {};
   state.archiveFocus[state.archiveYear] = num;
   renderArchiveYear();
-  try { window.scrollTo(0, 0); } catch(_){}
+  // straight to the question: the paper's header stays one swipe up
+  try {
+    const c = document.querySelector(".archive-card:not([hidden])");
+    window.scrollTo(0, c ? Math.max(0, c.getBoundingClientRect().top + window.scrollY - 8) : 0);
+  } catch(_){}
 }
 /* Keyboard + swipe for the focus mode: ← → between questions, A–E / 1–5
    picks an option, Enter checks. Installed once; acts only on that view. */
@@ -4529,6 +4549,7 @@ function renderArchiveYear(){
   document.getElementById("back2").addEventListener("click", ()=>{state.view="home"; renderHome();});
   const archOnlyNew = document.getElementById("archOnlyNew");
   if(archOnlyNew) archOnlyNew.addEventListener("click", ()=>{ state._archiveOnlyNew = !state._archiveOnlyNew; renderArchiveYear(); });
+  centerStripPip();
   document.getElementById("archLayout").addEventListener("click", ()=>{
     store.settings.archiveList = !store.settings.archiveList; saveStore(store); renderArchiveYear();
   });
@@ -4673,7 +4694,7 @@ function renderArchiveYear(){
       state.archiveFocus[target.year] = target.q.num;
       state.view = "archiveYear";
       renderArchiveYear();
-      if(!store.settings.archiveList){ try { window.scrollTo(0, 0); } catch(_){} return; }
+      if(!store.settings.archiveList){ goArchiveQ(target.q.num); return; }
       // Scroll into view on next tick.
       setTimeout(()=>{
         const el = document.querySelector(`.archive-card[data-year="${target.year}"][data-qnum="${target.q.num}"]`);
@@ -5206,7 +5227,7 @@ function renderHome(){
             <h3 style="margin:0">📅 Šiandienos treniruotė <span class="phase-pill ${ph.cls}" style="margin-left:6px;vertical-align:middle">${ph.icon} ${ph.label}</span></h3>
             <span class="help-bar">${daysLeft != null && daysLeft > 0 ? `Iki konkurso <b>${daysLeft} d.</b> · ` : daysLeft === 0 ? '<b>Šiandien konkursas!</b> · ' : '⚠ <b>Konkurso data nenustatyta</b> – nustatyk ją plane, ir treniruotės prisitaikys · '}${contestToday ? '📝 <b>kontrolinio diena</b> · ' : ''}${!steps.length ? '🛌 poilsio diena pagal tvarkaraštį' : `${planProg}/${steps.length} žingsniai atlikti${planProg === steps.length ? ' 🎉' : ` · ~${planMinutes(steps.filter(s => !planD[s.id]))} min liko`}`}</span>
           </div>
-          <button class="btn ${planProg < steps.length ? 'primary' : 'ghost'}" id="planBtn">${planProg < steps.length ? 'Tęsti planą →' : 'Atverti planą'}</button>
+          <button class="btn ${planProg < steps.length && !(mission && mission.action === 'planStep') ? 'primary' : 'ghost'}" id="planBtn">${planProg < steps.length && !(mission && mission.action === 'planStep') ? 'Tęsti planą →' : 'Atverti planą'}</button>
         </div>
       </section>`;
     })() : ''}
@@ -6494,6 +6515,7 @@ function renderContest(){
       </div>
     </section>
   `;
+  centerStripPip();
 
   document.getElementById("contestOptions").addEventListener("click", e => {
     const x = e.target.closest("[data-strike]");
