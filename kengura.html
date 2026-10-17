@@ -95,6 +95,9 @@
   details.qtext[open] > summary{color:var(--ink)}
   .qtext .qprompt{font-size:15px;margin:6px 0 4px;padding:8px 10px;background:#fffaf0;border:1px dashed var(--line);border-radius:8px}
   .fig-zoom-hint{display:none;font-size:13px;color:var(--muted);text-align:center;margin:-10px 0 10px}
+  .fig-tools{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:-8px 0 10px}
+  .fig-tools .fig-zoom-hint{margin:0}
+  canvas.sketch{position:absolute;touch-action:none;cursor:crosshair;border-radius:8px;outline:2px dashed var(--accent);outline-offset:2px}
   @media(max-width:600px){.fig-zoom-hint{display:block}}
   .ptable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
   .kid-sol p{margin:6px 0 0;line-height:1.5}
@@ -3626,7 +3629,7 @@ const STAR_TIME_TICK_SEC = 20;
 // Views where a minute counts as practice. Home, plan, parent view and
 // the reward games earn nothing per minute – a kid will try leaving the
 // tab open.
-const STAR_TIME_VIEWS = new Set(["quiz", "playlist", "recog", "think", "archiveYear", "contest", "raceChallenge", "results", "contestResults"]);
+const STAR_TIME_VIEWS = new Set(["quiz", "playlist", "recog", "think", "recall", "archiveYear", "contest", "raceChallenge", "results", "contestResults"]);
 let _lastStarSaveAt = 0;
 // Minute stars stop after this long without a tap, key or scroll – a results
 // page left open on the table is not learning time.
@@ -5052,6 +5055,7 @@ function renderArchiveCard(year, q, focusOpts){
       ${questionBodyHTML(q)}
       ${imageHint}
       <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
+      ${!submitted && ans.chosenLetter && (q.points || 3) === 5 && !ans.firstWrong ? `<p class="help-bar" style="margin:6px 0 0">Prieš tikrindamas: ar atsakymas tinka sąlygai? Įstatyk jį atgal ir patikrink vieną skaičių.</p>` : ''}
       ${bottom}
       ${showConfidence ? `<div class="confidence-row" role="radiogroup" aria-label="Kiek esi tikras?">
         <span class="help-bar" style="margin:0 8px 0 0">Kiek esi tikras?</span>
@@ -5339,8 +5343,8 @@ function renderHome(){
 
     <section class="card">
       <h3>Mąstymo treniruotės</h3>
-      <p class="help-bar" style="margin-top:0">Trumpos, be laikrodžio: atpažinti gudrybę, rasti svetimą klaidą, sudėlioti sprendimą.</p>
-      <div class="row"><button class="btn" id="recogHomeBtn">🔍 Kokia gudrybė?</button><button class="btn" id="thinkBtn">🧠 Kur suklydo Tomas?</button></div>
+      <p class="help-bar" style="margin-top:0">Trumpos, be laikrodžio: atpažinti gudrybę, rasti svetimą klaidą, sudėlioti sprendimą, prisiminti gudrybę.</p>
+      <div class="row"><button class="btn" id="recogHomeBtn">🔍 Kokia gudrybė?</button><button class="btn" id="thinkBtn">🧠 Kur suklydo Tomas?</button><button class="btn" id="recallBtn">🃏 Prisimink gudrybę</button></div>
     </section>
 
     <section class="card">
@@ -5669,6 +5673,8 @@ function renderHome(){
   if(itEdit) itEdit.addEventListener("click", ()=>{ state._ifThenEdit = true; renderHome(); });
   const thinkBtn = document.getElementById("thinkBtn");
   if(thinkBtn) thinkBtn.addEventListener("click", openThinkDrill);
+  const recallBtn = document.getElementById("recallBtn");
+  if(recallBtn) recallBtn.addEventListener("click", openRecallCards);
   const recogHomeBtn = document.getElementById("recogHomeBtn");
   if(recogHomeBtn) recogHomeBtn.addEventListener("click", openRecogDrill);
   // Phones have no hover: a tap on the streak / stars explains them.
@@ -7859,7 +7865,7 @@ function renderPlaylist(){
         const nx = items.slice(i + 1).concat(items.slice(0, i)).find(o => !state.playlistSubmitted[`${o.year}-${o.q.num}`]);
         const timed = !special || state.playlistSprint;
         return renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery",
-          holdFeedback: timed && !allDone && !state.playlistTimeExpired,
+          holdFeedback: (timed || (isMixed && !state.playlistRetry)) && !allDone && !state.playlistTimeExpired,
           hidden: items.length > 1 && `${it.year}-${it.q.num}` !== state.playlistFocusKey,
           hideMech: isMixed && !state.playlistSprint && !state.playlistRetry,
           nextKey: nx && !state.playlistTimeExpired ? `${nx.year}-${nx.q.num}` : null});
@@ -8953,6 +8959,58 @@ function thinkRecord(kind, right, it){
   logActivity(right, 3);   // real thinking work: streak + one star, no mechanic stats
   saveStore(store);
 }
+/* 🃏 Prisimink gudrybę: the front shows only the trick's name; the kid
+   recalls how to spot it, the first step and the usual slip, then flips and
+   rates. Practised tricks only; the ones rated "ne" come back first. */
+function recallDeck(){
+  const practised = Object.keys(MECHANIC_METHODOLOGY).filter(m => MECHANIC_LABEL[m] && (((store.mechRecent || {})[m] || []).length >= 2 || (store.masteredBand || {})[m]));
+  const R = store.trickRecall || {};
+  const score = m => { const r = R[m]; if(!r) return 0; const ageD = (Date.now() - r.at) / ONE_DAY_MS; return (r.r === 'no' ? 1 : r.r === 'part' ? 3 : 7) - ageD; };
+  return [...new Set(practised)].filter(m => MECHANIC_METHODOLOGY[m] && MECHANIC_METHODOLOGY[m].trick).sort((a, b) => score(a) - score(b)).slice(0, 5);
+}
+function openRecallCards(){
+  const deck = recallDeck();
+  if(deck.length < 3){ showToast("🃏", "Kortelės atsiras, kai pasimokysi bent trijų gudrybių."); return; }
+  state.view = "recall";
+  state.recall = {deck, idx: 0, flipped: false, ok: 0};
+  renderRecall();
+}
+function renderRecall(){
+  const R = state.recall, m = R.deck[R.idx], meta = MECHANIC_METHODOLOGY[m] || {};
+  $app.innerHTML = `<section class="card">
+      <div class="contest-header"><div><b>🃏 Prisimink gudrybę</b> <span class="help-bar" style="margin-left:6px">${R.idx + 1} / ${R.deck.length}</span></div><button class="btn ghost small" id="recallQuit">← Pradžia</button></div>
+    </section>
+    <section class="card" style="text-align:center">
+      <h2 style="margin:6px 0 10px">${escapeHTML(MECHANIC_LABEL[m] || meta.title || m)}</h2>
+      ${!R.flipped ? `<p style="text-align:left;margin:0 auto;max-width:34em">Pasakyk garsiai arba užsirašyk:</p>
+        <ol style="text-align:left;margin:6px auto 12px;max-width:34em;padding-left:22px;line-height:1.7"><li>Iš ko atpažinti šią gudrybę?</li><li>Koks pirmas žingsnis?</li><li>Kur dažnai suklystama?</li></ol>
+        <button class="btn primary" id="recallFlip">Apversti kortelę</button>`
+      : `<div class="methodology" style="text-align:left">
+          <h4>Gudrybė</h4><p>${escapeHTML(meta.trick || '')}</p>
+          ${meta.keyStep ? `<h4>Pirmas žingsnis</h4><p>${escapeHTML(meta.keyStep)}</p>` : ''}
+          ${meta.pitfalls ? `<h4>Dažna klaida</h4><p>${escapeHTML(meta.pitfalls)}</p>` : ''}
+        </div>
+        <p style="margin:4px 0 8px"><b>Kiek prisiminei?</b></p>
+        <div class="row" style="justify-content:center;gap:8px"><button class="btn" data-recall="yes">Prisiminiau</button><button class="btn" data-recall="part">Iš dalies</button><button class="btn" data-recall="no">Nepamenu</button></div>`}
+    </section>`;
+  document.getElementById("recallQuit").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
+  const fl = document.getElementById("recallFlip");
+  if(fl) fl.addEventListener("click", ()=>{ R.flipped = true; renderRecall(); });
+  $app.querySelectorAll("[data-recall]").forEach(b => b.addEventListener("click", ()=>{
+    store.trickRecall = store.trickRecall || {};
+    store.trickRecall[m] = {r: b.dataset.recall, at: Date.now()};
+    if(b.dataset.recall === "yes") R.ok++;
+    logActivity(b.dataset.recall !== "no", 3);
+    saveStore(store);
+    if(R.idx >= R.deck.length - 1){
+      state.view = "home";
+      showToast("🃏", `Prisiminei ${R.ok} iš ${R.deck.length}. Kas buvo „nepamenu“, ateis pirmos kitą kartą.`, 5000);
+      renderHome();
+      return;
+    }
+    R.idx++; R.flipped = false; renderRecall(); toTop();
+  }));
+}
 function renderThinkResult(){
   const T = state.think;
   state.view = "thinkResult";
@@ -9259,6 +9317,76 @@ function suggestedContestDate(now){
 
 // Tap a question picture to see it at full resolution (small text on a
 // 360 px phone); the picture can be panned, a tap or Esc closes it.
+/* ✏️ Piešti: a transparent canvas over the figure – circle, count, connect,
+   as on the paper. Strokes are kept per picture for the session
+   (state.sketches) and an open pad comes back after a re-render (picking an
+   option redraws the card). */
+function wireSketch(){
+  if(typeof document === "undefined" || !document.addEventListener) return;
+  state.sketches = state.sketches || {};
+  state.sketchOpen = state.sketchOpen || new Set();
+  const figOf = btn => { const tools = btn.closest(".fig-tools"); const fig = tools && tools.previousElementSibling; return fig && fig.classList.contains("figure") ? fig : null; };
+  const open = btn => {
+    const fig = figOf(btn), img = fig && fig.querySelector("img"), src = btn.dataset.draw;
+    if(!img || fig.querySelector("canvas.sketch")) return;
+    const go = () => {
+      const r = img.getBoundingClientRect(), fr = fig.getBoundingClientRect();
+      if(!r.width) return;
+      fig.style.position = "relative";
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const c = document.createElement("canvas");
+      c.className = "sketch";
+      c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr);
+      c.style.left = (r.left - fr.left) + "px"; c.style.top = (r.top - fr.top) + "px";
+      c.style.width = r.width + "px"; c.style.height = r.height + "px";
+      c.setAttribute("aria-label", "Piešimo lapas ant paveikslėlio");
+      fig.appendChild(c);
+      const ctx = c.getContext("2d");
+      ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.lineWidth = 3 * dpr; ctx.strokeStyle = "#b83a12";
+      if(state.sketches[src]){ const im = new Image(); im.onload = () => ctx.drawImage(im, 0, 0, c.width, c.height); im.src = state.sketches[src]; }
+      let down = false;
+      const pt = e => { const b = c.getBoundingClientRect(); return [(e.clientX - b.left) * dpr, (e.clientY - b.top) * dpr]; };
+      c.addEventListener("pointerdown", e => { down = true; try { c.setPointerCapture(e.pointerId); } catch(_){} const [x, y] = pt(e); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 0.1, y); ctx.stroke(); e.preventDefault(); });
+      c.addEventListener("pointermove", e => { if(!down) return; const [x, y] = pt(e); ctx.lineTo(x, y); ctx.stroke(); });
+      const up = () => { if(!down) return; down = false; try { state.sketches[src] = c.toDataURL(); } catch(_){} };
+      c.addEventListener("pointerup", up); c.addEventListener("pointercancel", up);
+      btn.textContent = "✓ Baigti piešti"; btn.setAttribute("aria-pressed", "true");
+      if(!btn.parentElement.querySelector("[data-draw-clear]")){
+        const clr = document.createElement("button");
+        clr.type = "button"; clr.className = "btn small ghost"; clr.dataset.drawClear = src; clr.textContent = "🧽 Ištrinti";
+        btn.after(clr);
+      }
+    };
+    if(img.complete && img.naturalWidth) go(); else img.addEventListener("load", go, {once: true});
+  };
+  const close = btn => {
+    const fig = figOf(btn); const c = fig && fig.querySelector("canvas.sketch");
+    if(c) c.remove();
+    const clr = btn.parentElement.querySelector("[data-draw-clear]"); if(clr) clr.remove();
+    btn.textContent = state.sketches[btn.dataset.draw] ? "✏️ Tavo piešinys" : "✏️ Piešti"; btn.setAttribute("aria-pressed", "false");
+  };
+  document.addEventListener("click", e => {
+    const clr = e.target.closest && e.target.closest("[data-draw-clear]");
+    if(clr){ delete state.sketches[clr.dataset.drawClear]; const c = clr.closest(".fig-tools").previousElementSibling.querySelector("canvas.sketch"); if(c) c.getContext("2d").clearRect(0, 0, c.width, c.height); return; }
+    const b = e.target.closest && e.target.closest("[data-draw]");
+    if(!b) return;
+    const src = b.dataset.draw;
+    if(state.sketchOpen.has(src)){ state.sketchOpen.delete(src); close(b); } else { state.sketchOpen.add(src); open(b); }
+  });
+  // re-renders replace the card: bring open pads back (and label saved ones)
+  if(typeof MutationObserver === "function"){
+    let queued = false;
+    new MutationObserver(() => {
+      if(queued) return; queued = true;
+      requestAnimationFrame(() => { queued = false;
+        document.querySelectorAll("[data-draw]").forEach(b => {
+          if(state.sketchOpen.has(b.dataset.draw)){ if(!figOf(b) || !figOf(b).querySelector("canvas.sketch")) open(b); }
+          else if(state.sketches[b.dataset.draw] && b.textContent === "✏️ Piešti") b.textContent = "✏️ Tavo piešinys";
+        });
+      });
+    }).observe(document.getElementById("app") || document.body, {childList: true, subtree: true});
+  }
+}
 function wireFigureZoom(){
   if(typeof document === "undefined" || !document.addEventListener) return;
   document.addEventListener("click", e => {
@@ -9282,6 +9410,7 @@ function wireFigureZoom(){
     document.body.appendChild(box);
     try { box.querySelector(".fig-zoom-close").focus(); } catch(_){}
   });
+  wireSketch();
   // Enter / Space on a focused picture opens it, like a tap
   document.addEventListener("keydown", e => {
     if(e.key !== "Enter" && e.key !== " ") return;
@@ -9736,7 +9865,7 @@ function parentAskTodayHTML(){
   return `<section class="card">
       <h3 style="margin-top:0">🍽 Šiandien paklauskite</h3>
       <p style="margin:0 0 8px;font-size:14px">Šiandien vaikas mokėsi gudrybės <b>„${escapeHTML(MECHANIC_LABEL[x.q.mechanic])}“</b>. Šio uždavinio jis dar nematė. Paprašykite išspręsti garsiai – svarbu ne atsakymas, o paaiškinimas, <i>kaip</i> galvojo. Pataisyti nebūtina: užtenka paklausti „O kaip patikrintum?“.</p>
-      ${questionBodyHTML(x.q, {lazy: true})}
+      ${questionBodyHTML(x.q, {lazy: true, draw: false})}
       <details><summary>Atsakymas ir sprendimas (tėvams)</summary><p style="margin:6px 0"><b>${x.q.correct}</b>${x.q.options[x.q.correct] ? ` (${escapeHTML(x.q.options[x.q.correct])})` : ''} · ${escapeHTML(String(x.year))} m., ${x.q.num} užd.</p><div class="explain">${solutionBlockHTML(x.q)}</div></details>
     </section>`;
 }
@@ -10630,7 +10759,7 @@ function questionBodyHTML(q, opts){
   const text = `<div class="qprompt">${escapeHTML(q.prompt)}</div>`;
   if(!q.figure) return text;
   const alt = opts.alt || `${q.num ? q.num + ' uždavinys' : 'Uždavinys'} – originalus tekstas ir paveikslėlis`;
-  const fig = `<div class="figure"><img class="fig-focus" tabindex="0" role="button" aria-label="${escapeHTML(alt ? alt + ' – padidinti' : 'Padidinti paveikslėlį')}" src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'}></div><div class="fig-zoom-hint">🔍 Paspausk paveikslėlį, kad padidintum</div>`;
+  const fig = `<div class="figure"><img class="fig-focus" tabindex="0" role="button" aria-label="${escapeHTML(alt ? alt + ' – padidinti' : 'Padidinti paveikslėlį')}" src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'}></div><div class="fig-tools"><span class="fig-zoom-hint">🔍 Paspausk paveikslėlį, kad padidintum</span>${opts.draw === false ? '' : `<button type="button" class="btn small ghost" data-draw="${escapeHTML(encodeURI(q.figure))}" aria-pressed="false">✏️ Piešti</button>`}</div>`;
   // On a phone the figure's print is too small to read, so the text starts
   // open there; an explicit choice (either way) wins.
   const pref = store.settings ? store.settings.showQText : null;
