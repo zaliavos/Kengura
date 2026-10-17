@@ -83,6 +83,7 @@
   .figure{display:flex;justify-content:center;margin:10px 0 14px}
   .figure img{cursor:zoom-in}
   /* typed question text behind the figure (see questionBodyHTML) */
+  details > summary{min-height:44px;padding:10px 0;cursor:pointer}
   details.qtext{margin:-6px 0 12px;border:0;background:none;padding:0}
   details.qtext > summary{cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);list-style:none;display:inline-flex;align-items:center;gap:6px;padding:8px 0;min-height:44px}
   /* picture answers: five letter circles in a row, not five empty bars */
@@ -232,7 +233,7 @@
 
   /* Mechanic decay pill in playlist menu */
   .mech-stale-pill{display:inline-block;background:#fff;border:1px solid var(--accent);
-    color:var(--accent);font-size:12px;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:600}
+    color:var(--accent);font-size:13px;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:600}
 
   /* ---- Effects: toasts, floating stars, confetti ---- */
   .toast{pointer-events:auto;background:var(--accent);color:#fff;padding:10px 16px;border-radius:14px;
@@ -276,7 +277,7 @@
   .phase-build{background:#fff1d6;color:#9a5a00;border:1px solid #f0c27a}
   .phase-taper{background:var(--bad-soft);color:var(--bad);border:1px solid #e9a0a7}
   .week-strip{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-  .week-day{flex:1 1 0;min-width:44px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:6px 2px;font-size:12px;background:#fff}
+  .week-day{flex:1 1 0;min-width:44px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:6px 2px;font-size:13px;background:#fff}
   .week-day .wd{font-weight:700;color:var(--muted)}
   .week-day .ic{font-size:18px;line-height:1.3}
   .week-day.today{border-color:var(--accent);background:#fff4e8}
@@ -9378,12 +9379,12 @@ function wireSketch(){
     let queued = false;
     new MutationObserver(() => {
       if(queued) return; queued = true;
-      requestAnimationFrame(() => { queued = false;
+      setTimeout(() => { queued = false;
         document.querySelectorAll("[data-draw]").forEach(b => {
           if(state.sketchOpen.has(b.dataset.draw)){ if(!figOf(b) || !figOf(b).querySelector("canvas.sketch")) open(b); }
           else if(state.sketches[b.dataset.draw] && b.textContent === "✏️ Piešti") b.textContent = "✏️ Tavo piešinys";
         });
-      });
+      }, 30);
     }).observe(document.getElementById("app") || document.body, {childList: true, subtree: true});
   }
 }
