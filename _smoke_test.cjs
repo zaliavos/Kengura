@@ -596,7 +596,11 @@ section("minigames");
   // Loop 3: sprint never asks confidence; time stars only in learning views
   store.settings.askConfidence = true;
   state._sprintMode = false; check("confidence on in a normal quiz", app.askConfidenceNow());
-  state._sprintMode = true;  check("confidence off in the sprint", !app.askConfidenceNow());
+  state._sprintMode = true;
+  { const v = state.view; state.view = "quiz"; check("confidence off in the sprint (quiz view)", !app.askConfidenceNow());
+    state.view = "playlist"; state.playlistSprint = false; check("a finished sprint does not switch confidence off in playlists", app.askConfidenceNow());
+    state.playlistSprint = 1; check("no confidence tap under the 3-pt sprint clock", !app.askConfidenceNow());
+    state.playlistSprint = false; state.view = v; state._sprintMode = false; }
   state._sprintMode = false; store.settings.askConfidence = false;
   check("home/plan/race earn no time stars", !app.STAR_TIME_VIEWS.has("home") && !app.STAR_TIME_VIEWS.has("plan") && !app.STAR_TIME_VIEWS.has("race"));
   check("quiz/playlist/contest earn time stars", ["quiz","playlist","contest"].every(v => app.STAR_TIME_VIEWS.has(v)));

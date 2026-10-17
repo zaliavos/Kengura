@@ -3679,9 +3679,9 @@ function growthOpenerFor(q){
   const band = q && (q.points || q.difficulty) || 3;
   if(band >= 5){
     return [
-      'Ši užduotis su gudrybe – nepataikei iš pirmo karto, ir tai normalu.',
-      'Penkių taškų užduotys retai sprendžiamos vien skaičiavimu – reikia pamatyti gudrybę.',
-      'Net olimpiadų laimėtojai šitų neatspėja iškart. Pažiūrėk sprendimą atidžiai.',
+      'Šis uždavinys su gudrybe – iš pirmo karto nepavyko, ir tai normalu.',
+      'Penkių taškų uždaviniai retai sprendžiami vien skaičiavimu – reikia pamatyti gudrybę.',
+      'Net olimpiadų laimėtojai šitų neišsprendžia iškart. Pažiūrėk sprendimą atidžiai.',
     ][Math.floor(Math.random() * 3)];
   }
   if(band === 4){
@@ -3770,7 +3770,7 @@ function renderMistakeBook(){
       <h2>📒 Klaidų sąsiuvinis</h2>
       <p class="help-bar" style="margin-top:0">Visi uždaviniai, kuriuose suklydai – iš treniruočių ir kontrolinių. Išspręsk teisingai – persikels į „Ištaisyta“.</p>
       ${open.length ? `<button class="btn small" id="mbPrint" title="Neištaisytos klaidos ant popieriaus – atsakymai paskutiniame lape">🖨 Klaidų lapas (${Math.min(open.length, 20)})</button>` : ''}
-      ${!items.length ? `<p>Kol kas tuščia – klaidų dar nebuvo. 🎉</p>` : ''}
+      ${!items.length ? `<p>Kol kas tuščia – klaidų dar nebuvo.</p>` : ''}
       ${open.length ? `<h3>Dar mokausi (${open.length})</h3>` + Object.entries(byMech).sort((a, b) => b[1].length - a[1].length).map(([mech, xs]) => `
         <h4 style="margin:12px 0 4px;display:flex;align-items:center;gap:8px">${escapeHTML(MECHANIC_LABEL[mech] || mech)} <span class="pill">${xs.length}</span>${xs.length >= 2 && MECHANIC_LABEL[mech] ? `<button class="btn small ghost" data-mb-learn="${mech}" style="margin-left:auto" title="Kelios klaidos su ta pačia gudrybe – verta jos pasimokyti">Mokytis gudrybės →</button>` : ''}</h4>
         ${xs.sort((a, b) => b.m.lastWrong - a.m.lastWrong).map(row).join('')}`).join('') : ''}
@@ -3783,11 +3783,14 @@ function renderMistakeBook(){
   $app.querySelectorAll("[data-mistake]").forEach(b => b.addEventListener("click", ()=>{
     const [year, num] = b.dataset.mistake.split("-");
     delete state.archiveAnswers[`${year}-${num}`];            // a clean retry
-    state.archiveYear = year; state.view = "archiveYear";
-    renderArchiveYear();
+    state.archiveYear = year; state._archiveOnlyNew = false;
+    state.archiveFocus = state.archiveFocus || {};
+    state.archiveFocus[year] = Number(num);                    // focus mode: this card, not Q1
+    state.view = "archiveYear";
+    goArchiveQ(Number(num));
     setTimeout(()=>{
       const el = document.querySelector(`.archive-card[data-year="${year}"][data-qnum="${num}"]`);
-      if(el){ el.scrollIntoView({behavior:smoothScroll(), block:"start"}); el.style.outline = "3px solid var(--accent)"; setTimeout(()=>{ el.style.outline = ""; }, 2500); }
+      if(el){ if(store.settings.archiveList) el.scrollIntoView({behavior:smoothScroll(), block:"start"}); el.style.outline = "3px solid var(--accent)"; setTimeout(()=>{ el.style.outline = ""; }, 2500); }
     }, 60);
   }));
 }
@@ -4130,7 +4133,11 @@ const NAV_EXIT_IDS = ["back","plBackTop","mbBack","pmBack","ciBack","ppBack","pe
 /* Confidence picker applies to normal quizzes, never inside the speed
    sprint (it would add a tap per question and skew the 3-pt pace). */
 function askConfidenceNow(){
-  return !!store.settings.askConfidence && !state._sprintMode;
+  // a sprint is a speed drill: no extra tap per question (scoped to its view,
+  // so a finished sprint doesn't switch the picker off for the rest of the day)
+  return !!store.settings.askConfidence
+    && !(state.view === "quiz" && state._sprintMode)
+    && !(state.view === "playlist" && state.playlistSprint);
 }
 
 function startTimer(totalMs){
@@ -4139,12 +4146,14 @@ function startTimer(totalMs){
   state.timerTotalMs = totalMs;
   state.timerEndAt = Date.now() + totalMs;
   state._timerWarned = false;
+  state._quizTimedOut = false;
   state.timerInterval = setInterval(()=>{
     if(state.view !== "quiz"){ return; }
     const left = state.timerEndAt - Date.now();
     if(left <= 0){
       stopTimer();
       // Auto-finish on timeout
+      state._quizTimedOut = true;
       finishQuiz(true);
       return;
     }
@@ -4774,6 +4783,9 @@ function noteSecondTry(right){
    first hint tap shows self-questions instead of the hint. Productive-failure
    research: a short struggle before help makes the help stick. */
 const TRY_FIRST_SEC = {4: 45, 5: 90};
+const TRY_FIRST_NOTE_HTML = `<div class="hint try-first"><b>Prieš užuominą – trys klausimai sau:</b>
+      <ol style="margin:6px 0 0 18px;padding:0"><li>Ko tiksliai klausia? Pasakyk savais žodžiais.</li><li>Ką žinau? Užsirašyk skaičius arba nusipiešk.</li><li>Ar galiu patikrinti atsakymų variantus arba išbandyti mažesnį atvejį?</li></ol>
+      <div style="margin-top:6px">Jei vis tiek nežinai, nuo ko pradėti, spausk „Užuomina“ dar kartą.</div></div>`;
 function tryFirstPending(q, a){
   const need = TRY_FIRST_SEC[q.points];
   return !!(need && a && a.shownAt && !a.tryFirstNote && !a.firstWrong && !(a.hintTier > 0)
@@ -4920,7 +4932,7 @@ function renderArchiveCard(year, q, focusOpts){
           ? `<div class="help-bar">Ne visai – ta mintis iš kito uždavinio (${escapeHTML(MECHANIC_LABEL[se.otherMech] || se.otherMech)}). Šiam tiko: <b>${escapeHTML(se.own)}</b></div>`
           : '';
     bottom = `<div class="explain verdict" role="status" tabindex="-1" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
-        <b>${right ? (ans.firstWrong ? "✓ Teisingai – iš antro karto." : "✓ Teisingai.") : "Ne šis atsakymas."}</b>${right && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
+        <b>${right ? (ans.firstWrong ? "✓ Teisingai – iš antro karto." : "✓ Teisingai.") : "Ne šis atsakymas."}</b>${right && (q.points || 3) >= 4 && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         ${q.correct ? ` Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.` : ''}
         ${opener ? `<div class="opener" style="margin-top:6px;font-size:13px;font-style:italic">${escapeHTML(opener)}</div>` : ''}
         ${confidentWrong ? `<div style="margin-top:6px;font-size:13px"><b>Buvai tikras, bet suklydai</b> – čia dažniausiai slepiasi klaidingas supratimas, ne atsitiktinė klaida. Perskaityk sprendimą ypač atidžiai: šis uždavinys sugrįš jau rytoj.</div>` : ''}
@@ -4940,9 +4952,7 @@ function renderArchiveCard(year, q, focusOpts){
   } else {
     // Show all unlocked hint tiers, accumulated.
     const blocks = [];
-    if(ans.tryFirstNote && !hintTier) blocks.push(`<div class="hint try-first"><b>Prieš užuominą – trys klausimai sau:</b>
-      <ol style="margin:6px 0 0 18px;padding:0"><li>Ko tiksliai klausia? Pasakyk savais žodžiais.</li><li>Ką žinau? Užsirašyk skaičius arba nusipiešk.</li><li>Ar galiu patikrinti atsakymų variantus arba išbandyti mažesnį atvejį?</li></ol>
-      <div style="margin-top:6px">Jei vis tiek nežinai, nuo ko pradėti, spausk „Užuomina“ dar kartą.</div></div>`);
+    if(ans.tryFirstNote && !hintTier) blocks.push(TRY_FIRST_NOTE_HTML);
     if(ans.firstWrong){
       const note = q.misconceptions && q.misconceptions[ans.firstWrong];
       blocks.push(`<div class="explain verdict retry" role="status" tabindex="-1" style="background:var(--bad-soft);border:1px solid var(--bad)">
@@ -5775,7 +5785,7 @@ function renderQuiz(){
     ${renderTimerBar()}
     <section class="card">
       <div class="qmeta">
-        <span><b>Klausimas ${idx+1}</b> iš ${total}</span>
+        <span><b>${idx+1} uždavinys</b> iš ${total}</span>
         <span class="pill">${q.difficulty} t.</span>
         <span class="pill muted">${CATEGORY_LABEL[q.category]||q.category}</span>
         ${subtopicLabel ? `<span class="subtopic">· ${escapeHTML(subtopicLabel)}</span>`:``}
@@ -5812,7 +5822,11 @@ function renderQuiz(){
         const ans = state.answers[idx];
         const wasWrong = ans && !ans.correct;
         const opener = wasWrong ? growthOpenerFor(q) : '';
-        return `<div class="explain">
+        const okLetter = String.fromCharCode(65 + (q.correctIndex || 0));
+        return `<div class="explain verdict" role="status" style="background:${wasWrong ? 'var(--bad-soft)' : 'var(--good-soft)'};border:1px solid ${wasWrong ? 'var(--bad)' : 'var(--good)'}">
+          <b>${wasWrong ? 'Ne šis atsakymas.' : '✓ Teisingai.'}</b>${wasWrong ? ` Teisingas – <b>${okLetter}</b>.` : ''}
+        </div>
+        <div class="explain">
           ${opener ? `<div style="font-size:13px;font-style:italic;color:#634b18;margin-bottom:6px">${escapeHTML(opener)}</div>` : ''}
           <b>Paaiškinimas:</b> ${escapeHTML(q.explain)}
         </div>`;
@@ -5830,8 +5844,9 @@ function renderQuiz(){
 
       <div class="footer-actions">
         <div class="row">
-          ${!showResult && !state._firstStepShown && q.firstStep ? `<button class="btn ghost small" id="firstStepBtn">Pirmas žingsnis</button>`:``}
-          ${!showResult && !state._hintShown ? `<button class="btn ghost small" id="hintBtn">Užuomina</button>`:``}
+          ${!showResult && !state._sprintMode && !state._firstStepShown && q.firstStep ? `<button class="btn ghost small" id="firstStepBtn">Pirmas žingsnis</button>`:``}
+          ${!showResult && !state._sprintMode && !state._hintShown ? `<button class="btn ghost small" id="hintBtn">Užuomina</button>`:``}
+          ${!showResult && state._sprintMode && state.answers.some((a, i) => !a && i > idx) ? `<button class="btn ghost small" id="skipBtn" title="Konkurse ilgai stringantį verta praleisti">Praleisti →</button>`:``}
           ${idx>0 ? `<button class="btn ghost small" id="prevBtn">← Ankstesnis</button>`:``}
         </div>
         <div class="row">
@@ -5885,6 +5900,19 @@ function renderQuiz(){
     state._confidence = null;
     state._questionStartedAt = Date.now();
     renderQuiz();
+    toTop();
+  });
+  const skipBtn = document.getElementById("skipBtn");
+  if(skipBtn) skipBtn.addEventListener("click", ()=>{
+    // sprint: leaving a slow one is the contest skill – it stays unanswered
+    const nextOpen = state.answers.findIndex((a, i) => !a && i > idx);
+    if(nextOpen < 0){ finishQuiz(true); return; }
+    state.current = nextOpen;
+    state._chosen = null; state._hintShown = false; state._firstStepShown = false;
+    state._confidence = null;
+    state._questionStartedAt = Date.now();
+    renderQuiz();
+    toTop();
   });
   const prevBtn = document.getElementById("prevBtn");
   if(prevBtn) prevBtn.addEventListener("click", ()=>{
@@ -5893,6 +5921,7 @@ function renderQuiz(){
     state._confidence = null;
     state._questionStartedAt = Date.now();
     renderQuiz();
+    toTop();
   });
   const finishBtn = document.getElementById("finishBtn");
   if(finishBtn) finishBtn.addEventListener("click", ()=>finishQuiz(false));
@@ -5902,13 +5931,13 @@ function renderQuiz(){
     if(answeredCount === 0){
       if(!confirm("Tu dar niekuo neatsakei. Tikrai pabaigti dabar?")) return;
     } else if(answeredCount < total){
-      if(!confirm(`Liko ${total-answeredCount} ${pluralForm(total-answeredCount,'klausimas','klausimai','klausimų')}. Pabaigti dabar?`)) return;
+      if(!confirm(`Liko ${total-answeredCount} ${pluralForm(total-answeredCount,'uždavinys','uždaviniai','uždavinių')}. Pabaigti dabar?`)) return;
     }
     finishQuiz(true);
   });
   const exitBtn = document.getElementById("exitBtn");
   if(exitBtn) exitBtn.addEventListener("click", ()=>{
-    if(confirm("Išeiti be vertinimo? Atsakymai nebus išsaugoti.")){
+    if(confirm("Išeiti į pradžią? Jau atsakyti uždaviniai įskaityti, rezultatų suvestinės nebus.")){
       stopTimer();
       state.view = "home";
       renderHome();
@@ -6071,7 +6100,7 @@ function renderResults(){
 
   const answeredCount = state.answers.filter(a=>a).length;
   const earlyNote = answeredCount < total
-    ? `<p class="help-bar" style="margin-top:8px">Baigta anksčiau: atsakyta į ${answeredCount} iš ${total} klausimų.</p>`
+    ? `<p class="help-bar" style="margin-top:8px">${state._quizTimedOut ? 'Laikas baigėsi' : 'Baigta anksčiau'}: atsakyta ${answeredCount} iš ${total}.</p>`
     : ``;
   const sprintBanner = state._sprintMode ? (()=>{
     const answeredA = state.answers.filter(a => a);
@@ -7531,7 +7560,9 @@ function pickPlaylistContent(mech, forcedBand){
     const m = take(sourceBand) || take(workedFromBand) || take(3) || take(4) || take(5);
     if(m) mastery.push(m);
   }
-  return {sourceBand, worked, tryQ, mastery, bandsAvailable};
+  // spare source-band question: a missed try step offers one more before the timed check
+  const extraTry = take(sourceBand);
+  return {sourceBand, worked, tryQ, mastery, bandsAvailable, extraTry};
 }
 
 /* Mastery-check clock = the real contest pace for the items it holds
@@ -7578,7 +7609,7 @@ function openPlaylist(mech, forcedBand){
   }
   state.playlistAns = {};       // key: "year-num" -> chosen letter
   state.playlistSubmitted = {}; // key -> bool
-  state.playlistHintShown = {}; state.playlistFirstWrong = {}; // key -> bool
+  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; // key -> bool
   state.playlistConf = {};      // key -> a|b|c
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
@@ -7611,7 +7642,7 @@ function openDueQueue(limit){
   state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
   state.playlistSubmitted = {};
-  state.playlistHintShown = {}; state.playlistFirstWrong = {};
+  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {};
   state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
@@ -7639,10 +7670,10 @@ function renderPlaylist(){
        <p class="help-bar" style="margin:0">10 uždavinių iš ankstesnių konkursų, ~1 min kiekvienam – tokiu tempu konkurse įveiksi pirmąjį bloką.</p>`
     : isMixed
     ? `<h2 style="margin:0 0 4px">Mišrus rinkinys</h2>
-       <p class="help-bar" style="margin:0">Gudrybė nenurodyta – kaip konkurse. Pirmiausia atpažink, KOKIA tai gudrybė, tada spręsk. Gudrybė bus parodyta po atsakymo.</p>`
+       <p class="help-bar" style="margin:0">Kaip konkurse: gudrybė nenurodyta. Pirma atpažink ją, tada spręsk.</p>`
     : retest
     ? `<h2 style="margin:0 0 4px">${escapeHTML(meta.title || mech)} – pakartojimo patikra</h2>
-       <p class="help-bar" style="margin:0">Įvaldyta seniai. Du greiti klausimai patikrins, ar dar pameni – jei abu teisingi, įvaldymas atnaujinamas.</p>`
+       <p class="help-bar" style="margin:0">Įvaldyta seniai. Du uždaviniai patikrins, ar dar pameni – jei abu teisingi, įvaldymas atnaujinamas.</p>`
     : `<h2 style="margin:0 0 4px">${escapeHTML(meta.title || mech)}</h2>
        <p class="help-bar" style="margin:0">${escapeHTML(meta.summary || '')}</p>`;
 
@@ -7650,9 +7681,9 @@ function renderPlaylist(){
     <div class="playlist-steps">
       ${[0,1,2,3].map(i => {
         const pip = i < step ? "done" : (i === step ? "now" : "");
-        return `<span class="step-pip ${pip}">${i+1}</span>`;
+        return `<span class="step-pip ${pip}" title="${PLAYLIST_STEP_NAMES[i]}"${i === step ? ' aria-current="step"' : ''}>${i+1}</span>`;
       }).join('<span>·</span>')}
-      <span style="margin-left:6px">Žingsnis ${step+1}/4</span>
+      <span style="margin-left:6px"><b>${PLAYLIST_STEP_NAMES[step]}</b>${step < 3 ? ` · toliau – ${PLAYLIST_STEP_NAMES[step + 1].toLowerCase()}` : ''}</span>
     </div>
   `;
 
@@ -7710,7 +7741,11 @@ function renderPlaylist(){
       ${items.map((it, i) => {
         // after an answer: one tap to the next question still open
         const nx = items.slice(i + 1).concat(items.slice(0, i)).find(o => !state.playlistSubmitted[`${o.year}-${o.q.num}`]);
-        return renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery", hideMech: isMixed, nextKey: nx && !state.playlistTimeExpired ? `${nx.year}-${nx.q.num}` : null});
+        const timed = !special || state.playlistSprint;
+        return renderPlaylistQuestion(it, {showSolution: state.playlistSubmitted[`${it.year}-${it.q.num}`] || state.playlistTimeExpired, mode:"mastery",
+          holdFeedback: timed && !allDone && !state.playlistTimeExpired,
+          hideMech: isMixed && !state.playlistSprint && !state.playlistRetry,
+          nextKey: nx && !state.playlistTimeExpired ? `${nx.year}-${nx.q.num}` : null});
       }).join('')}
       ${state.playlistTimeExpired && !allDone ? `
         <div class="explain" style="background:var(--bad-soft);border:1px solid var(--bad)">
@@ -7720,15 +7755,15 @@ function renderPlaylist(){
       ${allDone ? (()=>{
         if(special && state.playlistRetry){
           const pts = items.filter(it => state.playlistAns[`${it.year}-${it.q.num}`] === it.q.correct).reduce((a, it) => a + (it.q.points || 3), 0);
-          return `<div class="explain" style="background:var(--good-soft);border:1px solid var(--good)">
+          return `<div class="explain" style="background:${correctCount ? 'var(--good-soft)' : '#f7f3e7'};border:1px solid ${correctCount ? 'var(--good)' : 'var(--line)'}">
             <b>Antru bandymu išsprendei ${correctCount} iš ${items.length}.</b>
             ${pts ? `Tai <b>${pts} t.</b>, kuriuos kontroliniame praradai ne dėl žinių, o dėl laiko ar skubėjimo – juos susigrąžins ramesnis tempas ir 🚩 žymės.` : 'Šie uždaviniai kol kas per sunkūs – jų gudrybes rasi sprendimuose ir plane.'}
           </div>`;
         }
         if(special){
           return `<div class="explain" style="background:var(--good-soft);border:1px solid var(--good)">
-            <b>${isDue ? 'Pakartojimas atliktas!' : 'Rinkinys atliktas!'}</b>
-            <span class="muted small">Teisingai atsakyta į ${correctCount} iš ${items.length} ${pluralForm(items.length,'uždavinio','uždavinių','uždavinių')}.${isDue ? (correctCount === items.length ? ' Visi teisingi – šie uždaviniai sugrįš vėliau, kai jau būsi pamiršęs.' : ' Suklystus pakartosi rytoj – tada jie įsimins.') : ''}</span>
+            <b>${isDue ? 'Pakartojimas atliktas.' : state.playlistSprint ? 'Sprintas baigtas.' : 'Rinkinys atliktas.'}</b>
+            <span class="muted small">Teisingai ${correctCount} iš ${items.length}.${state.playlistSprint ? (()=>{ const used = Math.round((Date.now() - (state.playlistTimerStart || Date.now())) / 1000); const per = Math.round(used / Math.max(1, items.length)); return ` Vidutiniškai ${per} s vienam – konkurse 3 t. uždaviniui verta skirti iki 60 s.`; })() : ''}${isDue ? (correctCount === items.length ? ' Visi teisingi – šie uždaviniai sugrįš po kelių dienų, kad neužsimirštų.' : ' Tuos, kuriuose suklydai, pakartosi rytoj.') : ''}</span>
           </div>`;
         }
         if(retest){
@@ -7787,7 +7822,13 @@ function renderPlaylist(){
     (content.mastery || []).forEach(it => {
       const k = `${it.year}-${it.q.num}`;
       if(!state.playlistSubmitted[k]) return;
+      // the kid may already have said why (chips under the answer) – noteMistake
+      // clears the reason for a NEW slip, so keep this one across the recording
+      const pre = (store.mistakes || {})[k];
+      const keepReason = pre && pre.reason;
       recordArchiveAnswer(it.year, it.q, state.playlistAns[k] === it.q.correct, (state.playlistConf || {})[k] || null);
+      const post = (store.mistakes || {})[k];
+      if(keepReason && post && !post.fixedAt) post.reason = keepReason;
     });
   }
   // Full completion: record answers + apply mastery / retest bookkeeping.
@@ -7891,7 +7932,7 @@ function renderPlaylist(){
   const back = document.getElementById("plBack");
   if(back) back.addEventListener("click", exitHome);
   const next = document.getElementById("plNext");
-  if(next) next.addEventListener("click", ()=>{ state.playlistStep++; renderPlaylist(); });
+  if(next) next.addEventListener("click", ()=>{ state.playlistStep++; renderPlaylist(); toTop(); });
   const done = document.getElementById("plDone");
   if(done) done.addEventListener("click", ()=>{
     finalizePlaylist();
@@ -8013,13 +8054,26 @@ function renderPlaylist(){
     if(gotoBtn) gotoBtn.addEventListener("click", () => scrollToPlaylistQ(gotoBtn.dataset.plGoto));
     const hintBtn = card.querySelector("[data-pl-hint]");
     if(hintBtn) hintBtn.addEventListener("click", ()=>{
+      // an early tap on a 4/5-pointer first gets three questions to ask oneself
+      const t = (state.playlistTryAt || {})[k];
+      const tq = content.tryQ && content.tryQ.q;
+      if(t && tq && tryFirstPending(tq, t)){ t.tryFirstNote = true; renderPlaylist(); return; }
       state.playlistHintShown[k] = true;
       renderPlaylist();
+    });
+    const anotherBtn = card.querySelector("[data-pl-anothertry]");
+    if(anotherBtn) anotherBtn.addEventListener("click", ()=>{
+      if(!content.extraTry) return;
+      content.tryQ = content.extraTry;
+      content.extraTry = null;       // one spare only – then the check
+      renderPlaylist();
+      toTop();
     });
     const nextStepBtn = card.querySelector("[data-pl-nextstep]");
     if(nextStepBtn) nextStepBtn.addEventListener("click", ()=>{
       state.playlistStep++;
       renderPlaylist();
+      toTop();
     });
   });
 }
@@ -8036,17 +8090,25 @@ function scrollToPlaylistQ(key, inner){
   } catch(_){}
 }
 
+/* A re-render inside the same view (next item) doesn't pass the view hook's
+   scroll reset – the next figure would start above the screen on a phone. */
+function toTop(){ try { window.scrollTo(0, 0); } catch(_){} }
+
 /* JS smooth scrolling ignores the CSS reduced-motion override – ask once per call. */
 function smoothScroll(){
   try { return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"; } catch(_){ return "smooth"; }
 }
 
+const PLAYLIST_STEP_NAMES = ["Gudrybė", "Pavyzdys", "Pabandyk", "Patikra"];
 function renderPlaylistQuestion(item, opts){
   const {year, q} = item;
   const k = `${year}-${q.num}`;
   const chosen = state.playlistAns[k];
   const submitted = !!state.playlistSubmitted[k];
-  const showSol = opts.showSolution || submitted;
+  // a timed check holds everything but the verdict until the set is over:
+  // three questions of one trick – the first solution would give away the rest
+  const hold = !!opts.holdFeedback;
+  const showSol = !hold && (opts.showSolution || submitted);
   const mode = opts.mode;
   // Mixed sets hide the mechanic until the answer is in – recognising the
   // trick is the point. It's revealed with the feedback.
@@ -8060,7 +8122,7 @@ function renderPlaylistQuestion(item, opts){
       : `<span class="pill muted">${dueItem.fromContest ? 'klaida kontroliniame' : 'praeitą kartą suklydai'}</span>`) : '';
   const dueAfter = !dueItem ? '' : (chosen === q.correct
     ? ((dueItem.streak || 0) + 1 >= SR_INTERVALS_DAYS.length
-        ? ' Įveikta – šis uždavinys nebegrįš. 🎉'
+        ? ' Įveikta – šis uždavinys nebegrįš.'
         : ` Sugrįš dar kartą po ${SR_INTERVALS_DAYS[Math.min((dueItem.streak || 0) + 1, SR_INTERVALS_DAYS.length - 1)]} d.`)
     : ' Pakartosime rytoj.');
   // picture answers (see renderArchiveCard): letter circles only
@@ -8090,6 +8152,8 @@ function renderPlaylistQuestion(item, opts){
     ? `<p class="help-bar" style="margin:0 0 6px"><b>Atsakymai – paveikslėlyje.</b> Pažymėk raidę pagal pasirinktą pavyzdį.</p>`
     : (q.hasMissingOptionText ? `<p class="help-bar" style="margin:0 0 6px">Kai kurie atsakymai – paveikslėlyje (be teksto). Pažymėk raidę.</p>` : '');
   const showHint = mode === "try" && !submitted && state.playlistHintShown[k];
+  // try step: the clock for the try-first friction starts when the problem is first shown
+  const tryAt = mode === "try" ? ((state.playlistTryAt = state.playlistTryAt || {})[k] = (state.playlistTryAt || {})[k] || {shownAt: Date.now()}) : null;
   // hint: this question's own idea, else the trick's generic suggestion; the
   // official text's first sentence only as a last resort (it often computes
   // the answer outright)
@@ -8109,8 +8173,12 @@ function renderPlaylistQuestion(item, opts){
       ? `<button class="btn small primary" data-pl-nextstep>Toliau – pabandyk pats</button>`
       : `<button class="btn small primary" data-pl-check ${chosen ? '' : 'disabled'}>Patikrinti</button>`;
   } else if(mode === "try"){
+    const missed = submitted && chosen !== q.correct;
+    const spare = missed && state.playlistContent && state.playlistContent.extraTry;
     footer = submitted
-      ? `<button class="btn small primary" data-pl-nextstep>Toliau – įvaldymo testas</button>`
+      ? (spare
+        ? `<button class="btn small" data-pl-nextstep>Vis tiek į patikrą</button><button class="btn small primary" data-pl-anothertry>Dar vienas bandomasis →</button>`
+        : `<button class="btn small primary" data-pl-nextstep>Toliau – įvaldymo testas</button>`)
       : `${confRow}${approach && !state.playlistHintShown[k] ? `<button class="btn small ghost" data-pl-hint>Užuomina</button>` : ''}
          <button class="btn small primary" data-pl-check ${canCheck ? '' : 'disabled'}>Patikrinti</button>`;
   } else { // mastery
@@ -8132,7 +8200,7 @@ function renderPlaylistQuestion(item, opts){
       ${imageHint}
       <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
       ${submitted ? `<div class="explain verdict" role="status" tabindex="-1" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
-        <b>${chosen === q.correct ? (firstWrong ? '✓ Teisingai – iš antro karto.' : '✓ Teisingai.') : 'Ne šis atsakymas.'}</b>${chosen === q.correct && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
+        <b>${chosen === q.correct ? (mode === 'worked' ? '✓ Pavyzdį užbaigei.' : firstWrong ? '✓ Teisingai – iš antro karto.' : '✓ Teisingai.') : 'Ne šis atsakymas.'}</b>${chosen === q.correct && mode !== 'worked' && !state.playlistSprint && (q.points || 3) >= 4 && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.${dueAfter}
       </div>` : ''}
       ${!submitted && firstWrong ? `<div class="explain verdict retry" role="status" tabindex="-1" style="background:var(--bad-soft);border:1px solid var(--bad)">
@@ -8140,9 +8208,11 @@ function renderPlaylistQuestion(item, opts){
         ${q.misconceptions && q.misconceptions[firstWrong] ? `<div class="misconception" style="margin-top:6px"><b>Kur galėjo slėptis klaida:</b> ${escapeHTML(q.misconceptions[firstWrong])}</div>` : ''}
         <div class="row" style="margin-top:8px"><button class="btn small ghost" data-pl-reveal>Rodyti sprendimą</button></div>
       </div>` : ''}
+      ${tryAt && tryAt.tryFirstNote && !submitted && !showHint ? TRY_FIRST_NOTE_HTML : ''}
       ${showHint && approach ? `<div class="hint"><b>Užuomina:</b> ${escapeHTML(approach)}</div>` : ''}
-      ${submitted && (chosen !== q.correct ? chosen : firstWrong) && q.misconceptions && q.misconceptions[chosen !== q.correct ? chosen : firstWrong] ? `<div class="explain"><b>${chosen === q.correct ? 'Pirmą kartą' : 'Tavo klaida'}:</b> ${escapeHTML(q.misconceptions[chosen !== q.correct ? chosen : firstWrong])}</div>` : ''}
-      ${submitted && chosen && (chosen !== q.correct || firstWrong) ? (() => { const m = (store.mistakes || {})[k]; return m && m.reason
+      ${submitted && hold ? `<p class="help-bar" style="margin:6px 0">Sprendimai – kai baigsi rinkinį.</p>` : ''}
+      ${submitted && !hold && (chosen !== q.correct ? chosen : firstWrong) && q.misconceptions && q.misconceptions[chosen !== q.correct ? chosen : firstWrong] ? `<div class="explain"><b>${chosen === q.correct ? 'Pirmą kartą' : 'Tavo klaida'}:</b> ${escapeHTML(q.misconceptions[chosen !== q.correct ? chosen : firstWrong])}</div>` : ''}
+      ${submitted && !hold && chosen && (chosen !== q.correct || firstWrong) ? (() => { const m = (store.mistakes || {})[k]; return m && m.reason
         ? `<p class="help-bar" style="margin:6px 0">Užrašyta: ${escapeHTML(MISTAKE_REASONS[m.reason] || m.reason)}.</p>`
         : `<div style="margin:6px 0"><b style="font-size:14px">Kodėl, manai, suklydai?</b><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">${Object.entries(MISTAKE_REASONS).map(([id, t]) => `<button class="btn small ghost" data-pl-why="${id}">${escapeHTML(t)}</button>`).join('')}</div></div>`; })() : ''}
       ${showSol && (q.solutionKid || q.solution) && !(mode === "worked" && !submitted && q.solutionKid) ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
@@ -8302,7 +8372,7 @@ function openArchiveSprint(){
   state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand:3, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
-  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistConf = {};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
@@ -8335,7 +8405,7 @@ function openContestRetry(when){
   state.playlistFinalized = false;
   state.playlistStep = 3;
   state.playlistContent = {sourceBand: 3, worked: null, tryQ: null, mastery: items, bandsAvailable: []};
-  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistConf = {};
+  state.playlistAns = {}; state.playlistSubmitted = {}; state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {}; state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
   renderPlaylist();
@@ -8382,7 +8452,7 @@ function openMixedSet(count){
   state.playlistContent = {sourceBand:0, worked:null, tryQ:null, mastery:items, bandsAvailable:[]};
   state.playlistAns = {};
   state.playlistSubmitted = {};
-  state.playlistHintShown = {}; state.playlistFirstWrong = {};
+  state.playlistHintShown = {}; state.playlistFirstWrong = {}; state.playlistTryAt = {};
   state.playlistConf = {};
   state.playlistTimerStart = 0;
   state.playlistTimeExpired = false;
@@ -8462,7 +8532,7 @@ function renderRecog(){
         <div><b>🔍 Kokia gudrybė?</b> <span class="help-bar" style="margin-left:6px">${idx+1} / ${items.length} · teisingų ${state.recogCorrect}</span></div>
         <button class="btn ghost small" id="recogQuit">← Pradžia</button>
       </div>
-      <p class="help-bar" style="margin:8px 0 0">Spręsti nereikia – atpažink uždavinio TIPĄ. Konkurse tai pirmas dalykas prieš kiekvieną 5 taškų klausimą – atpažinti gudrybę per kelias sekundes.</p>
+      ${idx === 0 ? `<p class="help-bar" style="margin:8px 0 0">Spręsti nereikia – atpažink gudrybę.</p>` : ''}
     </section>
     <section class="card">
       <div class="qmeta"><span class="pill ${q.points===5?'bad':''}">${q.points} t.</span><span class="pill muted">${escapeHTML(it.year)} m.</span></div>
@@ -8480,7 +8550,7 @@ function renderRecog(){
         }).join("")}
       </div>
       ${submitted ? `<div class="explain" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'}">
-        <b>${right ? 'Taip!' : 'Ne.'}</b> Tai – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</b>.
+        <b>${right ? '✓ Teisingai.' : 'Ne.'}</b> Tai – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</b>.
         ${(() => { const idea = q.solutionKid && (q.solutionKid.match(/^Gudrybė:\s*(.+?[.!?])(\s|$)/) || [])[1]; return idea ? `<div style="margin-top:6px"><b>Šiame uždavinyje:</b> ${escapeHTML(idea)}</div>` : ''; })()}
         ${summary ? `<div style="margin-top:6px;font-size:13px">${escapeHTML(summary)}</div>` : ''}
       </div>` : ''}
@@ -8529,6 +8599,7 @@ function renderRecog(){
     state.recogChosen = null;
     state.recogSubmitted = false;
     renderRecog();
+    toTop();
   });
 }
 
@@ -8549,7 +8620,8 @@ function renderRecogResult(){
         const [actual, chosen] = all[0][0].split('>');
         const tip = (MECHANIC_METHODOLOGY[actual] || {}).summary || '';
         return `<div class="explain" style="text-align:left;margin:8px 0">🔀 Dažniausiai painioji: <b>${escapeHTML(MECHANIC_LABEL[actual] || actual)}</b> ↔ ${escapeHTML(MECHANIC_LABEL[chosen] || chosen)}${all[0][1] > 1 ? ` (jau ${all[0][1]} ${pluralForm(all[0][1],'kartą','kartus','kartų')})` : ''}.${tip ? `<div style="margin-top:4px;font-size:13px">Atpažinimo ženklas: ${escapeHTML(tip)}</div>` : ''}</div>`; })()}
-      <p class="help-bar">${ok >= 8 ? 'Puiku – gudrybes atpažįsti beveik akimirksniu. Konkurse tai sutaupys brangias minutes.' : ok >= 5 ? 'Neblogai. Kuo greičiau atpažįsti gudrybę, tuo greičiau žinai, KĄ daryti.' : 'Verta pakartoti gudrybių aprašymus („Gudrybių mokymasis“ skiltyje) – atpažinimas ateina su pažinimu.'}</p>
+      <p class="help-bar">${ok >= 8 ? 'Gudrybę dažniausiai pamatei iš karto – konkurse tai sutaupo minučių.' : ok >= 5 ? 'Kuo greičiau atpažįsti gudrybę, tuo greičiau žinai, ką daryti.' : 'Atpažinti padeda pažinti: pasimokyk gudrybės, kurią painiojai, ir pabandyk vėl.'}</p>
+      ${(() => { const mx = Object.entries(store.recogConfusion || {}).filter(([p]) => (state.recogMixups || []).includes(p)).sort((a, b) => b[1] - a[1])[0]; if(!mx) return ''; const act = mx[0].split('>')[0]; return MECHANIC_LABEL[act] ? `<p style="margin:6px 0 0"><button class="btn small" id="recogLearn" data-mech="${act}">Mokytis: ${escapeHTML(MECHANIC_LABEL[act])} →</button></p>` : ''; })()}
       <div class="footer-actions" style="justify-content:center;gap:8px">
         <button class="btn ${next ? 'ghost' : 'primary'}" id="recogAgain">Dar kartą</button>
         <button class="btn ghost" id="recogHome">Į pradžią</button>
@@ -8558,6 +8630,8 @@ function renderRecogResult(){
     </section>`;
   wirePlanNext();
   document.getElementById("recogAgain").addEventListener("click", openRecogDrill);
+  const rl = document.getElementById("recogLearn");
+  if(rl) rl.addEventListener("click", ()=> openPlaylist(rl.dataset.mech));
   document.getElementById("recogHome").addEventListener("click", ()=>{ state.view="home"; renderHome(); });
 }
 
