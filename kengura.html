@@ -4537,6 +4537,19 @@ function renderArchiveYear(){
       ${focus ? `<div class="contest-strip arch-strip" role="tablist" aria-label="Uždaviniai">${visible.map(q => `<button class="contest-pip${pipCls(q)}${q.num === cur ? ' current' : ''}" data-goq="${q.num}" role="tab" aria-selected="${q.num === cur}" aria-label="${q.num} uždavinys">${q.num}</button>`).join('')}</div>` : ''}
     </section>
     ${visible.map(q => renderArchiveCard(test.year, q, focus ? {hidden: q.num !== cur, next: visible[pos + 1] || null} : null)).join("")}
+    ${(() => {
+      // closure: the whole paper is answered → a short summary by block
+      const keyed = test.questions.filter(q => q.correct);
+      if(!keyed.length || !keyed.every(q => (state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted)) return '';
+      const by = {3: [0, 0], 4: [0, 0], 5: [0, 0]};
+      for(const q of keyed){ const b = by[q.points] || by[3]; b[1]++; if(state.archiveAnswers[`${test.year}-${q.num}`].chosenLetter === q.correct) b[0]++; }
+      const open = Object.values(store.mistakes || {}).filter(m => !m.fixedAt && String(m.year) === String(test.year)).length;
+      return `<section class="card paper-done" style="border:1px solid var(--good);background:var(--good-soft)">
+        <h3 style="margin-top:0">🏁 ${escapeHTML(String(test.year))} m. uždaviniai išspręsti</h3>
+        <div class="grid two" style="grid-template-columns:repeat(3,1fr)">${[3, 4, 5].filter(b => by[b][1]).map(b => `<div class="stat"><b>${by[b][0]}/${by[b][1]}</b><span>${b} t. blokas</span></div>`).join('')}</div>
+        <p style="margin:10px 0 0">${open ? `Suklysti uždaviniai (${open}) sugrįš pakartojimui – juos rasi ir 📒 Klaidų sąsiuvinyje.` : 'Visi atsakymai teisingi – šiuose metuose klaidų nėra.'}</p>
+      </section>`;
+    })()}
     ${focus ? `<nav class="arch-nav" aria-label="Uždavinių naršymas">
       <button class="btn" id="archPrev" ${pos > 0 ? '' : 'disabled'} aria-label="Ankstesnis uždavinys">←</button>
       <span class="arch-pos">${pos + 1} / ${visible.length}<span class="wide-only kbd-hint"> · <kbd>A</kbd>–<kbd>E</kbd> atsakymas, <kbd>Enter</kbd> tikrinti, <kbd>←</kbd> <kbd>→</kbd></span></span>

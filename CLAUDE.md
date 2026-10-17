@@ -981,3 +981,66 @@ above a figure that already shows the same text.
 - Smoke test covers all of it (section "figure-first question body +
   parent view", "archive filter + parent summary"). Phone check: a 360 px
   iframe harness (`scrollWidth` per view) – no overflow on any view.
+
+## Kids' UX + learning-methods pass (2026-10-17, 50 loops)
+
+Driven by a research sweep (NN/g children's usability, Beast Academy, Duolingo,
+Zearn, Khan, Alcumus; Mueller & Dweck on praise, Deci et al. on rewards,
+productive failure, worked-example fading, self-explanation, hypercorrection)
+mapped onto a code + 375 px numeric audit of every view.
+
+- **Reading & touch.** Text floor 13 px (help lines, pills, labels), options
+  ≥ 48 px, `.btn` ≥ 44 px, `.btn.small` ≥ 40 px, track nodes 40 px, contest
+  pips 36 px, text toggle 36 px; phones get 15–16 px reading text. The tab
+  bar's `font:600 11px/1.1 inherit` was an invalid shorthand (labels fell back
+  to 13.3 px) – now longhand.
+- **Phone back button** (`hookViewNavigation`): `state.view` is an accessor.
+  A view change scrolls to the top; a non-home view holds one history entry,
+  and `popstate` closes an open picture or clicks the view's own exit button
+  (`.nav-back`, else `NAV_EXIT_IDS`), so cleanup runs as on a tap. A running
+  contest just goes home (it stays resumable). Back on home is ignored once.
+- **One question at a time** for archive years (default; "☰ Visi sąraše"
+  toggles `store.settings.archiveList`). All 30 cards are still rendered,
+  29 with `[hidden]` (smoke checks and wiring see every card). Number strip
+  coloured by result, sticky prev / N of 30 / next bar, ← → / A–E / 1–5 /
+  Enter keys, horizontal swipe, `state.archiveFocus[year]`. Phone page went
+  from ~18 000 px to ~1 400 px. On phones the strip is one scrollable row
+  (`centerStripPip`, also in the contest). A whole answered paper ends with
+  a per-block summary card.
+- **Time vs budget**: `shownAt` → `tookSec` on the card ("⏱ Sprendei 2:40 ·
+  konkurse 5 t. uždaviniui verta skirti iki ~5 min", + "verta praleisti" when
+  > 1,5 × `PACE_SEC`).
+- **Verdict first**: in playlists the verdict box now sits right under the
+  options (before the slip note, "why?" chips and the solution) and is
+  scrolled into view; mastery/mixed/due sets have a progress bar and a
+  "Kitas uždavinys ↓" jump.
+- **Second try** (archive cards + playlist try step): the first miss is
+  recorded as a miss (stats, notebook, queue unchanged) but the solution
+  waits – the option is struck out, the misconception note for that letter
+  and (if "Tikrai žinau") a confident-wrong line are shown, then "Pabandyk
+  dar kartą" or "Rodyti sprendimą". `store.secondTry = {a, ok}` (a reveal
+  counts as not self-fixed) → parent card "Kaip vaikas taiso klaidas".
+- **Try first** (`TRY_FIRST_SEC` 45 s / 90 s for 4/5-pt, focus mode only): an
+  early first hint tap shows three self-questions; the next tap gives the
+  hint. Friction, never a lock.
+- **Worked-example fading**: `kidSolutionHTML(t, {fade:true})` hides the
+  answer line and, with ≥ 2 steps, the last step; the playlist's worked step
+  shows it above the options ("Paskutinį žingsnį užbaik pats"). Smoke checks
+  that no faded text of the 750 kid solutions contains "Atsakymas:".
+- **Self-explanation after a right answer** (`selfExplainFor`): on ~half of
+  the right first-try 4/5-pointers (stable per question by `keyHash`) the
+  kid picks the idea that solved it – own "Gudrybė:" line vs one from a
+  different trick; the solution waits until picked or "Praleisti".
+  `store.selfExplain = {a, ok}` in the parent view.
+- **Wording**: process praise, no ability praise or "Šaunu!"; "✓ Teisingai."
+  / "Ne šis atsakymas." / "✓ Teisingai – iš antro karto."; outdated "Apie"
+  text rewritten.
+- **Motivation hygiene**: one quiet break nudge after 30 active minutes a day
+  (`BREAK_NUDGE_SEC`, never in a contest/quiz); parent prize help text frames
+  the prize as a celebration of effort (overjustification) and asks for
+  process praise; the today tab has one primary action; first run opens the
+  newest practice paper at Q1 in focus mode instead of a generated quiz.
+- **Browser testing tip**: `_phone.html` (git-ignored) is a 375 px iframe
+  harness on `python -m http.server`. The app saves on unload – set
+  `_storeFrozen = true` in the frame before clearing or restoring
+  localStorage, or the reload writes the old in-memory store back.

@@ -1469,6 +1469,10 @@ section("kids' UX pass: focus mode, view hook");
     check("self-explanation: feedback names the right idea, solution shown", c.includes("Šiam tiko:") && c.includes("kid-sol"));
     delete st.archiveAnswers[`${t.year}-${qs.num}`];
   }
+  for(const q of t.questions) st.archiveAnswers[`${t.year}-${q.num}`] = {chosen: q.correct, chosenLetter: q.correct, submitted: true};
+  app.renderArchiveYear(); h = app.$app.innerHTML;
+  check("whole paper answered: summary by block", h.includes("uždaviniai išspręsti") && h.includes("10/10</b><span>3 t. blokas"));
+  for(const q of t.questions) delete st.archiveAnswers[`${t.year}-${q.num}`];
   check("worked-example fading never shows the answer line", faded > 700 && leaks === 0, `${leaks} of ${faded}`);
   const v = st.view; st.view = "plan"; st.view = v;
   check("state.view stays a plain readable property", st.view === v && Object.keys(st).includes("view"));
