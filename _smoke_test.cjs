@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
 `;
 let app;
 try {
@@ -1192,7 +1192,11 @@ section("contest results render");
   st.contestQuestions.forEach((q, i) => { if(i % 2) st.contestAnswers[q.num] = q.correct === "A" ? "B" : "A"; });
   st.contestTimes = Object.fromEntries(st.contestQuestions.map((q, i) => [q.num, (q.points === 3 ? 90 : q.points === 4 ? 150 : 240) * 1000]));
   let ok = true; try { app.finishContest(false); } catch(e){ ok = false; console.log(e.message); }
-  check("finishContest renders", ok && app.$app.innerHTML.includes("klaidų sąsiuvinį"));
+  check("finishContest renders", ok && app.$app.innerHTML.includes("Antras bandymas – prieš žiūrint sprendimus"));
+  check("solutions fold until the second attempt", !app.$app.innerHTML.includes("klaidų sąsiuvinį") && app.$app.innerHTML.includes("contestShowSol"));
+  st._showContestSolutions = true; app.renderContestResults();
+  check("solutions on request", app.$app.innerHTML.includes("klaidų sąsiuvinį"));
+  check("second attempt sits above the solutions", app.$app.innerHTML.indexOf("contestRetry") < app.$app.innerHTML.indexOf("Klaidos ("));
   { const lastC = app.store.contests[app.store.contests.length - 1]; check("time breakdown on results", app.$app.innerHTML.includes("Kur dingo laikas") && app.$app.innerHTML.includes("Ilgiausiai užtrukai") && Math.abs(lastC.timeByBand[3] - 900000) < 1000); }
   check("strategy notes on results", app.$app.innerHTML.includes("Strategijos pastabos"));
   app.store.contests.pop(); app.store.mistakes = {};

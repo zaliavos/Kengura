@@ -6617,12 +6617,12 @@ function renderContest(){
       <div class="footer-actions">
         <div class="row">
           ${idx > 0 ? `<button class="btn ghost small" id="contestPrev">← Ankstesnis</button>` : ''}
-          ${idx < total-1 ? `<button class="btn small" id="contestNext">Kitas →</button>` : ''}
-          <button class="btn small ghost" id="contestSkip">Praleisti (atsakyti vėliau)</button>
           <button class="btn small ghost" id="contestFlag" title="Pažymėk, jei abejoji – juostelėje matysis raudonas brūkšnys">${(state.contestFlags || {})[q.num] ? '🚩 Nuimti žymę' : '🚩 Abejoju – grįšiu'}</button>
         </div>
         <div class="row">
-          <button class="btn primary" id="contestFinish">Baigti</button>
+          ${(() => { const all = qs.every(qq => state.contestAnswers[qq.num]);
+            return `<button class="btn ${all ? 'ghost' : 'primary'}" id="contestSkip" title="Į kitą neatsakytą – praleistą galėsi atsakyti vėliau">Kitas →</button>
+            <button class="btn ${all ? 'primary' : 'ghost'}" id="contestFinish">Baigti</button>`; })()}
         </div>
       </div>
     </section>
@@ -6702,6 +6702,7 @@ function contestElimination(qs){
 }
 
 function finishContest(byTimer){
+  state._showContestSolutions = false;   // a new paper: solutions fold again until its second attempt
   if(state._contestTimerInterval){ clearInterval(state._contestTimerInterval); state._contestTimerInterval = null; }
   creditContestTime();
   const times = state.contestTimes || {};
@@ -6815,6 +6816,8 @@ function renderContestResults(){
   const wrongs = qs.filter(q => state.contestAnswers[q.num] && state.contestAnswers[q.num] !== q.correct);
   const skipped = qs.filter(q => !state.contestAnswers[q.num]);
   const pct = Math.round(100*r.correct/r.total);
+  // solutions wait behind a fold until the second attempt is done (or skipped)
+  const retryPending = (() => { const rec = (store.contests || []).find(x => x.when === r.when) || r; return !rec.retry && contestRetryItems(rec).length > 0 && !state._showContestSolutions; })();
 
   $app.innerHTML = `
     <section class="card">
@@ -6829,9 +6832,18 @@ function renderContestResults(){
         <div class="stat"><b>${fmtPts(r.scoreWithPenalty)} / ${r.maxPoints}</b><span>Su −25 % bauda</span></div>
         <div class="stat"><b>${r.points} / ${r.maxPoints}</b><span>Be baudos</span></div>
         <div class="stat"><b>${r.answered}</b><span>Atsakyta · ${qs.length - r.answered} praleista</span></div>
-        ${r.practisedBefore != null ? `<div class="stat" ${r.practisedBefore >= 6 ? 'style="border-color:var(--accent)"' : ''}><b>${r.practisedBefore} / ${r.total}</b><span>matyta treniruotėse anksčiau${r.practisedBefore >= 6 ? ' · rezultatas gali būti pagražintas' : ' · švarus matavimas'}</span></div>` : ''}
+        ${r.practisedBefore != null ? `<div class="stat" ${r.practisedBefore >= 6 ? 'style="border-color:var(--accent)"' : ''}><b>${r.practisedBefore} / ${r.total}</b><span>matyta treniruotėse anksčiau${r.practisedBefore >= 6 ? ' · dalis jau matyta, tad tikras lygis gali būti žemesnis' : ' · švarus matavimas'}</span></div>` : ''}
       </div>
     </section>
+
+    ${(() => {
+      const rec = (store.contests || []).find(x => x.when === r.when) || r;
+      if(rec.retry) return `<section class="card"><h3>🔁 Antras bandymas</h3><p style="margin:0">Be laikrodžio išsprendei ${rec.retry.ok} iš ${rec.retry.n}${rec.retry.pts ? ` – <b>+${rec.retry.pts} t.</b>, prarasti dėl laiko ar skubėjimo` : ''}.</p></section>`;
+      const n = contestRetryItems(rec).length;
+      return n ? `<section class="card" style="border-color:var(--accent)"><h3>🔁 Antras bandymas – prieš žiūrint sprendimus</h3>
+        <p style="margin:0 0 8px">Pabandyk dar kartą ${n} ${pluralForm(n,'uždavinį','uždavinius','uždavinių')}, kuriuos praleidai ar suklydai – be laikrodžio. Sužinosi, kiek taškų nubėgo dėl laiko, o kiek – dėl to, ko dar nemoki. Sprendimai kol kas suskleisti – atsiversi juos po antro bandymo.</p>
+        <button class="btn primary small" id="contestRetry">🔁 Spręsti dar kartą</button></section>` : '';
+    })()}
 
     <section class="card">
       <h3>Pagal sudėtingumą</h3>
@@ -6840,7 +6852,7 @@ function renderContestResults(){
         if(!x.total) return '';
         const p = Math.round(100*x.ok/x.total);
         return `<div class="cat-row">
-          <span>${b} t. (${x.total} kl.)</span>
+          <span>${b} t. (${x.total} užd.)</span>
           <div class="bar"><div style="width:${p}%;background:${p>=70?'var(--good)':p>=40?'var(--accent)':'var(--bad)'}"></div></div>
           <span class="pill ${p>=70?'good':p>=40?'muted':'bad'}">${x.ok}/${x.total}</span>
         </div>`;
@@ -6878,20 +6890,12 @@ function renderContestResults(){
       if(stuck) notes.push(`Prie ${stuck.q.num} uždavinio (${stuck.q.points} t.) sugaišai ${Math.round(stuck.ms / 60000)} min. Kitą kartą po ~3 min pažymėk 🚩 ir eik toliau – grįši, jei liks laiko.`);
       if(r.timeByBand && r.timeByBand[3] > 20 * 60000) notes.push('3 t. blokui sugaišai daugiau nei 20 min – likusiems laiko lieka per mažai. Treniruok „Greičio sprintą“.');
       if(r.elim && r.elim.n >= 2) notes.push(`Išbraukęs bent du variantus, atsakei ${r.elim.n} ${pluralForm(r.elim.n,'kartą','kartus','kartų')} – teisingai ${r.elim.ok}. ${r.elim.ok * 3 >= r.elim.n ? 'Taip ir reikia: iš likusių trijų pataikai bent kas trečią kartą, o bauda tik ¼ – toks spėjimas apsimoka.' : 'Iš likusių trijų atsitiktinai pataikoma kas trečią kartą – patikrink, ar neišbraukei teisingo varianto per skubėdamas.'}`);
-      if(!notes.length && r.answered >= 25 && pct >= 60) notes.push('Strategija gera: atsakei į daug klausimų ir dažniausiai teisingai. Taip ir toliau!');
+      if(!notes.length && r.answered >= 25 && pct >= 60) notes.push('Strategija gera: atsakei į daug uždavinių ir dažniausiai teisingai.');
       return notes.length ? `<section class="card"><h3>🎯 Strategijos pastabos</h3><ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${notes.map(n => `<li>${n}</li>`).join('')}</ul></section>` : '';
     })()}
 
-    ${(() => {
-      const rec = (store.contests || []).find(x => x.when === r.when) || r;
-      if(rec.retry) return `<section class="card"><h3>🔁 Antras bandymas</h3><p style="margin:0">Be laikrodžio išsprendei ${rec.retry.ok} iš ${rec.retry.n}${rec.retry.pts ? ` – <b>+${rec.retry.pts} t.</b>, prarasti dėl laiko ar skubėjimo` : ''}.</p></section>`;
-      const n = contestRetryItems(rec).length;
-      return n ? `<section class="card" style="border-color:var(--accent)"><h3>🔁 Antras bandymas – prieš žiūrint sprendimus</h3>
-        <p style="margin:0 0 8px">Pabandyk dar kartą ${n} ${pluralForm(n,'uždavinį','uždavinius','uždavinių')}, kuriuos praleidai ar suklydai – be laikrodžio. Sužinosi, kiek taškų nubėgo dėl laiko, o kiek – dėl to, ko dar nemoki. Žemiau esančių sprendimų kol kas nežiūrėk!</p>
-        <button class="btn primary small" id="contestRetry">🔁 Spręsti dar kartą</button></section>` : '';
-    })()}
-
-    ${wrongs.length ? `
+    ${retryPending && (wrongs.length || skipped.length) ? `<section class="card"><button class="btn small ghost" id="contestShowSol">Vis tiek rodyti sprendimus</button></section>` : ''}
+    ${wrongs.length && !retryPending ? `
     <section class="card">
       <h3>Klaidos (${wrongs.length})</h3>
       ${wrongs.map(q => {
@@ -6914,7 +6918,7 @@ function renderContestResults(){
       ${r.queued ? `<p class="help-bar">✓ ${r.queued} ${pluralForm(r.queued,'klaidą','klaidas','klaidų')} pakartosi nuo rytojaus – apšilimuose, po ${CONTEST_REVIEW_PER_DAY} per dieną.</p>` : ''}
     </section>` : ''}
 
-    ${skipped.length ? `
+    ${skipped.length && !retryPending ? `
     <section class="card">
       <h3>Praleisti (${skipped.length})</h3>
       <p class="help-bar">Praleisti = 0 taškų, bet be baudos. Dažnai geriau praleisti nei atsitiktinai spėti.</p>
@@ -6974,6 +6978,8 @@ function renderContestResults(){
   document.getElementById("contestBack").addEventListener("click", ()=>{
     state.view = "home"; renderHome();
   });
+  const showSol = document.getElementById("contestShowSol");
+  if(showSol) showSol.addEventListener("click", ()=>{ state._showContestSolutions = true; renderContestResults(); });
   const retry = document.getElementById("contestRetry");
   if(retry) retry.addEventListener("click", ()=> openContestRetry(r.when));
 }
@@ -7196,7 +7202,7 @@ function renderParent(){
           <input type="date" id="pContestDate" value="${store.plan.contestDate || ''}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
         </label>
         ${days != null
-          ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `liko ${days} d.` : days === 0 ? 'ŠIANDIEN!' : 'jau praėjo'}</span>`
+          ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `liko ${days} d.` : days === 0 ? 'šiandien' : 'jau praėjo'}</span>`
           : `<button class="btn small" id="pDateSuggest" title="Tarptautinė Kengūros diena – trečiasis kovo ketvirtadienis. Tikslią datą patikrinkite mokykloje.">Siūloma: ${new Date(suggestedContestDate() + "T12:00").toLocaleDateString("lt-LT")}</button>`}
         <label style="font-size:14px">Kontrolinio diena:
           <select id="pWeekday" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
@@ -9275,39 +9281,11 @@ function renderPlan(){
     <section class="card">
       <button class="nav-back" id="planBack">← Į pradžią</button>
       <h2>📅 Treniruočių planas</h2>
-      <div class="row" style="align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap">
-        <label style="font-size:14px">Konkurso data:
-          <input type="date" id="contestDateInput" value="${store.plan.contestDate || ''}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
-        </label>
-        ${days != null
-          ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `liko ${days} d.` : days === 0 ? 'ŠIANDIEN!' : 'jau praėjo'}</span>`
-          : `<span class="help-bar">Nustačius datą planas pats parinks etapą: pamatai → gudrybės → finišas.</span>
-             <button class="btn small" id="contestDateSuggest" title="Tarptautinė Kengūros diena – trečiasis kovo ketvirtadienis. Tikslią datą patikrinkite mokykloje.">Siūloma: ${new Date(suggestedContestDate() + "T12:00").toLocaleDateString("lt-LT")}</button>`}
-        <label style="font-size:14px">Kontrolinio diena:
-          <select id="contestWeekdaySel" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
-            ${[1,2,3,4,5,6,0].map(d => `<option value="${d}" ${d === wd ? 'selected' : ''}>${WEEKDAY_LONG[d]}</option>`).join('')}
-          </select>
-        </label>
+      <div class="row" style="align-items:center;gap:8px;flex-wrap:wrap">
+        ${days != null ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `iki konkurso ${days} d.` : days === 0 ? 'konkursas šiandien' : 'konkursas jau praėjo'}</span>` : ''}
+        <span class="phase-pill ${ph.cls}">${ph.icon} ${ph.label}</span>
       </div>
-      <div class="row" style="align-items:center;gap:6px;margin:6px 0;flex-wrap:wrap">
-        <span style="font-size:14px">Treniruočių dienos:</span>
-        ${[1,2,3,4,5,6,0].map(dd => `<button class="btn small ${isTrainingDay(new Date(2024, 0, 7 + dd)) ? 'primary' : ''}" data-train-day="${dd}" title="${WEEKDAY_LONG[dd]}">${WEEKDAY_SHORT[dd]}</button>`).join('')}
-        ${!isTrainingDay(new Date(2024, 0, 7 + wd)) ? `<span class="pill bad">kontrolinio diena nėra treniruočių diena – kontrolinis persikels į artimiausią</span>` : ''}
-      </div>
-      <div style="margin:10px 0 4px">
-        <span class="phase-pill ${ph.cls}">${ph.icon} Etapas: ${ph.label}</span>
-        ${days != null && days >= 0 ? `<span class="help-bar" style="margin-left:8px">${phase === 'foundation' ? 'iki 60 d. prieš konkursą' : phase === 'build' ? `60–${planTaperDays()+1} d. prieš konkursą` : `paskutinės ${planTaperDays()} d.`}</span>` : ''}
-      </div>
-      <p style="margin:6px 0;font-size:14px">${ph.blurb}</p>
-      ${planTimelineHTML()}
-      ${weekStripHTML()}
-      <p class="help-bar">Savaitė: ✅ visa treniruotė · 🟠 šiek tiek dirbta · 📝 kontrolinio diena. Skaičius – tos dienos žvaigždės.</p>
-      ${trend.length
-        ? `<p style="margin:6px 0">Kontrolinių kreivė: <b>${trend.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(' → ')}</b> t. (iš ${trend[trend.length-1].maxPoints})${trend.length >= 2 && trend[trend.length-1].scoreWithPenalty > trend[0].scoreWithPenalty ? ' 📈' : ''}</p>`
-        : `<p class="help-bar">Atlik kontrolinį – čia matysi rezultatų kreivę.</p>`}
-    </section>
-    <section class="card">
-      <h3>Šiandienos treniruotė${steps.some(s => s.act === 'contest') ? ' – kontrolinio diena' : ''} (~${planMinutes(steps)} min)</h3>
+      <h3 style="margin-top:12px">Šiandienos treniruotė${steps.some(s => s.act === 'contest') ? ' – kontrolinio diena' : ''} (~${planMinutes(steps)} min)</h3>
       ${!steps.length ? `<div class="recent-mastery" style="background:#f3f0ff;border-color:#b9a7f0">🛌 Šiandien pagal tvarkaraštį – poilsio diena. Nori paspręsti? Pradžios puslapyje viskas atvira, bet planas neverčia.</div>` : ''}
       ${steps.map((s, i) => `
         <div class="cat-row plan-step">
@@ -9316,13 +9294,49 @@ function renderPlan(){
             ? `<span class="pill good">atlikta</span>`
             : `<button class="btn small ${s.act === 'none' ? '' : 'primary'}" data-plan-step="${s.id}">${s.act === 'none' ? 'Pažymėti' : s.act === 'strategy' ? 'Skaityti' : 'Pradėti'}</button>`}
         </div>`).join('')}
-      ${allDone ? `<div class="recent-mastery">🎉 Šiandienos treniruotė atlikta! Gavai +${PLAN_DAY_BONUS} ⭐ ir žaidimų bilietą. Iki rytojaus.</div>` : `<p class="help-bar" style="margin-top:8px">Užbaigęs visus žingsnius gausi <b>+${PLAN_DAY_BONUS} ⭐</b> ir <b>žaidimų bilietą</b> 🎟 (lenktynės arba šuolis be 5 klausimų vartų).</p>`}
+      ${allDone ? `<div class="recent-mastery">Šiandienos treniruotė atlikta. Gavai +${PLAN_DAY_BONUS} ⭐ ir žaidimų bilietą. Iki rytojaus.</div>` : `<p class="help-bar" style="margin-top:8px">Užbaigęs visus žingsnius gausi <b>+${PLAN_DAY_BONUS} ⭐</b> ir <b>žaidimų bilietą</b> 🎟 (žaidimas be 5 uždavinių iššūkio).</p>`}
+    </section>
+    <section class="card">
+      ${weekStripHTML()}
+      <p class="help-bar">Savaitė: ✅ visa treniruotė · 🟠 šiek tiek dirbta · 📝 kontrolinio diena. Skaičius – tos dienos žvaigždės.</p>
+      ${trend.length
+        ? `<p style="margin:6px 0">Kontrolinių kreivė: <b>${trend.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(' → ')}</b> t. (iš ${trend[trend.length-1].maxPoints})${trend.length >= 2 && trend[trend.length-1].scoreWithPenalty > trend[0].scoreWithPenalty ? ' 📈' : ''}</p>`
+        : `<p class="help-bar">Atlik kontrolinį – čia matysi rezultatų kreivę.</p>`}
+    </section>
+    <details class="card" id="planSettings"${days == null && !META.parentPin ? ' open' : ''}>
+      <summary><b>Plano nustatymai</b> <span class="help-bar">data, dienos, etapai – tėvams</span></summary>
+      ${META.parentPin ? `<p class="help-bar" style="margin:6px 0 0">🔒 Datą, kontrolinio dieną ir treniruočių dienas keičia tėvai (skiltis „Tėvams“).</p>` : ''}
+      <div class="row" style="align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap">
+        <label style="font-size:14px">Konkurso data:
+          <input type="date" id="contestDateInput" value="${store.plan.contestDate || ''}"${META.parentPin ? ' disabled' : ''} style="font:inherit;padding:6px 8px">
+        </label>
+        ${days != null
+          ? `<span class="pill ${days <= 14 && days >= 0 ? 'bad' : ''}">${days > 0 ? `liko ${days} d.` : days === 0 ? 'šiandien' : 'jau praėjo'}</span>`
+          : `<span class="help-bar">Nustačius datą planas pats parinks etapą: pamatai → gudrybės → finišas.</span>
+             <button class="btn small" id="contestDateSuggest"${META.parentPin ? ' disabled' : ''} title="Tarptautinė Kengūros diena – trečiasis kovo ketvirtadienis. Tikslią datą patikrinkite mokykloje.">Siūloma: ${new Date(suggestedContestDate() + "T12:00").toLocaleDateString("lt-LT")}</button>`}
+        <label style="font-size:14px">Kontrolinio diena:
+          <select id="contestWeekdaySel"${META.parentPin ? ' disabled' : ''} style="font:inherit;padding:6px 8px">
+            ${[1,2,3,4,5,6,0].map(d => `<option value="${d}" ${d === wd ? 'selected' : ''}>${WEEKDAY_LONG[d]}</option>`).join('')}
+          </select>
+        </label>
+      </div>
+      <div class="row" style="align-items:center;gap:6px;margin:6px 0;flex-wrap:wrap">
+        <span style="font-size:14px">Treniruočių dienos:</span>
+        ${[1,2,3,4,5,6,0].map(dd => `<button class="btn small ${isTrainingDay(new Date(2024, 0, 7 + dd)) ? 'primary' : ''}" data-train-day="${dd}" title="${WEEKDAY_LONG[dd]}"${META.parentPin ? ' disabled' : ''}>${WEEKDAY_SHORT[dd]}</button>`).join('')}
+        ${!isTrainingDay(new Date(2024, 0, 7 + wd)) ? `<span class="pill bad">kontrolinio diena nėra treniruočių diena – kontrolinis persikels į artimiausią</span>` : ''}
+      </div>
+      <div style="margin:10px 0 4px">
+        <span class="phase-pill ${ph.cls}">${ph.icon} Etapas: ${ph.label}</span>
+        ${days != null && days >= 0 ? `<span class="help-bar" style="margin-left:8px">${phase === 'foundation' ? 'iki 60 d. prieš konkursą' : phase === 'build' ? `60–${planTaperDays()+1} d. prieš konkursą` : `paskutinės ${planTaperDays()} d.`}</span>` : ''}
+      </div>
+      <p style="margin:6px 0;font-size:14px">${ph.blurb}</p>
+      ${planTimelineHTML()}
       <p class="help-bar" style="margin-top:10px">${phase === 'taper'
         ? 'Finišo etape naujų gudrybių nėra: pirma – kur klydai, tada mišrūs rinkiniai ir sprintai. Likus 3 d. – paskutinis kontrolinis, dieną prieš – poilsis.'
         : phase === 'foundation'
           ? 'Pamatų etape sprintai būna tol, kol 3 t. uždaviniai dar lėti; kitomis dienomis – nauja gudrybė. Klaidų pakartojimai – apšilime; visą dieną jie užima tik susikaupus 10 ir daugiau.'
           : 'Planas kasdien perskaičiuojamas: apšilime – klaidų pakartojimai, pagrindinėje dalyje – greitis (jei 3 t. lėti) arba kita gudrybė iš mokymosi tako.'}</p>
-    </section>
+    </details>
   `;
   document.getElementById("planBack").addEventListener("click", ()=>{ state.view = "home"; renderHome(); });
   const sug = document.getElementById("contestDateSuggest");
@@ -9337,6 +9351,7 @@ function renderPlan(){
     renderPlan();
   });
   $app.querySelectorAll("[data-train-day]").forEach(btn => btn.addEventListener("click", ()=>{
+    if(META.parentPin) return;
     const dd = parseInt(btn.dataset.trainDay, 10);
     let td = (store.plan.trainingDays || [0,1,2,3,4,5,6]).slice();
     if(td.includes(dd)){ if(td.length <= 2) return; td = td.filter(x => x !== dd); } else td.push(dd);
