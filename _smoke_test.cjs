@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openThinkDrill, buildThinkItems, renderThink, reservedYears, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openThinkDrill, buildThinkItems, renderThink, reservedYears, recallDeck, openRecallCards, ifThenCardHTML, ifThenLine, parentAskToday, renderContestIntro, renderPlan, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
 `;
 let app;
 try {
@@ -1544,6 +1544,36 @@ section("second kids' pass: a11y, sets, streak, gate, thinking drill");
   check("badges are buttons with how-to labels", h.includes('class="ach-badge') && h.includes("data-badge=") && !/<div class="ach-badge/.test(h));
   check("contest tab recommends one paper", h.includes("Kitas kontrolinis:"));
   check("thinking drills have a door", h.includes('id="thinkBtn"') && h.includes('id="recogHomeBtn"'));
+  check("figures carry a pen button (not in the parent card)", app.questionBodyHTML(t.questions[4]).includes("data-draw=") && !app.questionBodyHTML(t.questions[4], {draw: false}).includes("data-draw="));
+  // prequestion: a look at the try problem before the trick
+  app.openPlaylist(mech); h = app.$app.innerHTML;
+  check("playlist starts with a look at the problem", st.playlistStep === 0 && h.includes("Pirmiausia – pusė minutės") && h.includes('id="plPeeked"') && !h.includes("methodology"));
+  st.playlistPeeked = true; app.renderPlaylist(); h = app.$app.innerHTML;
+  check("then the trick", h.includes("methodology") && h.includes("Gudrybė"));
+  st.playlistStep = 2; app.renderPlaylist(); h = app.$app.innerHTML;
+  check("try step names the same problem", h.includes("Tas pats uždavinys, kurį matei pradžioje"));
+  app.stopPlaylistTimer && app.stopPlaylistTimer();
+  // if-then week goal
+  const keepIT = store.ifThen;
+  store.ifThen = {week: "1999-01-04", wish: "x", obstacle: "y", plan: "z"};
+  check("an old week's plan is not shown", app.ifThenLine() === "");
+  const mon = new Date(); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));
+  store.ifThen = {week: dk(mon), wish: "3 penkiataškiai", obstacle: "užstringu", plan: "nusipiešiu brėžinį"};
+  check("this week's plan shows as kai…tada", app.ifThenLine().includes("kai užstringu, tada nusipiešiu brėžinį"));
+  app.renderContestIntro(t.year); h = app.$app.innerHTML;
+  check("contest intro: plan line + optional worry note", h.includes("kai užstringu") && h.includes("Neramu?") && h.includes("<textarea"));
+  store.ifThen = keepIT;
+  st.view = "home"; app.renderHome();
+  // parent: one question to ask today
+  const keepSeen = store.seenQ[`2019-23`];
+  store.seenQ[`2019-23`] = Date.now();
+  const ask = app.parentAskToday();
+  check("parent ask-today: an unseen 3/4-pt question on a trick met today", ask && ask.q.points <= 4 && !((store.seenQ[`${ask.year}-${ask.q.num}`] || 0) > Date.now() - 14 * 86400000) && Object.entries(store.seenQ).some(([k, ts]) => ts > Date.now() - 86400000 && (() => { const [yy, nn] = k.split("-"); const tt = app.ARCHIVE.find(x => String(x.year) === yy); const qq = tt && tt.questions.find(x => x.num === Number(nn)); return qq && qq.mechanic === ask.q.mechanic; })()));
+  if(keepSeen) store.seenQ[`2019-23`] = keepSeen; else delete store.seenQ[`2019-23`];
+  // plan view: today's steps first, settings folded
+  app.renderPlan(); h = app.$app.innerHTML;
+  check("plan view leads with today's steps", h.indexOf("Šiandienos treniruotė") < h.indexOf('id="planSettings"'));
+  st.view = "home"; app.renderHome();
 }
 
 section("corrupt save is kept, not overwritten");
