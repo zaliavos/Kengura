@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor};
 `;
 let app;
 try {
@@ -1448,6 +1448,28 @@ section("kids' UX pass: focus mode, view hook");
   st.archiveAnswers[`2019-7`] = {firstWrong: miss, chosen: q7.correct, chosenLetter: q7.correct, submitted: true}; app.renderArchiveYear(); h = app.$app.innerHTML;
   check("second try: right on the second go is named", h.includes("iš antro karto") && h.includes(`opt wrong" data-letter="${miss}"`));
   store.settings.archiveList = false; delete st.archiveAnswers[`2019-5`]; delete st.archiveAnswers[`2019-7`];
+  const q25 = t.questions.find(q => q.num === 25), q3 = t.questions.find(q => q.num === 2);
+  check("try first: early tap on a 5-pointer, not on a 3-pointer, not after a miss or the note", app.tryFirstPending(q25, {shownAt: Date.now() - 10000}) && !app.tryFirstPending(q3, {shownAt: Date.now() - 10000})
+    && !app.tryFirstPending(q25, {shownAt: Date.now() - 100000}) && !app.tryFirstPending(q25, {shownAt: Date.now(), firstWrong: "A"}) && !app.tryFirstPending(q25, {shownAt: Date.now(), tryFirstNote: true}));
+  st.archiveAnswers[`2019-25`] = {shownAt: Date.now(), tryFirstNote: true}; app.goArchiveQ(25);
+  check("try first: self-questions shown", app.$app.innerHTML.includes("Prieš užuominą – trys klausimai sau"));
+  delete st.archiveAnswers[`2019-25`];
+  let leaks = 0, faded = 0;
+  for(const tt of app.ARCHIVE) for(const qq of tt.questions){ if(!qq.solutionKid) continue; faded++;
+    const fh = app.kidSolutionHTML(qq.solutionKid, {fade: true}); if(/Atsakymas:/.test(fh) || !fh.includes("kid-gap")) leaks++; }
+  {
+    const qs = t.questions.find(q => app.selfExplainFor(t.year, q));
+    let n = 0; for(const tt of app.ARCHIVE) for(const qq of tt.questions) if(app.selfExplainFor(tt.year, qq)) n++;
+    check("self-explanation offered on a share of 4/5-pointers", qs && n > 100 && n < 450, `${n}`);
+    st.archiveAnswers[`${t.year}-${qs.num}`] = {chosen: qs.correct, chosenLetter: qs.correct, submitted: true}; app.goArchiveQ(qs.num);
+    let c = app.$app.innerHTML.split(`data-qnum="${qs.num}"`)[1].split("</section>")[0];
+    check("self-explanation holds the solution back until answered", c.includes("Kuri mintis tave atvedė") && c.includes('data-se="own"') && !c.includes("kid-sol"));
+    st.archiveAnswers[`${t.year}-${qs.num}`].seAnswer = "other"; app.renderArchiveYear();
+    c = app.$app.innerHTML.split(`data-qnum="${qs.num}"`)[1].split("</section>")[0];
+    check("self-explanation: feedback names the right idea, solution shown", c.includes("Šiam tiko:") && c.includes("kid-sol"));
+    delete st.archiveAnswers[`${t.year}-${qs.num}`];
+  }
+  check("worked-example fading never shows the answer line", faded > 700 && leaks === 0, `${leaks} of ${faded}`);
   const v = st.view; st.view = "plan"; st.view = v;
   check("state.view stays a plain readable property", st.view === v && Object.keys(st).includes("view"));
   st.view = "home"; app.renderHome();

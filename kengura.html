@@ -99,6 +99,9 @@
   .kid-sol p{margin:6px 0 0;line-height:1.5}
   .kid-sol .kid-trick{font-weight:600}
   .kid-sol .kid-answer{font-weight:600}
+  .self-explain .se-opts{display:grid;gap:6px;margin-top:6px}
+  .self-explain .se-opt{text-align:left;font-weight:500;white-space:normal;line-height:1.35}
+  .kid-sol .kid-gap{border:1px dashed var(--accent);border-radius:8px;padding:6px 10px;background:#fff;color:var(--accent);font-weight:600}
   .fig-zoom{position:fixed;inset:0;z-index:1000;background:rgba(20,16,10,.85);overflow:auto;-webkit-overflow-scrolling:touch;cursor:zoom-out}
   .fig-zoom img{display:block;margin:48px auto 24px;background:#fff;border-radius:6px;max-width:none}
   .fig-zoom .fig-zoom-close{position:fixed;top:8px;right:10px;font-size:22px;line-height:1;padding:8px 12px;border:0;border-radius:10px;background:#fff;color:#222;cursor:pointer}
@@ -3590,6 +3593,7 @@ let _lastStarSaveAt = 0;
 // page left open on the table is not learning time.
 const STAR_IDLE_MS = 5 * 60000;
 let _lastInputAt = Date.now();
+const BREAK_NUDGE_SEC = 30 * 60;
 function startStarTimeHeartbeat(){
   if(typeof document !== "undefined" && document.addEventListener){
     for(const ev of ["pointerdown", "keydown", "scroll", "touchstart"])
@@ -3602,7 +3606,14 @@ function startStarTimeHeartbeat(){
     const s = store.stars;
     s._timeSecRem = (s._timeSecRem || 0) + STAR_TIME_TICK_SEC;
     // active seconds per day – the parent view shows minutes, not just counts
-    { const a = store.activity[todayKey()] = store.activity[todayKey()] || {answered:0, correct:0}; a.sec = (a.sec || 0) + STAR_TIME_TICK_SEC; }
+    { const a = store.activity[todayKey()] = store.activity[todayKey()] || {answered:0, correct:0}; a.sec = (a.sec || 0) + STAR_TIME_TICK_SEC;
+      // ~30 active minutes: one quiet nudge a day (never inside a timed paper or test) –
+      // attention at 11–12 fades, and spacing beats one long session
+      if(a.sec >= BREAK_NUDGE_SEC && !a.breakNudged && state.view !== "contest" && state.view !== "quiz"){
+        a.breakNudged = true;
+        showToast("🧠", "Jau pusvalandis treniruotės. Užbaik šį uždavinį ir padaryk pertrauką – pailsėjusi galva įsimena geriau.", 7000);
+      }
+    }
     let gained = 0;
     while(s._timeSecRem >= 60){ s._timeSecRem -= 60; gained++; }
     if(gained){
@@ -4561,6 +4572,14 @@ function renderArchiveYear(){
 
     const hintBtn = card.querySelector("[data-action=hint]");
     if(hintBtn) hintBtn.addEventListener("click", ()=>{
+      const curA = state.archiveAnswers[key] || {};
+      if(tryFirstPending(q, curA)){
+        // productive struggle: an early first tap gets questions to ask
+        // yourself; the next tap opens the hint (never a lock)
+        state.archiveAnswers[key] = {...curA, tryFirstNote: true};
+        renderArchiveYear();
+        return;
+      }
       const tier = Math.min(3, (state.archiveAnswers[key]?.hintTier || 0) + 1);
       state.archiveAnswers[key] = {...(state.archiveAnswers[key]||{}), hintTier: tier};
       renderArchiveYear();
@@ -4582,10 +4601,22 @@ function renderArchiveYear(){
       });
     });
 
+    card.querySelectorAll("[data-se]").forEach(b => b.addEventListener("click", ()=>{
+      const pick = b.dataset.se;
+      state.archiveAnswers[key] = {...(state.archiveAnswers[key] || {}), seAnswer: pick};
+      if(pick !== "skip"){
+        const s = store.selfExplain = store.selfExplain || {a: 0, ok: 0};
+        s.a++; if(pick === "own") s.ok++;
+        saveStore(store);
+      }
+      renderArchiveYear();
+    }));
+
     const revealBtn = card.querySelector("[data-action=reveal]");
     if(revealBtn) revealBtn.addEventListener("click", ()=>{
       const cur = state.archiveAnswers[key] || {};
       state.archiveAnswers[key] = {...cur, submitted: true, chosen: cur.firstWrong, chosenLetter: cur.firstWrong};
+      noteSecondTry(false);
       renderArchiveYear();
     });
 
@@ -4613,6 +4644,7 @@ function renderArchiveYear(){
         saveStore(store);
       }
       // mechanic-level stats + spaced-repetition queue + confidence
+      if(q.correct && !firstTry) noteSecondTry(right);
       if(q.correct){
         if(firstTry) recordArchiveAnswer(year, q, right, cur.confidence);
         Sfx.play(right ? "correct" : "wrong");
@@ -4653,6 +4685,47 @@ function renderArchiveYear(){
       }, 60);
     });
   });
+}
+
+/* Self-explanation after a right answer (2026-10-17): on about half of the
+   right first-try 4/5-pointers the kid picks which idea solved it – this
+   question's own "Gudrybė:" line or one from a question with another trick.
+   Explaining a correct solution is the cheap half of self-explanation that
+   the "why did you slip?" chips never reach. */
+function keyHash(s){ return [...String(s)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7); }
+let _seIdeas = null;
+function selfExplainFor(year, q){
+  const own = (q.points || 3) >= 4 ? kidIdeaOf(q) : null;
+  if(!own || !q.mechanic) return null;
+  const h = keyHash(`${year}-${q.num}`);
+  if(h % 2) return null;
+  if(!_seIdeas){
+    _seIdeas = [];
+    for(const t of ARCHIVE) for(const x of t.questions){
+      const idea = (x.points || 3) >= 4 && x.mechanic ? kidIdeaOf(x) : null;
+      if(idea) _seIdeas.push({mech: x.mechanic, idea});
+    }
+  }
+  const pool = _seIdeas.filter(o => o.mech !== q.mechanic && o.idea !== own);
+  if(!pool.length) return null;
+  const other = pool[(h >>> 3) % pool.length];
+  return {own, other: other.idea, otherMech: other.mech, ownFirst: !((h >>> 1) % 2)};
+}
+
+function noteSecondTry(right){
+  const s = store.secondTry = store.secondTry || {a: 0, ok: 0};
+  s.a++; if(right) s.ok++;
+  saveStore(store);
+}
+
+/* Try first (2026-10-17): on a 4/5-pointer seen less than this long ago the
+   first hint tap shows self-questions instead of the hint. Productive-failure
+   research: a short struggle before help makes the help stick. */
+const TRY_FIRST_SEC = {4: 45, 5: 90};
+function tryFirstPending(q, a){
+  const need = TRY_FIRST_SEC[q.points];
+  return !!(need && a && a.shownAt && !a.tryFirstNote && !a.firstWrong && !(a.hintTier > 0)
+    && Date.now() - a.shownAt < need * 1000);
 }
 
 function renderArchiveCard(year, q, focusOpts){
@@ -4783,6 +4856,17 @@ function renderArchiveCard(year, q, focusOpts){
     const solutionIsAi = !q.solutionKid && !q.solution && !!aiSolutionText;
     const opener = right ? '' : growthOpenerFor(q);
     const confidentWrong = !right && ans.confidence === 'a';
+    const se = right && !ans.firstWrong ? selfExplainFor(year, q) : null;
+    const seHold = !!(se && !ans.seAnswer);   // the solution's 💡 line would give it away
+    const seBlock = !se ? '' : !ans.seAnswer
+      ? `<div class="explain self-explain"><b>Kuri mintis tave atvedė prie atsakymo?</b>
+          <div class="se-opts">${(se.ownFirst ? ['own', 'other'] : ['other', 'own']).map(w => `<button class="btn small ghost se-opt" data-se="${w}">${escapeHTML(se[w])}</button>`).join('')}</div>
+          <button class="btn small ghost" data-se="skip" style="margin-top:6px">Praleisti</button></div>`
+      : ans.seAnswer === 'own'
+        ? `<div class="help-bar">✓ Taip – būtent ši mintis veda į atsakymą: ${escapeHTML(se.own)}</div>`
+        : ans.seAnswer === 'other'
+          ? `<div class="help-bar">Ne visai – ta mintis iš kito uždavinio (${escapeHTML(MECHANIC_LABEL[se.otherMech] || se.otherMech)}). Šiam tiko: <b>${escapeHTML(se.own)}</b></div>`
+          : '';
     bottom = `<div class="explain verdict" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
         <b>${right ? (ans.firstWrong ? "✓ Teisingai – iš antro karto." : "✓ Teisingai.") : "Ne šis atsakymas."}</b>${right && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         ${q.correct ? ` Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.` : ''}
@@ -4798,11 +4882,15 @@ function renderArchiveCard(year, q, focusOpts){
           ? `<span class="help-bar" style="margin:0">Užrašyta: ${escapeHTML(MISTAKE_REASONS[picked] || picked)}. Ačiū – žinant priežastį lengviau jos išvengti.</span>`
           : `<b style="font-size:14px">Kodėl, manai, suklydai?</b><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">${Object.entries(MISTAKE_REASONS).map(([id, t]) => `<button class="btn small ghost" data-why="${id}">${escapeHTML(t)}</button>`).join('')}</div>`}</div>`;
       })() : ''}
-      ${finalSolutionText ? `<div class="explain">${solutionBlockHTML(q, aiSolutionText, solutionIsAi)}</div>` : ''}
+      ${seBlock}
+      ${finalSolutionText && !seHold ? `<div class="explain">${solutionBlockHTML(q, aiSolutionText, solutionIsAi)}</div>` : ''}
     `;
   } else {
     // Show all unlocked hint tiers, accumulated.
     const blocks = [];
+    if(ans.tryFirstNote && !hintTier) blocks.push(`<div class="hint try-first"><b>Prieš užuominą – trys klausimai sau:</b>
+      <ol style="margin:6px 0 0 18px;padding:0"><li>Ko tiksliai klausia? Pasakyk savais žodžiais.</li><li>Ką žinau? Užsirašyk skaičius arba nusipiešk.</li><li>Ar galiu patikrinti atsakymų variantus arba išbandyti mažesnį atvejį?</li></ol>
+      <div style="margin-top:6px">Jei vis tiek nežinai, nuo ko pradėti, spausk „Užuomina“ dar kartą.</div></div>`);
     if(ans.firstWrong){
       const note = q.misconceptions && q.misconceptions[ans.firstWrong];
       blocks.push(`<div class="explain verdict retry" style="background:var(--bad-soft);border:1px solid var(--bad)">
@@ -6847,7 +6935,7 @@ function parentAdvice(){
   if(repeat >= 2) tips.push({icon:'📒', text:`${repeat} ${pluralForm(repeat,'uždavinys kartojasi','uždaviniai kartojasi','uždavinių kartojasi')} – ta pati klaida 2+ kartus. Geriausia vieta pasikalbėti: paprašykite vaiko paaiškinti savo sprendimo kelią.`, action:'mistakes', cta:'Sąsiuvinis'});
   const lastPaper = (store.contests || []).slice(-1)[0];
   if(store.plan.contestDate && days != null && days > 7 && (!lastPaper || Date.now() - lastPaper.when > 14 * ONE_DAY_MS)) tips.push({icon:'🕒', text: lastPaper ? 'Paskutinis kontrolinis – prieš daugiau nei dvi savaites. Kontrolinis kartą per savaitę parodo tikrą lygį ir moko tempo.' : 'Kontrolinio dar nebuvo – diagnostinis parodys, nuo ko pradėti.', action:'contestTab', cta:'Kontroliniai'});
-  if(!tips.length) tips.push({icon:'✅', text:'Viskas vyksta pagal planą: treniruotės reguliarios, aiškių silpnų vietų nėra. Palaikykite ritmą ir nepamirškite savaitės prizo.'});
+  if(!tips.length) tips.push({icon:'✅', text:'Viskas vyksta pagal planą: treniruotės reguliarios, aiškių silpnų vietų nėra. Palaikykite ritmą: kartą per savaitę paprašykite vaiko papasakoti, kaip išsprendė jam patikusį uždavinį, ir pagirkite už būdą, ne už gabumus.'});
   return tips.slice(0, 3);
 }
 
@@ -6995,7 +7083,7 @@ function renderParent(){
           <input type="text" id="weeklyRewardInput" maxlength="60" placeholder="pvz., kinas, ledai, žaidimo vakaras" value="${escapeHTML(store.plan.weeklyReward || '')}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;width:100%">
         </label>
       </div>
-      <p class="help-bar" style="margin:0 0 8px">Kasdienė 20–30 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.</p>
+      <p class="help-bar" style="margin:0 0 8px">Kasdienė 20–30 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.<br>Patarimas: prizas tegul būna šventė už pastangas (treniruočių dienas), ne „užmokestis“ už kiekvieną uždavinį – tyrimai rodo, kad iš anksto pažadėtas atlygis už veiklą mažina norą ją daryti savaime. Pagirkite už būdą („gerai, kad nusipiešei“), ne už gabumus („tu genijus“).</p>
       <div class="row" style="align-items:center;gap:14px;flex-wrap:wrap">
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Po atsakymo klausti, kiek vaikas tikras – rodo, ar jis skiria žinojimą nuo spėjimo"><input type="checkbox" id="pAskConf" ${store.settings.askConfidence ? 'checked' : ''}> Klausti pasitikėjimo</label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Testuose atimti 25 % už klaidą, kaip konkurse"><input type="checkbox" id="pNegScore" ${store.settings.negativeScore ? 'checked' : ''}> −25 % už klaidą</label>
@@ -7147,6 +7235,12 @@ function renderParent(){
         </div>`;
       }).join('')}
       ${(()=>{ const cw = Object.values(store.dueQueue || {}).filter(i => i.confWrong).length; return cw ? `<p class="help-bar" style="margin:8px 0 0">„Tikrai žinau“ klaidų pakartojimuose: <b>${cw}</b> – tai klaidingi supratimai, ne atsitiktinumai; jos kartojamos pirmos.</p>` : ''; })()}
+    </section>` : ''}
+
+    ${(store.secondTry && store.secondTry.a) || (store.selfExplain && store.selfExplain.a) ? `<section class="card">
+      <h3>Kaip vaikas taiso klaidas</h3>
+      ${store.secondTry && store.secondTry.a ? `<p style="margin:0 0 6px">🔁 Antras bandymas: po klaidos <b>${store.secondTry.ok} iš ${store.secondTry.a}</b> kartų rado teisingą atsakymą pats, be sprendimo. ${store.secondTry.ok / store.secondTry.a >= 0.5 ? 'Klaidos dažnai būna smulkios – užtenka sustoti ir pažiūrėti dar kartą.' : 'Dažniau prireikia sprendimo – tai normalu 4–5 t. uždaviniuose.'}</p>` : ''}
+      ${store.selfExplain && store.selfExplain.a ? `<p style="margin:0">💡 Po teisingo atsakymo vaikas atpažino, kuri mintis jį atvedė prie atsakymo: <b>${store.selfExplain.ok} iš ${store.selfExplain.a}</b>.${store.selfExplain.a >= 5 && store.selfExplain.ok / store.selfExplain.a < 0.7 ? ' Dalis teisingų atsakymų gali būti atspėti – paprašykite papasakoti sprendimą žodžiais.' : ''}</p>` : ''}
     </section>` : ''}
 
     ${store.recogStats && store.recogStats.attempts ? `<section class="card">
@@ -7829,6 +7923,7 @@ function renderPlaylist(){
         return;
       }
       state.playlistSubmitted[k] = true;
+      if(hadMiss) noteSecondTry(state.playlistAns[k] === tryIt.q.correct);
       // The try step records its answer right away; the worked example had its
       // solution on screen, so it only counts as seen (no stars, no stats)
       if(state.playlistStep === 1 && content.worked){
@@ -7850,6 +7945,7 @@ function renderPlaylist(){
     if(revealBtn) revealBtn.addEventListener("click", () => {
       state.playlistAns[k] = (state.playlistFirstWrong || {})[k];
       state.playlistSubmitted[k] = true;
+      noteSecondTry(false);
       renderPlaylist();
     });
     const gotoBtn = card.querySelector("[data-pl-goto]");
@@ -7965,6 +8061,7 @@ function renderPlaylistQuestion(item, opts){
         ${dueNote}
       </div>
       ${questionBodyHTML(q, {lazy:false})}
+      ${mode === "worked" && !submitted && q.solutionKid ? `<div class="explain kid-sol worked-faded"><b>Pavyzdys</b>${kidSolutionHTML(q.solutionKid, {fade: true})}</div>` : ''}
       ${imageHint}
       <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
       ${submitted ? `<div class="explain verdict" style="background:${chosen === q.correct ? 'var(--good-soft)' : 'var(--bad-soft)'};border:1px solid ${chosen === q.correct ? 'var(--good)' : 'var(--bad)'};">
@@ -7981,7 +8078,7 @@ function renderPlaylistQuestion(item, opts){
       ${submitted && chosen && (chosen !== q.correct || firstWrong) ? (() => { const m = (store.mistakes || {})[k]; return m && m.reason
         ? `<p class="help-bar" style="margin:6px 0">Užrašyta: ${escapeHTML(MISTAKE_REASONS[m.reason] || m.reason)}.</p>`
         : `<div style="margin:6px 0"><b style="font-size:14px">Kodėl, manai, suklydai?</b><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">${Object.entries(MISTAKE_REASONS).map(([id, t]) => `<button class="btn small ghost" data-pl-why="${id}">${escapeHTML(t)}</button>`).join('')}</div></div>`; })() : ''}
-      ${showSol && (q.solutionKid || q.solution) ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
+      ${showSol && (q.solutionKid || q.solution) && !(mode === "worked" && !submitted && q.solutionKid) ? `<div class="explain">${solutionBlockHTML(q)}</div>` : ''}
       <div class="footer-actions">
         <div class="row"></div>
         <div class="row">${footer}</div>
@@ -9895,7 +9992,11 @@ function solutionPlain(q){
 /* A kid solution is one run of text ("Gudrybė: … . steps … Atsakymas: X) …").
    On a phone that is a wall of small print: show the trick as its own line,
    the steps in short paragraphs (~2 sentences) and the answer line last. */
-function kidSolutionHTML(t){
+/* opts.fade (worked-example fading, 2026-10-17): the worked step of a
+   playlist hides the answer line and – with ≥ 2 steps – the last step, so the
+   kid completes the example instead of only reading it. */
+function kidSolutionHTML(t, opts){
+  const fade = !!(opts && opts.fade);
   t = String(t || "").trim();
   const ans = (t.match(/\sAtsakymas:\s*[A-E]\)[^]*$/) || [""])[0];
   let body = ans ? t.slice(0, t.length - ans.length) : t;
@@ -9907,6 +10008,12 @@ function kidSolutionHTML(t){
   for(const s of sentences){
     const last = paras[paras.length - 1];
     if(last != null && last.length + s.length < 220) paras[paras.length - 1] = last + " " + s; else paras.push(s);
+  }
+  if(fade){
+    const hideLast = paras.length >= 2;
+    return (trick ? `<p class="kid-trick">💡 ${escapeHTML(trick)}</p>` : "") +
+      (hideLast ? paras.slice(0, -1) : paras).map(p => `<p class="kid-step">${escapeHTML(p)}</p>`).join("") +
+      `<p class="kid-step kid-gap">✏️ ${hideLast ? 'Paskutinį žingsnį užbaik pats' : 'Kur veda šie žingsniai?'} – tada pažymėk atsakymą.</p>`;
   }
   return (trick ? `<p class="kid-trick">💡 ${escapeHTML(trick)}</p>` : "") +
     paras.map(p => `<p class="kid-step">${escapeHTML(p)}</p>`).join("") +
