@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openThinkDrill, buildThinkItems, renderThink, reservedYears, recallDeck, openRecallCards, ifThenCardHTML, ifThenLine, parentAskToday, renderContestIntro, renderPlan, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openThinkDrill, buildThinkItems, renderThink, reservedYears, recallDeck, openRecallCards, renderRecall, stopTimer, ifThenCardHTML, ifThenLine, parentAskToday, renderContestIntro, renderPlan, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
 `;
 let app;
 try {
@@ -1548,7 +1548,7 @@ section("second kids' pass: a11y, sets, streak, gate, thinking drill");
   // prequestion: a look at the try problem before the trick
   app.openPlaylist(mech); h = app.$app.innerHTML;
   check("playlist starts with a look at the problem", st.playlistStep === 0 && h.includes("Pirmiausia – pusė minutės") && h.includes('id="plPeeked"') && !h.includes("methodology"));
-  st.playlistPeeked = true; app.renderPlaylist(); h = app.$app.innerHTML;
+  st.playlistPeeked = `${st.playlistContent.tryQ.year}-${st.playlistContent.tryQ.q.num}`; app.renderPlaylist(); h = app.$app.innerHTML;
   check("then the trick", h.includes("methodology") && h.includes("Gudrybė"));
   st.playlistStep = 2; app.renderPlaylist(); h = app.$app.innerHTML;
   check("try step names the same problem", h.includes("Tas pats uždavinys, kurį matei pradžioje"));
@@ -1573,6 +1573,16 @@ section("second kids' pass: a11y, sets, streak, gate, thinking drill");
   // plan view: today's steps first, settings folded
   app.renderPlan(); h = app.$app.innerHTML;
   check("plan view leads with today's steps", h.indexOf("Šiandienos treniruotė") < h.indexOf('id="planSettings"'));
+  // review fixes
+  app.startSprint(); h = app.$app.innerHTML;
+  check("sprint offers a skip on the first question", h.includes('id="skipBtn"') && !h.includes('id="hintBtn"'));
+  app.stopTimer && app.stopTimer();
+  app.openRecallCards();
+  if(st.view === "recall"){
+    st.recall.flipped = true; app.renderRecall();
+    check("recall cards render the back with ratings", app.$app.innerHTML.includes('data-recall="yes"'));
+  }
+  st.view = "home";
   st.view = "home"; app.renderHome();
 }
 

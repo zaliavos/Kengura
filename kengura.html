@@ -4868,7 +4868,7 @@ function renderArchiveCard(year, q, focusOpts){
     } else if(ans.chosenLetter === letter){
       extra = " selected";
     }
-    const off = (!submitted && ans.firstWrong === letter ? ' disabled aria-disabled="true"' : '') + (extra === ' selected' ? ' aria-pressed="true"' : '');
+    const off = (!submitted && ans.firstWrong === letter ? ' disabled aria-disabled="true"' : '') + (submitted ? '' : ` aria-pressed="${extra === ' selected'}"`);
     if(isImageOnly){
       // Just letter pill, large enough to tap
       return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}"${off}>
@@ -5775,7 +5775,7 @@ function startQuiz(){
     state.questions = generateQuiz(count, store.settings.difficulties);
   }
   state.current = 0;
-  state.answers = [];
+  state.answers = []; state._quizTimedOut = false;
   state.hintsUsedThis = 0;
   state._chosen = null; state._hintShown = false; state._firstStepShown = false;
   state._confidence = null;
@@ -5799,7 +5799,7 @@ function startQuiz(){
 function startGraceWarmup(){
   state.questions = generateQuiz(3, [3]);
   state.current = 0;
-  state.answers = [];
+  state.answers = []; state._quizTimedOut = false;
   state.hintsUsedThis = 0;
   state._chosen = null; state._hintShown = false; state._firstStepShown = false;
   state._confidence = null;
@@ -5927,7 +5927,7 @@ function renderQuiz(){
         <div class="row">
           ${!showResult && !state._sprintMode && !state._firstStepShown && q.firstStep ? `<button class="btn ghost small" id="firstStepBtn">Pirmas žingsnis</button>`:``}
           ${!showResult && !state._sprintMode && !state._hintShown ? `<button class="btn ghost small" id="hintBtn">Užuomina</button>`:``}
-          ${!showResult && state._sprintMode && state.answers.some((a, i) => !a && i > idx) ? `<button class="btn ghost small" id="skipBtn" title="Konkurse ilgai stringantį verta praleisti">Praleisti →</button>`:``}
+          ${!showResult && state._sprintMode && state.questions.some((_, i) => i > idx && !state.answers[i]) ? `<button class="btn ghost small" id="skipBtn" title="Konkurse ilgai stringantį verta praleisti">Praleisti →</button>`:``}
           ${idx>0 ? `<button class="btn ghost small" id="prevBtn">← Ankstesnis</button>`:``}
         </div>
         <div class="row">
@@ -5986,7 +5986,7 @@ function renderQuiz(){
   const skipBtn = document.getElementById("skipBtn");
   if(skipBtn) skipBtn.addEventListener("click", ()=>{
     // sprint: leaving a slow one is the contest skill – it stays unanswered
-    const nextOpen = state.answers.findIndex((a, i) => !a && i > idx);
+    const nextOpen = state.questions.findIndex((_, i) => i > idx && !state.answers[i]);
     if(nextOpen < 0){ finishQuiz(true); return; }
     state.current = nextOpen;
     state._chosen = null; state._hintShown = false; state._firstStepShown = false;
@@ -6539,6 +6539,7 @@ function openPaperEntry(year){
 function openContest(year){
   const test = ARCHIVE.find(t => t.year === year);
   if(!test){ return; }
+  state.sketches = {}; if(state.sketchOpen) state.sketchOpen.clear();   // practice drawings stay out of the paper
   const qs = test.questions.filter(q => q.correct).slice(0, 30);
   if(qs.length < 28){
     alert(`${year} m. neturi pakankamai uždavinių su atsakymais kontroliniam.`);
@@ -7818,7 +7819,7 @@ function renderPlaylist(){
   } else if(!special && step === 1 && content.worked){
     body = renderPlaylistQuestion(content.worked, {showSolution:true, mode:"worked"});
   } else if(!special && step === 2 && content.tryQ){
-    body = (state.playlistPeeked && !state.playlistSubmitted[`${content.tryQ.year}-${content.tryQ.q.num}`] ? `<p class="help-bar" style="margin:8px 0 0">Tas pats uždavinys, kurį matei pradžioje – dabar žinai gudrybę.</p>` : '')
+    body = (state.playlistPeeked === `${content.tryQ.year}-${content.tryQ.q.num}` && !state.playlistSubmitted[`${content.tryQ.year}-${content.tryQ.q.num}`] ? `<p class="help-bar" style="margin:8px 0 0">Tas pats uždavinys, kurį matei pradžioje – dabar žinai gudrybę.</p>` : '')
       + renderPlaylistQuestion(content.tryQ, {showSolution:false, mode:"try"});
   } else if(step === 3){
     if(!state.playlistTimerStart) state.playlistTimerStart = Date.now();
@@ -7936,7 +7937,7 @@ function renderPlaylist(){
 
   $app.innerHTML = `
     <section class="card">
-      <button class="nav-back" id="plBackTop">← Į pradžią</button>
+      <button class="nav-back" id="plBackTop">${state.playlistFromBook ? '← Į sąsiuvinį' : '← Į pradžią'}</button>
       ${titleHtml}
       ${stepsHtml}
       ${body}
@@ -8056,10 +8057,11 @@ function renderPlaylist(){
     saveStore(store);
     state.view="home"; renderHome();
   };
+  const leave = ()=>{ const fb = state.playlistFromBook; exitHome(); if(fb){ state.playlistFromBook = false; openMistakeBook(); } };
   const backTop = document.getElementById("plBackTop");
-  if(backTop) backTop.addEventListener("click", exitHome);
+  if(backTop) backTop.addEventListener("click", leave);
   const back = document.getElementById("plBack");
-  if(back) back.addEventListener("click", ()=>{ const fb = state.playlistFromBook; exitHome(); if(fb){ state.playlistFromBook = false; state.playlistRecogPick = {}; state.playlistPeeked = false; openMistakeBook(); } });
+  if(back) back.addEventListener("click", leave);
   // focus-mode navigation inside a set
   $app.querySelectorAll("[data-pl-pip]").forEach(b => b.addEventListener("click", ()=> plFocus(b.dataset.plPip)));
   const plSteps = d => { const items = (content && content.mastery) || []; const keys = items.map(it => `${it.year}-${it.q.num}`); const i = keys.indexOf(state.playlistFocusKey) + d; if(i >= 0 && i < keys.length) plFocus(keys[i]); };
@@ -8067,7 +8069,7 @@ function renderPlaylist(){
   if(pPrev) pPrev.addEventListener("click", ()=> plSteps(-1));
   if(pNext) pNext.addEventListener("click", ()=> plSteps(1));
   const peeked = document.getElementById("plPeeked");
-  if(peeked) peeked.addEventListener("click", ()=>{ state.playlistPeeked = true; renderPlaylist(); toTop(); });
+  if(peeked) peeked.addEventListener("click", ()=>{ state.playlistPeeked = content.tryQ ? `${content.tryQ.year}-${content.tryQ.q.num}` : true; renderPlaylist(); toTop(); });
   const next = document.getElementById("plNext");
   if(next) next.addEventListener("click", ()=>{ state.playlistStep++; renderPlaylist(); toTop(); });
   const done = document.getElementById("plDone");
@@ -8195,7 +8197,7 @@ function renderPlaylist(){
       // an early tap on a 4/5-pointer first gets three questions to ask oneself
       const t = (state.playlistTryAt || {})[k];
       const tq = content.tryQ && content.tryQ.q;
-      if(t && tq && tryFirstPending(tq, t)){ t.tryFirstNote = true; renderPlaylist(); return; }
+      if(t && tq && !(state.playlistFirstWrong || {})[k] && tryFirstPending(tq, t)){ t.tryFirstNote = true; renderPlaylist(); return; }
       state.playlistHintShown[k] = (Number(state.playlistHintShown[k]) || 0) + 1;
       renderPlaylist();
     });
@@ -8277,7 +8279,7 @@ function plFocus(key){
     if(k === "Enter" && !(e.target && e.target.closest && e.target.closest("button,summary,a,[role=button]"))){
       const s = state.view === "recog"
         ? (document.getElementById("recogSubmit") || document.getElementById("recogNext"))
-        : (scope.querySelector("[data-pl-check]") || scope.querySelector("[data-pl-goto]") || scope.querySelector("[data-pl-nextstep]"));
+        : (scope.querySelector("[data-pl-check]") || scope.querySelector("[data-pl-goto]") || scope.querySelector("[data-pl-anothertry]") || scope.querySelector("[data-pl-nextstep]"));
       if(s && !s.disabled){ e.preventDefault(); s.click(); }
     }
   });
@@ -8341,7 +8343,7 @@ function renderPlaylistQuestion(item, opts){
     } else if(chosen === letter){
       extra = " selected";
     }
-    const off = (!submitted && firstWrong === letter ? ' disabled aria-disabled="true"' : '') + (extra === ' selected' ? ' aria-pressed="true"' : '');
+    const off = (!submitted && firstWrong === letter ? ' disabled aria-disabled="true"' : '') + (submitted ? '' : ` aria-pressed="${extra === ' selected'}"`);
     if(isImageOnly) return `<button type="button" class="opt opt-letter-only${extra}" data-letter="${letter}"${off}><span class="letter">${letter}</span></button>`;
     const isEmptyOpt = String(v).trim() === "";
     return `<button type="button" class="opt${isEmptyOpt ? ' opt-empty' : ''}${extra}" data-letter="${letter}"${off}>
@@ -8538,7 +8540,7 @@ function renderReview(){
 function startSprint(){
   state.questions = generateQuiz(10, [3]);
   state.current = 0;
-  state.answers = [];
+  state.answers = []; state._quizTimedOut = false;
   state.hintsUsedThis = 0;
   state._chosen = null; state._hintShown = false; state._firstStepShown = false;
   state._confidence = null;
@@ -9006,11 +9008,11 @@ function renderRecall(){
     store.trickRecall = store.trickRecall || {};
     store.trickRecall[m] = {r: b.dataset.recall, at: Date.now()};
     if(b.dataset.recall === "yes") R.ok++;
-    logActivity(b.dataset.recall !== "no", 3);
+    bumpStreakForToday();   // self-rated: counts as a training day, not as answered questions
     saveStore(store);
     if(R.idx >= R.deck.length - 1){
       state.view = "home";
-      showToast("🃏", `Prisiminei ${R.ok} iš ${R.deck.length}. Kas buvo „nepamenu“, ateis pirmos kitą kartą.`, 5000);
+      showToast("🃏", `Prisiminei ${R.ok} iš ${R.deck.length}. Kortelės, kurių nepamenei, kitą kartą bus pirmos.`, 5000);
       renderHome();
       return;
     }
@@ -9299,7 +9301,10 @@ function markPlanStepDone(stepOverride){
   const allDone = steps.length > 0 && steps.every(s => d[s.id] || s.act === "none");
   if(allDone && !d.bonus){
     d.bonus = true;
-    for(const s of steps) if(s.act === "none") d[s.id] = true;   // the tab dot and "x/y" count read the ticks
+    // the tab dot and "x/y" count read the ticks – but a contest day's review
+    // step is real work (second attempt, reading mistakes): it keeps its own tick
+    const paperDay = steps.some(x => x.act === "contest");
+    for(const s of steps) if(s.act === "none" && !(paperDay && s.id === "cooldown")) d[s.id] = true;
     store.games.freeRaces = (store.games.freeRaces || 0) + 1;
     awardStars("fromBonus", PLAN_DAY_BONUS);
     Fx.floatStars(PLAN_DAY_BONUS);
@@ -9336,6 +9341,7 @@ function wireSketch(){
     const fig = figOf(btn), img = fig && fig.querySelector("img"), src = btn.dataset.draw;
     if(!img || fig.querySelector("canvas.sketch")) return;
     const go = () => {
+      if(fig.querySelector("canvas.sketch") || !fig.isConnected) return;   // load listeners can queue up
       const r = img.getBoundingClientRect(), fr = fig.getBoundingClientRect();
       if(!r.width) return;
       fig.style.position = "relative";
@@ -9478,7 +9484,7 @@ function launchPlanStep(s){
   state._planStep = s.id;
   if(s.act === "warmup"){
     state.questions = generateQuiz(2, [3]);
-    state.current = 0; state.answers = []; state.hintsUsedThis = 0;
+    state.current = 0; state.answers = []; state._quizTimedOut = false; state.hintsUsedThis = 0;
     state._chosen = null; state._hintShown = false; state._firstStepShown = false;
     state._confidence = null;
     state._questionStartedAt = Date.now();
@@ -10073,6 +10079,9 @@ function openRaceChallenge(){
     alert("Per mažai tinkamų uždavinių iššūkiui.");
     return;
   }
+  if(store.games.gateDay !== todayKey()){ store.games.gateDay = todayKey(); store.games.gateTries = 0; }
+  store.games.gateTries = (store.games.gateTries || 0) + 1;
+  saveStore(store);
   // Prefer a mix: aim for at least two top-band questions when available.
   // (Top band is 5 normally, 4 in the easier foundation-phase gate.)
   const hiBand = pool.some(q => q.points === 5) ? 5 : 4;
@@ -10192,8 +10201,6 @@ function renderRaceChallenge(){
 
 function finishRaceChallenge(){
   const correct = state.raceCorrect;
-  if(store.games.gateDay !== todayKey()){ store.games.gateDay = todayKey(); store.games.gateTries = 0; }
-  store.games.gateTries = (store.games.gateTries || 0) + 1;
   store.games.bestChallengeCorrect = Math.max(store.games.bestChallengeCorrect || 0, correct);
   const unlocked = correct >= 3;
   let difficulty = null, lives = 0;
