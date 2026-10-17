@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes};
 `;
 let app;
 try {
@@ -1402,6 +1402,23 @@ section("figure-first question body + parent view");
   check("unlocked → parent view", app.state.view === "parent" && app.$app.innerHTML.includes("nustatytas"));
   delete app.META.parentPin; app.state._parentUnlocked = false;
   delete app.store.activity[app.todayKey()].byBand; delete app.store.activity[app.todayKey()].sec;
+  app.state.view = "home"; app.renderHome();
+}
+
+section("archive filter + parent summary");
+{
+  const t = app.ARCHIVE.find(t => String(t.year) === "2024");
+  app.store.seenQ[`${t.year}-1`] = Date.now(); app.store.seenQ[`${t.year}-2`] = Date.now();
+  app.state._archiveOnlyNew = false; app.state.archiveYear = t.year; app.state.view = "archiveYear"; app.renderArchiveYear();
+  let h = app.$app.innerHTML;
+  check("archive year offers the only-unsolved filter", h.includes('id="archOnlyNew"') && h.includes("Tik neišspręsti (28)") && (h.match(/class="card archive-card"/g) || []).length === 30);
+  app.state._archiveOnlyNew = true; app.renderArchiveYear(); h = app.$app.innerHTML;
+  check("filter hides solved cards", (h.match(/class="card archive-card"/g) || []).length === 28 && h.includes("rodyti visus"));
+  app.state._archiveOnlyNew = false; delete app.store.seenQ[`${t.year}-1`]; delete app.store.seenQ[`${t.year}-2`];
+  const txt = app.parentSummaryText();
+  check("parent summary text has the week, mastery and advice lines", /savaitė \d\d-\d\d – \d\d-\d\d/.test(txt) && txt.includes("Įvaldyta gudrybių:") && txt.includes("Ką verta daryti:") && !/undefined|NaN/.test(txt));
+  app.openParent(); h = app.$app.innerHTML;
+  check("parent view: 7-day and per-mechanic tables", h.includes("Paskutinės 7 dienos po vieną") && h.includes("Visos gudrybės po vieną") && h.includes('id="parentCopy"'));
   app.state.view = "home"; app.renderHome();
 }
 
