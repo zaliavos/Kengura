@@ -89,6 +89,9 @@
   .qtext summary .qtext-aa{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 5px;font-weight:700;font-size:11px;background:#fffaf0}
   .qtext[open] summary{color:var(--ink)}
   .qtext .qprompt{font-size:15px;margin:6px 0 4px;padding:8px 10px;background:#fffaf0;border:1px dashed var(--line);border-radius:8px}
+  .fig-zoom-hint{display:none;font-size:11px;color:var(--muted);text-align:center;margin:-10px 0 10px}
+  @media(max-width:600px){.fig-zoom-hint{display:block}}
+  .ptable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
   .kid-sol p{margin:6px 0 0;line-height:1.5}
   .kid-sol .kid-trick{font-weight:600}
   .kid-sol .kid-answer{font-weight:600}
@@ -3701,7 +3704,7 @@ function renderMistakeBook(){
   const byMech = {};
   for(const x of open) (byMech[x.q.mechanic || "?"] = byMech[x.q.mechanic || "?"] || []).push(x);
   const row = x => `<div class="cat-row" style="align-items:center;gap:8px">
-      <span style="flex:1;min-width:0"><b>${escapeHTML(String(x.m.year))} · ${x.q.num}</b> <span class="pill">${x.q.points} t.</span>
+      <span style="flex:1;min-width:0"><b>${x.q.num} užd.</b> <span class="help-bar" style="margin:0">${escapeHTML(String(x.m.year))} m.</span> <span class="pill">${x.q.points} t.</span>
         <span class="help-bar" style="margin:0">${escapeHTML(x.q.prompt.slice(0, 70))}${x.q.prompt.length > 70 ? '…' : ''}</span></span>
       ${x.m.reason ? `<span class="pill muted" title="Tavo nurodyta priežastis">${escapeHTML(MISTAKE_REASON_SHORT[x.m.reason] || '')}</span>` : ''}
       ${x.m.times > 1 ? `<span class="pill bad" title="Kiek kartų suklydai">×${x.m.times}</span>` : ''}
@@ -4854,13 +4857,13 @@ function renderHome(){
     </section>` : ``}
     <section class="card hero-top">
       <div class="hero-row">
-        <div class="hero-streak" aria-label="Dienų iš eilės">
+        <div class="hero-streak" id="heroStreak" role="button" tabindex="0" aria-label="Dienų iš eilės – paspausk, kad sužinotum daugiau" style="cursor:pointer">
           <span class="streak-flame"${store.streak.count>0 ? '' : ' style="opacity:.3;filter:grayscale(1)"'}>🔥</span>
           <span class="streak-num">${store.streak.count||0}</span>
           <span class="streak-label">d. iš eilės</span>
           ${(()=>{ const left = 2 - ((store.streak.freezeMonth === monthKey()) ? (store.streak.freezesUsed || 0) : 0); return left > 0 ? `<span class="streak-label" title="Praleista diena serijos nenutraukia – ${left} kart${left === 1 ? 'ą' : 'us'} šį mėnesį">❄️${left}</span>` : ''; })()}
         </div>
-        <div class="hero-streak" aria-label="Žvaigždės" title="Iš viso žvaigždžių · laisvų parduotuvei: ${starsAvailable()}">
+        <div class="hero-streak" id="heroStars" role="button" tabindex="0" aria-label="Žvaigždės – paspausk, kad sužinotum daugiau" title="Iš viso žvaigždžių · laisvų parduotuvei: ${starsAvailable()}" style="cursor:pointer">
           <span class="streak-flame">⭐</span>
           <span class="streak-num">${(store.stars && store.stars.total) || 0}</span>
           <span class="streak-label">${pluralForm((store.stars && store.stars.total) || 0,'žvaigždė','žvaigždės','žvaigždžių')}${(store.plan && store.plan.weeklyStarGoal) ? ` · sav. ${starsThisWeek()}/${store.plan.weeklyStarGoal}` : ''}</span>
@@ -4976,8 +4979,8 @@ function renderHome(){
     </div>
     ${pane("tests")}
     <section class="card">
-      <h3>Kontrolinis (kaip realiame Kengūros konkurse)</h3>
-      <p style="margin-top:0">Tikrų ankstesnių metų testas. <b>75 minutės. 30 klausimų. −25 % už klaidą.</b> Jokios pagalbos: be užuominų, be pasitikėjimo klausimo, be panašių uždavinių. Geriausia – kartą per savaitę iki pat konkurso.</p>
+      <h3>Kontrolinis – kaip tikrame konkurse</h3>
+      <p style="margin-top:0">Tikras ankstesnių metų Kengūros testas: <b>30 uždavinių, 75 minutės, −25 % už klaidą</b>, jokių užuominų. Geriausia – kartą per savaitę iki pat konkurso.</p>
       ${store.contestInProgress ? (()=>{
         const cp = store.contestInProgress;
         const remainMs = cp.endsAt - Date.now();
@@ -5245,6 +5248,19 @@ function renderHome(){
   if(mistakeBookBtn) mistakeBookBtn.addEventListener("click", openMistakeBook);
   const parentBtn = document.getElementById("parentBtn");
   if(parentBtn) parentBtn.addEventListener("click", openParent);
+  // Phones have no hover: a tap on the streak / stars explains them.
+  const tapToast = (id, fn) => { const el = document.getElementById(id); if(!el) return; const go = () => showToast(...fn()); el.addEventListener("click", go); el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); } }); };
+  tapToast("heroStreak", () => {
+    const n = store.streak.count || 0;
+    const left = 2 - ((store.streak.freezeMonth === monthKey()) ? (store.streak.freezesUsed || 0) : 0);
+    const td = (store.plan.trainingDays || []).length;
+    return ["🔥", `<b>${n} ${pluralForm(n,'diena','dienos','dienų')} iš eilės.</b> Serija auga kiekvieną treniruočių dieną, kai išsprendi bent vieną uždavinį${td && td < 7 ? ' (poilsio dienos jos nenutraukia)' : ''}. ❄️ – praleista diena serijos nenutraukia: liko ${Math.max(0, left)} ${pluralForm(Math.max(0, left),'kartas','kartai','kartų')} šį mėnesį.`, 6000];
+  });
+  tapToast("heroStars", () => {
+    const s = store.stars || {};
+    const goal = store.plan.weeklyStarGoal || 0;
+    return ["⭐", `<b>${s.total || 0} ${pluralForm(s.total || 0,'žvaigždė','žvaigždės','žvaigždžių')}</b> iš viso · laisvų parduotuvei: ${starsAvailable()}.${goal ? ` Šią savaitę ${starsThisWeek()} iš ${goal}${store.plan.weeklyReward ? ` – prizas: ${escapeHTML(store.plan.weeklyReward)}` : ''}.` : ''} Už uždavinį 1–3 ⭐, už aktyvią minutę +1, už visą dienos planą +10.`, 6000];
+  });
   const raceChallengeBtn = document.getElementById("raceChallengeBtn");
   if(raceChallengeBtn) raceChallengeBtn.addEventListener("click", openRaceChallenge);
   const freeRaceBtn = document.getElementById("freeRaceBtn");
@@ -6789,7 +6805,7 @@ function renderParent(){
       </div>
       ${band30Any ? `<p style="margin:10px 0 4px;font-size:14px"><b>Tikslumas per 30 d. pagal bloką:</b> ${[3,4,5].map(b => band30[b].a ? `${b} t. <b>${Math.round(100 * band30[b].ok / band30[b].a)} %</b> <span class="help-bar" style="margin:0">(${band30[b].a})</span>` : `${b} t. –`).join(' · ')}</p>
       <p class="help-bar" style="margin:0 0 8px">Konkurse 3 t. blokas turėtų būti ≥ 80 %, 4 t. ≥ 60 %; 5 t. – 40 % jau geras rezultatas.</p>` : ''}
-      <table class="ptable" aria-label="Paskutinės 4 savaitės">
+      <div class="ptable-wrap"><table class="ptable" aria-label="Paskutinės 4 savaitės">
         <thead><tr><th>Savaitė</th><th>Dienos</th><th>Užd.</th><th>Tikslumas</th>${anyMinutes ? '<th>Min</th>' : ''}<th>⭐</th><th>Kontr.</th></tr></thead>
         <tbody>${weeks.map((w, i) => `<tr${i === 0 ? ' style="font-weight:600"' : ''}>
           <td>${i === 0 ? 'ši' : i === 1 ? 'praėjusi' : fmtW(w)}</td>
@@ -6800,7 +6816,7 @@ function renderParent(){
           <td>${w.stars || '–'}</td>
           <td>${w.papers.length ? w.papers.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(', ') : '–'}</td>
         </tr>`).join('')}</tbody>
-      </table>
+      </table></div>
       <p class="help-bar">Dienos – aktyvios iš treniruočių dienų; kontrolinio rezultatas – su −25 % bauda, iš 120.</p>
       <div class="activity-grid" style="margin-top:6px">
         ${grid.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} ${pluralForm(d.count,'uždavinys','uždaviniai','uždavinių')}${d.min ? `, ${d.min} min` : ''}"></div>`).join('')}
@@ -7312,7 +7328,7 @@ function renderPlaylist(){
         if(special){
           return `<div class="explain" style="background:var(--good-soft);border:1px solid var(--good)">
             <b>${isDue ? 'Pakartojimas atliktas!' : 'Rinkinys atliktas!'}</b>
-            <span class="muted small">Teisingai atsakyta į ${correctCount} iš ${items.length} ${pluralForm(items.length,'uždavinio','uždavinių','uždavinių')}.</span>
+            <span class="muted small">Teisingai atsakyta į ${correctCount} iš ${items.length} ${pluralForm(items.length,'uždavinio','uždavinių','uždavinių')}.${isDue ? (correctCount === items.length ? ' Visi teisingi – šie uždaviniai sugrįš vėliau, kai jau būsi pamiršęs.' : ' Suklystus pakartosi rytoj – tada jie įsimins.') : ''}</span>
           </div>`;
         }
         if(retest){
@@ -9641,8 +9657,12 @@ function questionBodyHTML(q, opts){
   const text = `<div class="qprompt">${escapeHTML(q.prompt)}</div>`;
   if(!q.figure) return text;
   const alt = opts.alt || `${q.num ? q.num + ' uždavinys' : 'Uždavinys'} – originalus tekstas ir paveikslėlis`;
-  const fig = `<div class="figure"><img src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'}></div>`;
-  const open = !!(store.settings && store.settings.showQText);
+  const fig = `<div class="figure"><img src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'}></div><div class="fig-zoom-hint">🔍 Paspausk paveikslėlį, kad padidintum</div>`;
+  // On a phone the figure's print is too small to read, so the text starts
+  // open there; an explicit choice (either way) wins.
+  const pref = store.settings ? store.settings.showQText : null;
+  const narrow = typeof window !== "undefined" && window.innerWidth > 0 && window.innerWidth < 600;
+  const open = pref != null ? !!pref : narrow;
   return `${fig}<details class="qtext" data-qtext${open ? ' open' : ''}><summary><span class="qtext-aa">Aa</span> Tekstas</summary>${text}</details>`;
 }
 function wireQTextToggle(){
@@ -9651,7 +9671,7 @@ function wireQTextToggle(){
   document.addEventListener("toggle", e => {
     const d = e.target;
     if(!d || !d.matches || !d.matches("details[data-qtext]")) return;
-    if(!!store.settings.showQText === !!d.open) return;
+    if(store.settings.showQText != null && !!store.settings.showQText === !!d.open) return;
     store.settings.showQText = !!d.open;
     saveStore(store);
     // keep every other card on the page in step
