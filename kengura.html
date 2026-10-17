@@ -8896,7 +8896,7 @@ function rewardsCardHTML(){
   return `
     <section class="card reward-card">
       <h3>🏁 Lenktynių iššūkis</h3>
-      <p style="margin-top:0">Atsakyk <b>5 sunkius klausimus</b> (4 ir 5 taškų). Surink bent <b>3 teisingus</b> – ir atrakinsi <b>lenktynių žaidimą</b> kaip prizą! Daugiau teisingų = sunkesnės lenktynės ir <b>daugiau gyvybių</b> (3✓ → 1 gyvybė, 4✓ → 2, 5✓ → 3).</p>
+      <p style="margin-top:0">Išspręsk <b>5 sunkius uždavinius</b> (4–5 t.). Bent <b>3 teisingi</b> – atrakinsi žaidimą. Kuo daugiau teisingų, tuo daugiau gyvybių (3 → ❤, 4 → ❤❤, 5 → ❤❤❤).</p>
       <div class="top-stats" style="margin-bottom:10px">
         <span class="pill" title="Iš klausimų: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} ${pluralForm(s.total||0,'žvaigždė','žvaigždės','žvaigždžių')}</span>
         <span class="pill good">🏆 Pasiekimai: ${unlocked}/${ACHIEVEMENTS.length}</span>
@@ -9663,7 +9663,9 @@ function questionBodyHTML(q, opts){
   const pref = store.settings ? store.settings.showQText : null;
   const narrow = typeof window !== "undefined" && window.innerWidth > 0 && window.innerWidth < 600;
   const open = pref != null ? !!pref : narrow;
-  return `${fig}<details class="qtext" data-qtext${open ? ' open' : ''}><summary><span class="qtext-aa">Aa</span> Tekstas</summary>${text}</details>`;
+  // data-auto marks an element created open: browsers fire one "toggle" for
+  // it right after parsing, which must not be taken for the kid's choice
+  return `${fig}<details class="qtext" data-qtext${open ? ' open data-auto="1"' : ''}><summary><span class="qtext-aa">Aa</span> Tekstas</summary>${text}</details>`;
 }
 function wireQTextToggle(){
   if(typeof document === "undefined" || !document.addEventListener) return;
@@ -9671,6 +9673,8 @@ function wireQTextToggle(){
   document.addEventListener("toggle", e => {
     const d = e.target;
     if(!d || !d.matches || !d.matches("details[data-qtext]")) return;
+    if(d.dataset.auto && d.open){ delete d.dataset.auto; return; }   // the parser's own event, not a tap
+    delete d.dataset.auto;
     if(store.settings.showQText != null && !!store.settings.showQText === !!d.open) return;
     store.settings.showQText = !!d.open;
     saveStore(store);
