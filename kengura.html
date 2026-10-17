@@ -4366,16 +4366,19 @@ function renderArchiveYear(){
         ${test.solutions_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.solutions_pdf)}" target="_blank">Sprendimai ↗</a>` : ``}
       </div>
       <p>Pasirink atsakymą ir spausk „Patikrinti“. Užstrigai? „Užuomina“ pakuždės kelią trimis žingsniais, bet atsakymo nepasakys. Po atsakymo pamatysi sprendimą.</p>
-      ${(() => { const first = test.questions.find(q => !(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`]);
-        return first && first.num > 1 ? `<button class="btn small" id="archContinue" data-q="${first.num}">Tęsti nuo ${first.num} uždavinio →</button>` : ''; })()}
+      ${(() => { const isNew = q => !(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`];
+        const first = test.questions.find(isNew); const newN = test.questions.filter(isNew).length;
+        return `<div class="row" style="gap:8px;flex-wrap:wrap">${first && first.num > 1 ? `<button class="btn small" id="archContinue" data-q="${first.num}">Tęsti nuo ${first.num} uždavinio →</button>` : ''}${newN && newN < total ? `<button class="btn small ${state._archiveOnlyNew ? 'primary' : 'ghost'}" id="archOnlyNew" aria-pressed="${!!state._archiveOnlyNew}">${state._archiveOnlyNew ? `Rodomi tik neišspręsti (${newN}) – rodyti visus` : `Tik neišspręsti (${newN})`}</button>` : ''}</div>`; })()}
     </section>
-    ${test.questions.map(q => renderArchiveCard(test.year, q)).join("")}
+    ${test.questions.filter(q => !state._archiveOnlyNew || (!(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`]) || (state.archiveAnswers[`${test.year}-${q.num}`] || {}).chosen != null).map(q => renderArchiveCard(test.year, q)).join("")}
     <section class="card"><div class="footer-actions">
       <button class="btn ghost" id="back2">← Į pradžią</button>
     </div></section>
   `;
   document.getElementById("back").addEventListener("click", ()=>{state.view="home"; renderHome();});
   document.getElementById("back2").addEventListener("click", ()=>{state.view="home"; renderHome();});
+  const archOnlyNew = document.getElementById("archOnlyNew");
+  if(archOnlyNew) archOnlyNew.addEventListener("click", ()=>{ state._archiveOnlyNew = !state._archiveOnlyNew; renderArchiveYear(); });
   const archContinue = document.getElementById("archContinue");
   if(archContinue) archContinue.addEventListener("click", ()=>{
     const el = document.querySelector(`.archive-card[data-qnum="${archContinue.dataset.q}"]`);
@@ -6822,6 +6825,24 @@ function renderParent(){
         ${grid.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} ${pluralForm(d.count,'uždavinys','uždaviniai','uždavinių')}${d.min ? `, ${d.min} min` : ''}"></div>`).join('')}
       </div>
       <p class="help-bar" style="margin:4px 0 0">Paskutinės 14 dienų: kuo tamsesnė ląstelė, tuo daugiau spręsta. Tikslas – ne kiek, o kasdien.</p>
+      <details style="margin-top:10px"><summary>Paskutinės 7 dienos po vieną</summary>
+        <div class="ptable-wrap"><table class="ptable" aria-label="Paskutinės 7 dienos">
+          <thead><tr><th>Diena</th><th>Planas</th><th>Užd.</th><th>Tikslumas</th><th>Min</th><th>⭐</th></tr></thead>
+          <tbody>${[6,5,4,3,2,1,0].map(i => { const k = dateKeyOffset(i); const a = store.activity[k]; const d = new Date(k + "T12:00"); const pd = store.planDone[k] || {}; const doneN = ['warmup','core','cooldown'].filter(x => pd[x]).length; const rest = !isTrainingDay(d);
+            return `<tr${i === 0 ? ' style="font-weight:600"' : ''}><td>${WEEKDAY_SHORT[d.getDay()]} ${k.slice(5)}</td><td>${rest ? '🛌' : doneN === 3 ? '✅' : doneN ? `${doneN}/3` : (a && a.answered ? '🟠' : '–')}</td><td>${a && a.answered ? a.answered : '–'}</td><td>${a && a.answered ? `${Math.round(100 * (a.correct || 0) / a.answered)} %` : '–'}</td><td>${activityMinutes(a) || '–'}</td><td>${(a && a.stars) || '–'}</td></tr>`; }).join('')}</tbody>
+        </table></div>
+        <p class="help-bar" style="margin:4px 0 0">Planas: ✅ visi trys žingsniai, 🟠 spręsta be plano, 🛌 poilsio diena.</p>
+      </details>
+      <details style="margin-top:6px"><summary>Visos gudrybės po vieną (${totalMechs})</summary>
+        <div class="ptable-wrap"><table class="ptable" aria-label="Gudrybės">
+          <thead><tr><th>Gudrybė</th><th>Lygis</th><th>Būsena</th><th>Bandymai</th><th>Klaidų</th></tr></thead>
+          <tbody>${trackMechanics().map(m => { const ms = store.mechStats[m] || {}; let at = 0, wr = 0; for(const b of [3,4,5]){ if(ms[b]){ at += ms[b].attempts; wr += ms[b].wrong; } }
+            const full = store.masteredMech[m], part = masteredBandOf(m), stale = isMechMasteryStale(m);
+            const st = full ? (stale ? `? įvaldyta prieš ${mechMasteryAgeDays(m)} d.` : `✓ įvaldyta ${new Date(full).toLocaleDateString("lt-LT")}`) : part ? `◐ įveikta ${part} t.` : at ? 'mokosi' : '–';
+            return `<tr><td style="white-space:normal">${escapeHTML(MECHANIC_LABEL[m] || m)}</td><td>${mechTopBand(m)} t.</td><td>${st}</td><td>${at || '–'}</td><td>${at ? `${Math.round(100 * wr / at)} %` : '–'}</td></tr>`; }).join('')}</tbody>
+        </table></div>
+        <p class="help-bar" style="margin:4px 0 0">Lygis – aukščiausias tos gudrybės taškų lygis archyve. ◐ – įveikta žemesniu lygiu, ? – įvaldyta seniai, verta pakartoti.</p>
+      </details>
     </section>
 
     ${(store.contests || []).length ? `<section class="card">
@@ -6953,6 +6974,8 @@ function renderParent(){
           <li><b>Užuominos</b> eina nuo bendros iki šio uždavinio idėjos – verta skatinti jas naudoti prieš žiūrint sprendimą.</li>
           <li><b>Po kontrolinio</b> – „Kur dingo laikas“ ir „Strategijos pastabos“: pažiūrėkite kartu, kur prarasta daugiausia taškų ir minučių.</li>
           <li><b>„Kodėl, manai, suklydai?“</b> – vaikas pats įvardija klaidos priežastį; jų suvestinė – klaidų sąsiuvinio kortelėje.</li>
+          <li><b>Minutės</b> skaičiuojamos tik sprendžiant (ne pradžios puslapyje) ir sustoja po 5 min be paspaudimų – tai aktyvus laikas, ne atidarytas langas.</li>
+          <li><b>Tėvų kodas</b> (nustatymuose) uždaro šį rodinį nuo vaiko – prizas ir nustatymai lieka jūsų rankose.</li>
           <li><b>Be interneto</b>: žemiau – „Paruošti visus uždavinius be interneto“.</li>
         </ul>
       </details>
@@ -8268,7 +8291,7 @@ function planStepsForToday(){
   }
   if(days === 1){
     return [
-      {id:"warmup",   label:"Apšilimas – 2 lengvi klausimai (tik tiek!)", act:"warmup"},
+      {id:"warmup",   label:"Apšilimas – 2 lengvi uždaviniai (tik tiek!)", act:"warmup"},
       {id:"core",     label:"Perskaityk konkurso strategiją (pradžios puslapyje, kortelėje „Kontrolinis“)", act:"strategy"},
       {id:"cooldown", label:"Poilsis ir ankstyvas miegas. Rytoj – konkursas.", act:"none"},
     ];
@@ -8276,7 +8299,7 @@ function planStepsForToday(){
   if(needsDiagnosticContest()){
     const yr = pickContestYear();
     return [
-      {id:"warmup",   label:"Apšilimas – 2 lengvi klausimai", act:"warmup"},
+      {id:"warmup",   label:"Apšilimas – 2 lengvi uždaviniai", act:"warmup"},
       {id:"core",     label:`Diagnostinis kontrolinis – ${yr} m. (30 užd., 75 min)`, act:"contest", arg:yr},
       {id:"cooldown", label:"Po kontrolinio: 🔁 antras bandymas ir klaidų peržiūra rezultatų puslapyje", act:"none"},
     ];
@@ -8284,7 +8307,7 @@ function planStepsForToday(){
   if(isContestDay(today)){
     const yr = pickContestYear();
     return [
-      {id:"warmup",   label:"Apšilimas – 2 lengvi klausimai", act:"warmup"},
+      {id:"warmup",   label:"Apšilimas – 2 lengvi uždaviniai", act:"warmup"},
       {id:"core",     label:`Kontrolinis${yr ? ` – ${yr} m.` : ''} (30 užd., 75 min)`, act:"contest", arg:yr},
       {id:"cooldown", label:"Po kontrolinio: 🔁 antras bandymas ir klaidų peržiūra rezultatų puslapyje", act:"none"},
     ];
@@ -8346,11 +8369,11 @@ function planStepsForToday(){
   }
   const warm = due.length && core.act !== "due"
     ? {id:"warmup", label:`Apšilimas – pakartok ${Math.min(due.length, 3)} ${due.length === 1 ? 'uždavinį, kuriame klydai' : 'uždavinius, kuriuose klydai'}`, act:"dueWarm"}
-    : {id:"warmup", label:"Apšilimas – 2 lengvi klausimai", act:"warmup"};
+    : {id:"warmup", label:"Apšilimas – 2 lengvi uždaviniai", act:"warmup"};
   return [
     warm,
     core,
-    {id:"cooldown", label:"Pabaiga – atpažink gudrybę (10 greitų klausimų)", act:"recog"},
+    {id:"cooldown", label:"Pabaiga – atpažink gudrybę (10 greitų uždavinių)", act:"recog"},
   ];
 }
 
