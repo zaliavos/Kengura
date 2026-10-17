@@ -384,7 +384,7 @@
   .tab-dot{position:absolute;top:6px;left:calc(50% + 10px);width:8px;height:8px;border-radius:50%;background:var(--accent)}
   .tabbar-spacer{height:calc(70px + env(safe-area-inset-bottom))}
   @media(min-width:520px){ .tab{flex-direction:row;justify-content:center;gap:6px;font-size:13px;padding:12px 4px} .tab-dot{top:8px;left:auto;right:8px} }
-  @media print{ .tabbar,.tabbar-spacer,.hero-top{display:none !important} }
+  @media print{ .tabbar,.tabbar-spacer,.hero-top,#parentSettings,#parentCopy,#parentPrint,.nav-back{display:none !important} }
   .ach-badge{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;
     border:1px solid var(--line);border-radius:12px;background:#faf6ec;opacity:.45;
     filter:grayscale(1);text-align:center;transition:transform .12s}
@@ -6971,8 +6971,6 @@ function renderParent(){
       <p><b>${last.correct} / ${last.total}</b> teisingai · ${last.points} ${pluralForm(last.points,'taškas','taškai','taškų')}${last.pointsWithPenalty != null ? ` (su −25 % bauda: ${last.pointsWithPenalty})` : ''}</p>
       ${lastBreak ? `<p><b>Klaidų pasiskirstymas:</b></p>${lastBreak}` : ''}
     </section>` : ''}
-
-    ${weeklyRecapHTML()}
 
     <section class="card">
       <h3>👤 Profiliai</h3>

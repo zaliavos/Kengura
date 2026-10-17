@@ -930,3 +930,54 @@ settings, about/reset). A one-line status strip (streak, stars, 📒, 👁)
 sits above every tab. All panes are rendered and only `[hidden]` is
 toggled, so wiring and smoke checks see the whole page; a re-render keeps
 the tab. Dots on tabs: undone plan steps, unfinished paper, game tickets.
+
+## UX pass for the child and the parent (2026-10-17, 50 loops)
+
+Started from two complaints: the review intro listed the spaced-repetition
+intervals ("1 d. → 3 d. → …") and every archive card printed the prompt
+above a figure that already shows the same text.
+
+- **Figure first** (`questionBodyHTML`): every archive figure is the question
+  as printed (text + drawing + options), so the typed prompt now sits behind
+  an "Aa Rodyti tekstą" `<details>` under the figure. Closed by default on
+  wide screens, open on phones (< 600 px) where the print is too small;
+  an explicit tap is remembered in `store.settings.showQText` (null = no
+  choice yet) and applied to every card on the page (`wireQTextToggle`).
+  Browsers fire one `toggle` for a `<details open>` right after parsing –
+  `data-auto` marks those so they are not taken for the kid's choice.
+  Used by archive cards, playlists, the contest, the recognition drill
+  and the race gate. A "🔍 paspausk, kad padidintum" hint shows on phones.
+- **Picture-only options** render as five letter circles in playlists too
+  (`.opt-letter-only`, `.options.image-options`); the contest shows
+  "– atsakymas paveikslėlyje –" instead of empty bars.
+- **Kid wording**: "Pakartojimas" instead of "Pakartojimo eilė"; no
+  intervals; review cards say why the question is back ("praeitą kartą
+  suklydai" / "jau N kartus iš eilės teisingai" / "buvai tikras, bet
+  suklydai") and, after the answer, when it returns ("Sugrįš po 7 d." /
+  "Pakartosime rytoj"). Card headers are "N uždavinys · YYYY m."
+  everywhere (no "Klausimas N", no "2024 · K16"); mastery-step
+  instructions became a pill row. Plan steps say "uždaviniai".
+  Streak and star counters on the hero are tappable (toast explains them –
+  phones have no hover). Archive years have a "Tik neišspręsti (N)" filter.
+- **Activity log** gained `activity[day].sec` (active seconds, from the
+  star heartbeat – only in `STAR_TIME_VIEWS`, idle cut-off) and
+  `activity[day].byBand = {3:{a,ok},…}` (from `logActivity` and
+  `creditContestActivity`).
+- **Parent view rebuilt** (`renderParent`): this week's tiles (training
+  days, questions + accuracy with week-over-week delta, minutes, stars vs
+  goal) → "Ką verta daryti" (`parentAdvice`, ≤ 3 rule-based tips with
+  buttons) → settings (contest date via shared `applyContestDate`,
+  contest weekday, training days, weekly goal + prize, confidence /
+  penalty / sound toggles, parent code) → progress (mastery bar, accuracy
+  by block over 30 days, 4-week table, 14-day grid, 7-day table,
+  per-mechanic table) → papers, weak tricks, notebook, calibration,
+  recognition, profiles, how-to, backup. "📋 Santrauka" copies a
+  plain-text week summary (`parentSummaryText`) for a message to the
+  other parent or a teacher. Settings and buttons are hidden in print.
+- **Parent code**: `META.parentPin` (shared by all profiles; 4–6 digits)
+  gates the parent view (`renderParentGate`, view "parentGate"); the
+  gate still offers export, so recovery = export → clear site data →
+  import. The hero button shows 🔒 when a code is set.
+- Smoke test covers all of it (section "figure-first question body +
+  parent view", "archive filter + parent summary"). Phone check: a 360 px
+  iframe harness (`scrollWidth` per view) – no overflow on any view.
