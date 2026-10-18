@@ -60,3 +60,7 @@ language sql security definer set search_path = public as $$
 $$;
 revoke all on function public.delete_my_account() from public, anon;
 grant execute on function public.delete_my_account() to authenticated;
+
+-- Signed-in parents reach the table through the API (rows still filtered by the policies).
+revoke all on public.kids from anon;
+grant select, insert, update, delete on public.kids to authenticated;

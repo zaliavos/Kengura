@@ -11,6 +11,6 @@
    The anon key is meant to be public: what each parent can read or change
    is enforced in the database (row level security in cloud-setup.sql). */
 window.KENGURA_CLOUD = {
-  url: "",
-  anonKey: ""
+  url: "https://fmgajzmlmmqlxghdluix.supabase.co",
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtZ2Fqem1sbW1xbHhnaGRsdWl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzMTcwMDksImV4cCI6MjEwNzg5MzAwOX0.cczf3Bi54KEPvbLZVWIwxAd2IrIp-WYI4SPIZ0DW8fs"
 };
