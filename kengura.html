@@ -445,6 +445,11 @@
     border:3px solid #2a2e34;box-shadow:0 6px 18px rgba(0,0,0,.18);touch-action:none}
   .race-controls{display:flex;gap:14px;justify-content:center;margin-top:12px}
   .race-ctrl{font-size:26px;min-width:88px;padding:14px 0;user-select:none}
+  /* ---- Kas mokosi? + parent account ---- */
+  .who-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .who-kid{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 10px;min-height:96px}
+  .ac-kids{list-style:none;margin:0;padding:0}
+  .ac-kid{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -459,6 +464,8 @@
 
 <!-- Archive of historical Kangaroo Benjamin tests, parsed from local PDFs -->
 <script src="kengura-archive.js"></script>
+<!-- Optional parent accounts: Supabase URL + anon key (empty = this device only) -->
+<script src="kengura-config.js"></script>
 <script>
 "use strict";
 
@@ -3174,13 +3181,6 @@ function switchProfile(id){
   META.active = id; saveMeta(META);
   location.reload();
 }
-function addProfile(name){
-  name = String(name || "").trim().slice(0, 24);
-  if(!name) return;
-  const id = `${Date.now().toString(36)}${Math.floor(Math.random()*1e4).toString(36)}`;
-  META.profiles.push({id, name}); saveMeta(META);
-  switchProfile(id);
-}
 function deleteProfile(id){
   if(!id) return;   // the default profile cannot be deleted
   if(id === META.active) _storeFrozen = true;   // no unload save of the deleted profile
@@ -3190,6 +3190,293 @@ function deleteProfile(id){
   saveMeta(META);
   location.reload();
 }
+/* ---- Parent accounts + cloud sync (2026-10-18) ----
+   Optional. A parent signs in (Supabase: e-mail + password); children have
+   no login of their own – each child is a row in the parent's `kids` table
+   and, on a device, a profile the child picks by name ("Kas mokosi?").
+   The browser copy stays the working copy, so the app runs offline exactly
+   as before. A profile linked to a row (p.cloudId, p.cloudOwner) is pushed
+   after local saves (at most every CLOUD_PUSH_DELAY_MS and when the tab is
+   hidden) and pulled when the row changed elsewhere (start, tab shown).
+   A push only lands while the row still has the updated_at we last saw
+   (p.syncedAt); if both sides changed, the copy with more practice wins and
+   the other is kept aside in localStorage (kengura_conflict_<id>).
+   Setup: cloud-setup.sql in the Supabase project, URL + anon key in
+   kengura-config.js. Without them every cloud function is a no-op. */
+const CLOUD_CFG = (typeof window !== "undefined" && window.KENGURA_CLOUD) || {};
+const CLOUD_LIB = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+const CLOUD_PUSH_DELAY_MS = 20000;
+const CLOUD_MAX_KIDS = 8;
+const CLOUD = {client: null, user: null, loading: null, status: "off", msg: "", lastSync: 0,
+  timer: null, busy: false, saveSeq: 0, deferActive: false, recovery: false, conflicts: 0, listening: false};
+function cloudConfigured(){ return !!(CLOUD_CFG.url && CLOUD_CFG.anonKey); }
+function cloudSignedIn(){ return !!(CLOUD.client && CLOUD.user); }
+function activeProfile(){ return META.profiles.find(p => p.id === META.active) || META.profiles[0]; }
+function newProfileId(){ return `${Date.now().toString(36)}${Math.floor(Math.random()*1e4).toString(36)}`; }
+function readProfileStore(p){
+  if(p.id === META.active) return store;
+  try { return JSON.parse(localStorage.getItem(storeKeyFor(p.id)) || "null"); } catch(_){ return null; }
+}
+// how much practice a saved copy holds – decides a conflict, and "empty"
+function storeWeight(s){
+  if(!s || typeof s !== "object") return 0;
+  const answered = Object.values(s.activity || {}).reduce((n, a) => n + ((a && a.answered) || 0), 0);
+  return answered + 30 * (s.contests || []).length + (s.sessions || []).length;
+}
+function profileIsEmpty(p){ const s = readProfileStore(p); return storeWeight(s) === 0 && !(s && s.plan && s.plan.contestDate); }
+function storeHash(s){
+  const t = JSON.stringify(s == null ? null : s);
+  let h = 5381;
+  for(let i = 0; i < t.length; i++) h = ((h << 5) + h + t.charCodeAt(i)) | 0;
+  return `${(h >>> 0).toString(36)}.${t.length}`;
+}
+function cloudLinked(p){ return !!(p && p.cloudId && CLOUD.user && p.cloudOwner === CLOUD.user.id); }
+
+// saveStore → the active profile has changes the cloud has not seen
+function cloudNoteLocalSave(){
+  const p = activeProfile();
+  if(!p || !p.cloudId || !META.cloudUser || p.cloudOwner !== META.cloudUser.id) return;
+  CLOUD.saveSeq++;
+  if(!p.dirty){ p.dirty = true; saveMeta(META); }
+  cloudSchedulePush();
+}
+function cloudSchedulePush(ms){
+  if(!cloudSignedIn() || CLOUD.timer) return;
+  CLOUD.timer = setTimeout(() => { CLOUD.timer = null; cloudSyncProfile(activeProfile()).catch(cloudFail); }, ms == null ? CLOUD_PUSH_DELAY_MS : ms);
+}
+function cloudFail(e){
+  CLOUD.status = (typeof navigator !== "undefined" && navigator.onLine === false) ? "offline" : "error";
+  CLOUD.msg = cloudErrorText(e);
+  cloudRefreshUI();
+}
+function cloudErrorText(e){
+  const m = String((e && (e.message || e.error_description)) || e || "");
+  if(/invalid login credentials/i.test(m)) return "Neteisingas el. paštas arba slaptažodis.";
+  if(/email not confirmed/i.test(m)) return "El. paštas dar nepatvirtintas – paspauskite nuorodą laiške.";
+  if(/already registered|already been registered/i.test(m)) return "Šis el. paštas jau užregistruotas – prisijunkite.";
+  if(/password should be|weak password|at least/i.test(m)) return "Slaptažodis per trumpas – bent 8 simboliai.";
+  if(/rate limit|too many/i.test(m)) return "Per daug bandymų. Palaukite kelias minutes.";
+  if(/failed to fetch|network|load failed/i.test(m)) return "Nėra ryšio su internetu.";
+  if(/unable to validate email|invalid email/i.test(m)) return "Patikrinkite el. pašto adresą.";
+  return m ? `Nepavyko: ${m}` : "Nepavyko.";
+}
+
+// the Supabase library is fetched only when a parent account is in use
+function cloudLoad(){
+  if(!cloudConfigured() || typeof document === "undefined" || !document.head) return Promise.resolve(null);
+  if(CLOUD.loading) return CLOUD.loading;
+  CLOUD.loading = new Promise(resolve => {
+    const make = () => {
+      try {
+        CLOUD.client = window.supabase.createClient(CLOUD_CFG.url, CLOUD_CFG.anonKey,
+          {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true}});
+      } catch(e){ cloudFail(e); CLOUD.loading = null; resolve(null); return; }
+      CLOUD.client.auth.onAuthStateChange((ev, session) => cloudOnAuth(ev, session));
+      resolve(CLOUD.client);
+    };
+    if(window.supabase && window.supabase.createClient){ make(); return; }
+    const s = document.createElement("script");
+    s.src = CLOUD_LIB; s.async = true;
+    s.onload = make;
+    s.onerror = () => { CLOUD.loading = null; CLOUD.status = "offline"; CLOUD.msg = "Nėra ryšio su internetu."; cloudRefreshUI(); resolve(null); };
+    document.head.appendChild(s);
+  });
+  return CLOUD.loading;
+}
+function cloudOnAuth(ev, session){
+  const u = session && session.user;
+  if(ev === "PASSWORD_RECOVERY"){
+    CLOUD.user = u || CLOUD.user; CLOUD.recovery = true;
+    setTimeout(() => openAccount({recovery: true}), 0);
+    return;
+  }
+  if(u){
+    const fresh = !CLOUD.user || CLOUD.user.id !== u.id;
+    CLOUD.user = u;
+    if(!META.cloudUser || META.cloudUser.id !== u.id || META.cloudUser.email !== u.email){ META.cloudUser = {id: u.id, email: u.email}; META.welcomed = true; saveMeta(META); }
+    const pin = u.user_metadata && u.user_metadata.parentPin;
+    if(pin && !META.parentPin){ META.parentPin = String(pin); saveMeta(META); }
+    // supabase-js must not be awaited inside its own auth callback
+    if(fresh) setTimeout(() => cloudSyncAll().catch(cloudFail), 0);
+  } else {
+    CLOUD.user = null; CLOUD.status = "off";
+    if(META.cloudUser){ delete META.cloudUser; saveMeta(META); }
+  }
+  cloudRefreshUI();
+}
+function cloudRefreshUI(){
+  if(state.view === "account") renderAccount();
+  else if(state.view === "who") renderWho();
+}
+function cloudSafeView(){ return ["home", "who", "account", "parent", "parentGate", "welcome"].includes(state.view); }
+// a pull for the open profile waits until the child is back on a calm screen
+function cloudOnHome(){
+  if(!CLOUD.deferActive || !cloudSignedIn()) return;
+  CLOUD.deferActive = false;
+  setTimeout(() => cloudSyncProfile(activeProfile()).catch(cloudFail), 0);
+}
+function cloudPutLocal(p, remote, updatedAt){
+  p.syncedAt = updatedAt; p.dirty = false;
+  if(remote) p.syncedHash = storeHash(remote);
+  if(remote){
+    try { localStorage.setItem(storeKeyFor(p.id), JSON.stringify(remote)); } catch(_){}
+    if(p.id === META.active){
+      const fresh = loadStore();
+      for(const k of Object.keys(store)) delete store[k];
+      Object.assign(store, fresh);
+      if(state.view === "home") renderHome();
+      else if(state.view === "parent") renderParent();
+    }
+  }
+  saveMeta(META);
+}
+async function cloudPush(p, base, depth){
+  const s = readProfileStore(p);
+  const hash = storeHash(s);
+  if(hash === p.syncedHash && base === p.syncedAt){ p.dirty = false; saveMeta(META); return "same"; }
+  const seq = CLOUD.saveSeq;
+  const r = await CLOUD.client.from("kids").update({store: s}).eq("id", p.cloudId).eq("updated_at", base).select("updated_at");
+  if(r.error) throw r.error;
+  if(!r.data || !r.data.length) return cloudSyncProfile(p, undefined, (depth || 0) + 1);   // written elsewhere meanwhile
+  p.syncedAt = r.data[0].updated_at; p.syncedHash = hash;
+  if(p.id !== META.active || seq === CLOUD.saveSeq) p.dirty = false; else cloudSchedulePush();
+  saveMeta(META);
+  return "pushed";
+}
+async function cloudSyncProfile(p, row, depth){
+  if(!cloudSignedIn() || !cloudLinked(p) || (depth || 0) > 2) return "skip";
+  const db = () => CLOUD.client.from("kids");
+  if(row === undefined){
+    const r = await db().select("id,name,updated_at").eq("id", p.cloudId).maybeSingle();
+    if(r.error) throw r.error;
+    row = r.data;
+  }
+  if(!row){   // removed on another device: keep this copy, stop syncing it
+    p.cloudId = null; p.cloudOwner = null; p.dirty = false; p.localOnly = true;
+    delete p.syncedAt; delete p.syncedHash; saveMeta(META);
+    return "gone";
+  }
+  if(row.name && row.name !== p.name){ p.name = row.name; saveMeta(META); }
+  const cloudChanged = row.updated_at !== p.syncedAt;
+  if(!cloudChanged && !p.dirty) return "same";
+  if(p.id === META.active && cloudChanged && !cloudSafeView()){ CLOUD.deferActive = true; return "later"; }
+  if(!cloudChanged) return cloudPush(p, p.syncedAt, depth);
+  const r2 = await db().select("store,updated_at").eq("id", p.cloudId).maybeSingle();
+  if(r2.error) throw r2.error;
+  if(!r2.data) return cloudSyncProfile(p, null, depth);
+  const remote = r2.data.store;
+  if(!p.dirty){ cloudPutLocal(p, remote, r2.data.updated_at); return "pulled"; }
+  // both sides changed since the last sync
+  const local = readProfileStore(p);
+  if(storeHash(local) === storeHash(remote)){ p.syncedHash = storeHash(local); cloudPutLocal(p, null, r2.data.updated_at); return "same"; }
+  const keepLocal = !remote || storeWeight(local) >= storeWeight(remote);
+  try { localStorage.setItem(`kengura_conflict_${p.cloudId}`, JSON.stringify({at: new Date().toISOString(), kept: keepLocal ? "this device" : "cloud", other: keepLocal ? remote : local})); } catch(_){}
+  CLOUD.conflicts++;
+  if(keepLocal) return cloudPush(p, r2.data.updated_at, depth);
+  cloudPutLocal(p, remote, r2.data.updated_at);
+  return "pulled";
+}
+async function cloudUpload(p){
+  const s = readProfileStore(p);
+  const name = (p.name || "").trim() || "Vaikas";
+  const ins = await CLOUD.client.from("kids").insert({name, store: s}).select("id,name,updated_at").single();
+  if(ins.error) throw ins.error;
+  Object.assign(p, {name, cloudId: ins.data.id, cloudOwner: CLOUD.user.id, syncedAt: ins.data.updated_at, syncedHash: storeHash(s), dirty: false});
+  delete p.localOnly;
+  saveMeta(META);
+  return ins.data;
+}
+async function cloudSyncAll(){
+  if(!cloudSignedIn() || CLOUD.busy) return;
+  CLOUD.busy = true; CLOUD.status = "syncing"; cloudRefreshUI();
+  const before = META.profiles.length;
+  try {
+    const uid = CLOUD.user.id;
+    const r = await CLOUD.client.from("kids").select("id,name,updated_at").order("created_at");
+    if(r.error) throw r.error;
+    const rows = r.data || [];
+    // 1. children of this account not on this device yet
+    for(const row of rows){
+      if(META.profiles.some(p => p.cloudId === row.id)) continue;
+      const def = META.profiles.find(p => p.id === "");
+      let p = (def && !def.cloudId && !def.localOnly && profileIsEmpty(def)) ? def : null;   // an untouched first profile is reused
+      if(!p){ p = {id: newProfileId(), name: row.name}; META.profiles.push(p); }
+      Object.assign(p, {name: row.name, cloudId: row.id, cloudOwner: uid, syncedAt: null, dirty: false});
+    }
+    // 2. practice on this device that the account has not got yet
+    for(const p of META.profiles){
+      if(p.cloudId || p.localOnly || profileIsEmpty(p) || rows.length >= CLOUD_MAX_KIDS) continue;
+      rows.push(await cloudUpload(p));
+    }
+    saveMeta(META);
+    // 3. each linked child: pull or push
+    for(const p of META.profiles){
+      if(!cloudLinked(p)) continue;
+      await cloudSyncProfile(p, rows.find(x => x.id === p.cloudId) || null);
+    }
+    CLOUD.status = "ok"; CLOUD.msg = ""; CLOUD.lastSync = Date.now();
+  } catch(e){ cloudFail(e); }
+  finally {
+    CLOUD.busy = false;
+    cloudRefreshUI();
+    if(META.profiles.length !== before && state.view === "home") renderHome();
+  }
+}
+function cloudBoot(){
+  if(!cloudConfigured() || typeof document === "undefined" || !document.head) return;
+  const fromLink = typeof location !== "undefined" && /access_token=|type=recovery|error_description=/.test(location.hash || "");
+  if(META.cloudUser || fromLink) cloudLoad();
+  if(CLOUD.listening) return;
+  CLOUD.listening = true;
+  document.addEventListener("visibilitychange", () => {
+    if(!cloudSignedIn()) return;
+    if(document.hidden){ clearTimeout(CLOUD.timer); CLOUD.timer = null; cloudSyncProfile(activeProfile()).catch(cloudFail); }
+    else cloudSyncAll();
+  });
+}
+
+// ---- children: add / rename / remove (cloud-aware, work offline too) ----
+async function addKid(name){
+  name = String(name || "").trim().slice(0, 24);
+  if(!name) return;
+  if(META.profiles.length >= CLOUD_MAX_KIDS){ showToast("👤", `Daugiausia ${CLOUD_MAX_KIDS} vaikai viename įrenginyje.`, 4000); return; }
+  const p = {id: newProfileId(), name};
+  META.profiles.push(p); saveMeta(META);
+  if(cloudSignedIn()){
+    try { await cloudUpload(p); } catch(e){ cloudFail(e); }   // offline: uploaded with the first practice
+  }
+  try { sessionStorage.setItem("kengura_who", "1"); } catch(_){}
+  switchProfile(p.id);
+}
+async function renameKid(p, name){
+  name = String(name || "").trim().slice(0, 24);
+  if(!name || !p) return;
+  p.name = name; saveMeta(META);
+  if(cloudLinked(p) && cloudSignedIn()){
+    try {
+      const r = await CLOUD.client.from("kids").update({name}).eq("id", p.cloudId).eq("updated_at", p.syncedAt).select("updated_at");
+      if(r.error) throw r.error;
+      if(r.data && r.data.length){ p.syncedAt = r.data[0].updated_at; saveMeta(META); }
+      else { await CLOUD.client.from("kids").update({name}).eq("id", p.cloudId); }   // changed elsewhere: the next sync pulls it
+    } catch(e){ cloudFail(e); }
+  }
+}
+async function removeKid(p){
+  if(!p) return;
+  if(cloudLinked(p) && cloudSignedIn()){
+    const r = await CLOUD.client.from("kids").delete().eq("id", p.cloudId);
+    if(r.error){ cloudFail(r.error); return; }
+  }
+  if(p.id){ deleteProfile(p.id); return; }
+  // the first profile keeps its slot: emptied instead of removed
+  if(META.active === "") _storeFrozen = true;
+  try { localStorage.removeItem(storeKeyFor("")); } catch(_){}
+  for(const k of ["cloudId", "cloudOwner", "syncedAt", "syncedHash", "dirty"]) delete p[k];
+  p.name = "";
+  saveMeta(META);
+  location.reload();
+}
+
 function loadStore(){
   const defaults = {
     sessions:[], catStats:{}, subStats:{},
@@ -4102,6 +4389,7 @@ function saveStore(s){
   if(_storeFrozen) return;
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(s));
+    cloudNoteLocalSave();
   } catch(e) {
     // Most common: QuotaExceededError. Warn once per session so the kid
     // (or parent) knows their progress isn't being persisted.
@@ -4145,7 +4433,7 @@ const state = {
    open picture, else presses the view's own exit button, so its cleanup
    (timers, mastery bookkeeping, game loops) runs exactly as on a tap. */
 const NAV_EXIT_IDS = ["back","plBackTop","mbBack","pmBack","ciBack","ppBack","peBack","contestBack",
-  "gateBack","parentBack","backBtn","planBack","recogQuit","recogHome","raceGameQuit","raceQuit",
+  "gateBack","parentBack","acBack","backBtn","planBack","recogQuit","recogHome","raceGameQuit","raceQuit",
   "raceHome","jumpQuit","pickHome","goHome","homeBtn","exitBtn"];
 (function hookViewNavigation(){
   let view = state.view;
@@ -5113,6 +5401,7 @@ function renderHome(){
   topUpQueueFromNotebook();
   state._planStep = null;   // returning home aborts any plan-step attribution
   state._resultsFromPlan = false;
+  cloudOnHome();
   // Mechanic-level weakness (replaces legacy subStats panel)
   const weakMechs = weakestMechanics(6).filter(w => w.rate > 0 && w.showAttempts >= 4);
   // Spaced-repetition queue: how many items are due today
@@ -5267,7 +5556,7 @@ function renderHome(){
         <div class="hero-activity" aria-label="Pastarųjų 14 dienų aktyvumas">
           ${activityCells.join('')}
         </div>
-        ${META.profiles.length > 1 ? `<span class="pill" title="Aktyvus profilis – keisti tėvų rodinyje">👤 ${escapeHTML(activeProfileName() || 'pagrindinis')}</span>` : ''}
+        ${(META.profiles.length > 1 || META.cloudUser) ? `<button class="btn small ghost" id="whoBtn" aria-label="Kas mokosi: ${escapeHTML(activeProfileName() || 'be vardo')} – pakeisti">👤 ${escapeHTML(activeProfileName() || 'Be vardo')}</button>` : ''}
         <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}">📒<span class="wide-only"> Klaidos</span>${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
         <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas${META.parentPin ? ' (su kodu)' : ''}" aria-label="Tėvams">${META.parentPin ? '🔒' : '👁'}<span class="wide-only"> Tėvams</span></button>
       </div>
@@ -5661,6 +5950,8 @@ function renderHome(){
   if(mistakeBookBtn) mistakeBookBtn.addEventListener("click", openMistakeBook);
   const parentBtn = document.getElementById("parentBtn");
   if(parentBtn) parentBtn.addEventListener("click", openParent);
+  const whoBtn = document.getElementById("whoBtn");
+  if(whoBtn) whoBtn.addEventListener("click", () => { state.view = "who"; renderWho(); });
   const itSave = document.getElementById("itSave");
   if(itSave) itSave.addEventListener("click", ()=>{
     const val = id => String((document.getElementById(id) || {}).value || "").trim().replace(/[.!]+$/, "");
@@ -7054,6 +7345,7 @@ function importProgressFile(file){
       const qs = Object.values(incoming.activity).reduce((a, c) => a + (c.answered || 0), 0);
       if(!confirm(`Importuoti progresą (${qs} ${pluralForm(qs,'atsakymas','atsakymai','atsakymų')}, ${(n => `${n} ${pluralForm(n,'įvaldyta gudrybė','įvaldytos gudrybės','įvaldytų gudrybių')}`)(Object.keys(incoming.masteredMech || {}).length)})?\n\nDabartinis progresas šioje naršyklėje bus pakeistas.`)) return;
       localStorage.setItem(LS_KEY, JSON.stringify(incoming));
+      cloudNoteLocalSave();   // the account gets the imported copy on the next start
       _storeFrozen = true;   // only once it is stored: the unload save must not overwrite the import
       location.reload();
     } catch(e){ alert("Nepavyko importuoti: " + e.message); }
@@ -7144,6 +7436,283 @@ function parentSummaryText(){
   return lines.join("\n");
 }
 
+/* ---- First run, "Kas mokosi?" picker, parent account (2026-10-18) ----
+   welcome: a new install asks the child's name and points parents to the
+   account. who: with several children on a device the app opens on a
+   name picker (once per browser session; the hero 👤 button reopens it).
+   account: sign in / create the parent account, the children list with
+   sync state, add / rename / remove a child. Behind the parent code. */
+function needsWelcome(){
+  return !META.welcomed && META.profiles.length === 1 && !activeProfileName() && !META.cloudUser
+    && storeWeight(store) === 0;
+}
+function needsWhoPicker(){
+  if(META.profiles.length < 2) return false;
+  try { return !sessionStorage.getItem("kengura_who"); } catch(_){ return false; }
+}
+function cloudStatusLine(){
+  if(!cloudConfigured()) return "📱 Progresas saugomas tik šiame įrenginyje.";
+  if(!META.cloudUser && !CLOUD.user) return "📱 Progresas saugomas tik šiame įrenginyje (tėvų paskyra neprijungta).";
+  if(CLOUD.status === "syncing") return "☁ Sinchronizuojama…";
+  if(CLOUD.status === "offline") return "☁ Nėra ryšio – progresas saugomas čia ir bus išsiųstas vėliau.";
+  if(CLOUD.status === "error") return `☁ ${escapeHTML(CLOUD.msg || "Sinchronizuoti nepavyko.")}`;
+  if(CLOUD.lastSync) return `☁ Išsaugota paskyroje ${new Date(CLOUD.lastSync).toLocaleTimeString("lt-LT", {hour: "2-digit", minute: "2-digit"})}.`;
+  return "☁ Prijungta tėvų paskyra.";
+}
+
+function renderWelcome(){
+  $app.innerHTML = `
+    <section class="card" style="max-width:520px;margin:0 auto">
+      <div style="font-size:44px;line-height:1" aria-hidden="true">🦘</div>
+      <h2 style="margin:8px 0 4px">Labas! Čia Kengūros treniruoklis.</h2>
+      <p style="margin:0 0 14px">„Kengūros“ konkurso 5–6 klasės (Bičiulio) uždaviniai, gudrybės ir bandomieji konkursai.</p>
+      <label for="wName"><b>Kuo tu vardu?</b></label>
+      <div class="row" style="gap:8px;margin-top:6px;flex-wrap:wrap">
+        <input id="wName" maxlength="24" autocomplete="off" style="font:inherit;font-size:18px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;min-height:44px;flex:1;min-width:0">
+        <button class="btn primary" id="wGo">Pradėti →</button>
+      </div>
+    </section>
+    <section class="card" style="max-width:520px;margin:12px auto 0">
+      <h3 style="margin-top:0">Tėvams</h3>
+      <p class="help-bar" style="margin-top:0">${cloudConfigured()
+        ? 'Su tėvų paskyra progresas saugomas internete: matysite jį savo telefone, o vaikas galės tęsti kitame įrenginyje. Vaikams paskyros nereikia – jie pasirenka savo vardą.'
+        : 'Keli vaikai? Kiekvienas gali turėti savo profilį su savo progresu.'}</p>
+      <button class="btn" id="wAccount">${cloudConfigured() ? '👤 Prisijungti arba sukurti paskyrą' : '👤 Vaikai šiame įrenginyje'}</button>
+    </section>`;
+  const go = () => {
+    const n = String(document.getElementById("wName").value || "").trim().slice(0, 24);
+    const p = activeProfile();
+    if(n && p){ p.name = n; }
+    META.welcomed = true; saveMeta(META);
+    state.view = "home"; renderHome();
+  };
+  document.getElementById("wGo").addEventListener("click", go);
+  document.getElementById("wName").addEventListener("keydown", e => { if(e.key === "Enter") go(); });
+  document.getElementById("wAccount").addEventListener("click", () => openAccount({from: "welcome"}));
+}
+
+function renderWho(){
+  const kids = META.profiles.map(p => {
+    const s = readProfileStore(p) || {};
+    const stars = (s.stars && s.stars.total) || 0;
+    return `<button class="btn who-kid${p.id === META.active ? ' primary' : ''}" data-who="${escapeHTML(p.id)}">
+      <span style="font-size:22px" aria-hidden="true">🦘</span>
+      <span style="font-size:18px;font-weight:700">${escapeHTML(p.name || 'Be vardo')}</span>
+      <span class="small">⭐ ${stars}</span>
+    </button>`;
+  }).join("");
+  $app.innerHTML = `
+    <section class="card" style="max-width:560px;margin:0 auto">
+      <h2 style="margin-top:0">Kas šiandien mokosi?</h2>
+      <div class="who-grid">${kids}</div>
+      <p class="help-bar" style="margin:12px 0 0">${cloudStatusLine()}</p>
+      <button class="btn small ghost" id="whoParent" style="margin-top:8px">${META.parentPin ? '🔒' : '👤'} Tėvams: paskyra ir vaikai</button>
+    </section>`;
+  $app.querySelectorAll("[data-who]").forEach(b => b.addEventListener("click", () => {
+    try { sessionStorage.setItem("kengura_who", "1"); } catch(_){}
+    const id = b.dataset.who;
+    if(id !== META.active) switchProfile(id);
+    else { state.view = "home"; renderHome(); }
+  }));
+  document.getElementById("whoParent").addEventListener("click", () => openAccount({from: "who"}));
+}
+
+function openAccount(opts){
+  opts = opts || {};
+  if(META.parentPin && !state._parentUnlocked && !opts.recovery){
+    state._gateNext = "account"; state._acFrom = opts.from || "home";
+    state.view = "parentGate"; renderParentGate(); return;
+  }
+  if(opts.from) state._acFrom = opts.from;
+  if(opts.recovery) CLOUD.recovery = true;
+  state.view = "account"; renderAccount();
+  if(cloudConfigured() && !CLOUD.client) cloudLoad().then(() => { if(state.view === "account") renderAccount(); });
+}
+function accountBack(){
+  const from = state._acFrom; state._acFrom = null;
+  if(from === "parent"){ openParent(); return; }
+  if(from === "welcome" && needsWelcome()){ state.view = "welcome"; renderWelcome(); return; }
+  if(from === "who" && META.profiles.length > 1){ state.view = "who"; renderWho(); return; }
+  state.view = "home"; renderHome();
+}
+function renderAccount(){
+  const signedIn = cloudSignedIn();
+  const mode = state._acMode || "in";
+  const field = "font:inherit;font-size:16px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;min-height:44px;width:100%;box-sizing:border-box";
+  const kidRow = p => {
+    let st;
+    if(cloudLinked(p)) st = p.dirty ? "⏳ laukia išsiuntimo" : "☁ išsaugota paskyroje";
+    else if(p.cloudId && p.cloudOwner && META.cloudUser && p.cloudOwner !== META.cloudUser.id) st = "kitos paskyros";
+    else st = "📱 tik šiame įrenginyje";
+    const canUpload = signedIn && !p.cloudId;
+    return `<li class="ac-kid">
+      <div><b>${escapeHTML(p.name || 'Be vardo')}</b>${p.id === META.active ? ' <span class="pill">dabar</span>' : ''}<div class="help-bar" style="margin:2px 0 0">${st}</div></div>
+      <div class="row" style="gap:6px;flex-wrap:wrap">
+        ${p.id !== META.active ? `<button class="btn small" data-ac-pick="${escapeHTML(p.id)}">Pasirinkti</button>` : ''}
+        ${canUpload ? `<button class="btn small" data-ac-upload="${escapeHTML(p.id)}">☁ Įkelti</button>` : ''}
+        <button class="btn small ghost" data-ac-rename="${escapeHTML(p.id)}" aria-label="Pervadinti ${escapeHTML(p.name || 'profilį')}">✎</button>
+        ${(p.id || cloudLinked(p)) ? `<button class="btn small ghost" data-ac-remove="${escapeHTML(p.id)}" aria-label="Pašalinti ${escapeHTML(p.name || 'profilį')}">🗑</button>` : ''}
+      </div>
+    </li>`;
+  };
+  let accountCard;
+  if(!cloudConfigured()){
+    accountCard = `<p class="help-bar" style="margin-top:0">Internetinės paskyros šioje svetainėje dar neįjungtos, todėl progresas saugomas tik šioje naršyklėje. Atsarginę kopiją galite pasidaryti skiltyje „Tėvams“ (⬇ Eksportuoti).</p>`;
+  } else if(CLOUD.recovery && signedIn){
+    accountCard = `
+      <p style="margin-top:0">Įveskite naują slaptažodį paskyrai <b>${escapeHTML(CLOUD.user.email || '')}</b>.</p>
+      <label for="acNewPw">Naujas slaptažodis (bent 8 simboliai)</label>
+      <input id="acNewPw" type="password" autocomplete="new-password" minlength="8" style="${field}">
+      <button class="btn primary" id="acSetPw" style="margin-top:10px">Išsaugoti slaptažodį</button>`;
+  } else if(signedIn){
+    accountCard = `
+      <p style="margin-top:0">Prisijungta: <b>${escapeHTML(CLOUD.user.email || '')}</b></p>
+      <p class="help-bar" style="margin:0 0 10px">${cloudStatusLine()}${CLOUD.conflicts ? ' Du įrenginiai keitė tą patį progresą neprisijungę – palikta ta kopija, kurioje daugiau darbo.' : ''}</p>
+      <div class="row" style="gap:8px;flex-wrap:wrap">
+        <button class="btn small" id="acSync">↻ Sinchronizuoti dabar</button>
+        <button class="btn small ghost" id="acOut">Atsijungti</button>
+      </div>
+      <p class="help-bar" style="margin:10px 0 0">Vaiko įrenginyje prisijunkite ta pačia paskyra vieną kartą – toliau vaikas tik pasirenka savo vardą. Atsijungus progresas lieka įrenginyje.</p>`;
+  } else if(META.cloudUser && !CLOUD.client){
+    accountCard = `<p class="help-bar" style="margin-top:0">${CLOUD.status === "offline" ? 'Nėra ryšio su internetu. Progresas saugomas šiame įrenginyje.' : 'Jungiamasi…'}</p>`;
+  } else {
+    const up = mode === "up";
+    accountCard = `
+      <div class="row" style="gap:6px;margin-bottom:10px" role="group" aria-label="Paskyra">
+        <button class="btn small ${up ? '' : 'primary'}" data-ac-mode="in" aria-pressed="${!up}">Prisijungti</button>
+        <button class="btn small ${up ? 'primary' : ''}" data-ac-mode="up" aria-pressed="${up}">Sukurti paskyrą</button>
+      </div>
+      <label for="acEmail">El. paštas</label>
+      <input id="acEmail" type="email" autocomplete="email" inputmode="email" value="${escapeHTML(state._acEmail || '')}" style="${field}">
+      <label for="acPw" style="display:block;margin-top:8px">Slaptažodis${up ? ' (bent 8 simboliai)' : ''}</label>
+      <input id="acPw" type="password" autocomplete="${up ? 'new-password' : 'current-password'}" minlength="8" style="${field}">
+      ${up ? `<label style="display:flex;flex-wrap:nowrap;gap:10px;align-items:flex-start;margin-top:10px;min-height:44px;cursor:pointer"><input type="checkbox" id="acAdult" style="width:22px;height:22px;flex:none;margin-top:2px"><span class="small">Esu vaiko tėvas, mama arba globėjas. Sutinku, kad paskyroje būtų saugomas mano el. paštas, vaikų vardai ir jų treniruočių progresas.</span></label>` : ''}
+      <button class="btn primary" id="acGo" style="margin-top:10px">${up ? 'Sukurti paskyrą' : 'Prisijungti'}</button>
+      ${up ? '' : '<button class="btn small ghost" id="acForgot" style="margin-top:10px">Pamiršote slaptažodį?</button>'}
+      <p class="help-bar" style="margin:10px 0 0">Paskyra – tik tėvams. Vaikams el. pašto ir slaptažodžio nereikia: šiame įrenginyje jie pasirenka savo vardą. Jau esamas progresas šiame įrenginyje bus įkeltas į paskyrą.</p>`;
+  }
+  $app.innerHTML = `
+    <section class="card" style="max-width:600px;margin:0 auto">
+      <button class="nav-back" id="acBack">← Atgal</button>
+      <h2>👤 Tėvų paskyra</h2>
+      ${accountCard}
+      <p class="help-bar" id="acMsg" role="status" style="min-height:1.2em;margin:8px 0 0">${escapeHTML(state._acMsg || '')}</p>
+    </section>
+    <section class="card" style="max-width:600px;margin:12px auto 0">
+      <h3 style="margin-top:0">Vaikai šiame įrenginyje</h3>
+      <ul class="ac-kids">${META.profiles.map(kidRow).join('')}</ul>
+      <button class="btn small" id="acAdd" style="margin-top:8px">＋ Pridėti vaiką</button>
+    </section>
+    ${signedIn && !CLOUD.recovery ? `
+    <section class="card" style="max-width:600px;margin:12px auto 0">
+      <details>
+        <summary>Paskyros ištrynimas</summary>
+        <p class="help-bar">Ištrinama paskyra ir visų vaikų progresas internete. Šiame įrenginyje progresas lieka (jį galite išvalyti atskirai).</p>
+        <button class="btn small ghost" id="acDelete">🗑 Ištrinti paskyrą</button>
+      </details>
+    </section>` : ''}`;
+  state._acMsg = "";
+  const msg = t => { const el = document.getElementById("acMsg"); if(el) el.textContent = t; };
+  const byId = id => META.profiles.find(p => p.id === id);
+  document.getElementById("acBack").addEventListener("click", accountBack);
+  $app.querySelectorAll("[data-ac-mode]").forEach(b => b.addEventListener("click", () => {
+    const em = document.getElementById("acEmail"); if(em) state._acEmail = em.value;
+    state._acMode = b.dataset.acMode; renderAccount();
+  }));
+  const go = document.getElementById("acGo");
+  if(go) go.addEventListener("click", async () => {
+    const email = String(document.getElementById("acEmail").value || "").trim();
+    const password = String(document.getElementById("acPw").value || "");
+    state._acEmail = email;
+    if(!/^\S+@\S+\.\S+$/.test(email)){ msg("Patikrinkite el. pašto adresą."); return; }
+    if(password.length < 8){ msg("Slaptažodis – bent 8 simboliai."); return; }
+    const up = (state._acMode || "in") === "up";
+    if(up && !document.getElementById("acAdult").checked){ msg("Pažymėkite, kad esate vaiko tėvai ar globėjai."); return; }
+    const c = await cloudLoad();
+    if(!c){ msg("Nepavyko prisijungti prie paskyrų serverio. Patikrinkite interneto ryšį."); return; }
+    go.disabled = true; msg(up ? "Kuriama paskyra…" : "Jungiamasi…");
+    const base = location.origin + location.pathname;
+    const r = up ? await c.auth.signUp({email, password, options: {emailRedirectTo: base}})
+                 : await c.auth.signInWithPassword({email, password});
+    go.disabled = false;
+    if(r.error){ msg(cloudErrorText(r.error)); return; }
+    if(up && !r.data.session){ state._acMode = "in"; state._acMsg = `Išsiuntėme laišką adresu ${email}. Paspauskite jame esančią nuorodą ir prisijunkite.`; renderAccount(); return; }
+    META.welcomed = true;
+    // practice without a child's name would reach the account as "Vaikas"
+    const unnamed = META.profiles.find(p => !p.name && !p.cloudId && !p.localOnly && !profileIsEmpty(p));
+    if(unnamed){ const n = prompt("Kuo vardu vaikas, kurio progresas yra šiame įrenginyje?"); if(n && n.trim()) unnamed.name = n.trim().slice(0, 24); }
+    saveMeta(META);
+    state._acMsg = "Prisijungta. Progresas sinchronizuojamas."; renderAccount();
+  });
+  const pw = document.getElementById("acPw");
+  if(pw && go) pw.addEventListener("keydown", e => { if(e.key === "Enter") go.click(); });
+  const forgot = document.getElementById("acForgot");
+  if(forgot) forgot.addEventListener("click", async () => {
+    const email = String(document.getElementById("acEmail").value || "").trim();
+    if(!/^\S+@\S+\.\S+$/.test(email)){ msg("Įrašykite el. paštą, ir atsiųsime nuorodą naujam slaptažodžiui."); return; }
+    const c = await cloudLoad(); if(!c){ msg("Nėra ryšio su internetu."); return; }
+    const r = await c.auth.resetPasswordForEmail(email, {redirectTo: location.origin + location.pathname});
+    msg(r.error ? cloudErrorText(r.error) : `Jei paskyra yra, nuoroda išsiųsta adresu ${email}.`);
+  });
+  const setPw = document.getElementById("acSetPw");
+  if(setPw) setPw.addEventListener("click", async () => {
+    const v = String(document.getElementById("acNewPw").value || "");
+    if(v.length < 8){ msg("Slaptažodis – bent 8 simboliai."); return; }
+    const r = await CLOUD.client.auth.updateUser({password: v});
+    if(r.error){ msg(cloudErrorText(r.error)); return; }
+    CLOUD.recovery = false;
+    try { history.replaceState(history.state, "", location.pathname); } catch(_){}
+    state._acMsg = "Naujas slaptažodis išsaugotas."; renderAccount();
+  });
+  const sync = document.getElementById("acSync");
+  if(sync) sync.addEventListener("click", () => cloudSyncAll());
+  const out = document.getElementById("acOut");
+  if(out) out.addEventListener("click", async () => {
+    const p = activeProfile();
+    if(cloudLinked(p) && p.dirty){ try { await cloudSyncProfile(p); } catch(_){} }
+    await CLOUD.client.auth.signOut({scope: "local"});
+    state._acMsg = "Atsijungta. Progresas liko šiame įrenginyje."; renderAccount();
+  });
+  const del = document.getElementById("acDelete");
+  if(del) del.addEventListener("click", async () => {
+    if(!confirm("Ištrinti paskyrą ir visų vaikų progresą internete? To atšaukti nebus galima.")) return;
+    const r = await CLOUD.client.rpc("delete_my_account");
+    if(r.error){ msg(cloudErrorText(r.error)); return; }
+    const uid = CLOUD.user.id;
+    for(const p of META.profiles) if(p.cloudOwner === uid) for(const k of ["cloudId", "cloudOwner", "syncedAt", "syncedHash", "dirty"]) delete p[k];
+    saveMeta(META);
+    try { await CLOUD.client.auth.signOut({scope: "local"}); } catch(_){}
+    state._acMsg = "Paskyra ištrinta. Progresas liko šiame įrenginyje."; renderAccount();
+  });
+  document.getElementById("acAdd").addEventListener("click", () => {
+    const n = prompt("Vaiko vardas:");
+    if(n && n.trim()) addKid(n);
+  });
+  $app.querySelectorAll("[data-ac-pick]").forEach(b => b.addEventListener("click", () => {
+    try { sessionStorage.setItem("kengura_who", "1"); } catch(_){}
+    switchProfile(b.dataset.acPick);
+  }));
+  $app.querySelectorAll("[data-ac-upload]").forEach(b => b.addEventListener("click", async () => {
+    const p = byId(b.dataset.acUpload); if(!p) return;
+    if(!p.name){ const n = prompt("Vaiko vardas:"); if(!n || !n.trim()) return; p.name = n.trim().slice(0, 24); }
+    b.disabled = true;
+    try { await cloudUpload(p); state._acMsg = `${p.name}: progresas įkeltas į paskyrą.`; } catch(e){ state._acMsg = cloudErrorText(e); }
+    renderAccount();
+  }));
+  $app.querySelectorAll("[data-ac-rename]").forEach(b => b.addEventListener("click", async () => {
+    const p = byId(b.dataset.acRename); if(!p) return;
+    const n = prompt("Naujas vardas:", p.name || "");
+    if(!n || !n.trim()) return;
+    await renameKid(p, n); renderAccount();
+  }));
+  $app.querySelectorAll("[data-ac-remove]").forEach(b => b.addEventListener("click", async () => {
+    const p = byId(b.dataset.acRemove); if(!p) return;
+    const where = cloudLinked(p) ? " šiame įrenginyje ir paskyroje (visuose įrenginiuose)" : " šiame įrenginyje";
+    if(!confirm(`Pašalinti „${p.name || 'Be vardo'}“ ir visą jo progresą${where}? To atšaukti nebus galima.`)) return;
+    await removeKid(p);
+  }));
+}
+
 function openParent(){
   if(META.parentPin && !state._parentUnlocked){ state.view = "parentGate"; renderParentGate(); return; }
   state.view = "parent";
@@ -7171,7 +7740,11 @@ function renderParentGate(){
     </section>`;
   const pin = document.getElementById("gatePin");
   const tryUnlock = () => {
-    if(String(pin.value || "") === String(META.parentPin)){ state._parentUnlocked = true; openParent(); }
+    if(String(pin.value || "") === String(META.parentPin)){
+      state._parentUnlocked = true;
+      const next = state._gateNext; state._gateNext = null;
+      if(next === "account") openAccount(); else openParent();
+    }
     else { document.getElementById("gateMsg").textContent = "Neteisingas kodas."; pin.value = ""; pin.focus(); }
   };
   document.getElementById("gateOk").addEventListener("click", tryUnlock);
@@ -7447,12 +8020,11 @@ function renderParent(){
     </section>` : ''}
 
     <section class="card">
-      <h3>👤 Profiliai</h3>
-      <p class="help-bar" style="margin-top:0">Keli vaikai viename įrenginyje – kiekvienas su savo progresu, planu ir žvaigždėmis. Aktyvus: <b>${escapeHTML(activeProfileName() || 'pagrindinis')}</b>.</p>
+      <h3>👤 Vaikai ir paskyra</h3>
+      <p class="help-bar" style="margin-top:0">Kiekvienas vaikas turi savo progresą, planą ir žvaigždes. Dabar: <b>${escapeHTML(activeProfileName() || 'be vardo')}</b>.<br>${cloudStatusLine()}${META.cloudUser ? ` (${escapeHTML(META.cloudUser.email || '')})` : ''}</p>
       <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
-        ${META.profiles.map(pr => `<button class="btn small ${pr.id === META.active ? 'primary' : ''}" data-profile="${pr.id}">${escapeHTML(pr.name || 'pagrindinis')}${pr.id === META.active ? ' ✓' : ''}</button>`).join('')}
-        <button class="btn small" id="profileAdd">＋ Naujas profilis</button>
-        ${META.active ? `<button class="btn small ghost" id="profileDelete">🗑 Ištrinti šį profilį</button>` : ''}
+        ${META.profiles.map(pr => `<button class="btn small ${pr.id === META.active ? 'primary' : ''}" data-profile="${pr.id}">${escapeHTML(pr.name || 'be vardo')}${pr.id === META.active ? ' ✓' : ''}</button>`).join('')}
+        <button class="btn small" id="profileAccount">${cloudConfigured() ? (META.cloudUser ? '☁ Paskyra ir vaikai' : '☁ Prisijungti / sukurti paskyrą') : '＋ Pridėti, pervadinti, pašalinti'}</button>
       </div>
     </section>
 
@@ -7498,10 +8070,8 @@ function renderParent(){
   }));
   $app.querySelectorAll("[data-recap-mech]").forEach(btn=> btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
   $app.querySelectorAll("[data-profile]").forEach(b => b.addEventListener("click", ()=>{ if(b.dataset.profile !== META.active) switchProfile(b.dataset.profile); }));
-  const profileAdd = document.getElementById("profileAdd");
-  if(profileAdd) profileAdd.addEventListener("click", ()=>{ const n = prompt("Vaiko vardas naujam profiliui:"); if(n) addProfile(n); });
-  const profileDelete = document.getElementById("profileDelete");
-  if(profileDelete) profileDelete.addEventListener("click", ()=>{ if(confirm(`Ištrinti profilį „${activeProfileName()}“ ir visą jo progresą?`)) deleteProfile(META.active); });
+  const profileAccount = document.getElementById("profileAccount");
+  if(profileAccount) profileAccount.addEventListener("click", () => openAccount({from: "parent"}));
   const parentPrint = document.getElementById("parentPrint");
   if(parentPrint) parentPrint.addEventListener("click", ()=>{ document.querySelectorAll("#app details").forEach(d => d.open = true); window.print(); });
   const parentCopy = document.getElementById("parentCopy");
@@ -7570,11 +8140,16 @@ function renderParent(){
     const v = String((document.getElementById("pPinNew") || {}).value || "").trim();
     if(!/^\d{4,6}$/.test(v)){ showToast("🔒", "Kodas – 4–6 skaitmenys.", 3000); return; }
     META.parentPin = v; saveMeta(META); state._parentUnlocked = true;
+    if(cloudSignedIn()) CLOUD.client.auth.updateUser({data: {parentPin: v}}).catch(()=>{});   // same code on every device of the account
     showToast("🔒", "Tėvų kodas nustatytas. Užsirašykite jį.", 4000);
     renderParent();
   });
   const pinClear = document.getElementById("pPinClear");
-  if(pinClear) pinClear.addEventListener("click", ()=>{ delete META.parentPin; saveMeta(META); renderParent(); });
+  if(pinClear) pinClear.addEventListener("click", ()=>{
+    delete META.parentPin; saveMeta(META);
+    if(cloudSignedIn()) CLOUD.client.auth.updateUser({data: {parentPin: null}}).catch(()=>{});
+    renderParent();
+  });
   $app.querySelectorAll("[data-mech-playlist]").forEach(btn=>{
     btn.addEventListener("click", ()=>{ openPlaylist(btn.dataset.mechPlaylist); });
   });
@@ -10815,7 +11390,10 @@ function shortPrompt(p){
 /* ============================================================
    IX. PRADŽIA
    ============================================================ */
-renderHome();
+if(needsWelcome()){ state.view = "welcome"; renderWelcome(); }
+else if(needsWhoPicker()){ state.view = "who"; renderWho(); }
+else renderHome();
+cloudBoot();
 startStarTimeHeartbeat();
 wireFigureZoom();
 wireQTextToggle();

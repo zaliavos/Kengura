@@ -2,9 +2,9 @@
    Shell (html/js/json): network-first, cache fallback → updates land on
    the next load, offline still opens the app. Figures (png): cache-first,
    filled on demand → a paper the kid has opened once works offline. */
-const SHELL = "kengura-shell-v2";
+const SHELL = "kengura-shell-v3";
 const FIGS = "kengura-figs-v17";   // bump whenever a figure PNG is replaced (cache-first!)
-const SHELL_URLS = ["./", "kengura.html", "kengura-archive.js", "manifest.webmanifest", "icon.svg"];
+const SHELL_URLS = ["./", "kengura.html", "kengura-archive.js", "kengura-config.js", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(SHELL).then(c => c.addAll(SHELL_URLS).catch(() => {})).then(() => self.skipWaiting()));

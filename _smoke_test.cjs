@@ -93,7 +93,7 @@ return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         renderContestIntro, newTestSizeLabel, needsDiagnosticContest,
         nextPlanStep, renderRecogResult, $app, playlistMasteryMs,
         parseOfficialSolution, officialSolutionHTML, solutionBlockHTML, solutionPlain, approachFromSolution,
-        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openThinkDrill, buildThinkItems, renderThink, reservedYears, recallDeck, openRecallCards, renderRecall, stopTimer, ifThenCardHTML, ifThenLine, parentAskToday, renderContestIntro, renderPlan, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
+        reconcileMasteryWithArchive, store, mechTopBand, buildRecogPool, state, kidIdeaOf, openContest, renderContest, persistContestProgress, noteMistake, openMistakeBook, recordArchiveAnswer, finishContest, openPrintPaper, openPaperEntry, openParent, shortText, renderHome, openPlan, openRecogDrill, openMixedSet, openPlaylist, renderGamePick, topUpQueueFromNotebook, renderRecog, openArchiveSprint, renderArchiveYear, contestElimination, renderGameOver, contestRetryItems, openContestRetry, suggestedContestDate, kidSolutionHTML, needsSpeedWork, weekActivity, todayKey, HOME_TABS, setHomeTab, parentSummaryText, questionBodyHTML, renderPlaylistQuestion, openDueQueue, renderPlaylist, META, renderParentGate, parentAdvice, weekSummary, bandAccuracyDays, applyContestDate, activityMinutes, goArchiveQ, tryFirstPending, selfExplainFor, renderContestResults, liveStreak, openMistakeSet, gateTriesLeft, openThinkDrill, buildThinkItems, renderThink, reservedYears, recallDeck, openRecallCards, renderRecall, stopTimer, ifThenCardHTML, ifThenLine, parentAskToday, renderContestIntro, renderPlan, saveStore, CLOUD, cloudSyncAll, cloudSyncProfile, cloudOnHome, storeHash, activeProfile, needsWelcome, needsWhoPicker, renderWelcome, renderWho, renderAccount, openAccount, cloudStatusLine, openRaceChallenge: typeof openRaceChallenge === "function" ? openRaceChallenge : null};
 `;
 let app;
 try {
@@ -1600,10 +1600,104 @@ section("corrupt save is kept, not overwritten");
   if(before == null) localStorageStub.removeItem(key); else localStorageStub.setItem(key, before);
 }
 
-// ---------- result ----------
-console.log("");
-if(failures){
-  console.error(`${failures} check(s) FAILED`);
-  process.exit(1);
+section("parent accounts: first run, who picker, account view, cloud sync");
+async function cloudChecks(){
+  const {CLOUD, META, store, state: st} = app;
+  // views without a configured cloud: local profiles only
+  check("an install with practice skips the welcome screen", !app.needsWelcome());
+  check("one child: no name picker", !app.needsWhoPicker());
+  app.renderWelcome(); let h = app.$app.innerHTML;
+  check("welcome asks the child's name and offers the parent entry", h.includes('id="wName"') && h.includes('id="wAccount"') && !/undefined|NaN/.test(h));
+  app.renderWho(); h = app.$app.innerHTML;
+  check("who picker lists the children", h.includes('data-who=') && h.includes("Kas šiandien mokosi?") && !/undefined|NaN/.test(h));
+  st.view = "account"; app.renderAccount(); h = app.$app.innerHTML;
+  check("account view without a cloud explains local-only and still adds children", h.includes("dar neįjungtos") && h.includes('id="acAdd"') && !/undefined|NaN/.test(h));
+  st.view = "home";
+
+  // an in-memory Supabase: rows owned by a parent, updated_at bumped on write
+  const rows = []; let clock = 1;
+  const ts = () => `2026-10-18T10:00:00.${String(clock++).padStart(6, "0")}+00:00`;
+  const clone = v => v == null ? null : JSON.parse(JSON.stringify(v));
+  const client = {auth: {}, from(){
+    let op = "select", payload = null, cols = null, single = false; const filters = [];
+    const pick = r => { if(!cols) return {...r}; const o = {}; for(const c of cols.split(",")) o[c] = clone(r[c]); return o; };
+    const run = () => {
+      const match = r => r.parent === "u1" && filters.every(([k, v]) => r[k] === v);
+      let out;
+      if(op === "insert"){ const t = ts(); const r = {id: "kid" + clock, parent: "u1", name: payload.name, store: clone(payload.store), created_at: t, updated_at: t}; rows.push(r); out = [r]; }
+      else if(op === "update"){ out = rows.filter(match); for(const r of out){ Object.assign(r, clone(payload)); r.updated_at = ts(); } }
+      else if(op === "delete"){ out = rows.filter(match); for(const r of out) rows.splice(rows.indexOf(r), 1); }
+      else out = rows.filter(match);
+      out = out.map(pick);
+      return single ? {data: out[0] || null, error: null} : {data: out, error: null};
+    };
+    const b = {
+      select(c){ cols = c; return b; }, insert(p){ op = "insert"; payload = p; return b; },
+      update(p){ op = "update"; payload = p; return b; }, delete(){ op = "delete"; return b; },
+      eq(k, v){ filters.push([k, v]); return b; }, order(){ return b; },
+      maybeSingle(){ single = true; return b; }, single(){ single = true; return b; },
+      then(res, rej){ return Promise.resolve().then(run).then(res, rej); },
+    };
+    return b;
+  }};
+  CLOUD.client = client; CLOUD.user = {id: "u1", email: "tevai@example.lt"}; META.cloudUser = {id: "u1", email: "tevai@example.lt"};
+  const p = app.activeProfile();
+  const stopTimer = () => { clearTimeout(CLOUD.timer); CLOUD.timer = null; };
+  try {
+    await app.cloudSyncAll();
+    check("sign-in uploads this device's practice as a child", rows.length === 1 && p.cloudId === rows[0].id && !p.dirty && rows[0].name === (p.name || "Vaikas"), JSON.stringify({rows: rows.length, p}));
+    check("uploaded copy is the browser copy", app.storeHash(rows[0].store) === app.storeHash(store));
+
+    // local practice → dirty → push
+    store.activity["2099-01-01"] = {answered: 3, correct: 2};
+    app.saveStore(store);
+    stopTimer();
+    check("a local save marks the child as waiting", p.dirty === true);
+    check("push lands", await app.cloudSyncProfile(p) === "pushed" && !p.dirty && rows[0].store.activity["2099-01-01"]);
+
+    // another device practised: pull into the open profile
+    rows[0].store.activity["2099-01-02"] = {answered: 5, correct: 5}; rows[0].updated_at = ts();
+    st.view = "quiz";
+    check("a pull waits while the child is mid-question", await app.cloudSyncProfile(p) === "later" && CLOUD.deferActive && !store.activity["2099-01-02"]);
+    st.view = "home";
+    check("back on a calm screen it pulls", await app.cloudSyncProfile(p) === "pulled" && store.activity["2099-01-02"] && p.syncedAt === rows[0].updated_at);
+    CLOUD.deferActive = false;
+
+    // both changed: the copy with more practice wins, the other is kept aside
+    store.activity["2099-01-03"] = {answered: 1, correct: 1}; p.dirty = true;
+    rows[0].store.activity["2099-01-04"] = {answered: 400, correct: 300}; rows[0].updated_at = ts();
+    const r = await app.cloudSyncProfile(p);
+    check("conflict: the busier copy wins", r === "pulled" && store.activity["2099-01-04"] && !store.activity["2099-01-03"], r);
+    check("conflict: the other copy is kept aside", !!localStorageStub.getItem("kengura_conflict_" + p.cloudId) && CLOUD.conflicts === 1);
+
+    // a child added on another device appears here; removed there → stays local here
+    rows.push({id: "kidX", parent: "u1", name: "Ugnė", store: {activity: {"2099-02-01": {answered: 2, correct: 2}}, settings: {}}, created_at: ts(), updated_at: ts()});
+    await app.cloudSyncAll();
+    const u = META.profiles.find(x => x.cloudId === "kidX");
+    check("a child from another device gets a profile and its progress", !!u && u.name === "Ugnė" && JSON.parse(localStorageStub.getItem("kengura_v1_" + u.id)).activity["2099-02-01"]);
+    rows.splice(rows.findIndex(x => x.id === "kidX"), 1);
+    await app.cloudSyncAll();
+    check("a child removed elsewhere stays here, unlinked", !!u && !u.cloudId && u.localOnly === true && localStorageStub.getItem("kengura_v1_" + u.id));
+    check("other rows were never touched by someone else's sync", rows.every(x => x.parent === "u1"));
+    st.view = "account"; app.renderAccount(); h = app.$app.innerHTML;
+    check("account view lists children with their sync state", h.includes("Ugnė") && h.includes("tik šiame įrenginyje") && !/undefined|NaN/.test(h));
+    st.view = "home";
+    // tidy: the rest of the suite runs without a cloud
+    META.profiles.splice(META.profiles.indexOf(u), 1);
+    localStorageStub.removeItem("kengura_v1_" + u.id);
+  } catch(e){ check("cloud sync ran", false, e && e.stack); }
+  stopTimer();
+  for(const k of ["2099-01-01", "2099-01-02", "2099-01-03", "2099-01-04"]) delete store.activity[k];
+  for(const k of ["cloudId", "cloudOwner", "syncedAt", "syncedHash", "dirty"]) delete p[k];
+  CLOUD.client = null; CLOUD.user = null; delete META.cloudUser;
 }
-console.log("ALL CHECKS PASSED ✓");
+
+// ---------- result ----------
+cloudChecks().then(() => {
+  console.log("");
+  if(failures){
+    console.error(`${failures} check(s) FAILED`);
+    process.exit(1);
+  }
+  console.log("ALL CHECKS PASSED ✓");
+});

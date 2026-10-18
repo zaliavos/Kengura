@@ -1103,3 +1103,39 @@ methods the app lacked) drove 100 loops, then an independent diff review.
 - **Editing tip.** In this Git Bash, heredoc Python mangles non-ASCII and
   backslashes; write edit scripts with the Write tool and apply them
   (old/new pairs, each must match exactly once).
+
+## Parent accounts + cloud sync (2026-10-18)
+
+The app had no way to "start" as a person: progress lived in one browser,
+and child profiles were hidden at the bottom of the parent view.
+
+- **First run** (`needsWelcome`, view "welcome"): a fresh install asks the
+  child's name and points parents to the account. Installs with practice
+  skip it.
+- **"Kas mokosi?"** (`needsWhoPicker`, view "who"): with ≥ 2 children the app
+  opens on a name picker once per browser session (`sessionStorage`
+  `kengura_who`); the hero 👤 button reopens it. Children never log in.
+- **Parent account** (view "account", `openAccount`, behind the parent code):
+  Supabase e-mail + password – sign up (adult consent box), sign in, forgotten
+  password (recovery link → `PASSWORD_RECOVERY` → new password), sign out
+  (`scope: "local"`, other devices stay signed in), delete account
+  (`delete_my_account` RPC). Children list: pick, ☁ upload, rename, remove
+  (`addKid` / `renameKid` / `removeKid`, work offline too). The parent code
+  is copied to the account's user metadata so every device gets it.
+- **Sync** (`CLOUD`, `cloudSyncAll`, `cloudSyncProfile`): one row per child
+  in `public.kids` (`cloud-setup.sql`: RLS parent = auth.uid(), updated_at set
+  by a trigger, ≤ 8 children). The browser copy stays the working copy;
+  `saveStore` → `cloudNoteLocalSave` marks the profile dirty and pushes at most
+  every 20 s and when the tab hides. A push is conditional on the row's
+  `updated_at` (`p.syncedAt`); if both sides changed, the copy with more
+  practice (`storeWeight`) wins and the other goes to
+  `kengura_conflict_<id>`. A pull for the open profile waits while the child
+  is mid-question (`cloudSafeView`, `cloudOnHome`). Sign-in uploads every
+  profile with practice and brings down the account's other children (an
+  empty first profile is reused). A row removed elsewhere leaves the local
+  copy unlinked (`localOnly`).
+- **Config:** `kengura-config.js` (`window.KENGURA_CLOUD = {url, anonKey}`);
+  empty = local-only, the library (supabase-js 2.45.4 from jsdelivr) is
+  fetched only when an account is used. Setup steps are in that file.
+- Smoke section "parent accounts" runs the sync against an in-memory
+  Supabase (upload, push, deferred pull, conflict, second device, removal).
