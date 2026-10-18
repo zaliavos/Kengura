@@ -5556,7 +5556,8 @@ function renderHome(){
         <div class="hero-activity" aria-label="Pastarųjų 14 dienų aktyvumas">
           ${activityCells.join('')}
         </div>
-        ${(META.profiles.length > 1 || META.cloudUser) ? `<button class="btn small ghost" id="whoBtn" aria-label="Kas mokosi: ${escapeHTML(activeProfileName() || 'be vardo')} – pakeisti">👤 ${escapeHTML(activeProfileName() || 'Be vardo')}</button>` : ''}
+        ${(META.profiles.length > 1 || META.cloudUser) ? `<button class="btn small ghost" id="whoBtn" aria-label="Kas mokosi: ${escapeHTML(activeProfileName() || 'be vardo')} – pakeisti">👤 ${escapeHTML(activeProfileName() || 'Be vardo')}</button>`
+          : cloudConfigured() ? `<button class="btn small ghost" id="accountBtn" title="Tėvų paskyra: progresas internete, matomas visuose įrenginiuose">☁ Prisijungti</button>` : ''}
         <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}">📒<span class="wide-only"> Klaidos</span>${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
         <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas${META.parentPin ? ' (su kodu)' : ''}" aria-label="Tėvams">${META.parentPin ? '🔒' : '👁'}<span class="wide-only"> Tėvams</span></button>
       </div>
@@ -5952,6 +5953,8 @@ function renderHome(){
   if(parentBtn) parentBtn.addEventListener("click", openParent);
   const whoBtn = document.getElementById("whoBtn");
   if(whoBtn) whoBtn.addEventListener("click", () => { state.view = "who"; renderWho(); });
+  const accountBtn = document.getElementById("accountBtn");
+  if(accountBtn) accountBtn.addEventListener("click", () => openAccount({from: "home"}));
   const itSave = document.getElementById("itSave");
   if(itSave) itSave.addEventListener("click", ()=>{
     const val = id => String((document.getElementById(id) || {}).value || "").trim().replace(/[.!]+$/, "");
@@ -7797,6 +7800,7 @@ function renderParent(){
         <h2 style="margin:0">Tėvams${activeProfileName() ? ` · ${escapeHTML(activeProfileName())}` : ''} <span class="print-only" style="font-size:14px;font-weight:normal">· ${new Date().toLocaleDateString("lt-LT")}</span></h2>
         <div class="row" style="gap:6px"><button class="btn small ghost" id="parentCopy" title="Trumpa savaitės santrauka tekstu – įklijuokite į žinutę antram tėvui ar mokytojui">📋 Santrauka</button><button class="btn small ghost" id="parentPrint" title="Visa ši suvestinė vienu spausdinimu (pvz., mokytojui)">🖨 Ataskaita</button></div>
       </div>
+      ${cloudConfigured() ? `<div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0"><span class="help-bar" style="margin:0">${cloudStatusLine()}${META.cloudUser ? ` (${escapeHTML(META.cloudUser.email || '')})` : ''}</span><button class="btn small${META.cloudUser ? ' ghost' : ' primary'}" id="parentAccountTop">${META.cloudUser ? '☁ Paskyra ir vaikai' : '☁ Prisijungti / sukurti paskyrą'}</button></div>` : ''}
       <p class="help-bar">${days != null && days >= 0 ? `Iki konkurso <b>${days} d.</b> · etapas: <b>${PLAN_PHASE[planPhase()].label}</b>` : 'Konkurso data nenustatyta'} · serija <b>${liveStreak()} d.</b> · įvaldyta <b>${masteredCount}/${totalMechs}</b> gudrybių${lastPaper ? ` · paskutinis kontrolinis <b>${fmtPts(lastPaper.scoreWithPenalty ?? lastPaper.points)}</b> / ${lastPaper.maxPoints}` : ''}</p>
 
       <h3 style="margin:10px 0 6px">Ši savaitė</h3>
@@ -8070,6 +8074,8 @@ function renderParent(){
   }));
   $app.querySelectorAll("[data-recap-mech]").forEach(btn=> btn.addEventListener("click", ()=> openPlaylist(btn.dataset.recapMech)));
   $app.querySelectorAll("[data-profile]").forEach(b => b.addEventListener("click", ()=>{ if(b.dataset.profile !== META.active) switchProfile(b.dataset.profile); }));
+  const accountTop = document.getElementById("parentAccountTop");
+  if(accountTop) accountTop.addEventListener("click", () => openAccount({from: "parent"}));
   const profileAccount = document.getElementById("profileAccount");
   if(profileAccount) profileAccount.addEventListener("click", () => openAccount({from: "parent"}));
   const parentPrint = document.getElementById("parentPrint");
