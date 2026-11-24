@@ -1422,11 +1422,19 @@ section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
     check("parent advice for a younger child names no plan, date or trick", tips.length >= 1 && tips.every(t => !/konkurso dat|gudryb|kontrolin|sprint/i.test(t.text)), JSON.stringify(tips));
     st.view = "parent"; app.renderParent(); g = app.$app.innerHTML;
     check("parent view: grade select and a header without the contest line", g.includes('id="pGrade"') && /<option value="N" selected>/.test(g) && g.includes("1–2 klasė („Nykštukas“)") && !/undefined|NaN/.test(g));
+    check("…the header names the streak once and no trick mastery", (g.split('<p class="help-bar">')[1] || "").split("</p>")[0].split("serija").length === 2 && !/įvaldyta <b>/.test(g));
+    const conf0 = store.settings.askConfidence; store.settings.askConfidence = true;
+    st.view = "home"; app.openArchiveYear("N2011");
+    check("a level card never asks the confidence question (the toggle is hidden for 1–4 grades)", !app.$app.innerHTML.includes("Kiek esi tikras?"));
+    store.settings.askConfidence = conf0;
+    { const c2 = app.$app.innerHTML; check("N2011 picture options say A–D", !/Rink raidę A–E/.test(c2.slice(c2.indexOf('data-qnum="2"'), c2.indexOf('data-qnum="3"')))); }
+    st.view = "home"; app.renderHome();
     app.setKidLevel("M"); st.view = "home"; app.renderHome(); g = app.$app.innerHTML;
     check("a 3–4 grade child: Mažylis first", tabsIn(g) === "mazylis,nykstukas,me" && st.homeTab === "mazylis" && app.buildRacePool().length === 624);
     app.setKidLevel("K"); app.renderHome(); g = app.$app.innerHTML;
     check("a 7–8 grade child: Kadetas first, the whole Bičiulis trainer after it", tabsIn(g) === "kadetas,today,learn,tests,practice,me" && st.homeTab === "kadetas" && !app.isYoung()
       && app.buildRacePool().every(q => !q.level) && !g.slice(g.indexOf('data-level-years="K"')).split("</section>")[0].includes("Šiandienos planas dar nebaigtas"), tabsIn(g));
+    check("a Kadetas child gets no dead Nykštukas/Mažylis buttons", !/data-goto-tab="(nykstukas|mazylis)"/.test(g));
     check("the hero names the level and opens the chooser", g.includes('id="levelBtn"') && g.includes("Lygis: Kadetas"));
     st.view = "levelPick"; app.renderLevelPick(); g = app.$app.innerHTML;
     check("level chooser: four doors, the current one marked", (g.match(/data-grade="/g) || []).length === 4 && /class="btn who-kid primary" data-grade="K"/.test(g)

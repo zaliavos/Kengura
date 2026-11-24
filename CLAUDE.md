@@ -1477,3 +1477,20 @@ to be the 5-point block only) and 🚀 Kadetas (unchanged, 280). 844 level quest
   it. The hero button `#levelBtn` opens `renderLevelPick()` (view "levelPick", four doors); the
   welcome screen and the one-off home card offer the same four. The hero row wraps below 400 px.
 - sw.js: shell v7, FIGS v22.
+## Check pass after the 2000–2012 papers (2026-11-24, 100 + 50 checks)
+
+- **Data (53 scripted checks + reviews):** .js mirror, counts, bands, keys, option letters, figures (exist, size,
+  edge ink, duplicates, orphans), kid-solution answer lines, note/prompt typography, key runs, links, keyfix.
+  The 1 461 notes of the 2013+ level papers got their second reader (6 reviewers): 19 fixed (7 wrong slips,
+  7 that gave the answer away, 5 wording), plus K2004-17 D (named 256). No key in doubt.
+- **Code review of the grade/level code, all fixed:** the confidence picker could block every N/M card after a
+  grade change (level cards never ask it now); the young parent header repeated the Bičiulis tail; a Kadetas
+  child got dead Nykštukas/Mažylis buttons; "Išvalyti progresą" dropped the grade and kept the old title/tab;
+  a cloud pull with another grade kept the old title/tab (and redraws "levelPick"); the 📒 count used all
+  mistakes; N2011 picture options said "A–E". **With a parent code set, changing the level in the chooser asks
+  for the code** (like the parent settings).
+- **UI/UX (browser, 4 levels × 3 widths, all views):** no overflow, leaks, broken images; text floor 13 px for
+  the brand line and `kbd`; Nykštukas/Mažylis cards show only "⏱ Sprendei X" (the Bičiulis yardstick and the
+  "skip it" advice meant nothing to a 7-year-old); a Kadetas child is timed against the Kadetas pace; contest
+  history and weak-trick cards hidden in a young child's parent view. Not changed: the "Atsakymai ↗" link sits
+  in the paper header, which focus mode hides on phones (list mode shows it).

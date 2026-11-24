@@ -47,7 +47,7 @@
     box-shadow:var(--shadow);
   }
   .brand h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.2px}
-  .brand small{color:var(--muted);font-size:12px}
+  .brand small{color:var(--muted);font-size:13px}
   main{max-width:780px;margin:0 auto;padding:18px}
   .card{
     background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
@@ -294,7 +294,7 @@
   .goal-bar > div{height:100%;background:linear-gradient(90deg,#f0b429,#f08a1c);border-radius:5px;transition:width .4s}
   kbd{
     background:#f1ecdf;border:1px solid var(--line);border-bottom-width:2px;
-    border-radius:6px;padding:1px 6px;font-size:12px;font-family:inherit;color:#444;
+    border-radius:6px;padding:1px 6px;font-size:13px;font-family:inherit;color:#444;
   }
   .help-bar{font-size:13px;color:var(--muted);margin-top:6px}
   .confidence-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0;padding:8px 12px;background:#fff7ec;border:1px dashed var(--line);border-radius:10px}
@@ -3386,12 +3386,14 @@ function cloudPutLocal(p, remote, updatedAt){
   if(remote){
     try { localStorage.setItem(storeKeyFor(p.id), JSON.stringify(remote)); } catch(_){}
     if(p.id === META.active){
-      const fresh = loadStore();
+      const fresh = loadStore(), gradeBefore = kidLevel();
       for(const k of Object.keys(store)) delete store[k];
       Object.assign(store, fresh);
       state.archiveAnswers = {}; state.archiveFocus = {}; state.figFit = {};
+      if(kidLevel() !== gradeBefore){ state.homeTab = defaultHomeTab(); applyLevelTitle(); }
       if(state.view === "home") renderHome();
       else if(state.view === "parent") renderParent();
+      else if(state.view === "levelPick") renderLevelPick();
     }
   }
   saveMeta(META);
@@ -4711,7 +4713,7 @@ function levelPaneHTML(l){
       ${(() => { let open = null; try { open = l.id === 'K' && !own && isTrainingDay() && nextPlanStep(); } catch(_){}      // the plan is a Bičiulis plan: a younger child's pane does not point to it
         return open ? `<p class="help-bar" style="margin:0 0 8px">Šiandienos planas dar nebaigtas – pirmiausia jis, o šie uždaviniai – po to. <button class="btn small ghost" data-goto-tab="today">Į planą</button></p>` : ''; })()}
       ${pr.a >= 8 && l.id === 'N' && pr.ok / pr.a >= 0.8 ? `<p class="help-bar" style="margin:0 0 8px">Šie tau jau sekasi – pabandyk ir „Mažylio“ uždavinius.</p>` : ''}
-      ${pr.a >= 8 && l.id === 'M' && pr.ok / pr.a >= 0.8 ? `<p class="help-bar" style="margin:0 0 8px">${!isYoung() ? 'Šie tau jau sekasi – pabandyk ir „Bičiulio“ 3 t. uždavinius.' : kidLevel() === 'M' ? 'Šie tau jau sekasi. Nori sunkesnių? Paprašyk tėvų nustatymuose pasirinkti 5–6 klasę – ten laukia „Bičiulio“ uždaviniai.' : 'Šie tau jau sekasi – tu sprendi vyresnių klasių uždavinius.'}</p>` : ''}
+      ${pr.a >= 8 && l.id === 'M' && pr.ok / pr.a >= 0.8 ? `<p class="help-bar" style="margin:0 0 8px">${!isYoung() ? 'Šie tau jau sekasi – pabandyk ir „Bičiulio“ 3 t. uždavinius.' : kidLevel() === 'M' ? 'Šie tau jau sekasi. Nori sunkesnių? Viršuje paspausk lygio mygtuką ir rinkis „Bičiulį“ (5–6 klasė).' : 'Šie tau jau sekasi – tu sprendi vyresnių klasių uždavinius.'}</p>` : ''}
       ${own && today ? `<p class="help-bar" style="margin:0 0 8px">Šiandien jau išsprendei ${today} ${pluralForm(today,'uždavinį','uždavinius','uždavinių')}.</p>` : ''}
       ${pr.a >= 8 && l.id === 'K' && pr.ok / pr.a < 0.4 ? `<p class="help-bar" style="margin:0 0 8px">Kol kas per sunku – tai normalu. Pirma įtvirtink „Bičiulio“ 4–5 t. gudrybes.</p>` : ''}
       <div class="top-stats">
@@ -5617,7 +5619,7 @@ function renderArchiveCard(year, q, focusOpts){
   const canSubmit = q.correct && ans.chosenLetter && !submitted;
   // Confidence picker – respects the same "Klausti pasitikėjimo" setting as
   // quiz mode; only shown when the kid has chosen but not yet submitted.
-  const askConf = !!store.settings.askConfidence;
+  const askConf = !!store.settings.askConfidence && !q.level;      // level answers never feed confStats
   const showConfidence = askConf && canSubmit && !ans.confidence;
   const confLabels = {a: "Tikrai žinau", b: "Spėju iš dviejų", c: "Atsitiktinai"};
   const conf = ans.confidence || null;
@@ -5665,8 +5667,11 @@ function renderArchiveCard(year, q, focusOpts){
       ${submitted && ans.tookSec ? (() => {
         // metacognition: how long it took vs the contest budget for this band
         // a neighbour-level question is timed against the Bičiulis block of the same difficulty
-        const budget = PACE_SEC[q.level ? levelEqBand(q) : q.points] || PACE_SEC[4];
-        return `<div class="help-bar">⏱ Sprendei ${fmtMs(ans.tookSec * 1000)} · ${q.level ? '„Bičiulio“ konkurse panašaus sudėtingumo' : `konkurse ${q.points} t.`} uždaviniui verta skirti iki ~${String(Math.round(budget / 6) / 10).replace('.', ',')} min${ans.tookSec > budget * 1.5 && q.level !== 'M' ? ' – konkurse tokį verta praleisti ir grįžti vėliau' : ''}.</div>`;
+        // Nykštukas / Mažylis: no Bičiulis yardstick for a 7–10-year-old – just the time
+        if(q.level === 'N' || q.level === 'M') return `<div class="help-bar">⏱ Sprendei ${fmtMs(ans.tookSec * 1000)}.</div>`;
+        const own = q.level === 'K' && kidLevel() === 'K';      // a Kadetas child: own contest pace
+        const budget = PACE_SEC[q.level && !own ? levelEqBand(q) : q.points] || PACE_SEC[4];
+        return `<div class="help-bar">⏱ Sprendei ${fmtMs(ans.tookSec * 1000)} · ${q.level && !own ? '„Bičiulio“ konkurse panašaus sudėtingumo' : `konkurse ${q.points} t.`} uždaviniui verta skirti iki ~${String(Math.round(budget / 6) / 10).replace('.', ',')} min${ans.tookSec > budget * 1.5 ? ' – konkurse tokį verta praleisti ir grįžti vėliau' : ''}.</div>`;
       })() : ''}
       <div class="footer-actions">
         <div class="row">
@@ -5899,7 +5904,7 @@ function renderHome(){
         ${GRADE_OPTS.length > 1 ? (() => { const g = GRADE_OPTS.find(o => o.id === kidLevel()); return `<button class="btn small ghost" id="levelBtn" title="Lygis: ${g.name} (${g.grades}) – pakeisti" aria-label="Lygis: ${g.name}, ${g.grades} – pakeisti">${g.icon}<span class="wide-only"> ${g.name}</span></button>`; })() : ''}
         ${(META.profiles.length > 1 || META.cloudUser) ? `<button class="btn small ghost" id="whoBtn" aria-label="Kas mokosi: ${escapeHTML(activeProfileName() || 'be vardo')} – pakeisti">👤 ${escapeHTML(activeProfileName() || 'Be vardo')}</button>`
           : cloudConfigured() ? `<button class="btn small ghost" id="accountBtn" title="Tėvų paskyra: progresas internete, matomas visuose įrenginiuose" aria-label="Prisijungti prie tėvų paskyros">☁<span class="wide-only"> Prisijungti</span></button>` : ''}
-        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis${shownMistakes().filter(m => !m.fixedAt).length ? ` (${shownMistakes().filter(m => !m.fixedAt).length})` : ''}">📒<span class="wide-only"> Klaidos</span>${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
+        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis${shownMistakes().filter(m => !m.fixedAt).length ? ` (${shownMistakes().filter(m => !m.fixedAt).length})` : ''}">📒<span class="wide-only"> Klaidos</span>${shownMistakes().filter(m => !m.fixedAt).length ? ` (${shownMistakes().filter(m => !m.fixedAt).length})` : ''}</button>
         <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas${META.parentPin ? ' (su kodu)' : ''}" aria-label="Tėvams">${META.parentPin ? '🔒' : '👁'}<span class="wide-only"> Tėvams</span></button>
       </div>
     </section>
@@ -6087,7 +6092,7 @@ function renderHome(){
         }).join("")}
       </div>
       <p class="help-bar" style="margin-top:10px">Skaičius prie metų – kiek jau spręsta. 🔒 – laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį.</p>
-      ${LEVEL_TABS.length ? `<p style="margin:10px 0 0">Nori lengvesnių ar sunkesnių uždavinių? ${LEVEL_TABS.map(l => `<button class="btn small ghost" data-goto-tab="${l.tab}">${l.icon} ${l.label}</button>`).join(' ')}</p>` : ''}
+      ${LEVEL_TABS.length ? `<p style="margin:10px 0 0">Nori lengvesnių ar sunkesnių uždavinių? ${LEVEL_TABS.filter(l => homeTabs().some(t => (t.id || t) === l.tab)).map(l => `<button class="btn small ghost" data-goto-tab="${l.tab}">${l.icon} ${l.label}</button>`).join(' ')}</p>` : ''}
     </section>` : ``}
 
     <section class="card">
@@ -6164,7 +6169,7 @@ function renderHome(){
         ${!isYoung() ? `<p>Uždaviniai – iš tikrų „Kengūros“ konkursų (Bičiulis, 5–6 klasė). Kiekvienas turi 5 atsakymus (A–E) ir vertę: 3, 4 arba 5 taškai.</p>
         <p><b>Užuomina</b> atsakymo nepasako – ji parodo, nuo ko pradėti.</p>
         <p>Suklydęs uždavinys sugrįš pakartojimui, o sprendimas parodys, kur slėpėsi gudrybė.</p>`
-        : `<p>Uždaviniai – iš tikrų „Kengūros“ konkursų (${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).name}, ${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).grades}). Kiekvienas turi 5 atsakymus (A–E) ir vertę: 3, 4 arba 5 taškai.</p>
+        : `<p>Uždaviniai – iš tikrų „Kengūros“ konkursų (${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).name}, ${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).grades}). Kiekvienas turi 5 atsakymus (A–E; tik 2011 m. Nykštuko – 4) ir vertę: 3, 4 arba 5 taškai.</p>
         <p>Jei užstrigai, spausk <b>„Užstrigai?“</b> – gausi klausimų, kurie padeda pradėti.</p>
         <p>Suklydęs uždavinys atsiduria 📒 Klaidų sąsiuvinyje, o sprendimas parodo, kur slėpėsi gudrybė.</p>`}
         <p style="color:var(--muted);font-size:13px;margin-top:6px">
@@ -6388,9 +6393,12 @@ function renderHome(){
     }
     if(confirm("Tikrai išvalyti visą progresą? To atšaukti nebus galima.")){
       localStorage.removeItem(LS_KEY);
+      const keepGrade = store.settings && store.settings.grade;      // the child's level is a setting, not progress
       for(const k of Object.keys(store)) delete store[k];   // keys without a default (e.g. recogConfusion) must go too
       Object.assign(store, loadStore());
+      if(keepGrade){ store.settings.grade = keepGrade; saveStore(store); }
       state.archiveAnswers = {}; state.archiveFocus = {}; state.figFit = {};
+      state.homeTab = defaultHomeTab(); applyLevelTitle();
       renderHome();
     }
   });
@@ -7910,7 +7918,13 @@ function renderLevelPick(){
       <p class="help-bar" style="margin:12px 0 0">Progresas išlieka: žvaigždės, serija ir klaidų sąsiuvinis bendri visiems lygiams.</p>
     </section>`;
   document.getElementById("lpBack").addEventListener("click", () => { state.view = "home"; renderHome(); });
-  $app.querySelectorAll("[data-grade]").forEach(b => b.addEventListener("click", () => { setKidLevel(b.dataset.grade); state.view = "home"; renderHome(); }));
+  $app.querySelectorAll("[data-grade]").forEach(b => b.addEventListener("click", () => {
+    if(META.parentPin && b.dataset.grade !== kidLevel()){      // with a parent code the level is a parent's choice, like in the settings
+      const p = prompt("Lygį keičia tėvai. Įveskite tėvų kodą:");
+      if(p == null || String(p).trim() !== String(META.parentPin)) return;
+    }
+    setKidLevel(b.dataset.grade); state.view = "home"; renderHome();
+  }));
 }
 
 function renderWho(){
@@ -8221,7 +8235,7 @@ function renderParent(){
         <div class="row" style="gap:6px"><button class="btn small ghost" id="parentCopy" title="Trumpa savaitės santrauka tekstu – įklijuokite į žinutę antram tėvui ar mokytojui">📋 Santrauka</button><button class="btn small ghost" id="parentPrint" title="Visa ši suvestinė vienu spausdinimu (pvz., mokytojui)">🖨 Ataskaita</button></div>
       </div>
       ${cloudConfigured() ? `<div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0"><span class="help-bar" style="margin:0">${cloudStatusLine()}${META.cloudUser ? ` (${escapeHTML(META.cloudUser.email || '')})` : ''}</span><button class="btn small${META.cloudUser ? ' ghost' : ' primary'}" id="parentAccountTop">${META.cloudUser ? '☁ Paskyra ir vaikai' : '☁ Prisijungti / sukurti paskyrą'}</button></div>` : ''}
-      <p class="help-bar">${isYoung() ? `${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).grades} („${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).name}“) · serija <b>${liveStreak()} d.</b>${(() => { const st = (store.levelStats || {})[kidLevel()]; return st && st.a ? ` · iš pirmo karto teisingai <b>${st.ok} iš ${st.a}</b>` : ''; })()}` : days != null && days >= 0 ? `Iki konkurso <b>${days} d.</b> · etapas: <b>${PLAN_PHASE[planPhase()].label}</b>` : 'Konkurso data nenustatyta'} · serija <b>${liveStreak()} d.</b> · įvaldyta <b>${masteredCount}/${totalMechs}</b> gudrybių${lastPaper ? ` · paskutinis kontrolinis <b>${fmtPts(lastPaper.scoreWithPenalty ?? lastPaper.points)}</b> / ${lastPaper.maxPoints}` : ''}</p>
+      <p class="help-bar">${isYoung() ? `${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).grades} („${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).name}“) · serija <b>${liveStreak()} d.</b>${(() => { const st = (store.levelStats || {})[kidLevel()]; return st && st.a ? ` · iš pirmo karto teisingai <b>${st.ok} iš ${st.a}</b>` : ''; })()}` : days != null && days >= 0 ? `Iki konkurso <b>${days} d.</b> · etapas: <b>${PLAN_PHASE[planPhase()].label}</b>` : 'Konkurso data nenustatyta'}${isYoung() ? '' : ` · serija <b>${liveStreak()} d.</b> · įvaldyta <b>${masteredCount}/${totalMechs}</b> gudrybių${lastPaper ? ` · paskutinis kontrolinis <b>${fmtPts(lastPaper.scoreWithPenalty ?? lastPaper.points)}</b> / ${lastPaper.maxPoints}` : ''}`}</p>
 
       <h3 style="margin:10px 0 6px">Ši savaitė</h3>
       <div class="grid two">
@@ -8343,7 +8357,7 @@ function renderParent(){
       </details>
     </section>
 
-    ${(store.contests || []).length ? `<section class="card">
+    ${(store.contests || []).length ? `<section class="card"${young ? ' hidden' : ''}>
       <h3>Kontroliniai (paskutiniai 5)</h3>
       ${store.contests.slice(-5).reverse().map(c => `<div class="cat-row"><span>${new Date(c.when).toLocaleDateString("lt-LT")} · ${escapeHTML(String(c.year))} m.</span><span class="pill ${(c.scoreWithPenalty ?? c.points) >= c.maxPoints * 0.6 ? 'good' : 'muted'}">${fmtPts(c.scoreWithPenalty ?? c.points)} / ${c.maxPoints}</span><span class="help-bar" style="margin:0 0 0 8px">${c.byBand ? [3,4,5].map(b => c.byBand[b] && c.byBand[b].total ? `${b} t.: ${c.byBand[b].ok}/${c.byBand[b].total}` : '').filter(Boolean).join(' · ') : ''}${c.practisedBefore != null ? ` · ${c.practisedBefore}/30 matyta` : ''}${c.paper ? ' · 📄' : ''}${c.retry && c.retry.pts ? ` · 🔁 +${c.retry.pts} t. be laiko` : ''}${c.timeByBand && c.timeByBand[3] ? ` · ⏱ 3 t.: ${Math.round(c.timeByBand[3] / 60000)} min` : ''}</span></div>`).join('')}
       ${(() => {
@@ -8377,7 +8391,7 @@ function renderParent(){
     </section>` : ''}
 
     ${worst.length ? `
-    <section class="card">
+    <section class="card"${young ? ' hidden' : ''}>
       <h3>Silpnesnės gudrybės – siūlome serijas</h3>
       ${worst.map(w => {
         const pct = Math.round(100*w.rate);
@@ -11195,7 +11209,7 @@ function renderRaceChallenge(){
         <span class="pill muted">${escapeHTML(paperYearText(q.year))}</span>
       </div>
       ${questionBodyHTML(q, {lazy:false})}
-      ${imageOnly?`<p class="help-bar">Atsakymai – paveikslėlyje. Rink raidę A–E.</p>`:''}
+      ${imageOnly?`<p class="help-bar">Atsakymai – paveikslėlyje. Rink raidę ${q.optionLetters ? 'A–D' : 'A–E'}.</p>`:''}
       <div class="options" id="raceOptions">${optionsHtml}</div>
       ${submitted ? `<div class="explain" style="margin-top:8px">
         ${state.raceChosen === q.correct ? '<b style="color:var(--good)">✓ Teisingai.</b>' : `<b style="color:var(--bad)">Ne. Teisingas – ${q.correct}.</b>`}

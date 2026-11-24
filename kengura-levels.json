@@ -2609,7 +2609,7 @@
        "misconceptions": {
         "A": "12 – tiek obuolių gausi už kriaušes, bet juos dar reikia keisti toliau.",
         "B": "36 – tiek gausi slyvų, o klausiama, kiek bus bananų.",
-        "D": "Obuolius keitei po 2, bet vienas obuolys vertas 3 slyvų."
+        "D": "Obuolį iškeitei tiesiai į 2 bananus, bet obuolys vertas 3 slyvų, o bananas – 2 slyvų."
        },
        "solutionFigure": "figures/N2013-s18.png"
       }
@@ -2901,7 +2901,7 @@
        "level": "N",
        "solutionKid": "Gudrybė: didžiausius skaitmenis statyk į dešimčių vietas – ten jie verti daugiausia. Dešimtims imk 5 ir 4: tai 50 + 40 = 90. Vienetams lieka 2 ir 3: 2 + 3 = 5. Iš viso 90 + 5 = 95, pvz., 52 + 43. Atsakymas: D) 95.",
        "misconceptions": {
-        "A": "Sudėjai 23 + 45 – didieji skaitmenys pateko ne į dešimčių, o į vienetų vietas.",
+        "A": "Sudėjai 23 + 45 – didžiausias skaitmuo 5 pateko į vienetų vietą, o dešimčių vietoje atsidūrė 2.",
         "B": "Sudėjai 54 + 23 – abu didžiausi skaitmenys pateko į vieną skaičių.",
         "C": "Sudėjai 54 + 32 – dešimčių vietose stovi 5 ir 3, o ne du didžiausi skaitmenys.",
         "E": "97 gautum tik kurį nors skaitmenį parašęs du kartus, pvz., 54 + 43."
@@ -4733,7 +4733,7 @@
        "level": "N",
        "solutionKid": "Gudrybė: iš bendro svorio atimk mamos svorį. Kartu jie sveria 40 kilogramų, mama – 32. Šokliui lieka 40 − 32 = 8. Patikrink: 32 + 8 = 40. Atsakymas: C) 8.",
        "misconceptions": {
-        "E": "Atimdamas pamiršai, kad iš 4 dešimčių vieną pasiskolinai."
+        "E": "Atimdamas vienetus pasiskolinai dešimtį, bet pamiršai ją atimti iš 4 dešimčių."
        },
        "solutionFigure": "figures/N2019-s3.png"
       },
@@ -5144,7 +5144,7 @@
         "B": "Kortelėje 3 mašinos priekis žiūri į dešinę, tad ji negali būti kairėje.",
         "C": "Ratus padėjai viršuje, o stogą apačioje – mašina apvirto.",
         "D": "Sukeitei ratų korteles: jų linijos nesusijungia su viršutinių kortelių linijomis.",
-        "E": "Sukeitei tik eilutes, bet mašinos priekis liko kairėje, nors žiūri į dešinę."
+        "E": "Sukeitei kairę ir dešinę pusę: kortelė 3 atsidūrė kairėje, nors mašinos priekis žiūri į dešinę."
        },
        "solutionFigure": "figures/N2020-s3.png"
       },
@@ -5342,7 +5342,7 @@
        "level": "N",
        "solutionKid": "Gudrybė: pirma sudėk skaičius tos gėlės, kurios visi žiedlapiai matomi. Jos suma: 1 + 3 + 5 + 7 + 9 = 25. Kitos gėlės matomi skaičiai: 2 + 4 + 6 + 8 = 20. Iki 25 trūksta 25 − 20 = 5. Atsakymas: C) 5.",
        "misconceptions": {
-        "A": "Tęsei lyginių skaičių eilę 2, 4, 6, 8, bet čia svarbi suma, o ne eilė."
+        "A": "Papildei lyginių skaičių eilę 0, 2, 4, 6, 8, bet čia svarbi suma, o ne eilė."
        },
        "solutionFigure": "figures/N2020-s12.png"
       },
@@ -5690,7 +5690,7 @@
        "level": "N",
        "solutionKid": "Gudrybė: skaičiuok atskirai gabalus virš kirpimo linijos ir po ja. Virš linijos lieka 6 gabalai. Po linija – dar 6. Iš viso 6 + 6 = 12 gabalų. Atsakymas: D) 12.",
        "misconceptions": {
-        "C": "11 – tiek kartų žirklės perkerpa virvutę, o gabalų būna vienu daugiau."
+        "C": "11 – tiek kartų žirklės perkerpa virvutę, o klausiama, kiek gabalų – pagalvok, kiek gabalų būna po vieno kirpimo."
        },
        "solutionFigure": "figures/N2021-s9.png"
       },
@@ -5712,7 +5712,7 @@
        "solutionKid": "Gudrybė: eik rodyklių kryptimi ir vis pridėk atkarpos ilgį, kol gausi 20. Iš B iki C – 4, iki D – 5, iki E – 10, iki A – 12, iki B – 15. Ratas baigtas, eik toliau: iki C – 19, iki D – 20. Atsakymas: D) D.",
        "misconceptions": {
         "B": "Visas ratas – tik 15 metrų, o Murkis nuėjo 20.",
-        "C": "Ratas ir atkarpa iki C – 19 metrų, vieno dar trūksta.",
+        "C": "Ratas ir atkarpa iki C – tik 19 metrų, o Murkis nuėjo 20.",
         "E": "Ėjai prieš rodykles – nuo B link A, o reikia link C."
        },
        "solutionFigure": "figures/N2021-s10.png"
@@ -6633,9 +6633,9 @@
        "imageOnlyOptions": true,
        "solutionKid": "Gudrybė: pradėk nuo to, ką žinai tikrai, ir ieškok trejų metų skirtumo. Onutė jauniausia – jai 4. Lieka 8, 7, 6 ir 5. Inga metais vyresnė už Liną, o Lina dvejais už Jorį. Tinka tik Joris 5, Lina 7, Inga 8. Agnei lieka 6. Atsakymas: C) tortas su 6.",
        "misconceptions": {
-        "A": "8 metai Ingai – ji metais vyresnė už Liną.",
-        "B": "7 metai Linai – ji dvejais metais vyresnė už Jorį.",
-        "D": "5 metai Joriui – jis dvejais metais jaunesnis už Liną.",
+        "A": "Jei Agnei 8, Joriui, Linai ir Ingai lieka 5, 6 ir 7 metai – taip Lina negali būti 2 metais vyresnė už Jorį ir metais jaunesnė už Ingą.",
+        "B": "Jei Agnei 7, Joriui, Linai ir Ingai lieka 5, 6 ir 8 metai – taip Lina negali būti 2 metais vyresnė už Jorį ir metais jaunesnė už Ingą.",
+        "D": "Jei Agnei 5, Joriui, Linai ir Ingai lieka 6, 7 ir 8 metai – taip Lina negali būti 2 metais vyresnė už Jorį ir metais jaunesnė už Ingą.",
         "E": "Tortas su 4 – jauniausios Onutės."
        },
        "solutionFigure": "figures/N2023-s15.png"
@@ -6996,9 +6996,9 @@
        "imageOnlyOptions": true,
        "solutionKid": "Gudrybė: antspaudukai kartojasi kas 5, todėl skaičiuok penketais. 5, 10, 15, 20, 25 vietose yra liepsna. 26-oje vėl saulė, 27-oje – vaiduoklis. Atsakymas: B) vaiduoklis.",
        "misconceptions": {
-        "A": "Saulė yra 26-oje vietoje – suskaičiavai vienu per mažai.",
-        "C": "Katė yra 28-oje vietoje – suskaičiavai vienu per daug.",
-        "E": "Liepsna yra 25-oje vietoje – nuo jos reikia paeiti dar du žingsnius."
+        "A": "Saulė stovi 1, 6, 11 ir kitose vietose, kurios skiriasi po 5 – 27 tarp jų nėra.",
+        "C": "Katė stovi 3, 8, 13 ir kitose vietose, kurios skiriasi po 5 – 27 tarp jų nėra.",
+        "E": "Liepsna stovi 5, 10, 15, 20 ir 25 vietose, o 27 tarp jų nėra."
        },
        "solutionFigure": "figures/N2024-s13.png"
       },
@@ -7913,7 +7913,7 @@
        "level": "N",
        "solutionKid": "Gudrybė: sudėk abi eiles ir pažiūrėk, kiek viena didesnė už kitą. Pirma eilė: 5 + 7 + 11 + 15 + 17 = 55. Antra eilė: 1 + 6 + 8 + 14 + 16 = 45. Skirtumas 10, todėl pirma eilė turi sumažėti 5, o antra padidėti 5. Reikia dviejų žetonų, kurie skiriasi 5: tinka tik 11 ir 6. Patikrink: abi sumos bus 50. Atsakymas: C) 11.",
        "misconceptions": {
-        "A": "5 – tiek turi sumažėti pirmos eilės suma, bet tai ne žetono numeris."
+        "A": "Suradai, kiek turi sumažėti pirmos eilės suma, bet tai dar ne žetonas, kurį reikia paimti."
        },
        "solutionFigure": "figures/N2026-s18.png"
       }
@@ -15206,7 +15206,7 @@
        "level": "M",
        "solutionKid": "Gudrybė: kiekviename kvadrate 2 × 2 bent vienas langelis turi likti baltas, todėl suskaičiuok, kiek tokių kvadratų telpa nepersidengiant. Paveikslėlyje 25 langeliai. Aplink centrinį langelį telpa 4 nepersidengiantys kvadratai 2 × 2. Vadinasi, baltų langelių bent 4, o užtušuotų daugiausiai 25 − 4 = 21. Tiek pavyksta: palik baltus tik 4 langelius, kurie kraštine liečia centrinį, visus kitus užtušuok. Atsakymas: D) 21.",
        "misconceptions": {
-        "C": "Užtušavai tik langelius aplink, o vidurio nebandei – ten dar yra vietos.",
+        "C": "Palikai baltą ir vidurinį langelį, bet jo nereikia: kvadratus jau sugadina balti langeliai aplink jį.",
         "E": "Radai tik 3 atskirus kvadratus 2 × 2, o jų figūroje telpa daugiau – trijų baltų langelių neužtenka."
        },
        "solutionFigure": "figures/M2014-s23.png"
@@ -16419,7 +16419,7 @@
        "imageOnlyOptions": true,
        "solutionKid": "Gudrybė: apėjus namą, tai, kas buvo dešinėje, atsiduria kairėje. Iš užpakalio turi matytis trys langai ir jokių durų. A ir B turi duris, C turi keturis langus – jie netinka. Lieka D ir E, jie skiriasi tik kaminu. Iš priekio kaminas yra dešinėje, todėl iš užpakalio jis bus kairėje. Kaminas kairėje yra paveikslėlyje E. Atsakymas: E) trys langai, kaminas kairėje.",
        "misconceptions": {
-        "A": "Tai namas iš priekio – jame yra durys, o užpakalinėje pusėje durų nėra.",
+        "A": "Čia nupieštos durys, o užpakalinėje namo pusėje durų nėra.",
         "B": "Čia nupieštos durys, o užpakalinėje namo pusėje durų nėra.",
         "C": "Čia keturi langai – vienas dar po stogu, o užpakalinėje pusėje jų trys.",
         "D": "Kaminas liko dešinėje, kaip žiūrint iš priekio, o apėjus namą šonai susikeičia."
@@ -17243,7 +17243,7 @@
        "level": "M",
        "solutionKid": "Gudrybė: pradėk nuo svarstyklių, kurios stovi lygiai. Antros svarstyklės rodo, kad C sveria tiek, kiek B ir D kartu. Taip gali būti tik dviem būdais: 30 = 10 + 20 arba 40 = 10 + 30. Jei C būtų 40, tai rutuliui A liktų 20. Tada A su B svertų daugiausia 20 + 30 = 50, o C su D – ne mažiau kaip 40 + 10 = 50. Bet pirmose svarstyklėse A su B sunkesni. Vadinasi, C sveria 30. Atsakymas: C) C.",
        "misconceptions": {
-        "D": "D negali sverti 30 g: C sveria tiek, kiek B ir D kartu, taigi C sunkesnis už D."
+        "D": "Jei D svertų 30 g, tai C būtų 40 g, o B – 10 g; tada A ir B kartu svertų tik 30 g, bet pirmose svarstyklėse jie sunkesni už C ir D."
        },
        "solutionFigure": "figures/M2018-s18.png"
       },
@@ -17288,7 +17288,7 @@
        "solutionKid": "Gudrybė: išreikšk kitus simbolius per saulę ir prisimink, kad didžiausias skaitmuo yra 5. Antra lygybė: dvi saulės lygios vienam atomo ženklui. Pirma lygybė: du atomo ženklai lygūs žuviai, taigi žuvis – tai 4 saulės. Jei saulė būtų 2, žuvis būtų 8 – per daug. Todėl saulė 1, atomo ženklas 2, žuvis 4. Trečia lygybė: saulė ir žuvis duoda šukas, 1 + 4 = 5. Skaitmuo 3 lieka akiai. Atsakymas: A) akis.",
        "misconceptions": {
         "C": "Atomo ženklas – tai dvi vienodos saulės, todėl jo skaitmuo lyginis, o 3 nelyginis.",
-        "D": "Šukos – tai saulė ir žuvis kartu, o žuvis jau lygi keturioms saulėms, todėl šukos didesnės.",
+        "D": "Šukos – tai saulė ir žuvis kartu, o žuvis jau lygi keturioms saulėms, todėl šukos lygios penkioms saulėms ir negali būti 3.",
         "E": "Žuvis – tai du vienodi atomo ženklai, todėl jos skaitmuo lyginis, o 3 nelyginis."
        },
        "solutionFigure": "figures/M2018-s20.png"
@@ -17864,7 +17864,7 @@
        "solutionKid": "Gudrybė: išbandyk kiekvieną vaiką kaip kekso valgytoją ir suskaičiuok melagius – jų turi būti lygiai vienas. Jei valgė Alius – meluoja Alius ir Balys. Jei Celestinas – meluoja Balys ir Edis. Jei Domas – meluoja Domas, Balys ir Edis. Jei Edis – meluoja Balys, Celestinas ir Edis. Jei valgė Balys – meluoja tik Edis, visi kiti sako tiesą. Atsakymas: B) Balys.",
        "misconceptions": {
         "A": "Patikėjai Edžiu, bet jei valgė Alius, meluoja ir Alius, ir Balys – jau du melagiai.",
-        "E": "Edis meluoja, bet melagis nebūtinai yra tas, kuris suvalgė keksą."
+        "E": "Jei valgė Edis, meluotų ir Balys, ir Celestinas, ir pats Edis, o melagis turi būti tik vienas."
        },
        "solutionFigure": "figures/M2019-s22.png"
       },
@@ -18883,9 +18883,6 @@
        "figure": "figures/M2021-q19.png",
        "level": "M",
        "solutionKid": "Gudrybė: apatinės keturios sumos kartu apima pirmus aštuonis langelius, o visų devynių skaičių sumą žinai. Visi skaičiai nuo 1 iki 9 kartu: 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 = 45. Apatinės sumos dengia po du langelius ir nesikerta: 15 + 3 + 15 + 8 = 41 – tai pirmų aštuonių langelių suma. Paskutiniam langeliui lieka 45 − 41 = 4. Atsakymas: D) 4.",
-       "misconceptions": {
-        "C": "5 slepiasi priešpaskutiniame langelyje, o klausiama paskutinio."
-       },
        "solutionFigure": "figures/M2021-s19.png"
       },
       {
@@ -20976,7 +20973,7 @@
        "level": "M",
        "solutionKid": "Gudrybė: skaičiuok porcijomis – didelė avis gauna vieną porciją, mažoji dvi. Penkios didelės avys gauna 5 porcijas, mažoji – 2, iš viso 5 + 2 = 7 porcijos. Viena porcija yra 210 : 7 = 30 gramų. Mažajai aviai atiteko dvi porcijos: 2 · 30 = 60 gramų. Patikrink: 5 · 30 + 60 = 210. Atsakymas: B) 60.",
        "misconceptions": {
-        "C": "Padalijai 210 iš 6 avių, bet mažoji gauna dvi porcijas – porcijų yra daugiau nei avių."
+        "C": "Padalijai 210 iš 6 avių ir padvigubinai, bet mažoji gauna dvi porcijas – porcijų yra daugiau nei avių."
        },
        "solutionFigure": "figures/M2025-s13.png"
       },
@@ -23115,7 +23112,7 @@
        "solutionKid": "Gudrybė: dauginant tik 1, 2 ir 4 gaunami vien dvejetų sandaugos skaičiai, ir jie negali būti per dideli. Didžiausia sandauga 4 · 4 · 4 · 4 · 4 = 1024, todėl 2048 netinka. 100 ir 120 dalijasi iš 5, o 768 dalijasi iš 3 – tokių daugiklių nėra. Lieka 256, ir jis gaunamas: 4 · 4 · 4 · 4 · 1 = 256. Atsakymas: C) 256.",
        "misconceptions": {
         "E": "2048 sudarytas vien iš dvejetų, bet jam reikėtų daugiau nei penkių ketvertų.",
-        "D": "768 = 256 · 3, o trejeto tarp pasirinktų skaičių nėra."
+        "D": "768 dalijasi iš 3, o trejeto tarp pasirinktų skaičių nėra."
        }
       },
       {
@@ -27152,7 +27149,7 @@
        "level": "K",
        "solutionKid": "Gudrybė: kiekviena sąlyga atskirai pasako po vieną dalyką – pradėk nuo paprastesnės. Jei monetų būtų 50 mažiau, kiekvienas gautų 5 mažiau, vadinasi, piratų yra 50 : 5 = 10. Jei piratų būtų 4 mažiau, liktų 6 ir kiekvienas gautų 10 daugiau – iš viso 60 monetų. Tos 60 monetų yra keturių nesančių piratų dalys, taigi viena dalis 60 : 4 = 15. Monetų 10 · 15 = 150. Patikrink: 150 : 6 = 25, o 100 : 10 = 10. Atsakymas: D) 150.",
        "misconceptions": {
-        "B": "100 – tiek monetų liktų atėmus 50, o klausiama, kiek jų atkasta."
+        "B": "Radai, kad piratų yra 10, bet 10 monetų – tai ne kiekvieno dalis, o tiek, kiek kiekvienas gautų daugiau, jei piratų būtų 4 mažiau."
        },
        "solutionFigure": "figures/K2014-s19.png"
       },
@@ -29647,7 +29644,7 @@
        "solutionKid": "Gudrybė: procentinis padidėjimas skaičiuojamas nuo Antano atlyginimo, todėl patogu jį laikyti viena dalimi. 20 % yra penktadalis, taigi vadovo atlyginimas – 5 tokios dalys, o Antano – 1 dalis. Kad Antanas gautų tiek, kiek vadovas, jam reikia pridėti 5 − 1 = 4 dalis. Viena dalis yra 100 % jo atlyginimo, todėl 4 dalys – keturis kartus po 100 %. Patikrink: 100 eurų ir 500 eurų, pridėti reikia 400 eurų. Atsakymas: D) 400 %.",
        "misconceptions": {
         "A": "Atėmei 100 % − 20 %, bet tai vadovo atlyginimo dalis, o padidėjimą reikia lyginti su Antano atlyginimu.",
-        "E": "500 % – tiek vadovo atlyginimas sudaro Antano atlyginimo, o klausiama, kiek šis turi PADIDĖTI."
+        "E": "500 % – tiek vadovo atlyginimas sudaro Antano atlyginimo, o klausiama, keliais procentais Antano atlyginimas turi padidėti."
        },
        "solutionFigure": "figures/K2020-s18.png"
       },

@@ -77,7 +77,7 @@
 "N2013-18": {
 "A": "12 – tiek obuolių gausi už kriaušes, bet juos dar reikia keisti toliau.",
 "B": "36 – tiek gausi slyvų, o klausiama, kiek bus bananų.",
-"D": "Obuolius keitei po 2, bet vienas obuolys vertas 3 slyvų."
+"D": "Obuolį iškeitei tiesiai į 2 bananus, bet obuolys vertas 3 slyvų, o bananas – 2 slyvų."
 },
 "N2014-1": {
 "D": "Žiedlapių čia penki, bet lapelių tik du.",
@@ -118,7 +118,7 @@
 "E": "Čia keturi dantys, o pirmoje dalyje yra tik trys duobės."
 },
 "N2014-13": {
-"A": "Sudėjai 23 + 45 – didieji skaitmenys pateko ne į dešimčių, o į vienetų vietas.",
+"A": "Sudėjai 23 + 45 – didžiausias skaitmuo 5 pateko į vienetų vietą, o dešimčių vietoje atsidūrė 2.",
 "B": "Sudėjai 54 + 23 – abu didžiausi skaitmenys pateko į vieną skaičių.",
 "C": "Sudėjai 54 + 32 – dešimčių vietose stovi 5 ir 3, o ne du didžiausi skaitmenys.",
 "E": "97 gautum tik kurį nors skaitmenį parašęs du kartus, pvz., 54 + 43."
@@ -425,7 +425,7 @@
 "E": "Čia baltas karoliukas vienas, o apyrankėje balti visada po du greta."
 },
 "N2019-3": {
-"E": "Atimdamas pamiršai, kad iš 4 dešimčių vieną pasiskolinai."
+"E": "Atimdamas vienetus pasiskolinai dešimtį, bet pamiršai ją atimti iš 4 dešimčių."
 },
 "N2019-4": {
 "A": "Matą pastatei dešimtą (12 − 2), o antras nuo galo yra vienuoliktas.",
@@ -495,7 +495,7 @@
 "B": "Kortelėje 3 mašinos priekis žiūri į dešinę, tad ji negali būti kairėje.",
 "C": "Ratus padėjai viršuje, o stogą apačioje – mašina apvirto.",
 "D": "Sukeitei ratų korteles: jų linijos nesusijungia su viršutinių kortelių linijomis.",
-"E": "Sukeitei tik eilutes, bet mašinos priekis liko kairėje, nors žiūri į dešinę."
+"E": "Sukeitei kairę ir dešinę pusę: kortelė 3 atsidūrė kairėje, nors mašinos priekis žiūri į dešinę."
 },
 "N2020-4": {
 "A": "Varlė ir pelė – tai du paskutiniai jau ištraukti žaislai, o ne būsimi.",
@@ -526,7 +526,7 @@
 "B": "Ši figūra aukšta, bet siaura – aukštis dar nereiškia, kad kubelių daug."
 },
 "N2020-12": {
-"A": "Tęsei lyginių skaičių eilę 2, 4, 6, 8, bet čia svarbi suma, o ne eilė."
+"A": "Papildei lyginių skaičių eilę 0, 2, 4, 6, 8, bet čia svarbi suma, o ne eilė."
 },
 "N2020-14": {
 "A": "Pavyzdyje A mažesnis už B, bet iš A rodyklė eina toliau – yra už jį mažesnis.",
@@ -587,11 +587,11 @@
 "E": "Suma čia 20, bet yra skaičius 2 – jis per mažas."
 },
 "N2021-9": {
-"C": "11 – tiek kartų žirklės perkerpa virvutę, o gabalų būna vienu daugiau."
+"C": "11 – tiek kartų žirklės perkerpa virvutę, o klausiama, kiek gabalų – pagalvok, kiek gabalų būna po vieno kirpimo."
 },
 "N2021-10": {
 "B": "Visas ratas – tik 15 metrų, o Murkis nuėjo 20.",
-"C": "Ratas ir atkarpa iki C – 19 metrų, vieno dar trūksta.",
+"C": "Ratas ir atkarpa iki C – tik 19 metrų, o Murkis nuėjo 20.",
 "E": "Ėjai prieš rodykles – nuo B link A, o reikia link C."
 },
 "N2021-11": {
@@ -733,9 +733,9 @@
 "E": "12 – tai kubelių skaičius, o pirmam kubeliui klijų nereikia."
 },
 "N2023-15": {
-"A": "8 metai Ingai – ji metais vyresnė už Liną.",
-"B": "7 metai Linai – ji dvejais metais vyresnė už Jorį.",
-"D": "5 metai Joriui – jis dvejais metais jaunesnis už Liną.",
+"A": "Jei Agnei 8, Joriui, Linai ir Ingai lieka 5, 6 ir 7 metai – taip Lina negali būti 2 metais vyresnė už Jorį ir metais jaunesnė už Ingą.",
+"B": "Jei Agnei 7, Joriui, Linai ir Ingai lieka 5, 6 ir 8 metai – taip Lina negali būti 2 metais vyresnė už Jorį ir metais jaunesnė už Ingą.",
+"D": "Jei Agnei 5, Joriui, Linai ir Ingai lieka 6, 7 ir 8 metai – taip Lina negali būti 2 metais vyresnė už Jorį ir metais jaunesnė už Ingą.",
 "E": "Tortas su 4 – jauniausios Onutės."
 },
 "N2023-16": {
@@ -788,9 +788,9 @@
 "D": "Prie kriaušės veda tik kambarys 4 + 2, o jo suma – 6."
 },
 "N2024-13": {
-"A": "Saulė yra 26-oje vietoje – suskaičiavai vienu per mažai.",
-"C": "Katė yra 28-oje vietoje – suskaičiavai vienu per daug.",
-"E": "Liepsna yra 25-oje vietoje – nuo jos reikia paeiti dar du žingsnius."
+"A": "Saulė stovi 1, 6, 11 ir kitose vietose, kurios skiriasi po 5 – 27 tarp jų nėra.",
+"C": "Katė stovi 3, 8, 13 ir kitose vietose, kurios skiriasi po 5 – 27 tarp jų nėra.",
+"E": "Liepsna stovi 5, 10, 15, 20 ir 25 vietose, o 27 tarp jų nėra."
 },
 "N2024-14": {
 "D": "10 kaimynai 5, 1 ir 2 kartu duoda tik 8.",
@@ -927,7 +927,7 @@
 "E": "5 – tiek šeimoje mergaičių, bet Kotryna pati sau nėra sesuo."
 },
 "N2026-18": {
-"A": "5 – tiek turi sumažėti pirmos eilės suma, bet tai ne žetono numeris."
+"A": "Suradai, kiek turi sumažėti pirmos eilės suma, bet tai dar ne žetonas, kurį reikia paimti."
 },
 "M2013-1": {
 "A": "Čia juodų 3, o baltų 4 – daugiau baltų, o klausiama atvirkščiai.",
@@ -1118,7 +1118,7 @@
 "C": "Tai žaislai, kuriuos Jonas išsirinko iš pradžių (už 182 litus), o vieną iš jų jis dar pakeitė."
 },
 "M2014-23": {
-"C": "Užtušavai tik langelius aplink, o vidurio nebandei – ten dar yra vietos.",
+"C": "Palikai baltą ir vidurinį langelį, bet jo nereikia: kvadratus jau sugadina balti langeliai aplink jį.",
 "E": "Radai tik 3 atskirus kvadratus 2 × 2, o jų figūroje telpa daugiau – trijų baltų langelių neužtenka."
 },
 "M2014-24": {
@@ -1314,7 +1314,7 @@
 "E": "4 · 8 = 32, o šalia atsidurs 6 · 4 = 24 – rezultatai nesutampa."
 },
 "M2017-5": {
-"A": "Tai namas iš priekio – jame yra durys, o užpakalinėje pusėje durų nėra.",
+"A": "Čia nupieštos durys, o užpakalinėje namo pusėje durų nėra.",
 "B": "Čia nupieštos durys, o užpakalinėje namo pusėje durų nėra.",
 "C": "Čia keturi langai – vienas dar po stogu, o užpakalinėje pusėje jų trys.",
 "D": "Kaminas liko dešinėje, kaip žiūrint iš priekio, o apėjus namą šonai susikeičia."
@@ -1451,7 +1451,7 @@
 "D": "Sudėjai 8 + 5, bet 5 – tai skirtumas tarp Amelijos metų ir abiejų brolių amžių sumos."
 },
 "M2018-18": {
-"D": "D negali sverti 30 g: C sveria tiek, kiek B ir D kartu, taigi C sunkesnis už D."
+"D": "Jei D svertų 30 g, tai C būtų 40 g, o B – 10 g; tada A ir B kartu svertų tik 30 g, bet pirmose svarstyklėse jie sunkesni už C ir D."
 },
 "M2018-19": {
 "A": "4 – tai tarpų tarp skylučių skaičius, o ne centimetrai.",
@@ -1459,7 +1459,7 @@
 },
 "M2018-20": {
 "C": "Atomo ženklas – tai dvi vienodos saulės, todėl jo skaitmuo lyginis, o 3 nelyginis.",
-"D": "Šukos – tai saulė ir žuvis kartu, o žuvis jau lygi keturioms saulėms, todėl šukos didesnės.",
+"D": "Šukos – tai saulė ir žuvis kartu, o žuvis jau lygi keturioms saulėms, todėl šukos lygios penkioms saulėms ir negali būti 3.",
 "E": "Žuvis – tai du vienodi atomo ženklai, todėl jos skaitmuo lyginis, o 3 nelyginis."
 },
 "M2018-23": {
@@ -1552,7 +1552,7 @@
 },
 "M2019-22": {
 "A": "Patikėjai Edžiu, bet jei valgė Alius, meluoja ir Alius, ir Balys – jau du melagiai.",
-"E": "Edis meluoja, bet melagis nebūtinai yra tas, kuris suvalgė keksą."
+"E": "Jei valgė Edis, meluotų ir Balys, ir Celestinas, ir pats Edis, o melagis turi būti tik vienas."
 },
 "M2019-23": {
 "B": "13 – tiek rankšluosčių sukabinta vienas prie kito, o klausiama, kiek kabo atskirai.",
@@ -1722,9 +1722,6 @@
 "B": "Pasukus M sumos būtų 32 ir 34 – skirtumas sumažėja tik 2, o reikia panaikinti 4.",
 "C": "Pasukus N sumos būtų 34 ir 32 – viršus padidėja per daug.",
 "D": "Ieškojai kortelės, kurios skaičiai skiriasi 4, bet pasukus R sumos tik susikeičia vietomis: 35 ir 31."
-},
-"M2021-19": {
-"C": "5 slepiasi priešpaskutiniame langelyje, o klausiama paskutinio."
 },
 "M2021-20": {
 "B": "30 taškų galima surinkti ir be baliono 9 – pataikius į 13 ir 14.",
@@ -2125,7 +2122,7 @@
 "A": "Sudėjai 1 + 3 + 5, bet šios boružės jau nufotografuotos po du kartus – ketvirtoje nuotraukoje jų nėra."
 },
 "M2025-13": {
-"C": "Padalijai 210 iš 6 avių, bet mažoji gauna dvi porcijas – porcijų yra daugiau nei avių."
+"C": "Padalijai 210 iš 6 avių ir padvigubinai, bet mažoji gauna dvi porcijas – porcijų yra daugiau nei avių."
 },
 "M2025-15": {
 "B": "3 – tai viršutinis skaičius virš žvaigždutės, o ne pati žvaigždutė.",
@@ -2268,7 +2265,7 @@
 "E": "11 − 6 = 5 – tai kraštinės atkarpos prie kampo ilgis, o klausiama viduriniosios."
 },
 "K2014-19": {
-"B": "100 – tiek monetų liktų atėmus 50, o klausiama, kiek jų atkasta."
+"B": "Radai, kad piratų yra 10, bet 10 monetų – tai ne kiekvieno dalis, o tiek, kiek kiekvienas gautų daugiau, jei piratų būtų 4 mažiau."
 },
 "K2014-20": {
 "C": "Manei, kad vidurkis nuo abiejų skaičių skiriasi tiek pat procentų, bet procentai skaičiuojami nuo skirtingų skaičių.",
@@ -2534,7 +2531,7 @@
 },
 "K2020-18": {
 "A": "Atėmei 100 % − 20 %, bet tai vadovo atlyginimo dalis, o padidėjimą reikia lyginti su Antano atlyginimu.",
-"E": "500 % – tiek vadovo atlyginimas sudaro Antano atlyginimo, o klausiama, kiek šis turi PADIDĖTI."
+"E": "500 % – tiek vadovo atlyginimas sudaro Antano atlyginimo, o klausiama, keliais procentais Antano atlyginimas turi padidėti."
 },
 "K2020-19": {
 "C": "Patikrinai tik vaizdą iš kairiojo šono; iš kito šono kubelių telpa daugiau.",
@@ -4470,7 +4467,7 @@
 },
 "K2004-17": {
 "E": "2048 sudarytas vien iš dvejetų, bet jam reikėtų daugiau nei penkių ketvertų.",
-"D": "768 = 256 · 3, o trejeto tarp pasirinktų skaičių nėra."
+"D": "768 dalijasi iš 3, o trejeto tarp pasirinktų skaičių nėra."
 },
 "K2004-18": {
 "B": "72 – tai senelės amžius, o klausiama, kiek metų seneliui."
