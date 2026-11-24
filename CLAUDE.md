@@ -6,6 +6,10 @@ This entire app — `kengura.html`, `kengura-archive.json/.js`, the figures, the
 generators — is designed for **one Kangaroo level only: Benjamin** (called
 **Bičiulis** in Lithuania). Everything else is out of scope.
 
+(One exception, added on the user's request on 2026-11-22: two extra home tabs
+with the neighbouring blocks – Mažylis 5-point and Kadetas 3–4-point questions.
+They are kept apart from everything below; see "Neighbour levels" at the end. On 2026-11-23 a Nykštukas tab was added and Mažylis became the whole paper.)
+
 ### What "Benjamin" means
 
 Math Kangaroo (Kengūros konkursas) splits competitors into age tiers. In
@@ -390,6 +394,11 @@ in `store.contests` (last 30 retained).
 - Figures: `_recrop.py` (layout-based crops), `_trim_figures.py` (blank
   strips); bump `FIGS` in `sw.js` after changing any PNG.
 - `_plan_sim.cjs` — plan simulator (seeded, reproducible).
+- Neighbour levels: `kengura-levels.json` / `.js` (data), `_extra_levels.py`
+  (builder; `--nofig` = text only), `_extra_crop.py` (strict figure cropper),
+  `levels_src/` (solution booklets from kengura.lt + `SOURCES.txt` with their
+  sha256), figures `figures/M2024-q17.png` (question) and `…-s17.png`
+  (solution picture).
 - `Solutions/` — 2006 + the full 2014–2017 solution booklets.
 - `*.pdf` — source materials. `200xLT.pdf` and `TMK0x_lietuviu.pdf` are
   test booklets; `200xspB.pdf` and `200xkengura.pdf` are solution
@@ -1139,3 +1148,302 @@ and child profiles were hidden at the bottom of the parent view.
   fetched only when an account is used. Setup steps are in that file.
 - Smoke section "parent accounts" runs the sync against an in-memory
   Supabase (upload, push, deferred pull, conflict, second device, removal).
+
+## Neighbour levels: Mažylis 5 t. + Kadetas 3–4 t. (2026-11-22)
+
+The one exception to "Benjamin only", asked for by the user: two extra home
+tabs with the blocks next to Bičiulis in difficulty.
+
+- **Data:** `kengura-levels.json` / `.js` (`window.KENGURA_LEVELS.levels.M/.K`),
+  built by `python _extra_levels.py` from the official solution booklets on
+  kengura.lt (`levels_src/<year>-spE.pdf` Mažylis, `-spC.pdf` Kadetas; download
+  URLs in the script's header). Mažylis Q17–24 (5 t.) of 2013–2025 = 104
+  questions; Kadetas Q1–20 (3–4 t.) of 2013–2026 = 280. Mažylis 2026 has no
+  solution booklet on the site yet (the link is commented out there) – add
+  `levels_src/2026-spE.pdf` and rerun when it appears.
+- **Per question:** prompt, options, key (solution header "17. D"), official
+  solution text, `figure` (`figures/M2024-q17.png`, cut from the booklet's
+  "Sąlygos" pages) and `solutionFigure` (`…-s17.png`, the worked solution as
+  printed – its drawings and inline symbols do not survive as text). No
+  `mechanic`, no `solutionKid`, `level: "M"|"K"`.
+- **Keys:** header vs answer table vs "Teisingas atsakymas X" in the text were
+  cross-checked; `KEY_FIX` holds M2024-20 (printed C, the solution derives D =
+  28; checked against the figure). In-text letter slips are rewritten to the key.
+- **Text layer:** `page_text_fr` finds fractions by their bar ("(2+0)/(1+5)")
+  and raised digits ("2^2024"); option sets with equal texts or one stray label
+  are blanked (`imageOnlyOptions`).
+- **Figures:** `_recrop.crop` for most; the 55 in `STRICT` (flagged by a visual
+  check of all 384) use `_extra_crop.py`, which assigns every word and drawing
+  to a question and paints the rest out. All were re-checked by eye.
+- **App:** `LEVEL_SETS`, `LEVEL_TABS`, `EXTRA_PAPERS`, `findPaper(id)`,
+  `paperYearText(id)`. Paper ids are "M2024"/"K2024" (no "-"). The papers are
+  NOT in `ARCHIVE`, so playlists, contests, drills, the plan and the simulator
+  stay Bičiulis-only. They open in the normal archive-year view; an answer
+  gives stars/streak (`levelEqBand`: Mažylis 5 t. ≈ 3 t., Kadetas 3/4 t. ≈ 4/5
+  t. – a judgement call), `store.levelStats[L] = {a, ok}`, `seenQ` and the
+  mistakes notebook, but no mechStats, no dueQueue, no `byBand`. Cards have no
+  hint ladder, no trick practice and no AI notes.
+- **Tab bar:** 7 tabs; `.tab{flex:1 0 68px}` + horizontal scroll on phones
+  (5½ tabs visible, no label cut), the active tab is scrolled into view.
+- Smoke section "neighbour levels"; `sw.js` shell v4 lists `kengura-levels.js`.
+- **20-check pass (same day):** rebuild reproduces json + question PNGs
+  byte for byte; keys three-way; header value = keyed option text (two booklet slips, see `HEAD_HIDE`); point
+  bands vs the booklet headings; every question figure holds its number, all
+  main text and A)–E) unmasked (geometric check, 384/384); solution pictures
+  match their headers; all 27 papers × both layouts and all 384 answer flows
+  in the harness; simulator output identical; two 375 px browser passes.
+  Fixed on the way: `PROMPT_FIX` / `PROMPT_CUT_TAIL` / `OPTION_FIX` /
+  `OPTION_BLANK` (a price table read as fractions, missed exponents, picture
+  pieces as option text), "180 °" → "180°", "− 5" → "−5", running heads inside
+  solution texts, answer pictures cut at the top of a solution picture, the
+  mistakes worksheet label, offline caching of the new figures, and
+  `.sol-figure` (620 px wide with sideways scroll on phones – at 268 px the
+  booklet text was unreadable). `--nofig` rebuilds text only and keeps the
+  solution pictures.
+- **25-check pass (same day):** schema + `.js` mirror; character inventory
+  (private-use brace glyphs stripped); typed prompt/options vs the words inside
+  each crop; problems shared with the same year's Bičiulis paper (4: K2013-20 =
+  B13 seen from the other side, K2014-14 = B25, K2017-5 = B4, K2024-4 = B1 –
+  keys agree); 24 keys re-solved by hand; parent view, summary, worksheet,
+  achievements, save/load, notebook "fixed" flow with all 384 answered; key
+  parsing and reset; browser: tab reveal, keys, system back, list layout, shell
+  files, 1280 px. Fixed: blank strips under 226 question figures (`trim_png`),
+  page numbers and page-end gaps in solution pictures (`squeeze_blank`),
+  M2021-23 running to the page foot (now `STRICT`), `revealTab()` so a tapped
+  tab is fully in view. (FIGS is bumped on every picture change; see `sw.js`.)
+- **Third pass + UI/UX review (same day).** Logic: old level mistakes took the
+  two daily places of `topUpQueueFromNotebook` for ever (they can never be
+  queued) – it now picks only questions with a trick tag (smoke check fails
+  without the fix). The app runs with five tabs when `kengura-levels.js` is
+  missing. Text: `OPTION_FIX` for K2021-13 (unit after a fraction), K2021-18
+  ("4√2 cm" – the radical is a drawing), K2022-4 (number plates); `PROMPT_FIX`
+  M2018-19, `PROMPT_SUB` K2019-20; lettering runs and the full stop after an
+  answer value are stripped from solution texts. 43 keys in all were re-solved
+  by hand, none wrong.
+- **UX rules for the level tabs** (from a 15-point review):
+  tab order is today, learn, tests, practice, me, then the level tabs – the
+  extras are what scrolls on a phone; `.tabbar.more::after` is the "more to the
+  right" cue; the row layout of the tab bar starts at 740 px (7 labels do not
+  fit earlier). `levelPaneHTML` has ONE primary button (`levelNextPaper`:
+  a started paper, else the newest untouched) and plain year buttons; it says
+  what an answer pays. A level card never promises a review (nothing is
+  queued), gives its time budget and its "missed" opener in Bičiulis terms
+  (`levelEqBand`), and offers „Užstrigai?“ → three self-questions → „Rodyti
+  sprendimą“ (`gaveUp`, recorded as a miss) so nobody has to guess wrong to
+  see a solution. `.sol-figure` is excluded from the page swipe, is shown at
+  0,62 of its natural width on phones and carries the scroll/zoom cue and the
+  legend of the booklet's ? / ! / !! marks. Parent view and the copied summary
+  carry `levelStatsText()`. Not done: the hero's 📒 count still includes level
+  mistakes when the levels file is missing; tab labels are 12 px (older rule).
+- **Fourth pass: 30 data/logic checks + 30 UI/UX checks (two reviewers, one
+  in a real browser).** Data: typographic lint of all typed text ("6 , 4",
+  "δ ?", "t.y.", "30%", "): ("), key distribution and runs (M2014's five D's in
+  a row re-solved – correct), duplicates, look-alikes in Bičiulis papers, file
+  integrity, all 54 source links (each paper now carries `test_pdf` /
+  `solutions_pdf` on kengura.lt; `levels_src/SOURCES.txt` pins the booklets by
+  sha256). **Prompts that lost little pictures set inside the sentences** (12:
+  M2014-22, M2016-21, M2018-20, M2019-17, M2021-17/-24, M2023-22, M2024-18/-20/
+  -24, K2024-7, K2026-6) are written out in `PROMPT_FIX`; an automatic "▢" mark
+  was tried and dropped (drawings beside a line gave false marks). Option sets
+  with compound fractions, mixed numbers, powers or rows of symbols are
+  `OPTION_BLANK` (letter-only; the figure is the option).
+- **UX rules added by that pass.** "Tik neišspręsti" keeps a card that is in
+  the middle of its flow (`inFlow`: first miss, asked-for solution, stuck) –
+  it used to vanish, in the Bičiulis archive too. A shown solution (`gaveUp`)
+  gets no "nearly" opener and no "why did you slip?"; level cards get one calm
+  opener, the 5-pt "check it back" line by `levelEqBand`, no "skip it in the
+  contest" for Mažylis. Things revealed by a tap scroll clear of the sticky
+  prev/next bar (`scroll-margin-bottom`, `focusInCard`, the option handler).
+  Level question figures (`.figure.lvl-fig`) are shown at 0,42 of natural width
+  with sideways scroll on phones (a full booklet column at 292 px was
+  unreadable) and are outside the page swipe; picture-option questions keep
+  the typed text closed. A picture that fails to load falls back to the text
+  (`.fig-failed`, solution `onerror`). Level pane: "plan first" line while a
+  plan step is open, too-easy / too-hard word from `levelStats` (≥ 8 answers),
+  equal-width year grid (`.level-years`), short strips fit (`.contest-strip.few`).
+  The tab cue is 22 px and `revealTab` keeps the active tab clear of it. The
+  status strip shows "☁" only on phones (it overflowed at 320 px). Parent:
+  reasons of level mistakes do not drive trick advice; `activity[day].lvl`
+  feeds "Per pastarąsias 7 d." in `levelStatsText()`; the offline button says
+  ~53 MB. Not done: a one-line paper header in focus mode on phones (the header
+  card is ~300 px), a roving tabindex on the number strip, the clipped sliver of
+  the answer drawing at the top of M2014-s20.
+- **Fifth pass (leftovers + 30 checks, three reviewers).**
+  *Solution pictures* (`solution_images`) were reworked – check them with the
+  edge scan (ink in the first / last 3 pixel rows) after any change:
+  the header LINE starts at its tallest part (`ytop`: the circle round the
+  key, the numerator of a fraction answer); an answer picture beside the header
+  (cubes, a grid, a clock – `tall`, found as connected figure groups touching
+  the header band) goes whole to its own solution and is painted out of the
+  previous one; a solution's own figure hanging past the next header
+  (`hanging`) stays whole and is painted out of the next. Figures placed as
+  embedded pictures are invisible to `get_drawings()` – `ink_groups()` finds
+  them on the rendered page. Above a header only WORDS are ever painted out,
+  never drawing parts. Running heads are recognised on the normalised text
+  ("UZˇDUOCˇIU˛" in the raw layer); a line like "N = 6, A = 8" is not a head.
+  `HEAD_HIDE` (M2016-21: the booklet prints "21. B 1914", a value of question
+  22) drops a wrong printed value from picture and text. Ten headers show a
+  bare key letter – the booklets print nothing there.
+  *App:* one-question header on phones is a short title beside the back button
+  (`.t-short`; the question starts at ~265 px instead of ~370); the number
+  strip is one Tab stop and keeps the focus after ←/→; tab labels are 13 px in
+  76 px tabs; level figures say "↔ Brauk į šoną…" and have "⤢ Visas" (fit to
+  width – all five option drawings at once); the last question of a finished
+  paper shows "🏁 Pabaiga ↓" instead of a dead "Kitas"; a shown solution has a
+  calm (not red) box; "📒 sąsiuvinyje" instead of "kartoji" on a level card
+  after a first miss; finished years are tinted in a three-column grid; the
+  status strip wraps at ≤ 340 px.
+  *Lesson:* a `while changed:` loop over rectangle unions hung the build – keep
+  such loops bounded (`for _ in range(len(cand) + 1)`), and run long builds
+  with `python -u … > file` in the background, not behind `| tail`.
+- **Sixth pass (two code reviews, picture re-check, click-through journeys).**
+  *App bugs found by review and fixed (each has a smoke check):* the
+  "x/y teisingai" pill counted a merely tapped option – an answer oracle, in the
+  Bičiulis archive too – it now counts checked answers only; a picture that
+  failed to load opened the typed text and that was saved as the kid's choice
+  (`showQText`) – the fallback now marks itself `data-auto`; the "only unsolved"
+  filter survived into the next paper and could show a finished paper as an
+  empty page – `openArchiveYear` switches it off and its switch stays visible
+  while it is on; "⤢ Visas" was lost on every re-render – kept in
+  `state.figFit`; level answers fed `confStats` (the parent's calibration flag)
+  – Bičiulis only now; a shown solution carries no confidence line; the 76 px
+  tab basis applies only with more than five tabs (`.tabbar.many`).
+  *Builder (`_extra_levels.py`):* `tidy(…, solution=True)` keeps the booklet's
+  lone "?" quick-way marker (12 solutions had lost "Greitas būdas"); raised
+  digits are judged against the previous span ("2^2016 + 2016^2"), never after
+  a word; `PROMPT_SUB` also for K2021-7, K2015-3, K2024-12; `HEAD_HIDE` K2021-7
+  ("7. B 138137" for 13837); `TEXT_HEAD_DROP`, `SOLUTION_TEXT_DROP`; signs and
+  times ("−14", "17:00"); pieces of a solution from different pages keep their
+  horizontal position; embedded-picture ink counts as content (a wheel diagram
+  was cut at the page foot); figure groups are built only for the headers that
+  are cut at and the strict cropper reuses one layout per page (build: 4 min
+  instead of 8+); the build STOPS without writing if a question, key, figure or
+  `PROMPT_SUB` text is missing.
+  *Click-through journeys (10 scenarios, level and Bičiulis papers):* level
+  stats count the FIRST meeting with a question – a notebook retry fixes the
+  mistake and pays, re-solving a fixed question pays nothing, a solution that
+  was only asked for pays no star (`recordArchiveAnswer(…, {gaveUp})`); the
+  pill says "3/5 teisingai (1 iš antro karto)"; after choosing an option the
+  keyboard focus is put back on it, after ←/→ on the card or the strip it
+  stays where it was (the card is `tabindex="-1"`); under "only unsolved" a
+  checked card stays only while it is on screen; a paper opened from the
+  notebook goes back to it (`state.archiveFromBook`); "📒 sąsiuvinyje" during
+  the second try on every card; a failed figure hides its tools and says that
+  picture options cannot be answered; the status strip drops its long labels
+  between 520 and 660 px (it overflowed). A lone number at the page foot is a
+  page number only when no figure is beside it (the "5" of a wheel diagram was
+  cut). Final state: edge scan 0 of 384 solution pictures; a reviewer viewed
+  all of them – 0 confirmed defects.
+- **Seventh pass (50 checks: all 384 questions re-solved blind, cross-feature
+  review, 11 browser journeys).** Four solvers worked every question from its
+  figure before seeing the key: 383 agreed at once, the one difference was the
+  solver's misreading – **no key is in doubt**. Text fixes from their reading:
+  decimal commas (`DEC`: a math-font comma set tight between digits is a
+  decimal, "3,17 ir 20,16" – it used to read as four integers; leftovers by
+  `SOLUTION_DECIMALS`), `SOLUTION_SUB` (K2019-20: the remark's "B" had been
+  rewritten to the key), 17 more `SOLUTION_TEXT_DROP` (overlined numbers, big
+  brackets, systems, inline pictures – the solution PICTURE is what the kid
+  reads; 18 questions now have no typed solution), `PROMPT_FIX` M2021-22 (the
+  weights on the boxes came out in another order) and M2025-23 (the note is a
+  picture), `PROMPT_SUB` K2022-7 (the equation line), K2020-11.
+  *App:* no AI request for a level card and a late AI answer never draws over
+  another view; the ✏️ pad sits right on a sideways-scrolled figure and the
+  scroll position survives a re-render (`keepFigScroll`); level second tries
+  stay out of `store.secondTry`; a shown solution counts in the day's
+  `answered` (so `lvl.a` ≤ `answered`); `storeWeight` counts mistakes;
+  "next paper" clears `archiveFromBook`; a reset / in-place cloud pull clears
+  the answers on screen; `shownMistakes()` for the hero and parent counts;
+  Enter on the chosen option checks the answer (letter keys leave the focus
+  there); "only unsolved" hides what was checked before the switch
+  (`state._archiveHide`) and keeps what is checked under it (list: until the
+  switch is used again; one at a time: while on screen); the filter and layout
+  switches keep the keyboard focus; the tab bar's cue and active tab follow a
+  resize; `sw.js` pre-caches file by file (a missing optional bundle no longer
+  empties the pre-cache). Not done: a finished paper opens unanswered after a
+  reload (answers on cards are session memory, by design); the Enter fix was
+  not carried to playlists (`wirePracticeKeys`).
+
+## Nykštukas (1–2 kl.) + whole-paper Mažylis (3–4 kl.) (2026-11-23)
+
+Asked for by the user: "do for grades 1–4 separately, as additional pane". kengura.lt has
+two tiers for those grades (no per-grade papers), so there are now three level tabs:
+**🌱 Nykštukas** (new, level `N`, every question: 14 papers × 18 = 252, 6/6/6 by points,
+2013–2026), **🐣 Mažylis** (level `M`, now the WHOLE paper Q1–24: 13 × 24 = 312; it used
+to be the 5-point block only) and 🚀 Kadetas (unchanged, 280). 844 level questions in all.
+
+- **Sources:** `levels_src/<year>-spP.pdf` (Nykštukas solution booklets: `TMK13_N.pdf`,
+  `2014–15/spGDPRN.pdf`, `2016–17/spGDPRP.pdf`, `2018+/spP.pdf`) and the test booklets
+  `<year>-preecolier.pdf`. `LEVELS` in `_extra_levels.py` carries the file names per level.
+  Mažylis 2026 still has no solution booklet on the site.
+- **Stars:** `levelEqBand` = 3 for every Nykštukas and Mažylis question (1 ⭐ per answered
+  question, whatever its block). The N and M panes do not show the "plan first" line (the
+  plan is a Bičiulis plan); N ≥ 80 % points to Mažylis, M ≥ 80 % to Bičiulis 3 t.
+- **Builder additions:** `--dry` (text only → `_levels_dry.json`, nothing else written);
+  one-line option rows ("A) Raudona B) Mėlyna …") are split; a prompt that lost a little
+  inline picture ("tokias korteles:.") gets "(žr. paveikslėlį)"; the report names every
+  "Teisingas atsakymas X" that contradicts the header (`KEEP_TEXT_LETTERS` for a solution
+  that walks into the trap on purpose, N2017-14); `_levels_text_fix.json` (`TEXT_FIX`) holds
+  56 prompts / option sets re-typed from the figures by the review (`{}` = picture options).
+- **Question figures.** The young-grade booklets set most drawings BESIDE the text, where
+  `_recrop.crop` leaks or loses them: 60 more ids went to `STRICT` (`_extra_crop.py`, which now
+  also drops the running head, its rule and anything above it – `top_rule`), and 11 are cut by
+  hand in `MANUAL_Q` (page, rectangle, masks; N2015-6 comes from the TEST booklet because the
+  solution booklet prints a broken drawing). When a new paper is added, run the geometric check
+  first (own number / A)–E) / own words inside, nothing foreign inside) and try STRICT before
+  MANUAL_Q.
+- **Solution pictures.** New knobs in `solution_images`: `SOL_START` (y where a solution really
+  starts – an answer drawing far above its header), `SOL_END`, `SOL_MASK` (rectangles painted
+  white: a neighbour's table row, a running head, and the five booklet lines "Teisingas
+  atsakymas X." that contradict their own header – N2015-5, M2014-24, M2016-10, M2016-17,
+  M2024-2), `drop_edge_bits` (small ink touching the top/bottom edge: half a page number, a
+  neighbour's foot; never the header at the top left). `HEAD_HIDE` + N2014-2, N2015-3, M2015-3.
+  Known booklet prints left as they are: N2015-s6 (broken drawing), M2015-s5 line B "(000 − 0)".
+- **Checks run (2026-11-23).** Dry build: 0 fatal lines; header keys = answer tables for all 27
+  N/M booklets (only the known M2024-20). The old 384 questions and their 768 pictures stayed
+  byte-identical through the first build. Eight reviewers looked at BOTH pictures of all 460 new
+  questions and re-solved each blind: **no key in doubt**; 27 question crops, 20 solution
+  pictures and 56 typed texts fixed from their reports and re-checked by eye. Automatic: layout
+  check of 460 crops × 2 croppers, edge-ink scan of 920 pictures, smoke test (new section
+  inside "neighbour levels"), simulator unchanged. Browser: click-through of all 564 N/M
+  questions (right / second try / "Užstrigai?" – pictures load, no overflow, no leaks), 8 tabs ×
+  5 widths (320–1280 px), 50 scripted UI checks on the panes, a paper, keys, notebook, parent view.
+- `sw.js`: shell v5, FIGS v21; the offline button says ~90 MB / 2 400 pictures.
+- Not done: a per-profile level (the hero still says "5–6 klasė" and the home tabs are the
+  Bičiulis ones for a younger child's profile); kid-language solutions for these levels.
+- Browser-test tip: the JS tool blocks output that looks like a query string – strip `= & ? %`
+  from what a check returns.
+
+## Per-child grade + kid solutions for Nykštukas / Mažylis (2026-11-24)
+
+- **Grade per child:** `store.settings.grade` = `'N'` (1–2 kl.) | `'M'` (3–4 kl.) | `'B'` | `null`
+  (never chosen = Bičiulis). Helpers `GRADE_OPTS`, `kidLevel()`, `setKidLevel()`, `homeTabs()`,
+  `defaultHomeTab()`, `applyLevelTitle()`. Chosen on the welcome screen, in the parent settings
+  (`#pGrade`) and on a one-off home card (`#gradeAsk`, while no grade and no practice).
+  A younger child sees three tabs – own set, the neighbouring set, Prizai – opens on the own
+  set, and the header says the grade. All panes are still rendered (hidden), so nothing else
+  changed for a Bičiulis child. The game challenge draws from the child's own papers (2 × 3 t.,
+  2 × 4 t., 1 × 5 t.); `parentAdvice()` has its own branch (no plan / date / tricks).
+  Not adapted: the rest of the parent view (plan settings, trick tables) still shows the
+  Bičiulis sections, the generated quiz and the plan do not exist for a younger child.
+- **Kid solutions:** `_levels_kid.json` (564 texts, "Gudrybė: … Atsakymas: X) …"), merged as
+  `q.solutionKid` by `_extra_levels.py`. Written from the figures by 10 agents, then every text
+  was checked against the pictures by 10 independent reviewers: 55 corrected (9 false picture
+  facts, 34 gaps, 12 language/style), no key in doubt. On a level card the kid solution leads and
+  the booklet page sits in a `<details class="sol-official">`; „Užstrigai?“ offers the Gudrybė
+  line as a hint (`data-action="lvlidea"`) before „Rodyti sprendimą“. Kadetas has none.
+  No misconception notes for these levels.
+- Builder: the "17: 00" rule joins clock times only (it had glued "lygi 51: 20 + 10").
+- Smoke: block "the child's own grade" inside "neighbour levels". `sw.js` shell v6.
+- **Later the same day ("fix what is left"):** Kadetas got kid solutions too (280, five writers +
+  five reviewers, 16 corrected – e.g. K2016-15 is a 6-cube figure, K2018-15 named the wrong
+  segment), so all 844 level questions have `solutionKid`. `_levels_misc.json` holds 1 461 "your
+  mistake" notes (`q.misconceptions`, wrong letters only; a note names the slip that produces that
+  option, none when no slip can be named) – shown on a first miss like in the Bičiulis archive.
+  They were written from the pictures but NOT reviewed by a second reader. The note writers also
+  re-read the N/M kid texts and found nothing to repair; ~20 "which one is impossible" solutions
+  still say "try the others" where no short argument exists.
+- Parent view for a younger child (`young` in `renderParent`): contest date, confidence / −25 %
+  toggles, the mastery bar, the trick table and the weak-tricks card are `hidden` (kept in the
+  DOM so the wiring stays); a "spręsta X / Y" bar for the own set, a plain ✅ per day instead of
+  plan steps, star-goal advice sized for 10–15 min a day, summary text without the trick line.
+  Global `[hidden]{display:none !important}` – inline `display:flex` used to defeat `hidden`.

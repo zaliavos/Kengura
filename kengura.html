@@ -90,7 +90,7 @@
   .opt.opt-letter-only{justify-content:center;padding:12px 8px}
   .opt.opt-letter-only .letter{margin:0}
   .qtext summary::-webkit-details-marker{display:none}
-  .qtext summary .qtext-aa{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 5px;font-weight:700;font-size:12px;background:#fffaf0}
+  .qtext summary .qtext-aa{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 5px;font-weight:700;font-size:13px;background:#fffaf0}
   details.qtext > summary .qtext-lbl::after{content:"Rodyti tekstą"}
   details.qtext[open] > summary .qtext-lbl::after{content:"Slėpti tekstą"}
   details.qtext[open] > summary{color:var(--ink)}
@@ -384,6 +384,7 @@
   .ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
   /* ---- Home tabs ---- */
   .tab-pane[hidden]{display:none}
+  [hidden]{display:none !important}   /* an inline or class display (flex rows, labels) must not show a hidden element */
   .tab-pane > .card > h3:first-child{margin-top:0}
   .hero-top{padding:10px 14px}
   .hero-top .hero-row{margin:0;flex-wrap:nowrap}
@@ -415,10 +416,73 @@
   .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--paper);
     border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.06);
     padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-  .tabbar-in{max-width:780px;margin:0 auto;display:flex}
+  .tabbar-in{max-width:780px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none}
+  .tabbar-in::-webkit-scrollbar{display:none}
+  .tabbar.many .tab{flex:1 0 76px}      /* 7 tabs: a phone shows ~5 and scrolls; no label is cut */
+  /* more tabs to the right: a fade with a chevron until the bar is scrolled to its end */
+  .tabbar.more::after{content:"›";content:"›" / "";position:absolute;right:0;top:0;bottom:env(safe-area-inset-bottom);width:22px;
+    display:flex;align-items:center;justify-content:flex-end;padding-right:3px;font-size:20px;font-weight:700;color:var(--muted);
+    background:linear-gradient(to right,transparent,var(--paper) 80%);pointer-events:none}
+  .t-short{display:none}
+  /* one question at a time on a phone: the paper's header shrinks so the question starts
+     higher (the full header is in the list layout and on wide screens) */
+  @media(max-width:599px){
+    .paper-head.focus h2{font-size:15px;line-height:1.25;margin:0 0 6px 10px;display:inline;vertical-align:middle}
+    .paper-head.focus .t-full{display:none}
+    .paper-head.focus .t-short{display:inline}
+    .paper-head.focus .nav-back{margin-bottom:0}
+    .paper-head.focus .top-stats, .paper-head.focus .top-stats + .row{display:inline-flex;vertical-align:middle;margin:6px 8px 0 0}
+    .paper-head.focus .extra{display:none}
+    .paper-head.focus .top-stats{margin-bottom:6px}
+    .paper-head.focus .top-stats:not(:has(.pill:not(.extra))){display:none}
+    .paper-head.focus .arch-strip{margin-top:8px}
+  }
+  /* things that appear after a tap come into view ABOVE the sticky prev/next bar */
+  .archive-card [data-action=submit], .archive-card .confidence-row, .archive-card .try-first, .archive-card .verdict{scroll-margin-bottom:96px}
+  /* neighbour-level question figures are a full booklet column (twice the width of a Bičiulis
+     crop): on a phone they keep a readable size and scroll sideways */
+  @media(max-width:599px){
+    .figure.lvl-fig{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .figure.lvl-fig img{max-width:none !important}
+  }
+  /* year buttons of a level pane: equal columns instead of a ragged wrap */
+  .level-years{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+  .level-years .btn.done{border-color:var(--good);color:var(--good);background:var(--good-soft)}
+  @media(max-width:599px){ .level-years{grid-template-columns:repeat(3,1fr);gap:8px} .level-years .btn{padding-left:4px;padding-right:4px;font-size:13px} }
+  @media(max-width:340px){ .hero-top .hero-row{gap:4px 6px;flex-wrap:wrap} .hero-top .btn{white-space:nowrap;padding-left:8px;padding-right:8px} }
+  /* a short paper (Mažylis: 8 questions) shows its whole number strip without scrolling */
+  @media(max-width:599px){ .contest-strip.few .contest-pip{flex:1 1 0;min-width:30px;height:46px} }   /* 8 across a phone are ~34 px wide: taller instead */
+  .archive-card:focus{outline:none}
+  .verdict:focus-visible, .try-first:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media(min-width:520px) and (max-width:659px){ .hero-top .wide-only{display:none} }      /* full labels need ~620 px */
+  @media(max-width:599px){
+    .figure.lvl-fig.fit + .fig-tools span.ph{display:none}               /* fitted: nothing to swipe */
+    .figure.lvl-fig.fit + .fig-tools .no-ph{display:inline}
+  }
+  #accountBtn, #parentBtn, #mistakeBookBtn, #whoBtn{min-width:40px}
+  .fig-failed ~ .img-opt-help{display:none}
+  .fig-failed + .fig-tools{display:none}                                 /* nothing to zoom, fit or draw on */
+  .fig-failed ~ .options.image-options::before{content:"Be paveikslėlio šio uždavinio išspręsti nepavyks – patikrink internetą.";display:block;grid-column:1/-1;color:var(--bad);font-size:14px}
+  .fig-failed img{display:none}
+  .fig-failed::after{content:"Paveikslėlio nepavyko įkelti – patikrink internetą. Uždavinio tekstas – žemiau.";display:block;padding:10px 12px;border:1px dashed var(--line-strong);border-radius:8px;color:var(--muted);font-size:14px}
+  .sol-hint .ph, .fig-tools .ph{display:none}
+  @media(max-width:599px){
+    .sol-hint .ph, .fig-tools span.ph{display:inline}
+    .fig-tools button.ph{display:inline-flex}
+    .fig-tools .no-ph{display:none}
+    .figure.lvl-fig.fit img{width:100% !important}        /* "⤢ Visas": the whole figure in the width, e.g. to see all five option drawings */
+  }
+  /* a solution that was asked for is not a wrong answer: a calm box */
+  .verdict.gave-up{background:var(--chip, #f4f1ea) !important;border-color:var(--line-strong) !important}
+  .verdict{hyphens:manual}
+  /* a booklet solution is a full text column: on a phone it keeps a readable
+     size and scrolls sideways instead of shrinking to 5 px letters */
+  .sol-figure{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}   /* block: a centred flex child loses its left part when it overflows */
+  .sol-figure img{max-width:100%;border-radius:8px;border:1px solid var(--line);background:#fff}
+  @media(max-width:599px){ .sol-figure img{max-width:none;width:620px} }
   .tab{flex:1;min-width:0;appearance:none;border:0;background:none;cursor:pointer;position:relative;
     display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px 9px;
-    color:var(--muted);font-family:inherit;font-weight:600;font-size:12px;line-height:1.1;border-top:3px solid transparent}
+    color:var(--muted);font-family:inherit;font-weight:600;font-size:13px;line-height:1.1;border-top:3px solid transparent}
   .tab .tab-ico{font-size:21px;line-height:1;filter:grayscale(.7);opacity:.8}
   .tab .tab-lbl{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .tab.on{color:var(--accent);border-top-color:var(--accent)}
@@ -426,7 +490,7 @@
   .tab:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
   .tab-dot{position:absolute;top:6px;left:calc(50% + 10px);width:8px;height:8px;border-radius:50%;background:var(--accent)}
   .tabbar-spacer{height:calc(70px + env(safe-area-inset-bottom))}
-  @media(min-width:520px){ .tab{flex-direction:row;justify-content:center;gap:6px;font-size:13px;padding:12px 4px} .tab-dot{top:8px;left:auto;right:8px} }
+  @media(min-width:740px){ .tab{flex-direction:row;justify-content:center;gap:6px;font-size:13px;padding:12px 4px} .tab-dot{top:8px;left:auto;right:8px} }
   @media print{ .tabbar,.tabbar-spacer,.hero-top,#parentSettings,#parentCopy,#parentPrint,.nav-back{display:none !important} }
   .ach-badge{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;
     border:1px solid var(--line);border-radius:12px;background:#faf6ec;
@@ -464,6 +528,7 @@
 
 <!-- Archive of historical Kangaroo Benjamin tests, parsed from local PDFs -->
 <script src="kengura-archive.js"></script>
+<script src="kengura-levels.js"></script>
 <!-- Optional parent accounts: Supabase URL + anon key (empty = this device only) -->
 <script src="kengura-config.js"></script>
 <script>
@@ -3221,7 +3286,7 @@ function readProfileStore(p){
 function storeWeight(s){
   if(!s || typeof s !== "object") return 0;
   const answered = Object.values(s.activity || {}).reduce((n, a) => n + ((a && a.answered) || 0), 0);
-  return answered + 30 * (s.contests || []).length + (s.sessions || []).length;
+  return answered + 30 * (s.contests || []).length + (s.sessions || []).length + Object.keys(s.mistakes || {}).length;
 }
 function profileIsEmpty(p){ const s = readProfileStore(p); return storeWeight(s) === 0 && !(s && s.plan && s.plan.contestDate); }
 function storeHash(s){
@@ -3324,6 +3389,7 @@ function cloudPutLocal(p, remote, updatedAt){
       const fresh = loadStore();
       for(const k of Object.keys(store)) delete store[k];
       Object.assign(store, fresh);
+      state.archiveAnswers = {}; state.archiveFocus = {}; state.figFit = {};
       if(state.view === "home") renderHome();
       else if(state.view === "parent") renderParent();
     }
@@ -3487,7 +3553,8 @@ function loadStore(){
     activity:{},       // { "YYYY-MM-DD": {answered, correct, secondsOnTask} }
     contests:[],       // [{when, year, points, scoreWithPenalty, maxPoints, correct, total, answered, byBand}]
     contestInProgress:null, // {year, answers, current, startedAt, endsAt} – survives a reload mid-contest
-    settings:{count:15, difficulties:[3,4,5], useTimer:true, kenguraMode:false, negativeScore:false, askConfidence:false, sound:true},
+    // grade: 'N' (1–2 kl.) | 'M' (3–4 kl.) | 'B' (5–6 kl.) | null = never chosen (treated as 'B')
+    settings:{count:15, difficulties:[3,4,5], useTimer:true, kenguraMode:false, negativeScore:false, askConfidence:false, sound:true, grade:null},
     streak:{count:0, lastDay:null, freezesUsed:0, freezeMonth:null},
     // Star economy – motivational reward currency.
     // total = fromQ + fromTime; spent = shop purchases; _timeSecRem carries sub-minute remainder.
@@ -3676,15 +3743,17 @@ function starsForAnswer(correct, band){
   return 1;
 }
 
-function logActivity(correct, band){
+function logActivity(correct, band, opts){
   const k = todayKey();
   const a = store.activity[k] = store.activity[k] || {answered:0, correct:0};
   a.answered++;
   if(correct) a.correct++;
   // per-band tally for the parent view (accuracy by block over the last weeks)
-  const bb = a.byBand = a.byBand || {};
-  const slot = bb[band || 3] = bb[band || 3] || {a:0, ok:0};
-  slot.a++; if(correct) slot.ok++;
+  if(!(opts && opts.noBand)){
+    const bb = a.byBand = a.byBand || {};
+    const slot = bb[band || 3] = bb[band || 3] || {a:0, ok:0};
+    slot.a++; if(correct) slot.ok++;
+  }
   bumpStreakForToday();
   const n = starsForAnswer(correct, band || 3);
   awardStars("fromQ", n);
@@ -4046,7 +4115,7 @@ function printMistakeSheet(items, back){
     <section class="card">
       <h2 style="margin:0">Klaidų lapas · ${new Date().toLocaleDateString("lt-LT")}</h2>
       <p style="margin:4px 0 12px">Šiuos uždavinius jau sprendei – dabar išspręsk teisingai. Vardas: ____________</p>
-      ${items.map((x, i) => `<div class="print-q"><b>${i + 1}.</b> <span class="help-bar">(${escapeHTML(String(x.m.year))} m., ${x.q.num} užd.)</span>${x.q.figure ? `<img src="${encodeURI(x.q.figure)}" alt="${x.q.num} uždavinys">` : `<div>${escapeHTML(x.q.prompt)}</div>`}</div>`).join('')}
+      ${items.map((x, i) => `<div class="print-q"><b>${i + 1}.</b> <span class="help-bar">(${escapeHTML(paperYearText(x.m.year))}, ${x.q.num} užd.)</span>${x.q.figure ? `<img src="${encodeURI(x.q.figure)}" alt="${x.q.num} uždavinys">` : `<div>${escapeHTML(x.q.prompt)}</div>`}</div>`).join('')}
       <div class="print-only print-break"></div>
       <div class="print-only"><h3>Atsakymai</h3>
         <div class="answer-grid">${items.map((x, i) => `<div><b>${i + 1}.</b> ${x.q.correct}</div>`).join('')}</div></div>
@@ -4083,15 +4152,18 @@ function openMistakeSet(){
 }
 function renderMistakeBook(){
   const items = Object.values(store.mistakes || {}).map(m => {
-    const t = ARCHIVE.find(t => String(t.year) === String(m.year));
+    const t = findPaper(m.year);
     const q = t && t.questions.find(q => q.num === m.num);
     return q ? {m, q} : null;
   }).filter(Boolean);
   const open = items.filter(x => !x.m.fixedAt), fixed = items.filter(x => x.m.fixedAt);
   const byMech = {};
-  for(const x of open) (byMech[x.q.mechanic || "?"] = byMech[x.q.mechanic || "?"] || []).push(x);
+  // neighbour-level questions have no trick tag: they are grouped by level
+  const groupOf = q => q.mechanic || (q.level && LEVEL_SETS[q.level] && `${LEVEL_SETS[q.level].name} (${LEVEL_SETS[q.level].grades})`) || "?";
+  for(const x of open) (byMech[groupOf(x.q)] = byMech[groupOf(x.q)] || []).push(x);
+  const setN = Math.min(open.filter(x => !x.q.level && x.q.correct).length, 6);   // the set runs as a Bičiulis playlist
   const row = x => `<div class="cat-row" style="align-items:center;gap:8px">
-      <span style="flex:1;min-width:0"><b>${x.q.num} užd.</b> <span class="help-bar" style="margin:0">${escapeHTML(String(x.m.year))} m.</span> <span class="pill">${x.q.points} t.</span>
+      <span style="flex:1;min-width:0"><b>${x.q.num} užd.</b> <span class="help-bar" style="margin:0">${escapeHTML(paperYearText(x.m.year))}</span> <span class="pill">${x.q.points} t.</span>
         <span class="help-bar" style="margin:0">${escapeHTML(x.q.prompt.slice(0, 70))}${x.q.prompt.length > 70 ? '…' : ''}</span></span>
       ${x.m.reason ? `<span class="pill muted" title="Tavo nurodyta priežastis">${escapeHTML(MISTAKE_REASON_SHORT[x.m.reason] || '')}</span>` : ''}
       ${x.m.times > 1 ? `<span class="pill bad" title="Kiek kartų suklydai">×${x.m.times}</span>` : ''}
@@ -4101,8 +4173,8 @@ function renderMistakeBook(){
     <section class="card">
       <button class="nav-back" id="mbBack">← Į pradžią</button>
       <h2>📒 Klaidų sąsiuvinis</h2>
-      <p class="help-bar" style="margin-top:0">Visi uždaviniai, kuriuose suklydai – iš treniruočių ir kontrolinių. Išspręsk teisingai – persikels į „Ištaisyta“.</p>
-      ${open.length ? `<button class="btn primary" id="mbSet">Spręsti klaidas (${Math.min(open.length, 6)}) →</button> ` : ''}
+      <p class="help-bar" style="margin-top:0">Visi uždaviniai, kuriuose suklydai – iš treniruočių, kontrolinių ir papildomų rinkinių. Išspręsk teisingai – persikels į „Ištaisyta“.</p>
+      ${setN ? `<button class="btn primary" id="mbSet">Spręsti klaidas (${setN}) →</button> ` : ''}
       ${open.length ? `<button class="btn small" id="mbPrint" title="Neištaisytos klaidos ant popieriaus – atsakymai paskutiniame lape">🖨 Klaidų lapas (${Math.min(open.length, 20)})</button>` : ''}
       ${!items.length ? `<p>Kol kas tuščia – klaidų dar nebuvo.</p>` : ''}
       ${open.length ? `<h3>Dar mokausi (${open.length})</h3>` + Object.entries(byMech).sort((a, b) => b[1].length - a[1].length).map(([mech, xs]) => `
@@ -4119,7 +4191,7 @@ function renderMistakeBook(){
   $app.querySelectorAll("[data-mistake]").forEach(b => b.addEventListener("click", ()=>{
     const [year, num] = b.dataset.mistake.split("-");
     delete state.archiveAnswers[`${year}-${num}`];            // a clean retry
-    state.archiveYear = year; state._archiveOnlyNew = false;
+    state.archiveYear = year; state._archiveOnlyNew = false; state.archiveFromBook = true;
     state.archiveFocus = state.archiveFocus || {};
     state.archiveFocus[year] = Number(num);                    // focus mode: this card, not Q1
     state.view = "archiveYear";
@@ -4131,13 +4203,30 @@ function renderMistakeBook(){
   }));
 }
 
-function recordArchiveAnswer(year, q, correct, confidence){
-  logActivity(correct, q.points || 3);
+function recordArchiveAnswer(year, q, correct, confidence, opts){
+  if(q.level){
+    const key0 = `${year}-${q.num}`;
+    const met = !!(store.seenQ || {})[key0];                       // answered before (e.g. a retry from the notebook)
+    const openMiss = !!((store.mistakes || {})[key0] && !store.mistakes[key0].fixedAt);
+    // neighbour level: stars and the streak, but not the Bičiulis block stats. No star for a
+    // solution that was only asked for, none for re-solving what is already solved.
+    if(!(opts && opts.gaveUp) && (!met || openMiss)) logActivity(correct, levelEqBand(q), {noBand: true});
+    if(!met){
+      const ls = store.levelStats = store.levelStats || {};
+      const slot = ls[q.level] = ls[q.level] || {a: 0, ok: 0};
+      slot.a++; if(correct) slot.ok++;
+      // per day too: the parent sees how much of a week's numbers came from the extra sets
+      const k = todayKey();
+      const day = store.activity[k] = store.activity[k] || {answered: 0, correct: 0};
+      const lv = day.lvl = day.lvl || {a: 0, ok: 0}; lv.a++; if(correct) lv.ok++;
+      if(opts && opts.gaveUp) day.answered = (day.answered || 0) + 1;      // logActivity did not run for it
+    }
+  } else logActivity(correct, q.points || 3);
   // Freshness marker – practice pickers avoid recently seen questions.
   store.seenQ[`${year}-${q.num}`] = Date.now();
   noteMistake(year, q, correct);
   // Confidence stats (independent of mechanic)
-  if(confidence && store.confStats[confidence]){
+  if(!q.level && confidence && store.confStats[confidence]){      // Bičiulis only: it feeds the parent's calibration flag
     store.confStats[confidence].attempts++;
     if(!correct) store.confStats[confidence].wrong++;
   }
@@ -4199,6 +4288,9 @@ function topUpQueueFromNotebook(){
   const reserved = new Set(reservedYears().map(String));
   const pick = Object.entries(store.mistakes || {})
     .filter(([k, m]) => !m.fixedAt && !store.dueQueue[k] && (m.lastWrong || 0) < cutoff && !reserved.has(String(m.year)))
+    // only questions that can be queued: a neighbour-level mistake (no trick tag) would
+    // otherwise hold one of the two daily places for ever
+    .filter(([k, m]) => { const t = ARCHIVE.find(t => String(t.year) === String(m.year)); const q = t && t.questions.find(q => q.num === m.num); return !!(q && q.mechanic); })
     .sort((a, b) => (a[1].lastWrong || 0) - (b[1].lastWrong || 0))
     .slice(0, 2);
   for(const [k, m] of pick){
@@ -4523,6 +4615,120 @@ function stopTimer(){
 // for a Bičiulis trainer, so it is not served anywhere (data kept in the file)
 const OUT_OF_SCOPE_YEARS = new Set(["2006"]);
 const ARCHIVE = ((window.KENGURA_ARCHIVE && window.KENGURA_ARCHIVE.archive) || []).filter(t => !OUT_OF_SCOPE_YEARS.has(String(t.year)));
+/* Other levels (2026-11-22/23): whole papers of Nykštukas (1–2 kl.) and
+   Mažylis (3–4 kl.), and the two easier blocks of Kadetas (7–8 kl., 3–4 t.) from kengura.lt –
+   kengura-levels.js, built by _extra_levels.py. They live OUTSIDE ARCHIVE on
+   purpose: every picker (playlists, contests, drills, the plan) walks ARCHIVE
+   and so stays Bičiulis-only. Paper ids are "M2024" / "K2024"; questions carry
+   q.level and no q.mechanic, so they feed neither mechStats nor the review
+   queue – only stars, the streak, the notebook and store.levelStats. */
+const LEVEL_SETS = (window.KENGURA_LEVELS && window.KENGURA_LEVELS.levels) || {};
+const LEVEL_TABS = [
+  {id: 'N', tab: 'nykstukas', icon: '🌱', label: 'Nykštukas', gen: 'Nykštuko', band: '3–5 t.',
+   blurb: 'Visi 1–2 klasių („Nykštuko“) konkurso uždaviniai – po 18 kiekvienais metais: šeši po 3, šeši po 4 ir šeši po 5 taškus.'},
+  {id: 'M', tab: 'mazylis', icon: '🐣', label: 'Mažylis', gen: 'Mažylio', band: '3–5 t.',
+   blurb: 'Visi 3–4 klasių („Mažylio“) konkurso uždaviniai – po 24 kiekvienais metais: aštuoni po 3, aštuoni po 4 ir aštuoni po 5 taškus. Gudrybės tos pačios kaip „Bičiulio“ konkurse, tik skaičiai mažesni.'},
+  {id: 'K', tab: 'kadetas', icon: '🚀', label: 'Kadetas', gen: 'Kadeto', band: '3–4 t.',
+   blurb: 'Lengvesnieji 7–8 klasių („Kadeto“) uždaviniai – po 3 ir 4 taškus. Iššūkis tam, kam „Bičiulio“ 4 taškų uždaviniai jau sekasi.'},
+].filter(l => LEVEL_SETS[l.id] && (LEVEL_SETS[l.id].papers || []).length);
+const EXTRA_PAPERS = LEVEL_TABS.flatMap(l => LEVEL_SETS[l.id].papers);
+/* The child's own grade (2026-11-24), store.settings.grade. 'B' (or never
+   chosen) = the Bičiulis trainer as it always was. 'N' / 'M' = a younger
+   child: home shows only their own set, the neighbouring one and the prizes;
+   the plan, tricks and practice papers (all Bičiulis) stay out of sight, and
+   the game challenge draws from their own papers. */
+const GRADE_OPTS = [
+  {id: 'N', grades: '1–2 klasė', name: 'Nykštukas'},
+  {id: 'M', grades: '3–4 klasė', name: 'Mažylis'},
+  {id: 'B', grades: '5–6 klasė', name: 'Bičiulis'},
+].filter(g => g.id === 'B' || LEVEL_TABS.some(l => l.id === g.id));
+function gradeOfStore(s){ const g = s && s.settings && s.settings.grade; return GRADE_OPTS.some(o => o.id === g) ? g : 'B'; }
+function kidLevel(){ return gradeOfStore(store); }
+function gradeChosen(){ return !!(store.settings && store.settings.grade); }
+function applyLevelTitle(){
+  try {
+    const g = GRADE_OPTS.find(o => o.id === kidLevel());
+    const h = document.querySelector("header.brand h1");
+    if(h) h.textContent = `Kengūros treniruoklis · ${g.grades}`;
+    document.title = `Kengūra ${g.grades} · treniruoklis`;
+  } catch(_){}
+}
+function setKidLevel(g){
+  if(!GRADE_OPTS.some(o => o.id === g)) return;
+  store.settings.grade = g; saveStore(store);
+  state.homeTab = defaultHomeTab();
+  applyLevelTitle();
+}
+function gradeButtonsHTML(cur){
+  return GRADE_OPTS.map(g => `<button type="button" class="btn${g.id === cur ? ' primary' : ''}" data-grade="${g.id}" aria-pressed="${g.id === cur}">${g.grades}</button>`).join('');
+}
+/* Any paper by id: a Bičiulis year ("2024") or a neighbour-level paper ("K2024"). */
+function shownMistakes(){ return Object.values(store.mistakes || {}).filter(m => m && findPaper(m.year)); }
+function findPaper(year){
+  return ARCHIVE.find(t => String(t.year) === String(year)) || EXTRA_PAPERS.find(t => String(t.year) === String(year)) || null;
+}
+/* "2024 m." for Bičiulis, "Kadetas 2024 m." for a neighbour-level paper. */
+function paperYearText(year){
+  const m = /^([A-Z])(\d{4})$/.exec(String(year));
+  const l = m && LEVEL_TABS.find(l => l.id === m[1]);
+  return l ? `${l.label} ${m[2]} m.` : `${year} m.`;
+}
+/* Stars for a neighbour-level question, in Bičiulis terms (a judgement call:
+   Nykštukas and Mažylis, any block ≈ Bičiulis 3 t.; Kadetas 3 t. ≈ 4 t., Kadetas 4 t. ≈ 5 t.). */
+function levelEqBand(q){ return q.level === 'M' || q.level === 'N' ? 3 : q.level === 'K' ? Math.min(5, (q.points || 3) + 1) : (q.points || 3); }
+function levelProgress(id){
+  const papers = (LEVEL_SETS[id] || {}).papers || [];
+  let total = 0, seen = 0;
+  for(const t of papers) for(const q of t.questions){ total++; if((store.seenQ || {})[`${t.year}-${q.num}`]) seen++; }
+  const st = (store.levelStats || {})[id] || {a: 0, ok: 0};
+  return {total, seen, a: st.a, ok: st.ok};
+}
+function levelSeenIn(t){ return t.questions.filter(q => (store.seenQ || {})[`${t.year}-${q.num}`]).length; }
+/* Where to go on: a started paper first, else the newest untouched one. */
+function levelNextPaper(id, afterYear){
+  const newest = [...((LEVEL_SETS[id] || {}).papers || [])].reverse().filter(t => String(t.year) !== String(afterYear));
+  return newest.find(t => { const n = levelSeenIn(t); return n > 0 && n < t.questions.length; }) || newest.find(t => levelSeenIn(t) === 0) || null;
+}
+function levelStatsText(){
+  const parts = LEVEL_TABS.map(l => { const st = (store.levelStats || {})[l.id]; return st && st.a ? `${l.label} ${l.band} – ${st.ok} iš ${st.a} teisingai` : null; }).filter(Boolean);
+  if(!parts.length) return '';
+  let a = 0, ok = 0;
+  for(let i = 0; i < 7; i++){ const lv = (store.activity[dateKeyOffset(i)] || {}).lvl; if(lv){ a += lv.a; ok += lv.ok; } }
+  return `Papildomi rinkiniai (iš viso): ${parts.join('; ')}.${a ? ` Per pastarąsias 7 d. – ${a} ${pluralForm(a,'uždavinys','uždaviniai','uždavinių')}, ${Math.round(100 * ok / a)} % teisingai.` : ''}`;
+}
+function levelPaneHTML(l){
+  const set = LEVEL_SETS[l.id], pr = levelProgress(l.id);
+  const next = levelNextPaper(l.id);
+  const own = l.id === kidLevel();          // this set is the child's own grade: it is the training, not an extra
+  const today = own ? (((store.activity[todayKey()] || {}).lvl || {}).a || 0) : 0;
+  let stars = [...new Set(set.papers[0].questions.map(q => q.points))].sort().map(pt => ({pt, n: starsForAnswer(true, levelEqBand({level: l.id, points: pt}))}));
+  if(stars.every(x => x.n === stars[0].n)) stars = [stars[0]];      // every block pays the same
+  return `<section class="card" data-level-years="${l.id}">
+      <h3>${l.icon} ${escapeHTML(set.name)} (${escapeHTML(set.grades)}) · ${l.band} uždaviniai</h3>
+      <p style="margin-top:0">${escapeHTML(l.blurb)}</p>
+      ${(() => { let open = null; try { open = l.id === 'K' && isTrainingDay() && nextPlanStep(); } catch(_){}      // the plan is a Bičiulis plan: a younger child's pane does not point to it
+        return open ? `<p class="help-bar" style="margin:0 0 8px">Šiandienos planas dar nebaigtas – pirmiausia jis, o šie uždaviniai – po to. <button class="btn small ghost" data-goto-tab="today">Į planą</button></p>` : ''; })()}
+      ${pr.a >= 8 && l.id === 'N' && pr.ok / pr.a >= 0.8 ? `<p class="help-bar" style="margin:0 0 8px">Šie tau jau sekasi – pabandyk ir „Mažylio“ uždavinius.</p>` : ''}
+      ${pr.a >= 8 && l.id === 'M' && pr.ok / pr.a >= 0.8 ? `<p class="help-bar" style="margin:0 0 8px">${kidLevel() === 'B' ? 'Šie tau jau sekasi – pabandyk ir „Bičiulio“ 3 t. uždavinius.' : kidLevel() === 'M' ? 'Šie tau jau sekasi. Nori sunkesnių? Paprašyk tėvų nustatymuose pasirinkti 5–6 klasę – ten laukia „Bičiulio“ uždaviniai.' : 'Šie tau jau sekasi – tu sprendi vyresnių klasių uždavinius.'}</p>` : ''}
+      ${own && today ? `<p class="help-bar" style="margin:0 0 8px">Šiandien jau išsprendei ${today} ${pluralForm(today,'uždavinį','uždavinius','uždavinių')}.</p>` : ''}
+      ${pr.a >= 8 && l.id === 'K' && pr.ok / pr.a < 0.4 ? `<p class="help-bar" style="margin:0 0 8px">Kol kas per sunku – tai normalu. Pirma įtvirtink „Bičiulio“ 4–5 t. gudrybes.</p>` : ''}
+      <div class="top-stats">
+        <span class="pill">${pr.seen ? `Spręsta ${pr.seen} iš ${pr.total}` : `${pr.total} ${pluralForm(pr.total,'uždavinys','uždaviniai','uždavinių')}`}</span>
+        ${pr.a ? `<span class="pill${pr.ok / pr.a >= 0.7 ? ' good' : ''}">Iš pirmo karto teisingai: ${pr.ok} iš ${pr.a}</span>` : ''}
+      </div>
+      ${next
+        ? `<p style="margin:10px 0 6px"><button class="btn primary" data-year="${next.year}">${levelSeenIn(next) ? `Tęsti: ${escapeHTML(next.realYear)} m. (${levelSeenIn(next)} iš ${next.questions.length})` : `Pradėti: ${escapeHTML(next.realYear)} m.`} →</button></p>`
+        : `<p style="margin:10px 0 6px"><b>Visi šio rinkinio uždaviniai jau spręsti.</b> Klaidas rasi 📒 Klaidų sąsiuvinyje.</p>`}
+      <div class="level-years" role="group" aria-label="${escapeHTML(set.name)}: metai" style="margin-top:8px">
+        ${[...set.papers].reverse().map(t => {
+          const seen = levelSeenIn(t), all = seen === t.questions.length;
+          return `<button class="btn small${all ? ' done' : ''}" data-year="${t.year}" aria-label="${escapeHTML(set.name)} ${t.realYear} m.${seen ? ` – spręsta ${seen} iš ${t.questions.length}` : ''}">${t.realYear}${all ? ' ✓' : seen ? ` · ${seen}/${t.questions.length}` : ''}</button>`;
+        }).join('')}
+      </div>
+      <p class="help-bar" style="margin-top:10px">Skaičius prie metų – kiek jau spręsta. ${stars.length === 1 && stars[0].n === starsForAnswer(false, levelEqBand({level: l.id, points: stars[0].pt})) ? `Už kiekvieną atsakytą uždavinį – ${stars[0].n} ⭐.` : `Už teisingą atsakymą – ${stars.map(x => `${x.n} ⭐${stars.length > 1 ? ` (${x.pt} t.)` : ''}`).join(' arba ')}.`}</p>
+      <p class="help-bar" style="margin-top:6px">Tikri „Kengūros“ uždaviniai su atsakymais ir sprendimais (kengura.lt). ${kidLevel() === 'B' ? 'Į planą, kontrolinius ir gudrybių statistiką jie neįtraukiami – tai papildoma treniruotė. ' : ''}Klaidos keliauja į 📒 Klaidų sąsiuvinį.</p>
+    </section>`;
+}
 const ARCHIVE_LOAD_FAILED = !window.KENGURA_ARCHIVE || !Array.isArray(window.KENGURA_ARCHIVE.archive) || window.KENGURA_ARCHIVE.archive.length === 0;
 
 // Pattern label → user-facing Lithuanian label
@@ -4646,7 +4852,33 @@ function pickGeneratorFor(patterns){
   return GENERATOR_KEYS[Math.floor(Math.random()*GENERATOR_KEYS.length)];
 }
 
+/* After a re-render the keyboard focus is on <body>: put it on the block that just appeared. */
+function focusInCard(year, qnum, sel){
+  try {
+    const el = document.querySelector(`.archive-card[data-year="${year}"][data-qnum="${qnum}"] ${sel}`);
+    if(el && el.scrollIntoView) el.scrollIntoView({behavior: smoothScroll(), block: "nearest"});
+    if(el && el.focus) el.focus({preventScroll: true});
+  } catch(_){}
+}
+/* A re-render replaces every card: remember how far each level figure was scrolled sideways. */
+function keepFigScroll(){
+  const pos = {};
+  try { $app.querySelectorAll(".figure.lvl-fig").forEach(f => { const im = f.querySelector("img"); if(f.scrollLeft && im) pos[im.getAttribute("src")] = f.scrollLeft; }); } catch(_){}
+  return () => {
+    try {
+      $app.querySelectorAll(".figure.lvl-fig").forEach(f => {
+        const im = f.querySelector("img"), x = im && pos[im.getAttribute("src")];
+        if(!x) return;
+        const put = () => { f.scrollLeft = x; };
+        if(im.complete) put(); else im.addEventListener("load", put, {once: true});
+      });
+    } catch(_){}
+  };
+}
 function openArchiveYear(year){
+  // a filter left on would show a finished paper as an empty page (its switch is only drawn while something is unsolved)
+  if(state.archiveYear !== year || state.view !== "archiveYear"){ state._archiveOnlyNew = false; state._archiveHide = {}; }
+  if(state.view !== "archiveYear") state.archiveFromBook = false;
   state.view = "archiveYear";
   state.archiveYear = year;
   renderArchiveYear();
@@ -4803,11 +5035,18 @@ function archiveFocusNum(test, visible, firstNew){
 function goArchiveQ(num){
   state.archiveFocus = state.archiveFocus || {};
   state.archiveFocus[state.archiveYear] = num;
+  let fromStrip = false;
+  try { fromStrip = !!(document.activeElement && document.activeElement.classList && document.activeElement.classList.contains("contest-pip")); } catch(_){}
   renderArchiveYear();
   // straight to the question: the paper's header stays one swipe up
   try {
     const c = document.querySelector(".archive-card:not([hidden])");
-    window.scrollTo(0, c ? Math.max(0, c.getBoundingClientRect().top + window.scrollY - 8) : 0);
+    // arrow keys on the number strip: the focus follows to the new current number and the strip stays in view
+    if(fromStrip){ const pip = document.querySelector(".arch-strip .contest-pip.current"); if(pip && pip.focus) pip.focus({preventScroll: true}); }
+    else {
+      window.scrollTo(0, c ? Math.max(0, c.getBoundingClientRect().top + window.scrollY - 8) : 0);
+      if(c && c.focus && document.activeElement === document.body) c.focus({preventScroll: true});     // keys keep working from the card
+    }
   } catch(_){}
 }
 /* Keyboard + swipe for the focus mode: ← → between questions, A–E / 1–5
@@ -4828,7 +5067,8 @@ function goArchiveQ(num){
     }
     const L = /^[a-eA-E]$/.test(k) ? k.toUpperCase() : /^[1-5]$/.test(k) ? "ABCDE"[Number(k) - 1] : null;
     if(L){ const o = c.querySelector(`.opt[data-letter="${L}"]`); if(o){ e.preventDefault(); o.click(); } return; }
-    if(k === "Enter" && !(e.target && e.target.closest && e.target.closest("button,summary,a,[role=button]"))){
+    const onChosen = k === "Enter" && e.target && e.target.closest && e.target.closest(".opt.selected") && c.querySelector("[data-action=submit]");
+    if(k === "Enter" && (onChosen || !(e.target && e.target.closest && e.target.closest("button,summary,a,[role=button]")))){
       const s = c.querySelector("[data-action=submit]") || c.querySelector("[data-next-q]");
       if(s){ e.preventDefault(); s.click(); }
     }
@@ -4836,7 +5076,7 @@ function goArchiveQ(num){
   let sx = null, sy = 0;
   document.addEventListener("touchstart", e => {
     sx = null;
-    if(!active() || e.touches.length !== 1 || (e.target.closest && e.target.closest(".ptable-wrap,.contest-strip,canvas"))) return;
+    if(!active() || e.touches.length !== 1 || (e.target.closest && e.target.closest(".ptable-wrap,.contest-strip,.sol-figure,.lvl-fig,canvas"))) return;
     sx = e.touches[0].clientX; sy = e.touches[0].clientY;
   }, {passive: true});
   document.addEventListener("touchend", e => {
@@ -4850,15 +5090,17 @@ function goArchiveQ(num){
 })();
 
 function renderArchiveYear(){
-  const test = ARCHIVE.find(t => t.year === state.archiveYear);
+  const test = findPaper(state.archiveYear);
   if(!test){ state.view="home"; renderHome(); return; }
+  const _restoreFigScroll = keepFigScroll();
   // count answered + correct in this year so far
   const total = test.questions.length;
-  let answered = 0, correct = 0;
+  let answered = 0, correct = 0, second = 0;
   test.questions.forEach(q => {
     const key = `${test.year}-${q.num}`;
     const a = state.archiveAnswers[key];
-    if(a && a.chosen != null){
+    if(a && a.submitted){     // only checked answers (a tapped option would turn the pill into an oracle); a shown solution counts as missed
+      if(a.firstWrong && q.correct && a.chosenLetter === q.correct) second++;
       answered++;
       // don't require option text – image-only questions have empty option strings
       if(q.correct && a.chosenLetter === q.correct) correct++;
@@ -4868,7 +5110,16 @@ function renderArchiveYear(){
   const isNew = q => !(state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted && !(store.seenQ || {})[`${test.year}-${q.num}`];
   const firstNew = test.questions.find(isNew);
   const newN = test.questions.filter(isNew).length;
-  const visible = test.questions.filter(q => !state._archiveOnlyNew || isNew(q) || (state.archiveAnswers[`${test.year}-${q.num}`] || {}).chosen != null);
+  // …nor a card in the middle of its flow: after a first miss (chosen is reset for the second
+  // try) or once the solution was asked for, the question is "seen" but still being worked on
+  const inFlow = q => {
+    const key = `${test.year}-${q.num}`, a = state.archiveAnswers[key];
+    if(!a) return false;
+    if(!a.submitted) return a.chosen != null || !!a.firstWrong || !!a.stuck;
+    if(state._archiveHide && state._archiveHide[key]) return false;
+    return !!store.settings.archiveList || q.num === (state.archiveFocus || {})[test.year];
+  };
+  const visible = test.questions.filter(q => !state._archiveOnlyNew || isNew(q) || inFlow(q));
   // One question at a time (2026-10-17): a whole paper as one page was
   // ~18 000 px of scrolling on a phone. Every card is still rendered (wiring
   // and smoke checks see all of them); only the current one is not [hidden].
@@ -4885,18 +5136,18 @@ function renderArchiveYear(){
     return a.submitted ? (a.chosenLetter === q.correct ? ' good' : ' bad') : (a.chosen != null ? ' filled' : '');
   };
   $app.innerHTML = `
-    <section class="card">
-      <button class="nav-back" id="back">← Į pradžią</button>
-      <h2>${escapeHTML(test.title)}</h2>
+    <section class="card paper-head${focus ? ' focus' : ''}">
+      <button class="nav-back" id="back">${state.archiveFromBook ? '← Į sąsiuvinį' : '← Į pradžią'}</button>
+      <h2><span class="t-full">${escapeHTML(test.title)}</span><span class="t-short">${escapeHTML(test.level ? `${paperYearText(test.year)}` : `${test.year} m.`)}</span></h2>
       <div class="top-stats">
-        <span class="pill">${total} ${pluralForm(total,'uždavinys','uždaviniai','uždavinių')}</span>
-        ${answered ? `<span class="pill good">${correct}/${answered} teisingai</span>` : ``}
-        ${test.test_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.test_pdf)}" target="_blank">Testo PDF ↗</a>` : ``}
-        ${test.solutions_pdf ? `<a class="pill" style="text-decoration:none" href="${encodeURI(test.solutions_pdf)}" target="_blank">Sprendimai ↗</a>` : ``}
+        <span class="pill extra">${total} ${pluralForm(total,'uždavinys','uždaviniai','uždavinių')}</span>
+        ${answered ? `<span class="pill${correct / answered >= 0.7 ? ' good' : ''}">${correct}/${answered} teisingai${second ? ` (${second} iš antro karto)` : ''}</span>` : ``}
+        ${test.test_pdf ? `<a class="pill extra" style="text-decoration:none" href="${encodeURI(test.test_pdf)}" target="_blank" rel="noopener">Testo PDF ↗</a>` : ``}
+        ${test.solutions_pdf ? `<a class="pill extra" style="text-decoration:none" href="${encodeURI(test.solutions_pdf)}" target="_blank" rel="noopener">Sprendimai ↗</a>` : ``}
       </div>
-      ${focus ? '' : `<p>Pasirink atsakymą ir spausk „Patikrinti“. Užstrigai? „Užuomina“ parodys, nuo ko pradėti, bet atsakymo nepasakys.</p>`}
-      <div class="row" style="gap:8px;flex-wrap:wrap">${!focus && firstNew && firstNew.num > 1 ? `<button class="btn small" id="archContinue" data-q="${firstNew.num}">Tęsti nuo ${firstNew.num} uždavinio →</button>` : ''}${newN && newN < total ? `<button class="btn small ${state._archiveOnlyNew ? 'primary' : 'ghost'}" id="archOnlyNew" aria-pressed="${!!state._archiveOnlyNew}">${state._archiveOnlyNew ? `Rodomi tik neišspręsti (${newN}) – rodyti visus` : `Tik neišspręsti (${newN})`}</button>` : ''}<button class="btn small ghost" id="archLayout" title="${focus ? 'Visi uždaviniai vienas po kito' : 'Po vieną uždavinį ekrane'}">${focus ? '☰ Visi sąraše' : '▣ Po vieną'}</button></div>
-      ${focus ? `<div class="contest-strip arch-strip" role="group" aria-label="Uždaviniai">${visible.map(q => `<button class="contest-pip${pipCls(q)}${q.num === cur ? ' current' : ''}" data-goq="${q.num}"${q.num === cur ? ' aria-current="step"' : ''} aria-label="${q.num} uždavinys">${q.num}</button>`).join('')}</div>` : ''}
+      ${focus ? '' : (test.level ? `<p>Pasirink atsakymą ir spausk „Patikrinti“.</p>` : `<p>Pasirink atsakymą ir spausk „Patikrinti“. Užstrigai? „Užuomina“ parodys, nuo ko pradėti, bet atsakymo nepasakys.</p>`)}
+      <div class="row" style="gap:8px;flex-wrap:wrap">${!focus && firstNew && firstNew !== test.questions[0] ? `<button class="btn small" id="archContinue" data-q="${firstNew.num}">Tęsti nuo ${firstNew.num} uždavinio →</button>` : ''}${(newN && newN < total) || state._archiveOnlyNew ? `<button class="btn small ${state._archiveOnlyNew ? 'primary' : 'ghost'}" id="archOnlyNew" aria-pressed="${!!state._archiveOnlyNew}">${state._archiveOnlyNew ? (focus ? `✓ Tik neišspręsti (${newN})` : `Rodomi tik neišspręsti (${newN}) – rodyti visus`) : `Tik neišspręsti (${newN})`}</button>` : ''}<button class="btn small ghost" id="archLayout" title="${focus ? 'Visi uždaviniai vienas po kito' : 'Po vieną uždavinį ekrane'}">${focus ? '☰ Visi sąraše' : '▣ Po vieną'}</button></div>
+      ${focus ? `<div class="contest-strip arch-strip${test.questions.length <= 10 ? ' few' : ''}" role="group" aria-label="Uždaviniai">${visible.map(q => `<button class="contest-pip${pipCls(q)}${q.num === cur ? ' current' : ''}" data-goq="${q.num}"${q.num === cur ? ' aria-current="step"' : ' tabindex="-1"'} aria-label="${q.num} uždavinys">${q.num}</button>`).join('')}</div>` : ''}
     </section>
     ${visible.map(q => renderArchiveCard(test.year, q, focus ? {hidden: q.num !== cur, next: visible[pos + 1] || null} : null)).join("")}
     ${(() => {
@@ -4907,27 +5158,45 @@ function renderArchiveYear(){
       for(const q of keyed){ const b = by[q.points] || by[3]; b[1]++; if(state.archiveAnswers[`${test.year}-${q.num}`].chosenLetter === q.correct) b[0]++; }
       const open = Object.values(store.mistakes || {}).filter(m => !m.fixedAt && String(m.year) === String(test.year)).length;
       return `<section class="card paper-done" style="border:1px solid var(--good);background:var(--good-soft)">
-        <h3 style="margin-top:0">🏁 ${escapeHTML(String(test.year))} m. uždaviniai išspręsti</h3>
+        <h3 style="margin-top:0">🏁 ${test.level ? `„${escapeHTML((LEVEL_TABS.find(l => l.id === test.level) || {}).gen || '')}“ ${escapeHTML(test.realYear)} m.` : `${escapeHTML(String(test.year))} m.`} uždaviniai išspręsti</h3>
         <div class="grid two" style="grid-template-columns:repeat(3,1fr)">${[3, 4, 5].filter(b => by[b][1]).map(b => `<div class="stat"><b>${by[b][0]}/${by[b][1]}</b><span>${b} t. blokas</span></div>`).join('')}</div>
-        <p style="margin:10px 0 0">${open ? `Suklysti uždaviniai (${open}) sugrįš pakartojimui – juos rasi ir 📒 Klaidų sąsiuvinyje.` : 'Visi atsakymai teisingi – šiuose metuose klaidų nėra.'}</p>
+        <p style="margin:10px 0 0">${open ? (test.level ? `Uždavinius, kuriuose suklydai (${open}), rasi 📒 Klaidų sąsiuvinyje – pabandyk juos dar kartą.` : `Suklysti uždaviniai (${open}) sugrįš pakartojimui – juos rasi ir 📒 Klaidų sąsiuvinyje.`) : (test.level ? 'Visi atsakymai teisingi – šių metų uždaviniuose klaidų nėra.' : 'Visi atsakymai teisingi – šiuose metuose klaidų nėra.')}</p>
+        ${(() => {
+          if(!test.level) return '';
+          const nx = levelNextPaper(test.level, test.year);
+          return nx ? `<p style="margin:10px 0 0"><button class="btn small primary" data-open-paper="${nx.year}">Kiti metai: ${escapeHTML(nx.realYear)} m. →</button></p>` : '';
+        })()}
       </section>`;
     })()}
     ${focus ? `<nav class="arch-nav" aria-label="Uždavinių naršymas">
       <button class="btn" id="archPrev" ${pos > 0 ? '' : 'disabled'} aria-label="Ankstesnis uždavinys">←</button>
       <span class="arch-pos">${pos + 1} / ${visible.length}<span class="wide-only kbd-hint"> · <kbd>A</kbd>–<kbd>E</kbd> atsakymas, <kbd>Enter</kbd> tikrinti, <kbd>←</kbd> <kbd>→</kbd></span></span>
-      <button class="btn${(state.archiveAnswers[`${test.year}-${cur}`] || {}).submitted ? ' primary' : ''}" id="archNext" ${pos < visible.length - 1 ? '' : 'disabled'} aria-label="Kitas uždavinys">Kitas →</button>
+      <button class="btn${(state.archiveAnswers[`${test.year}-${cur}`] || {}).submitted ? ' primary' : ''}" id="archNext" ${pos < visible.length - 1 ? '' : 'disabled'} aria-label="Kitas uždavinys"${pos === visible.length - 1 && test.questions.every(q => !q.correct || (state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted) ? ' hidden' : ''}>Kitas →</button>
+      ${pos === visible.length - 1 && test.questions.every(q => !q.correct || (state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted) ? `<button class="btn primary" id="archEnd" aria-label="Pabaiga – į rinkinio suvestinę">🏁 Pabaiga ↓</button>` : ''}
     </nav>` : ''}
     <section class="card"><div class="footer-actions">
-      <button class="btn ghost" id="back2">← Į pradžią</button>
+      <button class="btn ghost" id="back2">${state.archiveFromBook ? '← Į sąsiuvinį' : '← Į pradžią'}</button>
     </div></section>
   `;
-  document.getElementById("back").addEventListener("click", ()=>{state.view="home"; renderHome();});
-  document.getElementById("back2").addEventListener("click", ()=>{state.view="home"; renderHome();});
+  const leave = () => { if(state.archiveFromBook){ state.archiveFromBook = false; openMistakeBook(); } else { state.view = "home"; renderHome(); } };
+  document.getElementById("back").addEventListener("click", leave);
+  document.getElementById("back2").addEventListener("click", leave);
   const archOnlyNew = document.getElementById("archOnlyNew");
-  if(archOnlyNew) archOnlyNew.addEventListener("click", ()=>{ state._archiveOnlyNew = !state._archiveOnlyNew; renderArchiveYear(); });
+  if(archOnlyNew) archOnlyNew.addEventListener("click", ()=>{
+    state._archiveOnlyNew = !state._archiveOnlyNew;
+    state._archiveHide = {};
+    if(state._archiveOnlyNew) for(const q of test.questions){ const key = `${test.year}-${q.num}`; if((state.archiveAnswers[key] || {}).submitted) state._archiveHide[key] = 1; }
+    renderArchiveYear();
+    const nb = document.getElementById("archOnlyNew") || document.getElementById("archLayout"); if(nb && nb.focus) try { nb.focus({preventScroll: true}); } catch(_){}
+  });
   centerStripPip();
+  _restoreFigScroll();
+  { const endBtn = document.getElementById("archEnd");
+    if(endBtn) endBtn.addEventListener("click", () => { const el = document.querySelector(".paper-done"); if(el) try { window.scrollTo({top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 8), behavior: smoothScroll()}); } catch(_){} }); }
+  $app.querySelectorAll("[data-open-paper]").forEach(b => b.addEventListener("click", () => { toTop(); state.archiveFromBook = false; openArchiveYear(b.dataset.openPaper); }));
   document.getElementById("archLayout").addEventListener("click", ()=>{
     store.settings.archiveList = !store.settings.archiveList; saveStore(store); renderArchiveYear();
+    const nb = document.getElementById("archLayout"); if(nb && nb.focus) try { nb.focus({preventScroll: true}); } catch(_){}
   });
   const archContinue = document.getElementById("archContinue");
   if(archContinue) archContinue.addEventListener("click", ()=>{
@@ -4947,7 +5216,7 @@ function renderArchiveYear(){
     const qnum = parseInt(card.dataset.qnum, 10);
     const year = card.dataset.year;
     const key = `${year}-${qnum}`;
-    const test = ARCHIVE.find(t=>t.year===year);
+    const test = findPaper(year);
     const q = test.questions.find(x=>x.num===qnum);
     const ans = state.archiveAnswers[key] || {};
 
@@ -4958,6 +5227,14 @@ function renderArchiveYear(){
         if(letter === ans.firstWrong) return;   // already ruled out on the first try
         state.archiveAnswers[key] = {...ans, chosen: letter, chosenLetter: letter};
         renderArchiveYear();
+        // "Patikrinti" (or the confidence row) appears under the options – not behind the sticky bar
+        try {
+          const c = document.querySelector(`.archive-card[data-year="${year}"][data-qnum="${qnum}"]`);
+          const el = c && (c.querySelector("[data-action=submit]") || c.querySelector(".confidence-row"));
+          if(el && el.scrollIntoView) el.scrollIntoView({behavior: smoothScroll(), block: "nearest"});
+          const sel = c && c.querySelector(`.opt[data-letter="${letter}"]`);
+          if(sel && sel.focus) sel.focus({preventScroll: true});          // the old button is gone with the re-render
+        } catch(_){}
       });
     });
 
@@ -5009,11 +5286,32 @@ function renderArchiveYear(){
       renderArchiveYear();
     }));
 
+    const stuckBtn = card.querySelector("[data-action=stuck]");
+    if(stuckBtn) stuckBtn.addEventListener("click", ()=>{
+      state.archiveAnswers[key] = {...(state.archiveAnswers[key] || {}), stuck: true};
+      renderArchiveYear();
+      focusInCard(year, qnum, ".try-first");
+    });
+    const ideaBtn = card.querySelector("[data-action=lvlidea]");
+    if(ideaBtn) ideaBtn.addEventListener("click", ()=>{
+      state.archiveAnswers[key] = {...(state.archiveAnswers[key] || {}), idea: true};
+      renderArchiveYear();
+      focusInCard(year, qnum, ".try-first");
+    });
+    const giveUpBtn = card.querySelector("[data-action=giveup]");
+    if(giveUpBtn) giveUpBtn.addEventListener("click", ()=>{
+      const cur = state.archiveAnswers[key] || {};
+      if(cur.submitted) return;
+      recordArchiveAnswer(year, q, false, null, {gaveUp: true});      // seeing the solution unsolved is a miss (notebook), without a star
+      state.archiveAnswers[key] = {...cur, submitted: true, chosen: null, chosenLetter: null, gaveUp: true, confidence: null};
+      renderArchiveYear();
+      focusInCard(year, qnum, ".verdict");
+    });
     const revealBtn = card.querySelector("[data-action=reveal]");
     if(revealBtn) revealBtn.addEventListener("click", ()=>{
       const cur = state.archiveAnswers[key] || {};
       state.archiveAnswers[key] = {...cur, submitted: true, chosen: cur.firstWrong, chosenLetter: cur.firstWrong};
-      noteSecondTry(false);
+      if(!q.level) noteSecondTry(false);
       renderArchiveYear();
     });
 
@@ -5041,7 +5339,7 @@ function renderArchiveYear(){
         saveStore(store);
       }
       // mechanic-level stats + spaced-repetition queue + confidence
-      if(q.correct && !firstTry) noteSecondTry(right);
+      if(q.correct && !firstTry && !q.level) noteSecondTry(right);
       if(q.correct){
         if(firstTry) recordArchiveAnswer(year, q, right, cur.confidence);
         Sfx.play(right ? "correct" : "wrong");
@@ -5121,7 +5419,7 @@ function noteSecondTry(right){
    research: a short struggle before help makes the help stick. */
 const TRY_FIRST_SEC = {4: 45, 5: 90};
 const TRY_FIRST_NOTE_HTML = `<div class="hint try-first"><b>Prieš užuominą – trys klausimai sau:</b>
-      <ol style="margin:6px 0 0 18px;padding:0"><li>Ko tiksliai klausia? Pasakyk savais žodžiais.</li><li>Ką žinau? Užsirašyk skaičius arba nusipiešk.</li><li>Ar galiu patikrinti atsakymų variantus arba išbandyti mažesnį atvejį?</li></ol>
+      <ol style="margin:6px 0 0 18px;padding:0"><li>Ko tiksliai klausiama? Pasakyk savais žodžiais.</li><li>Ką žinau? Užsirašyk skaičius arba nusipiešk.</li><li>Ar galiu patikrinti atsakymų variantus arba išbandyti mažesnį atvejį?</li></ol>
       <div style="margin-top:6px">Jei vis tiek nežinai, nuo ko pradėti, spausk „Užuomina“ dar kartą.</div></div>`;
 function tryFirstPending(q, a){
   const need = TRY_FIRST_SEC[q.points];
@@ -5140,7 +5438,7 @@ function renderArchiveCard(year, q, focusOpts){
   const isImageOnly = !!q.imageOnlyOptions;
   const hasMixed = !!q.hasMissingOptionText;
   const imageHint = isImageOnly
-    ? `<p class="help-bar" style="margin:0 0 6px"><b>Atsakymai – paveikslėlyje.</b> Pažymėk raidę pagal pasirinktą pavyzdį.</p>`
+    ? `<p class="help-bar img-opt-help" style="margin:0 0 6px"><b>Atsakymai – paveikslėlyje.</b> Pažymėk raidę pagal pasirinktą pavyzdį.</p>`
     : (hasMixed ? `<p class="help-bar" style="margin:0 0 6px">Kai kurie atsakymai – paveikslėlyje (be teksto). Pažymėk raidę.</p>` : '');
   const optionsHtml = ["A","B","C","D","E"].map(letter=>{
     const vRaw = q.options[letter];
@@ -5182,7 +5480,7 @@ function renderArchiveCard(year, q, focusOpts){
         ? `<span class="pill" title="Užduoties tipas">${escapeHTML(MECHANIC_LABEL[q.mechanic]||q.mechanic)}</span>`
         : `<span class="pill muted" title="Gudrybės pavadinimą pamatysi atsakęs arba paprašęs užuominos">Gudrybė: ?</span>`)
     : "";
-  const practice = pickPracticeFor(q, year);
+  const practice = q.level ? {kind: 'level'} : pickPracticeFor(q, year);
 
   // Hint ladder: 4 tiers per mechanic – notice → ask → suggest → tell.
   // The 4th tier is the per-question full solution.
@@ -5229,17 +5527,17 @@ function renderArchiveCard(year, q, focusOpts){
   let aiMiscText = null;
   if(submitted && q.correct){
     // AI writes without the figure – only when there is no human solution at all
-    if(!q.solutionKid && !q.solution){
+    if(!q.solutionKid && !q.solution && !q.level && !q.solutionFigure){
       const sOpts = aiBuildOpts(year, q, "solution");
       aiSolutionText = aiTextFor(sOpts);
       if(!aiSolutionText && !state.aiBusy[aiStateKey(sOpts)] && !_aiEndpointDead){
-        aiFetch(sOpts).then(() => renderArchiveYear());
+        aiFetch(sOpts).then(() => { if(state.view === "archiveYear" && state.archiveYear === year) renderArchiveYear(); });
       }
     }
     // A blind guess at "your mistake" is worse than none: skip picture options.
     // Every question has a reviewed kid solution now; an AI "your mistake"
     // note (written without the figure) is only asked for when there is none.
-    if(!q.solutionKid && wrongLetter && wrongIdx >= 0 && !miscText && !q.imageOnlyOptions && (q.options || {})[wrongLetter]){
+    if(!q.solutionKid && !q.level && wrongLetter && wrongIdx >= 0 && !miscText && !q.imageOnlyOptions && (q.options || {})[wrongLetter]){
       const mOpts = aiBuildOpts(year, q, "misconception", {chosenIdx: wrongIdx});
       aiMiscText = aiTextFor(mOpts);
       if(!aiMiscText && !state.aiBusy[aiStateKey(mOpts)] && !_aiEndpointDead){
@@ -5253,10 +5551,14 @@ function renderArchiveCard(year, q, focusOpts){
     const right = ans.chosenLetter === q.correct;
     const finalMiscText = miscText || aiMiscText;
     const miscIsAi = !miscText && !!aiMiscText;
-    const finalSolutionText = q.solutionKid || q.solution || aiSolutionText;
+    const finalSolutionText = q.solutionKid || q.solution || q.solutionFigure || aiSolutionText;
     const solutionIsAi = !q.solutionKid && !q.solution && !!aiSolutionText;
-    const opener = right ? '' : growthOpenerFor(q);
-    const confidentWrong = !right && ans.confidence === 'a';
+    // nothing was answered after "Rodyti sprendimą"; a neighbour-level card gets one calm line
+    // (the band-based openers talk about "5-point problems" under a "4 t." pill)
+    const opener = right || ans.gaveUp ? '' : q.level
+      ? (q.level === 'K' ? `Šis uždavinys iš sunkesnio lygio – ${ans.firstWrong ? '' : 'iš pirmo karto '}nepavyko, ir tai normalu.` : 'Pažiūrėk sprendimą ir rask žingsnį, kurio trūko.')
+      : growthOpenerFor(q);
+    const confidentWrong = !right && !ans.gaveUp && ans.confidence === 'a';
     const se = right && !ans.firstWrong ? selfExplainFor(year, q) : null;
     const seHold = !!(se && !ans.seAnswer);   // the solution's 💡 line would give it away
     const seBlock = !se ? '' : !ans.seAnswer
@@ -5268,14 +5570,14 @@ function renderArchiveCard(year, q, focusOpts){
         : ans.seAnswer === 'other'
           ? `<div class="help-bar">Ne visai – ta mintis iš kito uždavinio (${escapeHTML(MECHANIC_LABEL[se.otherMech] || se.otherMech)}). Šiam tiko: <b>${escapeHTML(se.own)}</b></div>`
           : '';
-    bottom = `<div class="explain verdict" role="status" tabindex="-1" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
-        <b>${right ? (ans.firstWrong ? "✓ Teisingai – iš antro karto." : "✓ Teisingai.") : "Ne šis atsakymas."}</b>${right && (q.points || 3) >= 4 && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
+    bottom = `<div class="explain verdict${ans.gaveUp ? ' gave-up' : ''}" role="status" tabindex="-1" style="background:${right?'var(--good-soft)':'var(--bad-soft)'};border:1px solid ${right?'var(--good)':'var(--bad)'};">
+        <b>${right ? (ans.firstWrong ? "✓ Teisingai – iš antro karto." : "✓ Teisingai.") : (ans.gaveUp ? "Sprendimas parodytas." : "Ne šis atsakymas.")}</b>${right && (q.points || 3) >= 4 && q.mechanic && MECHANIC_LABEL[q.mechanic] ? ` Pastebėjai gudrybę – <b>${escapeHTML(MECHANIC_LABEL[q.mechanic])}</b>.` : ''}
         ${q.correct ? ` Teisingas atsakymas – <b>${q.correct}</b>${q.options[q.correct]?` (${escapeHTML(q.options[q.correct])})`:''}.` : ''}
         ${opener ? `<div class="opener" style="margin-top:6px;font-size:13px;font-style:italic">${escapeHTML(opener)}</div>` : ''}
-        ${confidentWrong ? `<div style="margin-top:6px;font-size:13px"><b>Buvai tikras, bet suklydai</b> – čia dažniausiai slepiasi klaidingas supratimas, ne atsitiktinė klaida. Perskaityk sprendimą ypač atidžiai: šis uždavinys sugrįš jau rytoj.</div>` : ''}
+        ${confidentWrong ? `<div style="margin-top:6px;font-size:13px"><b>Buvai tikras, bet suklydai</b> – čia dažniausiai slepiasi klaidingas supratimas, ne atsitiktinė klaida. Perskaityk sprendimą ypač atidžiai${q.level ? ' – uždavinį rasi 📒 Klaidų sąsiuvinyje.' : ': šis uždavinys sugrįš jau rytoj.'}</div>` : ''}
         ${finalMiscText ? `<div class="misconception" style="margin-top:6px;font-size:13px"><b>${right ? 'Pirmą kartą' : 'Tavo klaida'}:</b>${miscIsAi?' <span class="pill" aria-label="sugeneruota dirbtinio intelekto" style="font-size:12px">AI</span>':''} ${escapeHTML(finalMiscText)}</div>` : ''}
       </div>
-      ${!right || ans.firstWrong ? (() => {
+      ${(!right || ans.firstWrong) && !ans.gaveUp ? (() => {
         // self-explanation: the kid names why it went wrong (stored in the notebook)
         const m = (store.mistakes || {})[key];
         const picked = m && m.reason;
@@ -5290,6 +5592,10 @@ function renderArchiveCard(year, q, focusOpts){
     // Show all unlocked hint tiers, accumulated.
     const blocks = [];
     if(ans.tryFirstNote && !hintTier) blocks.push(TRY_FIRST_NOTE_HTML);
+    if(q.level && ans.stuck && !ans.firstWrong) blocks.push(`<div class="hint try-first" tabindex="-1"><b>Trys klausimai sau:</b>
+      <ol style="margin:6px 0 0 18px;padding:0"><li>Ko tiksliai klausiama? Pasakyk savais žodžiais.</li><li>Ką žinau? Užsirašyk skaičius arba nusipiešk.</li><li>Ar galiu patikrinti atsakymų variantus arba išbandyti mažesnį atvejį?</li></ol>
+      ${ans.idea && kidIdeaOf(q) ? `<p style="margin:8px 0 0">💡 <b>Užuomina:</b> ${escapeHTML(kidIdeaOf(q))}</p>` : ''}
+      <div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap">${!ans.idea && kidIdeaOf(q) ? `<button class="btn small" data-action="lvlidea">💡 Užuomina</button>` : ''}<button class="btn small ghost" data-action="giveup">Rodyti sprendimą</button></div></div>`);
     if(ans.firstWrong){
       const note = q.misconceptions && q.misconceptions[ans.firstWrong];
       blocks.push(`<div class="explain verdict retry" role="status" tabindex="-1" style="background:var(--bad-soft);border:1px solid var(--bad)">
@@ -5319,7 +5625,9 @@ function renderArchiveCard(year, q, focusOpts){
   //     5-point source with no in-band generator and no archive hit) →
   //     show with a quiet warning so the kid knows it's just an example
   let practiceBtn = "";
-  if(practice.kind === "generator"){
+  if(practice.kind === "level"){
+    practiceBtn = "";
+  } else if(practice.kind === "generator"){
     practiceBtn = `<button class="btn small" data-practice="${practice.gen}" title="Sugeneruotas to paties tipo uždavinys">Praktikuotis šio tipo</button>`;
   } else if(practice.kind === "archive"){
     practiceBtn = practice.related
@@ -5333,18 +5641,18 @@ function renderArchiveCard(year, q, focusOpts){
     practiceBtn = `<span class="help-bar" title="Šio tipo 5 t. generatoriaus dar nėra. Pasirink kitą gudrybę ar archyvo metus.">Atskiro to paties tipo uždavinio nėra – pasirink mokytis šios gudrybės.</span>`;
   }
   return `
-    <section class="card archive-card" data-year="${year}" data-qnum="${q.num}"${focusOpts && focusOpts.hidden ? ' hidden' : ''}>
+    <section class="card archive-card" tabindex="-1" data-year="${year}" data-qnum="${q.num}"${focusOpts && focusOpts.hidden ? ' hidden' : ''}>
       <div class="qmeta">
         <b>${q.num} uždavinys</b>
         <span class="pill">${q.points} t.</span>
         ${mechPill}
-        ${(() => { const m = (store.mistakes || {})[key]; return m && !m.fixedAt && !(submitted && (m.times || 0) <= 1) ? `<span class="pill bad" title="Šiame uždavinyje jau buvai suklydęs – dabar proga ištaisyti">📒 kartoji${m.times > 1 ? ` ×${m.times}` : ''}</span>` : ''; })()}
+        ${(() => { const m = (store.mistakes || {})[key]; return m && !m.fixedAt && !(submitted && (m.times || 0) <= 1) ? `<span class="pill bad" title="Šiame uždavinyje jau buvai suklydęs – dabar proga ištaisyti">${!submitted && (m.times || 0) <= 1 && ans.firstWrong ? '📒 sąsiuvinyje' : `📒 kartoji${m.times > 1 ? ` ×${m.times}` : ''}`}</span>` : ''; })()}
         ${tags}
       </div>
       ${questionBodyHTML(q)}
       ${imageHint}
       <div class="options${isImageOnly ? ' image-options' : ''}">${optionsHtml}</div>
-      ${!submitted && ans.chosenLetter && (q.points || 3) === 5 && !ans.firstWrong ? `<p class="help-bar" style="margin:6px 0 0">Prieš tikrindamas: ar atsakymas tinka sąlygai? Įstatyk jį atgal ir patikrink vieną skaičių.</p>` : ''}
+      ${!submitted && ans.chosenLetter && (q.level ? levelEqBand(q) : (q.points || 3)) === 5 && !ans.firstWrong ? `<p class="help-bar" style="margin:6px 0 0">Prieš tikrindamas: ar atsakymas tinka sąlygai? Įstatyk jį atgal ir patikrink vieną skaičių.</p>` : ''}
       ${bottom}
       ${showConfidence ? `<div class="confidence-row" role="radiogroup" aria-label="Kiek esi tikras?">
         <span class="help-bar" style="margin:0 8px 0 0">Kiek esi tikras?</span>
@@ -5353,12 +5661,14 @@ function renderArchiveCard(year, q, focusOpts){
       ${conf ? `<div class="help-bar">Pasitikėjimas: <b>${confLabels[conf]}</b></div>` : ''}
       ${submitted && ans.tookSec ? (() => {
         // metacognition: how long it took vs the contest budget for this band
-        const budget = PACE_SEC[q.points] || PACE_SEC[4];
-        return `<div class="help-bar">⏱ Sprendei ${fmtMs(ans.tookSec * 1000)} · konkurse ${q.points} t. uždaviniui verta skirti iki ~${String(Math.round(budget / 6) / 10).replace('.', ',')} min${ans.tookSec > budget * 1.5 ? ' – konkurse tokį verta praleisti ir grįžti vėliau' : ''}.</div>`;
+        // a neighbour-level question is timed against the Bičiulis block of the same difficulty
+        const budget = PACE_SEC[q.level ? levelEqBand(q) : q.points] || PACE_SEC[4];
+        return `<div class="help-bar">⏱ Sprendei ${fmtMs(ans.tookSec * 1000)} · ${q.level ? '„Bičiulio“ konkurse panašaus sudėtingumo' : `konkurse ${q.points} t.`} uždaviniui verta skirti iki ~${String(Math.round(budget / 6) / 10).replace('.', ',')} min${ans.tookSec > budget * 1.5 && q.level !== 'M' ? ' – konkurse tokį verta praleisti ir grįžti vėliau' : ''}.</div>`;
       })() : ''}
       <div class="footer-actions">
         <div class="row">
-          ${!submitted && q.correct && (hints || !_aiEndpointDead) && hintTier < 3 ? `<button class="btn small ghost" data-action="hint">Užuomina (${hintTier+1}/3)</button>` : ''}
+          ${!submitted && q.correct && !q.level && (hints || !_aiEndpointDead) && hintTier < 3 ? `<button class="btn small ghost" data-action="hint">Užuomina (${hintTier+1}/3)</button>` : ''}
+          ${!submitted && q.correct && q.level && !ans.firstWrong && !ans.stuck ? `<button class="btn small ghost" data-action="stuck">Užstrigai?</button>` : ''}
           ${!q.correct ? `<span class="help-bar">Šiems metams atsakymo nėra – pasitikrink PDF.</span>` : ''}
         </div>
         <div class="row">
@@ -5385,14 +5695,38 @@ const HOME_TABS = [
   {id: 'tests',    icon: '📝', label: 'Konkursas'},
   {id: 'practice', icon: '📚', label: 'Uždaviniai'},
   {id: 'me',       icon: '⭐', label: 'Prizai'},
+  // the two extra sets come last: on a phone they are the tabs that scroll in
+  ...LEVEL_TABS.map(l => ({id: l.tab, icon: l.icon, label: l.label})),
 ];
+/* Seven tabs scroll sideways on a phone: keep the active one fully in view
+   (scrollLeft only – scrollIntoView could also move the page). */
+function revealTab(el){
+  try {
+    const bar = el && el.parentElement;
+    if(!bar || !(bar.scrollWidth > bar.clientWidth)) return;
+    const pad = el.nextElementSibling ? 26 : 0;        // room for the "more" cue unless this is the last tab
+    if(el.offsetLeft < bar.scrollLeft) bar.scrollLeft = Math.max(0, el.offsetLeft - (el.previousElementSibling ? 26 : 0));
+    else if(el.offsetLeft + el.offsetWidth + pad > bar.scrollLeft + bar.clientWidth) bar.scrollLeft = el.offsetLeft + el.offsetWidth + pad - bar.clientWidth;
+  } catch(_){}
+}
+/* The tabs this child sees: all of them for a Bičiulis child; own set, the
+   neighbouring set and the prizes for a younger one. */
+function homeTabs(){
+  const lv = kidLevel();
+  if(lv === 'B') return HOME_TABS;
+  const order = lv === 'N' ? ['nykstukas', 'mazylis', 'me'] : ['mazylis', 'nykstukas', 'me'];
+  return order.map(id => HOME_TABS.find(t => t.id === id)).filter(Boolean);
+}
+function defaultHomeTab(){ return homeTabs()[0].id; }
+state.homeTab = defaultHomeTab();
+applyLevelTitle();
 function setHomeTab(id, opts){
-  if(!HOME_TABS.some(t => t.id === id)) return;
+  if(!homeTabs().some(t => t.id === id)) return;
   state.homeTab = id;
   $app.querySelectorAll('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== id; });
   $app.querySelectorAll('[data-tab]').forEach(b => {
     const on = b.dataset.tab === id;
-    b.classList.toggle('on', on); if(on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    b.classList.toggle('on', on); if(on){ b.setAttribute('aria-current', 'page'); revealTab(b); } else b.removeAttribute('aria-current');
   });
   if(!(opts && opts.keepScroll)) try { window.scrollTo(0, 0); } catch(_){}
 }
@@ -5527,7 +5861,9 @@ function renderHome(){
       return (MECHANIC_LABEL[a]||a).localeCompare(MECHANIC_LABEL[b]||b, "lt");
     });
 
-  const tab = HOME_TABS.some(t => t.id === state.homeTab) ? state.homeTab : 'today';
+  const TABS = homeTabs();
+  const tab = TABS.some(t => t.id === state.homeTab) ? state.homeTab : defaultHomeTab();
+  state.homeTab = tab;
   const pane = id => `<div class="tab-pane" data-pane="${id}"${id === tab ? '' : ' hidden'}>`;
   const tabDots = {
     today: (()=>{ const st = planStepsForToday(); const pd = store.planDone[todayKey()] || {}; return st.some(x => !pd[x.id]); })(),
@@ -5557,11 +5893,17 @@ function renderHome(){
           ${activityCells.join('')}
         </div>
         ${(META.profiles.length > 1 || META.cloudUser) ? `<button class="btn small ghost" id="whoBtn" aria-label="Kas mokosi: ${escapeHTML(activeProfileName() || 'be vardo')} – pakeisti">👤 ${escapeHTML(activeProfileName() || 'Be vardo')}</button>`
-          : cloudConfigured() ? `<button class="btn small ghost" id="accountBtn" title="Tėvų paskyra: progresas internete, matomas visuose įrenginiuose">☁ Prisijungti</button>` : ''}
-        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}">📒<span class="wide-only"> Klaidos</span>${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
+          : cloudConfigured() ? `<button class="btn small ghost" id="accountBtn" title="Tėvų paskyra: progresas internete, matomas visuose įrenginiuose" aria-label="Prisijungti prie tėvų paskyros">☁<span class="wide-only"> Prisijungti</span></button>` : ''}
+        <button class="btn small ghost" id="mistakeBookBtn" style="margin-left:auto" title="Visi uždaviniai, kuriuose suklydai" aria-label="Klaidų sąsiuvinis${shownMistakes().filter(m => !m.fixedAt).length ? ` (${shownMistakes().filter(m => !m.fixedAt).length})` : ''}">📒<span class="wide-only"> Klaidos</span>${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length ? ` (${Object.values(store.mistakes || {}).filter(m => !m.fixedAt).length})` : ''}</button>
         <button class="btn small ghost" id="parentBtn" title="Tėvų rodinys – vaiko progresas${META.parentPin ? ' (su kodu)' : ''}" aria-label="Tėvams">${META.parentPin ? '🔒' : '👁'}<span class="wide-only"> Tėvams</span></button>
       </div>
     </section>
+    ${!gradeChosen() && GRADE_OPTS.length > 1 && storeWeight(store) === 0 ? `
+    <section class="card" id="gradeAsk">
+      <h3 style="margin-top:0">Kurioje klasėje mokaisi?</h3>
+      <div class="row" style="gap:8px;flex-wrap:wrap">${gradeButtonsHTML(null)}</div>
+      <p class="help-bar" style="margin:8px 0 0">Pagal klasę parinksime uždavinius. Vėliau tai galima pakeisti tėvų rodinyje.</p>
+    </section>` : ''}
     ${pane("today")}
     <section class="card hero-card">
       ${mission ? `
@@ -5724,6 +6066,7 @@ function renderHome(){
     </section>
 
     </div>
+    ${LEVEL_TABS.map(l => `${pane(l.tab)}${levelPaneHTML(l)}</div>`).join('')}
     ${pane("practice")}
     ${ARCHIVE.length ? `
     <section class="card">
@@ -5739,6 +6082,7 @@ function renderHome(){
         }).join("")}
       </div>
       <p class="help-bar" style="margin-top:10px">Skaičius prie metų – kiek jau spręsta. 🔒 – laikomi kontroliniams, kad jų rezultatas rodytų tikrą lygį.</p>
+      ${LEVEL_TABS.length ? `<p style="margin:10px 0 0">Nori lengvesnių ar sunkesnių uždavinių? ${LEVEL_TABS.map(l => `<button class="btn small ghost" data-goto-tab="${l.tab}">${l.icon} ${l.label}</button>`).join(' ')}</p>` : ''}
     </section>` : ``}
 
     <section class="card">
@@ -5812,18 +6156,21 @@ function renderHome(){
     <section class="card">
       <details>
         <summary>Apie šį treniruoklį</summary>
-        <p>Uždaviniai – iš tikrų „Kengūros“ konkursų (Bičiulis, 5–6 klasė). Kiekvienas turi 5 atsakymus (A–E) ir vertę: 3, 4 arba 5 taškai.</p>
+        ${kidLevel() === 'B' ? `<p>Uždaviniai – iš tikrų „Kengūros“ konkursų (Bičiulis, 5–6 klasė). Kiekvienas turi 5 atsakymus (A–E) ir vertę: 3, 4 arba 5 taškai.</p>
         <p><b>Užuomina</b> atsakymo nepasako – ji parodo, nuo ko pradėti.</p>
-        <p>Suklydęs uždavinys sugrįš pakartojimui, o sprendimas parodys, kur slėpėsi gudrybė.</p>
+        <p>Suklydęs uždavinys sugrįš pakartojimui, o sprendimas parodys, kur slėpėsi gudrybė.</p>`
+        : `<p>Uždaviniai – iš tikrų „Kengūros“ konkursų (${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).name}, ${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).grades}). Kiekvienas turi 5 atsakymus (A–E) ir vertę: 3, 4 arba 5 taškai.</p>
+        <p>Jei užstrigai, spausk <b>„Užstrigai?“</b> – gausi klausimų, kurie padeda pradėti.</p>
+        <p>Suklydęs uždavinys atsiduria 📒 Klaidų sąsiuvinyje, o sprendimas parodo, kur slėpėsi gudrybė.</p>`}
         <p style="color:var(--muted);font-size:13px;margin-top:6px">
           <button class="btn small ghost" id="resetBtn">${META.parentPin ? '🔒 ' : ''}Išvalyti progresą</button>
         </p>
       </details>
     </section>
     </div>
-    <nav class="tabbar" id="homeTabs" aria-label="Skiltys">
+    <nav class="tabbar${TABS.length > 5 ? ' many' : ''}" id="homeTabs" aria-label="Skiltys">
       <div class="tabbar-in">
-        ${HOME_TABS.map(t => `<button class="tab${t.id === tab ? ' on' : ''}" data-tab="${t.id}"${t.id === tab ? ' aria-current="page"' : ''}><span class="tab-ico" aria-hidden="true">${t.icon}</span><span class="tab-lbl">${t.label}</span>${tabDots[t.id] ? '<i class="tab-dot" aria-label="yra ką veikti"></i>' : ''}</button>`).join('')}
+        ${TABS.map(t => `<button class="tab${t.id === tab ? ' on' : ''}" data-tab="${t.id}"${t.id === tab ? ' aria-current="page"' : ''}><span class="tab-ico" aria-hidden="true">${t.icon}</span><span class="tab-lbl">${t.label}</span>${tabDots[t.id] ? '<i class="tab-dot" aria-label="yra ką veikti"></i>' : ''}</button>`).join('')}
       </div>
     </nav>
     <div class="tabbar-spacer"></div>
@@ -6038,6 +6385,7 @@ function renderHome(){
       localStorage.removeItem(LS_KEY);
       for(const k of Object.keys(store)) delete store[k];   // keys without a default (e.g. recogConfusion) must go too
       Object.assign(store, loadStore());
+      state.archiveAnswers = {}; state.archiveFocus = {}; state.figFit = {};
       renderHome();
     }
   });
@@ -6046,6 +6394,28 @@ function renderHome(){
     const b = e.target.closest("[data-year]"); if(!b) return;
     openArchiveYear(b.dataset.year);
   });
+  $app.querySelectorAll("[data-level-years]").forEach(box => box.addEventListener("click", e=>{
+    const b = e.target.closest("[data-year]"); if(!b) return;
+    openArchiveYear(b.dataset.year);
+  }));
+  revealTab($app.querySelector(".tab.on"));
+  try {
+    const bar = $app.querySelector(".tabbar-in");
+    if(bar && bar.addEventListener && bar.parentElement){
+      const upd = () => bar.parentElement.classList.toggle("more", bar.scrollWidth - bar.clientWidth - bar.scrollLeft > 4);
+      bar.addEventListener("scroll", upd, {passive: true}); upd();
+      if(!window._tabbarResize && window.addEventListener){
+        window._tabbarResize = true;
+        window.addEventListener("resize", () => {
+          const b = document.querySelector("#homeTabs .tabbar-in"); if(!b) return;
+          revealTab(b.querySelector(".tab.on"));
+          b.parentElement.classList.toggle("more", b.scrollWidth - b.clientWidth - b.scrollLeft > 4);
+        });
+      }
+    }
+  } catch(_){}
+  $app.querySelectorAll("[data-goto-tab]").forEach(b => b.addEventListener("click", () => setHomeTab(b.dataset.gotoTab)));
+  $app.querySelectorAll("#gradeAsk [data-grade]").forEach(b => b.addEventListener("click", () => { setKidLevel(b.dataset.grade); renderHome(); }));
   $app.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", ()=>{
     if(b.dataset.tab !== state.homeTab) Sfx.play("click");
     setHomeTab(b.dataset.tab);
@@ -7398,6 +7768,18 @@ function parentAdvice(){
   const tips = [];
   const week = weekSummary(0);
   const days = daysToContest();
+  if(kidLevel() !== 'B'){
+    // a younger child: no plan, no tricks – advice from the level answers only
+    const st = (store.levelStats || {})[kidLevel()] || {a: 0, ok: 0};
+    const open = shownMistakes().filter(m => !m.fixedAt).length;
+    if(!st.a) tips.push({icon:'🌱', text:'Pradžiai užtenka 5–6 uždavinių per dieną. Pirmus kartus pasėdėkite šalia: paprašykite vaiko garsiai perskaityti uždavinį ir papasakoti, ką mato paveikslėlyje.'});
+    else if(st.a >= 8 && st.ok / st.a < 0.5) tips.push({icon:'🤝', text:`Iš pirmo karto teisingai – ${st.ok} iš ${st.a}. Tai nemažai klaidų: spręskite kartu po 3–4 uždavinius, o sprendimą skaitykite balsu. Skubėti nereikia.`});
+    else if(st.a >= 8 && st.ok / st.a >= 0.8) tips.push({icon:'🚀', text:`Iš pirmo karto teisingai – ${st.ok} iš ${st.a}. Uždaviniai sekasi: galima pabandyti vyresnių klasių rinkinį (gretima skiltis) arba pakeisti klasę nustatymuose.`, action:'settings', cta:'Nustatymai'});
+    if(open >= 3) tips.push({icon:'📒', text:`Klaidų sąsiuvinyje – ${open} ${pluralForm(open,'neištaisytas uždavinys','neištaisyti uždaviniai','neištaisytų uždavinių')}. Geriausia vieta pasikalbėti: paprašykite vaiko paaiškinti, kaip jis sprendė.`, action:'mistakes', cta:'Sąsiuvinis'});
+    if(week.missed >= 2) tips.push({icon:'🛌', text:`Šią savaitę praleistos ${week.missed} treniruočių dienos. Geriau 10 min kasdien negu valanda sekmadienį.`, action:'settings', cta:'Dienos'});
+    if(!tips.length) tips.push({icon:'✅', text:'Viskas gerai: vaikas sprendžia reguliariai. Kartą per savaitę paprašykite papasakoti, kaip išsprendė jam patikusį uždavinį, ir pagirkite už būdą, ne už gabumus.'});
+    return tips.slice(0, 3);
+  }
   if(!store.plan.contestDate) tips.push({icon:'📅', text:'Įrašykite konkurso datą – tada planas pats parinks etapą ir pasiūlys kontrolinius.', action:'plan', cta:'Nustatyti'});
   if(week.missed >= 2) tips.push({icon:'🛌', text:`Šią savaitę praleistos ${week.missed} treniruočių dienos. Geriau 15 min kasdien negu valanda sekmadienį – arba sumažinkite treniruočių dienų skaičių.`, action:'settings', cta:'Dienos'});
   const worst = weakestMechanics(8).filter(w => w.showAttempts >= 4 && w.rate >= 0.4)[0];
@@ -7429,9 +7811,11 @@ function parentSummaryText(){
   const lines = [
     `Kengūra${activeProfileName() ? ` – ${activeProfileName()}` : ''} · savaitė ${fmt(w.rows[0].date)} – ${fmt(w.rows[6].date)}`,
     `Treniruočių dienos: ${w.active}/${w.trainingDays || 7}${w.missed ? ` (praleista ${w.missed})` : ''} · uždaviniai: ${w.answered}${w.answered ? ` (${Math.round(100 * w.correct / w.answered)} % teisingai)` : ''}${w.min ? ` · aktyvus laikas: ${w.min} min` : ''} · ⭐ ${w.stars}${store.plan.weeklyStarGoal ? `/${store.plan.weeklyStarGoal}` : ''}`,
-    `Įvaldyta gudrybių: ${mastered}/${total}${w.mastered ? ` (+${w.mastered} šią savaitę)` : ''} · serija: ${liveStreak()} d.`,
+    kidLevel() !== 'B' ? `${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).grades} („${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).name}“) · serija: ${liveStreak()} d.`
+      : `Įvaldyta gudrybių: ${mastered}/${total}${w.mastered ? ` (+${w.mastered} šią savaitę)` : ''} · serija: ${liveStreak()} d.`,
   ];
   if(w.papers.length) lines.push(`Kontroliniai: ${w.papers.map(c => `${c.year} m. – ${fmtPts(c.scoreWithPenalty ?? c.points)}/${c.maxPoints}`).join(', ')}`);
+  if(levelStatsText()) lines.push(levelStatsText());
   if(worst.length) lines.push(`Silpniausia: ${worst.map(x => `${MECHANIC_LABEL[x.mech] || x.mech} (${Math.round(100 * x.rate)} % klaidų)`).join(', ')}`);
   const d = daysToContest();
   if(d != null && d >= 0) lines.push(`Iki konkurso: ${d} d. (${PLAN_PHASE[planPhase()].label})`);
@@ -7468,7 +7852,9 @@ function renderWelcome(){
     <section class="card" style="max-width:520px;margin:0 auto">
       <div style="font-size:44px;line-height:1" aria-hidden="true">🦘</div>
       <h2 style="margin:8px 0 4px">Labas! Čia Kengūros treniruoklis.</h2>
-      <p style="margin:0 0 14px">„Kengūros“ konkurso 5–6 klasės (Bičiulio) uždaviniai, gudrybės ir bandomieji konkursai.</p>
+      <p style="margin:0 0 14px">Tikri „Kengūros“ konkurso uždaviniai su sprendimais – 1–6 klasėms.</p>
+      ${GRADE_OPTS.length > 1 ? `<p style="margin:0 0 6px"><b>Kurioje klasėje mokaisi?</b></p>
+      <div class="row" id="wGrade" role="group" aria-label="Klasė" style="gap:8px;flex-wrap:wrap;margin-bottom:14px">${gradeButtonsHTML(state._wGrade || 'B')}</div>` : ''}
       <label for="wName"><b>Kuo tu vardu?</b></label>
       <div class="row" style="gap:8px;margin-top:6px;flex-wrap:wrap">
         <input id="wName" maxlength="24" autocomplete="off" style="font:inherit;font-size:18px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;min-height:44px;flex:1;min-width:0">
@@ -7487,8 +7873,13 @@ function renderWelcome(){
     const p = activeProfile();
     if(n && p){ p.name = n; }
     META.welcomed = true; saveMeta(META);
+    if(GRADE_OPTS.length > 1) setKidLevel(state._wGrade || 'B');
     state.view = "home"; renderHome();
   };
+  $app.querySelectorAll("#wGrade [data-grade]").forEach(b => b.addEventListener("click", () => {
+    state._wGrade = b.dataset.grade;
+    $app.querySelectorAll("#wGrade [data-grade]").forEach(x => { const on = x === b; x.classList.toggle("primary", on); x.setAttribute("aria-pressed", String(on)); });
+  }));
   document.getElementById("wGo").addEventListener("click", go);
   document.getElementById("wName").addEventListener("keydown", e => { if(e.key === "Enter") go(); });
   document.getElementById("wAccount").addEventListener("click", () => openAccount({from: "welcome"}));
@@ -7501,7 +7892,7 @@ function renderWho(){
     return `<button class="btn who-kid${p.id === META.active ? ' primary' : ''}" data-who="${escapeHTML(p.id)}">
       <span style="font-size:22px" aria-hidden="true">🦘</span>
       <span style="font-size:18px;font-weight:700">${escapeHTML(p.name || 'Be vardo')}</span>
-      <span class="small">⭐ ${stars}</span>
+      <span class="small">${GRADE_OPTS.length > 1 ? `${(GRADE_OPTS.find(g => g.id === gradeOfStore(s)) || {}).grades} · ` : ''}⭐ ${stars}</span>
     </button>`;
   }).join("");
   $app.innerHTML = `
@@ -7792,6 +8183,7 @@ function renderParent(){
   const fmtW = w => { const d = w.rows[0].date, e = w.rows[6].date; return `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} – ${String(e.getMonth()+1).padStart(2,'0')}-${String(e.getDate()).padStart(2,'0')}`; };
   const tips = parentAdvice();
   const lastPaper = (store.contests || []).slice(-1)[0];
+  const young = kidLevel() !== 'B';      // a 1–4 grade child: the Bičiulis-only parts (plan, tricks, contest) are kept in the page but hidden
 
   $app.innerHTML = `
     <section class="card">
@@ -7801,7 +8193,7 @@ function renderParent(){
         <div class="row" style="gap:6px"><button class="btn small ghost" id="parentCopy" title="Trumpa savaitės santrauka tekstu – įklijuokite į žinutę antram tėvui ar mokytojui">📋 Santrauka</button><button class="btn small ghost" id="parentPrint" title="Visa ši suvestinė vienu spausdinimu (pvz., mokytojui)">🖨 Ataskaita</button></div>
       </div>
       ${cloudConfigured() ? `<div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0"><span class="help-bar" style="margin:0">${cloudStatusLine()}${META.cloudUser ? ` (${escapeHTML(META.cloudUser.email || '')})` : ''}</span><button class="btn small${META.cloudUser ? ' ghost' : ' primary'}" id="parentAccountTop">${META.cloudUser ? '☁ Paskyra ir vaikai' : '☁ Prisijungti / sukurti paskyrą'}</button></div>` : ''}
-      <p class="help-bar">${days != null && days >= 0 ? `Iki konkurso <b>${days} d.</b> · etapas: <b>${PLAN_PHASE[planPhase()].label}</b>` : 'Konkurso data nenustatyta'} · serija <b>${liveStreak()} d.</b> · įvaldyta <b>${masteredCount}/${totalMechs}</b> gudrybių${lastPaper ? ` · paskutinis kontrolinis <b>${fmtPts(lastPaper.scoreWithPenalty ?? lastPaper.points)}</b> / ${lastPaper.maxPoints}` : ''}</p>
+      <p class="help-bar">${kidLevel() !== 'B' ? `${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).grades} („${(GRADE_OPTS.find(g => g.id === kidLevel()) || {}).name}“) · serija <b>${liveStreak()} d.</b>${(() => { const st = (store.levelStats || {})[kidLevel()]; return st && st.a ? ` · iš pirmo karto teisingai <b>${st.ok} iš ${st.a}</b>` : ''; })()}` : days != null && days >= 0 ? `Iki konkurso <b>${days} d.</b> · etapas: <b>${PLAN_PHASE[planPhase()].label}</b>` : 'Konkurso data nenustatyta'} · serija <b>${liveStreak()} d.</b> · įvaldyta <b>${masteredCount}/${totalMechs}</b> gudrybių${lastPaper ? ` · paskutinis kontrolinis <b>${fmtPts(lastPaper.scoreWithPenalty ?? lastPaper.points)}</b> / ${lastPaper.maxPoints}` : ''}</p>
 
       <h3 style="margin:10px 0 6px">Ši savaitė</h3>
       <div class="grid two">
@@ -7822,7 +8214,15 @@ function renderParent(){
 
     <section class="card" id="parentSettings">
       <h3 style="margin-top:0">⚙ Nustatymai</h3>
-      <div class="row" style="align-items:center;gap:10px;margin:4px 0;flex-wrap:wrap">
+      ${GRADE_OPTS.length > 1 ? `<div class="row" style="align-items:center;gap:10px;margin:4px 0 8px;flex-wrap:wrap">
+        <label style="font-size:14px">Vaiko klasė:
+          <select id="pGrade" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
+            ${GRADE_OPTS.map(g => `<option value="${g.id}" ${g.id === kidLevel() ? 'selected' : ''}>${g.grades} („${g.name}“)</option>`).join('')}
+          </select>
+        </label>
+        <span class="help-bar" style="margin:0">${kidLevel() === 'B' ? 'Pagal klasę parenkami uždaviniai ir pradžios puslapio skiltys.' : 'Šiai klasei rodomi jos konkurso uždaviniai su sprendimais. Planas, gudrybių serijos ir kontroliniai skirti 5–6 klasei, todėl čia ir vaikui nerodomi.'}</span>
+      </div>` : ''}
+      <div class="row" ${young ? 'hidden ' : ''}style="align-items:center;gap:10px;margin:4px 0;flex-wrap:wrap">
         <label style="font-size:14px">Konkurso data:
           <input type="date" id="pContestDate" value="${store.plan.contestDate || ''}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px">
         </label>
@@ -7838,7 +8238,7 @@ function renderParent(){
       <div class="row" style="align-items:center;gap:6px;margin:6px 0;flex-wrap:wrap">
         <span style="font-size:14px">Treniruočių dienos:</span>
         ${[1,2,3,4,5,6,0].map(dd => `<button class="btn small ${isTrainingDay(new Date(2024, 0, 7 + dd)) ? 'primary' : ''}" data-p-train-day="${dd}" title="${WEEKDAY_LONG[dd]}">${WEEKDAY_SHORT[dd]}</button>`).join('')}
-        <span class="help-bar" style="margin:0">Serija ir planas praleistų dienų neskaičiuoja.</span>
+        <span class="help-bar" style="margin:0">${young ? 'Serija praleistų poilsio dienų neskaičiuoja.' : 'Serija ir planas praleistų dienų neskaičiuoja.'}</span>
       </div>
       <div class="row" style="align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0">
         <label style="font-size:14px">Savaitės tikslas (⭐):
@@ -7848,10 +8248,10 @@ function renderParent(){
           <input type="text" id="weeklyRewardInput" maxlength="60" placeholder="pvz., kinas, ledai, žaidimo vakaras" value="${escapeHTML(store.plan.weeklyReward || '')}" style="font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;width:100%">
         </label>
       </div>
-      <p class="help-bar" style="margin:0 0 8px">Kasdienė 20–30 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.<br>Patarimas: prizas tegul būna šventė už pastangas (treniruočių dienas), ne „užmokestis“ už kiekvieną uždavinį – tyrimai rodo, kad iš anksto pažadėtas atlygis už veiklą mažina norą ją daryti savaime. Pagirkite už būdą („gerai, kad nusipiešei“), ne už gabumus („tu genijus“).</p>
+      <p class="help-bar" style="margin:0 0 8px">${young ? 'Jaunesniam vaikui užtenka 10–15 min per dieną – tai apie 15–25 ⭐ (1 ⭐ už uždavinį ir 1 ⭐ už aktyvią minutę), tad savaitei tiks 60–100 ⭐ tikslas. Vaikas mato progreso juostą skiltyje „Prizai“.' : 'Kasdienė 20–30 min treniruotė duoda apie 40–50 ⭐, tad 150 ⭐ = 3–4 pilnos dienos. Vaikas mato progreso juostą pradžios puslapyje.'}<br>Patarimas: prizas tegul būna šventė už pastangas (treniruočių dienas), ne „užmokestis“ už kiekvieną uždavinį – tyrimai rodo, kad iš anksto pažadėtas atlygis už veiklą mažina norą ją daryti savaime. Pagirkite už būdą („gerai, kad nusipiešei“), ne už gabumus („tu genijus“).</p>
       <div class="row" style="align-items:center;gap:14px;flex-wrap:wrap">
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Po atsakymo klausti, kiek vaikas tikras – rodo, ar jis skiria žinojimą nuo spėjimo"><input type="checkbox" id="pAskConf" ${store.settings.askConfidence ? 'checked' : ''}> Klausti pasitikėjimo</label>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Testuose atimti 25 % už klaidą, kaip konkurse"><input type="checkbox" id="pNegScore" ${store.settings.negativeScore ? 'checked' : ''}> −25 % už klaidą</label>
+        <label ${young ? 'hidden ' : ''}style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Po atsakymo klausti, kiek vaikas tikras – rodo, ar jis skiria žinojimą nuo spėjimo"><input type="checkbox" id="pAskConf" ${store.settings.askConfidence ? 'checked' : ''}> Klausti pasitikėjimo</label>
+        <label ${young ? 'hidden ' : ''}style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px" title="Testuose atimti 25 % už klaidą, kaip konkurse"><input type="checkbox" id="pNegScore" ${store.settings.negativeScore ? 'checked' : ''}> −25 % už klaidą</label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px"><input type="checkbox" id="pSound" ${store.settings.sound !== false ? 'checked' : ''}> 🔊 Garsai</label>
       </div>
       <div class="row" style="align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px">
@@ -7865,15 +8265,21 @@ function renderParent(){
 
     <section class="card">
       <h3 style="margin-top:0">📈 Pažanga</h3>
-      <div class="cat-row" style="padding-left:0;padding-right:0">
+      ${young ? (() => { const pr = levelProgress(kidLevel()), l = LEVEL_TABS.find(x => x.id === kidLevel()) || {}; return `<div class="cat-row" style="padding-left:0;padding-right:0">
+        <span>„${escapeHTML(l.gen || '')}“ uždaviniai</span>
+        <div class="bar"><div style="width:${pr.total ? Math.round(100 * pr.seen / pr.total) : 0}%;background:var(--good)"></div></div>
+        <span class="pill good">spręsta ${pr.seen} / ${pr.total}</span>
+      </div>`; })() : ''}
+      <div class="cat-row" ${young ? 'hidden ' : ''}style="padding-left:0;padding-right:0">
         <span>Įvaldytos gudrybės</span>
         <div class="bar"><div style="width:${totalMechs ? Math.round(100 * masteredCount / totalMechs) : 0}%;background:var(--good)"></div></div>
         <span class="pill good">${masteredCount} / ${totalMechs}${partialCount ? ` <span style="font-weight:400">(+${partialCount} iš dalies)</span>` : ''}</span>
       </div>
+      ${levelStatsText() ? `<p style="margin:10px 0 4px;font-size:14px">${escapeHTML(levelStatsText())} ${young ? '' : '<span class="help-bar" style="margin:0">Šie uždaviniai įskaičiuoti į savaitės uždavinius ir žvaigždes, bet ne į planą, blokų tikslumą ar gudrybių statistiką.</span>'}</p>` : ''}
       ${band30Any ? `<p style="margin:10px 0 4px;font-size:14px"><b>Tikslumas per 30 d. pagal bloką:</b> ${[3,4,5].map(b => band30[b].a ? `${b} t. <b>${Math.round(100 * band30[b].ok / band30[b].a)} %</b> <span class="help-bar" style="margin:0">(${band30[b].a})</span>` : `${b} t. –`).join(' · ')}</p>
       <p class="help-bar" style="margin:0 0 8px">Konkurse 3 t. blokas turėtų būti ≥ 80 %, 4 t. ≥ 60 %; 5 t. – 40 % jau geras rezultatas.</p>` : ''}
       <div class="ptable-wrap"><table class="ptable" aria-label="Paskutinės 4 savaitės">
-        <thead><tr><th>Savaitė</th><th>Dienos</th><th>Užd.</th><th>Tikslumas</th>${anyMinutes ? '<th>Min</th>' : ''}<th>⭐</th><th>Kontr.</th></tr></thead>
+        <thead><tr><th>Savaitė</th><th>Dienos</th><th>Užd.</th><th>Tikslumas</th>${anyMinutes ? '<th>Min</th>' : ''}<th>⭐</th>${young ? '' : '<th>Kontr.</th>'}</tr></thead>
         <tbody>${weeks.map((w, i) => `<tr${i === 0 ? ' style="font-weight:600"' : ''}>
           <td>${i === 0 ? 'ši' : i === 1 ? 'praėjusi' : fmtW(w)}</td>
           <td>${w.active}${w.trainingDays ? `/${w.trainingDays}` : ''}</td>
@@ -7881,23 +8287,23 @@ function renderParent(){
           <td>${w.answered ? `${Math.round(100 * w.correct / w.answered)} %` : '–'}</td>
           ${anyMinutes ? `<td>${w.min || '–'}</td>` : ''}
           <td>${w.stars || '–'}</td>
-          <td>${w.papers.length ? w.papers.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(', ') : '–'}</td>
+          ${young ? '' : `<td>${w.papers.length ? w.papers.map(c => fmtPts(c.scoreWithPenalty ?? c.points)).join(', ') : '–'}</td>`}
         </tr>`).join('')}</tbody>
       </table></div>
-      <p class="help-bar">Dienos – aktyvios iš treniruočių dienų; kontrolinio rezultatas – su −25 % bauda, iš 120.</p>
+      <p class="help-bar">${young ? 'Dienos – aktyvios iš treniruočių dienų.' : 'Dienos – aktyvios iš treniruočių dienų; kontrolinio rezultatas – su −25 % bauda, iš 120.'}</p>
       <div class="activity-grid" style="margin-top:6px">
         ${grid.map(d => `<div class="activity-cell lvl${d.lvl}" title="${d.label}: ${d.count} ${pluralForm(d.count,'uždavinys','uždaviniai','uždavinių')}${d.min ? `, ${d.min} min` : ''}"></div>`).join('')}
       </div>
       <p class="help-bar" style="margin:4px 0 0">Paskutinės 14 dienų: kuo tamsesnė ląstelė, tuo daugiau spręsta. Tikslas – ne kiek, o kasdien.</p>
       <details style="margin-top:10px"><summary>Paskutinės 7 dienos po vieną</summary>
         <div class="ptable-wrap"><table class="ptable" aria-label="Paskutinės 7 dienos">
-          <thead><tr><th>Diena</th><th>Planas</th><th>Užd.</th><th>Tikslumas</th><th>Min</th><th>⭐</th></tr></thead>
+          <thead><tr><th>Diena</th><th>${young ? 'Spręsta' : 'Planas'}</th><th>Užd.</th><th>Tikslumas</th><th>Min</th><th>⭐</th></tr></thead>
           <tbody>${[6,5,4,3,2,1,0].map(i => { const k = dateKeyOffset(i); const a = store.activity[k]; const d = new Date(k + "T12:00"); const pd = store.planDone[k] || {}; const doneN = ['warmup','core','cooldown'].filter(x => pd[x]).length; const rest = !isTrainingDay(d);
-            return `<tr${i === 0 ? ' style="font-weight:600"' : ''}><td>${WEEKDAY_SHORT[d.getDay()]} ${k.slice(5)}</td><td>${rest ? '🛌' : doneN === 3 ? '✅' : doneN ? `${doneN}/3` : (a && a.answered ? '🟠' : '–')}</td><td>${a && a.answered ? a.answered : '–'}</td><td>${a && a.answered ? `${Math.round(100 * (a.correct || 0) / a.answered)} %` : '–'}</td><td>${activityMinutes(a) || '–'}</td><td>${(a && a.stars) || '–'}</td></tr>`; }).join('')}</tbody>
+            return `<tr${i === 0 ? ' style="font-weight:600"' : ''}><td>${WEEKDAY_SHORT[d.getDay()]} ${k.slice(5)}</td><td>${rest ? '🛌' : young ? (a && a.answered ? '✅' : '–') : doneN === 3 ? '✅' : doneN ? `${doneN}/3` : (a && a.answered ? '🟠' : '–')}</td><td>${a && a.answered ? a.answered : '–'}</td><td>${a && a.answered ? `${Math.round(100 * (a.correct || 0) / a.answered)} %` : '–'}</td><td>${activityMinutes(a) || '–'}</td><td>${(a && a.stars) || '–'}</td></tr>`; }).join('')}</tbody>
         </table></div>
-        <p class="help-bar" style="margin:4px 0 0">Planas: ✅ visi trys žingsniai, 🟠 spręsta be plano, 🛌 poilsio diena.</p>
+        <p class="help-bar" style="margin:4px 0 0">${young ? '✅ tą dieną spręsta, 🛌 poilsio diena.' : 'Planas: ✅ visi trys žingsniai, 🟠 spręsta be plano, 🛌 poilsio diena.'}</p>
       </details>
-      <details style="margin-top:6px"><summary>Visos gudrybės po vieną (${totalMechs})</summary>
+      <details ${young ? 'hidden ' : ''}style="margin-top:6px"><summary>Visos gudrybės po vieną (${totalMechs})</summary>
         <div class="ptable-wrap"><table class="ptable" aria-label="Gudrybės">
           <thead><tr><th>Gudrybė</th><th>Lygis</th><th>Būsena</th><th>Bandymai</th><th>Klaidų</th></tr></thead>
           <tbody>${trackMechanics().map(m => { const ms = store.mechStats[m] || {}; let at = 0, wr = 0; for(const b of [3,4,5]){ if(ms[b]){ at += ms[b].attempts; wr += ms[b].wrong; } }
@@ -7955,13 +8361,13 @@ function renderParent(){
         </div>`;
       }).join('')}
     </section>` : `
-    <section class="card">
+    <section class="card"${young ? ' hidden' : ''}>
       <h3>Silpnesnės gudrybės</h3>
       <p class="empty">Statistikos kol kas neužtenka. Vaikui reikia atsakyti bent į 4 tos pačios gudrybės uždavinius, kad pamatytume tendenciją.</p>
     </section>`}
 
     ${(() => {
-      const ms = Object.values(store.mistakes || {});
+      const ms = shownMistakes();
       if(!ms.length) return '';
       const open = ms.filter(m => !m.fixedAt), fixed = ms.length - open.length;
       const repeat = open.filter(m => (m.times || 0) >= 2).length;
@@ -7969,7 +8375,7 @@ function renderParent(){
       <h3>📒 Klaidų sąsiuvinis</h3>
       <p style="margin:0 0 8px">Neištaisytų: <b>${open.length}</b> · ištaisytų: <b>${fixed}</b>${repeat ? ` · <span style="color:var(--bad)">kartojasi: <b>${repeat}</b></span>` : ''}</p>
       <p class="help-bar" style="margin:0 0 8px">Pasikartojanti klaida (tas pats uždavinys 2+ kartus) – geriausia vieta pasikalbėti kartu: paprašykite vaiko paaiškinti savo kelią.</p>
-      ${(() => { const cnt = {}; for(const m of ms) for(const [r, n] of Object.entries(m.reasons || {})) cnt[r] = (cnt[r] || 0) + n;
+      ${(() => { const cnt = {}; for(const m of ms) if(/^\d/.test(String(m.year))) for(const [r, n] of Object.entries(m.reasons || {})) cnt[r] = (cnt[r] || 0) + n;   // Bičiulis only: the advice below is about its tricks
         const tot = Object.values(cnt).reduce((a, b) => a + b, 0);
         if(tot < 3) return '';
         const top = Object.entries(cnt).sort((a, b) => b[1] - a[1]);
@@ -8039,6 +8445,7 @@ function renderParent(){
           <li><b>Planas</b> (📅): įrašykite konkurso datą – kasdien ~20–30 min: apšilimas → gudrybė → atpažinimas. Kas savaitę – kontrolinis.</li>
           <li><b>Kontrolinis ant popieriaus</b> (🖨): tikras konkursas yra popierinis. Atspausdinkite, spręskite su laikrodžiu, atsakymus suveskite – programa įvertins kaip įprastą kontrolinį.</li>
           <li><b>Klaidų sąsiuvinis</b> (📒): visos klaidos vienoje vietoje; „Klaidų lapą“ galima atsispausdinti savaitgaliui.</li>
+          ${LEVEL_TABS.length ? `<li><b>Nykštukas, Mažylis ir Kadetas</b> (🌱 🐣 🚀): papildomi tikrų „Kengūros“ uždavinių rinkiniai – visi 1–2 kl. ir 3–4 kl. konkursų uždaviniai ir sunkesni 7–8 kl. uždaviniai (3–4 t.). Į planą, kontrolinius ir gudrybių statistiką jie neįtraukiami.</li>` : ''}
           <li><b>Kiekvienas uždavinys turi vaikui parašytą sprendimą</b> ir „Tavo klaida“ paaiškinimą; oficialus sprendimas – po vienu paspaudimu.</li>
           <li><b>Užuominos</b> eina nuo bendros iki šio uždavinio idėjos – verta skatinti jas naudoti prieš žiūrint sprendimą.</li>
           <li><b>Po kontrolinio</b> – „Kur dingo laikas“ ir „Strategijos pastabos“: pažiūrėkite kartu, kur prarasta daugiausia taškų ir minučių.</li>
@@ -8057,7 +8464,7 @@ function renderParent(){
         <button class="btn small primary" id="exportBtn">⬇ Eksportuoti progresą (.json)</button>
         <label class="btn small" style="cursor:pointer">⬆ Importuoti iš failo <input type="file" id="importFile" accept="application/json,.json" class="sr-only"></label>
       </div>
-      <p class="help-bar" style="margin:10px 0 0">Kelionei be interneto: paveikslėliai įsimenami tik juos pamačius. Šis mygtukas iš karto atsisiunčia visus (~24 MB).</p>
+      <p class="help-bar" style="margin:10px 0 0">Kelionei be interneto: paveikslėliai įsimenami tik juos pamačius. Šis mygtukas iš karto atsisiunčia visus (~90 MB, apie 2 400 paveikslėlių – geriau per „Wi-Fi“).</p>
       <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="offlineAllBtn">📥 Paruošti visus uždavinius be interneto</button><span class="help-bar" id="offlineAllStatus" style="margin:0"></span></div>
     </section>
   `;
@@ -8093,7 +8500,7 @@ function renderParent(){
   const parentMistakeSheet = document.getElementById("parentMistakeSheet");
   if(parentMistakeSheet) parentMistakeSheet.addEventListener("click", ()=>{
     const items = Object.values(store.mistakes || {}).filter(m => !m.fixedAt).map(m => {
-      const t = ARCHIVE.find(t => String(t.year) === String(m.year)); const q = t && t.questions.find(q => q.num === m.num);
+      const t = findPaper(m.year); const q = t && t.questions.find(q => q.num === m.num);
       return q ? {m, q} : null; }).filter(Boolean).sort((a, b) => b.m.lastWrong - a.m.lastWrong).slice(0, 20);
     printMistakeSheet(items, openParent);
   });
@@ -8103,9 +8510,11 @@ function renderParent(){
   if(offlineAllBtn) offlineAllBtn.addEventListener("click", async ()=>{
     const status = document.getElementById("offlineAllStatus");
     offlineAllBtn.disabled = true;
-    const all = ARCHIVE.flatMap(t => t.questions);
+    // + the neighbour-level papers: their questions and the solution pictures
+    const all = [...ARCHIVE.flatMap(t => t.questions), ...EXTRA_PAPERS.flatMap(t => t.questions),
+                 ...EXTRA_PAPERS.flatMap(t => t.questions.filter(q => q.solutionFigure).map(q => ({figure: q.solutionFigure})))];
     const done = await prefetchFigures(all, n => { if(status) status.textContent = `${n} / ${all.length}…`; });
-    if(status) status.textContent = done === all.length ? `✓ Visi ${all.length} paveikslėliai paruošti` : `Paruošta ${done} iš ${all.length} – patikrink ryšį ir bandyk dar kartą`;
+    if(status) status.textContent = done === all.length ? `✓ Visi ${all.length} paveikslėliai paruošti` : `Paruošta ${done} iš ${all.length} – patikrinkite ryšį ir bandykite dar kartą`;
     offlineAllBtn.disabled = false;
   });
   const importFile = document.getElementById("importFile");
@@ -8141,6 +8550,7 @@ function renderParent(){
   });
   const bind = (id, key, invert) => { const el = document.getElementById(id); if(el) el.addEventListener("change", e => { store.settings[key] = invert ? !e.target.checked : !!e.target.checked; saveStore(store); }); };
   bind("pAskConf", "askConfidence"); bind("pNegScore", "negativeScore"); bind("pSound", "sound");
+  { const pg = document.getElementById("pGrade"); if(pg) pg.addEventListener("change", () => { setKidLevel(pg.value); renderParent(); }); }
   const pinSet = document.getElementById("pPinSet");
   if(pinSet) pinSet.addEventListener("click", ()=>{
     const v = String((document.getElementById("pPinNew") || {}).value || "").trim();
@@ -8933,7 +9343,7 @@ function renderPlaylistQuestion(item, opts){
     </button>`;
   }).join("");
   const imageHint = isImageOnly
-    ? `<p class="help-bar" style="margin:0 0 6px"><b>Atsakymai – paveikslėlyje.</b> Pažymėk raidę pagal pasirinktą pavyzdį.</p>`
+    ? `<p class="help-bar img-opt-help" style="margin:0 0 6px"><b>Atsakymai – paveikslėlyje.</b> Pažymėk raidę pagal pasirinktą pavyzdį.</p>`
     : (q.hasMissingOptionText ? `<p class="help-bar" style="margin:0 0 6px">Kai kurie atsakymai – paveikslėlyje (be teksto). Pažymėk raidę.</p>` : '');
   const showHint = mode === "try" && !submitted && state.playlistHintShown[k];
   // try step: the clock for the try-first friction starts when the problem is first shown
@@ -9930,7 +10340,7 @@ function wireSketch(){
       const c = document.createElement("canvas");
       c.className = "sketch";
       c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr);
-      c.style.left = (r.left - fr.left) + "px"; c.style.top = (r.top - fr.top) + "px";
+      c.style.left = (r.left - fr.left + (fig.scrollLeft || 0)) + "px"; c.style.top = (r.top - fr.top + (fig.scrollTop || 0)) + "px";
       c.style.width = r.width + "px"; c.style.height = r.height + "px";
       c.setAttribute("aria-label", "Piešimo lapas ant paveikslėlio");
       fig.appendChild(c);
@@ -9982,6 +10392,18 @@ function wireSketch(){
 }
 function wireFigureZoom(){
   if(typeof document === "undefined" || !document.addEventListener) return;
+  // "⤢ Visas" under a neighbour-level figure: fit it to the width / back to the readable size
+  document.addEventListener("click", e => {
+    const b = e.target && e.target.closest && e.target.closest("[data-fit]");
+    if(!b) return;
+    const fig = b.closest(".fig-tools") && b.closest(".fig-tools").previousElementSibling;
+    if(!fig || !fig.classList.contains("lvl-fig")) return;
+    if(fig.querySelector("canvas")){ try { showToast("✏️", "Pirma baik piešti („✓ Baigti piešti“) – tada galėsi keisti paveikslėlio dydį.", 2600); } catch(_){} return; }   // the pad is sized to the picture as it is
+    const on = fig.classList.toggle("fit");
+    state.figFit = state.figFit || {}; state.figFit[b.dataset.fit] = on;      // kept across re-renders (memory only)
+    b.textContent = on ? "↔ Didesnis" : "⤢ Visas";
+    if(!on) fig.scrollLeft = 0;
+  });
   document.addEventListener("click", e => {
     const img = e.target && e.target.closest && e.target.closest(".figure img");
     if(!img || document.querySelector(".fig-zoom")) return;
@@ -10567,7 +10989,7 @@ function rewardsCardHTML(){
   return `
     <section class="card reward-card">
       <h3>🏁 Žaidimų iššūkis</h3>
-      <p style="margin-top:0">5 uždaviniai (${planPhase() === 'foundation' && masteredCount() < 5 ? '3–4' : '4–5'} t.). Bent <b>3 teisingi</b> – atrakinsi žaidimus. Daugiau teisingų – daugiau gyvybių.</p>
+      <p style="margin-top:0">5 uždaviniai (${kidLevel() !== 'B' ? `iš „${(LEVEL_TABS.find(l => l.id === kidLevel()) || {}).gen}“ konkursų` : `${planPhase() === 'foundation' && masteredCount() < 5 ? '3–4' : '4–5'} t.`}). Bent <b>3 teisingi</b> – atrakinsi žaidimus. Daugiau teisingų – daugiau gyvybių.</p>
       <div class="top-stats" style="margin-bottom:10px">
         <span class="pill" title="Iš uždavinių: ${s.fromQ||0} · iš laiko: ${s.fromTime||0} · premijos: ${s.fromBonus||0}">⭐ ${s.total||0} ${pluralForm(s.total||0,'žvaigždė','žvaigždės','žvaigždžių')}</span>
         <span class="pill good">🏆 Pasiekimai: ${unlocked}/${ACHIEVEMENTS.length}</span>
@@ -10610,6 +11032,13 @@ function rewardsCardHTML(){
    the gate also admits 3-pointers so a beginner can actually reach the
    game in week 1; from the build phase on it is 4/5-pt only. */
 function buildRacePool(){
+  if(kidLevel() !== 'B'){
+    // a younger child: the gate comes from their own papers
+    const pool = [];
+    for(const t of (LEVEL_SETS[kidLevel()] || {}).papers || [])
+      for(const q of t.questions) if(q.correct) pool.push(Object.assign({}, q, {year: t.year}));
+    return pool;
+  }
   const easyGate = planPhase() === "foundation" && masteredCount() < 5;
   const pool = [];
   const reserved = new Set(reservedYears().map(String));
@@ -10652,7 +11081,7 @@ function gateTriesLeft(){
 }
 function openRaceChallenge(){
   if(gateTriesLeft() <= 0){
-    showToast("🏁", "Šiandien iššūkį jau bandei 3 kartus. Rytoj – vėl. Šiandien gali spręsti pagal planą.", 5000);
+    showToast("🏁", kidLevel() === 'B' ? "Šiandien iššūkį jau bandei 3 kartus. Rytoj – vėl. Šiandien gali spręsti pagal planą." : "Šiandien iššūkį jau bandei 3 kartus. Rytoj – vėl. Šiandien gali spręsti savo uždavinius.", 5000);
     return;
   }
   const pool = buildRacePool();
@@ -10672,6 +11101,8 @@ function openRaceChallenge(){
   const fives = freshFirst(shuffleInPlace(pool.filter(q => q.points === hiBand))).slice(0, 3);
   const fours = freshFirst(shuffleInPlace(pool.filter(q => q.points === hiBand - 1))).slice(0, 5);
   let chosen = [...fives, ...fours];
+  if(kidLevel() !== 'B')        // younger child: two easy, two middle, one hard
+    chosen = [...freshFirst(shuffleInPlace(pool.filter(q => q.points === 3))).slice(0, 2), ...freshFirst(shuffleInPlace(pool.filter(q => q.points === 4))).slice(0, 2), ...fives.slice(0, 1)];
   // De-dup by year+num, then trim/refill to exactly 5.
   const seen = new Set();
   chosen = chosen.filter(q => { const k = `${q.year}-${q.num}`; if(seen.has(k)) return false; seen.add(k); return true; });
@@ -10733,7 +11164,7 @@ function renderRaceChallenge(){
       <div class="qmeta">
         <b>${idx+1} / 5</b>
         <span class="pill ${q.points===5?'bad':''}">${q.points} t.</span>
-        <span class="pill muted">${escapeHTML(q.year)} m.</span>
+        <span class="pill muted">${escapeHTML(paperYearText(q.year))}</span>
       </div>
       ${questionBodyHTML(q, {lazy:false})}
       ${imageOnly?`<p class="help-bar">Atsakymai – paveikslėlyje. Rink raidę A–E.</p>`:''}
@@ -11324,6 +11755,14 @@ function kidSolutionHTML(t, opts){
 /* One place that decides what a solution box shows: the kid solution, else
    the official one (labelled), else AI text as the last resort. */
 function solutionBlockHTML(q, aiText, isAi){
+  // neighbour levels: the booklet's solution as printed (its drawings and the
+  // little symbols inside the lines do not survive as text)
+  // …with a kid solution (2026-11-24, Nykštukas and Mažylis) that one leads and the booklet page is one tap away
+  if(q.solutionFigure && q.solutionKid) return `<div class="kid-sol"><b>Sprendimas</b>${kidSolutionHTML(q.solutionKid)}</div>` +
+    `<details class="sol-official" style="margin-top:8px"><summary style="cursor:pointer">Oficialus sprendimas (iš konkurso knygelės)</summary><p class="help-bar sol-hint" style="margin:4px 0 0"><span class="ph">↔ Brauk į šoną arba paspausk, kad padidintum. </span>Ženklai knygelėje: <b>?</b> – greitas būdas, <b>!</b> – sprendimas, <b>!!</b> – kitas sprendimas.</p><div class="figure sol-figure" style="margin-top:6px"><img class="fig-focus" tabindex="0" role="button" loading="lazy" aria-label="Oficialus sprendimas – padidinti" src="${encodeURI(q.solutionFigure)}" alt="${escapeHTML((q.num ? q.num + ' uždavinio' : 'Uždavinio') + ' oficialus sprendimas')}" onload="if(window.matchMedia&&matchMedia('(max-width:599px)').matches)this.style.width=Math.round(this.naturalWidth*0.62)+'px'" onerror="var b=this.closest('.sol-figure'),h=b&&b.previousElementSibling;if(b)b.style.display='none';if(h&&h.classList.contains('sol-hint'))h.style.display='none'"></div>` +
+    (q.solution ? officialSolutionHTML(q.solution) : '') + `</details>`;
+  if(q.solutionFigure) return `<b>Oficialus sprendimas</b><p class="help-bar sol-hint" style="margin:4px 0 0"><span class="ph">↔ Brauk į šoną arba paspausk, kad padidintum. </span>Ženklai knygelėje: <b>?</b> – greitas būdas, <b>!</b> – sprendimas, <b>!!</b> – kitas sprendimas.</p><div class="figure sol-figure" style="margin-top:6px"><img class="fig-focus" tabindex="0" role="button" loading="lazy" aria-label="Oficialus sprendimas – padidinti" src="${encodeURI(q.solutionFigure)}" alt="${escapeHTML((q.num ? q.num + ' uždavinio' : 'Uždavinio') + ' oficialus sprendimas')}" onload="if(window.matchMedia&&matchMedia('(max-width:599px)').matches)this.style.width=Math.round(this.naturalWidth*0.62)+'px'" onerror="var b=this.closest('.sol-figure'),h=b&&b.previousElementSibling,d=b&&b.nextElementSibling;if(b)b.style.display='none';if(h&&h.classList.contains('sol-hint'))h.style.display='none';if(d&&d.tagName==='DETAILS')d.open=true"></div>` +
+    (q.solution ? `<details style="margin-top:8px"><summary style="cursor:pointer">Sprendimas tekstu (be brėžinių)</summary>${officialSolutionHTML(q.solution)}</details>` : '');
   if(q.solutionKid) return `<div class="kid-sol"><b>Sprendimas</b>${kidSolutionHTML(q.solutionKid)}</div>` +
     (q.solution ? `<details style="margin-top:8px"><summary style="cursor:pointer">Oficialus sprendimas${/(^|\s)\?\s/.test(q.solution) ? ' (yra greitas būdas)' : ''}</summary>${officialSolutionHTML(q.solution)}${/(^|\s)\?\s/.test(q.solution) ? `<p class="help-bar" style="margin:8px 0 0">🔀 Palygink abu kelius: kuris greitesnis konkurse? Kada tiktų kitas?</p>` : ''}</details>` : '');
   if(q.solution) return officialSolutionHTML(q.solution);
@@ -11355,12 +11794,14 @@ function questionBodyHTML(q, opts){
   const text = `<div class="qprompt">${escapeHTML(q.prompt)}</div>`;
   if(!q.figure) return text;
   const alt = opts.alt || `${q.num ? q.num + ' uždavinys' : 'Uždavinys'} – originalus tekstas ir paveikslėlis`;
-  const fig = `<div class="figure"><img class="fig-focus" tabindex="0" role="button" aria-label="${escapeHTML(alt ? alt + ' – padidinti' : 'Padidinti paveikslėlį')}" src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'}></div><div class="fig-tools"><span class="fig-zoom-hint">🔍 Paspausk paveikslėlį, kad padidintum</span>${opts.draw === false ? '' : `<button type="button" class="btn small ghost" data-draw="${escapeHTML(encodeURI(q.figure))}" aria-pressed="false">✏️ Piešti</button>`}</div>`;
+  const fitOn = !!(q.level && state.figFit && state.figFit[q.figure]);
+  const fig = `<div class="figure${q.level ? ' lvl-fig' : ''}${fitOn ? ' fit' : ''}"><img class="fig-focus" tabindex="0" role="button" aria-label="${escapeHTML(alt ? alt + ' – padidinti' : 'Padidinti paveikslėlį')}" src="${encodeURI(q.figure)}" alt="${escapeHTML(alt)}" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"${opts.lazy === false ? '' : ' loading="lazy"'} ${q.level ? ` onload="if(window.matchMedia&&matchMedia('(max-width:599px)').matches)this.style.width=Math.max(this.parentElement.clientWidth,Math.round(this.naturalWidth*0.42))+'px'"` : ''} onerror="var f=this.closest('.figure');if(f){f.classList.add('fig-failed');var c=f.parentElement,d=c&&c.querySelector('details[data-qtext]');if(d&&!d.open){d.dataset.auto='1';d.open=true}}"></div><div class="fig-tools"><span class="fig-zoom-hint">${q.level ? '<span class="ph">↔ Brauk į šoną arba paspausk, kad padidintum</span><span class="no-ph">🔍 Paspausk paveikslėlį, kad padidintum</span>' : '🔍 Paspausk paveikslėlį, kad padidintum'}</span>${q.level ? `<button type="button" class="btn small ghost ph" data-fit="${escapeHTML(q.figure)}">${fitOn ? '↔ Didesnis' : '⤢ Visas'}</button>` : ''}${opts.draw === false ? '' : `<button type="button" class="btn small ghost" data-draw="${escapeHTML(encodeURI(q.figure))}" aria-pressed="false">✏️ Piešti</button>`}</div>`;
   // On a phone the figure's print is too small to read, so the text starts
   // open there; an explicit choice (either way) wins.
   const pref = store.settings ? store.settings.showQText : null;
   const narrow = typeof window !== "undefined" && window.innerWidth > 0 && window.innerWidth < 600;
-  const open = pref != null ? !!pref : narrow;
+  // picture options: the answers are in the figure – the typed prompt would only push the letters away
+  const open = pref != null ? !!pref : (narrow && !q.imageOnlyOptions);
   // data-auto marks an element created open: browsers fire one "toggle" for
   // it right after parsing, which must not be taken for the kid's choice
   return `${fig}<details class="qtext" data-qtext${open ? ' open data-auto="1"' : ''}><summary><span class="qtext-aa">Aa</span> <span class="qtext-lbl"></span></summary>${text}</details>`;

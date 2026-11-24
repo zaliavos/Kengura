@@ -66,6 +66,8 @@ const localStorageStub = {
 const archiveSrc = fs.readFileSync(path.join(__dirname, "kengura-archive.js"), "utf8");
 new Function("window", archiveSrc)(windowStub);
 check("archive loads", windowStub.KENGURA_ARCHIVE && Array.isArray(windowStub.KENGURA_ARCHIVE.archive));
+new Function("window", fs.readFileSync(path.join(__dirname, "kengura-levels.js"), "utf8"))(windowStub);
+check("neighbour levels load", windowStub.KENGURA_LEVELS && windowStub.KENGURA_LEVELS.levels && windowStub.KENGURA_LEVELS.levels.M && windowStub.KENGURA_LEVELS.levels.K);
 
 // ---------- extract + run the app script ----------
 const html = fs.readFileSync(path.join(__dirname, "kengura.html"), "utf8");
@@ -73,7 +75,7 @@ const m = html.match(/<script>\s*("use strict";[\s\S]*?)<\/script>\s*<\/body>/);
 if(!m){ console.error("FAIL  could not extract inline script from kengura.html"); process.exit(1); }
 
 const EXPORTS = `
-return {GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
+return {kidLevel, setKidLevel, homeTabs, GRADE_OPTS, kidSolutionParts, renderParent, storeWeight, topUpQueueFromNotebook, LEVEL_SETS, LEVEL_TABS, EXTRA_PAPERS, findPaper, paperYearText, levelEqBand, openArchiveYear, renderMistakeBook, renderHome, HOME_TABS, GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         generateKenguraQuiz, getGenDiff, ARCHIVE, aiBuildOpts,
         pickPracticeFor, findSimilarArchive, MECH_BAND_INDEX,
         MECHANIC_HINTS, MECHANIC_METHODOLOGY, MECHANIC_LABEL, GEN_MECHANIC,
@@ -208,6 +210,9 @@ for(const t of ARCHIVE) for(const q of t.questions){
   }
   // no orphan PNGs (a cut fragment, figures/2019-q66.png, lay there unused)
   const used = new Set(ARCHIVE.flatMap(t => t.questions.map(q => q.figure)).filter(Boolean).map(f => path.basename(f)));
+  for(const L of Object.values(windowStub.KENGURA_LEVELS.levels)) for(const t of L.papers) for(const q of t.questions){
+    if(q.figure) used.add(path.basename(q.figure)); if(q.solutionFigure) used.add(path.basename(q.solutionFigure));
+  }
   const orphans = fs.readdirSync(path.join(__dirname, "figures")).filter(f => f.endsWith(".png") && !used.has(f) && !f.startsWith("2006-"));   // 2006 (Mažylis) is kept but not served
   check("no unused figure files", orphans.length === 0, orphans.join(" "));
 }
@@ -1341,6 +1346,268 @@ section("after the contest");
   st.plan.contestDate = saved; delete st.plan.actualScore;
 }
 
+section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
+{
+  const st = app.state, store = app.store;
+  const snap = JSON.stringify(store);
+  const M = app.LEVEL_SETS.M, K = app.LEVEL_SETS.K;
+  check("Mažylis: 13 whole papers of 24", M.papers.length === 13 && M.papers.every(t => t.questions.length === 24 && t.questions.every((q, i) => q.num === i + 1 && q.points === (q.num <= 8 ? 3 : q.num <= 16 ? 4 : 5))));
+  { const N = app.LEVEL_SETS.N;
+    check("Nykštukas: 14 whole papers of 18", N.papers.length === 14 && N.papers.every(t => t.level === "N" && t.questions.length === 18 && t.questions.every((q, i) => q.num === i + 1 && q.points === (q.num <= 6 ? 3 : q.num <= 12 ? 4 : 5))));
+    check("Nykštukas and Mažylis pay like a Bičiulis 3-pointer", [3, 4, 5].every(pt => app.levelEqBand({level: "N", points: pt}) === 3 && app.levelEqBand({level: "M", points: pt}) === 3));
+    check("Nykštukas paper name", app.paperYearText("N2026") === "Nykštukas 2026 m." && app.findPaper("N2026").level === "N"); }
+  check("Kadetas: 14 papers of 20 three- and four-pointers", K.papers.length === 14 && K.papers.every(t => t.questions.length === 20 && t.questions.every(q => q.points === (q.num <= 10 ? 3 : 4) && q.num >= 1 && q.num <= 20)));
+  const bad = [];
+  const seenFig = new Map();
+  for(const t of app.EXTRA_PAPERS){
+    if(!/^[NMK]\d{4}$/.test(t.year) || app.ARCHIVE.some(a => String(a.year) === t.year)) bad.push(`${t.year}: id`);
+    for(const q of t.questions){
+      const id = `${t.year}-${q.num}`;
+      if(!/^[A-E]$/.test(q.correct || "")) bad.push(`${id}: key`);
+      if(Object.keys(q.options).join("") !== "ABCDE") bad.push(`${id}: options`);
+      if(q.imageOnlyOptions ? Object.values(q.options).some(v => v) : Object.values(q.options).filter(v => v).length < (q.hasMissingOptionText ? 1 : 5)) bad.push(`${id}: option flags`);
+      if(q.level !== t.level || q.mechanic) bad.push(`${id}: level/mechanic`);
+      if(!q.prompt || /[\u0000-\u001f\u02c7\u02d9\u02db\u00af\uf000-\uf8ff]/.test(q.prompt + q.solution + Object.values(q.options).join(""))) bad.push(`${id}: text`);
+      for(const f of [q.figure, q.solutionFigure]){
+        const fp = f && path.join(__dirname, f);
+        if(!fp || !fs.existsSync(fp) || fs.statSync(fp).size < 500) bad.push(`${id}: file ${f}`);
+      }
+      const h = require("crypto").createHash("md5").update(fs.readFileSync(path.join(__dirname, q.figure))).digest("hex");
+      if(seenFig.has(h)) bad.push(`${id}: figure copies ${seenFig.get(h)}`);
+      seenFig.set(h, id);
+    }
+  }
+  check("every neighbour-level question has a key, options, a figure and a solution picture", bad.length === 0, bad.slice(0, 12).join(" | "));
+  check("Bičiulis archive holds no neighbour-level question", app.ARCHIVE.every(t => t.questions.every(q => !q.level)));
+  check("findPaper resolves both kinds", app.findPaper("2024").year === "2024" && app.findPaper("K2024").level === "K" && app.findPaper("X1") === null);
+  check("paper names", app.paperYearText("2024") === "2024 m." && app.paperYearText("K2024") === "Kadetas 2024 m." && app.paperYearText("M2019") === "Mažylis 2019 m.");
+  check("stars in Bičiulis terms", app.levelEqBand({level: "M", points: 5}) === 3 && app.levelEqBand({level: "K", points: 3}) === 4 && app.levelEqBand({level: "K", points: 4}) === 5);
+  st.view = "home"; st.homeTab = "today"; app.renderHome();
+  let h = app.$app.innerHTML;
+  { // Nykštukas / whole-paper Mažylis (2026-11-23)
+    const paneOf = id => { const i = h.indexOf(`data-level-years="${id}"`); return h.slice(i, h.indexOf("</section>", i)); };
+    check("the younger panes do not point to the Bičiulis plan; every block pays one star",
+      ["N", "M"].every(id => !paneOf(id).includes("Šiandienos planas dar nebaigtas") && paneOf(id).includes("Už kiekvieną atsakytą uždavinį – 1 ⭐.") && (paneOf(id).match(/class="btn primary"/g) || []).length === 1));
+    check("pane totals", paneOf("N").includes("252 uždaviniai") && paneOf("M").includes("312 uždavinių"), paneOf("M").slice(0, 600));
+    const keep = JSON.stringify(store), np = app.findPaper("N2026"), nq = np.questions[2];
+    const mech0 = JSON.stringify([store.mechStats, store.dueQueue]);
+    app.openArchiveYear("N2026");
+    check("a Nykštukas paper opens with 18 cards and no trick tools", st.view === "archiveYear" && (app.$app.innerHTML.match(/class="card archive-card"/g) || []).length === 18 && !app.$app.innerHTML.includes('data-action="hint"') && !/undefined|NaN/.test(app.$app.innerHTML));
+    app.recordArchiveAnswer("N2026", nq, false, null);
+    check("a Nykštukas miss: notebook + level stats, no trick stats, no review queue",
+      !!store.mistakes[`N2026-${nq.num}`] && store.levelStats.N.a === 1 && store.levelStats.N.ok === 0 && JSON.stringify([store.mechStats, store.dueQueue]) === mech0);
+    app.renderMistakeBook();
+    check("the notebook names the Nykštukas paper", app.$app.innerHTML.includes("Nykštukas 2026 m.") && !/undefined|NaN/.test(app.$app.innerHTML));
+    for(const k of Object.keys(store)) delete store[k];
+    Object.assign(store, JSON.parse(keep));
+    st.view = "home"; st.homeTab = "today"; app.renderHome(); h = app.$app.innerHTML;
+  }
+  { // the child's own grade (2026-11-24)
+    const keep = JSON.stringify(store);
+    const tabsIn = html => [...html.matchAll(/class="tab[^"]*" data-tab="([a-z]+)"/g)].map(m => m[1]).join();
+    check("no grade chosen = the Bičiulis app", app.kidLevel() === "B" && app.homeTabs() === app.HOME_TABS && tabsIn(h) === app.HOME_TABS.map(t => t.id).join(), tabsIn(h));
+    app.setKidLevel("N"); app.renderHome(); let g = app.$app.innerHTML;
+    check("a 1–2 grade child sees own set, the next set and the prizes", app.kidLevel() === "N" && tabsIn(g) === "nykstukas,mazylis,me" && st.homeTab === "nykstukas", tabsIn(g));
+    check("…and opens on the own pane, with no Bičiulis pane showing", /data-pane="nykstukas">/.test(g) && /data-pane="today" hidden/.test(g) && /data-pane="tests" hidden/.test(g) && !/undefined|NaN/.test(g));
+    check("the own pane is not called an extra", !g.slice(g.indexOf('data-level-years="N"'), g.indexOf('data-level-years="M"')).includes("papildoma treniruotė"));
+    st.homeTab = "tests"; app.renderHome();
+    check("a tab the child does not have falls back to the own one", st.homeTab === "nykstukas");
+    const pool = app.buildRacePool();
+    check("the game challenge draws from the child's own papers", pool.length === 252 && pool.every(q => q.level === "N" && /^N\d{4}$/.test(q.year)));
+    app.openRaceChallenge();
+    check("…two easy, two middle, one hard", st.view === "raceChallenge" && st.raceQs.length === 5 && st.raceQs.map(q => q.points).sort().join() === "3,3,4,4,5" && app.$app.innerHTML.includes("Nykštukas ") && !/undefined|NaN/.test(app.$app.innerHTML), st.raceQs.map(q => q.points).join());
+    const tips = app.parentAdvice();
+    check("parent advice for a younger child names no plan, date or trick", tips.length >= 1 && tips.every(t => !/konkurso dat|gudryb|kontrolin|sprint/i.test(t.text)), JSON.stringify(tips));
+    st.view = "parent"; app.renderParent(); g = app.$app.innerHTML;
+    check("parent view: grade select and a header without the contest line", g.includes('id="pGrade"') && /<option value="N" selected>/.test(g) && g.includes("1–2 klasė („Nykštukas“)") && !/undefined|NaN/.test(g));
+    app.setKidLevel("M"); st.view = "home"; app.renderHome(); g = app.$app.innerHTML;
+    check("a 3–4 grade child: Mažylis first", tabsIn(g) === "mazylis,nykstukas,me" && st.homeTab === "mazylis" && app.buildRacePool().length === 312);
+    app.setKidLevel("B"); app.renderHome();
+    check("back to 5–6: all tabs, today first", st.homeTab === "today" && tabsIn(app.$app.innerHTML) === app.HOME_TABS.map(t => t.id).join());
+    for(const k of Object.keys(store)) delete store[k];
+    Object.assign(store, JSON.parse(keep));
+    // kid solutions of the younger levels
+    const bad = [];
+    let nNotes = 0;
+    for(const L of ["N", "M", "K"]) for(const t of app.LEVEL_SETS[L].papers) for(const q of t.questions){
+      const k = q.solutionKid, id = `${t.year}-${q.num}`;
+      if(!k){ bad.push(id + " none"); continue; }
+      const parts = app.kidSolutionParts(k);
+      if(!parts.trick || !parts.paras.length) bad.push(id + " shape");
+      const m = /\sAtsakymas:\s*([A-E])\)[^]*$/.exec(k);
+      if(!m || m[1] !== q.correct) bad.push(id + " key");
+      if(/Atsakymas:[^]*Atsakymas:/.test(k)) bad.push(id + " two answer lines");
+      if(/["”—]|\s-\s|[\u0000-\u001f]|\btriuk|užduot|!/.test(k) || (/\bx\b/.test(k) && !/\bx\b/.test(q.prompt))) bad.push(id + " style");
+      if(k.length > (L === "N" ? 620 : L === "M" ? 820 : 1000)) bad.push(id + " long " + k.length);
+      for(const [letter, note] of Object.entries(q.misconceptions || {})){
+        nNotes++;
+        if(!/^[A-E]$/.test(letter) || letter === q.correct) bad.push(id + " note on " + letter);
+        if(typeof note !== "string" || note.length < 12 || note.length > 240 || /["”—!]|\s-\s|[\u0000-\u001f]|užduot|undefined/.test(note)) bad.push(id + " note " + letter + " text");
+      }
+    }
+    check("the levels carry 'your mistake' notes for wrong options only", nNotes > 1200, String(nNotes));
+    {
+      const mp = app.findPaper("N2013"), mq = mp.questions.find(x => x.misconceptions), wl = Object.keys(mq.misconceptions)[0];
+      app.openArchiveYear("N2013");
+      st.archiveAnswers = {[`N2013-${mq.num}`]: {firstWrong: wl}}; app.renderArchiveYear();
+      check("a first miss on a level card names the slip", app.$app.innerHTML.includes("Kur galėjo slėptis klaida:") && app.$app.innerHTML.includes(mq.misconceptions[wl].replace(/&/g, "&amp;").slice(0, 20)));
+      st.archiveAnswers = {};
+    }
+    check("every level question has a kid solution that ends on its key", bad.length === 0, bad.length + ": " + bad.slice(0, 15).join(" | "));
+    const kq = app.findPaper("N2026").questions[0], kb = app.solutionBlockHTML(kq);
+    check("level card: the kid solution leads, the booklet page is one tap away", kb.indexOf("kid-sol") >= 0 && kb.indexOf("kid-sol") < kb.indexOf("<details") && kb.includes("Oficialus sprendimas (iš konkurso knygelės)") && kb.includes(encodeURI(kq.solutionFigure)));
+    st.view = "home"; st.homeTab = "today"; app.renderHome(); h = app.$app.innerHTML;
+  }
+  check("three extra tabs with their panes", ["nykstukas", "mazylis", "kadetas"].every(id => h.includes(`data-tab="${id}"`) && h.includes(`data-pane="${id}"`)));
+  check("level panes list their papers, newest first", h.includes('data-year="N2026"') && h.includes('data-year="M2025"') && h.includes('data-year="K2026"') && h.indexOf('data-year="K2026"') < h.indexOf('data-year="K2013"'));
+  check("home has no leaks with the level panes", !/undefined|NaN/.test(h));
+  app.openArchiveYear("K2024"); h = app.$app.innerHTML;
+  check("a Kadetas paper opens in the archive view", st.view === "archiveYear" && h.includes("Kadetas") && (h.match(/class="card archive-card"/g) || []).length === 20 && !/undefined|NaN/.test(h));
+  check("no hint or trick-practice buttons on neighbour-level cards", !h.includes('data-action="hint"') && !h.includes("data-practice"));
+  const t = app.findPaper("K2024"), q = t.questions[4];
+  const lastDay = () => store.activity[Object.keys(store.activity).sort().pop()] || {};
+  const before = JSON.stringify([store.mechStats, store.dueQueue, lastDay().byBand || null, store.confStats]);
+  app.recordArchiveAnswer("K2024", q, false, "a");
+  check("a miss goes to the notebook and the level stats only",
+    !!store.mistakes[`K2024-${q.num}`] && store.levelStats.K.a === 1 && store.levelStats.K.ok === 0 && !!store.seenQ[`K2024-${q.num}`]);
+  const today = Object.keys(store.activity).sort().pop();
+  check("…and leaves trick stats, the review queue and block accuracy alone",
+    JSON.stringify([store.mechStats, store.dueQueue, lastDay().byBand || null, store.confStats]) === before && !Object.keys(store.dueQueue).some(k => k.startsWith("K")) && lastDay().lvl.a === 1);
+  // level stats count the first meeting only; a retry is practice, a fixed question pays nothing more
+  {
+    const ls0 = JSON.stringify(store.levelStats), stars0 = store.stars.total;
+    app.recordArchiveAnswer("K2024", q, true, null);            // the notebook retry of the miss above
+    check("a notebook retry fixes the mistake and pays, but is not a „first try“", JSON.stringify(store.levelStats) === ls0 && !!store.mistakes[`K2024-${q.num}`].fixedAt && store.stars.total > stars0);
+    const stars1 = store.stars.total;
+    app.recordArchiveAnswer("K2024", q, true, null);
+    check("re-solving a fixed level question pays nothing", store.stars.total === stars1 && JSON.stringify(store.levelStats) === ls0);
+    const q6 = t.questions[6], stars2 = store.stars.total, a0 = store.levelStats.K.a;
+    app.recordArchiveAnswer("K2024", q6, false, null, {gaveUp: true});
+    check("a shown solution is a miss without a star", store.stars.total === stars2 && store.levelStats.K.a === a0 + 1 && !!store.mistakes[`K2024-${q6.num}`]);
+    {
+      // "only unsolved": checked before the switch = hidden; checked after it = stays (list) / stays while on screen (one at a time)
+      const yr = "K2022", tp = app.findPaper(yr), k1 = `${yr}-1`, k2 = `${yr}-2`, list0 = store.settings.archiveList;
+      const cards = () => (app.$app.innerHTML.match(/class="card archive-card" tabindex="-1" data-year="K2022" data-qnum="\d+">/g) || []).length;
+      st.view = "home"; app.openArchiveYear(yr);
+      st.archiveAnswers[k1] = {chosen: "A", chosenLetter: "A", submitted: true};
+      st._archiveOnlyNew = true; st._archiveHide = {[k1]: 1};
+      store.settings.archiveList = true; app.openArchiveYear(yr);
+      const a = cards();
+      st.archiveAnswers[k2] = {chosen: "A", chosenLetter: "A", submitted: true}; app.openArchiveYear(yr);
+      const b = cards();
+      store.settings.archiveList = false; st.archiveFocus[yr] = 5; app.openArchiveYear(yr);
+      const hidden2 = /data-qnum="2" hidden/.test(app.$app.innerHTML) || !/data-year="K2022" data-qnum="2"/.test(app.$app.innerHTML);
+      check("„only unsolved“ hides what was checked before it and keeps what is checked under it", a === 19 && b === 19 && hidden2, `${a} ${b} ${hidden2}`);
+      delete st.archiveAnswers[k1]; delete st.archiveAnswers[k2]; st._archiveOnlyNew = false; st._archiveHide = {}; store.settings.archiveList = list0;
+      check("Enter on the chosen option checks the answer", html.includes('e.target.closest(".opt.selected") && c.querySelector("[data-action=submit]")'));
+    }
+    { const d = lastDay(); check("the level count of a day never exceeds its answered count", d.lvl.a <= d.answered, JSON.stringify(d)); }
+    check("no AI request for a level card; a late AI answer never draws over another view",
+      html.includes("!q.solutionKid && !q.solution && !q.level") && html.includes('if(state.view === "archiveYear" && state.archiveYear === year) renderArchiveYear(); }'));
+    check("second tries on level cards stay out of the parent's card", html.includes("if(!q.level) noteSecondTry(false)") && html.includes("!firstTry && !q.level) noteSecondTry(right)"));
+    check("a store with only mistakes is not „empty“", app.storeWeight({mistakes: {a: {}}}) === 1);
+    {
+      const sw = fs.readFileSync(path.join(__dirname, "sw.js"), "utf8");
+      const srcs = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]).filter(u => !/^https?:/.test(u));
+      check("every local script is in the service worker's shell list and is cached file by file",
+        srcs.length >= 2 && srcs.every(u => sw.includes(`"${u}"`) && fs.existsSync(path.join(__dirname, u))) && sw.includes("SHELL_URLS.map(u => c.add(u).catch"), srcs.join(" "));
+    }
+    delete store.mistakes[`K2024-${q6.num}`]; delete store.seenQ[`K2024-${q6.num}`]; store.levelStats.K.a = a0;
+    delete store.mistakes[`K2024-${q.num}`].fixedAt;           // the checks below expect the miss to be open
+  }
+  // the score pill must not tell whether a merely tapped option is right
+  {
+    const q9 = t.questions[9], k9 = `K2024-${q9.num}`;
+    st.archiveAnswers[k9] = {chosen: q9.correct, chosenLetter: q9.correct};
+    app.openArchiveYear("K2024");
+    check("a tapped (unchecked) option does not move the „x/y teisingai“ pill", !/class="pill[^"]*">\d+\/\d+ teisingai</.test(app.$app.innerHTML));
+    delete st.archiveAnswers[k9];
+    // the filter never strands the kid on an empty paper
+    st._archiveOnlyNew = true; st.view = "home"; app.openArchiveYear("K2023");
+    check("opening another paper switches the „only unsolved“ filter off", st._archiveOnlyNew === false && (app.$app.innerHTML.match(/class="card archive-card"/g) || []).length === 20);
+  }
+  st.archiveAnswers[`K2024-${q.num}`] = {submitted: true, chosen: "A", chosenLetter: q.correct === "A" ? "B" : "A"};
+  st.archiveFocus = st.archiveFocus || {}; st.archiveFocus.K2024 = q.num;
+  app.openArchiveYear("K2024"); h = app.$app.innerHTML;
+  check("the solution is shown as the booklet's picture", h.includes(encodeURI(q.solutionFigure)) && h.includes("Oficialus sprendimas"));
+  st.view = "mistakes"; app.renderMistakeBook(); h = app.$app.innerHTML;
+  check("notebook names the level paper", h.includes("Kadetas 2024 m.") && h.includes(`data-mistake="K2024-${q.num}"`) && !/undefined|NaN/.test(h));
+  // UX pass (2026-11-22): tab order, one primary action, no false promises, a help path
+  {
+    check("the extra sets are the last tabs (Prizai stays on screen)", app.HOME_TABS.map(t => t.id).join() === "today,learn,tests,practice,me,nykstukas,mazylis,kadetas");
+    st.view = "home"; st.homeTab = "kadetas"; app.renderHome(); let hh = app.$app.innerHTML;
+    const pane = hh.slice(hh.indexOf('data-pane="kadetas"'), hh.indexOf('data-pane="practice"') > hh.indexOf('data-pane="kadetas"') ? hh.indexOf('data-pane="practice"') : undefined);
+    const paneK = hh.slice(hh.indexOf('data-level-years="K"'));
+    check("level pane has exactly one primary action", (paneK.slice(0, paneK.indexOf("</section>")).match(/class="btn primary"/g) || []).length === 1 && /Tęsti: 2024 m\. \(1 iš 20\) →/.test(paneK), paneK.slice(0, 900).replace(/\s+/g, " ").slice(300, 700));
+    check("level pane says what the answers pay and what the numbers mean", /Už teisingą atsakymą – 2 ⭐ \(3 t\.\) arba 3 ⭐ \(4 t\.\)/.test(paneK) && paneK.includes("Skaičius prie metų") && hh.includes("Už kiekvieną atsakytą uždavinį – 1 ⭐."));
+    check("the archive tab points to the extra sets", hh.includes('data-goto-tab="nykstukas"') && hh.includes('data-goto-tab="mazylis"') && hh.includes('data-goto-tab="kadetas"'));
+    // a stuck kid gets self-questions and the solution without guessing wrong first
+    const q2 = t.questions[7], k2 = `K2024-${q2.num}`;
+    st.archiveFocus.K2024 = q2.num; delete st.archiveAnswers[k2];
+    app.openArchiveYear("K2024"); hh = app.$app.innerHTML;
+    check("level card offers „Užstrigai?“", hh.includes('data-action="stuck"') && !hh.includes('data-action="giveup"'));
+    st.archiveAnswers[k2] = {stuck: true}; app.openArchiveYear("K2024"); hh = app.$app.innerHTML;
+    check("…then self-questions with the way to the solution", hh.includes("Trys klausimai sau") && hh.includes('data-action="giveup"'));
+    const m0 = Object.keys(store.mistakes).length;
+    app.recordArchiveAnswer("K2024", q2, false, null);
+    st.archiveAnswers[k2] = {submitted: true, chosen: null, chosenLetter: null, gaveUp: true, tookSec: 200};
+    app.openArchiveYear("K2024"); hh = app.$app.innerHTML;
+    const cardOf = (h, n) => { const i = h.indexOf(`data-year="K2024" data-qnum="${n}"`); const j = h.indexOf('class="card archive-card"', i); return h.slice(i, j < 0 ? undefined : j); };
+    const own = cardOf(hh, q2.num);
+    check("a shown solution asks no „why did you slip“ and gives no „nearly“ opener", own.includes("Sprendimas parodytas.") && !own.includes("Kodėl, manai, suklydai?") && !own.includes("idėja arti") && !own.includes("Beveik."), own.slice(0, 200));
+    st._archiveOnlyNew = true; app.openArchiveYear("K2024"); let hf = app.$app.innerHTML;
+    check("…and stays on screen under „Tik neišspręsti“", new RegExp(`data-qnum="${q2.num}"(?! hidden)`).test(hf) && hf.includes("Sprendimas parodytas."));
+    st.archiveAnswers[k2] = {firstWrong: "A", chosen: null, chosenLetter: null}; app.openArchiveYear("K2024"); hf = app.$app.innerHTML;
+    check("a card after a first miss stays under „Tik neišspręsti“ too", hf.includes("Pabandyk dar kartą") && new RegExp(`data-qnum="${q2.num}"(?! hidden)`).test(hf));
+    st._archiveOnlyNew = false; st.archiveAnswers[k2] = {submitted: true, chosen: null, chosenLetter: null, gaveUp: true, tookSec: 200};
+    check("a shown solution is a miss, worded as such, with the booklet picture", Object.keys(store.mistakes).length === m0 + 1 && hh.includes("Sprendimas parodytas.") && hh.includes(encodeURI(q2.solutionFigure)) && hh.includes("Ženklai knygelėje"));
+    check("time budget is given in Bičiulis terms", /„Bičiulio“ konkurse panašaus sudėtingumo uždaviniui verta skirti iki ~/.test(hh) && !/konkurse \d t\. uždaviniui/.test(hh));
+    check("no promise of a review that never comes", !hh.includes("sugrįš jau rytoj") && !hh.includes("sugrįš pakartojimui"));
+    check("level figures scroll sideways on phones and stay out of the page swipe", hh.includes('class="figure lvl-fig"') && /closest\("[^"]*\.lvl-fig/.test(html) && !app.questionBodyHTML(app.ARCHIVE[5].questions[3]).includes("lvl-fig"));
+    app.openArchiveYear("M2025");
+    check("a Mažylis paper is a whole paper: 24 cards, starts at 1", (app.$app.innerHTML.match(/class="card archive-card"/g) || []).length === 24 && !app.$app.innerHTML.includes("17–24 uždaviniai") && !app.$app.innerHTML.includes('arch-strip few"'));
+    {
+      const hm = app.$app.innerHTML, mp0 = app.findPaper("M2025");
+      check("phone header of a level paper has a short title; the strip is one Tab stop", hm.includes('class="t-short">Mažylis 2025 m.<') && (hm.match(/class="contest-pip[^"]*"[^>]*tabindex="-1"/g) || []).length === 23);
+      st.figFit = {[mp0.questions[0].figure]: true}; app.openArchiveYear("M2025");
+    check("„⤢ Visas“ survives a re-render", /class="figure lvl-fig fit"/.test(app.$app.innerHTML) && app.$app.innerHTML.includes("↔ Didesnis"));
+    st.figFit = {};
+    check("level figures offer the scroll cue and the „whole picture“ switch", hm.includes("↔ Brauk į šoną arba paspausk") && hm.includes("data-fit") && !app.questionBodyHTML(app.ARCHIVE[5].questions[3]).includes("data-fit"));
+      const mp = app.findPaper("M2025"), saved = {};
+      for(const x of mp.questions){ saved[x.num] = st.archiveAnswers[`M2025-${x.num}`]; st.archiveAnswers[`M2025-${x.num}`] = {submitted: true, chosen: x.correct, chosenLetter: x.correct}; }
+      st.archiveFocus.M2025 = 24; app.openArchiveYear("M2025"); const he = app.$app.innerHTML;
+      check("the last question of a finished paper leads to the closing card", he.includes('id="archEnd"') && he.includes("🏁 „Mažylio“ 2025 m. uždaviniai išspręsti") && /id="archNext"[^>]* hidden/.test(he));
+      st.archiveFocus.M2025 = 20; app.openArchiveYear("M2025");
+      check("…and only the last one", !app.$app.innerHTML.includes('id="archEnd"'));
+      for(const x of mp.questions){ if(saved[x.num]) st.archiveAnswers[`M2025-${x.num}`] = saved[x.num]; else delete st.archiveAnswers[`M2025-${x.num}`]; }
+      delete st.archiveFocus.M2025;
+    }
+    check("level papers link to the booklets on kengura.lt", /href="https:\/\/www\.kengura\.lt\/uzduotys\/2025\/spE\.pdf"/.test(app.$app.innerHTML));
+    check("prompts keep no trace of lost inline pictures", app.EXTRA_PAPERS.every(t => t.questions.every(x => !/:\.|,,|, ir\.| \?$|▢/.test(x.prompt))));
+    check("the solution picture is outside the page-swipe area", /closest\("[^"]*\.sol-figure/.test(html));
+    delete st.archiveAnswers[k2];
+    app.openParent(); hh = app.$app.innerHTML;
+    check("parent view names the extra sets", hh.includes("Papildomi rinkiniai (iš viso): Kadetas 3–4 t.") && /Per pastarąsias 7 d\. – \d+ uždavin/.test(hh) && hh.includes("ne į planą") && !/undefined|NaN/.test(hh));
+  }
+  // old level mistakes must not use up the notebook's two daily review places
+  {
+    const old = Date.now() - 10 * 86400000;
+    for(const n of [1, 2, 3]) store.mistakes[`K2023-${n}`] = {year: "K2023", num: n, times: 1, first: old - n, lastWrong: old - n};
+    const bt = app.ARCHIVE.find(a => !app.reservedYears().map(String).includes(String(a.year)) && a.questions.filter(x => x.mechanic && x.correct).length >= 2);
+    const bq = bt.questions.filter(x => x.mechanic && x.correct).slice(0, 2);
+    for(const x of bq) store.mistakes[`${bt.year}-${x.num}`] = {year: String(bt.year), num: x.num, times: 1, first: old, lastWrong: old};
+    for(const k of Object.keys(store.dueQueue)) delete store.dueQueue[k];
+    delete store.plan.notebookTopUp;
+    const got = app.topUpQueueFromNotebook();
+    check("notebook top-up skips level mistakes and still queues two Bičiulis ones",
+      got === 2 && bq.every(x => store.dueQueue[`${bt.year}-${x.num}`]) && !Object.keys(store.dueQueue).some(k => /^[MK]/.test(k)), String(got));
+  }
+  delete st.archiveAnswers[`K2024-${q.num}`];
+  for(const k of Object.keys(store)) delete store[k];
+  Object.assign(store, JSON.parse(snap));
+  st.view = "home"; st.homeTab = "today";
+}
+
 section("home tabs");
 {
   app.state.view = "home"; app.state.homeTab = "today"; app.renderHome();
@@ -1421,7 +1688,7 @@ section("archive filter + parent summary");
   let h = app.$app.innerHTML;
   check("archive year offers the only-unsolved filter", h.includes('id="archOnlyNew"') && h.includes("Tik neišspręsti (28)") && (h.match(/class="card archive-card"/g) || []).length === 30);
   app.state._archiveOnlyNew = true; app.renderArchiveYear(); h = app.$app.innerHTML;
-  check("filter hides solved cards", (h.match(/class="card archive-card"/g) || []).length === 28 && h.includes("rodyti visus"));
+  check("filter hides solved cards", (h.match(/class="card archive-card"/g) || []).length === 28 && (h.includes("rodyti visus") || h.includes("✓ Tik neišspręsti (28)")) && h.includes('aria-pressed="true"'));
   app.state._archiveOnlyNew = false; delete app.store.seenQ[`${t.year}-1`]; delete app.store.seenQ[`${t.year}-2`];
   const txt = app.parentSummaryText();
   check("parent summary text has the week, mastery and advice lines", /savaitė \d\d-\d\d – \d\d-\d\d/.test(txt) && txt.includes("Įvaldyta gudrybių:") && txt.includes("Ką verta daryti:") && !/undefined|NaN/.test(txt));

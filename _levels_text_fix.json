@@ -1,0 +1,185 @@
+{
+ "M2013-2": {
+  "prompt": "Alma teisingai atliko pratimą. Tada ji du vienodus skaitmenis užklijavo lipdukais: 4▯ + 5▯ = 104 (abiejų dėmenų vienetų skaitmenys užklijuoti). Kokį skaitmenį slepia lipdukai?",
+  "options": {
+   "A": "2",
+   "B": "4",
+   "C": "5",
+   "D": "7",
+   "E": "8"
+  }
+ },
+ "M2014-5": {
+  "prompt": "Marija atliko atimtį ir gavo skaičius nuo 0 iki 5. Prie šešių taškų, išdėstytų dviem stulpeliais, užrašyti veiksmai: kairėje iš viršaus žemyn 2 − 2, 8 − 6, 13 − 9, dešinėje iš viršaus žemyn 6 − 5, 11 − 8, 17 − 12. Ji paeiliui jungia taškus, pradėdama nuo taško su rezultatu 0 ir baigdama tašku su rezultatu 5. Kurią figūrą ji gaus?"
+ },
+ "M2014-8": {
+  "prompt": "Dešinėje pavaizduota figūra sudėta iš keturių kauliukų, kurių kiekvienas sudarytas iš 4 langelių: T raidės formos, tiesaus (4 langeliai eilėje), laiptelio (Z) formos ir L raidės formos (žr. paveikslėlį). Kur guli T raidės formos kauliukas?"
+ },
+ "M2015-1": {
+  "prompt": "Po debesėliais slepiasi skaičiai. Pirmame debesėlyje parašytas skaičius 2. Iš jo atėmus 0, gaunamas antro debesėlio skaičius, prie šio pridėjus 1 – trečio, o trečio debesėlio skaičių padauginus iš 5 – ketvirto debesėlio, pažymėto klaustuku, skaičius (žr. paveikslėlį). Koks skaičius slepiasi po debesėliu, pažymėtu klaustuku?"
+ },
+ "M2015-3": {
+  "prompt": "Teisingai atlikusi du veiksmus, Elena du vienodus skaičius uždengė trikampiais, o dar vieną skaičių uždengė kvadratu: △ + 4 = 7 ir □ + △ = 9. Kokį skaičių Elena uždengė kvadratu?"
+ },
+ "M2016-1": {
+  "prompt": "Adelė, Bartas, Cilė, Domas ir Emilija kiekvienas parideno du lošimo kauliukus ir sudėjo atvirtusius taškus. Adelei iškrito 6 ir 1, Bartui – 3 ir 3, Cilei – 2 ir 3, Domui – 4 ir 4, Emilijai – 5 ir 4 (žr. paveikslėlį). Kieno suma buvo didžiausia?"
+ },
+ "M2016-15": {
+  "prompt": "Lėja baigia pildyti 3 × 3 lentelę taip, kad kiekvienas iš skaičių 1, 2 ir 3 kiekviename stulpelyje ir kiekvienoje eilutėje būtų įrašytas lygiai vieną kartą. Pirmos eilutės pirmame langelyje jau įrašytas 1, antros eilutės viduriniame langelyje – 2; užtušuoti du langeliai – antros ir trečios eilutės paskutiniai (žr. paveikslėlį). Kam bus lygi į užtušuotus langelius įrašytų skaičių suma?"
+ },
+ "M2016-3": {
+  "prompt": "Rask x (žr. paveikslėlį): sumos 17 + 3 ir skirtumo 20 − 16 rezultatai sudedami ir gaunamas x."
+ },
+ "M2016-5": {
+  "prompt": "Gediminas su tėveliu eina į cirką. Jų vietos yra 71 ir 72. Rodyklės cirke rodo: aukštyn – vietos 1–20, į dešinę – vietos 21–40, į kairę – vietos 41–60, įstrižai aukštyn į dešinę – vietos 61–80, įstrižai aukštyn į kairę – vietos 81–100 (žr. paveikslėlį). Kuria kryptimi jie turi eiti?",
+  "options": {}
+ },
+ "M2017-10": {
+  "prompt": "Vienodos figūros slepia vienodus skaičius, skirtingos figūros – skirtingus. Keturių skritulių ir vieno kvadrato suma lygi trijų kvadratų sumai (žr. paveikslėlį). Kuri iš žemiau parašytų lygybių teisinga?"
+ },
+ "M2017-16": {
+  "prompt": "Kai traukinys visas stovi prieš pat tiltą, nuo traukinio galo iki tilto pabaigos yra 340 m. Kai traukinys visas užvažiavęs ant tilto ir jo galas yra ties tilto pradžia, nuo traukinio priekio iki tilto pabaigos lieka 110 m (žr. paveikslėlį). Koks traukinio ilgis?"
+ },
+ "M2017-2": {
+  "prompt": "Kokį skaičių slepia gėlytė, jeigu iš jo atėmus 6, tada pridėjus 8 ir dar atėmus 10 gaunama 10 (žr. paveikslėlį)?"
+ },
+ "M2017-3": {
+  "prompt": "Šalia pavaizduotos dvi kortelės: kairiosios langeliuose parašyta 6 · 7 ir 4 · 9, dešiniosios – 6 · 4 ir 3 · 9. Kurią iš žemiau išvardytų kortelių reikia įstatyti tarp jų, kad kortelės liestųsi langeliais su vienodais daugybos rezultatais?",
+  "options": {
+   "A": "3 · 6 | 2 · 4",
+   "B": "3 · 6 | 8 · 3",
+   "C": "6 · 6 | 2 · 4",
+   "D": "6 · 6 | 8 · 3",
+   "E": "6 · 3 | 4 · 8"
+  }
+ },
+ "M2017-7": {
+  "prompt": "Dviejų peršviečiamų languotų lapelių kai kurie langeliai uždažyti juodai, kaip pavaizduota. Jie vienas po kito nesukiojant užstumiami ant 3 × 3 skaičių lentelės (eilutėse 1 2 3, 4 5 6 ir 7 8 9), pavaizduotos viduryje. Tada skaičiai, atsidūrę po juodaisiais langeliais, nebematomi. Matomas lieka vienintelis skaičius. Kuris?"
+ },
+ "M2018-1": {
+  "prompt": "Lina turi 10 guminių antspaudukų. Kiekvienas antspaudukas atspaudžia vieną iš 10 skaitmenų: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9. Lina atspaudžia Kengūros konkurso datą 15 03 2018 (žr. paveikslėlį). Kiek antspaudukų jai prireikė?"
+ },
+ "M2018-11": {
+  "prompt": "Tomas iš languoto popieriaus iškirpinėja dviejų rūšių iškarpas (vadinkime jas kvadratu ir trapecija, žr. paveikslėlį). Kiek mažiausiai iškarpų jam prireiks, kad dėdamas jas vieną prie kitos sudėtų laivą (žr. pav.)?"
+ },
+ "M2018-16": {
+  "prompt": "Kapitonas Kukas, išplaukęs iš Velykų salos, apsilankė kiekvienoje iš schemoje pažymėtų salų – Ugnikalnių s., Gėlių s., Dykumų s., Ežerų s. – ir grįžo į Velykų salą. Visa kelionė sudarė 100 km. Schemoje pažymėta: nuo Velykų s. iki Ugnikalnių s. – 17 km, nuo Gėlių s. iki Dykumų s. – 15 km, nuo Dykumų s. iki Ežerų s. – 26 km. Atstumas tarp Dykumų s. ir Ežerų s. buvo toks pat kaip atstumas tarp Velykų s. ir Gėlių s. per Ugnikalnių s. Koks atstumas nuo Ežerų salos iki Velykų salos?"
+ },
+ "M2018-9": {
+  "prompt": "Jokūbas turi daug vienodų kauliukų iš dviejų langelių: viename langelyje žvaigždutė, kitame – skritulys (žr. paveikslėlį). Kelis iš pavaizduotų raštų jis gali sudėti?"
+ },
+ "M2019-12": {
+  "prompt": "Stepas nori taip įrašyti skaitmenis 1, 2, 3 ir 9 po vieną į langelius (□□□ + ?), kad gautųjų triženklio ir vienaženklio skaičių suma būtų didžiausia. Kurį skaitmenį jis gali įrašyti vietoje klaustuko?"
+ },
+ "M2019-15": {
+  "prompt": "Obuolys ir kriaušė kartu kainuoja 5 centus. Bananas ir obuolys kartu kainuoja 7 centus. Kriaušė ir bananas kartu kainuoja 10 centų. Kiek visi trys vaisiai – bananas, kriaušė ir obuolys – kainuoja kartu?"
+ },
+ "M2019-4": {
+  "prompt": "Knygos viršelyje yra du langai. Kai knyga atversta, ji atrodo taip, kaip parodyta paveikslėlyje (žr. paveikslėlį): kairėje – viršelis su dviem langais, dešinėje – puslapis su penkiais paveikslėliais (automobilis, motociklas, sunkvežimis, visureigis, traktorius). Kuriuos paveikslėlius Mykolas matys pro langus, užvertęs knygą?"
+ },
+ "M2019-9": {
+  "options": {}
+ },
+ "M2020-13": {
+  "prompt": "Laiptai turi 100 laiptelių. Kengūrėlė stovi laiptų apačioje, prieš 1-ąjį laiptelį, o triušis – ant 100-ojo laiptelio (žr. paveikslėlį). Kol kengūrėlė pakyla 7 laiptų laipteliais, triušis nusileidžia 3 laipteliais. Kelintame laiptelyje jie susitiks?"
+ },
+ "M2020-8": {
+  "prompt": "Kasparas turi 7 kartoniukus – juosteles iš 1, 2, 3, 4, 5, 6 ir 7 langelių (žr. paveikslėlį). Kai kuriais iš jų Kasparas tiksliai (be persidengimų ar išsikišimų) uždengė 17 langelių juostą. Kiek daugiausia kartoniukų jis galėjo panaudoti?"
+ },
+ "M2021-12": {
+  "prompt": "Sykį 5 figūros su pažymėtais jose skaičiais išsiruošė į mūšį. Jos visos judėjo ta pačia linija, tik kiekviena figūra judėjo kryptimi, nurodyta rodykle. Iš kairės į dešinę stovi: šešiakampis 10 (juda į dešinę), kvadratas 9 (į dešinę), trikampis 3 (į kairę), skritulys 7 (į kairę) ir rombas 20 (į kairę) (žr. paveikslėlį). Kai dvi figūros, judančios priešingomis kryptimis, susiduria, tai figūra su didesniu skaičiumi praryja figūrą su mažesniu skaičiumi. Nugalėjusi figūra nekeičia savo formos ir judėjimo krypties, o jos skaičius padidėja nugalėtosios figūros skaičiumi (pavyzdžiui, trikampis 10, judantis į dešinę, prarijęs rombą 4, tampa trikampiu 14). Koks bus galutinis tų penkių figūrų susirėmimo rezultatas?"
+ },
+ "M2022-6": {
+  "options": {}
+ },
+ "M2022-7": {
+  "prompt": "Ant kiekvienos dėžės pažymėta, kiek sveria joje esantys vaisiai: 1 kg, 2 kg, 3 kg, 4 kg, 5 kg, 6 kg, 9 kg, 13 kg, 17 kg. Sodininkas suskirstė dėžes į 3 grupes po 3 dėžes taip, kad kiekvienos grupės visi vaisiai svertų tiek pat. Kuri iš žemiau nurodytų dėžių atsidūrė vienoje grupėje su 6 kilogramų dėže?"
+ },
+ "M2022-9": {
+  "prompt": "Penki sunumeruoti automobiliai važiavo vienas po kito ta pačia kryptimi: priekyje 1-as, už jo 2-as, 3-ias, 4-as ir 5-as (žr. paveikslėlį). Iš pradžių 5-as automobilis aplenkė du automobilius, važiavusius prieš jį. Tada 3-ias automobilis, kuris atsidūrė priešpaskutinėje vietoje, aplenkė du automobilius. Pagaliau 2-as automobilis aplenkė du automobilius. Kokia tvarka automobiliai važiuoja dabar?"
+ },
+ "M2023-2": {
+  "prompt": "Šešių monetų verčių suma lygi 51: 20 + 10 + 10 + ? + ? + 1 = 51 (žr. paveikslėlį). Dvi tos pačios vertės monetos pažymėtos klaustuku. Kokia kiekvienos jų vertė?"
+ },
+ "M2024-14": {
+  "prompt": "Julius turi penkias dėlionės detales ir nori iš jų sudėti vikšrą, kuris turėtų galvą, uodegą ir arba vieną, arba dvi, arba visas tris detales tarp jų (žr. paveikslėlį: kairėje galva, dešinėje uodega, tarp jų detalės su obuoliu, vyšniomis ir vynuogėmis). Keliais skirtingais būdais Julius gali sudėti tokį vikšrą? (Detalių sukioti negalima.)"
+ },
+ "M2024-15": {
+  "prompt": "Tamsiojoje lapo pusėje Romas parašė skaičius 1, 2, 3, 4 (žr. paveikslėlį). Tada per dešinę kraštinę apvertė lapą šviesiąja puse. Joje jis parašė skaičius 5, 6, 7, 8. Pagaliau jis sukarpė lapą į keturias lygias dalis. Dvi dalys guli šviesiąja puse į viršų – jose matyti 5 ir 6, kitos dvi guli tamsiąja puse į viršų ir pažymėtos klaustukais. Kam lygi po klaustukais paslėptų skaičių suma?"
+ },
+ "M2025-10": {
+  "prompt": "Adelė, Emilija ir Matas lėkštėse turi „kengūriškų“ sausainių: Adelė – 3, Emilija – 4, Matas – 5 (žr. paveikslėlį). Šalia stovi padėklas su 15 sausainių. Adelė visus sausainius nuo padėklo išdėliojo į lėkštes taip, kad kiekvienoje lėkštėje sausainių pasidarė po lygiai. Kiek sausainių ji padėjo į savo lėkštę?"
+ },
+ "N2013-10": {
+  "prompt": "Abi Jurgio katės sveria po tiek pat. Jurgis su abiem katėmis stovi ant svarstyklių, jos rodo 36 kg (žr. paveikslėlį). Kiek kilogramų sveria viena katė, jei Jurgis sveria 30 kilogramų?"
+ },
+ "N2013-18": {
+  "prompt": "Žaidžiant leidžiama daryti tokius keitimus: 1 kriaušė = 2 obuoliai, 1 obuolys = 3 slyvos, 1 bananas = 2 slyvos (žr. paveikslėlį). Adomas turėjo 6 kriaušes. Padarius kelis keitimus, pas Adomą liko vien tik bananai. Kiek bananų dabar turi Adomas?"
+ },
+ "N2013-8": {
+  "prompt": "Ona turi spalvotą skrybėlaitę. Barbora padovanojo Ievai auskarus. Jurgis dėvi rudą skrybėlę. Bartas nešioja akinius. Kuri čia Barbora (žr. paveikslėlį)?"
+ },
+ "N2014-16": {
+  "prompt": "Kiek varlių sugavo visi trys pelikanai kartu? Remkitės paveikslėlio duomenimis. Peli: „Aš pagavau ne mažiau kaip 2 varles.“ Lika: „Aš pagavau daugiau varlių nei Peli, bet mažiau nei Kanu.“ Kanu: „Aš pagavau ne daugiau kaip 4 varles.“"
+ },
+ "N2014-4": {
+  "prompt": "Surikiuok visus gyvūnėlius pagal jų paveikslėlių aukštį nuo žemiausiojo iki aukščiausiojo. Kuris gyvūnėlis atsidurs pačiame rikiuotės viduryje?"
+ },
+ "N2016-17": {
+  "prompt": "Kurio paveikslėlio negalima sudėti iš keturių langelių figūrėlių, kurių forma – trys langeliai eilėje ir vienas langelis virš vidurinio (žr. paveikslėlį)?"
+ },
+ "N2017-10": {
+  "prompt": "Iš penkių skaičių 1, 3, 4, 5 ir 7 keturi įrašyti po vieną į kiekvieną kvadratėlį taip, kad lygybė □ + □ = □ + □ būtų teisinga. Kuris skaičius liko nepanaudotas?"
+ },
+ "N2017-17": {
+  "prompt": "Kiekvienas iš keturių raktų tinka tik vienai iš keturių spynų, o skaitmenys ant raktų atitinka raides ant spynų. Ant spynų parašyta ADA, DGA, DAG ir „?“, ant raktų – 717, 141, 417 ir 471. Kas parašyta ant paskutinės spynos?"
+ },
+ "N2017-5": {
+  "prompt": "Elena papuošė peteliškę šešiais lipdukais: dviem pilkais rombais, dviem juodais ovalais ir dviem pilkais skrituliais (žr. paveikslėlį). Kuri tai peteliškė?"
+ },
+ "N2017-9": {
+  "prompt": "Jonas ir Benas į apžvalgos ratą susėdo, kaip pavaizduota paveikslėlyje dešinėje. Ratas pasisuko, ir Benas atsidūrė toje vietoje, kur anksčiau buvo Jonas. Kur atsidūrė Jonas?"
+ },
+ "N2018-18": {
+  "prompt": "Lentelės ilgis 5 cm, plotis 1 cm (žr. pav.). Iš tokių lentelių Jonas surentė pavaizduotą tvorelę. Koks tvorelės ilgis?"
+ },
+ "N2019-8": {
+  "prompt": "Du obuoliai sako: „Mudu kartu kainuojame 6 centus.“ Dvi kriaušės sako: „Mudu kartu kainuojame 8 centus.“ Kriaušė ir obuolys klausia: „Kiek centų kainuojame mudu kartu?“"
+ },
+ "N2021-5": {
+  "options": {}
+ },
+ "N2022-14": {
+  "prompt": "Kotryna iš vienodų 2 × 1 dydžio plytelių sudėliojo rėmelį apie kvadratą, kurio kraštinė lygi 1, ir apie kvadratą, kurio kraštinė lygi 3 (žr. paveikslėlį). Kiek plytelių jai prireiks sudėlioti tokiu pačiu būdu rėmelį apie kvadratą, kurio kraštinė yra 5?"
+ },
+ "N2022-15": {
+  "prompt": "Ona turėjo 4 lipdukus – skritulį, kvadratą, žvaigždutę ir trikampį, kuriuos suklijavo vieną ant kito. Žvaigždutę ji klijavo po kvadrato, bet prieš trikampį. Kurį paveikslėlį ji galėjo gauti?"
+ },
+ "N2024-10": {
+  "prompt": "Paveikslėlyje po skirtingomis figūromis paslėpti skirtingi skaičiai, o po vienodomis figūromis – vienodi skaičiai. Koks skaičius slepiasi po žvaigždute?"
+ },
+ "N2024-11": {
+  "prompt": "Monika turi 5 dėžes A, B, C, D ir E, kiekvienoje dėžėje yra po 4 žaislus (žr. paveikslėlį). Žaisdama Monika išėmė žaislus iš keturių dėžių ir išdėliojo juos ant grindų. Iš kurios dėžės Monika žaislų neėmė?"
+ },
+ "N2024-13": {
+  "prompt": "Magdė sudarė 5 antspaudukų eilę: saulė, vaiduoklis, katė, mėnulis, liepsna. Ji toliau kartojo antspaudukus ta pačia tvarka (žr. paveikslėlį). Kuris paveikslėlis šioje eilutėje yra 27-oje vietoje?"
+ },
+ "N2024-14": {
+  "prompt": "Du lentelės langeliai yra gretimi, jei jie turi bendrą kraštinę arba bendrą tašką. Pavyzdžiui, langeliui su skaičiumi 2 gretimi yra langeliai su skaičiais 4, 12, 1, 5 ir 10. Kuris pavaizduotos lentelės skaičius yra lygus skaičių, esančių gretimuose langeliuose, sumai?"
+ },
+ "N2024-18": {
+  "prompt": "Mykolas iš trijų rūšių figūrų sukrovė keturis bokštus. Paveikslėlyje pateikti trijų bokštų aukščiai. Koks yra ketvirtojo bokšto aukštis?"
+ },
+ "N2024-7": {
+  "prompt": "Artūras kortelėje nupiešė tris figūras. Jis du kartus pasuko kortelę, po ketvirtį pilno apsisukimo (žr. paveikslėlį). Kaip atrodė kortelė po antrojo pasukimo (kortelė, pažymėta klaustuku)?"
+ },
+ "N2025-16": {
+  "prompt": "Karolis turi 5 žaislus: stirniuką (6 g), antilopę (8 g), liūtą (10 g), zebrą (11 g) ir šerną (12 g) (žr. paveikslėlį). Karolis iš 4 žaislų sudarė dvi žaislų poras, kurios sveria tiek pat. Kuris žaislas liko nepanaudotas?"
+ },
+ "N2026-13": {
+  "prompt": "Suvėrusi karoliukus ant siūlo, Rusnė pasidarė apyrankę (siūlas turi kairę ir dešinę pusę, žr. paveikslėlį). Pirmiausia Rusnė ant siūlo užvėrė 2 baltus karoliukus, tada 1 juodą karoliuką iš kairės, tada 2 juodus karoliukus iš dešinės, tada 2 baltus karoliukus iš kairės ir galiausiai 1 baltą karoliuką iš dešinės ir 1 juodą karoliuką iš kairės. Kuriame iš žemiau esančių paveikslėlių pavaizduota Rusnės apyrankė?"
+ },
+ "N2026-8": {
+  "prompt": "Adelė ant lango iš kairės į dešinę parašė raides A, B, C ir po jų nupiešė širdelę. Ką matome iš kitos lango pusės?"
+ }
+}
