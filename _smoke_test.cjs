@@ -75,7 +75,7 @@ const m = html.match(/<script>\s*("use strict";[\s\S]*?)<\/script>\s*<\/body>/);
 if(!m){ console.error("FAIL  could not extract inline script from kengura.html"); process.exit(1); }
 
 const EXPORTS = `
-return {kidLevel, setKidLevel, homeTabs, GRADE_OPTS, kidSolutionParts, renderParent, storeWeight, topUpQueueFromNotebook, LEVEL_SETS, LEVEL_TABS, EXTRA_PAPERS, findPaper, paperYearText, levelEqBand, openArchiveYear, renderMistakeBook, renderHome, HOME_TABS, GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
+return {isYoung, renderLevelPick, kidLevel, setKidLevel, homeTabs, GRADE_OPTS, kidSolutionParts, renderParent, storeWeight, topUpQueueFromNotebook, LEVEL_SETS, LEVEL_TABS, EXTRA_PAPERS, findPaper, paperYearText, levelEqBand, openArchiveYear, renderMistakeBook, renderHome, HOME_TABS, GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         generateKenguraQuiz, getGenDiff, ARCHIVE, aiBuildOpts,
         pickPracticeFor, findSimilarArchive, MECH_BAND_INDEX,
         MECHANIC_HINTS, MECHANIC_METHODOLOGY, MECHANIC_LABEL, GEN_MECHANIC,
@@ -1351,12 +1351,12 @@ section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
   const st = app.state, store = app.store;
   const snap = JSON.stringify(store);
   const M = app.LEVEL_SETS.M, K = app.LEVEL_SETS.K;
-  check("Mažylis: 13 whole papers of 24", M.papers.length === 13 && M.papers.every(t => t.questions.length === 24 && t.questions.every((q, i) => q.num === i + 1 && q.points === (q.num <= 8 ? 3 : q.num <= 16 ? 4 : 5))));
+  check("Mažylis: 26 whole papers of 24 (2000–2025)", M.papers.length === 26 && M.papers[0].year === "M2000" && M.papers.every(t => t.questions.length === 24 && t.questions.every((q, i) => q.num === i + 1 && q.points === (q.num <= 8 ? 3 : q.num <= 16 ? 4 : 5))));
   { const N = app.LEVEL_SETS.N;
-    check("Nykštukas: 14 whole papers of 18", N.papers.length === 14 && N.papers.every(t => t.level === "N" && t.questions.length === 18 && t.questions.every((q, i) => q.num === i + 1 && q.points === (q.num <= 6 ? 3 : q.num <= 12 ? 4 : 5))));
+    check("Nykštukas: 20 whole papers of 18 (2007–2026)", N.papers.length === 20 && N.papers[0].year === "N2007" && N.papers.every(t => t.level === "N" && t.questions.length === 18 && t.questions.every((q, i) => q.num === i + 1 && q.points === (q.num <= 6 ? 3 : q.num <= 12 ? 4 : 5))));
     check("Nykštukas and Mažylis pay like a Bičiulis 3-pointer", [3, 4, 5].every(pt => app.levelEqBand({level: "N", points: pt}) === 3 && app.levelEqBand({level: "M", points: pt}) === 3));
     check("Nykštukas paper name", app.paperYearText("N2026") === "Nykštukas 2026 m." && app.findPaper("N2026").level === "N"); }
-  check("Kadetas: 14 papers of 20 three- and four-pointers", K.papers.length === 14 && K.papers.every(t => t.questions.length === 20 && t.questions.every(q => q.points === (q.num <= 10 ? 3 : 4) && q.num >= 1 && q.num <= 20)));
+  check("Kadetas: 27 papers of 20 three- and four-pointers (2000–2026)", K.papers.length === 27 && K.papers[0].year === "K2000" && K.papers.every(t => t.questions.length === 20 && t.questions.every(q => q.points === (q.num <= 10 ? 3 : 4) && q.num >= 1 && q.num <= 20)));
   const bad = [];
   const seenFig = new Map();
   for(const t of app.EXTRA_PAPERS){
@@ -1364,11 +1364,13 @@ section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
     for(const q of t.questions){
       const id = `${t.year}-${q.num}`;
       if(!/^[A-E]$/.test(q.correct || "")) bad.push(`${id}: key`);
-      if(Object.keys(q.options).join("") !== "ABCDE") bad.push(`${id}: options`);
-      if(q.imageOnlyOptions ? Object.values(q.options).some(v => v) : Object.values(q.options).filter(v => v).length < (q.hasMissingOptionText ? 1 : 5)) bad.push(`${id}: option flags`);
+      if(Object.keys(q.options).join("") !== (q.optionLetters || "ABCDE") || (q.optionLetters && t.year !== "N2011")) bad.push(`${id}: options`);
+      if(q.imageOnlyOptions ? Object.values(q.options).some(v => v) : Object.values(q.options).filter(v => v).length < (q.hasMissingOptionText ? 1 : (q.optionLetters || "ABCDE").length)) bad.push(`${id}: option flags`);
       if(q.level !== t.level || q.mechanic) bad.push(`${id}: level/mechanic`);
-      if(!q.prompt || /[\u0000-\u001f\u02c7\u02d9\u02db\u00af\uf000-\uf8ff]/.test(q.prompt + q.solution + Object.values(q.options).join(""))) bad.push(`${id}: text`);
-      for(const f of [q.figure, q.solutionFigure]){
+      if(!q.prompt || /[\u0000-\u001f\u02c7\u02d9\u02db\u00af\uf000-\uf8ff]/.test(q.prompt + (q.solution || "") + Object.values(q.options).join(""))) bad.push(`${id}: text`);
+      const old = Number(t.realYear) <= 2012;       // 2000–2012: no solution booklets – no official text or picture, a kid solution instead
+      if(old ? (q.solution || q.solutionFigure || !q.solutionKid) : (typeof q.solution !== "string")) bad.push(`${id}: solution fields`);
+      for(const f of old ? [q.figure] : [q.figure, q.solutionFigure]){
         const fp = f && path.join(__dirname, f);
         if(!fp || !fs.existsSync(fp) || fs.statSync(fp).size < 500) bad.push(`${id}: file ${f}`);
       }
@@ -1388,7 +1390,7 @@ section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
     const paneOf = id => { const i = h.indexOf(`data-level-years="${id}"`); return h.slice(i, h.indexOf("</section>", i)); };
     check("the younger panes do not point to the Bičiulis plan; every block pays one star",
       ["N", "M"].every(id => !paneOf(id).includes("Šiandienos planas dar nebaigtas") && paneOf(id).includes("Už kiekvieną atsakytą uždavinį – 1 ⭐.") && (paneOf(id).match(/class="btn primary"/g) || []).length === 1));
-    check("pane totals", paneOf("N").includes("252 uždaviniai") && paneOf("M").includes("312 uždavinių"), paneOf("M").slice(0, 600));
+    check("pane totals", paneOf("N").includes("360 uždavinių") && paneOf("M").includes("624 uždaviniai"), paneOf("M").slice(0, 600));
     const keep = JSON.stringify(store), np = app.findPaper("N2026"), nq = np.questions[2];
     const mech0 = JSON.stringify([store.mechStats, store.dueQueue]);
     app.openArchiveYear("N2026");
@@ -1413,7 +1415,7 @@ section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
     st.homeTab = "tests"; app.renderHome();
     check("a tab the child does not have falls back to the own one", st.homeTab === "nykstukas");
     const pool = app.buildRacePool();
-    check("the game challenge draws from the child's own papers", pool.length === 252 && pool.every(q => q.level === "N" && /^N\d{4}$/.test(q.year)));
+    check("the game challenge draws from the child's own papers", pool.length === 360 && pool.every(q => q.level === "N" && /^N\d{4}$/.test(q.year)));
     app.openRaceChallenge();
     check("…two easy, two middle, one hard", st.view === "raceChallenge" && st.raceQs.length === 5 && st.raceQs.map(q => q.points).sort().join() === "3,3,4,4,5" && app.$app.innerHTML.includes("Nykštukas ") && !/undefined|NaN/.test(app.$app.innerHTML), st.raceQs.map(q => q.points).join());
     const tips = app.parentAdvice();
@@ -1421,7 +1423,15 @@ section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
     st.view = "parent"; app.renderParent(); g = app.$app.innerHTML;
     check("parent view: grade select and a header without the contest line", g.includes('id="pGrade"') && /<option value="N" selected>/.test(g) && g.includes("1–2 klasė („Nykštukas“)") && !/undefined|NaN/.test(g));
     app.setKidLevel("M"); st.view = "home"; app.renderHome(); g = app.$app.innerHTML;
-    check("a 3–4 grade child: Mažylis first", tabsIn(g) === "mazylis,nykstukas,me" && st.homeTab === "mazylis" && app.buildRacePool().length === 312);
+    check("a 3–4 grade child: Mažylis first", tabsIn(g) === "mazylis,nykstukas,me" && st.homeTab === "mazylis" && app.buildRacePool().length === 624);
+    app.setKidLevel("K"); app.renderHome(); g = app.$app.innerHTML;
+    check("a 7–8 grade child: Kadetas first, the whole Bičiulis trainer after it", tabsIn(g) === "kadetas,today,learn,tests,practice,me" && st.homeTab === "kadetas" && !app.isYoung()
+      && app.buildRacePool().every(q => !q.level) && !g.slice(g.indexOf('data-level-years="K"')).split("</section>")[0].includes("Šiandienos planas dar nebaigtas"), tabsIn(g));
+    check("the hero names the level and opens the chooser", g.includes('id="levelBtn"') && g.includes("Lygis: Kadetas"));
+    st.view = "levelPick"; app.renderLevelPick(); g = app.$app.innerHTML;
+    check("level chooser: four doors, the current one marked", (g.match(/data-grade="/g) || []).length === 4 && /class="btn who-kid primary" data-grade="K"/.test(g)
+      && ["Nykštukas", "Mažylis", "Bičiulis", "Kadetas"].every(n => g.includes(n)) && !/undefined|NaN/.test(g));
+    st.view = "home";
     app.setKidLevel("B"); app.renderHome();
     check("back to 5–6: all tabs, today first", st.homeTab === "today" && tabsIn(app.$app.innerHTML) === app.HOME_TABS.map(t => t.id).join());
     for(const k of Object.keys(store)) delete store[k];
@@ -1583,7 +1593,7 @@ section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
       delete st.archiveFocus.M2025;
     }
     check("level papers link to the booklets on kengura.lt", /href="https:\/\/www\.kengura\.lt\/uzduotys\/2025\/spE\.pdf"/.test(app.$app.innerHTML));
-    check("prompts keep no trace of lost inline pictures", app.EXTRA_PAPERS.every(t => t.questions.every(x => !/:\.|,,|, ir\.| \?$|▢/.test(x.prompt))));
+    check("prompts keep no trace of lost inline pictures", app.EXTRA_PAPERS.every(t => t.questions.every(x => !/:\.|,,|, ir\.| (?<!= )\?$|▢/.test(x.prompt))));
     check("the solution picture is outside the page-swipe area", /closest\("[^"]*\.sol-figure/.test(html));
     delete st.archiveAnswers[k2];
     app.openParent(); hh = app.$app.innerHTML;

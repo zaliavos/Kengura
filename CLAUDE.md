@@ -1447,3 +1447,33 @@ to be the 5-point block only) and 🚀 Kadetas (unchanged, 280). 844 level quest
   DOM so the wiring stays); a "spręsta X / Y" bar for the own set, a plain ✅ per day instead of
   plan steps, star-goal advice sized for 10–15 min a day, summary text without the trick line.
   Global `[hidden]{display:none !important}` – inline `display:flex` used to defeat `hidden`.
+
+## Papers of 2000–2012 for the extra levels + level chooser with Kadetas (2026-11-24)
+
+- **Why separate:** kengura.lt (task page `uzduotys.html`; the folder `uzduotys/` itself answers 403)
+  has no per-level solution booklets before 2013 – only one test booklet per year with every level
+  (the `200xLT.pdf` / `TMK0x_lietuviu.pdf` files the Bičiulis archive was built from) and one answer
+  table per year (`levels_src/old-*.pdf`). Nykštukas exists from 2007.
+- **Added:** Nykštukas 2007–2012 (6 × 18), Mažylis 2000–2012 (13 × 24), Kadetas 2000–2012 (13 × 20,
+  the 3–4-point blocks) = 680 questions. The extra levels now hold N 20 papers / 360, M 26 / 624,
+  K 27 / 540 = 1 524 questions; figures folder ~120 MB.
+- **Pipeline:** `_old_levels.py` cuts `figures/<L><year>-q<n>.png` (through `_recrop.crop` with the
+  level's pages and header pattern; `BOTTOM`, `EXTRA_MASK`, `MANUAL`, `STITCH` for the 17 cuts fixed
+  after review; K2000-18 runs over a page break) and reads the keys from the answer tables into
+  `_levels_old.json`. The text layer of these PDFs is garbled, so prompts and options were TYPED FROM
+  THE FIGURES by agents (`_levels_old_text.json`); kid solutions and notes live in `_levels_kid.json`
+  / `_levels_misc.json` with the rest. `_extra_levels.py` (`old_papers`) merges them in front of the
+  2013+ papers. These questions have no `solution`, no `solutionFigure` – the kid solution is the
+  only one; the paper header links the answer table ("Atsakymai ↗").
+- **Keys:** the table reader is checked against the audited Bičiulis column (it reproduces the five
+  known table errors). All 680 questions were solved blind by the writers and again by 12 independent
+  reviewers. Five table keys are wrong and corrected in `_levels_old_keyfix.json` (each checked by
+  hand): N2008-12 → C, N2010-10 → B (the guests are 29 − Vytautas), K2005-15 → B, K2005-18 → E
+  (999 + 10), K2012-20 → B. The review also fixed ~50 texts, mostly notes for wrong options.
+- **N2011 prints four options (A–D):** `q.optionLetters = "ABCD"`; the archive card and the game
+  challenge filter the letters by it.
+- **Level chooser:** `GRADE_OPTS` gained Kadetas (`'K'`, 7–8 kl.). `isYoung()` = N or M (no plan /
+  tricks / papers); a Kadetas child gets the Kadetas tab first and the whole Bičiulis trainer after
+  it. The hero button `#levelBtn` opens `renderLevelPick()` (view "levelPick", four doors); the
+  welcome screen and the one-off home card offer the same four. The hero row wraps below 400 px.
+- sw.js: shell v7, FIGS v22.

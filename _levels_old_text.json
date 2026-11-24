@@ -1,0 +1,6375 @@
+{
+"N2007-1": {
+"prompt": "Kokį skaičių reikia įrašyti vietoj klaustuko? (žr. paveikslėlį)",
+"options": {
+"A": "10",
+"B": "20",
+"C": "40",
+"D": "60",
+"E": "80"
+}
+},
+"N2007-2": {
+"prompt": "Kuris dviratis brangiausias? (žr. paveikslėlį)",
+"options": {}
+},
+"N2007-3": {
+"prompt": "Kurio aitvaro uodega ilgiausia? (žr. paveikslėlį)",
+"options": {}
+},
+"N2007-4": {
+"prompt": "Vakar šventėme Jonuko gimtadienį. Rytoj bus ketvirtadienis. Kurią savaitės dieną buvo Jonuko gimtadienis?",
+"options": {
+"A": "Pirmadienį",
+"B": "Antradienį",
+"C": "Trečiadienį",
+"D": "Ketvirtadienį",
+"E": "Penktadienį"
+}
+},
+"N2007-5": {
+"prompt": "Kiek skirtingų skaitmenų panaudota šiame piešinėlyje?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "9",
+"E": "13"
+}
+},
+"N2007-6": {
+"prompt": "Autobusu važiavo 14 keleivių. Pirmoje stotelėje 8 keleiviai išlipo, o 5 įlipo. Antroje stotelėje išlipo 1 keleivis, o įlipo 8. Kiek keleivių dabar važiuoja autobusu?",
+"options": {
+"A": "10",
+"B": "18",
+"C": "24",
+"D": "0",
+"E": "4"
+}
+},
+"N2007-7": {
+"prompt": "Kokį skaičių reikia įrašyti į paskutinį ramunės žiedą? (žr. paveikslėlį)",
+"options": {
+"A": "35",
+"B": "47",
+"C": "54",
+"D": "61",
+"E": "113"
+}
+},
+"N2007-8": {
+"prompt": "Karolina gyvena bute su mama, tėčiu ir broliuku Andriumi. Kartu su jais gyvena šuo Bosas, pora katinų, dvi papūgėlės ir keturios žuvelės akvariume. Kiek iš viso kojų turi šio buto gyventojai?",
+"options": {
+"A": "22",
+"B": "28",
+"C": "32",
+"D": "24",
+"E": "12"
+}
+},
+"N2007-9": {
+"prompt": "Katė Vinilė atsivedė penkis kačiukus: du yra dryžuoti, vienas – dėmėtas, o likusieji – visai balti. Kuriame paveikslėlyje nupiešta Vinilės šeimynėlė, jei žinoma, kad vieno kačiuko ausys yra skirtingų spalvų?",
+"options": {}
+},
+"N2007-10": {
+"prompt": "Kelių plytų trūksta sienelėje? (žr. paveikslėlį)",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"N2007-11": {
+"prompt": "Ant kiekvienos trikampio kraštinės esančių visų trijų skaičių sumos yra lygios. Ant dviejų skaičių užtiško rašalo dėmė. Kokia gali būti tų dviejų skaičių suma? (žr. paveikslėlį)",
+"options": {
+"A": "2",
+"B": "0",
+"C": "3",
+"D": "4",
+"E": "10"
+}
+},
+"N2007-12": {
+"prompt": "Voveraitė bėgioja labirinto takais ir renka sau maistą žiemai. Ko ji negalės pasiimti? (žr. paveikslėlį)",
+"options": {}
+},
+"N2007-13": {
+"prompt": "Paulius nori į lentelę surašyti skirtingus skaičius nuo 1 iki 9 taip, kad kiekvienos eilutės ir kiekvieno stulpelio visų trijų skaičių sumos būtų po 15. Kai kurie skaičiai jau įrašyti. Koks skaičius turi būti vietoje klaustuko? (žr. paveikslėlį)",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "5",
+"E": "6"
+}
+},
+"N2007-14": {
+"prompt": "Prie kvadratinio staliuko gali susėsti keturi žmonės. Kiek daugiausia būtų galima susodinti žmonių, jei į vieną eilę vieną prie kito sustumtume keturis tokius staliukus?",
+"options": {
+"A": "6",
+"B": "8",
+"C": "9",
+"D": "10",
+"E": "12"
+}
+},
+"N2007-15": {
+"prompt": "Vakar Karolis namo sugrįžo anksčiau nei Elena. Julija parėjo namo anksčiau nei Karolis. Agnė niekada negrįžta anksčiau namo nei Julija. Kas namo parėjo pirmas?",
+"options": {
+"A": "Karolis",
+"B": "Elena",
+"C": "Julija",
+"D": "Agnė",
+"E": "Negalima atsakyti"
+}
+},
+"N2007-16": {
+"prompt": "Saulius iš vienodų kubelių pastatė viršutiniame paveikslėlyje parodytą statinį. Justė pasiskolino kelis kubelius, ir Sauliaus statinys tapo toks, kokį matome apatiniame paveikslėlyje. Kiek kubelių paėmė Justė?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "8"
+}
+},
+"N2007-17": {
+"prompt": "Beždžionė Kikė per dieną suėda 4 kilogramus bananų, o beždžionė Minė – 3 kilogramus. Per kiek dienų beždžionė Minė suės tiek bananų, kiek Kikė suėda per 3 dienas?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"N2007-18": {
+"prompt": "Ievutė spalvina langelius iš eilės tam tikra tvarka: pirmą langelį raudonai, antrą geltonai, trečią mėlynai, ketvirtą žaliai, penktą pilkai ir vėl kartoja spalvas ta pačia tvarka. Kokios spalvos bus trisdešimt trečias langelis?",
+"options": {
+"A": "Raudonos",
+"B": "Geltonos",
+"C": "Mėlynos",
+"D": "Žalios",
+"E": "Pilkos"
+}
+},
+"N2008-1": {
+"prompt": "Dabar yra 2008 metai. Kokia šio skaičiaus skaitmenų suma?",
+"options": {
+"A": "0",
+"B": "6",
+"C": "10",
+"D": "16",
+"E": "20"
+}
+},
+"N2008-2": {
+"prompt": "Kuris iš „žmogeliukų“ skiriasi nuo likusių keturių?",
+"options": {}
+},
+"N2008-3": {
+"prompt": "Marytė surašė visus skaičius nuo 1 iki 30. Kiek kartų ji parašė skaitmenį 2?",
+"options": {
+"A": "10",
+"B": "12",
+"C": "13",
+"D": "19",
+"E": "27"
+}
+},
+"N2008-4": {
+"prompt": "Emilija šventė savo gimtadienį ketvirtadienį, o jos sesutė Liepa šventė savo gimtadienį 8 dienomis anksčiau. Kuri tai buvo savaitės diena?",
+"options": {
+"A": "Trečiadienis",
+"B": "Ketvirtadienis",
+"C": "Penktadienis",
+"D": "Antradienis",
+"E": "Sekmadienis"
+}
+},
+"N2008-5": {
+"prompt": "Kiek iš viso akučių yra trijose nematomose lošimo kauliuko sienelėse? (žr. paveikslėlį)",
+"options": {
+"A": "9",
+"B": "10",
+"C": "11",
+"D": "12",
+"E": "13"
+}
+},
+"N2008-6": {
+"prompt": "Kengūrėlės šuolis yra triskart trumpesnis už jos mamos šuolį. Kiek šuolių turi padaryti kengūrėlė, kad įveiktų atstumą, lygų 7 mamos šuoliams?",
+"options": {
+"A": "10",
+"B": "26",
+"C": "21",
+"D": "30",
+"E": "4"
+}
+},
+"N2008-7": {
+"prompt": "Penkiolikos metrų rąstą reikia supjauti į trimetrinius gabalus. Kiek tam reikės pjūvių?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "7",
+"D": "6",
+"E": "14"
+}
+},
+"N2008-8": {
+"prompt": "Marytė turi 3 brolius ir 2 seseris. Kiek brolių ir kiek seserų turi jos brolis Mykolas?",
+"options": {
+"A": "3 brolius ir 2 seseris",
+"B": "2 brolius ir 3 seseris",
+"C": "2 brolius ir 2 seseris",
+"D": "3 brolius ir 3 seseris",
+"E": "Kitas atsakymas"
+}
+},
+"N2008-9": {
+"prompt": "Ieva į mokyklą pasiėmė 2 bananus. Iš pradžių kiekvieną jų išmainė į 4 obuolius, o vėliau kiekvieną obuolį išmainė į 3 mandarinus. Kiek Ieva turi mandarinų?",
+"options": {
+"A": "2 + 4 + 3",
+"B": "2 · 4 + 3",
+"C": "2 + 4 · 3",
+"D": "2 · 4 · 3",
+"E": "2 + 4 − 3"
+}
+},
+"N2008-10": {
+"prompt": "Kelios slyvos sveria tiek pat, kiek vienas obuolys (žr. paveikslėlį)?",
+"options": {
+"A": "3",
+"B": "1",
+"C": "4",
+"D": "2",
+"E": "5"
+}
+},
+"N2008-11": {
+"prompt": "Tomo tėvelis vyresnis už jo mamytę 4 metais. Dabar tėveliui 37 metai. Kiek metų buvo mamytei prieš dešimt metų?",
+"options": {
+"A": "31",
+"B": "23",
+"C": "21",
+"D": "20",
+"E": "27"
+}
+},
+"N2008-12": {
+"prompt": "Kurios iš žemiau pavaizduotų figūrų negalima iškirpti iš figūros, pavaizduotos šalia?",
+"options": {}
+},
+"N2008-13": {
+"prompt": "Už 15 bandelių Antanas sumokėjo 6 litus. Kiek litų sumokėjo Jonas, jeigu jis pirko 5 bandelėmis daugiau?",
+"options": {
+"A": "7",
+"B": "8",
+"C": "9",
+"D": "10",
+"E": "20"
+}
+},
+"N2008-14": {
+"prompt": "Kelinta valanda dabar, jei po 6 val. 30 min. laikrodis rodys 4:00?",
+"options": {
+"A": "10:00",
+"B": "10:30",
+"C": "2:30",
+"D": "22:10",
+"E": "21:30"
+}
+},
+"N2008-15": {
+"prompt": "Balys Miglei gimtadienio proga nupirko šokoladinę širdelę (žr. paveikslėlį). Kiek gramų svėrė širdelė, jeigu kiekvienas kvadratėlis sveria 10 gramų?",
+"options": {
+"A": "180",
+"B": "170",
+"C": "150",
+"D": "140",
+"E": "160"
+}
+},
+"N2008-16": {
+"prompt": "Kiek skirtingų raidžių yra žodyje MATEMATIKA?",
+"options": {
+"A": "10",
+"B": "9",
+"C": "5",
+"D": "8",
+"E": "6"
+}
+},
+"N2008-17": {
+"prompt": "Mokinių ekskursija į zoologijos sodą truko 135 minutes. Kiek tai yra valandų ir minučių?",
+"options": {
+"A": "3 val. 5 min.",
+"B": "2 val. 15 min.",
+"C": "1 val. 35 min.",
+"D": "2 val. 35 min.",
+"E": "3 val. 35 min."
+}
+},
+"N2008-18": {
+"prompt": "Medinė trinkelė turėjo 8 viršūnes. Dabar viena viršūnė nupjauta (žr. paveikslėlį). Kiek viršūnių turi trinkelė dabar?",
+"options": {
+"A": "8",
+"B": "9",
+"C": "7",
+"D": "10",
+"E": "11"
+}
+},
+"N2009-1": {
+"prompt": "Iš kelių kubelių pastatytas pavaizduotas statinys?",
+"options": {
+"A": "12",
+"B": "8",
+"C": "9",
+"D": "10",
+"E": "11"
+}
+},
+"N2009-2": {
+"prompt": "Dabar yra 2009 metai. Kokia šio skaičiaus skaitmenų suma?",
+"options": {
+"A": "7",
+"B": "11",
+"C": "12",
+"D": "18",
+"E": "209"
+}
+},
+"N2009-3": {
+"prompt": "Penkios draugės tą pačią dieną šventė gimtadienius. Paveikslėlyje pavaizduoti jų šventiniai tortai. Kuri iš jų yra vyriausia?",
+"options": {
+"A": "Vida",
+"B": "Nida",
+"C": "Rita",
+"D": "Gita",
+"E": "Zita"
+}
+},
+"N2009-4": {
+"prompt": "Kurioje lėkštėje obuolių yra mažiau negu kriaušių?",
+"options": {}
+},
+"N2009-5": {
+"prompt": "Ieva į lentelę įrašė keturis skaičius, kurių suma lygi 50. Ant vieno iš tų skaičių nutūpė peteliškė. Kokį skaičių dengia peteliškė (žr. paveikslėlį)?",
+"options": {
+"A": "18",
+"B": "3",
+"C": "9",
+"D": "13",
+"E": "8"
+}
+},
+"N2009-6": {
+"prompt": "Petras turi 12 mašinėlių, o Povilas – keturiomis daugiau negu Petras. Kiek mašinėlių turi Petras ir Povilas kartu?",
+"options": {
+"A": "28",
+"B": "16",
+"C": "48",
+"D": "20",
+"E": "8"
+}
+},
+"N2009-7": {
+"prompt": "Tėtis su trimis vaikais nuėjo į cirką. Lentelėje pateiktos bilietų kainos: bilietas vaikui – 9 Lt, bilietas suaugusiajam – 12 Lt. Kiek litų sumokėjo tėtis už bilietus?",
+"options": {
+"A": "48",
+"B": "21",
+"C": "39",
+"D": "30",
+"E": "Kita suma"
+}
+},
+"N2009-8": {
+"prompt": "Onutė užrašė dvi lygybes, o tada kai kuriuos skaičius užklijavo lipdukais (žr. paveikslėlį). Lipdukais gėlytėmis užklijuoti vienodi skaičiai. Koks skaičius yra po lipduku saulute?",
+"options": {
+"A": "15",
+"B": "14",
+"C": "25",
+"D": "27",
+"E": "28"
+}
+},
+"N2009-9": {
+"prompt": "Gydytojas Agnei išrašė 60 tablečių ir liepė gerti po 1 tabletę kasdien. Agnė pradėjo gydytis pirmadienį. Kurią savaitės dieną ji išgers paskutinę tabletę?",
+"options": {
+"A": "Pirmadienį",
+"B": "Antradienį",
+"C": "Trečiadienį",
+"D": "Ketvirtadienį",
+"E": "Penktadienį"
+}
+},
+"N2009-10": {
+"prompt": "Mama Julei nupirko 6 vienodas dėžutes spalvotų kreidelių. Julė iš dviejų dėžučių išėmė visas kreideles – jų buvo 18. Kiek iš viso kreidelių nupirko mama?",
+"options": {
+"A": "26",
+"B": "54",
+"C": "24",
+"D": "108",
+"E": "9"
+}
+},
+"N2009-11": {
+"prompt": "Tomas 2 cm aukštesnis už Petrą ir 5 cm aukštesnis už Povilą. Kiek centimetrų Petras aukštesnis už Povilą?",
+"options": {
+"A": "7 cm",
+"B": "3 cm",
+"C": "10 cm",
+"D": "Povilas yra aukštesnis už Petrą",
+"E": "Nustatyti neįmanoma"
+}
+},
+"N2009-12": {
+"prompt": "Mergaitės piešė piešinėlius su gėlytėmis ir širdutėmis. Ievos piešinėlyje yra 6 gėlytės, o Onos piešinėlyje – 4 širdutės. Ilona nupiešė 3 kartus mažiau gėlyčių negu Ieva ir dviem širdutėmis daugiau negu Ona. Kuris piešinėlis yra Ilonos?",
+"options": {}
+},
+"N2009-13": {
+"prompt": "Zoologijos sode yra 19 beždžionių: 4 šimpanzės, 3 pavianai, o likusios – kapucinai. Kapucinai užima tris voljerus, ir kiekviename voljere jų yra po lygiai. Kiek kapucinų yra viename voljere?",
+"options": {
+"A": "5",
+"B": "7",
+"C": "3",
+"D": "6",
+"E": "4"
+}
+},
+"N2009-14": {
+"prompt": "Jonukui dabar yra 4 metai, o jo tėčiui – 26 metai. Kiek metų bus Jonuko tėčiui tada, kai Jonukas bus 3 kartus vyresnis negu yra dabar?",
+"options": {
+"A": "78",
+"B": "38",
+"C": "42",
+"D": "34",
+"E": "Kitas atsakymas"
+}
+},
+"N2009-15": {
+"prompt": "Močiutė iškepė pyragėlių su varške ir su uogiene – iš viso 31 pyragėlį. Kad pyragėlių su varške ir pyragėlių su uogiene pasidarytų po lygiai, ji dar iškepė 11 pyragėlių su varške. Kiek pyragėlių su varške močiutė iškepė iš pradžių?",
+"options": {
+"A": "10",
+"B": "21",
+"C": "20",
+"D": "15",
+"E": "Kitas atsakymas"
+}
+},
+"N2009-16": {
+"prompt": "Kai Rima nusipirko du vienodus rašiklius, tai jai liko 4 Lt. Jei ji norėtų nusipirkti dar 2 tokius pat rašiklius, tai jai pritrūktų 2 Lt. Kiek kainuoja vienas rašiklis?",
+"options": {
+"A": "2 Lt",
+"B": "10 Lt",
+"C": "6 Lt",
+"D": "3 Lt",
+"E": "Kitas atsakymas"
+}
+},
+"N2009-17": {
+"prompt": "Adomas, Marius, Paulius ir Tomas renka pašto ženklus. Marius jų turi daugiau negu Paulius, o Tomas – mažiau negu Adomas. Mažiausiai ženklų turi ne Tomas. Kuris berniukas turi mažiausiai ženklų?",
+"options": {
+"A": "Adomas",
+"B": "Marius",
+"C": "Paulius",
+"D": "Tomas",
+"E": "Nustatyti neįmanoma"
+}
+},
+"N2009-18": {
+"prompt": "Tėtė rinko baravykus 2 valandas. Per pirmą valandą jis rado 39 baravykus. Kiek baravykų tėtė rado per antrą valandą, jei mama, per 5 minutes išvalydama 7 baravykus, visus tėtės surinktus baravykus suvalė per 40 minučių?",
+"options": {
+"A": "74",
+"B": "56",
+"C": "49",
+"D": "39",
+"E": "17"
+}
+},
+"N2010-1": {
+"prompt": "Kuris iš žemiau nurodytų skaičių yra mažiausias?",
+"options": {
+"A": "2 − 0 + 1 − 0",
+"B": "2 − 0 + 1 + 0",
+"C": "2 + 0 + 1 + 0",
+"D": "2 + 0 + 1 − 0",
+"E": "2 + 0 − 1 + 0"
+}
+},
+"N2010-2": {
+"prompt": "Dominyko lentynoje yra du meškiukai, mašinėlė ir du kamuoliai. Kuris paveikslėlis vaizduoja jo lentyną?",
+"options": {}
+},
+"N2010-3": {
+"prompt": "Keturiolika vaikų sustojo poromis. Kiek susidarė porų?",
+"options": {
+"A": "6",
+"B": "14",
+"C": "7",
+"D": "24",
+"E": "28"
+}
+},
+"N2010-4": {
+"prompt": "Iš keturių dėlionės dalių galima sudėti žuvį (žr. paveikslėlį). Pagal kurią taisyklę reikia sudėti dėlionės dalis, kad gautume tą žuvį?",
+"options": {}
+},
+"N2010-5": {
+"prompt": "Kuriame paveikslėlyje kvadratų yra triskart daugiau nei trikampių?",
+"options": {}
+},
+"N2010-6": {
+"prompt": "Visi statiniai, kuriuos sustatė Marius, sudėti iš 8 vienodų medinių kubelių. Kuris iš statinių tikrai ne Mariaus?",
+"options": {}
+},
+"N2010-7": {
+"prompt": "Alė aplankė močiutę ketvirtadienį, sausio 21 dieną, ir užkvietė ją į savo gimtadienį, kurį švęs vasario 3 dieną. Kurią savaitės dieną Alė švęs gimtadienį?",
+"options": {
+"A": "Sekmadienį",
+"B": "Pirmadienį",
+"C": "Antradienį",
+"D": "Trečiadienį",
+"E": "Ketvirtadienį"
+}
+},
+"N2010-8": {
+"prompt": "Birutė padarė karolius, verdama ant siūlo karoliukus pagal tam tikrą paprastą taisyklę (žr. paveikslėlį). Kaip atrodo tų karoliukų uždengta dalis?",
+"options": {}
+},
+"N2010-9": {
+"prompt": "Iš žemiau parašytų skaičių nurodykite didžiausią nelyginį skaičių.",
+"options": {
+"A": "3 · 1 + 2 · 4",
+"B": "3 · (1 + 2 · 3)",
+"C": "3 · (1 + 2) · 4",
+"D": "(3 · 1 + 2) · 4",
+"E": "3 · (1 + 2 · 4)"
+}
+},
+"N2010-10": {
+"prompt": "Vytautas savo gimtadienį šventė salėje, kurioje stovi 9 keturviečiai staliukai. Kai Vytautas ir visi jo svečiai užėmė vietas, liko dar 7 tuščios vietos. Kiek svečių atėjo į Vytauto gimtadienį?",
+"options": {
+"A": "29",
+"B": "28",
+"C": "27",
+"D": "25",
+"E": "24"
+}
+},
+"N2010-11": {
+"prompt": "Martai mama davė 20 eurų. Ji nupirko pakelį pieno, 1 kilogramą bananų, batoną, du pakelius sviesto, o už likusius pinigus nusipirko saldainių ant pagaliuko (kainos – paveikslėlyje). Kiek saldainių nusipirko Marta?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"N2010-12": {
+"prompt": "Šokių varžybose dalyvauja 12 šokėjų porų. Jonukas suskaičiavo, kad valsą šoko 18 šokėjų. Kelios poros nešoko valso?",
+"options": {
+"A": "7",
+"B": "6",
+"C": "5",
+"D": "4",
+"E": "3"
+}
+},
+"N2010-13": {
+"prompt": "Paveikslėlį, vaizduojantį vazą, galima sudėti iš kartoninių kvadratėlių, kai kuriuos iš jų perkirpus pusiau. Kiek mažiausiai kvadratėlių prireiks sudėti paveikslėliui?",
+"options": {
+"A": "19",
+"B": "20",
+"C": "21",
+"D": "24",
+"E": "25"
+}
+},
+"N2010-14": {
+"prompt": "Alė turi 3 saldainius, Daiva turi 2 saldainiais mažiau nei Birutė, o Birutė turi 4 kartus daugiau saldainių nei Alė. Kiek saldainių mergaitės turi kartu?",
+"options": {
+"A": "17",
+"B": "19",
+"C": "21",
+"D": "23",
+"E": "25"
+}
+},
+"N2010-15": {
+"prompt": "Spektaklis yra dviejų dalių po 45 minutes, kurias skiria pertrauka. Jis prasidėjo 10:50, o baigėsi 12:40. Kiek minučių truko pertrauka?",
+"options": {
+"A": "10",
+"B": "15",
+"C": "20",
+"D": "25",
+"E": "30"
+}
+},
+"N2010-16": {
+"prompt": "Pasakų karalystėje gyvena slibinai, turintys dvi arba tris galvas. Dvigalvių slibinų yra triskart daugiau nei trigalvių. Visi slibinai kartu turi 27 galvas. Kiek slibinų gyvena karalystėje?",
+"options": {
+"A": "16",
+"B": "15",
+"C": "14",
+"D": "13",
+"E": "12"
+}
+},
+"N2010-17": {
+"prompt": "Grybaudamas Adomas kas 40 žingsnių rasdavo grybą. Adomo žingsnis yra pusė metro, o surinko jis 20 grybų. Kiek metrų jis nuėjo nuo pirmo iki paskutinio savo grybo?",
+"options": {
+"A": "380",
+"B": "360",
+"C": "340",
+"D": "400",
+"E": "420"
+}
+},
+"N2010-18": {
+"prompt": "Gatvė, kurioje gyvena Elė ir Ulė, eina palei upę, ir namai stovi tik vienoje gatvės pusėje. Į kairę nuo Elės namo yra 47 namai, o į dešinę – 23 namai. Į kairę ir į dešinę nuo Ulės namo yra tiek pat namų. Kiek namų stovi tarp Elės namo ir Ulės namo?",
+"options": {
+"A": "10",
+"B": "11",
+"C": "12",
+"D": "13",
+"E": "14"
+}
+},
+"N2011-1": {
+"prompt": "Kam lygi skaičiaus 2011 skaitmenų suma?",
+"options": {
+"A": "202",
+"B": "31",
+"C": "4",
+"D": "13"
+}
+},
+"N2011-2": {
+"prompt": "Kotrynos lėlė su suknele, turi dvi kasas, o rankoje laiko vieną gėlytę. Kuriame paveikslėlyje pavaizduota Kotrynos lėlė?",
+"options": {}
+},
+"N2011-3": {
+"prompt": "Po žiemos sezono sporto parduotuvėje liko 12 porų slidžių batų. Kiek slidžių batų liko toje parduotuvėje?",
+"options": {
+"A": "6",
+"B": "12",
+"C": "24",
+"D": "4"
+}
+},
+"N2011-4": {
+"prompt": "Dėlionėje trūksta vienos kortelės. Kuria kortele reikia papildyti dėlionę?",
+"options": {}
+},
+"N2011-5": {
+"prompt": "Šios dienos data – 2011 03 17. Po produktu parašytas jo galiojimo laikas. Kuris produktas nebetinkamas?",
+"options": {
+"A": "sūris – 2011 09 15",
+"B": "sviestas – 2012 03 04",
+"C": "sultys – 2011 06 11",
+"D": "grietinė – 2011 02 25"
+}
+},
+"N2011-6": {
+"prompt": "Martyno močiutė po 36 metų švęs savo šimtąjį gimtadienį. Kiek metų Martyno močiutei dabar?",
+"options": {
+"A": "74",
+"B": "64",
+"C": "66",
+"D": "36"
+}
+},
+"N2011-7": {
+"prompt": "Ona turi šunų, taip pat 4 kates. Kačių ausų skaičius lygus šunų kojų skaičiui. Kiek šunų turi Ona?",
+"options": {
+"A": "8",
+"B": "2",
+"C": "4",
+"D": "6"
+}
+},
+"N2011-8": {
+"prompt": "Simas turi du vienodus akvariumus. Pirmame iš jų yra 26 litrai vandens, antrame – 42 litrai. Kiek litrų vandens Simas turi perpilti iš antro akvariumo į pirmą, kad abiejuose akvariumuose vandens būtų tiek pat?",
+"options": {
+"A": "6",
+"B": "16",
+"C": "10",
+"D": "8"
+}
+},
+"N2011-9": {
+"prompt": "Žemiau matome traukinių tvarkaraščio fragmentą (išvykimas iš Druskininkų į Vilnių: 6:55, 8:30, 9:35, 11:15, 12:50). Dabar yra 8:45. Tomas važiuos iš Druskininkų į Vilnių artimiausiu traukiniu. Traukinys įveikia tą kelią per 2 valandas 45 minutes. Kelintą valandą Tomas bus Vilniuje?",
+"options": {
+"A": "11:25",
+"B": "12:20",
+"C": "11:10",
+"D": "12:05"
+}
+},
+"N2011-10": {
+"prompt": "Už tris vienodus spalvotus pieštukus, du tušinukus ir du trintukus Kotryna sumokėjo 11 Lt 60 ct. Ona pirko tokius pat vieną spalvotą pieštuką, du tušinukus ir du trintukus, o sumokėjo 8 Lt 40 ct. Kiek kainavo spalvotas pieštukas?",
+"options": {
+"A": "1 Lt 20 ct",
+"B": "1 Lt 50 ct",
+"C": "1 Lt 60 ct",
+"D": "3 Lt 20 ct"
+}
+},
+"N2011-11": {
+"prompt": "Neda popieriaus lapą sulenkė pusiau ir iškirpo iš jo gabalą, kaip pavaizduota paveikslėlyje šalia. Kuris iš apačioje pavaizduotų lapų yra atlenktas Nedos karpinys?",
+"options": {}
+},
+"N2011-12": {
+"prompt": "Ponas Zigmas turi tris dukteris. Jauniausiai 5 metai. Vidurinė 4 metais jaunesnė už vyriausiąją ir 6 metais vyresnė už jauniausiąją dukterį. Kiek metų vyriausiajai pono Zigmo dukteriai?",
+"options": {
+"A": "10",
+"B": "11",
+"C": "9",
+"D": "15"
+}
+},
+"N2011-13": {
+"prompt": "Gėlių parduotuvėje gėlės pamerktos į tris vazas. Vienoje yra 16 gėlių, antroje – 11, o trečioje – 17. Pardavėja pardavinėjo tik puokštes iš 5 gėlių. Tam tikru momentu ji pamatė, kad nebegali sudaryti tokios puokštės net iš visų likusių gėlių. Kiek gėlių liko parduotuvėje?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4"
+}
+},
+"N2011-14": {
+"prompt": "Kad susirastų savo žaisliuką, Onutė turi eiti keliu, nužymėtu vienas po kito ženklais: trikampis, širdelė, rombas, trikampis, širdelė, rombas, trikampis, širdelė, rombas (žr. paveikslėlį). Kuris žaislas priklauso Onutei?",
+"options": {}
+},
+"N2011-15": {
+"prompt": "Šuo Amsis, katinas Murklys ir 4 beždžionytės kartu sveria 24 kg. Amsis ir viena beždžionytė kartu sveria 11 kg, o Murklys ir 2 beždžionytės sveria 1 kilogramu mažiau nei Amsis ir viena beždžionytė kartu. Kiek sveria katinas Murklys?",
+"options": {
+"A": "3 kg",
+"B": "4 kg",
+"C": "5 kg",
+"D": "6 kg"
+}
+},
+"N2011-16": {
+"prompt": "Agnė, Kamilė, Mikas ir Darius varžėsi, kas suvalgys daugiau obuolių. Darius suvalgė obuolių daugiau už Kamilę, o Mikas – mažiau nei Agnė. Darius varžytuvių nelaimėjo. Kas suvalgė daugiausiai obuolių?",
+"options": {
+"A": "Agnė",
+"B": "Kamilė",
+"C": "Mikas",
+"D": "Nustatyti neįmanoma"
+}
+},
+"N2011-17": {
+"prompt": "Kokį skaičių reikia įrašyti į kvadratą, kad atlikę veiksmus gautume 100 (žr. paveikslėlį)?",
+"options": {
+"A": "11",
+"B": "9",
+"C": "14",
+"D": "12"
+}
+},
+"N2011-18": {
+"prompt": "Paulius ir Jonas statė statinius iš vienodų kubinių trinkelių. Pauliaus statinys pavaizduotas 1 paveikslėlyje, o 2 paveikslėlyje matome to statinio vaizdą iš viršaus. Jono pastatyto statinio vaizdą iš viršaus matome 3 paveikslėlyje. (Dėmesio: skaičiai rodo, kiek trinkelių toje vietoje sukrauta viena ant kitos.) Kurį statinį sustatė Jonas?",
+"options": {}
+},
+"N2012-1": {
+"prompt": "Kiek čia matote gyvūnų?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"N2012-2": {
+"prompt": "Kuris gabalas tinka į tuščią vietą?",
+"options": {}
+},
+"N2012-3": {
+"prompt": "Kiek kojų visi jie turi kartu? (žr. paveikslėlį)",
+"options": {
+"A": "5",
+"B": "10",
+"C": "12",
+"D": "14",
+"E": "20"
+}
+},
+"N2012-4": {
+"prompt": "Elena tris kartus parašė žodį MATEMATIKA. Kiek kartų jai teko parašyti raidę A?",
+"options": {
+"A": "3",
+"B": "12",
+"C": "6",
+"D": "9",
+"E": "10"
+}
+},
+"N2012-5": {
+"prompt": "Lukas ant juostelės vis ta pačia tvarka klijuoja keturis skirtingus lipdukus (žr. paveikslėlį). Kurį lipduką Lukas priklijuos dešimtą?",
+"options": {}
+},
+"N2012-6": {
+"prompt": "Kokį skaičių dengia gėlytė? (žr. paveikslėlį)",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"N2012-7": {
+"prompt": "Kuri iš nubrėžtų linijų ilgiausia? (žr. paveikslėlį)",
+"options": {
+"A": "A",
+"B": "B",
+"C": "C",
+"D": "D",
+"E": "E"
+}
+},
+"N2012-8": {
+"prompt": "Močiutė iškepė 11 bandelių. Ji prisimena, kad 6 bandeles apibarstė cinamonu, o 7 bandeles – aguonomis. Kiek mažiausiai bandelių galėjo būti apibarstytos ir cinamonu, ir aguonomis?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "5",
+"D": "7",
+"E": "11"
+}
+},
+"N2012-9": {
+"prompt": "Trylika vaikų žaidžia slėpynes. Vienas iš jų ieško. Po penkių minučių jis rado 9 vaikus. Keli vaikai liko dar pasislėpę?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "9",
+"E": "22"
+}
+},
+"N2012-10": {
+"prompt": "Tėtė kieme kabina ant virvės rankšluosčius. Jis nori išsiversti kuo mažesniu skaičiumi spaustukų. Kaip pavaizduota, trims rankšluosčiams jam reikia 4 spaustukų. Kiek spaustukų jam reikia 9 rankšluosčiams?",
+"options": {
+"A": "9",
+"B": "10",
+"C": "12",
+"D": "8",
+"E": "18"
+}
+},
+"N2012-11": {
+"prompt": "Šiandien Birutė sudėjo savo amžių ir sesers amžių ir gavo sumą 10. Kokią sumą ji gaus, jei sudės savo ir sesers amžius po vienerių metų?",
+"options": {
+"A": "5",
+"B": "10",
+"C": "11",
+"D": "12",
+"E": "20"
+}
+},
+"N2012-12": {
+"prompt": "Laikrodis rodo laiką, kada Stepas išeina iš mokyklos namo (žr. paveikslėlį). Mokykloje pietūs prasideda 3 valandomis anksčiau. Kurią valandą prasideda pietūs?",
+"options": {
+"A": "17",
+"B": "16",
+"C": "12",
+"D": "11",
+"E": "10"
+}
+},
+"N2012-13": {
+"prompt": "Pasakų darželyje augo 3 stebuklingos gėlės. Kiekvieną kartą, kai nuskinama gėlė, vietoje jos iš karto išauga trys naujos. Gėlininkas nuskynė vieną gėlę, po kurio laiko kitą. Kiek dabar gėlių darželyje?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "8"
+}
+},
+"N2012-14": {
+"prompt": "Ant žaidimų lentos padėta 10 monetų (žr. paveikslėlį). Kiek monetų reikia nuimti, kad kiekviename stulpelyje ir kiekvienoje eilutėje liktų 2 monetos?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"N2012-15": {
+"prompt": "Didžiulėje dėžėje yra trys dėžės, kurių kiekvienoje yra trys mažos dėžės. Kiek dėžių yra iš viso?",
+"options": {
+"A": "9",
+"B": "10",
+"C": "12",
+"D": "13",
+"E": "15"
+}
+},
+"N2012-16": {
+"prompt": "Jūs turite daug L raidės formos kauliukų (žr. paveikslėlį), kurių kiekvienas susideda iš 4 kvadratų. Kelias iš žemiau pavaizduotų figūrų jūs galite gauti suklijavę du kauliukus?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"N2012-17": {
+"prompt": "Aldona pirko 4 pyragaičius, o Rimantė pirko 6 keksus. Jos išleido po tiek pat, o iš viso užmokėjo 24 eurus. Kiek eurų kainuoja 1 keksas?",
+"options": {
+"A": "2",
+"B": "4",
+"C": "6",
+"D": "10",
+"E": "12"
+}
+},
+"N2012-18": {
+"prompt": "Žvirblis Virgis šokinėja ant tvoros nuo vieno mieto ant kito (žr. paveikslėlį). Kiekvienas šuolis jam užima 1 sekundę. Jis padaro 4 šuolius pirmyn, tada 1 šuolį atgal, tada vėl 4 šuolius pirmyn ir 1 šuolį atgal ir t. t. Po kiek sekundžių Virgis nusigaus nuo STARTO iki FINIŠO?",
+"options": {
+"A": "10",
+"B": "11",
+"C": "12",
+"D": "13",
+"E": "14"
+}
+},
+"M2000-1": {
+"prompt": "Torto žvakutė sudega per 15 minučių. Per kiek laiko sudegs dešimt tokių žvakučių, jei jos visos uždegamos vienu metu?",
+"options": {
+"A": "1,5 minutės",
+"B": "15 minučių",
+"C": "150 minučių",
+"D": "1,5 valandos",
+"E": "15 valandų"
+}
+},
+"M2000-2": {
+"prompt": "Daktaras Aiskauda davė Barmalėjui 3 tabletes ir liepė jam kas 20 minučių nuryti po vieną tabletę. Po kiek minučių Barmalėjus nuris paskutinę tabletę?",
+"options": {
+"A": "20",
+"B": "30",
+"C": "40",
+"D": "50",
+"E": "60"
+}
+},
+"M2000-3": {
+"prompt": "Kurio iš nurodytų skaičių skaitmenų sandauga yra didesnė už skaitmenų sumą?",
+"options": {
+"A": "112",
+"B": "209",
+"C": "312",
+"D": "222",
+"E": "211"
+}
+},
+"M2000-4": {
+"prompt": "Kūlverstukas gyvena antrame aukšte. Krokodilas Gena gyvena toje pačioje laiptinėje, bet grįžtant į namus jam tenka įveikti dvigubai daugiau laiptelių negu Kūlverstukui. Kelintame aukšte gyvena Krokodilas Gena?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"M2000-5": {
+"prompt": "4 šokoladukai ir 3 saldainiukai kartu kainuoja 61 kroną. Vienas šokoladukas kainuoja 7 kronas. Kiek kronų kainuoja vienas saldainiukas?",
+"options": {
+"A": "10",
+"B": "11",
+"C": "12",
+"D": "13",
+"E": "15"
+}
+},
+"M2000-6": {
+"prompt": "Užtenka vieno 55 vietų autobuso pervežti 40 žmonių. Užtenka dviejų 55 vietų autobusų pervežti 80 žmonių. Kelių 55 vietų autobusų reikia pervežti 160 žmonių?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2000-7": {
+"prompt": "Trys vienodi lošimo kauliukai padėti kaip parodyta piešinyje. Yra žinoma, kad kiekvienose dviejose susiglaudusiose sienose yra po vienodai akučių. Kiek akučių yra apatinėje sienoje?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "5",
+"E": "6"
+}
+},
+"M2000-8": {
+"prompt": "Petriukas nori nupiešti kengūrą „vienu brėžimu“, t. y. neatitraukdamas pieštuko nuo popieriaus ir nebrėždamas tos pačios linijos dukart. Nuo kurio taško jis gali pradėti? (žr. paveikslėlį)",
+"options": {
+"A": "A",
+"B": "B",
+"C": "D",
+"D": "K",
+"E": "Tokio taško nėra"
+}
+},
+"M2000-9": {
+"prompt": "Per tą laiką, kol Agnė suvalgo dvi ledų porcijas, Giedrė suvalgo tris porcijas. Valgydamos kartu mergaitės per valandą suvalgė 10 porcijų ledų. Kiek porcijų per tą valandą suvalgė Agnė?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"M2000-10": {
+"prompt": "Kuriuos keturis skaitmenis reikia išbraukti skaičiuje 4921508, kad susidarytų mažiausias tokiu būdu gaunamas triženklis skaičius?",
+"options": {
+"A": "4, 9, 2, 1",
+"B": "4, 2, 1, 0",
+"C": "1, 5, 0, 8",
+"D": "4, 9, 2, 5",
+"E": "4, 9, 5, 8"
+}
+},
+"M2000-11": {
+"prompt": "Dviejose pintinėlėse buvo po 12 obuolių. Daiva pasiėmė keletą obuolių iš pirmos pintinėlės. Tada Rasa iš antros pintinėlės paėmė tiek obuolių, kiek jų buvo likę pirmoje pintinėlėje. Kiek obuolių liko abiejose pintinėlėse kartu?",
+"options": {
+"A": "6",
+"B": "12",
+"C": "18",
+"D": "20",
+"E": "24"
+}
+},
+"M2000-12": {
+"prompt": "Kai mokiniai ėjo iš mokyklos į muziejų, mokytoja juos surikiavo į gretas po 3 mokinius. Jūratė, Onutė ir Danutė pastebėjo, kad jos atsidūrė 7-oje gretoje nuo priekio ir 5-oje gretoje nuo galo. Kiek mokinių ėjo į muziejų?",
+"options": {
+"A": "12",
+"B": "24",
+"C": "30",
+"D": "33",
+"E": "36"
+}
+},
+"M2000-13": {
+"prompt": "Cirko numeryje dalyvauja 14 kačių. Keletas iš jų yra katės-mamos, o kitos yra jų kačiukai. Kiekviena katė dalyvauja numeryje bent su dviem savo kačiukais. Koks yra didžiausias numeryje dalyvaujančių kačių-mamų skaičius?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"M2000-14": {
+"prompt": "Ant svarstyklių matote slyvas, obuolius ir kriaušes (žr. paveikslėlį). Kiek slyvų atsveria vieną kriaušę?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2000-15": {
+"prompt": "Penki kaimynai A, B, C, D ir E turi vienodus stačiakampius sklypus. Kiekvienas kaimynas savo sklype tvora aptvėrė daržą (žr. paveikslėlį). Kurio iš kaimynų tvora ilgiausia?",
+"options": {
+"A": "A",
+"B": "B",
+"C": "C",
+"D": "D",
+"E": "E"
+}
+},
+"M2000-16": {
+"prompt": "Petriukas gavo dovanų dėžę vienodų medinių kubinių kaladėlių. Iš visų kaladėlių jis sudėjo du „statinius“ (žr. brėžinį). Visi kubeliai kartu sveria 9000 gramų, kairysis statinys sveria 3000 gramų. Kelių dešiniojo statinio kubelių nematome?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "8"
+}
+},
+"M2000-17": {
+"prompt": "Šešios vištos per 3 dienas padeda 8 kiaušinius. Kiek kiaušinių padės 3 vištos per 9 dienas?",
+"options": {
+"A": "10",
+"B": "12",
+"C": "14",
+"D": "16",
+"E": "9"
+}
+},
+"M2000-18": {
+"prompt": "Dovanų dėžė 10 cm × 10 cm × 30 cm perrišta juosta (žr. piešinį). Koks juostos ilgis? (Į mazgams sunaudotą juostą neatsižvelkite.)",
+"options": {
+"A": "2 m",
+"B": "2 m 40 cm",
+"C": "2 m 60 cm",
+"D": "3 m",
+"E": "2 m 50 cm"
+}
+},
+"M2000-19": {
+"prompt": "Pėsčiomis apeiti kvadratinę aikštę reikia 12 minučių. Kiek minučių reikės apeiti kvadratinę aikštę, kurios plotas keturis kartus didesnis?",
+"options": {
+"A": "48",
+"B": "24",
+"C": "30",
+"D": "20",
+"E": "36"
+}
+},
+"M2000-20": {
+"prompt": "Sigutė išėjo iš namų tarp 8:00 ir 9:00 ryto. Ji pastebėjo, kad tuo metu jos laikrodžio rodyklės tiksliai sutapo. Grįžusi namo tarp 2:00 ir 3:00 po vidurdienio ji pamatė, kad jos laikrodžio rodyklės yra vienoje tiesėje ir rodo į priešingas puses (žr. brėžinį). Kiek laiko Sigutės nebuvo namuose?",
+"options": {
+"A": "Penkias valandas",
+"B": "Penkias su puse valandos",
+"C": "Šešias valandas",
+"D": "Šešias su puse valandos",
+"E": "Septynias valandas"
+}
+},
+"M2000-21": {
+"prompt": "Sudėję skaičių ir jo pusę gauname trimis mažiau už dvigubą tą skaičių. Tas skaičius yra:",
+"options": {
+"A": "2",
+"B": "4",
+"C": "6",
+"D": "8",
+"E": "10"
+}
+},
+"M2000-22": {
+"prompt": "Visuose keturiuose paveikslėliuose jūs iš įvairių pusių matote tą pačią konstrukciją, kuri yra sudaryta iš juodų ir baltų kubelių (žr. paveikslėlį). Kuri tai iš žemiau pavaizduotų penkių konstrukcijų?",
+"options": {}
+},
+"M2000-23": {
+"prompt": "Koks yra užtušuotos dalies plotas? (žr. paveikslėlį)",
+"options": {
+"A": "5",
+"B": "9",
+"C": "12",
+"D": "15",
+"E": "18"
+}
+},
+"M2000-24": {
+"prompt": "Medinio kubo briauna yra 20 cm. Kiekviena viršūnė nupjaunama per išeinančių iš tos viršūnės trijų briaunų taškus, nutolusius nuo viršūnės 10 cm (žr. brėžinį; jame pavaizduota, kaip nupjaunama viena iš viršūnių). Kiek viršūnių turės naujasis kūnas?",
+"options": {
+"A": "6",
+"B": "8",
+"C": "12",
+"D": "18",
+"E": "24"
+}
+},
+"M2001-1": {
+"prompt": "Keturiuose paveikslėliuose pavaizduoti skaičiai nuo 1 iki 4 kartu su savo veidrodiniais atvaizdais (žr. paveikslėlį). Koks bus penktas paveikslėlis?",
+"options": {}
+},
+"M2001-2": {
+"prompt": "Juozas turėjo 7 lazdeles. Vieną iš jų jis perlaužė pusiau. Kiek lazdelių turi Juozas dabar?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"M2001-3": {
+"prompt": "Simas savo mamai nupirko gražią dovanėlę – šokoladinę širdutę (žr. paveikslėlį). Kiekvienas šokoladinis kvadratėlis sveria 10 g. Kiek sveria visa širdutė?",
+"options": {
+"A": "340 g",
+"B": "360 g",
+"C": "380 g",
+"D": "400 g",
+"E": "420 g"
+}
+},
+"M2001-4": {
+"prompt": "Skaičius, kuriuo reikia pakeisti X lentelėje (žr. paveikslėlį), yra",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "8"
+}
+},
+"M2001-5": {
+"prompt": "Petraičių šeima (tėtė, mama ir jų sūnus) išsinuomojo trivietę valtį. Keliais būdais jie gali susėsti valtyje?",
+"options": {
+"A": "9",
+"B": "8",
+"C": "6",
+"D": "4",
+"E": "3"
+}
+},
+"M2001-6": {
+"prompt": "Tik vienas iš čia parašytų pratimų atliktas teisingai. Kuris?",
+"options": {
+"A": "12 : (4 + 8) = 11",
+"B": "8 · 2 + 3 = 40",
+"C": "2 · 3 + 4 · 5 = 50",
+"D": "(10 + 8) : 2 = 14",
+"E": "18 − 6 : 3 = 16"
+}
+},
+"M2001-7": {
+"prompt": "Mokyklos kieme yra 19 mergaičių ir 12 berniukų. Kiek dar mažiausiai vaikų turi prie jų prisijungti, kad juos visus galima būtų suskirstyti į 6 vienodo dydžio grupes?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2001-8": {
+"prompt": "Piešinyje pavaizduotas Petriuko gyvenamosios vietos planelis. Kiekvienas kvartalas yra kvadratas, kurio kraštinė 100 m. Koks yra trumpiausias atstumas, kurį Petriukui tenka nueiti iš namų iki mokyklos?",
+"options": {
+"A": "100 m",
+"B": "200 m",
+"C": "350 m",
+"D": "450 m",
+"E": "500 m"
+}
+},
+"M2001-9": {
+"prompt": "Petriukas gimė tą dieną, kai Onutei sukako treji metai. Kiek metų bus Petriukui, kai Onutė bus dvigubai už jį vyresnė?",
+"options": {
+"A": "1 metai",
+"B": "2 metai",
+"C": "3 metai",
+"D": "4 metai",
+"E": "10 metų"
+}
+},
+"M2001-10": {
+"prompt": "Mergaitės kaspinas surištas prie dešinės ausies. Ji stovi prie veidrodžio. Kelis iš žemiau pavaizduotų paveikslėlių įmanoma pamatyti veidrodyje?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"M2001-11": {
+"prompt": "Keletas kengūrų stovėjo ratu. Joms buvo išdalyta 20 saldainių. Kiekviena kengūra gavo bent vieną saldainį, bet jokios dvi kengūros negavo saldainių vienodai. Kiek daugiausiai kengūrų galėjo stovėti ratu?",
+"options": {
+"A": "20",
+"B": "10",
+"C": "8",
+"D": "6",
+"E": "5"
+}
+},
+"M2001-12": {
+"prompt": "Betė ir Ketė važiavo supertraukinuku. Betė įlipo į 17-tą vagonėlį nuo traukinuko priekio, o Ketė įlipo į 34-tą vagonėlį nuo galo. Jos labai nustebo, kad atsidūrė tame pačiame vagonėlyje. Kiek vagonėlių traukinuke?",
+"options": {
+"A": "48",
+"B": "49",
+"C": "50",
+"D": "51",
+"E": "52"
+}
+},
+"M2001-13": {
+"prompt": "Kuris iš penkių paveikslėlių vaizduoja kūną, kuris skiriasi nuo kūno, pavaizduoto kituose keturiuose paveikslėliuose?",
+"options": {}
+},
+"M2001-14": {
+"prompt": "Adomas ir Marius renka pašto ženklus. Tam tikru momentu abu jie turėjo po tiek pat ženklų. Mariaus gimimo dieną Adomas jam padovanojo pusę savo kolekcijos. Dabar Marius turi daugiau ženklų negu Adomas. O kiek gi kartų daugiau?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "Tai priklauso nuo turėtų ženklų skaičiaus"
+}
+},
+"M2001-15": {
+"prompt": "Ant stalo guli trikampiai ir keturkampiai, kurie neliečia vienas kito. Iš viso jie kartu turi 17 viršūnių. Kiek trikampių yra ant stalo?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2001-16": {
+"prompt": "Kiek mažiausiai degtukų reikia pridėti prie pavaizduotos konfigūracijos, kad joje būtų lygiai 11 kvadratų?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2001-17": {
+"prompt": "Aš turiu tris krepšelius, kurių kiekviename yra 11 saldainių. Aš imu po vieną saldainį iš kiekvieno krepšelio tokia tvarka: iš kairiojo, iš vidurinio, iš dešiniojo, iš vidurinio, iš kairiojo, iš vidurinio ir t. t., kol vidurinis krepšelis ištuštės. Kiek saldainių bus tame krepšelyje, kuriame jų liko daugiau?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "5",
+"D": "6",
+"E": "11"
+}
+},
+"M2001-18": {
+"prompt": "Didžiojoje miško batų parduotuvėje buvo po 12 porų batų kiekvienoje iš 10 lentynų. Pirmieji lankytojai buvo šimtakojai. Trys iš jų nusipirko po 30 porų kiekvienas, kiti du pirko tik po 5 poras kiekvienas. Kiek porų batų liko parduotuvėje po šimtakojų apsilankymo?",
+"options": {
+"A": "10",
+"B": "15",
+"C": "20",
+"D": "25",
+"E": "30"
+}
+},
+"M2001-19": {
+"prompt": "Jaunojo konstruktoriaus rinkinį sudaro pagaliukai ir jungiamieji rutuliukai. Vaikai sudėjo konstrukciją iš keturių kubų (žr. paveikslėlį). Kiek jiems prireikė rutuliukų?",
+"options": {
+"A": "16",
+"B": "18",
+"C": "20",
+"D": "21",
+"E": "22"
+}
+},
+"M2001-20": {
+"prompt": "Kiek yra triženklių skaičių, kurių skaitmenų suma lygi 4?",
+"options": {
+"A": "10",
+"B": "9",
+"C": "8",
+"D": "7",
+"E": "6"
+}
+},
+"M2001-21": {
+"prompt": "Penkios draugės sudėjo savo rankšluosčius pliaže taip, kad jie sudarė didelį kvadratą. Rankšluosčiai A ir B kvadratiniai, to paties dydžio, ir kiekvieno perimetras 720 cm. Rankšluosčiai C, D ir E yra vienodi stačiakampiai. Koks yra rankšluosčio E perimetras?",
+"options": {
+"A": "600 cm",
+"B": "560 cm",
+"C": "440 cm",
+"D": "360 cm",
+"E": "300 cm"
+}
+},
+"M2001-22": {
+"prompt": "Zita turi keturias žvakes. Kiekviena žvakė sudega per 3 valandas. Zita uždega dvi žvakes. Po 30 minučių vėjo gūsis užpučia vieną žvakę, dar po valandos kitas gūsis užpučia antrą žvakę. Tada Zita nusprendžia uždegti visas keturias žvakes. Kiek laiko praeis nuo šio momento, kol užges paskutinė žvakė, jei vėjas jų nebeužpūs?",
+"options": {
+"A": "1 h 30 min",
+"B": "2 h",
+"C": "3 h",
+"D": "7 h 30 min",
+"E": "8 h"
+}
+},
+"M2001-23": {
+"prompt": "Algis turi tiek pat pinigų, kiek Balys ir Česlovas kartu. Balys turi 10 litų daugiau negu Česlovas. Visi trys berniukai turi 40 litų. Kiek litų turi Česlovas?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "10",
+"D": "15",
+"E": "20"
+}
+},
+"M2001-24": {
+"prompt": "Lošimo kauliukas padėtas ant kvadratėliais sudalytos plokštumos kaip pavaizduota. Kauliuko priešingųjų sienų taškų suma lygi 7. Ridenkime kauliuką, kiekvieną kartą jį perversdami per briauną kryptimi, nurodyta rodyklėmis. Kiek taškų bus viršutinėje sienoje, kai kauliukas atsidurs kvadratėlyje, pažymėtame žvaigždute ∗?",
+"options": {
+"A": "5",
+"B": "4",
+"C": "3",
+"D": "1",
+"E": "Kitas atsakymas"
+}
+},
+"M2002-1": {
+"prompt": "Apskaičiavę 2 + 2 − 2 + 2 − 2 + 2 − 2 + 2 − 2 + 2, gausime",
+"options": {
+"A": "0",
+"B": "2",
+"C": "4",
+"D": "12",
+"E": "20"
+}
+},
+"M2002-2": {
+"prompt": "Žemiau matome kengūros mozaiką be vieno kvadratėlio. Kuris iš žemiau pavaizduotų kvadratėlių buvo iš mozaikos pašalintas?",
+"options": {}
+},
+"M2002-3": {
+"prompt": "Andrius gimimo dieną iš draugų gavo dovanų dešimt tušinukų, tris automobiliukus, keturis kamuolius, tris meškiukus, dvi plyteles šokolado ir knygą. Kiek daiktų jis gavo?",
+"options": {
+"A": "15",
+"B": "17",
+"C": "20",
+"D": "23",
+"E": "27"
+}
+},
+"M2002-4": {
+"prompt": "Ant vienos svarstyklių lėkštelės padėti 6 apelsinai, o ant kitos – 2 melionai. Kai padedame tokį pat trečią melioną prie apelsinų, svarstyklės pasidaro pusiausviros. Kiek apelsinų sveria tiek pat, kaip vienas melionas?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2002-5": {
+"prompt": "Juozas gyvena trumpoje gatvelėje, kurios namų numeriai yra nuo 1 iki 24. Kiek kartų namų numeriuose pasikartoja skaitmuo 2?",
+"options": {
+"A": "2",
+"B": "4",
+"C": "8",
+"D": "16",
+"E": "32"
+}
+},
+"M2002-6": {
+"prompt": "Žemiau pavaizduotas kvadratas. Kurios iš pateiktų figūrų negausime, sukarpę jį pagal nubrėžtas linijas?",
+"options": {}
+},
+"M2002-7": {
+"prompt": "Žmogaus širdis muša maždaug 70 kartų per minutę. Kiek kartų ji apytikriai muša per 1 valandą?",
+"options": {
+"A": "42 000",
+"B": "7 000",
+"C": "4 200",
+"D": "700",
+"E": "420"
+}
+},
+"M2002-8": {
+"prompt": "Kvadrato ABCD kraštinė lygi 10 cm. Stačiakampio ATMD trumpesnioji kraštinė lygi 3 cm. Keliais centimetrais kvadrato ABCD perimetras didesnis už stačiakampio ATMD perimetrą?",
+"options": {
+"A": "14",
+"B": "10",
+"C": "7",
+"D": "6",
+"E": "4"
+}
+},
+"M2002-9": {
+"prompt": "Paveikslėlyje matome pilies kontūrą. Kuri iš žemiau pavaizduotų linijų nėra to kontūro dalis?",
+"options": {}
+},
+"M2002-10": {
+"prompt": "Prie mažiausio dviženklio skaičiaus pridedame 17. Gautą sumą padaliję iš didžiausio vienaženklio skaičiaus, gausime",
+"options": {
+"A": "3",
+"B": "6",
+"C": "9",
+"D": "11",
+"E": "27"
+}
+},
+"M2002-11": {
+"prompt": "Kadaise vienoje šalyje vienetas buvo žymimas vienu ženklu, dešimt – kitu, o šešiasdešimt – trečiu (žr. paveikslėlį). Pavyzdžiui, skaičius 22 buvo užrašomas dviem dešimties ir dviem vieneto ženklais. Kuris užrašas reiškia skaičių 124?",
+"options": {}
+},
+"M2002-12": {
+"prompt": "Laikrodžio ciferblatas suskilo į 4 dalis. Kiekvienoje dalyje esančių skaičių sumos yra paeiliui einantys skaičiai. Kuriame iš paveikslėlių pavaizduotas tas ciferblatas?",
+"options": {}
+},
+"M2002-13": {
+"prompt": "Julius, Matas, Vytas ir Tadas turi katę, šunį, žuvytę ir kanarėlę – kiekvienas po vieną gyvūną. Matas turi gyvūną su kailiu, Tadas turi keturkojį gyvūną, Vytas turi paukštį, o Julius ir Matas nemėgsta kačių. Kuris sakinys neteisingas?",
+"options": {
+"A": "Tadas turi šunį",
+"B": "Vytas turi kanarėlę",
+"C": "Julius turi žuvytę",
+"D": "Tadas turi katę",
+"E": "Matas turi šunį"
+}
+},
+"M2002-14": {
+"prompt": "Šokinėjimo zigzagais varžybose kengūros Mikė, Nikė ir Okė įveikė pavaizduotas distancijas. Kengūros šokinėjo tuo pačiu greičiu. Kuris sakinys teisingas?",
+"options": {
+"A": "Mikė ir Okė finišavo vienu metu",
+"B": "Nikė buvo pirma",
+"C": "Okė buvo paskutinė",
+"D": "Visos finišavo vienu metu",
+"E": "Mikė ir Nikė finišavo vienu metu"
+}
+},
+"M2002-15": {
+"prompt": "Julė, Kamilė, Zita ir Elena yra gimusios kovo 1, gegužės 17, liepos 21 ir kovo 21 d. Kamilė ir Zita gimusios tą patį mėnesį, o Julės ir Zitos gimimo dienos žymimos tuo pačiu skaičiumi. Kuri iš mergaičių gimė gegužės 17 d.?",
+"options": {
+"A": "Julė",
+"B": "Kamilė",
+"C": "Zita",
+"D": "Elena",
+"E": "Nustatyti neįmanoma"
+}
+},
+"M2002-16": {
+"prompt": "Samanta ir Jolanta kartu turi 60 degtukų. Samanta paėmė tiek degtukų, kiek jų reikėjo sudėti trikampiui, kurio kiekvienos kraštinės ilgis šeši degtukai. Iš likusių degtukų Jolanta sudėjo stačiakampį, kurio vieną kraštinę taip pat sudarė šeši degtukai. Kiek degtukų buvo didesnėje stačiakampio kraštinėje?",
+"options": {
+"A": "30",
+"B": "18",
+"C": "15",
+"D": "12",
+"E": "9"
+}
+},
+"M2002-17": {
+"prompt": "Iš popieriaus iškirptas stačiakampis. Kuri iš pavaizduotų figūrų negalėjo susidaryti, perlenkus jį vieną kartą?",
+"options": {}
+},
+"M2002-18": {
+"prompt": "Marytė išeina iš namų 6:55 ir ateina į mokyklą 7:32. Jos draugei Zitai į mokyklą reikia eiti 12 minučių mažiau. Vakar Zita atėjo į mokyklą 7:45. Kada ji išėjo iš namų?",
+"options": {
+"A": "7:07",
+"B": "7:20",
+"C": "7:25",
+"D": "7:30",
+"E": "7:33"
+}
+},
+"M2002-19": {
+"prompt": "Robertas sustatė tunelį iš vienodų kubelių. Kai jam nusibodo, jis perstatė tunelį į pilnavidurę piramidę (žr. paveikslėlius). Kiek kubelių iš tunelio liko nepanaudota šiai piramidei?",
+"options": {
+"A": "34",
+"B": "29",
+"C": "22",
+"D": "18",
+"E": "15"
+}
+},
+"M2002-20": {
+"prompt": "Žūklėje Petras pagavo tiek pat žuvų, kaip ir jo sūnus Lukas. Jonas pagavo triskart daugiau žuvų negu jo sūnus. Visi kartu jie pagavo 35 žuvis. Kiek žuvų pagavo Petras?",
+"options": {
+"A": "21",
+"B": "14",
+"C": "7",
+"D": "6",
+"E": "0"
+}
+},
+"M2002-21": {
+"prompt": "Meno vadovas nori sudaryti trio iš smuikininko, pianisto ir violončelininko ir gali rinktis iš dviejų smuikininkų, dviejų pianistų ir dviejų violončelininkų. Jis nusprendė paklausyti kiekvienos galimos trio sudėties grojimo. Kelių perklausų jam prireiks?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "8",
+"D": "24",
+"E": "25"
+}
+},
+"M2002-22": {
+"prompt": "Iš kvadratinės auksinės plytelės iškertamas ruošinys medaliui. Iškirtus keturis ruošinius, iš atlikusio aukso pagaminama dar viena tokia plytelė. Kiek daugiausiai medalių galima iškalti turint iš pradžių 16 plytelių?",
+"options": {
+"A": "5",
+"B": "9",
+"C": "12",
+"D": "21",
+"E": "20"
+}
+},
+"M2002-23": {
+"prompt": "Dvidešimt aštuoni mokiniai dalyvavo matematikos varžybose, ir jų rezultatai buvo skirtingi. Skaičius mokinių, atsidūrusių už Tomo, buvo dvigubai didesnis už skaičių mokinių, kuriems pasisekė geriau už Tomą. Kelintą vietą užėmė Tomas?",
+"options": {
+"A": "16",
+"B": "17",
+"C": "8",
+"D": "9",
+"E": "10"
+}
+},
+"M2002-24": {
+"prompt": "Mūsų automobilio kilometrų skaitiklis dabar rodo 187 569, ir šio skaičiaus visi skaitmenys skirtingi. Po kiek kilometrų taip atsitiks sekantį kartą?",
+"options": {
+"A": "13 776",
+"B": "12 431",
+"C": "431",
+"D": "21",
+"E": "1"
+}
+},
+"M2003-1": {
+"prompt": "Kam lygu 0 + 1 + 2 + 3 + 4 − 3 − 2 − 1 − 0?",
+"options": {
+"A": "0",
+"B": "2",
+"C": "4",
+"D": "10",
+"E": "16"
+}
+},
+"M2003-2": {
+"prompt": "Pirmame vagone yra 10 dėžių. Kiekviename tolesniame vagone yra dvigubai daugiau dėžių nei ankstesniame. Kiek dėžių yra penktame vagone?",
+"options": {
+"A": "100",
+"B": "120",
+"C": "140",
+"D": "160",
+"E": "180"
+}
+},
+"M2003-3": {
+"prompt": "Zita piešia gėlytes: iš pradžių mėlyną, po to žalią, tada raudoną, po jos juodą, pagaliau geltoną, tada vėl mėlyną, žalią, raudoną ir t. t. Kokios spalvos bus 17-toji gėlytė?",
+"options": {
+"A": "Mėlyna",
+"B": "Žalia",
+"C": "Raudona",
+"D": "Juoda",
+"E": "Geltona"
+}
+},
+"M2003-4": {
+"prompt": "Mokytojų kambaryje yra 6 keturviečiai staliukai, 4 dviviečiai staliukai ir 3 šešiaviečiai staliukai. Kiek vietų prie staliukų yra mokytojų kambaryje?",
+"options": {
+"A": "40",
+"B": "25",
+"C": "50",
+"D": "36",
+"E": "44"
+}
+},
+"M2003-5": {
+"prompt": "Ant stalo guli moneta. Kiek daugiausiai tokių pat monetų galima padėti ant stalo, kad jos liestų pirmąją?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "8"
+}
+},
+"M2003-6": {
+"prompt": "Paveikslėlyje atstumai KM = 10, LN = 15, KN = 22. Kam lygus atstumas LM?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2003-7": {
+"prompt": "Ežiukas Ukas skundžiasi savo draugams: „Jeigu aš būčiau paėmęs obuolių dvigubai daugiau negu paėmiau, tai turėčiau 24 obuoliais daugiau negu turiu dabar“. Kiek gi obuolių paėmė Ukas?",
+"options": {
+"A": "48",
+"B": "24",
+"C": "42",
+"D": "12",
+"E": "36"
+}
+},
+"M2003-8": {
+"prompt": "Kristupas iš to paties dydžio raudonų ir mėlynų kubelių sukonstravo pavaizduotą stačiakampį gretasienį. Visos išorinės jo sienos raudonos, o visi vidiniai kubeliai mėlyni. Kelių mėlynų kubelių prireikė Kristupui?",
+"options": {
+"A": "12",
+"B": "24",
+"C": "36",
+"D": "40",
+"E": "48"
+}
+},
+"M2003-9": {
+"prompt": "Stačiakampis 4 × 7 nubrėžtas languotame popieriuje, kurio langelis yra 1 × 1. Kiek langelių kerta stačiakampio įstrižainė?",
+"options": {
+"A": "8",
+"B": "9",
+"C": "10",
+"D": "11",
+"E": "12"
+}
+},
+"M2003-10": {
+"prompt": "Pavaizduota lentelė rodo įvairių gėlių rūšių skaičių botanikos sode. Iš sodininko Tadas sužinojo, kad sode yra 35 rūšys azalijų, 50 rūšių vilkdalgių ir 85 rūšys rožių. Kiek rūšių gerberų yra botanikos sode?",
+"options": {
+"A": "95",
+"B": "100",
+"C": "105",
+"D": "110",
+"E": "115"
+}
+},
+"M2003-11": {
+"prompt": "Onutė užmigo 9:30 vakaro, o kitą rytą pabudo 6:45. Jos broliukas Martynas miegojo 1 h 50 min ilgiau. Kiek laiko miegojo Martynas?",
+"options": {
+"A": "30 h 5 min",
+"B": "11 h 35 min",
+"C": "11 h 5 min",
+"D": "9 h 5 min",
+"E": "8 h 35 min"
+}
+},
+"M2003-12": {
+"prompt": "Pavaizduotas statinys sveria 189 g. Kiek gramų sveria vienas kubelis?",
+"options": {
+"A": "29",
+"B": "25",
+"C": "21",
+"D": "19",
+"E": "17"
+}
+},
+"M2003-13": {
+"prompt": "Kengūriukas Sprindis rengėsi žvėrių olimpiadai, ir geriausias jo rezultatas šuolyje į tolį buvo 50 dm 50 cm 50 mm. Olimpiadą jis laimėjo pagerinęs savo rezultatą 123 cm. Koks buvo Sprindžio pergalingas šuolis?",
+"options": {
+"A": "6 m 78 cm",
+"B": "5 m 73 cm",
+"C": "5 m 55 cm",
+"D": "11 m 28 cm",
+"E": "7 m 23 cm"
+}
+},
+"M2003-14": {
+"prompt": "Paveikslėlyje kvadratėlio plotas lygus 1. Kokį plotą paveikslėlyje užima raidė N?",
+"options": {
+"A": "15",
+"B": "16",
+"C": "17",
+"D": "18",
+"E": "19"
+}
+},
+"M2003-15": {
+"prompt": "Birutė dažnai nejučia sudeda skaitmenis, kuriuos ji mato savo elektroniniame laikrodyje (pavyzdžiui, jeigu laikrodis rodo 21:37, tai Birutė gauna sumą 2 + 1 + 3 + 7 = 13). Kokią didžiausią sumą ji gali gauti?",
+"options": {
+"A": "24",
+"B": "36",
+"C": "19",
+"D": "25",
+"E": "23"
+}
+},
+"M2003-16": {
+"prompt": "Klasėje yra 29 mokiniai. 12 mokinių turi seserį, o 18 mokinių turi brolį. Klasėje tik Tadas, Bartas ir Onutė neturi nei brolio, nei sesers. Keli mokiniai turi ir brolį, ir seserį?",
+"options": {
+"A": "Nė vienas",
+"B": "1",
+"C": "3",
+"D": "4",
+"E": "6"
+}
+},
+"M2003-17": {
+"prompt": "Jurgiui buvo pavesta nupirkti kamuolių varžyboms. Jeigu jis būtų pirkęs 5 kamuolius, tai jam dar būtų likę 10 litų, o jeigu jis būtų užsigeidęs nupirkti 7 kamuolius, tai jam būtų tekę pasiskolinti 22 litus. Kiek litų kainavo vienas kamuolys, jeigu jo kaina išreiškiama sveikuoju litų skaičiumi?",
+"options": {
+"A": "11",
+"B": "16",
+"C": "22",
+"D": "26",
+"E": "32"
+}
+},
+"M2003-18": {
+"prompt": "Aš apjuosiau medinį skritulį (žr. paveikslėlį) – man užteko a cm siūlo. Aš apjuosiau medinį kvadratą – man užteko b cm siūlo. Kiek centimetrų siūlo man užteks apjuosti tris skritulius jų nejudinant?",
+"options": {
+"A": "3a",
+"B": "2a + b",
+"C": "a + 2b",
+"D": "3b",
+"E": "a + b"
+}
+},
+"M2003-19": {
+"prompt": "Paveikslėlis dešinėje buvo perpieštas ant popieriaus lapo, o iškirpus išlankstytas namelis. Kuris?",
+"options": {}
+},
+"M2003-20": {
+"prompt": "Kengūrėlė pirko saldainių – didelių, vidutinių ir mažų. Didieji kainavo po 4 pinigėlius, vidutiniai – po 2 pinigėlius, o mažieji – po 1 pinigėlį. Kengūrėlė nusipirko 10 saldainių ir užmokėjo 16 pinigėlių. Kiek ji pirko didžiųjų saldainių?",
+"options": {
+"A": "5",
+"B": "4",
+"C": "3",
+"D": "2",
+"E": "1"
+}
+},
+"M2003-21": {
+"prompt": "Tam tikrą brūkšninį kodą sudaro 17 juodų ir baltų juostelių, kurios eina pakaitomis (pirma ir paskutinė juostelės – juodos). Juodosios juostelės yra dvejopos – plačios ir siauros. Baltųjų juostelių yra trimis daugiau negu plačiųjų juodų juostelių. Kiek yra siaurųjų juodų juostelių?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2003-22": {
+"prompt": "Marius sudėjo stačiakampį gretasienį iš 3 skirtingai išmargintų detalių, kurių kiekviena suklijuota iš 4 kubelių. Po to vieną detalę jis išėmė (žr. paveikslėlį). Kurią?",
+"options": {}
+},
+"M2003-23": {
+"prompt": "Žaislų parduotuvėje šuniukas ir trys meškiukai kainuoja tiek pat, kiek ir keturios kengūrėlės. Trys šuniukai ir du meškiukai taip pat kainuoja kiek ir keturios kengūrėlės. Kas ir kiek kartų kainuoja brangiau – šuniukas ar meškiukas?",
+"options": {
+"A": "Šuniukas dukart brangesnis už meškiuką",
+"B": "Meškiukas dukart brangesnis už šuniuką",
+"C": "Meškiukas ir šuniukas kainuoja vienodai",
+"D": "Meškiukas triskart brangesnis už šuniuką",
+"E": "Šuniukas triskart brangesnis už meškiuką"
+}
+},
+"M2003-24": {
+"prompt": "Pavaizduota lenta sudaryta iš 20 langelių 1 × 1. Keliais būdais galima uždengti jos 18 baltųjų langelių devyniais stačiakampiais kauliukais 1 × 2? (Lentos sukioti negalima. Du būdai laikomi skirtingais, jeigu bent vienas kauliukas padėtas kitaip.)",
+"options": {
+"A": "2",
+"B": "4",
+"C": "6",
+"D": "8",
+"E": "16"
+}
+},
+"M2004-1": {
+"prompt": "Kam lygu 2001 + 2002 + 2003 + 2004 + 2005?",
+"options": {
+"A": "1 015",
+"B": "5 010",
+"C": "10 150",
+"D": "11 005",
+"E": "10 015"
+}
+},
+"M2004-2": {
+"prompt": "Kiprui buvo 4 metai, kai gimė jo sesutė. Šiandien jis užpūtė visas 9 žvakutes ant savo gimtadienio torto. Kiek metų sudaro jo ir sesutės amžiaus skirtumas?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "9",
+"D": "13",
+"E": "14"
+}
+},
+"M2004-3": {
+"prompt": "Paveikslėlyje pavaizduotas kelias iš miesto M į miestą N (ištisinė linija) ir taisomo kelio atkarpos KL apvažiavimas (brūkšninė linija). Keliais kilometrais pailgėjo kelias darant apvažiavimą?",
+"options": {
+"A": "3",
+"B": "5",
+"C": "6",
+"D": "10",
+"E": "Nustatyti neįmanoma"
+}
+},
+"M2004-4": {
+"prompt": "Ant laido atsitūpė būrelis kregždžių. Vienu momentu 5 iš jų nuskrido, o po kurio laiko 3 parskrido atgal. Tada ant laido tupėjo 12 kregždžių. Kiek kregždžių atsitūpė ant laido iš pat pradžių?",
+"options": {
+"A": "8",
+"B": "9",
+"C": "10",
+"D": "12",
+"E": "14"
+}
+},
+"M2004-5": {
+"prompt": "Kurie skaičiai yra ir stačiakampyje, ir skritulyje, bet nėra trikampyje? (žr. paveikslėlį)",
+"options": {
+"A": "5 ir 11",
+"B": "1 ir 10",
+"C": "13",
+"D": "3 ir 9",
+"E": "6, 7 ir 4"
+}
+},
+"M2004-6": {
+"prompt": "Kiek baltų kvadratėlių reikia užtušuoti, kad užtušuotų kvadratėlių būtų perpus mažiau negu baltųjų?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "6",
+"E": "To padaryti neįmanoma"
+}
+},
+"M2004-7": {
+"prompt": "Marijos ir Petro klasės visi mokiniai sustojo į eilę. Už Marijos stovėjo 16 mokinių, tarp jų ir Petras. Prieš Petrą stovėjo 14 mokinių, tarp jų ir Marija. Tarp Marijos ir Petro stovėjo 7 mokiniai. Kiek mokinių mokosi toje klasėje?",
+"options": {
+"A": "37",
+"B": "30",
+"C": "23",
+"D": "22",
+"E": "16"
+}
+},
+"M2004-8": {
+"prompt": "Šeši vienodi permatomos plėvelės lapai buvo sudalyti į kvadratėlius, po to kiekviename lape kai kurie kvadratėliai buvo užtušuoti. Kurį iš lapų A, B, C, D ir E galima taip uždengti dešinėje pavaizduotu lapu, kad gautume visiškai užtušuotą stačiakampį?",
+"options": {}
+},
+"M2004-9": {
+"prompt": "Trys obuoliai ir du apelsinai sveria 255 g. Du obuoliai ir trys apelsinai sveria 285 g. Kiek gramų kartu sveria vienas obuolys ir vienas apelsinas?",
+"options": {
+"A": "110",
+"B": "108",
+"C": "105",
+"D": "104",
+"E": "102"
+}
+},
+"M2004-10": {
+"prompt": "Paveikslėlyje pavaizduota, ką aš pamačiau keturiuose sieniniuose laikrodžiuose tuo pačiu metu. Vienas iš laikrodžių rodė teisingą laiką, antras 20 minučių skubėjo, trečias 20 minučių vėlavo, o ketvirtas tiesiog buvo sustojęs. Kiek tada buvo valandų?",
+"options": {
+"A": "4:45",
+"B": "5:05",
+"C": "5:25",
+"D": "5:40",
+"E": "12:00"
+}
+},
+"M2004-11": {
+"prompt": "Nijolė svečiams pastatė vazą su obuoliais ir apelsinais. Svečiai suvalgė pusę visų obuolių ir trečdalį visų apelsinų. Tada vazoje liko",
+"options": {
+"A": "pusė visų vaisių",
+"B": "daugiau nei pusė visų vaisių",
+"C": "mažiau nei pusė visų vaisių",
+"D": "trečdalis visų vaisių",
+"E": "mažiau nei trečdalis visų vaisių"
+}
+},
+"M2004-12": {
+"prompt": "Dešinėje pavaizduotas kubas nuspalvintas trimis spalvomis. Kiekviena siena nuspalvinta kuria nors viena iš spalvų, o priešingos sienos nuspalvintos ta pačia spalva. Iš kurios išklotinės galima sulankstyti tokį kubą?",
+"options": {}
+},
+"M2004-13": {
+"prompt": "Karina rado knygą, iš kurios buvo išplėštas vienas gabalas. Atvertus tą vietą, kairėje buvo 24-tas puslapis, o dešinėje – 45-tas puslapis. Keli lapai buvo išplėšti iš knygos?",
+"options": {
+"A": "9",
+"B": "10",
+"C": "11",
+"D": "20",
+"E": "21"
+}
+},
+"M2004-14": {
+"prompt": "Rasa 52 dienomis vyresnė už savo klasės draugę Ireną. Rasa gimusi kovo mėnesį, ir pernai savo gimimo dieną šventė antradienį. Kurią savaitės dieną savo gimtadienį pernai šventė Irena?",
+"options": {
+"A": "Pirmadienį",
+"B": "Antradienį",
+"C": "Trečiadienį",
+"D": "Ketvirtadienį",
+"E": "Penktadienį"
+}
+},
+"M2004-15": {
+"prompt": "Kuris reiškinys nėra lygus 671 − 389?",
+"options": {
+"A": "771 − 489",
+"B": "681 − 399",
+"C": "669 − 391",
+"D": "1871 − 1589",
+"E": "600 − 318"
+}
+},
+"M2004-16": {
+"prompt": "Kiekviename kvadratinės lentelės 2 × 2 langelyje įrašytas skaičius. Pirmos eilutės skaičių suma lygi 3, antros eilutės skaičių suma lygi 8, pirmo stulpelio skaičių suma lygi 4. Kam lygi antrojo stulpelio skaičių suma?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "11"
+}
+},
+"M2004-17": {
+"prompt": "Keturi kvadratai sudėti taip, kaip paveikslėlyje. Dviejų iš kvadratų kraštinių ilgiai nurodyti. Kokia didžiausio kvadrato kraštinė?",
+"options": {
+"A": "24",
+"B": "56",
+"C": "64",
+"D": "81",
+"E": "100"
+}
+},
+"M2004-18": {
+"prompt": "Tomas turi 147 litus, o Simas 57 litus. Kiek litų Tomas turėtų duoti Simui, kad jam liktų dukart tiek pinigų, kiek turės Simas?",
+"options": {
+"A": "11",
+"B": "19",
+"C": "30",
+"D": "45",
+"E": "49"
+}
+},
+"M2004-19": {
+"prompt": "Spalvų alėjoje yra penki namai: mėlynas, raudonas, geltonas, rožinis ir žalias. Namai sunumeruoti skaičiais nuo 1 iki 5. Raudonasis namas turi tik vieną kaimyną – mėlynąjį namą, o mėlynasis namas stovi tarp žaliojo ir raudonojo namų. Kokia yra namo Nr. 3 spalva?",
+"options": {
+"A": "Mėlyna",
+"B": "Raudona",
+"C": "Geltona",
+"D": "Rožinė",
+"E": "Žalia"
+}
+},
+"M2004-20": {
+"prompt": "Dešimtženklio skaičiaus skaitmenų suma lygi 9. Kam lygi to skaičiaus skaitmenų sandauga?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "45",
+"D": "9 · 8 · 7 · 6 · 5 · 4 · 3 · 2",
+"E": "Priklauso nuo to skaičiaus"
+}
+},
+"M2004-21": {
+"prompt": "Kubas suklijuotas iš 125 baltų ir juodų kubelių. Bet kurių dviejų bendrą sieną turinčių kubelių spalva skiriasi. Visi kubo kampai juodi. Kiek suklijuota juodų kubelių?",
+"options": {
+"A": "62",
+"B": "63",
+"C": "64",
+"D": "65",
+"E": "68"
+}
+},
+"M2004-22": {
+"prompt": "Loterijos bilietas kainavo 4 litus. Trys vaikinai – Saulius, Petras ir Robertas susidėjo dviem bilietams. Saulius davė 1 litą, Petras – 3 litus, Robertas – 4 litus. Vienam iš jų nusipirktų bilietų atiteko 1000 litų laimėjimas. Vaikinai laimikį pasidalijo sąžiningai, t. y. pagal kiekvieno jų indėlį. Kiek litų gavo Petras?",
+"options": {
+"A": "300",
+"B": "375",
+"C": "250",
+"D": "750",
+"E": "425"
+}
+},
+"M2004-23": {
+"prompt": "Per trejas futbolo čempionato rungtynes „Ančiasnapiai“ įmušė tris įvarčius ir praleido vieną. Už pergalę rungtynėse skiriami 3 taškai, už lygiąsias – 1 taškas ir už pralaimėjimą – 0 taškų. Kiek taškų komanda tikrai negalėjo uždirbti per tas trejas rungtynes?",
+"options": {
+"A": "7",
+"B": "6",
+"C": "5",
+"D": "4",
+"E": "3"
+}
+},
+"M2004-24": {
+"prompt": "Kiekviename baltame lentelės langelyje įrašyta sandauga skaičių, esančių pilkuose langeliuose į viršų ir į kairę nuo to langelio (pavyzdžiui, 42 = 7 × 6). Kurios dvi raidės slepia lentelėje tą patį skaičių?",
+"options": {
+"A": "L ir M",
+"B": "P ir N",
+"C": "R ir S",
+"D": "K ir R",
+"E": "M ir T"
+}
+},
+"M2005-1": {
+"prompt": "Peteliškė nutūpė ant vieno iš teisingos lygybės skaičių. Kokį skaičių dengia peteliškė? (žr. paveikslėlį)",
+"options": {
+"A": "250",
+"B": "400",
+"C": "500",
+"D": "910",
+"E": "1800"
+}
+},
+"M2005-2": {
+"prompt": "Vidudienį laikrodžio minutinė rodyklė užima kairiajame paveikslėlyje pavaizduotą padėtį, o po ketvirčio valandos – dešiniajame paveikslėlyje pavaizduotą padėtį. Kokią padėtį ji užims po septyniolikos ketvirčių nuo vidudienio?",
+"options": {}
+},
+"M2005-3": {
+"prompt": "Erika pirko pyragaičių po 3 litus. Ji davė 10 litų ir gavo 1 litą grąžos. Kiek pyragaičių pirko Erika?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2005-4": {
+"prompt": "Lentelės langeliuose yra 8 kengūros (žr. paveikslėlį). Kiek mažiausiai kengūrų turi peršokti į kitus langelius, kad kiekvienoje lentelės eilutėje ir kiekviename stulpelyje būtų lygiai dvi kengūros?",
+"options": {
+"A": "4",
+"B": "3",
+"C": "2",
+"D": "1",
+"E": "0"
+}
+},
+"M2005-5": {
+"prompt": "Helga gyvena su tėčiu, mama, broliu, taip pat su vienu šunimi, dviem katėmis, dviem papūgomis ir keturiomis žuvytėmis. Kiek kojų jie visi turi kartu?",
+"options": {
+"A": "22",
+"B": "40",
+"C": "28",
+"D": "32",
+"E": "24"
+}
+},
+"M2005-6": {
+"prompt": "Jonas turi šokolado plytelę, sudarytą iš kvadratinių gabaliukų 1 cm × 1 cm. Jis jau nuvalgė keletą gabaliukų iš vieno kampo (žr. paveikslėlį). Kiek gabaliukų Jonui dar liko?",
+"options": {
+"A": "66",
+"B": "64",
+"C": "62",
+"D": "60",
+"E": "58"
+}
+},
+"M2005-7": {
+"prompt": "Danielius nori įpilti į savo vėžlio akvariumą 4 kibirėlius vandens. Kiekvienu suvaikščiojimu jis pripildo iš čiaupo pilną kibirėlį, bet kol ateina iki akvariumo, išlaisto pusę vandens. Kiek kartų jam teks suvaikščioti nuo čiaupo iki akvariumo?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "8"
+}
+},
+"M2005-8": {
+"prompt": "Kiek mažiausiai vaikų gali būti tokioje šeimoje, kurioje kiekvienas vaikas turi bent vieną brolį ir bent vieną seserį?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2005-9": {
+"prompt": "Po dresiruotojo pirmojo švilpuko cirko scenoje beždžionės sudarė 6 eiles. Kiekvienoje eilėje buvo 4 beždžionės. Po antrojo švilpuko beždžionės persitvarkė į 8 lygias eiles. Kiek beždžionių tada buvo kiekvienoje eilėje?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "6"
+}
+},
+"M2005-10": {
+"prompt": "Iš žemiau parašytų penkių skaičių aš pasirinkau lyginį. Jo visi skaitmenys skirtingi. Šimtų skaitmuo dvigubai didesnis už vienetų skaitmenį, o dešimčių skaitmuo didesnis už tūkstančių skaitmenį. Kurį skaičių aš pasirinkau?",
+"options": {
+"A": "1246",
+"B": "3874",
+"C": "4683",
+"D": "4874",
+"E": "8462"
+}
+},
+"M2005-11": {
+"prompt": "Kvadratinis popieriaus lapas buvo sukarpytas į 3 dalis. Dvi iš jų yra paveikslėlyje dešinėje. Kokia yra trečioji dalis?",
+"options": {}
+},
+"M2005-12": {
+"prompt": "Buvo 9 popieriaus lapeliai. Keletas iš jų buvo sukarpyti į 3 lapelius kiekvienas. Iš viso susidarė 15 popieriaus lapelių. Keli lapeliai buvo sukarpyti?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2005-13": {
+"prompt": "Alė turi 24 litus, Beta turi 66 litus. Dalia turi tiek pat litų daugiau už Alę, kiek ir Beta turi daugiau už Dalią. Kiek litų turi Dalia?",
+"options": {
+"A": "33",
+"B": "35",
+"C": "42",
+"D": "45",
+"E": "48"
+}
+},
+"M2005-14": {
+"prompt": "Stačiakampio paveikslo rėmelis padarytas iš vienodo pločio medinių juostelių. Koks tų juostelių plotis (centimetrais), jeigu išorinis rėmelio perimetras 8 cm didesnis už vidinį?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "4",
+"D": "8",
+"E": "Priklauso nuo paveikslo matmenų"
+}
+},
+"M2005-15": {
+"prompt": "Seife yra 5 stalčiai, kiekviename stalčiuje yra 3 dėžutės, kiekvienoje dėžutėje yra po 10 auksinių monetų. Seifas, stalčiai ir dėžutės rakinamos. Kiek mažiausiai užraktų reikia atrakinti norint pasiimti 50 monetų?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"M2005-16": {
+"prompt": "Kubo briaunos lygios 12 cm. Skruzdėlė eina kubo paviršiumi iš viršūnės M į N, kaip pavaizduota paveikslėlyje. Kiek centimetrų sudaro jos kelias?",
+"options": {
+"A": "60",
+"B": "50",
+"C": "48",
+"D": "40",
+"E": "Be papildomų duomenų nustatyti neįmanoma"
+}
+},
+"M2005-17": {
+"prompt": "Liftas negali kelti daugiau kaip 150 kg. Keturi draugai sveria 60 kg, 80 kg, 80 kg ir 80 kg. Kiek mažiausiai kartų reikia liftui pakilti, norint pakelti visus keturis draugus į viršutinį aukštą?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "7"
+}
+},
+"M2005-18": {
+"prompt": "Jūs galite sudėti vienintelį stačiakampį iš šešių degtukų (žr. paveikslėlį). Kiek yra skirtingų stačiakampių, kurių kiekvienas sudėtas iš 14 degtukų?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "6",
+"E": "12"
+}
+},
+"M2005-19": {
+"prompt": "Kiekvienas iš septynių mokinių mokėjo tiek pat už ekskursiją. Bendra jų sumokėtų pinigų suma užrašoma triženkliu skaičiumi 3∗0. Koks yra vidurinis to skaičiaus skaitmuo?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"M2005-20": {
+"prompt": "Mūsų miestelyje prieš tiltą yra du kelių eismo ženklai. Vienas jų žymi didžiausią leistiną plotį, kitas – didžiausią leistiną masę (žr. paveikslėlį). Kuriam iš žemiau apibūdintų sunkvežimių galima važiuoti per tiltą?",
+"options": {
+"A": "315 cm pločio ir 4 307 kg masės",
+"B": "330 cm pločio ir 4 250 kg masės",
+"C": "325 cm pločio ir 4 400 kg masės",
+"D": "322 cm pločio ir 4 248 kg masės",
+"E": "Nė vienam"
+}
+},
+"M2005-21": {
+"prompt": "Paveikslėlyje pavaizduotas stačiakampis gėlynas 16 m × 20 m. Gėlininkas užsodino šešias vienodų matmenų lysves (jos paveikslėlyje pilkos). Koks yra kiekvienos lysvės perimetras metrais?",
+"options": {
+"A": "20",
+"B": "22",
+"C": "24",
+"D": "26",
+"E": "28"
+}
+},
+"M2005-22": {
+"prompt": "Mikas pasirinko triženklį skaičių ir dviženklį skaičių. Raskite šių skaičių sumą, jeigu jų skirtumas lygus 989.",
+"options": {
+"A": "1000",
+"B": "1001",
+"C": "1009",
+"D": "1010",
+"E": "2005"
+}
+},
+"M2005-23": {
+"prompt": "Penkios kortelės guli ant stalo tokia tvarka: 5, 1, 4, 3, 2. Vienu ėjimu galima sukeisti bet kurias dvi korteles. Korteles reikia sudėlioti tvarka 1, 2, 3, 4, 5. Kiek mažiausiai ėjimų tam prireiks?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2005-24": {
+"prompt": "Kurį iš žemiau pavaizduotų kubų galima sulankstyti iš dešinėje pavaizduotos iškarpos?",
+"options": {}
+},
+"M2006-1": {
+"prompt": "Beta piešia tris skirtingas figūrėles vis ta pačia tvarka. Ką ji nupieš dabar?",
+"options": {}
+},
+"M2006-2": {
+"prompt": "Kam lygi reiškinio 2 · 0 · 0 · 6 + 2006 reikšmė?",
+"options": {
+"A": "0",
+"B": "2006",
+"C": "2014",
+"D": "2018",
+"E": "4012"
+}
+},
+"M2006-3": {
+"prompt": "Keliais kubeliais mažiau dešiniajame paveikslėlyje negu kairiajame?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "9"
+}
+},
+"M2006-4": {
+"prompt": "Ketės gimtadienis buvo vakar. Rytoj ketvirtadienis. Kurią savaitės dieną buvo Ketės gimtadienis?",
+"options": {
+"A": "Antradienį",
+"B": "Trečiadienį",
+"C": "Ketvirtadienį",
+"D": "Šeštadienį",
+"E": "Pirmadienį"
+}
+},
+"M2006-5": {
+"prompt": "Jonas mėtė į taikinį strėlytes. Iš pradžių jis turėjo 10 strėlyčių. Už kiekvieną pataikymą į centrą Jonas gaudavo po dvi papildomas strėlytes. Kiek kartų jis pataikė į centrą, jei po 20 metimų strėlyčių nebeliko?",
+"options": {
+"A": "6",
+"B": "8",
+"C": "10",
+"D": "5",
+"E": "4"
+}
+},
+"M2006-6": {
+"prompt": "Aplink kvadratinį staliuką gali sėdėti keturi žmonės. Tokie 7 staliukai buvo sustatyti vienas greta kito į vieną eilę. Taip susidarė ilgas stačiakampis stalas. Kiek žmonių galės prie jo susėsti?",
+"options": {
+"A": "14",
+"B": "16",
+"C": "21",
+"D": "24",
+"E": "28"
+}
+},
+"M2006-7": {
+"prompt": "Stasys turi tris monetas: 5 litų, 2 litų ir 1 lito. Kurios iš nurodytų sumų Stasys negali užmokėti be grąžos?",
+"options": {
+"A": "3 litų",
+"B": "4 litų",
+"C": "6 litų",
+"D": "7 litų",
+"E": "8 litų"
+}
+},
+"M2006-8": {
+"prompt": "Kengūrėlė įeina į pastatą. Pro kurias duris kengūrėlė išeis iš pastato, jei ji eis tik per trikampius kambarius?",
+"options": {
+"A": "a",
+"B": "b",
+"C": "c",
+"D": "d",
+"E": "e"
+}
+},
+"M2006-9": {
+"prompt": "Vienoje Ilgosios gatvės pusėje esančių namų numeriai yra 1, 3, 5, …, 19, o kitoje pusėje esančių namų numeriai – 2, 4, 6, …, 14. Kiek namų yra Ilgojoje gatvėje?",
+"options": {
+"A": "8",
+"B": "16",
+"C": "17",
+"D": "18",
+"E": "33"
+}
+},
+"M2006-10": {
+"prompt": "Iš kurio languotojo stačiakampio galima iškirpti dešinėje esančią figūrą?",
+"options": {}
+},
+"M2006-11": {
+"prompt": "Schemoje apskritimai žymi miestelius. Greta tuos miestelius jungiančių kelių surašytos bilietų kainos. Petras nori kuo pigiau nuvažiuoti iš miestelio A į miestelį B. Kiek jam teks mokėti už bilietus?",
+"options": {
+"A": "90",
+"B": "100",
+"C": "110",
+"D": "180",
+"E": "200"
+}
+},
+"M2006-12": {
+"prompt": "Ant 6 kortelių, kaip pavaizduota paveikslėlyje, parašyta po vieną skaičių: 309, 41, 5, 7, 68, 2. Kokį mažiausią dešimtženklį skaičių galima sudėlioti iš tų šešių kortelių, dedant jas vieną šalia kitos?",
+"options": {
+"A": "1234567890",
+"B": "1023456789",
+"C": "3097568241",
+"D": "2309415687",
+"E": "2309415678"
+}
+},
+"M2006-13": {
+"prompt": "Šeši svareliai – 1 g, 2 g, 3 g, 4 g, 5 g, 6 g – sudėlioti į 3 dėžutes po 2 į kiekvieną. Pirmos dėžutės svareliai kartu sveria 9 gramus. Antros dėžutės svareliai kartu sveria 8 gramus. Kokie svareliai yra trečioje dėžutėje?",
+"options": {
+"A": "5 g ir 2 g",
+"B": "6 g ir 1 g",
+"C": "3 g ir 1 g",
+"D": "4 g ir 2 g",
+"E": "4 g ir 3 g"
+}
+},
+"M2006-14": {
+"prompt": "Paveikslėliuose pavaizduoti keturi keliai, jungiantys tuos pačius du taškus. Kuris kelias yra trumpiausias?",
+"options": {}
+},
+"M2006-15": {
+"prompt": "Paveikslėlyje pavaizduota skaičių gėlytė. Onutė nuplėšė visus gėlytės lapelius su skaičiais, kuriuos dalijant iš 6 gaunama liekana lygi 2. Kam lygi Onutės nuplėštų lapelių skaičių suma?",
+"options": {
+"A": "46",
+"B": "66",
+"C": "84",
+"D": "86",
+"E": "114"
+}
+},
+"M2006-16": {
+"prompt": "Ant tvoros vienodais atstumais tupi 4 varnos. Jų vardai: Dana, Hana, Lena ir Zdena. Dana tupi per patį vidurį tarp Hanos ir Lenos. Atstumas tarp Hanos ir Danos yra toks pats, kaip ir tarp Lenos ir Zdenos. Dana tupi už 4 metrų nuo Zdenos. Už kelių metrų nuo Zdenos tupi Hana?",
+"options": {
+"A": "5 m",
+"B": "6 m",
+"C": "7 m",
+"D": "8 m",
+"E": "9 m"
+}
+},
+"M2006-17": {
+"prompt": "Dešinėje pavaizduotoje dėlionėje nėra vienos iš apačioje pavaizduotų detalių. Kurios?",
+"options": {}
+},
+"M2006-18": {
+"prompt": "Jonas stato namelius iš kortų. Paveikslėlyje matote Jono pastatytus vieno, dviejų ir trijų aukštų namelius (atitinkamai iš 2 kortų, iš 7 kortų, iš 15 kortų). Kiek kortų reikės keturių aukštų nameliui pastatyti?",
+"options": {
+"A": "23",
+"B": "24",
+"C": "25",
+"D": "26",
+"E": "27"
+}
+},
+"M2006-19": {
+"prompt": "Romas iš 10 kubelių suklijavo dešinėje pavaizduotą statinį. Jis nudažė visą statinį, įskaitant ir dugną. Kiek kubelių sienų jam prisiėjo nudažyti?",
+"options": {
+"A": "18",
+"B": "24",
+"C": "30",
+"D": "36",
+"E": "42"
+}
+},
+"M2006-20": {
+"prompt": "Irena, Adelė, Kristina, Ona ir Elena gyvena viename name: dvi iš jų gyvena pirmame aukšte, trys – antrame. Ona gyvena ne tame pačiame aukšte, kuriame gyvena Kristina ir Elena. Adelė gyvena ne tame pačiame aukšte, kuriame gyvena Irena ir Kristina. Kas gyvena pirmame aukšte?",
+"options": {
+"A": "Kristina ir Elena",
+"B": "Irena ir Elena",
+"C": "Irena ir Ona",
+"D": "Irena ir Kristina",
+"E": "Adelė ir Ona"
+}
+},
+"M2006-21": {
+"prompt": "Reiškinyje 2006 ∗ 2005 ∗ 2004 ∗ 2003 ∗ 2002 vietoj kiekvienos žvaigždutės yra rašoma arba +, arba − ir apskaičiuojama reiškinio reikšmė. Kurio iš parašytų skaičių taip gauti negalima?",
+"options": {
+"A": "2004",
+"B": "2005",
+"C": "2006",
+"D": "2008",
+"E": "2010"
+}
+},
+"M2006-22": {
+"prompt": "Tam tikrais metais kovo mėnesį buvo 5 pirmadieniai. Kuri savaitės diena tą mėnesį negalėjo būti 5 kartus?",
+"options": {
+"A": "Šeštadienis",
+"B": "Sekmadienis",
+"C": "Antradienis",
+"D": "Trečiadienis",
+"E": "Ketvirtadienis"
+}
+},
+"M2006-23": {
+"prompt": "Kiekviename iš devynių kvadrato 3 × 3 langelių rašomi skaičiai 1, 2 arba 3. Kiekvienoje kvadrato eilutėje ir kiekviename stulpelyje turi būti visi skaičiai 1, 2 ir 3. Viršutiniame kairiajame langelyje įrašytas skaičius 1. Kiek skirtingų kvadratų galima gauti?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "8"
+}
+},
+"M2006-24": {
+"prompt": "Visos pavaizduotos svarstyklės yra pusiausviros, o vienodos formos daiktai sveria vienodai. Skrituliukas sveria 30 gramų. Kiek sveria kvadratukas?",
+"options": {
+"A": "10",
+"B": "20",
+"C": "30",
+"D": "40",
+"E": "50"
+}
+},
+"M2007-1": {
+"prompt": "Zita, eidama iki automobilio takeliu iš kairės į dešinę, susirinko į krepšelį visus jos kelyje pasitaikiusius skaičius (žr. paveikslėlį). Kuris skaičių rinkinys galėjo atsidurti jos krepšelyje?",
+"options": {
+"A": "1, 2 ir 4",
+"B": "2, 3 ir 4",
+"C": "2, 3 ir 5",
+"D": "1, 5 ir 6",
+"E": "1, 2 ir 5"
+}
+},
+"M2007-2": {
+"prompt": "Kuriai kengūrėlei sudaryti prireikė daugiausia kvadratėlių?",
+"options": {}
+},
+"M2007-3": {
+"prompt": "Raidę vadinsime kengūriška, jeigu ji yra ir žodyje KENGŪRA, ir žodyje ŠOKLI. Kiek yra kengūriškų raidžių?",
+"options": {
+"A": "5",
+"B": "1",
+"C": "7",
+"D": "2",
+"E": "3"
+}
+},
+"M2007-4": {
+"prompt": "Koks yra mažiausias skaičius, didesnis už 2007, bet turintis tokią pat skaitmenų sumą kaip ir 2007?",
+"options": {
+"A": "2016",
+"B": "2115",
+"C": "2008",
+"D": "1008",
+"E": "2070"
+}
+},
+"M2007-5": {
+"prompt": "Vienoje parko takelio pusėje kas 8 metrai stovi 9 žibintai. Kengūriukas nušokavo visą kelią nuo pirmo iki paskutinio žibinto. Kiek metrų jis nušokavo?",
+"options": {
+"A": "48",
+"B": "56",
+"C": "64",
+"D": "72",
+"E": "80"
+}
+},
+"M2007-6": {
+"prompt": "Seifo kodas yra triženklis skaičius, sudarytas iš skirtingų skaitmenų. Kiek kodų galima sudaryti naudojantis tik skaitmenimis 1, 3 ir 5?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2007-7": {
+"prompt": "Kurią iš žemiau pavaizduotų figūrų reikia pasirinkti, kad pridėjus prie jos nuspalvintąją figūrą susidarytų stačiakampis?",
+"options": {}
+},
+"M2007-8": {
+"prompt": "Kokį skaičių reikia įrašyti į tamsųjį debesėlį, kad atlikę nurodytus veiksmus gautume paskutinio debesėlio skaičių (žr. paveikslėlį)?",
+"options": {
+"A": "1",
+"B": "3",
+"C": "5",
+"D": "7",
+"E": "9"
+}
+},
+"M2007-9": {
+"prompt": "Kam lygu 4 · 4 + 4 + 4 + 4 + 4 + 4 · 4?",
+"options": {
+"A": "32",
+"B": "44",
+"C": "48",
+"D": "56",
+"E": "144"
+}
+},
+"M2007-10": {
+"prompt": "Į pavaizduoto kvadrato kiekvieną langelį reikia įrašyti skaičius 1, 2 arba 3. Kiekvienoje eilutėje ir kiekviename stulpelyje turi būti kiekvienas iš tų skaičių. Tomas jau įrašė kelis skaičius. Koks skaičius gali būti parašytas klaustuku pažymėtame langelyje?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "2 arba 3",
+"E": "Bet kuris iš skaičių 1, 2 arba 3"
+}
+},
+"M2007-11": {
+"prompt": "Asta turi 5 litus. Ji ketina pirkti 5 vienodus sąsiuvinius po 80 centų ir keletą vienodų pieštukų po 30 centų. Kiek daugiausia pieštukų ji galės nusipirkti?",
+"options": {
+"A": "5",
+"B": "4",
+"C": "3",
+"D": "2",
+"E": "1"
+}
+},
+"M2007-12": {
+"prompt": "Danutė į kubo formos 3 dm × 3 dm × 3 dm akvariumą įdėjo kelis vienodus kubelius, kurių briauna yra 1 dm ilgio (žr. pav.). Kiek daugiausia tokių kubelių ji gali dar įdėti į akvariumą?",
+"options": {
+"A": "9",
+"B": "13",
+"C": "17",
+"D": "21",
+"E": "27"
+}
+},
+"M2007-13": {
+"prompt": "Jonas gimė 2002 m. sausio 1 d. Jis yra vieneriais metais ir viena diena vyresnis už Petrą. Kada gimė Petras?",
+"options": {
+"A": "2003 m. sausio 2 d.",
+"B": "2001 m. sausio 2 d.",
+"C": "2000 m. gruodžio 31 d.",
+"D": "2002 m. gruodžio 31 d.",
+"E": "2003 m. gruodžio 31 d."
+}
+},
+"M2007-14": {
+"prompt": "Virvutė sukarpyta į 400 gabaliukų po 15 cm kiekvienas. Koks buvo tos virvutės ilgis?",
+"options": {
+"A": "6 km",
+"B": "60 m",
+"C": "600 cm",
+"D": "6000 mm",
+"E": "60 000 cm"
+}
+},
+"M2007-15": {
+"prompt": "Petras parašė vienženklį skaičių. Po to iš dešinės prirašė dar vieną skaitmenį. Prie gauto dviženklio skaičiaus pridėjęs 19, jis gavo 72. Kokį skaičių Petras buvo parašęs iš pradžių?",
+"options": {
+"A": "2",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "9"
+}
+},
+"M2007-16": {
+"prompt": "Elektroninis laikrodis rodo 20:07. Kiek mažiausiai laiko turi praeiti, kad vėl pamatytume tuos pačius keturis skaitmenis (nebūtinai ta pačia tvarka)?",
+"options": {
+"A": "4 h 20 min",
+"B": "6 h 00 min",
+"C": "10 h 55 min",
+"D": "11 h 13 min",
+"E": "24 h 00 min"
+}
+},
+"M2007-17": {
+"prompt": "Kubas, kurio briauna yra 3 cm, buvo nudažytas ir supjaustytas į kubelius, kurių briaunos ilgis 1 cm. Kiek kubelių turi lygiai dvi nudažytas sieneles?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "8",
+"D": "10",
+"E": "12"
+}
+},
+"M2007-18": {
+"prompt": "Palindromu vadinamas skaičius, kuris nepasikeičia surašius jo skaitmenis atvirkščia tvarka (pavyzdžiui, 1331 arba 24642). Dabar automobilio nuvažiuotų kilometrų skaitiklis rodo palindromą 15951. Kiek mažiausiai kilometrų reikia nuvažiuoti, kad skaitiklis vėl rodytų palindromą?",
+"options": {
+"A": "100",
+"B": "110",
+"C": "710",
+"D": "900",
+"E": "1010"
+}
+},
+"M2007-19": {
+"prompt": "Romas, Feliksas, Lina, Janina ir Andrius sustojo į eilę prie kasos. Romas stovi toliau nei Lina. Feliksas stovi arčiau nei Romas ir iškart po Janinos. Janina stovi arčiau nei Lina, bet ji nėra pirma. Kurioje vietoje stovi Andrius?",
+"options": {
+"A": "Pirmoje",
+"B": "Antroje",
+"C": "Trečioje",
+"D": "Ketvirtoje",
+"E": "Penktoje"
+}
+},
+"M2007-20": {
+"prompt": "Suskaičiuokime, kiek neužtušuotų langelių yra kiekviename iš trijų kvadratų: 8 balti langeliai, 21 baltas langelis, 40 baltų langelių (žr. paveikslėlį). Kiek baltų langelių bus ketvirtame kvadrate?",
+"options": {
+"A": "50",
+"B": "60",
+"C": "65",
+"D": "70",
+"E": "75"
+}
+},
+"M2007-21": {
+"prompt": "Iš stačiakampio 15 cm × 9 cm lapo kiekvieno kampo iškirptas kvadratas, kurio perimetras lygus 8 cm. Koks yra likusios lapo dalies perimetras (cm)?",
+"options": {
+"A": "48",
+"B": "40",
+"C": "32",
+"D": "24",
+"E": "16"
+}
+},
+"M2007-22": {
+"prompt": "Aplink apvalų stalą vienodais atstumais sustatytos kėdės, paeiliui sunumeruotos skaičiais 1, 2, 3, ... . Petro kėdės numeris 11, o sėdi jis tiksliai priešais Marytę, kurios kėdės numeris 4. Kiek kėdžių yra prie stalo?",
+"options": {
+"A": "13",
+"B": "14",
+"C": "16",
+"D": "17",
+"E": "22"
+}
+},
+"M2007-23": {
+"prompt": "Kiek skaitmenų prireiks užrašyti visiems skaičiams nuo 1 iki 100 imtinai?",
+"options": {
+"A": "100",
+"B": "150",
+"C": "190",
+"D": "192",
+"E": "200"
+}
+},
+"M2007-24": {
+"prompt": "Kvadratinis popieriaus lapelis dukart perlenkiamas taip, kad gautųsi keturlinkas kvadratas. Vienas iš jo ketursluoksnių kampų nukerpamas vienu tiesiu kirpimu (nebūtinai tas, kuris parodytas paveikslėlyje). Kurio iš pavaizduotų karpinių negalima gauti vėl atlanksčius popierių?",
+"options": {}
+},
+"M2008-1": {
+"prompt": "Valgome 3 kartus per dieną. Kiek kartų valgome per savaitę?",
+"options": {
+"A": "7",
+"B": "18",
+"C": "21",
+"D": "28",
+"E": "37"
+}
+},
+"M2008-2": {
+"prompt": "Bilietas į zooparką suaugusiajam kainuoja 4 eurus. Vaikui bilietas yra 1 euru pigesnis. Kiek eurų sumokės tėvas, eidamas į zooparką su dviem savo vaikais?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "10",
+"E": "12"
+}
+},
+"M2008-3": {
+"prompt": "Kvadratus vieną po kito dalijame, kaip parodyta paveikslėliuose. Pirmi keturi kvadratai atitinkamai turi 1, 4, 7 ir 10 dalių. Kiek dalių turės penktas kvadratas?",
+"options": {
+"A": "11",
+"B": "12",
+"C": "13",
+"D": "14",
+"E": "15"
+}
+},
+"M2008-4": {
+"prompt": "Sigutė pirko 5 puokštes gėlių: geltonų tulpių, baltų rožių, geltonų rožių, raudonų gvazdikų, geltonų gvazdikų. Mamai, močiutei, tetai ir dviem seserims ji padovanojo po puokštę. Kurią puokštę gavo mama, jeigu seserų ir tetos gėlės buvo tos pačios spalvos, o močiutė gavo ne rožes?",
+"options": {
+"A": "Geltonų tulpių",
+"B": "Baltų rožių",
+"C": "Raudonų gvazdikų",
+"D": "Geltonų rožių",
+"E": "Geltonų gvazdikų"
+}
+},
+"M2008-5": {
+"prompt": "Teresė turi 37 kompaktines plokšteles. Jos draugė Klaudija sako: „Jei tu man duotum savo 10 plokštelių, tai mes jų turėtume po lygiai“. Kiek plokštelių turi Klaudija?",
+"options": {
+"A": "10",
+"B": "17",
+"C": "22",
+"D": "27",
+"E": "32"
+}
+},
+"M2008-6": {
+"prompt": "Kiek žvaigždučių yra figūros viduje (žr. paveikslėlį)?",
+"options": {
+"A": "100",
+"B": "90",
+"C": "95",
+"D": "85",
+"E": "105"
+}
+},
+"M2008-7": {
+"prompt": "Rebeka popieriaus lape padėjo tašką. Dabar ji ruošiasi per tą tašką išvesti 4 tieses. Į kelias dalis tiesės padalys lapą?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "5",
+"D": "8",
+"E": "12"
+}
+},
+"M2008-8": {
+"prompt": "Po šešių su puse valandos bus keturios valandos ryto. Kiek dabar valandų?",
+"options": {
+"A": "21:30",
+"B": "04:00",
+"C": "20:00",
+"D": "02:30",
+"E": "10:30"
+}
+},
+"M2008-9": {
+"prompt": "Audra nuplėšė nuo stogo dalį čerpių (žr. pav.). Prieš tai jame buvo 7 eilės po 10 čerpių. Kiek čerpių liko stoge?",
+"options": {
+"A": "57",
+"B": "59",
+"C": "61",
+"D": "67",
+"E": "70"
+}
+},
+"M2008-10": {
+"prompt": "Karina iš kartono išsikirpo du trikampius (žr. pav. dešinėje). Ji ant popieriaus lapo deda trikampius vieną prie kito arba ant kito ir apvedžioja kraštus pieštuku. Kurios figūros ji negalės gauti?",
+"options": {}
+},
+"M2008-11": {
+"prompt": "Vaikai susitarė, kad Jonas daugins iš 3, Petras pridės 2, o Mikas atims 1. Kokia tvarka vaikai turi tai daryti, kad iš 3 gautų 14?",
+"options": {
+"A": "Jonas, Petras, Mikas",
+"B": "Petras, Jonas, Mikas",
+"C": "Jonas, Mikas, Petras",
+"D": "Mikas, Jonas, Petras",
+"E": "Petras, Mikas, Jonas"
+}
+},
+"M2008-12": {
+"prompt": "Gabrielius yra aukštesnis už Artūrą, bet žemesnis už Tomą. Ignas yra aukštesnis už Kristupą, bet žemesnis už Gabrielių. Kas iš jų aukščiausias?",
+"options": {
+"A": "Gabrielius",
+"B": "Artūras",
+"C": "Kristupas",
+"D": "Ignas",
+"E": "Tomas"
+}
+},
+"M2008-13": {
+"prompt": "Agnė sustatė statinį iš 5 kubelių (žr. pav. dešinėje). Kurio statinio ji negali gauti, perkėlusi į kitą vietą vieną kubelį?",
+"options": {}
+},
+"M2008-14": {
+"prompt": "Matome daug figūrėlių (žr. paveikslėlį). Kuri iš figūrėlių kartojasi daugiausiai kartų?",
+"options": {}
+},
+"M2008-15": {
+"prompt": "Grupę iš 21 žmogaus reikia apgyvendinti viešbutyje. Kiek dviviečių kambarių reikia išskirti, jei jau išskirti 5 triviečiai kambariai?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "5",
+"E": "6"
+}
+},
+"M2008-16": {
+"prompt": "Kompaktinėje plokštelėje yra trys dainos. Viena daina trunka 6 minutes ir 25 sekundes, antra – 12 minučių ir 25 sekundes, o trečia – 10 minučių ir 13 sekundžių. Kiek laiko trunka visos trys dainos kartu?",
+"options": {
+"A": "28 minutes 30 sekundžių",
+"B": "29 minutes 3 sekundes",
+"C": "30 minučių 10 sekundžių",
+"D": "31 minutę 13 sekundžių",
+"E": "31 minutę 23 sekundes"
+}
+},
+"M2008-17": {
+"prompt": "Turime daug vienodų trinkelių, kurių matmenys yra 1 cm × 2 cm × 4 cm. Norime kuo daugiau jų sudėti į dėžutę 4 cm × 4 cm × 4 cm. Kiek trinkelių tilps dėžutėje?",
+"options": {
+"A": "6",
+"B": "7",
+"C": "8",
+"D": "9",
+"E": "10"
+}
+},
+"M2008-18": {
+"prompt": "Kengūra pastebėjo, kad kiekvieną žiemą ji priauga 5 kg, o kiekvieną vasarą numeta tik 4 kg. Jos svoris pavasarį ir rudenį nekinta. 2008 metų pavasarį ji sveria 100 kg. Kiek kengūra svėrė 2004 metų rudenį?",
+"options": {
+"A": "92 kg",
+"B": "93 kg",
+"C": "94 kg",
+"D": "96 kg",
+"E": "98 kg"
+}
+},
+"M2008-19": {
+"prompt": "Jonas į taikinį metė dvi strėlytes ir surinko 5 taškus (žr. pav.). Kiek skirtingų rezultatų gali būti, kai abi strėlytės pataiko į taikinį?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "8",
+"D": "9",
+"E": "10"
+}
+},
+"M2008-20": {
+"prompt": "Kvadratinį sodą sudaro baseinas (B), gėlynas (G), pievelė (P) ir aikštelė (A) (žr. pav.). Pievelė ir gėlynas yra kvadratiniai. Pievelės krašto ilgis (perimetras) yra 20 m, gėlyno perimetras yra 12 m. Koks yra baseino perimetras?",
+"options": {
+"A": "10 m",
+"B": "12 m",
+"C": "14 m",
+"D": "16 m",
+"E": "18 m"
+}
+},
+"M2008-21": {
+"prompt": "Balys turi tiek pat brolių ir seserų. Jo sesuo Agnė turi dvigubai daugiau brolių nei seserų. Kiek šeimoje yra vaikų?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"M2008-22": {
+"prompt": "Kiek yra dviženklių skaičių, kurių dešinysis skaitmuo didesnis už kairįjį?",
+"options": {
+"A": "26",
+"B": "18",
+"C": "9",
+"D": "30",
+"E": "36"
+}
+},
+"M2008-23": {
+"prompt": "Viena iš popierinio kubo sienų perkirpta per tos sienos įstrižaines (žr. pav. dešinėje). Kurių dviejų iš pavaizduotų išklotinių gauti neįmanoma?",
+"options": {
+"A": "1 ir 3",
+"B": "1 ir 5",
+"C": "3 ir 4",
+"D": "3 ir 5",
+"E": "2 ir 4"
+}
+},
+"M2008-24": {
+"prompt": "Dėžėje buvo septynios kortos, sunumeruotos skaičiais nuo 1 iki 7. Pirmas išminčius atsitiktinai ištraukė iš dėžės 3 kortas, tada antras išminčius ištraukė 2 kortas (dėžėje liko 2 kortos). Pažiūrėjęs į savo skaičius, pirmasis išminčius sako antrajam: „Aš žinau, kad tavo skaičių suma lyginė“. Kam lygi pirmojo išminčiaus ištrauktų skaičių suma?",
+"options": {
+"A": "10",
+"B": "12",
+"C": "6",
+"D": "9",
+"E": "15"
+}
+},
+"M2009-1": {
+"prompt": "Kam lygu 200 · 9 + 200 + 9?",
+"options": {
+"A": "418",
+"B": "1909",
+"C": "2009",
+"D": "4018",
+"E": "20009"
+}
+},
+"M2009-2": {
+"prompt": "Kur yra kengūrėlė?",
+"options": {
+"A": "Skritulyje ir trikampyje, bet ne kvadrate",
+"B": "Skritulyje ir kvadrate, bet ne trikampyje",
+"C": "Trikampyje ir kvadrate, bet ne skritulyje",
+"D": "Skritulyje, bet ne kvadrate ir ne trikampyje",
+"E": "Kvadrate, bet ne skritulyje ir ne trikampyje"
+}
+},
+"M2009-3": {
+"prompt": "Šeimoje yra penki broliukai. Kiekvienas iš jų turi vieną sesutę. Kiek šeimoje yra vaikų?",
+"options": {
+"A": "10",
+"B": "9",
+"C": "8",
+"D": "7",
+"E": "6"
+}
+},
+"M2009-4": {
+"prompt": "Paveikslėlyje matome skaičių 930. Kiek kvadratėlių reikia perspalvinti, kad gautume skaičių 806?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"M2009-5": {
+"prompt": "Mama nupirko 16 mandarinų. Karolis suvalgė pusę iš jų, Ieva suvalgė du mandarinus, o Dana suvalgė likusius. Kiek mandarinų suvalgė Dana?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "8",
+"D": "10",
+"E": "12"
+}
+},
+"M2009-6": {
+"prompt": "Sodo takelis suklotas iš 10 plytų 4 dm × 6 dm. Antanas nubrėžė storą liniją, jungiančią plytų vidurio taškus (žr. paveikslėlį). Koks tos linijos ilgis?",
+"options": {
+"A": "25 dm",
+"B": "40 dm",
+"C": "46 dm",
+"D": "50 dm",
+"E": "92 dm"
+}
+},
+"M2009-7": {
+"prompt": "Sofiko metė šešiasienį lošimo kauliuką keturis kartus. Sudėjusi atvirtusių akučių skaičius ji gavo 23. Kiek kartų atvirto 6 akutės?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"M2009-8": {
+"prompt": "Filmo trukmė 90 minučių. Per televiziją jį pradėjo rodyti 17:10. Rodant filmą buvo dvi reklaminės pertraukos. Viena pertrauka truko 8 minutes, o kita – 5 minutes. Kada filmas baigėsi?",
+"options": {
+"A": "18:13",
+"B": "18:27",
+"C": "18:47",
+"D": "18:53",
+"E": "19:13"
+}
+},
+"M2009-9": {
+"prompt": "Šokių būrelyje iš pradžių buvo 25 berniukai ir 19 mergaičių. Kiekvieną savaitę į būrelį buvo priimami nauji 2 berniukai ir 3 mergaitės. Kiek savaičių praeis, kai mergaičių būrelyje bus tiek pat, kiek ir berniukų?",
+"options": {
+"A": "6",
+"B": "5",
+"C": "4",
+"D": "3",
+"E": "2"
+}
+},
+"M2009-10": {
+"prompt": "Petras turėjo plytelę šokolado. Jis atlaužė vieną eilę iš 5 gabaliukų broliukui, o tada vieną eilę iš 7 gabaliukų sesutei, kaip parodyta paveikslėlyje. Kiek gabaliukų buvo iš pradžių visoje šokolado plytelėje?",
+"options": {
+"A": "28",
+"B": "32",
+"C": "35",
+"D": "40",
+"E": "54"
+}
+},
+"M2009-11": {
+"prompt": "Balta ir degla kiaulė kartu sveria 139 kilogramus. Baltoji kiaulė sveria 35 kilogramais mažiau už degląją. Kiek sveria degloji kiaulė?",
+"options": {
+"A": "104 kg",
+"B": "87 kg",
+"C": "52 kg",
+"D": "96 kg",
+"E": "53 kg"
+}
+},
+"M2009-12": {
+"prompt": "Į lentelės 3 × 3 langelius įrašyti 9 skaičiai (žr. pav.). Vienu ėjimu galima sukeisti vietomis bet kuriuos du skaičius. Kiek mažiausiai prireiks ėjimų, kad kiekvienos eilutės skaičių suma dalytųsi iš 3?",
+"options": {
+"A": "Tokios lentelės gauti neįmanoma",
+"B": "3",
+"C": "1",
+"D": "4",
+"E": "2"
+}
+},
+"M2009-13": {
+"prompt": "Vienos stačiakampio kraštinės ilgis yra 8 cm, o kita kraštinė yra perpus trumpesnė. Koks yra kvadrato kraštinės ilgis, jei kvadrato perimetras lygus stačiakampio perimetrui?",
+"options": {
+"A": "4 cm",
+"B": "6 cm",
+"C": "8 cm",
+"D": "12 cm",
+"E": "24 cm"
+}
+},
+"M2009-14": {
+"prompt": "Tomas iš vienodų kaladėlių sustatė statinį (žr. paveikslėlį). Kiek kaladėlių jam prireikė?",
+"options": {
+"A": "6",
+"B": "12",
+"C": "13",
+"D": "15",
+"E": "16"
+}
+},
+"M2009-15": {
+"prompt": "Trys voveraitės Agnė, Dagnė ir Ugnė rado 7 riešutus. Jos visos rado nevienodai riešutų, ir kiekviena rado bent vieną riešutą. Agnė rado mažiausiai riešutų, Dagnė – daugiausiai. Kiek riešutų rado Ugnė?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "Nustatyti neįmanoma"
+}
+},
+"M2009-16": {
+"prompt": "Kurios figūros neįmanoma sudėti iš tokių dviejų domino kauliukų (žr. paveikslėlį)?",
+"options": {}
+},
+"M2009-17": {
+"prompt": "Ūkininkas turi 30 karvių ir kažkiek viščiukų. Bendras viščiukų kojų skaičius lygus bendram karvių kojų skaičiui. Kiek galvų turi karvės ir viščiukai kartu?",
+"options": {
+"A": "60",
+"B": "90",
+"C": "120",
+"D": "180",
+"E": "240"
+}
+},
+"M2009-18": {
+"prompt": "Ona ir Petras gyvena toje pačioje gatvėje. Visi namai stovi vienoje gatvės pusėje. Į vieną galą nuo Onos namo yra 27 namai, o į kitą galą – 13 namų. Petras gyvena viduriniame name. Kiek namų skiria Onos namą nuo Petro namo?",
+"options": {
+"A": "6",
+"B": "7",
+"C": "8",
+"D": "14",
+"E": "21"
+}
+},
+"M2009-19": {
+"prompt": "Žvalgas nori atspėti šešių skaitmenų kodą. Jis žino, kad pirmo, trečio ir penkto skaitmenų suma lygi antro, ketvirto ir šešto skaitmenų sumai. Kuris iš nurodytų pavyzdžių galėtų tikti tam kodui?",
+"options": {
+"A": "81**61",
+"B": "7*727*",
+"C": "4*4141",
+"D": "12*9*8",
+"E": "181*2*"
+}
+},
+"M2009-20": {
+"prompt": "Mėta renka garsių sportininkų fotografijas. Kiekvienais metais jos nuotraukų skaičius lygus dvejų paskutinių metų jos turėtų nuotraukų skaičių sumai. 2008 metais ji turėjo 60 nuotraukų, o šiais metais ji turi 96 nuotraukas. Kiek nuotraukų ji turėjo 2006 metais?",
+"options": {
+"A": "20",
+"B": "24",
+"C": "36",
+"D": "40",
+"E": "48"
+}
+},
+"M2009-21": {
+"prompt": "Darželyje beliko 1 raudona, 1 mėlyna, 1 geltona ir 1 balta gėlė. Bitė Maja kiekvieną gėlę aplanko tik vieną kartą. Ji pradeda nuo raudonos gėlės, ir niekada nuo geltonos gėlės neskrenda tiesiai prie baltos. Keliais būdais Maja gali apskristi visas gėles?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2009-22": {
+"prompt": "Češyro Katinas išnyko 6:15, ir laikrodis, anksčiau ėjęs teisingai, pamišo ir ėmė tuo pačiu greičiu eiti atgal. Češyro Katinas vėl pasirodė 19:30. Kokį laiką tuo momentu rodė pamišęs laikrodis?",
+"options": {
+"A": "17:00",
+"B": "17:45",
+"C": "18:30",
+"D": "19:00",
+"E": "19:15"
+}
+},
+"M2009-23": {
+"prompt": "Silvija braižo figūrėles iš 1 cm ilgio atkarpų. Kiekvienos atkarpos gale ji visada pasuka stačiu kampu – arba į kairę, arba į dešinę. Atskirame lape ji piešia simbolį ♡, jeigu pasuko į dešinę, ir simbolį ♠, jei pasuko į kairę. Sykį ji nubraižė figūrą ir nupiešė tokius simbolius: ♡ ♠ ♠ ♠ ♡ ♡. Kurią iš nurodytų figūrų ji galėjo nubraižyti?",
+"options": {}
+},
+"M2009-24": {
+"prompt": "Bet kurio Šleivijos gyventojo kairės kojos dydis vienu arba dviem vienetais didesnis už dešiniosios. Nepaisant to, Šleivijoje batai yra parduodami to paties dydžio poromis. Keletas draugų nusipirko kažkiek porų batų. Iš tų batų kiekvienas draugas išsirinko po sau tinkamus du batus. Tada paaiškėjo, kad liko vienas 36 dydžio batas ir vienas 45 dydžio batas. Koks galėjo būti mažiausias tų draugų skaičius?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"M2010-1": {
+"prompt": "Pavaizduotame labirinte katė gali patekti į patalpą, kurioje yra pakelis pieno, o pelė – į patalpą, kurioje yra sūris, bet katė ir pelė susitikti negali. Kaip atrodo paslėptoji labirinto dalis?",
+"options": {}
+},
+"M2010-2": {
+"prompt": "40-ties minučių pamoka prasidėjo 11:50. Per patį pamokos vidurį į klasę įskrido žvirblis. Kada tai įvyko?",
+"options": {
+"A": "11:30",
+"B": "12:00",
+"C": "12:10",
+"D": "12:20",
+"E": "12:30"
+}
+},
+"M2010-3": {
+"prompt": "Kuris iš žemiau nurodytų skaičių yra didžiausias?",
+"options": {
+"A": "2 + 0 − 1 + 0",
+"B": "2 − 0 − 1 + 0",
+"C": "2 + 0 − 1 − 0",
+"D": "2 − 0 + 1 + 0",
+"E": "2 − 0 − 1 − 0"
+}
+},
+"M2010-4": {
+"prompt": "Kavinėje sriuba kainuoja 4 litus, kepsnys – 9 litus, ledai – 5 litus. Kompleksiniai pietūs, kuriuos sudaro sriuba, kepsnys ir ledai, kainuoja 15 litų. Kiek litų sutaupoma, užsisakius kompleksinius pietus, o ne tris atskirus patiekalus?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"M2010-5": {
+"prompt": "Trikampiu guli 6 monetos. Jums reikia kai kurias monetas perkelti taip, kad jos gulėtų apskritimu, kaip kad pavaizduota antrame paveikslėlyje. Kiek mažiausiai monetų reikės perkelti?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2010-6": {
+"prompt": "Keturi draugai valgė ledus. Mikas suvalgė daugiau nei Tadas, Jonas suvalgė daugiau nei Vytas, Jonas suvalgė mažiau nei Tadas. Kuriame atsakyme berniukai išrikiuoti nuo suvalgiusio daugiausiai iki suvalgiusio mažiausiai?",
+"options": {
+"A": "Mikas, Jonas, Vytas, Tadas",
+"B": "Vytas, Mikas, Tadas, Jonas",
+"C": "Mikas, Tadas, Jonas, Vytas",
+"D": "Jonas, Vytas, Mikas, Tadas",
+"E": "Jonas, Mikas, Vytas, Tadas"
+}
+},
+"M2010-7": {
+"prompt": "Turime vien tik tokias plyteles (žr. paveikslėlį). Kurio rašto neįmanoma iš jų sudėlioti?",
+"options": {}
+},
+"M2010-8": {
+"prompt": "Šimtakojis Bobas turi 100 kojų. Vakar jis nusipirko 16 porų batų ir juos apsiavė. Vis dėlto 14 kojų tebėra basos. Kiek Bobo kojų buvo su batais prieš apsipirkimą?",
+"options": {
+"A": "27",
+"B": "40",
+"C": "54",
+"D": "70",
+"E": "77"
+}
+},
+"M2010-9": {
+"prompt": "Dukart sulenkusi kvadratinę servetėlę, Marija gavo kvadratą su perpus mažesne kraštine. Tada ji nukirpo visus keturis gautojo kvadrato kampus. Kuri servetėlė Marijos?",
+"options": {}
+},
+"M2010-10": {
+"prompt": "Tomas ir Klara gyvena dangoraižyje. Klara gyvena 12 aukštų aukščiau nei Tomas. Sykį Tomas lipo laiptais aplankyti Klaros. Nuėjęs pusę kelio, jis atsidūrė aštuntame aukšte. Kuriame aukšte gyvena Klara?",
+"options": {
+"A": "12",
+"B": "14",
+"C": "16",
+"D": "20",
+"E": "24"
+}
+},
+"M2010-11": {
+"prompt": "Didysis kubas sudėtas iš 64 medinių vienodų kubelių. Didžiojo kubo 5 sienos nuspalvintos žaliai. Kiek kubelių turi 3 žalias sieneles?",
+"options": {
+"A": "4",
+"B": "8",
+"C": "16",
+"D": "20",
+"E": "24"
+}
+},
+"M2010-12": {
+"prompt": "Ketvirtadienį keltas per upę iš kairiojo kranto į dešinįjį perkėlė 42 mašinas – lengvuosius automobilius ir sunkvežimius. Kiekvienąsyk jis kėlė arba 10 lengvųjų automobilių, arba 6 sunkvežimius. Kiek keltas padarė reisų?",
+"options": {
+"A": "10",
+"B": "7",
+"C": "6",
+"D": "8",
+"E": "5"
+}
+},
+"M2010-13": {
+"prompt": "Susikertantys penki apskritimai riboja devynias sritis. Į jas, po vieną į kiekvieną sritį, yra įrašyti visi skaičiai nuo 1 iki 9 taip, kad bet kuriame skritulyje įrašytų skaičių suma yra 11. Koks skaičius yra įrašytas į sritį, pažymėtą klaustuku?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"M2010-14": {
+"prompt": "Jonas ruošėsi konkursui penkias dienas. Pirmą dieną jis išsprendė vieną uždavinį, o tada kiekvieną dieną uždavinių išsprendė dukart daugiau negu vakarykštę dieną. Kiek iš viso uždavinių išsprendė Jonas?",
+"options": {
+"A": "15",
+"B": "16",
+"C": "31",
+"D": "33",
+"E": "63"
+}
+},
+"M2010-15": {
+"prompt": "Vaikai aikštelės ilgį matavo žingsniais. Onai išėjo 15 lygių žingsnių, Valei – 17, Domui – 12, o Jonui – 14. Kurio iš jų žingsnis ilgiausias?",
+"options": {
+"A": "Onos",
+"B": "Valės",
+"C": "Domo",
+"D": "Jono",
+"E": "Nustatyti neįmanoma"
+}
+},
+"M2010-16": {
+"prompt": "Abiejose eilutėse skaičių sumos yra lygios. Pirmoje eilutėje įrašyti skaičiai 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 199, antroje – 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, x. Kam lygi x reikšmė?",
+"options": {
+"A": "99",
+"B": "100",
+"C": "209",
+"D": "289",
+"E": "299"
+}
+},
+"M2010-17": {
+"prompt": "Ką išreiškia sandauga 60 · 60 · 24 · 7?",
+"options": {
+"A": "7 savaites, paverstas sekundėmis",
+"B": "60 dienų, paverstų valandomis",
+"C": "7 valandas, paverstas sekundėmis",
+"D": "1 savaitę, paverstą sekundėmis",
+"E": "24 savaites, paverstas minutėmis"
+}
+},
+"M2010-18": {
+"prompt": "Kiekviename lentelės 4 × 4 langelyje yra figūra (žr. paveikslėlį). Vienu ėjimu galima sukeisti bet kurias dvi figūras. Kiek mažiausiai ėjimų prireiks, kad kiekvienoje eilutėje ir kiekviename stulpelyje būtų keturios skirtingos figūros?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2010-19": {
+"prompt": "Prieš dvejus metus kačių Tonės ir Tinės amžių suma buvo 15 metų. Dabar Tonei 13 metų. Po kelių metų Tinei sukaks 9 metai?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"M2010-20": {
+"prompt": "Kamilė visus skaičius nuo 1 iki 100 paeiliui surašė į lentelę po 5 skaičius į kiekvieną eilutę (lentelės dalis pavaizduota paveikslėlyje). Jos brolis išsikirpo lentelės gabalą ir ištrynė keletą skaičių. Kuriame paveikslėlyje pavaizduotas tas gabalas?",
+"options": {}
+},
+"M2010-21": {
+"prompt": "Birutė, Daiva ir Rasa susiruošė į mokyklos biblioteką. Mokytojas sako, kad bibliotekoje yra apie 2000 knygų, ir siūlo mergaitėms atspėti tikslų knygų skaičių. Birutė spėja, kad knygų yra 2010, Daiva – kad 1998, o Rasa – kad 2015. Mokytojas sako, kad šie skaičiai skiriasi nuo tikrojo 12, 7 ir 5, tik konkrečiai nenurodė, kuria tvarka. Kiek knygų yra bibliotekoje?",
+"options": {
+"A": "2003",
+"B": "2005",
+"C": "2008",
+"D": "2020",
+"E": "2022"
+}
+},
+"M2010-22": {
+"prompt": "Kvadratinis popieriaus lakštas yra pilkas iš viršaus ir baltas iš apačios. Onutė tą lakštą įkirpo 4 vietose iš 8 pažymėtų (žr. paveikslėlį). Kuriose?",
+"options": {
+"A": "1, 3, 5 ir 7",
+"B": "2, 4, 6 ir 8",
+"C": "2, 3, 5 ir 6",
+"D": "3, 4, 6 ir 7",
+"E": "1, 4, 5 ir 8"
+}
+},
+"M2010-23": {
+"prompt": "Viktoras, Stefanas, Robertas ir Markas susitiko koncerte Londone. Jie atvyko iš skirtingų miestų: Paryžiaus, Vilniaus, Romos ir Berlyno. Viktoras ir berlynietis niekada nėra buvę nei Paryžiuje, nei Romoje. Robertas ne berlynietis, o į Londoną jis atvyko tuo pat metu kaip ir paryžietis. Markui ir paryžiečiui koncertas labai patiko. Iš kur atvyko Markas?",
+"options": {
+"A": "Iš Paryžiaus",
+"B": "Iš Romos",
+"C": "Iš Vilniaus",
+"D": "Iš Berlyno",
+"E": "Iš Londono"
+}
+},
+"M2010-24": {
+"prompt": "Kiekvienas iš Boriso draugų sudėjo savo gimimo mėnesio ir dienos numerius ir gavo 35. Visi jie gimtadienius švenčia skirtingomis dienomis. Kiek daugiausiai draugų gali turėti Borisas?",
+"options": {
+"A": "7",
+"B": "8",
+"C": "9",
+"D": "10",
+"E": "12"
+}
+},
+"M2011-1": {
+"prompt": "Balys nusprendė pasidaryti didžiulį plakatą su žodžiu ŽALGIRIS. Kiekvieną dieną jis išvedžioja po raidę. Balys pradeda dirbti trečiadienį. Kurią dieną jis parašys paskutinę raidę?",
+"options": {
+"A": "Pirmadienį",
+"B": "Antradienį",
+"C": "Trečiadienį",
+"D": "Ketvirtadienį",
+"E": "Penktadienį"
+}
+},
+"M2011-2": {
+"prompt": "Urvinis žmogus nori pasiekti, kad akmenys kairėje ir dešinėje svertų vienodai (žr. paveikslėlį). Kurį akmenį jis turi pridėti prie akmenų, kad svoriai pasidarytų vienodi?",
+"options": {
+"A": "5 kg",
+"B": "7 kg",
+"C": "9 kg",
+"D": "11 kg",
+"E": "13 kg"
+}
+},
+"M2011-3": {
+"prompt": "Žaisliukas yra viename iš kvadrato langelių (žr. paveikslėlį). Jonas keletą kartų perstumia žaisliuką iš vieno langelio į gretimą. Iš pradžių jis stumia žaislą į dešinę, tada aukštyn, tada į kairę, tada žemyn, o tada į dešinę. Kuris paveikslėlis rodo, kur atsidurs žaisliukas?",
+"options": {}
+},
+"M2011-4": {
+"prompt": "Simas atsikėlė prieš pusantros valandos. Po trijų su puse valandos jis sės į traukinį ir važiuos pas močiutę. Kiek valandų praeis nuo jo atsikėlimo iki išvykimo?",
+"options": {
+"A": "Dvi valandos",
+"B": "Trys su puse valandos",
+"C": "Keturios valandos",
+"D": "Keturios su puse valandos",
+"E": "Penkios valandos"
+}
+},
+"M2011-5": {
+"prompt": "Marytė pasirinko vieną iš pavaizduotų figūrų. Tai ne kvadratas. Ta figūra – pilka. Ji gal apskrita, o gal trikampė. Kurią figūrą pasirinko Marytė?",
+"options": {
+"A": "A",
+"B": "B",
+"C": "C",
+"D": "D",
+"E": "E"
+}
+},
+"M2011-6": {
+"prompt": "Už tris porcijas ledų Elena užmokėjo 1 litą ir 50 centų. Mikas užmokėjo 2 litus ir 40 centų už du pyragaičius. Kiek už vieną porciją ledų ir vieną pyragaitį užmokėjo Ignas?",
+"options": {
+"A": "1 Lt 70 ct",
+"B": "1 Lt 90 ct",
+"C": "2 Lt 20 ct",
+"D": "2 Lt 70 ct",
+"E": "3 Lt 90 ct"
+}
+},
+"M2011-7": {
+"prompt": "Bokšto laikrodis muša valandas tiek kartų, kuri yra valanda (pavyzdžiui, 9:00 jis muša 9 kartus). Dar jis po vieną kartą muša pusvalandžius (pavyzdžiui, 9:30 jis muša vieną kartą). Kiek kartų muš laikrodis nuo 7:55 iki 10:45?",
+"options": {
+"A": "6",
+"B": "18",
+"C": "27",
+"D": "30",
+"E": "33"
+}
+},
+"M2011-8": {
+"prompt": "Kurios figūros plotas didžiausias?",
+"options": {}
+},
+"M2011-9": {
+"prompt": "Pardavėja kiaušiniams sudėti turi dviejų dydžių dėžutes: 6 kiaušinių ir 12 kiaušinių. Kiek mažiausiai dėžučių jai prireiks sudėti 66 kiaušinius?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "9",
+"D": "11",
+"E": "13"
+}
+},
+"M2011-10": {
+"prompt": "Kiekvienas klasės mokinys turi vieną arba du gyvūnėlius. Visi jų gyvūnėliai pavaizduoti paveikslėlyje. Du mokiniai turi ir šunį, ir žuvytę. Trys mokiniai turi ir katę, ir šunį. Kiti mokiniai turi po vieną gyvūnėlį. Kiek mokinių toje klasėje?",
+"options": {
+"A": "11",
+"B": "12",
+"C": "13",
+"D": "14",
+"E": "17"
+}
+},
+"M2011-11": {
+"prompt": "Jonas kišenėje turi 13 monetų, visos yra 5 arba 10 centų. Kuris skaičius negali reikšti visų Jono turimų centų?",
+"options": {
+"A": "80",
+"B": "60",
+"C": "70",
+"D": "115",
+"E": "125"
+}
+},
+"M2011-12": {
+"prompt": "Popieriaus lapas sulenkiamas per storąją liniją. Kurios raidės neuždengs pilkas kvadratėlis?",
+"options": {
+"A": "A",
+"B": "B",
+"C": "C",
+"D": "D",
+"E": "E"
+}
+},
+"M2011-13": {
+"prompt": "Alius, Birutė, Celestinas, Danguolė, Elena ir Feliksas kiekvienas meta kauliuką. Jiems visiems atvirto skirtingas akučių skaičius. Aliui atvirto dukart didesnis akučių skaičius nei Birutei. Aliaus skaičius triskart didesnis už Celestino. Danguolės skaičius keturiskart didesnis už Elenos. Kiek akučių atvirto Feliksui?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2011-14": {
+"prompt": "Viktorina vyksta pagal tokias taisykles. Kiekvienas dalyvis gauna iš pradžių 10 taškų ir turi atsakyti į 10 klausimų. Už teisingą atsakymą 1 taškas pridedamas, už klaidingą atsakymą 1 taškas atimamas. Julius iš viso surinko 14 taškų. Keli iš jo atsakymų buvo klaidingi?",
+"options": {
+"A": "7",
+"B": "4",
+"C": "5",
+"D": "3",
+"E": "6"
+}
+},
+"M2011-15": {
+"prompt": "Kiekviename magiškojo labirinto kvadratėlyje yra sūrio gabaliukas. Pelytė Mitė nori susirinkti sūrio kuo daugiau, bet ji negali į kvadratėlį patekti dukart. Kiek daugiausiai sūrio gabaliukų gali susirinkti Mitė?",
+"options": {
+"A": "17",
+"B": "33",
+"C": "37",
+"D": "41",
+"E": "49"
+}
+},
+"M2011-16": {
+"prompt": "Švenčiant gimtadienį kiekvienas iš dviejų vienodų pyragų buvo padalytas į keturias lygias dalis. Tada kiekviena iš dalių buvo padalyta į tris lygius gabalus. Kai kiekvienas vakarėlio dalyvis pasiėmė po gabalą, dar liko trys gabalai. Kiek vaikų šventė gimtadienį?",
+"options": {
+"A": "24",
+"B": "21",
+"C": "18",
+"D": "27",
+"E": "13"
+}
+},
+"M2011-17": {
+"prompt": "Keturios draugės Alė (A), Dalė (D), Ulė (U) ir Valė (V) sėdėjo ant suoliuko. Iš pradžių Alė susikeitė vietomis su Ule. Vėliau Ulė susikeitė su Vale. Dabar mergaitės sėdi ant suoliuko (iš kairės į dešinę) tokia tvarka: ADUV. Kokia tvarka jos sėdėjo iš pradžių?",
+"options": {
+"A": "ADUV",
+"B": "AUVD",
+"C": "UDVA",
+"D": "DAUV",
+"E": "VADU"
+}
+},
+"M2011-18": {
+"prompt": "Elektroninis laikrodis visada rodo keturis skaitmenis. Kiek kartų per parą jis rodo visus keturis vienodus skaitmenis? (Paveikslėlyje laikrodis rodo du skirtingus skaitmenis.)",
+"options": {
+"A": "1",
+"B": "24",
+"C": "3",
+"D": "5",
+"E": "12"
+}
+},
+"M2011-19": {
+"prompt": "Iš priekio pavaizduotas statinys sudarytas iš keturių vienodų lošimo kauliukų. Bet kurių dviejų priešingų sienų akučių suma yra 7. Kaip statinys atrodo iš užpakalio?",
+"options": {}
+},
+"M2011-20": {
+"prompt": "Paveikslėlyje pavaizduotos trys kortelės. Iš jų galima sudaryti įvairius skaičius, pavyzdžiui, 989 ar 986. Kiek triženklių skaičių galima sudaryti iš šių kortelių?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "8",
+"D": "9",
+"E": "12"
+}
+},
+"M2011-21": {
+"prompt": "Andrius sudėliojo dešinėje pavaizduotą ornamentą iš vienodų detalių, dėdamas jas vieną šalia kitos. Iš kurių detalių Andrius negalėtų sudėlioti savo ornamento?",
+"options": {}
+},
+"M2011-22": {
+"prompt": "Pirmame paveikslėlyje pavaizduota pilis, sustatyta iš kubų. Iš viršaus ta pilis atrodo kaip antrame paveikslėlyje. Kiek kubų prireikė piliai sustatyti?",
+"options": {
+"A": "56",
+"B": "60",
+"C": "64",
+"D": "68",
+"E": "72"
+}
+},
+"M2011-23": {
+"prompt": "Jonas skaičius 6, 7 ir 8 įrašė į skritulius, kaip parodyta paveikslėlyje. Dabar jis nori skaičius 1, 2, 3, 4 ir 5 įrašyti į likusius skritulius taip, kad kiekvienoje kvadrato kraštinėje skaičių suma būtų lygi 13. Kam bus lygi skaičių suma keturiuose užtušuotuose skrituliuose?",
+"options": {
+"A": "12",
+"B": "13",
+"C": "14",
+"D": "15",
+"E": "16"
+}
+},
+"M2011-24": {
+"prompt": "Silvija paeiliui piešia figūras, sudarytas iš šešiakampių (žr. pav.). Iš kelių šešiakampių bus sudaryta penkta figūra?",
+"options": {
+"A": "37",
+"B": "49",
+"C": "57",
+"D": "61",
+"E": "64"
+}
+},
+"M2012-1": {
+"prompt": "Bartas rengiasi popieriaus lakšte parašyti žodį MATEMATIKA. Jis nori, kad skirtingų raidžių spalva skirtųsi, o vienodų raidžių spalva būtų ta pati. Kiek mažiausiai spalvų jam prireiks?",
+"options": {
+"A": "9",
+"B": "8",
+"C": "7",
+"D": "6",
+"E": "5"
+}
+},
+"M2012-2": {
+"prompt": "Keturiuose iš penkių paveikslėlių šviesusis plotas yra lygus tamsiajam plotui. Kuriame paveikslėlyje šviesusis plotas ir tamsusis plotas nelygūs?",
+"options": {}
+},
+"M2012-3": {
+"prompt": "Tėtė kieme kabina ant virvės rankšluosčius. Jis nori išsiversti kuo mažesniu skaičiumi spaustukų. Kaip pavaizduota, trims rankšluosčiams jam reikia 4 spaustukų. Kiek spaustukų jam reikia 9 rankšluosčiams?",
+"options": {
+"A": "9",
+"B": "10",
+"C": "12",
+"D": "8",
+"E": "18"
+}
+},
+"M2012-4": {
+"prompt": "Dešinėje pavaizduotoje lentelėje Ignas užtušavo kvadratėlius A2, B1, B2, B3, B4, C3, D3 ir D4. Kurį iš apatinių paveikslėlių jis gavo?",
+"options": {}
+},
+"M2012-5": {
+"prompt": "Trylika vaikų žaidžia slėpynes. Vienas iš jų ieško. Po penkių minučių jis rado 9 vaikus. Keli vaikai liko dar pasislėpę?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "9",
+"E": "22"
+}
+},
+"M2012-6": {
+"prompt": "Mikas ir Jonas žaidė smiginį. Kiekvienas metė po tris strėlytes (žr. pav.). Kas laimėjo ir keliais taškais?",
+"options": {
+"A": "Mikas 3 taškais",
+"B": "Jonas 4 taškais",
+"C": "Mikas 2 taškais",
+"D": "Jonas 2 taškais",
+"E": "Mikas 4 taškais"
+}
+},
+"M2012-7": {
+"prompt": "Stačiakampė siena šachmatine tvarka buvo išklijuota dviejų rūšių plytelėmis: tamsiomis ir dryžuotomis. Dalis plytelių nukrito nuo sienos (žr. pav.). Kiek nukrito tamsiųjų plytelių?",
+"options": {
+"A": "9",
+"B": "8",
+"C": "7",
+"D": "6",
+"E": "5"
+}
+},
+"M2012-8": {
+"prompt": "Keliamaisiais metais, taigi ir 2012 metais, vasaris turi 29 dienas. Šiandien, 2012 metų kovo 15 dieną, aš sužinojau, kad mano senelio ančiukai išsirito prieš 20 dienų. Kada jie išsirito iš kiaušinių?",
+"options": {
+"A": "Vasario 19",
+"B": "Vasario 21",
+"C": "Vasario 23",
+"D": "Vasario 24",
+"E": "Vasario 26"
+}
+},
+"M2012-9": {
+"prompt": "Jūs turite daug L raidės formos kauliukų (žr. paveikslėlį), kurių kiekvienas susideda iš 4 kvadratų. Kelias iš pavaizduotų figūrų jūs galite gauti suklijavę du kauliukus?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"M2012-10": {
+"prompt": "Trys balionai kainuoja 12 centų brangiau negu vienas balionas. Kiek centų kainuoja vienas balionas?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "8",
+"D": "10",
+"E": "12"
+}
+},
+"M2012-11": {
+"prompt": "Močiutė savo vaikaičiams iškepė 20 keksų. Razinų močiutė dėjo į 15 keksų, migdolų – taip pat į 15 keksų. Kiek mažiausiai keksų galėjo būti ir su razinomis, ir su migdolais?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "8",
+"E": "10"
+}
+},
+"M2012-12": {
+"prompt": "Petras atlieka veiksmus, nurodytus pirmoje lentelėje. Gautus rezultatus jis įrašo į tuos pačius antros lentelės langelius, o tada baigia pildyti ją taip, kad kiekvienas iš skaičių 1, 2, 3 ir 4 būtų parašytas tik vieną kartą kiekviename stulpelyje ir tik vieną kartą kiekvienoje eilutėje. Kokį skaičių Petras įrašys į pilkąjį langelį?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "1 arba 2"
+}
+},
+"M2012-13": {
+"prompt": "Miko bendraklasių mergaičių yra dukart daugiau negu bendraklasių berniukų. Kuris iš nurodytų skaičių gali reikšti Miko klasės mokinių skaičių?",
+"options": {
+"A": "30",
+"B": "20",
+"C": "24",
+"D": "25",
+"E": "29"
+}
+},
+"M2012-14": {
+"prompt": "Miško mokykloje mokosi 3 kačiukai, 4 ančiukai, 2 žąsiukai ir keletas ėriukų. Mokytoja pelėda suskaičiavo, kad visi tos mokyklos mokiniai kartu turi 44 kojas. Kiek ėriukų mokosi mokykloje?",
+"options": {
+"A": "6",
+"B": "5",
+"C": "4",
+"D": "3",
+"E": "2"
+}
+},
+"M2012-15": {
+"prompt": "Mokyklos šventės vaišėse buvo kriaušių, obuolių, mandarinų ir slyvų, iš viso 496 vaisiai. Kriaušių buvo triskart mažiau nei obuolių, obuolių buvo penkiskart mažiau nei mandarinų, o mandarinų – septyniskart mažiau nei slyvų. Kiek buvo slyvų?",
+"options": {
+"A": "350",
+"B": "315",
+"C": "455",
+"D": "385",
+"E": "420"
+}
+},
+"M2012-16": {
+"prompt": "Ant žaidimų lentos padėta 10 monetų (žr. paveikslėlį). Kiek monetų reikia nuimti, kad kiekviename stulpelyje ir kiekvienoje eilutėje liktų 2 monetos?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"M2012-17": {
+"prompt": "Žiogas ruošiasi įveikti laiptus. Jis moka padaryti tik du skirtingus šuolius: 3 laiptelius aukštyn arba 4 laiptelius žemyn. Žiogas pradeda nuo grindų ir nori atsikvėpti ant 22 laiptelio. Kiek mažiausiai šuolių tam prireiks?",
+"options": {
+"A": "7",
+"B": "9",
+"C": "10",
+"D": "12",
+"E": "15"
+}
+},
+"M2012-18": {
+"prompt": "Pranas sudėjo domino „gyvatę“ iš septynių kauliukų. Kauliukai buvo dedami taip, kad turinčių bendrą kraštinę kvadratėliai turėtų vienodą akučių skaičių. Iš pradžių gyvatės nugaroje buvo 33 akutės. Bet Prano broliukas Jurgis išėmė iš gyvatės 2 kauliukus (žr. paveikslėlį). Kiek akučių buvo klaustuku pažymėtoje vietoje?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"M2012-19": {
+"prompt": "Grigas iš skaitmenų 1, 2, 3, 4, 5 ir 6 sudarė du triženklius skaičius, ir kiekvienas skaitmuo buvo pavartotas tik vieną kartą. Grigas sudeda tuos du skaičius. Kokią didžiausią sumą jis gali gauti?",
+"options": {
+"A": "975",
+"B": "999",
+"C": "1083",
+"D": "1173",
+"E": "1221"
+}
+},
+"M2012-20": {
+"prompt": "Laura, Inga, Valė ir Katrė fotografuojasi kartu. Katrė ir Laura nori stovėti greta, o Inga nori stovėti šalia Lauros. Keliais būdais jos gali išsirikiuoti nuotraukoje?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"M2012-21": {
+"prompt": "Neįprastas laikrodis turi 3 nevienodo ilgio rodykles (valandų, minučių ir sekundžių). Laikrodis eina teisingai, bet nepasakyta, kuri rodyklė yra kokia. Dešiniajame paveikslėlyje pavaizduota rodyklių padėtis, kai buvo 12:55:30. Kokia bus rodyklių padėtis, kai bus 8:11:00?",
+"options": {}
+},
+"M2012-22": {
+"prompt": "Mykolas pasirinko natūralųjį skaičių, padaugino jį iš savęs, pridėjo 1, rezultatą padaugino iš 10, pridėjo 3, o tada rezultatą padaugino iš 4. Taip jis gavo 2012. Koks buvo Mykolo pasirinktasis skaičius?",
+"options": {
+"A": "11",
+"B": "9",
+"C": "8",
+"D": "7",
+"E": "5"
+}
+},
+"M2012-23": {
+"prompt": "Stačiakampio popieriaus lapo matmenys yra 192 mm × 84 mm. Viena tiesia linija jūs perkerpate lapą į dvi dalis, kurių viena yra kvadratas. Tada tą patį darote su nekvadratine lapo dalimi, ir t. t. Koks yra mažiausio kvadrato, kurį jūs taip gausite, kraštinės ilgis?",
+"options": {
+"A": "1 mm",
+"B": "4 mm",
+"C": "6 mm",
+"D": "10 mm",
+"E": "12 mm"
+}
+},
+"M2012-24": {
+"prompt": "Futbolo rungtynes laimėjusi komanda gauna 3 taškus, o pralaimėjusi gauna 0 taškų. Jeigu rungtynės baigiasi lygiosiomis, tai abi komandos gauna po 1 tašką. Vilniaus komanda sužaidė 38 rungtynes ir surinko 80 taškų. Kiek daugiausia rungtynių ji galėjo pralaimėti?",
+"options": {
+"A": "12",
+"B": "11",
+"C": "10",
+"D": "9",
+"E": "8"
+}
+},
+"K2000-1": {
+"prompt": "Veidrodyje matome laikrodį. Kokį laiką jis rodo?",
+"options": {
+"A": "15:15",
+"B": "10:15",
+"C": "10:45",
+"D": "8:45",
+"E": "9:45"
+}
+},
+"K2000-2": {
+"prompt": "Nespalvotoje (t. y. juodos ir baltos spalvų) nuotraukoje juoda spalva užima 80 % ploto, o balta spalva – 20 % ploto. Nuotrauka buvo padidinta tris kartus. Kiek procentų ploto užima balta spalva padidintoje nuotraukoje?",
+"options": {
+"A": "20",
+"B": "30",
+"C": "40",
+"D": "60",
+"E": "80"
+}
+},
+"K2000-3": {
+"prompt": "Kiek laiko praeina nuo 11 val. 11 min. iki 13 val. 13 min.?",
+"options": {
+"A": "2 h 00 min",
+"B": "12 h 12 min",
+"C": "2 h 12 min",
+"D": "2 h 02 min",
+"E": "112 min"
+}
+},
+"K2000-4": {
+"prompt": "Kiek daugiausiai tokių „kampų“, kaip pavaizduotas kairiau, telpa į kvadratą 5 × 5, pavaizduotą dešiniau?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"K2000-5": {
+"prompt": "Taisyklingojo šešiakampio visos kraštinės ir visi kampai lygūs. Kiek susikirtimo taškų gausime išvedę visas jo įstrižaines (neskaitant šešiakampio viršūnių)?",
+"options": {
+"A": "6",
+"B": "7",
+"C": "12",
+"D": "13",
+"E": "15"
+}
+},
+"K2000-6": {
+"prompt": "Kuris trikampis tikrai yra lygiašonis, bet nėra lygiakraštis?",
+"options": {}
+},
+"K2000-7": {
+"prompt": "Popierinės juostelės ilgis yra 1 m. Iš pradžių pažymime brūkšnelius, dalijančius juostelę į 4 lygias dalis, tada pažymime brūkšnelius, dalijančius juostelę į 3 lygias dalis. Dabar juostelę perkerpame ties kiekvienu pažymėtu brūkšneliu. Kelių skirtingų ilgių bus juostelės gabaliukai?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"K2000-8": {
+"prompt": "Septynių iš eilės einančių nelyginių skaičių suma lygi 119. Mažiausias iš tų skaičių yra:",
+"options": {
+"A": "11",
+"B": "13",
+"C": "15",
+"D": "17",
+"E": "19"
+}
+},
+"K2000-9": {
+"prompt": "Brėžinyje AD = DC, AB = AC, ∠ABC = 75°, ∠ADC = 50°. Koks yra kampo BAD didumas?",
+"options": {
+"A": "95°",
+"B": "105°",
+"C": "125°",
+"D": "140°",
+"E": "160°"
+}
+},
+"K2000-10": {
+"prompt": "Cirko prižiūrėtojas dramblį išmaudo per 40 minučių. Jo sūnus tai padaro per 2 valandas. Kiek laiko prireiks prižiūrėtojui ir jo sūnui išmaudyti visus tris cirko dramblius, jei jie dirbs kartu?",
+"options": {
+"A": "30 min",
+"B": "45 min",
+"C": "60 min",
+"D": "90 min",
+"E": "100 min"
+}
+},
+"K2000-11": {
+"prompt": "Koks yra užtušuotos dalies plotas?",
+"options": {
+"A": "5",
+"B": "9",
+"C": "12",
+"D": "15",
+"E": "18"
+}
+},
+"K2000-12": {
+"prompt": "Jeigu vienodos raidės atitinka vienodus skaitmenis, o skirtingos raidės – skirtingus, tai 10 000 · AROO − 10 000 · KANG + KANGAROO =",
+"options": {
+"A": "AROOAROO",
+"B": "AROOKANG",
+"C": "KANGKANG",
+"D": "KANGAROO",
+"E": "KAGANROO"
+}
+},
+"K2000-13": {
+"prompt": "Penkios ponios P, Q, R, S, T susitikusios bučiavosi. P bučiavosi vieną kartą, Q – taip pat vieną kartą, o kiekviena ponių R, S, T bučiavosi dukart. Yra žinoma, kad P bučiavosi su T. Kuri iš žemiau išvardytų ponių porų tikrai nesibučiavo?",
+"options": {
+"A": "T ir S",
+"B": "T ir R",
+"C": "Q ir R",
+"D": "Q ir T",
+"E": "Q ir S"
+}
+},
+"K2000-14": {
+"prompt": "Koks yra skritulio išpjovos kampas, jei išpjovos plotas sudaro 15 % viso skritulio ploto?",
+"options": {
+"A": "15°",
+"B": "36°",
+"C": "54°",
+"D": "90°",
+"E": "150°"
+}
+},
+"K2000-15": {
+"prompt": "800 grašių vertė yra ta pati kaip 100 dukatų; 100 grašių vertė lygi 250 talerių vertei. Kiek dukatų turi tą pačią vertę kaip 100 talerių?",
+"options": {
+"A": "2",
+"B": "5",
+"C": "10",
+"D": "25",
+"E": "50"
+}
+},
+"K2000-16": {
+"prompt": "Mama pirko dėžutę gabalinio cukraus. Marytė iš pradžių suvalgė viršutinį sluoksnį, tai yra 77 gabaliukus. Po to ji suvalgė šoninį sluoksnį iš 55 gabaliukų. Galų gale ji suvalgė ir priekinį sluoksnį. Kiek gabaliukų cukraus liko dėžutėje?",
+"options": {
+"A": "203",
+"B": "256",
+"C": "295",
+"D": "300",
+"E": "350"
+}
+},
+"K2000-17": {
+"prompt": "Šokių varžybose visi teisėjai vertina dalyvius sveikuoju balų skaičiumi. Varžybų dalyvio gautų balų vidurkis yra 5,625. Kiek mažiausiai teisėjų galėjo būti?",
+"options": {
+"A": "2",
+"B": "6",
+"C": "8",
+"D": "10",
+"E": "12"
+}
+},
+"K2000-18": {
+"prompt": "Apie Australijos Nacionalinio parko, kuriame gyvena kengūros, klimatą žinome, kad: (1) jei šviečia saulė, tai temperatūra ne žemesnė kaip 25°; (2) jei temperatūra aukštesnė kaip 26°, tai šviečia saulė. Tada būtinai",
+"options": {
+"A": "nakties temperatūra žemesnė kaip 25°",
+"B": "dienos temperatūra aukštesnė kaip 24°",
+"C": "nakties temperatūra negali būti 27°",
+"D": "dienos temperatūra negali būti 24°",
+"E": "jeigu temperatūra 25°, tai šviečia saulė"
+}
+},
+"K2000-19": {
+"prompt": "Iš kurios dvispalvės figūros galima išlankstyti kubą taip, kad bet kurios dvi sritys, kurios turi bendrą briauną, būtų vienos spalvos?",
+"options": {}
+},
+"K2000-20": {
+"prompt": "Po trejų metų Stasys turės tris kartus daugiau metų negu jis turėjo prieš trejus metus. Po ketverių metų Stasys turės [paslėpti žodžiai] daugiau metų negu jis turėjo prieš ketverius metus. Kokie žodžiai paslėpti?",
+"options": {
+"A": "du kartus",
+"B": "tris kartus",
+"C": "keturis kartus",
+"D": "penkis kartus",
+"E": "šešis kartus"
+}
+},
+"K2001-1": {
+"prompt": "Popieriaus gabalas yra statusis trikampis, kurio kraštinės lygios 3, 4 ir 5. Sulenkime šį trikampį per tokią tiesę, kad C sutaptų su B, o tada – per tokią tiesę, kad A sutaptų su B (žr. paveikslėlį). Tada gautoji figūra bus",
+"options": {
+"A": "kvadratas",
+"B": "stačiakampis",
+"C": "penkiakampis",
+"D": "netaisyklingasis šešiakampis",
+"E": "rombas"
+}
+},
+"K2001-2": {
+"prompt": "Robertas turi supakuoti mėlynas ir raudonas žaislines kengūrėles po 10 į kiekvieną dėžutę. Jis turėjo 178 vienos spalvos kengūrėles ir 121 – kitos spalvos. Kiek dėžučių jam prireiks supakuoti visoms kengūrėlėms, jei į kiekvieną dėžutę dedamos tik vienos spalvos kengūrėlės?",
+"options": {
+"A": "13",
+"B": "18",
+"C": "24",
+"D": "30",
+"E": "31"
+}
+},
+"K2001-3": {
+"prompt": "Kurį iš žiedų reikia perpjauti, kad visi likusieji žiedai atsiskirtų?",
+"options": {
+"A": "A",
+"B": "B",
+"C": "C",
+"D": "D",
+"E": "Tokio žiedo nėra"
+}
+},
+"K2001-4": {
+"prompt": "Evaldas turi klasės draugų berniukų septyniais daugiau negu klasės draugių mergaičių. Klasėje berniukų yra dukart daugiau negu mergaičių. Kiek klasės draugių turi Evaldo bendraklasė Giedrė?",
+"options": {
+"A": "6",
+"B": "7",
+"C": "8",
+"D": "9",
+"E": "10"
+}
+},
+"K2001-5": {
+"prompt": "Paveikslėlyje pavaizduotos kelios miestelio gatvės. Kiekvienas iš atstumų nuo A iki P ir nuo A iki Q lygus 500 m. Kelias iš P į Q per A yra 215 m ilgesnis, negu kelias per B. Tada kelias iš P į Q per C, negu kelias per B, yra",
+"options": {
+"A": "275 m ilgesnis",
+"B": "215 m ilgesnis",
+"C": "430 m ilgesnis",
+"D": "43 m ilgesnis",
+"E": "trumpesnis"
+}
+},
+"K2001-6": {
+"prompt": "Iš skaičių −9, −7, −5, 2, 4 ir 6 pasirenkami du skaičiai ir sudauginami. Mažiausias galimas rezultatas lygus",
+"options": {
+"A": "−63",
+"B": "−54",
+"C": "−18",
+"D": "−10",
+"E": "8"
+}
+},
+"K2001-7": {
+"prompt": "ABCD – kvadratas. Raskite kampo COM didumą, jeigu ∠OND = 60°.",
+"options": {
+"A": "10°",
+"B": "15°",
+"C": "20°",
+"D": "30°",
+"E": "35°"
+}
+},
+"K2001-8": {
+"prompt": "Mažutė koala nuėda visus lapus nuo eukalipto per 10 valandų. Jos ir tėtė, ir mama ėda dvigubai greičiau. Per kiek laiko ši trijulė nuės visus lapus nuo vieno eukalipto?",
+"options": {
+"A": "Per 2 h",
+"B": "Per 3 h",
+"C": "Per 4 h",
+"D": "Per 5 h",
+"E": "Per 6 h"
+}
+},
+"K2001-9": {
+"prompt": "Taisyklingojo šešiakampio kraštinė lygi 1, o taisyklingojo trikampio kraštinė lygi 3. Koks yra šešiakampio ir trikampio plotų santykis?",
+"options": {
+"A": "2/3",
+"B": "2",
+"C": "5/6",
+"D": "3/4",
+"E": "1"
+}
+},
+"K2001-10": {
+"prompt": "Kiek yra skirtingų kelių iš taško A į tašką B, jeigu neleidžiama per tą patį tašką eiti daugiau nei vieną kartą?",
+"options": {
+"A": "3",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "Ne mažiau kaip 10"
+}
+},
+"K2001-11": {
+"prompt": "Plokštumoje esančio kvadrato kraštinė lygi 1 cm. Kiekviena kvadrato viršūnė yra apskritimo, kurio spindulys lygus 1 cm, centras. Kiek yra taškų, kuriuose kertasi mažiausiai du apskritimai?",
+"options": {
+"A": "6",
+"B": "8",
+"C": "10",
+"D": "12",
+"E": "14"
+}
+},
+"K2001-12": {
+"prompt": "Ant kiekvieno iš dviejų stalų į eilę padėtas 2001 riešutas. Nikas ima riešutus nuo pirmo stalo. Iš pradžių jis paima kas trečią riešutą; tada jis ima kas penktą riešutą iš likusių. Mikas ima riešutus nuo antro stalo. Iš pradžių jis paima kas penktą riešutą; tada jis ima kas trečią riešutą iš likusių. Kuris teiginys iš žemiau nurodytų yra teisingas?",
+"options": {
+"A": "Nikas paėmė 3/5 Miko paimtų riešutų kiekio",
+"B": "Mikas paėmė 3/5 Niko paimtų riešutų kiekio",
+"C": "Mikas paėmė 1 riešutu daugiau negu Nikas",
+"D": "Nikas paėmė 1 riešutu daugiau negu Mikas",
+"E": "Nikas ir Mikas paėmė po tiek pat riešutų"
+}
+},
+"K2001-13": {
+"prompt": "Lygybėje 4 · KLMNP4 = 4KLMNP kiekviena iš raidžių K, L, M, N ir P žymi tam tikrą skaitmenį. Kokį skaitmenį žymi raidė M?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"K2001-14": {
+"prompt": "ABC yra taisyklingasis trikampis, B yra atkarpos AD vidurio taškas (žr. paveikslėlį). Taškas E paimtas taip, kad DE = AB. Yra žinoma, kad atstumas tarp C ir E yra didžiausias galimas. Kam lygus kampas BED?",
+"options": {
+"A": "45°",
+"B": "30°",
+"C": "20°",
+"D": "15°",
+"E": "10°"
+}
+},
+"K2001-15": {
+"prompt": "24 valandas rodantis skaitmeninis laikrodis rodo valandas (2 skaitmenys) ir minutes (2 skaitmenys). Kiek kartų nuo vienos minutės po vidurnakčio (00:01) iki vienos minutės prieš vidurnaktį (23:59) laikrodis rodys tokį laiką, kuris nesikeistų skaitant nuo pradžios ir nuo galo (pavyzdžiui, 15:51)?",
+"options": {
+"A": "10",
+"B": "13",
+"C": "15",
+"D": "18",
+"E": "24"
+}
+},
+"K2001-16": {
+"prompt": "Netgi kai kupranugaris Noras ištroškęs, 84 % jo svorio sudaro vanduo. Po to, kai jis atsigeria, jo masė padidėja iki 800 kg, o vanduo sudaro 85 % jo masės. Kiek sveria kupranugaris Noras, kai jis ištroškęs?",
+"options": {
+"A": "672 kg",
+"B": "680 kg",
+"C": "715 kg",
+"D": "720 kg",
+"E": "750 kg"
+}
+},
+"K2001-17": {
+"prompt": "Romas ir Tomas treniruotėje kiekvienas bėgo pastoviu greičiu: Romas kiekvienus 5 ratus nubėgdavo per 12 minučių, o Tomas kiekvienus 3 ratus per 10 minučių. Jie startavo vienu metu. Kiek ratų jie nubėgo abu kartu iki tol, kol pirmą sykį kartu kirto starto liniją?",
+"options": {
+"A": "3",
+"B": "43",
+"C": "86",
+"D": "90",
+"E": "135"
+}
+},
+"K2001-18": {
+"prompt": "Paveikslėlyje ∠A = ∠B = 90°, o S_ABCD : S_ACB = 3. Raskite plotų santykį S_ADB : S_ACB.",
+"options": {
+"A": "2",
+"B": "3/2",
+"C": "1",
+"D": "5/2",
+"E": "√2"
+}
+},
+"K2001-19": {
+"prompt": "Kubelio sienose surašyti skaičiai nuo 1 iki 6. Jo išklotinė pavaizduota paveikslėlyje. Dauginami 3 skaičiai, kurie parašyti sienose, sueinančiose į vieną viršūnę. Raskite didžiausią iš sandaugų.",
+"options": {
+"A": "40",
+"B": "60",
+"C": "72",
+"D": "90",
+"E": "120"
+}
+},
+"K2001-20": {
+"prompt": "Žvejys pasidarė stačiakampį tinklą. Tinklo viduje yra 32 mazgai, o kraštuose – 28 plūdės. Kiek akučių turi jo tinklas? (Paveikslėlyje pavaizduotas tinklas turi 6 mazgus, 14 plūdžių ir 12 akučių.)",
+"options": {
+"A": "40",
+"B": "45",
+"C": "54",
+"D": "60",
+"E": "64"
+}
+},
+"K2002-1": {
+"prompt": "Tu skaičiuoji balsu nuo 1 iki 100 ir suploji, kai pasakai arba skaičiaus 3 kartotinį, arba skaičių, kuris nėra skaičiaus 3 kartotinis, bet baigiasi skaitmeniu 3. Kiek kartų tu suplosi?",
+"options": {
+"A": "30",
+"B": "33",
+"C": "36",
+"D": "39",
+"E": "43"
+}
+},
+"K2002-2": {
+"prompt": "Didesniojo dantračio spindulys triskart didesnis už mažesniojo dantračio spindulį. Jeigu didesnysis dantratis apsisuks vieną kartą prieš laikrodžio rodyklę, tai mažesnysis dantratis apsisuks",
+"options": {
+"A": "1 kartą pagal laikrodžio rodyklę",
+"B": "3 kartus pagal laikrodžio rodyklę",
+"C": "3 kartus prieš laikrodžio rodyklę",
+"D": "9 kartus pagal laikrodžio rodyklę",
+"E": "9 kartus prieš laikrodžio rodyklę"
+}
+},
+"K2002-3": {
+"prompt": "Labdaros organizacijai reikėjo nupirkti 2002 sąsiuvinius. Parduotuvė pardavinėjo tuos sąsiuvinius pakeliais po 24. Kiek mažiausiai tokių pakelių reikia organizacijai pirkti, kad įsigytų reikiamą sąsiuvinių skaičių, ir kiek sąsiuvinių jai liks išdalijus 2002 sąsiuvinius?",
+"options": {
+"A": "83 pakelius, 10 sąsiuvinių",
+"B": "84 pakelius, 10 sąsiuvinių",
+"C": "83 pakelius, 14 sąsiuvinių",
+"D": "84 pakelius, 16 sąsiuvinių",
+"E": "84 pakelius, 14 sąsiuvinių"
+}
+},
+"K2002-4": {
+"prompt": "Kuri iš duotųjų trupmenų yra didžiausia?",
+"options": {
+"A": "7/8",
+"B": "66/77",
+"C": "555/666",
+"D": "4444/5555",
+"E": "33333/44444"
+}
+},
+"K2002-5": {
+"prompt": "Liepos pirmąją Niuberyje saulė patekės 4:53 val., o nusileis 21:25 val. To laiko tarpo viduryje saulė užims aukščiausią tą dieną padėtį. Kelintą valandą tai bus?",
+"options": {
+"A": "12:00",
+"B": "12:39",
+"C": "13:09",
+"D": "16:32",
+"E": "11:08"
+}
+},
+"K2002-6": {
+"prompt": "Taškai K, L, M, N yra stačiakampio ABCD kraštinių vidurio taškai, o taškai O, P, R, S yra rombo KLMN kraštinių vidurio taškai. Kuri stačiakampio ABCD ploto dalis užtušuota?",
+"options": {
+"A": "3/5",
+"B": "2/3",
+"C": "5/6",
+"D": "3/4",
+"E": "5/7"
+}
+},
+"K2002-7": {
+"prompt": "Trys vaikai suvalgė 17 pyragaičių. Andrius suvalgė pyragaičių daugiau už kiekvieną kitą vaiką. Kiek mažiausiai pyragaičių galėjo suvalgyti Andrius?",
+"options": {
+"A": "Visus",
+"B": "9",
+"C": "6",
+"D": "8",
+"E": "7"
+}
+},
+"K2002-8": {
+"prompt": "Paveikslėlyje pavaizduoto lošimo kauliuko apatinėje sienelėje pažymėtos 6 akutės, kairėje sienelėje – 4 akutės, užpakalinėje – 2 akutės. Vienu metu įmanoma pamatyti daugiausiai tris sieneles, turinčias bendrą viršūnę. Kiek daugiausiai akučių įmanoma vienu metu pamatyti sukiojant kauliuką?",
+"options": {
+"A": "15",
+"B": "14",
+"C": "13",
+"D": "12",
+"E": "Kitas atsakymas"
+}
+},
+"K2002-9": {
+"prompt": "Žūklėje Petras pagavo tiek pat žuvų, kaip ir jo sūnus Lukas. Jonas pagavo triskart daugiau žuvų negu jo sūnus. Visi kartu jie pagavo 35 žuvis. Kiek žuvų pagavo Petras?",
+"options": {
+"A": "21",
+"B": "14",
+"C": "7",
+"D": "6",
+"E": "0"
+}
+},
+"K2002-10": {
+"prompt": "Krepšelis obuolių kainuoja 2 eurus, krepšelis kriaušių – 3 eurus, o krepšelis slyvų – 4 eurus. Jeigu 8 krepšeliai tų vaisių kainuoja 23 eurus, tai kiek daugiausiai iš jų gali būti krepšelių su slyvomis?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"K2002-11": {
+"prompt": "Jei a : b = 9 : 4 ir b : c = 5 : 3, tai santykis (a − b) : (b − c) lygus",
+"options": {
+"A": "7 : 12",
+"B": "25 : 8",
+"C": "4 : 1",
+"D": "5 : 2",
+"E": "Nustatyti negalima"
+}
+},
+"K2002-12": {
+"prompt": "Reiso metu žvejybinė bazė priėmė 30 žmonių iš skęstančio tralerio. Todėl maisto atsargų bazėje, kurių būtų užtekę 60 dienų, dabar užteko tik 50 dienų. Kiek žmonių buvo bazėje prieš priimant skendusiuosius?",
+"options": {
+"A": "15",
+"B": "40",
+"C": "110",
+"D": "140",
+"E": "150"
+}
+},
+"K2002-13": {
+"prompt": "Mokyklos šventės dalyvių skaičiaus 25 % sudarė berniukai, o 75 % – mergaitės. Pusės šventėje dalyvavusių berniukų ir 20 % mergaičių – iš viso 99 šventėje dalyvavusių mokinių – akys buvo mėlynos. Kiek mokinių dalyvavo šventėje?",
+"options": {
+"A": "360",
+"B": "340",
+"C": "240",
+"D": "200",
+"E": "Nustatyti negalima"
+}
+},
+"K2002-14": {
+"prompt": "Paveikslėlyje taškai M ir N atitinkamai yra iš išorės besiliečiančių apskritimų centrai. Tiesė MN kerta tuos apskritimus taškuose A ir B (neskaitant apskritimų lietimosi taško). Stačiakampio ABCD kraštinė CD taške T liečia tą apskritimą, kurio centras yra taškas N. Stačiakampio ABCD plotas lygus 15. Koks yra trikampio MNT plotas?",
+"options": {
+"A": "4",
+"B": "15/4",
+"C": "π/2",
+"D": "5",
+"E": "2√5"
+}
+},
+"K2002-15": {
+"prompt": "Penki berniukai pasisvėrė po du, kiekvienas su kiekvienu. Svėrimų rezultatai buvo: 90 kg, 92 kg, 93 kg, 94 kg, 95 kg, 96 kg, 97 kg, 98 kg, 100 kg ir 101 kg. Visi penki berniukai kartu sveria",
+"options": {
+"A": "225 kg",
+"B": "230 kg",
+"C": "239 kg",
+"D": "240 kg",
+"E": "250 kg"
+}
+},
+"K2002-16": {
+"prompt": "Keturios dukterys – Agnė, Birutė, Celestina ir Danutė – nupirko savo tėtei gimimo dienos proga dovaną. Viena iš mergaičių paslėpė dovaną. Mama paklausė, kuri iš jų tai padarė. Mergaitės atsakė: Agnė – „Aš to nepadariau“, Birutė – „Aš to nepadariau“, Celestina – „Tai padarė Danutė“, Danutė – „Tai padarė Birutė“. Paaiškėjo, kad viena mergaičių sumelavo. Kuri iš mergaičių paslėpė dovaną?",
+"options": {
+"A": "Agnė",
+"B": "Birutė",
+"C": "Celestina",
+"D": "Danutė",
+"E": "Nustatyti neįmanoma"
+}
+},
+"K2002-17": {
+"prompt": "Kiekviena iš raidžių P, Q, R ir S reiškia virš jos pavaizduotų daiktų bendrą masę (vienodos formos daiktai sveria vienodai). Jeigu P < Q < R, tai (žr. paveikslėlį)",
+"options": {
+"A": "P < S < Q",
+"B": "Q < S < R",
+"C": "S < P",
+"D": "R < S",
+"E": "R = S"
+}
+},
+"K2002-18": {
+"prompt": "Kanadoje dalis gyventojų kalba angliškai, dalis – prancūziškai, o likusieji kalba tiek angliškai, tiek prancūziškai. 85 % gyventojų kalba angliškai, 75 % – prancūziškai. Kiek procentų gyventojų kalba abiem kalbomis?",
+"options": {
+"A": "50 %",
+"B": "57 %",
+"C": "25 %",
+"D": "60 %",
+"E": "40 %"
+}
+},
+"K2002-19": {
+"prompt": "Šachmatinės lentos 2 × 9 kai kuriuose laukeliuose padėta po vieną monetą. Kiekviename laukelyje arba yra moneta, arba laukelis turi bendrą kraštinę su laukeliu, kuriame yra moneta. Kiek mažiausiai monetų gali būti padėta lentoje?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"K2002-20": {
+"prompt": "Matas užlipa į viršų stovinčiu eskalatoriumi per 90 sekundžių. Jeigu jis stovi ant eskalatoriaus nejudėdamas, tai užvažiuoja į viršų per 60 sekundžių. Per kiek sekundžių jis pakils į viršų, jei ir eskalatorius judės į viršų, ir jis pats lips į viršų?",
+"options": {
+"A": "36",
+"B": "75",
+"C": "45",
+"D": "30",
+"E": "50"
+}
+},
+"K2003-1": {
+"prompt": "Zooparduotuvėje buvo 5 papūgos. Jų vidutinė kaina buvo 6 000 litų. Vieną dieną brangiausia papūga buvo parduota. Likusių 4 papūgų vidutinė kaina pasidarė 5 000 litų. Kiek litų kainavo parduotoji papūga?",
+"options": {
+"A": "1 000",
+"B": "2 000",
+"C": "5 500",
+"D": "6 000",
+"E": "10 000"
+}
+},
+"K2003-2": {
+"prompt": "Sulankstyta servetėlė buvo prakirpta taip, kaip parodyta paveikslėlyje. Kaip atrodys servetėlė ją atlanksčius?",
+"options": {}
+},
+"K2003-3": {
+"prompt": "Iš 16 kvadratėlių sudėtas kvadratas. Kiek daugiausiai kvadratėlių galima padalyti į dvi dalis viena tiese?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "6",
+"D": "7",
+"E": "8"
+}
+},
+"K2003-4": {
+"prompt": "Pavaizduoto medinio skritulio plotas lygus a, medinio kvadrato plotas b. Apjuoskime tris pavaizduotus skritulius jų nepajudindami kaip galima trumpesniu siūlu. Kokį plotą apjuos siūlas?",
+"options": {
+"A": "3b",
+"B": "2a + b",
+"C": "a + 2b",
+"D": "3a",
+"E": "a + b"
+}
+},
+"K2003-5": {
+"prompt": "Kiek daugiausiai vidaus stačiųjų kampų gali turėti šešiakampis (nebūtinai iškilasis)?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"K2003-6": {
+"prompt": "Į ąsotėlį vandens telpa tiek, kiek į butelį ir stiklinę kartu. Į butelį telpa tiek, kiek į stiklinę ir bokalą kartu. Į tris bokalus telpa tiek, kiek į 2 ąsotėlius. Kiek stiklinių vandens telpa į bokalą?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"K2003-7": {
+"prompt": "Pavaizduota lenta sudaryta iš 44 langelių 1 × 1. Keliais būdais galima uždengti jos 40 baltųjų langelių dvidešimčia stačiakampių kauliukų 1 × 2? (Lentos sukioti negalima. Du būdai laikomi skirtingais, jeigu bent vienas kauliukas padėtas kitaip.)",
+"options": {
+"A": "8",
+"B": "16",
+"C": "32",
+"D": "64",
+"E": "100"
+}
+},
+"K2003-8": {
+"prompt": "Imamas natūralusis skaičius, turintis bent du skaitmenis. Nubraukus paskutinį skaitmenį, jis sumažėja n kartų. Kokia gali būti didžiausia n reikšmė?",
+"options": {
+"A": "9",
+"B": "10",
+"C": "11",
+"D": "19",
+"E": "20"
+}
+},
+"K2003-9": {
+"prompt": "Nubrėžtos 4 atkarpos. Kiek susikirtimo taškų jos negali turėti?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"K2003-10": {
+"prompt": "Kiekvienas iš žemiau parašytų skaičių dauginamas iš 768. Kuris skaičius duoda sandaugą, besibaigiančią didžiausiu nulių skaičiumi?",
+"options": {
+"A": "7 500",
+"B": "5 000",
+"C": "3 125",
+"D": "2 500",
+"E": "10 000"
+}
+},
+"K2003-11": {
+"prompt": "Ant stalo guli kvadratinis peršviečiamos plėvelės lapas, kuriame parašyta raidė y. Lapą pasukame 90° pagal laikrodžio rodyklę, tada perverčiame per kairįjį jo kraštą, po to pasukame prieš laikrodžio rodyklę 180°. Ką dabar matome?",
+"options": {}
+},
+"K2003-12": {
+"prompt": "Mykolas turi 42 vienodus kubelius, kurių briaunos ilgis yra 1 cm. Iš visų kubelių jis sustatė pilnavidurį stačiakampį gretasienį. To gretasienio pagrindo perimetras yra 18 cm. Koks gretasienio aukštis?",
+"options": {
+"A": "1 cm",
+"B": "2 cm",
+"C": "3 cm",
+"D": "4 cm",
+"E": "5 cm"
+}
+},
+"K2003-13": {
+"prompt": "Lukas paleido po 3 strėles į kiekvieną iš 4 vienodų taikinių. Pirmame taikinyje jis išmušė 29 taškus, antrame – 43, trečiame – 47. Kiek taškų išmušė Lukas ketvirtame taikinyje?",
+"options": {
+"A": "31",
+"B": "33",
+"C": "36",
+"D": "38",
+"E": "39"
+}
+},
+"K2003-14": {
+"prompt": "Tuščias sunkvežimis sveria 2000 kg. Pakrovus prekes, krovinys sudarė 80 % pakrauto sunkvežimio masės. Pirmam gavėjui iškrautas ketvirtadalis krovinio. Kiek dabar procentų masės sunkvežimio su likusiu kroviniu sudaro krovinys?",
+"options": {
+"A": "20 %",
+"B": "25 %",
+"C": "55 %",
+"D": "60 %",
+"E": "75 %"
+}
+},
+"K2003-15": {
+"prompt": "Du vienodi kvadratai dengia skritulį, kurio spindulys yra 3. Kam lygus užtušuotos srities plotas?",
+"options": {
+"A": "8(π − 1)",
+"B": "6(2π − 1)",
+"C": "9π − 25",
+"D": "9(π − 2)",
+"E": "6π/5"
+}
+},
+"K2003-16": {
+"prompt": "Tu turi 6 atkarpas, kurių ilgiai yra 1 cm, 2 cm, 3 cm, 2001 cm, 2002 cm, 2003 cm. Keliais būdais tu gali išsirinkti tris atkarpas, kad iš jų būtų įmanoma sudaryti trikampį?",
+"options": {
+"A": "1",
+"B": "3",
+"C": "5",
+"D": "6",
+"E": "Daugiau kaip 10"
+}
+},
+"K2003-17": {
+"prompt": "Išrašome visus natūraliojo skaičiaus n daliklius, nelygius 1 ir n. Didžiausias iš jų yra 15 kartų didesnis už mažiausią. Kiek yra tokių n?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "Be galo daug"
+}
+},
+"K2003-18": {
+"prompt": "Tiesėje iš kairės į dešinę pažymėti taškai K, L, M, N, P, R išvardyta tvarka. Jeigu KN = MR ir LN = NR, tai būtinai",
+"options": {
+"A": "KL = LM",
+"B": "LM = NP",
+"C": "LN = PR",
+"D": "KL = MN",
+"E": "MN = PR"
+}
+},
+"K2003-19": {
+"prompt": "Marytė turi 6 korteles, kurių kiekvienoje parašyta po natūralųjį skaičių. Ji ima 3 korteles ir sudeda jose parašytus skaičius. Taip ji perrenka visas 20 galimybių pasirinkti 3 korteles ir pastebi, kad dešimt sumų buvo lygios 16, o likusios dešimt – lygios 18. Koks buvo mažiausias iš skaičių, užrašytų kortelėse?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"K2003-20": {
+"prompt": "Paulius, Bartas, Jonas, Mykolas ir Tomas stovi ratu, ir visi atstumai tarp dviejų greta stovinčių berniukų skirtingi. Kiekvienas jų vienas po kito pasako vardą berniuko, kuris stovi arčiausiai. Pauliaus ir Barto vardai buvo ištarti po 2 kartus, o Jono – vieną kartą. Tada",
+"options": {
+"A": "Paulius ir Bartas nestovi greta",
+"B": "Mykolas ir Tomas nestovi greta",
+"C": "Mykolas ir Tomas stovi greta",
+"D": "aprašytoji situacija yra neįmanoma",
+"E": "visi atsakymai A, B, C ir D klaidingi"
+}
+},
+"K2004-1": {
+"prompt": "Kam lygu 2004 − 200 · 4?",
+"options": {
+"A": "7 216",
+"B": "0",
+"C": "1204",
+"D": "1200",
+"E": "2804"
+}
+},
+"K2004-2": {
+"prompt": "Trikampiai ACD ir ABC lygiakraščiai (žr. paveikslėlį). Trikampis ACD sukamas prieš laikrodžio rodyklę apie tašką A. Kokiu kampu jis bus pasisukęs, kai pirmą kartą sutaps su trikampiu ABC?",
+"options": {
+"A": "60°",
+"B": "120°",
+"C": "180°",
+"D": "240°",
+"E": "300°"
+}
+},
+"K2004-3": {
+"prompt": "Skaičius x buvo padaugintas iš 0,5, o gauta sandauga padalyta iš 3. Pakėlus dalmenį kvadratu ir pridėjus 1, buvo gauta 50. Kam lygus skaičius x?",
+"options": {
+"A": "18",
+"B": "24",
+"C": "30",
+"D": "40",
+"E": "42"
+}
+},
+"K2004-4": {
+"prompt": "Į lentelės kiekvieną langelį įrašomas vienas iš skaičių 1, 2, 3, 4 taip, kad kiekvienoje eilutėje ir kiekviename stulpelyje būtų parašytas kiekvienas iš išvardytų skaičių. Paveikslėlyje matome jau užpildytus kelis langelius. Keliais skirtingais būdais galima įrašyti skaičių į langelį, pažymėtą raide x?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "Nustatyti neįmanoma"
+}
+},
+"K2004-5": {
+"prompt": "Kam lygi reiškinio (1 − 2) − (3 − 4) − (5 − 6) − … − (99 − 100) reikšmė?",
+"options": {
+"A": "−50",
+"B": "49",
+"C": "−48",
+"D": "48",
+"E": "50"
+}
+},
+"K2004-6": {
+"prompt": "Kubą kerta plokštuma. Pjūvio linijos kubo paviršiuje pažymėtos išklotinėje brūkšnine linija. Kokia figūra yra pjūvis?",
+"options": {
+"A": "Lygiakraštis trikampis",
+"B": "Stačiakampis, bet ne kvadratas",
+"C": "Statusis trikampis",
+"D": "Kvadratas",
+"E": "Šešiakampis"
+}
+},
+"K2004-7": {
+"prompt": "Stačiakampio tiek ilgis, tiek ir plotis buvo padidinti 10 %. Kiek procentų padidėjo stačiakampio plotas?",
+"options": {
+"A": "10 %",
+"B": "20 %",
+"C": "21 %",
+"D": "100 %",
+"E": "121 %"
+}
+},
+"K2004-8": {
+"prompt": "Paveikslėlyje pavaizduoto apskritimo centras – taškas O. Kam lygus apskritimo skersmuo?",
+"options": {
+"A": "18",
+"B": "12",
+"C": "10",
+"D": "12,5",
+"E": "14"
+}
+},
+"K2004-9": {
+"prompt": "Ledų automate galima nusipirkti 5 rūšių ledų. Kiekvienas iš stovėjusių prie automato vaikų nusipirko po dvi porcijas skirtingų ledų. Paaiškėjo, kad visi kartu jie nusipirko visas įmanomas ledų porcijų poras, bet jokie du vaikai nepirko tokios pat ledų porcijų poros. Kiek vaikų stovėjo prie automato?",
+"options": {
+"A": "5",
+"B": "10",
+"C": "20",
+"D": "25",
+"E": "30"
+}
+},
+"K2004-10": {
+"prompt": "Žiedai, kurių matmenys nurodyti paveikslėlyje, sujungti į 1,7 m ilgio grandinę. Kiek žiedų yra grandinėje?",
+"options": {
+"A": "17",
+"B": "21",
+"C": "30",
+"D": "42",
+"E": "85"
+}
+},
+"K2004-11": {
+"prompt": "Paveikslėlyje matome kvadratą ABCD ir du pusapskritimius su skersmenimis AB ir AD. Kvadrato kraštinė lygi 4. Koks yra užtušuotos srities plotas?",
+"options": {
+"A": "4",
+"B": "8",
+"C": "8π",
+"D": "2π",
+"E": "3"
+}
+},
+"K2004-12": {
+"prompt": "Paveikslėlyje yra 11 langelių. Į kiekvieną langelį įrašytas skaičius. Į pirmą langelį įrašytas skaičius 7, o į devintą – skaičius 6. Koks skaičius įrašytas į antrą langelį, jeigu bet kuriuose trijuose iš eilės einančiuose langeliuose įrašytų skaičių suma lygi 21?",
+"options": {
+"A": "7",
+"B": "8",
+"C": "6",
+"D": "10",
+"E": "21"
+}
+},
+"K2004-13": {
+"prompt": "Pirmaisiais iš dviejų paeiliui einančių metų ketvirtadienių buvo daugiau nei antradienių. Kokių savaitės dienų antraisiais metais buvo daugiausia, jeigu nė vieneri iš tų metų nebuvo keliamieji?",
+"options": {
+"A": "Antradienių",
+"B": "Trečiadienių",
+"C": "Penktadienių",
+"D": "Šeštadienių",
+"E": "Sekmadienių"
+}
+},
+"K2004-14": {
+"prompt": "Lygiašoniame trikampyje ABC AB = AC = 5, ∠BAC > 60°. Jo perimetras yra sveikasis skaičius. Kiek tokių trikampių egzistuoja?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"K2004-15": {
+"prompt": "Strutis Mutis rengiasi varžyboms „Galva smėlyje“. Jis įkišo savo galvą į smėlį pirmadienio rytą 8:15, ir taip ją išlaikęs 98 h 56 min pasiekė savo asmeninį rekordą. Kada Mutis ištraukė galvą iš smėlio?",
+"options": {
+"A": "Ketvirtadienį 5:19",
+"B": "Ketvirtadienį 5:41",
+"C": "Ketvirtadienį 11:11",
+"D": "Penktadienį 5:19",
+"E": "Penktadienį 11:11"
+}
+},
+"K2004-16": {
+"prompt": "Kiek mažiausiai stačiakampių gretasienių kaladėlių 1 × 2 × 3 reikia norint sudėti pilnavidurį kubą?",
+"options": {
+"A": "12",
+"B": "18",
+"C": "24",
+"D": "36",
+"E": "60"
+}
+},
+"K2004-17": {
+"prompt": "Kiekvienas iš penkių mokinių pasirinko po vieną iš skaičių 1, 2 ir 4 ir parašė lentoje. Parašytieji skaičiai buvo sudauginti. Kuris iš žemiau parašytų skaičių galėjo būti daugybos rezultatas?",
+"options": {
+"A": "100",
+"B": "120",
+"C": "256",
+"D": "768",
+"E": "2048"
+}
+},
+"K2004-18": {
+"prompt": "Senelės, senelio ir 7 vaikaičių amžiaus vidurkis yra 28 metai. 7 vaikaičių amžiaus vidurkis yra 15 metų. Senelis yra 3 metais vyresnis už senelę. Kiek metų seneliui?",
+"options": {
+"A": "71",
+"B": "72",
+"C": "73",
+"D": "74",
+"E": "75"
+}
+},
+"K2004-19": {
+"prompt": "Aptvare buvo daugiau kaip dvi kengūros. Viena kengūra pasakė „Mūsų čia yra 6“ ir iššoko iš aptvaro. Po minutės antra kengūra pasakė „Iššokusi kengūra melavo“ ir iššoko iš aptvaro. Dar po minutės trečia kengūra pasakė „Kiekviena iššokusi kengūra melavo“ ir iššoko iš aptvaro, ir t. t. Taip tęsėsi, kol aptvare neliko nė vienos kengūros. Kiek kengūrų sakė tiesą?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"K2004-20": {
+"prompt": "Kvadrato kraštinės ilgis lygus 6. Taškai A ir B yra atkarpoje, jungiančioje priešingų kvadrato kraštinių vidurio taškus. Jeigu sujungsime taškus A ir B su dviem priešingomis kvadrato viršūnėmis, tai kvadratas bus padalytas į tris vienodo ploto dalis. Koks yra atkarpos AB ilgis?",
+"options": {
+"A": "3,6",
+"B": "3,8",
+"C": "4",
+"D": "4,2",
+"E": "4,4"
+}
+},
+"K2005-1": {
+"prompt": "Lentelės langeliuose yra 8 kengūros (žr. paveikslėlį). Kiek mažiausiai kengūrų turi peršokti į kitus langelius, kad kiekvienoje lentelės eilutėje ir kiekviename stulpelyje būtų lygiai dvi kengūros?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"K2005-2": {
+"prompt": "Kiek valandų yra pusė trečdalio laiko, lygaus ketvirtadaliui paros?",
+"options": {
+"A": "1/3",
+"B": "1/2",
+"C": "1",
+"D": "2",
+"E": "3"
+}
+},
+"K2005-3": {
+"prompt": "Kubo briaunos lygios 12 cm. Skruzdėlė eina kubo paviršiumi iš viršūnės M į N, kaip pavaizduota paveikslėlyje. Kiek centimetrų sudaro jos kelias?",
+"options": {
+"A": "Nustatyti neįmanoma",
+"B": "40",
+"C": "48",
+"D": "50",
+"E": "60"
+}
+},
+"K2005-4": {
+"prompt": "Trijų stiklainių ir dviejų butelių bendra talpa yra 16 litrų, o kiekvieno stiklainio talpa dukart didesnė už kiekvieno butelio talpą. Kam lygi dviejų tokių stiklainių ir trijų tokių butelių bendra talpa (litrais)?",
+"options": {
+"A": "12",
+"B": "13",
+"C": "14",
+"D": "16",
+"E": "17"
+}
+},
+"K2005-5": {
+"prompt": "Licėjuje 50 % mokinių turi dviračius. Iš turinčių dviračius 30 % turi riedlentes. Kiek procentų licėjaus mokinių turi ir dviratį, ir riedlentę?",
+"options": {
+"A": "15 %",
+"B": "20 %",
+"C": "25 %",
+"D": "40 %",
+"E": "80 %"
+}
+},
+"K2005-6": {
+"prompt": "Trikampio ABC kampas A triskart didesnis už kampą B ir perpus mažesnis už kampą C. Kam lygus kampas A?",
+"options": {
+"A": "30°",
+"B": "36°",
+"C": "54°",
+"D": "60°",
+"E": "72°"
+}
+},
+"K2005-7": {
+"prompt": "Paveikslėlyje pavaizduotas kambario planas. Kiekvienos dvi gretimos sienos viena kitai statmenos. Koks yra kambario plotas?",
+"options": {
+"A": "2ab + a(b − a)",
+"B": "3a(a + b) − a²",
+"C": "3a²b",
+"D": "3a(b − a) + a²",
+"E": "3ab"
+}
+},
+"K2005-8": {
+"prompt": "Jolita popieriaus lapą sukarpė į 10 lapelių. Tada ji paėmė vieną iš lapelių ir vėl sukarpė jį į 10 lapelių. Dabar ji paėmė tris iš turimų lapelių ir sukarpė kiekvieną jų į 10 lapelių. Kiek lapelių popieriaus buvo po visko?",
+"options": {
+"A": "46",
+"B": "50",
+"C": "36",
+"D": "40",
+"E": "56"
+}
+},
+"K2005-9": {
+"prompt": "Darže medžiuose tupi keletas varnų. Jeigu kiekviename medyje tupėtų po vieną varną, tai vienai varnai pritrūktų medžio. Jeigu kiekviename medyje tupėtų po dvi varnas, tai viename medyje jų nebūtų iš viso. Kiek medžių yra darže?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"K2005-10": {
+"prompt": "Septyni skirtingi skaitmenys buvo surašyti didėjimo tvarka. Kai kiekvienas iš tų skaitmenų buvo pakeistas tam tikra raide, tai susidarė žodis AGKNORU. Koks didžiausias skaičius galėjo susidaryti pakeitus žodžio KANGOUROU raides atitinkančiais jas skaitmenimis?",
+"options": {
+"A": "987654321",
+"B": "987654354",
+"C": "436479879",
+"D": "536479879",
+"E": "597354354"
+}
+},
+"K2005-11": {
+"prompt": "Kam lygu 2005 · 5002?",
+"options": {
+"A": "1291",
+"B": "102910",
+"C": "10029010",
+"D": "1000290010",
+"E": "100002900010"
+}
+},
+"K2005-12": {
+"prompt": "Bendraklasių grupė planuoja išvyką. Jeigu kiekvienas jų įneštų 14 eurų numatomoms išlaidoms, tai jiems pritrūktų 4 eurų. Bet jeigu kiekvienas jų įneštų 16 eurų, tai jie turėtų 6 eurais daugiau nei reikia. Kiek eurų turi įnešti kiekvienas iš bendraklasių, kad jie surinktų lygiai tiek, kiek reikia išvykai?",
+"options": {
+"A": "14,40",
+"B": "14,60",
+"C": "14,80",
+"D": "15,00",
+"E": "15,20"
+}
+},
+"K2005-13": {
+"prompt": "Iš kvadrato viršūnių kaip iš centrų nubrėžti keturi vienodo spindulio apskritimai, liečiantys iš išorės tokio pat spindulio apskritimą, kurio centras sutampa su kvadrato centru. Kam lygus užtušuotų sričių bendro ploto ir skritulių bendro neužtušuoto ploto santykis?",
+"options": {
+"A": "1:3",
+"B": "1:4",
+"C": "2:5",
+"D": "2:3",
+"E": "5:4"
+}
+},
+"K2005-14": {
+"prompt": "Rūbininkas dirba 4 dienas iš eilės, o penktą dieną ilsisi. Jis ilsėjosi sekmadienį ir pradeda dirbti pirmadienį. Po kelių dienų jo poilsio diena vėl išpuls sekmadienį? (Dienas skaičiuojame pradėdami pirmadieniu ir baigdami priešpoilsiniu šeštadieniu.)",
+"options": {
+"A": "30",
+"B": "36",
+"C": "12",
+"D": "34",
+"E": "7"
+}
+},
+"K2005-15": {
+"prompt": "Kuris iš žemiau pavaizduotų kubų buvo sulankstytas iš dešinėje pavaizduotos iškarpos?",
+"options": {}
+},
+"K2005-16": {
+"prompt": "Nuo pusiaudienio iki pusiaunakčio Gudrusis Katinas miega po ąžuolu, o nuo pusiaunakčio iki pusiaudienio jis pasakoja savo nuotykius. Ant to ąžuolo kabo plakatas, kuriame parašyta: „Prieš dvi valandas Gudrusis Katinas darė tą patį, ką darys po valandos“. Kiek valandų per parą plakatas sako teisybę?",
+"options": {
+"A": "6",
+"B": "12",
+"C": "18",
+"D": "3",
+"E": "21"
+}
+},
+"K2005-17": {
+"prompt": "Paveikslėlyje pavaizduoti lygiakraštis trikampis ir taisyklingasis penkiakampis. Kiek laipsnių turi kampas, pažymėtas raide x?",
+"options": {
+"A": "124°",
+"B": "128°",
+"C": "132°",
+"D": "136°",
+"E": "140°"
+}
+},
+"K2005-18": {
+"prompt": "Mikas pasirinko triženklį skaičių ir dviženklį skaičių. Jų skirtumas lygus 989. Kam lygi jų suma?",
+"options": {
+"A": "1001",
+"B": "1010",
+"C": "2005",
+"D": "1000",
+"E": "1009"
+}
+},
+"K2005-19": {
+"prompt": "Kam lygu 1 + 2 − 3 − 4 + 5 + 6 − 7 − 8 + … + 2001 + 2002 − 2003 − 2004 + 2005?",
+"options": {
+"A": "0",
+"B": "2005",
+"C": "2004",
+"D": "1",
+"E": "−4"
+}
+},
+"K2005-20": {
+"prompt": "Natūralųjį skaičių n išskaidykime pirminiais dauginamaisiais. Skaičiaus n ilgiu vadinkime jo skaidinio dauginamųjų skaičių. Pavyzdžiui, skaičiaus 90 = 2 · 3 · 3 · 5 ilgis yra 4. Kiek mažesnių už 100 nelyginių skaičių turi ilgį 3?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "5",
+"D": "7",
+"E": "Kitas atsakymas"
+}
+},
+"K2006-1": {
+"prompt": "„Kengūros“ konkursas Europoje vyksta kasmet nuo 1991 metų. Kelintas yra 2006 metų „Kengūros“ konkursas?",
+"options": {
+"A": "15-tas",
+"B": "16-tas",
+"C": "17-tas",
+"D": "13-tas",
+"E": "14-tas"
+}
+},
+"K2006-2": {
+"prompt": "Reiškinio 20 · (0 + 6) − (20 · 0) + 6 reikšmė lygi",
+"options": {
+"A": "0",
+"B": "106",
+"C": "114",
+"D": "126",
+"E": "12"
+}
+},
+"K2006-3": {
+"prompt": "Taškas O yra taisyklingojo penkiakampio centras. Kurią to penkiakampio dalį sudaro užtušuota sritis?",
+"options": {
+"A": "10 %",
+"B": "20 %",
+"C": "25 %",
+"D": "30 %",
+"E": "40 %"
+}
+},
+"K2006-4": {
+"prompt": "Močiutė visiems savo anūkams iškepė bandelių. Jeigu kiekvienam anūkui ji duotų po 2 bandeles, tai močiutei liktų 3 bandelės, o jeigu norėtų duoti kiekvienam po 3, tai jai pritrūktų 2 bandelių. Kiek anūkų turi močiutė?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"K2006-5": {
+"prompt": "Žemiau pavaizduotos penkios popierinės iškarpos. Iš kurios iškarpos galima suklijuoti dėžutę, pavaizduotą dešinėje?",
+"options": {}
+},
+"K2006-6": {
+"prompt": "Iš apklaustų 2006 mokinių 1500 dalyvavo „Kengūros“ konkurse, 1200 – „Bebro“ konkurse. Kiek iš apklaustųjų mokinių dalyvavo abiejuose konkursuose, jeigu 6 iš jų nedalyvavo nė viename konkurse?",
+"options": {
+"A": "300",
+"B": "500",
+"C": "600",
+"D": "700",
+"E": "1000"
+}
+},
+"K2006-7": {
+"prompt": "Šalia pavaizduotą briaunainį sudaro du kubai, kurių briaunos lygios 1 cm ir 3 cm. Koks to briaunainio paviršiaus plotas?",
+"options": {
+"A": "56 cm²",
+"B": "58 cm²",
+"C": "59 cm²",
+"D": "60 cm²",
+"E": "64 cm²"
+}
+},
+"K2006-8": {
+"prompt": "Butelio talpa 1/3 litro. 3/4 butelio pripilta sulčių. Kiek litrų sulčių liks butelyje, jei nupilsime 1/5 litro?",
+"options": {
+"A": "1/20 litro",
+"B": "3/40 litro",
+"C": "0,13 litro",
+"D": "1/8 litro",
+"E": "Butelis liks tuščias"
+}
+},
+"K2006-9": {
+"prompt": "Iš visų lygiašonių trikampių, kurių šoninės kraštinės lygios 7 cm, o pagrindo ilgis išreiškiamas sveikuoju centimetrų skaičiumi, pasirenkame tą trikampį, kurio perimetras didžiausias. Kam lygus tas perimetras?",
+"options": {
+"A": "14 cm",
+"B": "15 cm",
+"C": "21 cm",
+"D": "27 cm",
+"E": "28 cm"
+}
+},
+"K2006-10": {
+"prompt": "21 dm ilgio virvutė buvo taip sukarpyta į didžiausią įmanomą skaičių gabaliukų, kad gabaliukų ilgiai būtų skirtingi natūralieji skaičiai (decimetrais). Kiek kartų teko kirpti?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "20"
+}
+},
+"K2006-11": {
+"prompt": "Jei tas daiktas mėlynas, tai jis apskritas. Jei jis kvadratinis, tai jis raudonas. Jis arba mėlynas, arba geltonas. Jeigu jis geltonas, tai jis kvadratinis. Jis arba kvadratinis, arba apskritas. Vadinasi, tas daiktas",
+"options": {
+"A": "raudonas",
+"B": "raudonas ir apskritas",
+"C": "mėlynas ir kvadratinis",
+"D": "mėlynas ir apskritas",
+"E": "geltonas ir apskritas"
+}
+},
+"K2006-12": {
+"prompt": "Vieną mėnesį trys antradieniai buvo lyginės mėnesio dienos. Kokia savaitės diena buvo dvidešimt pirmą to mėnesio dieną?",
+"options": {
+"A": "Trečiadienis",
+"B": "Ketvirtadienis",
+"C": "Penktadienis",
+"D": "Šeštadienis",
+"E": "Sekmadienis"
+}
+},
+"K2006-13": {
+"prompt": "Dominykas, Giedrius ir Vaida pirko palapinę. Dominykas davė 60 % reikiamos sumos, Giedrius davė 40 % likusios dalies. Vaida pridėjo trūkstamus 30 litų. Kiek litų kainavo palapinė?",
+"options": {
+"A": "50",
+"B": "60",
+"C": "125",
+"D": "150",
+"E": "200"
+}
+},
+"K2006-14": {
+"prompt": "Erdvėlaiviu skrenda ufonautų įgula. Kiekvienas ufonautas yra arba žalias, arba raudonas, arba mėlynas. Žalieji turi po 2 čiuptuvus, raudonieji – po tris, mėlynieji – po penkis čiuptuvus. Žaliųjų skrenda tiek pat, kiek ir raudonųjų, o mėlynųjų – dešimtimi daugiau nei žaliųjų. Visi kartu turi 250 čiuptuvų. Kiek erdvėlaiviu skrenda mėlynųjų ufonautų?",
+"options": {
+"A": "15",
+"B": "20",
+"C": "25",
+"D": "30",
+"E": "40"
+}
+},
+"K2006-15": {
+"prompt": "Jeigu Šokliukas atsispiria kairiąja koja, tai nušoka 2 metrus, jeigu dešiniąja – tai 4 metrus, o jeigu abiem kojomis – tai 7 metrus. Kiek mažiausiai šuolių turi padaryti Šokliukas, kad nušuoliuotų lygiai 1000 metrų?",
+"options": {
+"A": "140",
+"B": "144",
+"C": "175",
+"D": "176",
+"E": "150"
+}
+},
+"K2006-16": {
+"prompt": "Paveikslėlyje stačiakampis padalytas į septynis kvadratus. Kiekvieno iš užbrūkšniuotųjų kvadratų kraštinė lygi 8. Kam lygi didžiojo (baltojo) kvadrato kraštinė?",
+"options": {
+"A": "16",
+"B": "18",
+"C": "20",
+"D": "24",
+"E": "30"
+}
+},
+"K2006-17": {
+"prompt": "Kokio skaičiaus kvadratas didesnis už jį 500 %?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "10"
+}
+},
+"K2006-18": {
+"prompt": "Lygiašonio trikampio plotas lygus 1, o vienos kraštinės ilgis lygus 2. Kiek yra tokių trikampių?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"K2006-19": {
+"prompt": "Austėja nupiešė kvadratą 5 × 5 ir pažymėjo visų 25 kvadratėlių centrus. Po to nubrėžė tris kliūtis (storesnės linijos). Augustina surado trumpiausią kelią, kaip apeiti kliūtis ir iš taško A nueiti į tašką B einant tik vertikaliomis ir horizontaliomis atkarpėlėmis, kurių galai yra kvadratėlių centrai. Kiek yra tokių trumpiausių kelių?",
+"options": {
+"A": "6",
+"B": "8",
+"C": "9",
+"D": "11",
+"E": "12"
+}
+},
+"K2006-20": {
+"prompt": "Paskutinis triženklio skaičiaus skaitmuo yra 2. Jeigu tą skaitmenį perkeltume į skaičiaus priekį, tai gautume triženklį skaičių, 36 vienetais mažesnį už pradinį skaičių. Kokia yra to skaičiaus skaitmenų suma?",
+"options": {
+"A": "4",
+"B": "10",
+"C": "7",
+"D": "9",
+"E": "5"
+}
+},
+"K2007-1": {
+"prompt": "Kam lygu 2007/(2 + 0 + 0 + 7)?",
+"options": {
+"A": "1003",
+"B": "75",
+"C": "223",
+"D": "213",
+"E": "123"
+}
+},
+"K2007-2": {
+"prompt": "Parke kiekvienoje tako pusėje kas 2 m pasodinti rožių krūmai. Tako ilgis yra 21 m. Kiek rožių krūmų galėjo būti prie tako?",
+"options": {
+"A": "22, 21 arba 20",
+"B": "21, 20 arba 19",
+"C": "22 arba 20",
+"D": "22, 20 arba 18",
+"E": "21 arba 19"
+}
+},
+"K2007-3": {
+"prompt": "Robotas juda pavaizduoto kvadrato baltaisiais langeliais, pradėjęs kelią iš langelio A2 rodyklės kryptimi. Jis juda tiesiai, kol nesusiduria su kliūtimi (užtušuotu langeliu arba kvadrato kraštu). Susidūręs su kliūtimi, jis pasisuka 90° į dešinę. Kai ir pasisukęs robotas nebegali judėti tiesiai, jis sustoja (t. y. robotas sustoja, kai kliūtis atsiranda ir priešais jį, ir iš dešinės). Kuriame langelyje jis sustos?",
+"options": {
+"A": "B2",
+"B": "B1",
+"C": "A1",
+"D": "D1",
+"E": "Robotas niekada nesustos"
+}
+},
+"K2007-4": {
+"prompt": "Kokia yra abiejų lošimo kauliukų visų nematomų sienelių taškų suma?",
+"options": {
+"A": "15",
+"B": "12",
+"C": "17",
+"D": "27",
+"E": "Kitoks atsakymas"
+}
+},
+"K2007-5": {
+"prompt": "Koordinačių plokštumoje pažymėti taškai A(6; 7), B(7; 6), C(−6; −7), D(6; −7) ir E(7; −6). Kuri atkarpa yra lygiagreti x ašiai?",
+"options": {
+"A": "AD",
+"B": "BE",
+"C": "BC",
+"D": "CD",
+"E": "AB"
+}
+},
+"K2007-6": {
+"prompt": "Mažesnis kvadratas įbrėžtas į didesnį taip, kaip parodyta paveikslėlyje. Kam lygus mažesnio kvadrato plotas?",
+"options": {
+"A": "16",
+"B": "23",
+"C": "34",
+"D": "36",
+"E": "49"
+}
+},
+"K2007-7": {
+"prompt": "Kiek mažiausiai kvadratėlių reikia užtušuoti, kad gauta figūra turėtų simetrijos ašį?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "5",
+"D": "2",
+"E": "3"
+}
+},
+"K2007-8": {
+"prompt": "Skaičius, vienodai perskaitomas ir iš kairės į dešinę, ir iš dešinės į kairę, vadinamas palindromu. Pavyzdžiui, skaičius 13931 yra palindromas. Kam lygus didžiausio 6-ženklio palindromo ir mažiausio 5-ženklio palindromo skirtumas?",
+"options": {
+"A": "989989",
+"B": "989998",
+"C": "998998",
+"D": "999898",
+"E": "999988"
+}
+},
+"K2007-9": {
+"prompt": "Paveikslėlyje 6 vienodi skrituliai liečia didįjį stačiakampį ir vieni kitus. Mažojo stačiakampio viršūnės yra keturių skritulių centruose, o jo perimetras yra 60 cm. Koks yra didžiojo stačiakampio perimetras?",
+"options": {
+"A": "160 cm",
+"B": "140 cm",
+"C": "120 cm",
+"D": "100 cm",
+"E": "80 cm"
+}
+},
+"K2007-10": {
+"prompt": "Kuris iš žemiau nurodytų skaičių didžiausias, jei x yra neigiamas sveikasis skaičius?",
+"options": {
+"A": "x + 1",
+"B": "2x",
+"C": "−2x",
+"D": "6x + 2",
+"E": "x − 2"
+}
+},
+"K2007-11": {
+"prompt": "Atkarpos AB ilgis lygus 24 cm. Jos galus jungia laužtė AA₁A₂…A₁₂B. Tarp atkarpos ir laužtės susidaro 6 kvadratai (žr. pav.). Kam lygus laužtės AA₁A₂…A₁₂B ilgis?",
+"options": {
+"A": "48 cm",
+"B": "72 cm",
+"C": "96 cm",
+"D": "56 cm",
+"E": "106 cm"
+}
+},
+"K2007-12": {
+"prompt": "Lygiagrečiose tiesėse a ir b pažymėti 6 taškai – 4 tiesėje a ir 2 tiesėje b. Kiek yra trikampių, kurių viršūnės būtų pažymėtieji taškai?",
+"options": {
+"A": "6",
+"B": "8",
+"C": "12",
+"D": "16",
+"E": "18"
+}
+},
+"K2007-13": {
+"prompt": "Apklausa parodė, kad 2/3 vartotojų perka produktą X, o 1/3 – produktą Y. Po papildomos produkto Y reklamos nauja apklausa parodė, kad 1/4 tų vartotojų, kurie pirkdavo produktą X, dabar perka produktą Y. Taigi dabar produktą Y perka:",
+"options": {
+"A": "7/12",
+"B": "3/4",
+"C": "5/12",
+"D": "1/2",
+"E": "2/3"
+}
+},
+"K2007-14": {
+"prompt": "Kad gautume 8⁸, skaičių 4⁴ reikia pakelti laipsniu:",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "8",
+"E": "16"
+}
+},
+"K2007-15": {
+"prompt": "ABC ir CDE yra vienodi lygiakraščiai trikampiai. Koks yra ∠ABD didumas, jei ∠ACD = 80°?",
+"options": {
+"A": "25°",
+"B": "30°",
+"C": "35°",
+"D": "40°",
+"E": "45°"
+}
+},
+"K2007-16": {
+"prompt": "Turime iš eilės einančius skaičius 1, 2, 3, 4, ..., 10 000. Keli procentai tų skaičių yra natūraliųjų skaičių kvadratai?",
+"options": {
+"A": "1 %",
+"B": "1,5 %",
+"C": "2 %",
+"D": "2,5 %",
+"E": "5 %"
+}
+},
+"K2007-17": {
+"prompt": "Nubrėžus 9 atkarpas, galima gauti 12 langelių lentelę. Kiek daugiausia langelių gali turėti lentelė, sudaryta iš 15 atkarpų?",
+"options": {
+"A": "22",
+"B": "30",
+"C": "36",
+"D": "40",
+"E": "42"
+}
+},
+"K2007-18": {
+"prompt": "Kurie iš žemiau pavaizduotų kūnų yra tas pats, kaip parodytasis dešinėje, tik pasuktas erdvėje?",
+"options": {
+"A": "W ir Y",
+"B": "X ir Z",
+"C": "Tik Y",
+"D": "Nė vienas iš jų",
+"E": "W, X ir Y"
+}
+},
+"K2007-19": {
+"prompt": "Iš pavaizduotos lentelės pasirenkame tokius tris skaičius, kad jie priklausytų skirtingoms eilutėms ir skirtingiems stulpeliams. Kokia gali būti didžiausia tokių trijų skaičių suma?",
+"options": {
+"A": "12",
+"B": "15",
+"C": "18",
+"D": "21",
+"E": "24"
+}
+},
+"K2007-20": {
+"prompt": "Atkarpos OA, OB, OC ir OD nubrėžtos iš kvadrato KLMN centro O į kraštines taip, kad OA ⊥ OB ir OC ⊥ OD (žr. pav.). Jeigu kvadrato kraštinė lygi 2, tai užtušuotos dalies plotas yra:",
+"options": {
+"A": "1",
+"B": "2",
+"C": "2,5",
+"D": "2,25",
+"E": "Plotas priklauso nuo taškų B ir C padėties"
+}
+},
+"K2008-1": {
+"prompt": "Keli virvelės gabalai pavaizduoti paveikslėlyje?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "7"
+}
+},
+"K2008-2": {
+"prompt": "Klasėje yra 9 berniukai ir 13 mergaičių. Pusė klasės vaikų susirgo gripu. Kiek mažiausiai mergaičių galėjo susirgti?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"K2008-3": {
+"prompt": "6 kengūros suėda 6 maišus žolės per 6 minutes. Kiek kengūrų suėda 100 maišų žolės per 100 minučių?",
+"options": {
+"A": "100",
+"B": "60",
+"C": "6",
+"D": "10",
+"E": "600"
+}
+},
+"K2008-4": {
+"prompt": "Į lentelės 2 × 2 langelius įrašyti skaičiai 2, 3, 4 ir dar vienas nežinomas skaičius. Pirmos eilutės skaičių suma lygi 9, o antros eilutės skaičių suma lygi 6. Nežinomasis skaičius yra",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "4"
+}
+},
+"K2008-5": {
+"prompt": "Trikampio ir kvadrato perimetrai yra vienodi (žr. pav.). Koks yra visos figūros (penkiakampio) perimetras?",
+"options": {
+"A": "12 cm",
+"B": "24 cm",
+"C": "28 cm",
+"D": "32 cm",
+"E": "Tai priklauso nuo trikampio kraštinių ilgių"
+}
+},
+"K2008-6": {
+"prompt": "Gėlininkė turi 24 baltas, 42 raudonas ir 36 geltonas rožes. Kiek daugiausia vienodų puokščių ji gali padaryti, jeigu rožių neturi likti?",
+"options": {
+"A": "4",
+"B": "6",
+"C": "8",
+"D": "10",
+"E": "12"
+}
+},
+"K2008-7": {
+"prompt": "Visi kubo kampai yra nupjauti (žr. pav.). Kiek briaunų turi gautasis kūnas?",
+"options": {
+"A": "26",
+"B": "30",
+"C": "36",
+"D": "40",
+"E": "Kitas atsakymas"
+}
+},
+"K2008-8": {
+"prompt": "Trys tiesės kertasi viename taške. Paveikslėlyje nurodyti dviejų susidariusių kampų dydžiai. Kiek laipsnių turi užtušuotas kampas?",
+"options": {
+"A": "52°",
+"B": "53°",
+"C": "54°",
+"D": "55°",
+"E": "56°"
+}
+},
+"K2008-9": {
+"prompt": "Dana turi 9 monetas, visas po 2 litus. Jos sesuo Ona turi 8 monetas, visas po 5 litus. Kiek mažiausiai monetų turi iš vienų rankų pereiti į kitas, kad seserys pinigų turėtų po lygiai?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "8",
+"D": "12",
+"E": "To padaryti neįmanoma"
+}
+},
+"K2008-10": {
+"prompt": "Kelis kvadratus galima nubrėžti jungiant taškus (žr. pav.) atkarpomis?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "6"
+}
+},
+"K2008-11": {
+"prompt": "Iš kelių vienodų degtukų negalima sudėti trikampio?",
+"options": {
+"A": "7",
+"B": "6",
+"C": "5",
+"D": "4",
+"E": "3"
+}
+},
+"K2008-12": {
+"prompt": "Kartą žinomas matematikas Augustas de Morganas pareiškė, kad jam buvo x metų x² metais. Jis mirė 1871 metais. Kada jis gimė?",
+"options": {
+"A": "1806",
+"B": "1848",
+"C": "1849",
+"D": "1899",
+"E": "Kitas atsakymas"
+}
+},
+"K2008-13": {
+"prompt": "Nusprendėme keturias salas A, B, C ir D apkeliauti keltais (kelionę pradėdami ir baigdami žemyne). Į B keltu galima patekti tik iš A arba iš žemyno. Salos A ir C sujungtos keltu ir tarpusavyje, ir su žemynu. Sala D sujungta keltu tik su sala A. Kiek mažiausiai kartų mums teks sėsti į keltą?",
+"options": {
+"A": "6",
+"B": "5",
+"C": "8",
+"D": "4",
+"E": "7"
+}
+},
+"K2008-14": {
+"prompt": "Tomas ir Jonas turėjo po tokį pat stačiakampį popieriaus lakštą. Perkirpęs savo lakštą, Tomas gavo du stačiakampius, kurių kiekvieno perimetras 40 cm. Jonas perkirpęs savo lakštą gavo du stačiakampius, kurių kiekvieno perimetras 50 cm. Kam buvo lygus neperkirpto lakšto perimetras?",
+"options": {
+"A": "40 cm",
+"B": "50 cm",
+"C": "60 cm",
+"D": "80 cm",
+"E": "90 cm"
+}
+},
+"K2008-15": {
+"prompt": "Viena iš popierinio kubo sienų perkirpta per tos sienos įstrižaines (žr. pav. dešinėje). Kurių dviejų iš pavaizduotų išklotinių gauti neįmanoma?",
+"options": {
+"A": "1 ir 3",
+"B": "1 ir 5",
+"C": "3 ir 4",
+"D": "3 ir 5",
+"E": "2 ir 4"
+}
+},
+"K2008-16": {
+"prompt": "Tiesėje tam tikra tvarka pažymėti taškai A, B, C ir D. Duota, kad AB = 13, BC = 11, CD = 14 ir DA = 12. Koks yra atstumas tarp tolimiausių dviejų taškų?",
+"options": {
+"A": "14",
+"B": "38",
+"C": "50",
+"D": "25",
+"E": "Kitas atsakymas"
+}
+},
+"K2008-17": {
+"prompt": "Keturi vienodi 6 cm spindulio apskritimai įbrėžti į stačiakampį ir liečiasi (žr. pav.). P – stačiakampio viršūnė, Q ir R – taškai, kuriuose apskritimai liečia stačiakampio kraštines. Kam lygus trikampio PQR plotas?",
+"options": {
+"A": "27 cm²",
+"B": "45 cm²",
+"C": "54 cm²",
+"D": "108 cm²",
+"E": "180 cm²"
+}
+},
+"K2008-18": {
+"prompt": "Dėžėje buvo septynios kortos, sunumeruotos skaičiais nuo 1 iki 7. Pirmas išminčius atsitiktinai ištraukė iš dėžės 3 kortas, tada antras išminčius ištraukė 2 kortas (dėžėje liko 2 kortos). Pažiūrėjęs į savo skaičius, pirmasis išminčius sako antrajam: „Aš žinau, kad tavo skaičių suma lyginė“. Kam lygi pirmojo išminčiaus ištrauktų skaičių suma?",
+"options": {
+"A": "10",
+"B": "12",
+"C": "6",
+"D": "9",
+"E": "15"
+}
+},
+"K2008-19": {
+"prompt": "Lygiašonio trikampio ABC (AB = AC) pusiaukampinė CD lygi pagrindui BC. Kam lygus kampas CDA?",
+"options": {
+"A": "90°",
+"B": "100°",
+"C": "108°",
+"D": "120°",
+"E": "Nustatyti neįmanoma"
+}
+},
+"K2008-20": {
+"prompt": "Medinis kubas 5 × 5 × 5 gautas suklijavus 5³ vienetinių kubelių. Kiek daugiausiai vienetinių kubelių galima pamatyti, žiūrint į kubą iš vieno taško?",
+"options": {
+"A": "75",
+"B": "74",
+"C": "60",
+"D": "61",
+"E": "62"
+}
+},
+"K2009-1": {
+"prompt": "Kuris iš šių skaičių yra lyginis?",
+"options": {
+"A": "2009",
+"B": "2 + 0 + 0 + 9",
+"C": "200 − 9",
+"D": "200 × 9",
+"E": "200 + 9"
+}
+},
+"K2009-2": {
+"prompt": "Vakarėlyje dalyvavo 4 mergaitės ir 4 berniukai. Berniukai šoko tik su mergaitėmis, o mergaitės – tik su berniukais. Po to kiekvienas pasakė, kelis šokius jis šoko. Berniukų atsakymai buvo 3, 1, 2 ir 2, o trijų mergaičių – 2, 2 ir 2. Kiek šokių šoko ketvirtoji mergaitė?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "3",
+"E": "4"
+}
+},
+"K2009-3": {
+"prompt": "Paveikslėlyje pavaizduota žvaigždė sudėta iš 12 vienodų mažų lygiakraščių trikampių. Žvaigždės perimetras yra 36 cm. Kam lygus užtušuoto šešiakampio perimetras?",
+"options": {
+"A": "6 cm",
+"B": "12 cm",
+"C": "18 cm",
+"D": "24 cm",
+"E": "30 cm"
+}
+},
+"K2009-4": {
+"prompt": "Stasys nešioja laikraščius Savanorių prospekte ir turi pristatyti juos į visus nelyginius to prospekto namus pradedant 15-tu ir baigiant 53-iu. Į kelis namus turės užeiti Stasys?",
+"options": {
+"A": "19",
+"B": "20",
+"C": "27",
+"D": "38",
+"E": "53"
+}
+},
+"K2009-5": {
+"prompt": "Didžiojo kvadrato plotas lygus 1. Kam lygus užtušuoto kvadratėlio plotas?",
+"options": {
+"A": "1/100",
+"B": "1/300",
+"C": "1/600",
+"D": "1/900",
+"E": "1/1000"
+}
+},
+"K2009-6": {
+"prompt": "Keturių skirtingų natūraliųjų skaičių sandauga yra 100. Kam lygi jų suma?",
+"options": {
+"A": "10",
+"B": "12",
+"C": "15",
+"D": "18",
+"E": "20"
+}
+},
+"K2009-7": {
+"prompt": "Kambaryje žaidžia katės ir šunys. Katės letenėlių turi dukart daugiau, negu šunys turi nosių. Kačių kambaryje yra",
+"options": {
+"A": "dukart daugiau kaip šunų",
+"B": "tiek pat kaip šunų",
+"C": "perpus tiek, kiek šunų",
+"D": "keturiskart mažiau nei šunų",
+"E": "keturiskart daugiau nei šunų"
+}
+},
+"K2009-8": {
+"prompt": "Paveikslėlyje taškas S yra toks atkarpos QR taškas, kad ∠QPS = 12°, o PQ = PS = RS. Kam lygus ∠QPR?",
+"options": {
+"A": "36°",
+"B": "42°",
+"C": "54°",
+"D": "60°",
+"E": "84°"
+}
+},
+"K2009-9": {
+"prompt": "Liftas gali kelti arba 12 suaugusių, arba 20 vaikų. Kiek vaikų gali kelti liftas kartu su 9 suaugusiais?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "8"
+}
+},
+"K2009-10": {
+"prompt": "Češyro Katinas išnyko 6:15, ir laikrodis, anksčiau ėjęs teisingai, pamišo ir ėmė tuo pačiu greičiu eiti atgal. Češyro Katinas vėl pasirodė 19:30. Kokį laiką tuo momentu rodė pamišęs laikrodis?",
+"options": {
+"A": "17:00",
+"B": "17:45",
+"C": "18:30",
+"D": "19:00",
+"E": "19:15"
+}
+},
+"K2009-11": {
+"prompt": "Kiek yra natūraliųjų skaičių, kurių kvadratai turi tiek pat skaitmenų, kaip ir jų kubai?",
+"options": {
+"A": "0",
+"B": "3",
+"C": "4",
+"D": "9",
+"E": "Be galo daug"
+}
+},
+"K2009-12": {
+"prompt": "Kiek mažiausiai „storų“ taškų užtenka pašalinti iš pavaizduotos figūros, kad jokie 3 iš likusių nebebūtų vienoje tiesėje?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "7"
+}
+},
+"K2009-13": {
+"prompt": "Vakare Mykolas nustatė visus šešis dviejų trikampių – bukojo ir smailiojo – kampų dydžius, bet rytą prisiminė tik keturis, kurie buvo 120°, 80°, 55° ir 10°. Kiek laipsnių turi mažiausias smailiojo trikampio kampas?",
+"options": {
+"A": "5",
+"B": "10",
+"C": "45",
+"D": "55",
+"E": "Nustatyti neįmanoma"
+}
+},
+"K2009-14": {
+"prompt": "Kuri didžiojo kvadrato dalis yra užtušuota?",
+"options": {
+"A": "1/4",
+"B": "π/12",
+"C": "(π + 2)/16",
+"D": "π/4",
+"E": "1/3"
+}
+},
+"K2009-15": {
+"prompt": "Teisuolių (visada sakančių tiesą) ir melagių (visada meluojančių) saloje eilute stovi 25 žmonės. Pirmasis pasakė, kad visi už jo stovintys yra melagiai. Kiekvienas kitas pasakė, kad prieš pat jį stovi melagis. Kiek melagių yra eilutėje?",
+"options": {
+"A": "0",
+"B": "12",
+"C": "13",
+"D": "24",
+"E": "Nustatyti neįmanoma"
+}
+},
+"K2009-16": {
+"prompt": "Paveikslėlyje pavaizduotas briaunainis, sudarytas iš 6 trikampių. Prie kiekvienos jo viršūnės parašyta po skaičių ir apskaičiuotos kiekvienos sienos viršūnių skaičių sumos. Visos gautos sumos yra lygios, o du iš parašytų skaičių yra 1 ir 5, kaip parodyta paveikslėlyje. Kam lygi visų penkių viršūnėse parašytų skaičių suma?",
+"options": {
+"A": "9",
+"B": "12",
+"C": "17",
+"D": "18",
+"E": "24"
+}
+},
+"K2009-17": {
+"prompt": "Lygybėje (E · I · G · H · T) : (F · O · U · R) = T · W · O skirtingos raidės žymi skirtingus, o vienodos raidės – vienodus skaitmenis. Kiek skirtingų reikšmių gali įgyti sandauga T · H · R · E · E?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"K2009-18": {
+"prompt": "Lentelės langeliai spalvinami spalvomis a, b, c ir d taip, kad jokie du gretimi langeliai nebūtų nuspalvinti ta pačia spalva (gretimais laikome langelius, turinčius bent vieną bendrą viršūnę). Kai kurie langeliai jau nuspalvinti, kaip parodyta. Kokia spalva gali būti nuspalvintas užtušuotasis langelis?",
+"options": {
+"A": "Tik a arba b",
+"B": "Tik c",
+"C": "Tik d",
+"D": "Tik c arba d",
+"E": "Bet kuria iš a, b, c ir d"
+}
+},
+"K2009-19": {
+"prompt": "Paveikslėlyje pavaizduotas taisyklingasis devynkampis, kurio dvi pratęstos kraštinės kertasi taške X. Kam lygus kampas X?",
+"options": {
+"A": "40°",
+"B": "45°",
+"C": "50°",
+"D": "55°",
+"E": "60°"
+}
+},
+"K2009-20": {
+"prompt": "Paveikslėlyje pavaizduotos trys pirmosios figūros iš „tvarkingai“ didėjančių figūrų sekos. Iš kelių baltų kvadratėlių bus sudėta dešimtoji figūra?",
+"options": {
+"A": "76",
+"B": "80",
+"C": "84",
+"D": "92",
+"E": "100"
+}
+},
+"K2010-1": {
+"prompt": "Kam lygu 12 + 23 + 34 + 45 + 56 + 67 + 78 + 89?",
+"options": {
+"A": "389",
+"B": "396",
+"C": "404",
+"D": "405",
+"E": "Kitas atsakymas"
+}
+},
+"K2010-2": {
+"prompt": "Kiek simetrijos ašių turi šalia esanti figūra?",
+"options": {
+"A": "0",
+"B": "1",
+"C": "2",
+"D": "4",
+"E": "Be galo daug"
+}
+},
+"K2010-3": {
+"prompt": "Ruošiamoje kengūrinių žaisliukų siuntoje kiekviena kengūrėlė dedama į atskirą kubinę dėžutę. Kiekvienos aštuonios dėžutės be tarpų sudedamos į didesnę kartoninę kubinę dėžę. Kiek kubinių dėžučių yra tos kubinės dėžės apatiniame sluoksnyje?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"K2010-4": {
+"prompt": "Kam lygus pavaizduotos figūros perimetras?",
+"options": {
+"A": "3a + 4b",
+"B": "3a + 8b",
+"C": "6a + 4b",
+"D": "6a + 6b",
+"E": "6a + 8b"
+}
+},
+"K2010-5": {
+"prompt": "Elena pažymėjo 6 taisyklingojo šešiakampio viršūnes ir sujungusi atkarpomis kai kuriuos iš tų 6 taškų gavo geometrinę figūrą. Ta figūra tikrai nėra:",
+"options": {
+"A": "trapecija",
+"B": "statusis trikampis",
+"C": "kvadratas",
+"D": "lygiakraštis trikampis",
+"E": "bukasis trikampis"
+}
+},
+"K2010-6": {
+"prompt": "Turime septynis paeiliui einančius natūraliuosius skaičius. Pirmųjų trijų skaičių suma lygi 33. Kam lygi paskutiniųjų trijų skaičių suma?",
+"options": {
+"A": "39",
+"B": "37",
+"C": "42",
+"D": "48",
+"E": "45"
+}
+},
+"K2010-7": {
+"prompt": "Stepas pirko rąstų malkoms ir supjovė juos į rąstigalius. Rąstus jam teko pjauti 53 kartus, o rąstigalių susidarė 72. Kiek rąstų pirko Stepas?",
+"options": {
+"A": "17",
+"B": "18",
+"C": "19",
+"D": "20",
+"E": "21"
+}
+},
+"K2010-8": {
+"prompt": "Dėžutės dugne guli 7 vienodos plytelės. Kiek mažiausiai plytelių teks pastumti, kad rastųsi vietos dar vienai tokiai plytelei?",
+"options": {
+"A": "2",
+"B": "3",
+"C": "4",
+"D": "5",
+"E": "To padaryti neįmanoma"
+}
+},
+"K2010-9": {
+"prompt": "Kvadratas padalytas į 4 vienodus kvadratėlius. Kiekvienas iš tų keturių kvadratėlių nuspalvinamas viena kuria nors spalva – raudonai arba baltai. Kiek yra skirtingų kvadrato nuspalvinimo būdų? (Du nuspalvinimai laikomi vienodais, jeigu sukant juos galima sutapdinti.)",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"K2010-10": {
+"prompt": "Sudedame šimtą pirmųjų teigiamų lyginių skaičių, tada šimtą pirmųjų teigiamų nelyginių skaičių. Kam lygus šių sumų skirtumas?",
+"options": {
+"A": "0",
+"B": "50",
+"C": "100",
+"D": "10 100",
+"E": "15 150"
+}
+},
+"K2010-11": {
+"prompt": "Senelė iškepė anūkams pyragą, bet nežino, keli anūkai – 3, 5 ar 6 ateis. Ji norėtų, kad atėję anūkai galėtų iš karto gauti po tiek pat pyrago. Į kelias lygias dalis būtų geriausia supjaustyti tą pyragą?",
+"options": {
+"A": "12",
+"B": "15",
+"C": "18",
+"D": "24",
+"E": "30"
+}
+},
+"K2010-12": {
+"prompt": "Kuris iš nurodytųjų skaičių yra mažiausias dviženklis skaičius, kuris nėra trijų skirtingų vienaženklių skaičių suma?",
+"options": {
+"A": "24",
+"B": "15",
+"C": "23",
+"D": "25",
+"E": "10"
+}
+},
+"K2010-13": {
+"prompt": "Kotrynai reikia 18 minučių, kad padarytų vientisą 3 žiedų grandinę sukabindama gretimus žiedus. Kiek minučių jai reikėtų padaryti vientisą 6 žiedų grandinę?",
+"options": {
+"A": "27",
+"B": "30",
+"C": "36",
+"D": "45",
+"E": "60"
+}
+},
+"K2010-14": {
+"prompt": "Keturkampyje ABCD: AD = BC, ∠DAC = 50°, ∠DCA = 65°, ∠ACB = 70° (žr. brėžinį). Raskite kampo ∠ABC didumą.",
+"options": {
+"A": "50°",
+"B": "55°",
+"C": "60°",
+"D": "65°",
+"E": "Nustatyti neįmanoma"
+}
+},
+"K2010-15": {
+"prompt": "Apie medinę lentelę su įražomis Andrius apsuko vielą (žr. pav.). Kaip atrodo kita lentelės pusė?",
+"options": {}
+},
+"K2010-16": {
+"prompt": "Dėžėje yra 50 baltų, mėlynų ir raudonų plytelių. Baltų plytelių yra 11 kartų daugiau negu mėlynų. Raudonų plytelių yra mažiau negu baltų, bet daugiau negu mėlynų. Keliomis plytelėmis raudonųjų plytelių yra mažiau negu baltųjų?",
+"options": {
+"A": "2",
+"B": "11",
+"C": "19",
+"D": "22",
+"E": "30"
+}
+},
+"K2010-17": {
+"prompt": "Brėžinyje ABCD yra stačiakampis, o PQRS – kvadratas. Užtušuotos figūros plotas sudaro pusę viso stačiakampio ABCD ploto. Koks atkarpos PX ilgis?",
+"options": {
+"A": "1",
+"B": "1,5",
+"C": "2",
+"D": "2,5",
+"E": "4"
+}
+},
+"K2010-18": {
+"prompt": "Kiek mažiausiai tiesių reikia išvesti norint plokštumą padalyti į 5 sritis?",
+"options": {
+"A": "3",
+"B": "4",
+"C": "5",
+"D": "6",
+"E": "Kitas atsakymas"
+}
+},
+"K2010-19": {
+"prompt": "Jei a − 1 = b + 2 = c − 3 = d + 4 = e − 5, tai kuris iš skaičių a, b, c, d ir e yra didžiausias?",
+"options": {
+"A": "a",
+"B": "b",
+"C": "c",
+"D": "d",
+"E": "e"
+}
+},
+"K2010-20": {
+"prompt": "Pavaizduotoji emblema yra sudaryta iš pusskritulių, kurių spinduliai yra 2 cm, 4 cm ir 8 cm. Kuri emblemos dalis yra užtušuota?",
+"options": {
+"A": "1/3",
+"B": "1/4",
+"C": "1/5",
+"D": "2/5",
+"E": "2/9"
+}
+},
+"K2011-1": {
+"prompt": "Kuris iš žemiau parašytų skaičių yra didžiausias?",
+"options": {
+"A": "2011¹",
+"B": "1²⁰¹¹",
+"C": "1 · 2011",
+"D": "1 + 2011",
+"E": "1 : 2011"
+}
+},
+"K2011-2": {
+"prompt": "Alė turi 5 kubelius ir 3 tetraedrus. Kiek sienų turi visi tie kūnai?",
+"options": {
+"A": "42",
+"B": "48",
+"C": "50",
+"D": "52",
+"E": "56"
+}
+},
+"K2011-3": {
+"prompt": "Pėsčiųjų perėja per gatvę nudažyta pakaitomis einančiomis baltomis ir juodomis juostomis. Kiekvienos juostos plotis yra 50 cm. Perėja prasideda ir baigiasi balta juosta, o iš viso joje yra 8 baltos juostos. Koks yra gatvės plotis?",
+"options": {
+"A": "7 m",
+"B": "7,5 m",
+"C": "8 m",
+"D": "8,5 m",
+"E": "9 m"
+}
+},
+"K2011-4": {
+"prompt": "Mano užsiožiavęs skaičiuoklis dalija užuot dauginęs ir atiminėja užuot sudėjęs. Aš renku (12 · 3) + (4 · 2). Kokį rezultatą rodys mano skaičiuoklis?",
+"options": {
+"A": "2",
+"B": "6",
+"C": "12",
+"D": "28",
+"E": "38"
+}
+},
+"K2011-5": {
+"prompt": "Mano elektroninis laikrodis ką tik ėmė rodyti 20:11. Po kelių minučių anksčiausiai jis vėl ims rodyti laiką su skaitmenimis 0, 1, 1 ir 2?",
+"options": {
+"A": "40",
+"B": "45",
+"C": "50",
+"D": "55",
+"E": "60"
+}
+},
+"K2011-6": {
+"prompt": "Brėžinyje yra 3 kvadratai – didelis, vidutinis ir mažas. Vidutinis kvadratas gautas jungiant didžiojo kvadrato kraštinių vidurio taškus, o mažas – vidutiniojo. Mažojo kvadrato plotas yra 6 cm². Koks yra didžiojo ir vidutinio kvadratų plotų skirtumas (cm²)?",
+"options": {
+"A": "6",
+"B": "9",
+"C": "12",
+"D": "15",
+"E": "18"
+}
+},
+"K2011-7": {
+"prompt": "Mūsų gatvėje 17 namų, o aš gyvenu paskutiniame jos lyginės pusės name, kurio numeris yra 12. Mano pusbrolis gyvena paskutiniame jos nelyginės pusės name. Koks yra mano pusbrolio namo numeris?",
+"options": {
+"A": "5",
+"B": "7",
+"C": "13",
+"D": "17",
+"E": "21"
+}
+},
+"K2011-8": {
+"prompt": "Per tris dienas katinas Pelius sugavo 12 žuvų. Kiekvieną dieną jis pagaudavo vis daugiau žuvų. Trečią dieną jis pagavo mažiau žuvų nei per pirmąsias dvi dienas kartu. Kiek žuvų katinas Pelius pagavo trečią dieną?",
+"options": {
+"A": "5",
+"B": "6",
+"C": "7",
+"D": "8",
+"E": "9"
+}
+},
+"K2011-9": {
+"prompt": "Marytė surašė visus 3-ženklius skaičius, kurių skaitmenų suma yra 8. Kam lygi mažiausio ir didžiausio skaičių suma?",
+"options": {
+"A": "707",
+"B": "907",
+"C": "916",
+"D": "1000",
+"E": "1001"
+}
+},
+"K2011-10": {
+"prompt": "Paveikslėlyje pavaizduota iš 4 vienodų kvadratėlių sudėta L raidės formos figūra. Rita norėtų prie jos pridurti dar vieną kvadratėlį, kad susidariusi figūra turėtų simetrijos ašį. Keliais skirtingais būdais ji gali tai padaryti?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"K2011-11": {
+"prompt": "(2011 · 2,011) : (201,1 · 20,11) = ?",
+"options": {
+"A": "0,01",
+"B": "0,1",
+"C": "1",
+"D": "10",
+"E": "100"
+}
+},
+"K2011-12": {
+"prompt": "Marytė turėjo 9 gintarėlius, kurių svoriai 1 g, 2 g, 3 g, 4 g, 5 g, 6 g, 7 g, 8 g ir 9 g. Ji padarė 4 papuošalus sunaudojusi po 2 gintarėlius kiekvienam. Gintarėlių bendras svoris papuošale atitinkamai lygus 17 g, 13 g, 7 g ir 5 g. Koks yra nepanaudoto gintarėlio svoris (gramais)?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "5"
+}
+},
+"K2011-13": {
+"prompt": "Kad patektų į Medaus karalystę, žiurkėnas Tadas turi įveikti labirintą. Labirinte padėta 16 agurkų (žr. pav.). Tadui negalima grįžti į jokią labirinto vietą, kurioje jis jau buvo. Kiek daugiausiai agurkų jis gali susirinkti?",
+"options": {
+"A": "12",
+"B": "13",
+"C": "14",
+"D": "15",
+"E": "16"
+}
+},
+"K2011-14": {
+"prompt": "Kiekviena iš pavaizduotos figūros sričių yra nuspalvinta viena iš 4 spalvų: raudona (R), žalia (Ž), mėlyna (M) arba geltona (G). Bet kurios dvi besiribojančios sritys turi būti nuspalvintos skirtingomis spalvomis (paveikslėlyje nurodytos tik trijų sričių spalvos). Tada sritis X yra nuspalvinta:",
+"options": {
+"A": "raudonai",
+"B": "mėlynai",
+"C": "žaliai",
+"D": "geltonai",
+"E": "to nustatyti neįmanoma"
+}
+},
+"K2011-15": {
+"prompt": "Turime tam tikrą balų sąrašą: 17, 13, 5, 10, 14, 9, 12 ir 16. Kuriuos du balus galima išbraukti, kad likusiųjų balų vidurkis nepakistų?",
+"options": {
+"A": "12 ir 17",
+"B": "5 ir 17",
+"C": "9 ir 16",
+"D": "10 ir 12",
+"E": "10 ir 14"
+}
+},
+"K2011-16": {
+"prompt": "Kvadratinis popieriaus lapas sukarpytas į 6 stačiakampius (žr. paveikslėlį). Bendras visų 6 stačiakampių perimetras yra 120 cm. Raskite kvadratinio popieriaus lapo plotą (cm²).",
+"options": {
+"A": "48",
+"B": "64",
+"C": "110,25",
+"D": "144",
+"E": "256"
+}
+},
+"K2011-17": {
+"prompt": "Per trejas futbolo rungtynes „Žalgirio“ komanda įmušė 3 įvarčius, o praleido tik 1. „Žalgirio“ komanda vienerias rungtynes laimėjo, kitas pralaimėjo, o trečias sužaidė lygiosiomis. Koks buvo „Žalgirio“ laimėtųjų rungtynių rezultatas?",
+"options": {
+"A": "2:0",
+"B": "3:0",
+"C": "1:0",
+"D": "2:1",
+"E": "0:1"
+}
+},
+"K2011-18": {
+"prompt": "Popieriaus lape Lilė nubrėžė 2 cm ilgio atkarpą MN. Keliais būdais ji gali pažymėti to lapo tašką P, kad trikampis MNP būtų statusis, o jo plotas būtų 1 cm²?",
+"options": {
+"A": "2",
+"B": "4",
+"C": "6",
+"D": "8",
+"E": "10"
+}
+},
+"K2011-19": {
+"prompt": "Teigiamas skaičius a yra mažesnis už 1, o skaičius b – didesnis už 1. Kuris iš žemiau išvardytų skaičių yra didžiausias?",
+"options": {
+"A": "a · b",
+"B": "a + b",
+"C": "a : b",
+"D": "b",
+"E": "a − b"
+}
+},
+"K2011-20": {
+"prompt": "Kubo paviršiuje nubrėžtas keturkampis dalija paviršių į dvi vienodas dalis. Kaip atrodys to kubo išklotinė?",
+"options": {}
+},
+"K2012-1": {
+"prompt": "Keturi vienodi šokoladukai kainuoja 6 Lt daugiau už vieną tokį šokoladuką. Kiek kainuoja vienas toks šokoladukas?",
+"options": {
+"A": "1 Lt",
+"B": "2 Lt",
+"C": "3 Lt",
+"D": "4 Lt",
+"E": "1,5 Lt"
+}
+},
+"K2012-2": {
+"prompt": "11,11 − 1,111 =",
+"options": {
+"A": "9,009",
+"B": "9,0909",
+"C": "9,99",
+"D": "9,999",
+"E": "10"
+}
+},
+"K2012-3": {
+"prompt": "Laikrodis padėtas ciferblatu aukštyn taip, kad jo minučių rodyklė rodo tiksliai į rytus. Po kelių minučių ji pirmą kartą rodys tiksliai į šiaurę?",
+"options": {
+"A": "Po 45 min",
+"B": "Po 40 min",
+"C": "Po 30 min",
+"D": "Po 20 min",
+"E": "Po 15 min"
+}
+},
+"K2012-4": {
+"prompt": "Marytė karpo žirklėmis 5 kartonines raides. Kiekvieną raidę ji perkerpa vienu tiesiu kirpimu taip, kad raidė subyrėtų į kuo daugiau dalių. Kuri raidė subyra į didžiausią dalių skaičių?",
+"options": {
+"A": "O",
+"B": "F",
+"C": "S",
+"D": "H",
+"E": "M"
+}
+},
+"K2012-5": {
+"prompt": "Drakonas turi 5 galvas. Nukirtus bet kurią iš jų, tuoj pat atauga 5 naujos. Vieną po kitos drakonui nukertame 6 galvas. Kiek galvų jis tada turės?",
+"options": {
+"A": "25",
+"B": "28",
+"C": "29",
+"D": "30",
+"E": "35"
+}
+},
+"K2012-6": {
+"prompt": "Kuriame iš pateiktų reiškinių skaičių 8 pakeitus bet kokiu kitu teigiamu skaičiumi (visur tuo pačiu), to reiškinio reikšmė nepasikeis?",
+"options": {
+"A": "(8 + 8) : 8 + 8",
+"B": "8 · (8 + 8) : 8",
+"C": "8 + 8 − 8 + 8",
+"D": "(8 + 8 − 8) · 8",
+"E": "(8 + 8 − 8) : 8"
+}
+},
+"K2012-7": {
+"prompt": "Kiekvieno iš 9 parko takelių ilgis yra 100 metrų (žr. pav.). Onutė eina iš taško A į tašką B, neidama jokiu taku du kartus. Koks yra jos ilgiausio kelio ilgis metrais?",
+"options": {
+"A": "900",
+"B": "800",
+"C": "700",
+"D": "600",
+"E": "400"
+}
+},
+"K2012-8": {
+"prompt": "Brėžinyje parodyti du trikampiai. Keliais būdais galima išvesti tiesę per vieną iš kairiojo trikampio viršūnių ir vieną iš dešiniojo trikampio viršūnių taip, kad tiesė su šiais trikampiais daugiau bendrų taškų neturėtų?",
+"options": {
+"A": "1",
+"B": "2",
+"C": "3",
+"D": "4",
+"E": "Daugiau nei 4"
+}
+},
+"K2012-9": {
+"prompt": "Aivaras popieriaus lapą perlenkė pusiau, kaip parodyta piešinyje. Tada jis padarė du tiesius kirpimus ir atlenkė lapą. Kurios žemiau pavaizduotos figūros jis negali gauti taip darydamas?",
+"options": {}
+},
+"K2012-10": {
+"prompt": "Stačiakampis gretasienis sudėtas iš keturių detalių. Kiekviena detalė sudaryta iš keturių vienspalvių kubelių. Kokios formos yra baltoji detalė?",
+"options": {}
+},
+"K2012-11": {
+"prompt": "Iš skaitmenų 1, 2, 3, 4, 5, 6, 7 ir 8, panaudojusi juos visus, Kamilė sudaro du keturženklius skaičius. Jai reikia, kad šių dviejų skaičių suma būtų galimai mažiausia. Kokia yra ta mažiausioji suma?",
+"options": {
+"A": "2468",
+"B": "3333",
+"C": "3825",
+"D": "4734",
+"E": "6918"
+}
+},
+"K2012-12": {
+"prompt": "Ponia Izolda augina pupeles ir braškes. Šiemet ji 3 metrais padidino stačiakampį, kur pernai augo pupelės, iki kvadrato (žr. pav.), ir taip 15 m² sumažino braškių užimamą plotą. Kokiame plote pernai augo pupelės?",
+"options": {
+"A": "5 m²",
+"B": "9 m²",
+"C": "10 m²",
+"D": "15 m²",
+"E": "18 m²"
+}
+},
+"K2012-13": {
+"prompt": "Iš penkių į langelius surašytų skaičių parodyti pirmas skaičius 10 ir paskutinis skaičius 130 (žr. paveikslėlį). Pirmų trijų skaičių suma lygi 100, vidurinių trijų skaičių suma lygi 200, o paskutinių trijų – net 300. Kam lygus vidurinis skaičius?",
+"options": {
+"A": "50",
+"B": "60",
+"C": "70",
+"D": "75",
+"E": "100"
+}
+},
+"K2012-14": {
+"prompt": "Koks yra brėžinio kampo x dydis laipsniais?",
+"options": {
+"A": "35°",
+"B": "42°",
+"C": "51°",
+"D": "65°",
+"E": "109°"
+}
+},
+"K2012-15": {
+"prompt": "Kiekvienoje iš 4 kortelių vienoje pusėje yra skaičius, o kitoje – teiginys. Tie keturi teiginiai yra tokie: „dalijasi iš 7“, „yra pirminis“, „yra nelyginis“ ir „yra didesnis už 100“, o tie keturi skaičiai yra 2, 5, 7 ir 12. Visose kortelėse įrašyti skaičiai prieštarauja kitoje pusėje esančiam teiginiui. Kuris skaičius yra kitoje kortelės „yra didesnis už 100“ pusėje?",
+"options": {
+"A": "2",
+"B": "5",
+"C": "7",
+"D": "12",
+"E": "Neįmanoma nustatyti"
+}
+},
+"K2012-16": {
+"prompt": "Nuo trijų didžiojo lygiakraščio trikampio, kurio kraštinės ilgis 6 cm, kampų nukerpame po tokį patį lygiakraštį trikampiuką (kaip parodyta pav.). Visų trijų nukirptų trikampiukų perimetrų suma yra lygi likusio pilkojo šešiakampio perimetrui. Koks yra nukirptųjų trikampiukų kraštinės ilgis?",
+"options": {
+"A": "1 cm",
+"B": "1,2 cm",
+"C": "1,25 cm",
+"D": "1,5 cm",
+"E": "2 cm"
+}
+},
+"K2012-17": {
+"prompt": "Katino Apelsino sūris supjaustytas į daugybę gabaliukų. Pelės visą dieną vogė katino sūrio gabaliukus. Apelsinas pastebėjo, kad kiekviena pelė pavogė skirtingą sūrio gabaliukų skaičių, mažesnį už 10, ir kad jokia pelė nepavogė lygiai dvigubai tiek gabaliukų, kiek pavogė kuri nors kita pelė. Kiek daugiausiai pelių galėjo vogti sūrį?",
+"options": {
+"A": "4",
+"B": "5",
+"C": "6",
+"D": "7",
+"E": "8"
+}
+},
+"K2012-18": {
+"prompt": "Stačiakampis ABCD padalytas į penkis vienodus stačiakampius (žr. pav.), kurių kiekvieno perimetras lygus 20 cm. Koks yra stačiakampio ABCD plotas?",
+"options": {
+"A": "72 cm²",
+"B": "112 cm²",
+"C": "120 cm²",
+"D": "140 cm²",
+"E": "150 cm²"
+}
+},
+"K2012-19": {
+"prompt": "Stebuklingo plepaus kvadrato kraštinės ilgis pradžioje buvo 8 cm. Jei kvadratas kalba tiesą, tai jo kraštinė sutrumpėja 2 cm, o jei netiesą, tai jo perimetras dvigubėja. Kvadratas kalbėjo keturis kartus, du kartus sakė tiesą ir du kartus – netiesą. Koks galimai didžiausias po to gali būti jo perimetras?",
+"options": {
+"A": "28 cm",
+"B": "80 cm",
+"C": "88 cm",
+"D": "112 cm",
+"E": "120 cm"
+}
+},
+"K2012-20": {
+"prompt": "Lošimo kauliukas judėjo plokštuma, verčiamas per kurią nors jo briauną. Jo apatinė sienelė paeiliui pabuvojo brėžinyje skaitmenimis 1, 2, 3, 4, 5, 6 ir 7 pažymėtose padėtyse. Kuriuose dviejuose langeliuose pabuvojo ta pati kauliuko sienelė?",
+"options": {
+"A": "1 ir 7",
+"B": "1 ir 6",
+"C": "1 ir 5",
+"D": "2 ir 7",
+"E": "2 ir 6"
+}
+}
+}

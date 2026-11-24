@@ -2799,5 +2799,2176 @@
 "K2026-17": {
 "A": "Sudėjai 2 dalis matematikos ir 1 dalį prancūzų kalbos mėgėjų, bet abu dalykus mėgstančius suskaičiavai du kartus.",
 "D": "Sudėjai 2 dalis matematikos ir 1 dalį prancūzų kalbos mėgėjų, bet abu dalykus mėgstančius suskaičiavai du kartus."
+},
+"N2007-1": {
+"E": "80 jau parašyta ant antro vagono – skaičiai mažėja, o ne didėja."
+},
+"N2007-2": {
+"C": "905 irgi turi 9 šimtus, bet dešimčių jame nėra.",
+"D": "899 turi daug devynetų, bet šimtų tik 8."
+},
+"N2007-3": {
+"A": "Ši uodega nusileidžia žemai, bet ji tiesi ir atgal nekyla."
+},
+"N2007-4": {
+"C": "Trečiadienis yra šiandien, o gimtadienis buvo vakar.",
+"D": "Ketvirtadienis bus rytoj, o klausiama apie vakar."
+},
+"N2007-5": {
+"E": "Suskaičiavai visus skaitmenis, o klausiama, kiek skirtingų.",
+"A": "Praleidai vienetus – iš jų nupieštos ausys ir ūsai."
+},
+"N2007-6": {
+"A": "10 keleivių buvo, kai antroje stotelėje vienas išlipo – dar įlipo 8."
+},
+"N2007-7": {
+"E": "Viską sudėjai: 48 + 20 + 9 + 6 + 30 = 113, o du veiksmai yra atimtis."
+},
+"N2007-8": {
+"A": "Pamiršai pačią Karoliną – žmonių bute yra keturi.",
+"B": "Papūgėlėms davei po 4 kojas, o paukštis turi tik 2.",
+"C": "Pridėjai kojų ir žuvelėms, o jos kojų neturi."
+},
+"N2007-9": {
+"A": "Čia tik keturi kačiukai, o turi būti penki.",
+"B": "Kačiukų spalvos tinka, bet nė vieno ausys nėra skirtingų spalvų.",
+"C": "Čia šeši kačiukai, vienas jų pilkas."
+},
+"N2007-11": {
+"E": "10 yra vienos kraštinės trijų skaičių suma, o klausiama dviejų paslėptų skaičių sumos.",
+"B": "0 yra tik vienas iš dviejų paslėptų skaičių."
+},
+"N2007-13": {
+"C": "3 stovi dešiniajame stulpelyje tarp 4 ir 8.",
+"D": "5 stovi pačiame lentelės viduryje."
+},
+"N2007-14": {
+"B": "Suskaičiavai tik ilgąsias puses – dar yra dvi vietos stalo galuose."
+},
+"N2007-15": {
+"A": "Karolis aplenkė tik Eleną, o Julija parėjo dar anksčiau.",
+"E": "Nežinoma tik Agnės vieta, bet pirma ji tikrai negalėjo būti."
+},
+"N2007-17": {
+"A": "3 dienos – tai Kikės laikas, o Minė valgo lėčiau.",
+"E": "Sudėjai 4 ir 3, o reikia lyginti suėstus kilogramus."
+},
+"N2007-18": {
+"E": "Pilkas yra trisdešimtas langelis, o reikia dar trijų."
+},
+"N2008-1": {
+"D": "16 gautum daugindamas 2 iš 8, o skaitmenis reikia sudėti.",
+"A": "Sandauga su nuliu lygi 0, bet čia reikia sumos."
+},
+"N2008-3": {
+"A": "Suskaičiavai tik skaičius nuo 20 iki 29, pamiršai 2 ir 12.",
+"B": "Skaičiuje 22 yra du dvejetai – vieną praleidai."
+},
+"N2008-4": {
+"B": "Ketvirtadienis buvo prieš 7 dienas, o reikia dar vienos dienos atgal.",
+"C": "Skaičiavai į priekį, o Liepa šventė anksčiau."
+},
+"N2008-5": {
+"B": "10 akučių yra matomose sienelėse, o klausiama apie nematomas."
+},
+"N2008-6": {
+"A": "Sudėjai 7 ir 3, o reikia imti 7 kartus po 3.",
+"E": "Atėmei 3 iš 7, o mažesniais šuoliais šuolių reikia daugiau."
+},
+"N2008-7": {
+"B": "5 – tai gabalų skaičius, o pjūvių vienu mažiau.",
+"E": "14 pjūvių reikėtų pjaunant po 1 metrą."
+},
+"N2008-8": {
+"A": "Tiek brolių ir seserų turi Marytė, o ne Mykolas.",
+"C": "Pamiršai, kad pati Marytė yra Mykolo sesuo.",
+"D": "Mykolą priskaičiavai prie jo paties brolių."
+},
+"N2008-9": {
+"A": "Sudėjai skaičius, o už kiekvieną vaisių gaunami keli kiti.",
+"B": "Tris mandarinus gavai tik vieną kartą, o jų duota už kiekvieną obuolį."
+},
+"N2008-10": {
+"C": "Nuėmei po obuolį, bet slyvų nenuėmei: 8 slyvas padalijai 2 obuoliams."
+},
+"N2008-11": {
+"E": "27 metai prieš dešimt metų buvo tėveliui, o ne mamytei.",
+"A": "Pridėjai 4 metus, o mamytė yra jaunesnė už tėvelį."
+},
+"N2008-12": {
+"E": "Ši figūra telpa – tereikia iškirptą apversti kita puse."
+},
+"N2008-13": {
+"E": "20 – tiek bandelių pirko Jonas, o klausiama, kiek litų jis sumokėjo."
+},
+"N2008-14": {
+"B": "Laiką pridėjai prie 4:00, o reikia eiti atgal.",
+"A": "Pridėjai 6 valandas be 30 minučių, o reikia eiti atgal visą laiką."
+},
+"N2008-15": {
+"A": "Kiekvieną trikampį skaičiavai kaip visą kvadratėlį, o jis – tik pusė."
+},
+"N2008-16": {
+"A": "Suskaičiavai visas žodžio raides, o kai kurios kartojasi."
+},
+"N2008-17": {
+"C": "Skaičių 135 perskaitei kaip 1 val. 35 min., bet valandoje yra 60 minučių, o ne 100."
+},
+"N2008-18": {
+"C": "Atėmei nupjautą viršūnę, bet nepridėjai trijų naujų.",
+"E": "Pridėjai tris naujas viršūnes, bet neatėmei nupjautos."
+},
+"N2009-1": {
+"C": "Suskaičiavai tik apatinį aukštą – viršuje dar vienas kubelis.",
+"B": "Praleidai kubelius, kurių nesimato – vienas yra po viršutiniu."
+},
+"N2009-2": {
+"D": "18 gautum daugindamas 2 iš 9, o skaitmenis reikia sudėti.",
+"A": "7 yra skirtumas 9 − 2, o reikia sumos."
+},
+"N2009-3": {
+"B": "Ant Nidos torto yra 8 žvakutės – viena mažiau nei daugiausia.",
+"D": "Ant Gitos torto yra 8 žvakutės – viena mažiau nei daugiausia."
+},
+"N2009-4": {
+"A": "Čia mažiau kriaušių, o klausiama, kur mažiau obuolių.",
+"B": "Čia obuolių ir kriaušių po lygiai – po 3.",
+"E": "Čia obuolių ir kriaušių po lygiai – po 2."
+},
+"N2009-6": {
+"B": "16 mašinėlių turi vienas Povilas, o klausiama, kiek jie turi kartu.",
+"C": "Padauginai 12 iš 4, o „keturiomis daugiau“ reiškia pridėti 4.",
+"E": "Atėmei 4, o Povilas turi daugiau, ne mažiau."
+},
+"N2009-7": {
+"A": "Visiems keturiems skaičiavai po 12 litų, o vaikų bilietai pigesni.",
+"B": "Sudėjai tik vieną vaiko ir vieną suaugusiojo bilietą, o vaikai trys."
+},
+"N2009-8": {
+"B": "14 yra po gėlyte, o klausiama apie saulutę.",
+"E": "28 yra saulutė kartu su 1 – dar reikia atimti 1."
+},
+"N2009-9": {
+"E": "Likusias 4 dienas skaičiavai po pirmadienio, o pirmadienį irgi išgeriama tabletė."
+},
+"N2009-10": {
+"D": "Padauginai 18 iš 6, bet 18 kreidelių yra dviejose dėžutėse, o ne vienoje.",
+"E": "9 kreidelės yra vienoje dėžutėje, o dėžučių šešios.",
+"C": "Sudėjai 18 ir 6, o reikia skaičiuoti kreideles visose dėžutėse."
+},
+"N2009-11": {
+"A": "Sudėjai 2 ir 5, o šiuos skirtumus reikėjo atimti.",
+"D": "Povilui iki Tomo trūksta daugiau, tad jis žemesnis už Petrą."
+},
+"N2009-12": {
+"A": "Čia 6 gėlytės ir 2 širdutės – skaičiai sukeisti vietomis.",
+"D": "Čia 3 gėlytės, o jų turi būti 3 kartus mažiau negu 6."
+},
+"N2009-13": {
+"A": "Atėmei tik šimpanzes, o pavianus pamiršai.",
+"B": "7 – tiek yra šimpanzių ir pavianų kartu, ne kapucinų voljere."
+},
+"N2009-14": {
+"A": "Patrigubinai tėčio metus, o trigubai vyresnis bus tik Jonukas.",
+"B": "Prie tėčio metų pridėjai 12, o praeis tik 8 metai."
+},
+"N2009-15": {
+"B": "21 – tiek pyragėlių su varške yra pabaigoje, o klausiama, kiek buvo iš pradžių.",
+"C": "Iš 31 atėmei 11, bet tai dar ne pyragėliai su varške."
+},
+"N2009-16": {
+"C": "6 Lt kainuoja du rašikliai, o klausiama apie vieną.",
+"A": "Iš 4 atėmei 2, o trūkstamus litus reikia pridėti."
+},
+"N2009-17": {
+"D": "Uždavinyje pasakyta, kad mažiausiai ženklų turi ne Tomas.",
+"E": "Trys berniukai atkrinta, tad ketvirtasis žinomas tiksliai."
+},
+"N2009-18": {
+"B": "56 – tiek baravykų tėtė rado per abi valandas kartu.",
+"D": "39 baravykai rasti per pirmą valandą, o klausiama apie antrą."
+},
+"N2010-2": {
+"A": "Čia dvi mašinėlės, o Dominykas turi tik vieną.",
+"E": "Čia tik vienas kamuolys, o reikia dviejų.",
+"D": "Čia tik vienas meškiukas, o reikia dviejų."
+},
+"N2010-3": {
+"B": "14 – tai vaikų skaičius, ne porų.",
+"E": "Padauginai iš 2, o reikėjo padalyti."
+},
+"N2010-4": {
+"C": "Viršutinė eilė gera, bet apatinės dalys sukeistos vietomis."
+},
+"N2010-5": {
+"A": "Čia 3 trikampiai ir 6 kvadratai – kvadratų tik dukart daugiau.",
+"C": "Čia triskart daugiau trikampių, o ne kvadratų.",
+"D": "Čia 2 trikampiai ir 7 kvadratai – vienu kvadratu per daug."
+},
+"N2010-6": {
+"A": "Matyti 7 kubeliai, bet aštuntas slepiasi po viršutiniu kubeliu.",
+"D": "Matyti 6 kubeliai, bet dar 2 slepiasi už priekinių, po aukštąja dalimi.",
+"E": "Matyti 6 kubeliai, bet dar 2 slepiasi po viršutiniais."
+},
+"N2010-7": {
+"E": "Ketvirtadienis yra vasario 4, o ne vasario 3.",
+"B": "Skaičiavai, lyg sausis turėtų 29 dienas, o jis turi 31."
+},
+"N2010-8": {
+"D": "Čia tik 2 balti, o iki keturių baltų trūksta trijų."
+},
+"N2010-9": {
+"C": "36 yra didžiausias, bet jis lyginis.",
+"B": "21 yra nelyginis, bet yra ir didesnis nelyginis."
+},
+"N2010-10": {
+"A": "29 – tiek žmonių sėdi kartu su Vytautu, o jis ne svečias."
+},
+"N2010-11": {
+"C": "Suskaičiavai tik vieną sviesto pakelį, o Marta pirko du."
+},
+"N2010-12": {
+"B": "Iš 18 šokėjų atėmei 12 porų – sumaišei šokėjus su poromis."
+},
+"N2010-13": {
+"D": "Kiekvienam trikampiui skyrei visą kvadratėlį, o iš vieno išeina du trikampiai."
+},
+"N2010-15": {
+"E": "Skaičiavai, lyg spektaklis truktų lygiai 2 valandas, o jis baigėsi 12:40."
+},
+"N2010-17": {
+"D": "Skaičiavai 20 tarpų, bet tarp 20 grybų jų yra tik 19."
+},
+"N2010-18": {
+"C": "48 − 36 = 12, bet tarp šių namų stovi vienu namu mažiau."
+},
+"N2011-1": {
+"B": "Sudėjai 20 ir 11, o reikia sudėti atskirus skaitmenis."
+},
+"N2011-2": {
+"D": "Ši lėlė laiko dvi gėlytes, o reikia vienos.",
+"C": "Ši lėlė neturi kasų.",
+"A": "Ši lėlė su kelnėmis, ne su suknele."
+},
+"N2011-3": {
+"A": "Padalijai iš 2, o poroje yra 2 batai – reikia dauginti.",
+"B": "12 – tai porų skaičius, ne batų."
+},
+"N2011-4": {
+"C": "Čia yra ausies galas, bet nėra akies kraštelio.",
+"D": "Čia yra akies kraštelis, bet nėra smailaus ausies galo."
+},
+"N2011-5": {
+"B": "Lyginai tik dieną 04 su 17, bet čia jau kiti, 2012 metai."
+},
+"N2011-6": {
+"A": "Atimdamas vienetus pamiršai, kad dešimčių liko viena mažiau."
+},
+"N2011-7": {
+"A": "8 – tai kačių ausų skaičius, o klausiama, kiek šunų.",
+"C": "Šunų nėra tiek pat, kiek kačių: lygios tik ausys ir kojos."
+},
+"N2011-8": {
+"B": "16 – tai visas skirtumas; tiek perpylus pirmame būtų daugiau."
+},
+"N2011-10": {
+"D": "3 Lt 20 ct kainuoja du pieštukai, o klausiama apie vieną."
+},
+"N2011-11": {
+"C": "Dvi atskiros skylės būtų tik kerpant toliau nuo lenkimo linijos.",
+"D": "Atlenkus antra pusė yra veidrodinė, o čia ji tiesiog pakartota."
+},
+"N2011-12": {
+"B": "11 metų yra vidurinei dukteriai, o klausiama apie vyriausiąją.",
+"C": "Pridėjai tik 4, bet vyriausioji vyresnė už vidurinę, ne už jauniausiąją."
+},
+"N2011-13": {
+"A": "Po 1 gėlę lieka pirmoje ir antroje vazoje, bet skaičiuoti reikia visas kartu."
+},
+"N2011-14": {
+"D": "Prie kibirėlio kelias baigiasi širdele, o turi baigtis rombu."
+},
+"N2011-15": {
+"A": "3 kg sveria viena beždžionytė, o klausiama apie katiną."
+},
+"N2011-16": {
+"D": "Trys vaikai atkrinta, tad nugalėtojas žinomas tiksliai."
+},
+"N2011-18": {
+"C": "Čia eilėje 6 vietos, o Jono vaizde iš viršaus – tik 5.",
+"A": "Čia nėra trinkelės priekyje, o kairysis bokštelis per aukštas."
+},
+"N2012-1": {
+"B": "Nepastebėjai kengūriuko, kuris sėdi mamos sterblėje."
+},
+"N2012-2": {
+"D": "Šis gabalas turi tris tiesias kraštines, o tuščia vieta – tik dvi."
+},
+"N2012-3": {
+"A": "5 – tiek yra gyvūnų, o klausiama apie kojas.",
+"B": "Visiems gyvūnams skaičiavai po 2 kojas, bet katė ir šuo turi po 4.",
+"E": "Visiems gyvūnams skaičiavai po 4 kojas, bet vištos turi tik po 2."
+},
+"N2012-4": {
+"A": "3 – tiek raidžių A yra viename žodyje, o žodis parašytas tris kartus.",
+"E": "10 – tiek raidžių turi visas žodis MATEMATIKA."
+},
+"N2012-5": {
+"A": "Pingvinas bus devintas – tuščiame langelyje prieš klaustuką.",
+"E": "Žuvies tarp keturių Luko lipdukų iš viso nėra."
+},
+"N2012-6": {
+"C": "3 – tiek vertas vien kvadratas, dar reikia pridėti skritulį.",
+"B": "2 – tai trikampio skaičius, o gėlytė slepia skritulio ir kvadrato sumą."
+},
+"N2012-7": {
+"C": "Linija C atrodo didelė, nes apeina platų plotą, bet joje tik 13 kraštinių.",
+"D": "Linija D aukšta, bet suskaičiavus kraštines jų tik 13."
+},
+"N2012-8": {
+"C": "11 − 6 = 5 – tiek bandelių liko be cinamono, o klausiama ne to."
+},
+"N2012-9": {
+"B": "13 − 9 = 4, bet pamiršai, kad vienas vaikas ieško ir nesislepia.",
+"D": "9 – tiek vaikų jau rasta, o klausiama, kiek dar pasislėpę.",
+"E": "Sudėjai 13 ir 9, o rastus vaikus reikia atimti."
+},
+"N2012-10": {
+"A": "Skaičiavai po vieną spaustuką rankšluosčiui, bet pačiame gale reikia dar vieno.",
+"E": "Skaičiavai po du spaustukus kiekvienam, bet gretimi rankšluosčiai turi bendrą.",
+"C": "4 spaustukus padauginai iš 3, bet bendrų spaustukų dukart skaičiuoti nereikia."
+},
+"N2012-11": {
+"C": "Pridėjai metus tik vienai sesei, o paaugo abi.",
+"B": "Suma negali likti ta pati – abi sesės tapo vyresnės."
+},
+"N2012-12": {
+"A": "Prie 14 pridėjai 3, o „anksčiau“ reiškia, kad reikia atimti.",
+"C": "Atėmei tik 2 valandas, o reikia 3."
+},
+"N2012-13": {
+"B": "5 gėlės buvo po pirmo skynimo, o gėlininkas skynė du kartus.",
+"C": "Pridėjai 3 naujas gėles, bet pamiršai, kad nuskintos nebeliko, ir skynė du kartus."
+},
+"N2012-14": {
+"B": "Viena moneta sutvarko tik vieną eilutę, o po 3 monetas yra dviejose.",
+"A": "Dviejose apatinėse eilutėse dabar yra po 3 monetas, ne po 2."
+},
+"N2012-15": {
+"A": "9 – tai tik mažos dėžės, be vidutinių ir didžiulės.",
+"C": "Suskaičiavai vidutines ir mažas, bet pamiršai pačią didžiulę dėžę.",
+"B": "Pridėjai didžiulę dėžę prie mažų, bet praleidai tris vidutines."
+},
+"N2012-16": {
+"B": "Tikriausiai įskaitei tik stačiakampį, bet kauliukus galima sukti ir vartyti – tinka ir kitos."
+},
+"N2012-17": {
+"B": "Visus 24 eurus padalijai iš 6 keksų, bet Rimantė išleido tik pusę pinigų.",
+"E": "12 eurų – tiek Rimantė sumokėjo už visus 6 keksus.",
+"C": "24 : 4 = 6, bet ir pinigai ne visi Aldonos, ir klausiama apie keksą."
+},
+"N2012-18": {
+"A": "10 – tiek šuolių iki finišo, bet žvirblis dar šokinėja atgal.",
+"B": "11 – tiek tvoroje mietų, o ne sekundžių."
+},
+"M2000-1": {
+"C": "15 padauginai iš 10, bet taip būtų tik deginant žvakutes vieną po kitos.",
+"A": "15 padalijai iš 10, bet daugiau žvakučių nedega greičiau."
+},
+"M2000-2": {
+"E": "3 kartus po 20 – suskaičiavai tabletes, o tarpų tarp jų yra tik du.",
+"A": "Po 20 minučių jis nuryja antrą tabletę, ne paskutinę."
+},
+"M2000-3": {
+"C": "Skaičiaus 312 sandauga 6 ir suma 6 yra lygios, o reikia, kad sandauga būtų didesnė.",
+"B": "209 turi didelį skaitmenį 9, bet nulis visą sandaugą paverčia nuliu."
+},
+"M2000-4": {
+"B": "Padvigubinai aukšto numerį, bet iki antro aukšto yra tik vienas laiptų tarpsnis, ne du."
+},
+"M2000-6": {
+"D": "Tęsei eilę „40 – vienas, 80 – du, 160 – keturi“, bet autobuse telpa ne 40, o 55 žmonės."
+},
+"M2000-7": {
+"E": "6 akutės yra apatinio kauliuko viršuje, o klausiama apie jo apačią."
+},
+"M2000-8": {
+"A": "Taške A linija tikrai baigiasi, bet nelyginių taškų yra dar trys, o pabaiga tik viena.",
+"C": "Taške D sueina dvi linijos – tai paprastas linijos lūžis, pradėti nuo jo nepadeda."
+},
+"M2000-9": {
+"D": "6 porcijas suvalgė Giedrė, o klausiama apie Agnę.",
+"C": "Padalijai 10 pusiau, bet mergaitės valgo nevienodu greičiu."
+},
+"M2000-10": {
+"A": "Išbraukei keturis pirmus skaitmenis, bet lieka 508 – vienetą reikėjo palikti pradžioje.",
+"E": "Lieka 210 – pradžioje palikai 2, nors galima pradėti nuo 1."
+},
+"M2000-11": {
+"E": "24 obuoliai buvo pradžioje, kol mergaitės dar nieko nepaėmė."
+},
+"M2000-12": {
+"E": "7 + 5 = 12 gretų – mergaičių gretą suskaičiavai du kartus.",
+"A": "12 – tai 7 + 5, gretų skaičius su klaida, o ne mokinių.",
+"C": "Gavai 10 gretų – mergaičių gretos nepriskaičiavai nė karto arba atėmei ją dukart."
+},
+"M2000-13": {
+"E": "14 padalijai pusiau, bet tada kiekvienai mamai tektų tik po vieną kačiuką.",
+"C": "Penkioms mamoms su dviem kačiukais reikia 15 kačių – vienos trūksta."
+},
+"M2000-14": {
+"A": "2 slyvos atsveria obuolį, o klausiama apie kriaušę.",
+"E": "6 slyvos atsveria kriaušę kartu su obuoliu, ne vieną kriaušę."
+},
+"M2000-15": {
+"A": "A daržas didžiausias, bet klausiama apie tvoros ilgį, o ne apie plotą.",
+"E": "E turi daug kampų, bet nukirpti kampai tvoros nepailgina – ji tokia pat kaip A."
+},
+"M2000-16": {
+"A": "Kairiajame statinyje suskaičiavai 9 kubelius – tikriausiai praleidai tą, kuris yra po aukštuoju."
+},
+"M2000-17": {
+"D": "Padvigubinai 8, bet vištų sumažėjo perpus, o dienų padaugėjo tris kartus.",
+"E": "Sudauginai 3 ir 3, lyg viena višta dėtų po kiaušinį kas tris dienas."
+},
+"M2000-18": {
+"A": "Suskaičiavai tik vieną trumpą skersinį žiedą, o piešinyje jų du."
+},
+"M2000-19": {
+"A": "Laiką padauginai iš 4, bet keturis kartus padidėjo plotas, o kelias aplink – tik dvigubai."
+},
+"M2000-20": {
+"E": "Skaičiavai nuo 8:00 iki 3:00, bet ji išėjo vėliau nei 8:00 ir grįžo anksčiau nei 3:00.",
+"A": "Skaičiavai nuo 9:00 iki 2:00, bet ji išėjo prieš 9:00, o grįžo po 2:00."
+},
+"M2000-22": {
+"E": "E – stovintis bokštelis, o vaizdas iš šono rodo vieno kubelio aukščio eilę: konstrukcija guli.",
+"C": "C forma tinka, bet spalvos sukeistos – jos kampe tamsus kubelis, o turi būti baltas."
+},
+"M2000-23": {
+"E": "6 · 3 = 18 – tai viso stačiakampio plotas kartu su nukirptais kampais ir balta skyle."
+},
+"M2000-24": {
+"E": "8 pjūviai po 3 taškus – 24, bet kiekvienas briaunos vidurys taip suskaičiuotas du kartus.",
+"B": "8 viršūnes turėjo kubas, bet jos visos nupjautos."
+},
+"M2001-1": {
+"A": "Čia du vienodi penketai greta – nė vienas iš jų nėra atspindys.",
+"E": "Čia penketai apversti aukštyn kojomis: pilvukai viršuje, o turi būti apačioje."
+},
+"M2001-2": {
+"B": "Perlaužtą lazdelę atėmei, bet abi jos pusės liko Juozui.",
+"C": "Lazdelių nebe tiek pat – iš vienos perlaužtos pasidarė dvi.",
+"E": "Pridėjai dvi puses, bet neatėmei sveikos lazdelės, kurios nebeliko."
+},
+"M2001-4": {
+"B": "Tęsei eilę 3, 4, 5, bet skaičiai čia gaunami sudedant du viršutinius."
+},
+"M2001-5": {
+"E": "Pasirinkai tik tai, kas sėdės pirmoje vietoje, bet likę du dar gali susikeisti.",
+"A": "3 · 3 = 9 – antrai vietai skaičiavai tris žmones, bet vienas jau sėdi."
+},
+"M2001-6": {
+"B": "40 gaunama pirma sudėjus 2 + 3, bet daugyba atliekama anksčiau už sudėtį.",
+"C": "50 gaunama skaičiuojant iš eilės iš kairės į dešinę, o pirma reikia atlikti abi daugybas.",
+"D": "14 gaunama dalijant tik 8 iš 2, bet skliaustai liepia pirma sudėti."
+},
+"M2001-7": {
+"A": "Pridėjęs 1 gautum 32, o 32 iš 6 nesidalija – lieka 2 vaikai."
+},
+"M2001-8": {
+"D": "Praleidai vieną 50 m gabaliuką – nuo durų iki kvartalo kampo."
+},
+"M2001-9": {
+"A": "Kai Petriukui 1 metai, Onutei 4 – ji vyresnė keturis kartus, ne du.",
+"B": "Kai Petriukui 2 metai, Onutei 5 – tai daugiau negu dvigubai."
+},
+"M2001-10": {
+"E": "Pirmasis paveikslėlis – vaizdas iš nugaros be veidrodžio; veidrodyje kaspinas būtų kitoje pusėje.",
+"B": "Tinka ne tik vaizdas iš priekio – veidrodyje galima matyti ir pasuktą galvą."
+},
+"M2001-11": {
+"A": "20 kengūrų gautų po vieną saldainį, bet tada visos turėtų vienodai.",
+"D": "Šešioms kengūroms su skirtingais kiekiais reikia bent 21 saldainio."
+},
+"M2001-12": {
+"D": "Sudėjai 17 ir 34, bet mergaičių vagonėlį suskaičiavai du kartus.",
+"B": "Atėmei vagonėlį du kartus – užtenka vieno."
+},
+"M2001-14": {
+"A": "Marius gavo tik pusę Adomo kolekcijos, bet ir Adomas tos pusės neteko.",
+"E": "Kad ir kiek ženklų būtų, visada lieka viena pusė ir trys pusės."
+},
+"M2001-15": {
+"B": "2 – tai keturkampių skaičius, o klausiama, kiek trikampių."
+},
+"M2001-16": {
+"B": "Kiekvienam trūkstamam kvadratui skyrei po degtuką, bet du degtukai kampu užbaigia tris kvadratėlius."
+},
+"M2001-17": {
+"C": "5 liko kairiajame krepšelyje, o klausiama apie tą, kuriame liko daugiau.",
+"E": "Iš kraštinių krepšelių taip pat imama, todėl 11 neliko nė viename."
+},
+"M2001-18": {
+"E": "Atėmei tik trijų šimtakojų pirkinius – dar du pirko po 5 poras.",
+"D": "Atėmei tik vieno iš dviejų šimtakojų 5 poras."
+},
+"M2001-19": {
+"A": "Suskaičiavai tik matomus rutuliukus – keturi pasislėpę už konstrukcijos."
+},
+"M2001-20": {
+"B": "Vieną skaičių praleidai – dažniausiai pamirštamas 400 arba 103."
+},
+"M2001-21": {
+"E": "300 cm – tai tik plotis ir aukštis kartu, o perimetras yra dvigubai didesnis.",
+"D": "360 cm – tai didžiojo kvadrato kraštinė, ne rankšluosčio perimetras."
+},
+"M2001-22": {
+"A": "Po 1 h 30 min užges tik ta žvakė, kuri jau buvo degusi ilgiausiai."
+},
+"M2001-23": {
+"D": "15 litų turi Balys, o klausiama apie Česlovą.",
+"E": "20 litų turi Algis – tiek pat, kiek kiti du kartu.",
+"C": "10 – tai Balio ir Česlovo skirtumas, o ne Česlovo pinigai."
+},
+"M2001-24": {
+"B": "4 viršuje būna po trečio vertimo – liko dar vienas vertimas iki žvaigždutės.",
+"A": "5 viršuje būna jau po pirmo vertimo, o vertimų yra keturi.",
+"D": "1 viršuje būna po antro vertimo – dar du vertimai."
+},
+"M2002-1": {
+"E": "Sudėjai visus dešimt dvejetų, nors keturi iš jų atimami.",
+"B": "Poravai „2 − 2“ nuo antro dvejeto ir pametei vieną dvejetą."
+},
+"M2002-3": {
+"C": "Praleidai vienus tris daiktus – automobiliukus arba meškiukus."
+},
+"M2002-4": {
+"B": "Padalijai 6 apelsinus iš 2 melionų, bet tos lėkštelės nebuvo pusiausviros.",
+"A": "Padalijai 6 apelsinus iš 3 melionų, nors trečias melionas guli prie apelsinų."
+},
+"M2002-7": {
+"E": "Prirašei tik vieną nulį, o jų reikia dviejų – po vieną nuo 70 ir nuo 60.",
+"B": "Padauginai iš 100, o valandoje yra 60 minučių.",
+"A": "Prirašei vienu nuliu per daug."
+},
+"M2002-8": {
+"C": "7 cm – tiek skiriasi tik viena kraštinė; perimetre tokios kraštinės yra dvi."
+},
+"M2002-10": {
+"E": "27 – tai tik suma, ją dar reikia padalyti.",
+"C": "9 – tai daliklis, o ne dalybos rezultatas."
+},
+"M2002-11": {
+"B": "Čia dar du dešimties ženklai – tai būtų 144.",
+"C": "Čia tik vienas šešiasdešimties ženklas – tai 60 + 20 + 4 = 84."
+},
+"M2002-13": {
+"D": "Šis sakinys teisingas, o ieškome neteisingo.",
+"E": "Šis sakinys teisingas – Matas kačių nemėgsta, todėl jo kailinis gyvūnas yra šuo."
+},
+"M2002-14": {
+"C": "Okės kelyje daugiausia posūkių, bet jis trumpiausias – ji finišavo pirma.",
+"D": "Okės kelias viena langelio kraštine trumpesnis už kitus du."
+},
+"M2002-16": {
+"A": "30 degtukų yra abiejose ilgosiose kraštinėse kartu, o klausiama apie vieną.",
+"B": "18 – tiek degtukų sunaudojo Samanta trikampiui."
+},
+"M2002-17": {
+"C": "Kvadratą gauni užlenkęs stačiakampio galą tiesiai ant viršaus."
+},
+"M2002-18": {
+"E": "Atėmei tik 12 minučių, o Zitos kelias trunka 25 minutes.",
+"A": "7:07 – tai Marytės išėjimo laikas, pastumtas 12 minučių, o ne Zitos."
+},
+"M2002-19": {
+"A": "Tunelio gylį palaikei 5 kubeliais, o gilyn eina tik 4 sluoksniai."
+},
+"M2002-20": {
+"A": "21 žuvį pagavo Jonas, o klausiama apie Petrą.",
+"B": "14 žuvų pagavo Petras ir Lukas kartu."
+},
+"M2002-21": {
+"B": "Suskaičiavai tik smuikininko ir pianisto poras – dar reikia parinkti violončelininką."
+},
+"M2002-22": {
+"E": "Sustojai po antro rato – iš keturių naujų plytelių atliekų išeina dar viena plytelė.",
+"A": "Suskaičiavai tik medalius iš atliekų plytelių: 4 + 1, pamiršęs pirmuosius 16."
+},
+"M2002-23": {
+"D": "9 mokiniai yra prieš Tomą, todėl jo vieta – viena toliau."
+},
+"M2002-24": {
+"E": "Po 1 km skaitiklis rodo 187 570, o ten du septynetai."
+},
+"M2003-1": {
+"D": "10 – tai tik sudėti skaičiai; dar reikia atimti 3, 2, 1 ir 0.",
+"E": "Viską sudėjai, nors keturi paskutiniai skaičiai atimami.",
+"A": "Skaičius 4 yra tik vieną kartą – jo niekas nepanaikina."
+},
+"M2003-2": {
+"A": "Padauginai 10 iš 2 ir iš 5, bet čia kiekvieną kartą dvigubinamas jau gautas skaičius."
+},
+"M2003-3": {
+"A": "Mėlyna yra 16-ta gėlytė – pirmoji naujame penkete.",
+"C": "Raudona yra 18-ta gėlytė – suskaičiavai viena per daug."
+},
+"M2003-4": {
+"B": "Sudėjai visus sakinio skaičius: 6 + 4 + 4 + 2 + 3 + 6, o staliukus reikia dauginti iš vietų."
+},
+"M2003-5": {
+"A": "Padėjai monetas tik iš keturių pusių – tarp jų dar lieka tarpų, į kuriuos telpa daugiau."
+},
+"M2003-6": {
+"E": "15 − 10 = 5 – tai tik dviejų duotų atkarpų skirtumas, o ne LM ilgis."
+},
+"M2003-7": {
+"A": "48 obuolius Ukas turėtų, jei būtų paėmęs dvigubai daugiau, o klausiama, kiek paėmė iš tikrųjų.",
+"D": "Padalijai 24 pusiau, bet priedas lygus visam paimtų obuolių skaičiui, ne jo pusei."
+},
+"M2003-8": {
+"B": "3 · 2 · 4 = 24 – pamiršai nuimti priekinį ir galinį sluoksnius.",
+"E": "3 · 4 · 4 = 48 – nuėmei tik kairį ir dešinį sluoksnius, o viršus, apačia, priekis ir galas liko."
+},
+"M2003-9": {
+"D": "4 + 7 = 11 – suskaičiavai ir stačiakampio kraštą, o naują langelį duoda tik 6 ir 3 vidinės linijos."
+},
+"M2003-10": {
+"B": "Suskaičiavai tik penkias pilnas gėlytes ir praleidai paskutinę, nepilną, su dviem žiedlapiais.",
+"C": "Paskutinėje gerberų gėlytėje yra du žiedlapiai, o ne vienas."
+},
+"M2003-13": {
+"C": "5 m 55 cm – tai senasis rezultatas, prie jo dar reikia pridėti 123 cm.",
+"E": "50 mm palaikei 50 cm, o tai tik 5 cm."
+},
+"M2003-15": {
+"B": "9 + 9 + 9 + 9 = 36, bet laikrodis niekada nerodo 99:99.",
+"C": "Paėmei vėliausią laiką 23:59, bet jo skaitmenų suma mažesnė nei laiko 19:59."
+},
+"M2003-16": {
+"B": "30 − 29 = 1 – pamiršai, kad trys mokiniai neturi nei brolio, nei sesers.",
+"C": "3 – tai mokiniai, kurie neturi nei brolio, nei sesers."
+},
+"M2003-17": {
+"A": "22 : 2 = 11 – pamiršai, kad dviem kamuoliams išleidžiami ir likę 10 litų.",
+"E": "32 litus kainuoja du kamuoliai, o klausiama vieno kainos."
+},
+"M2003-18": {
+"A": "Siūlas neapeina kiekvieno skritulio atskirai – tarp skritulių jis eina tiesiai viršumi ir apačia."
+},
+"M2003-19": {
+"C": "Sulanksčius siena su tašku atsiduria durų sienos kairėje, o čia ji nupiešta dešinėje.",
+"D": "Čia siena su tašku nupiešta tuščios plačios sienos kairėje, o sulanksčius ji atsiduria dešinėje.",
+"E": "Durys išklotinėje nupieštos ant plačios sienos, o ne ant siauros."
+},
+"M2003-20": {
+"D": "Su 2 dideliais ir 8 mažais suma tinka, bet tada nėra nė vieno vidutinio saldainio, o jų pirkta."
+},
+"M2003-21": {
+"E": "5 – tai plačiųjų juodų juostelių skaičius, o klausiama siaurųjų."
+},
+"M2003-22": {
+"A": "Čia viršutinis kubelis stovi ant kraštinio, o tuščia vieta viršuje yra per vidurį."
+},
+"M2003-23": {
+"A": "Sukeitei žaislus vietomis: vienas meškiukas kainuoja kaip du šuniukai, ne atvirkščiai."
+},
+"M2003-24": {
+"A": "Suskaičiavai tik vieno žiedo būdus, o kitą žiedą irgi galima uždengti dvejopai.",
+"D": "Jungiamųjų langelių kitaip uždengti negalima – jie papildomų būdų neduoda."
+},
+"M2004-1": {
+"A": "Penki kartai po 2000 yra 10 000, o ne 1000.",
+"C": "15 įrašei ne į tą vietą: prie 10 000 pridėjus 15 gaunami kiti paskutiniai skaitmenys."
+},
+"M2004-2": {
+"B": "5 – tiek metų dabar sesutei, o klausiama amžiaus skirtumo.",
+"C": "9 – tai Kipro amžius šiandien.",
+"D": "Sudėjai 9 ir 4, bet skirtumui žvakučių skaičius nereikalingas."
+},
+"M2004-3": {
+"A": "Suskaičiavai tik kelią žemyn, bet paskui dar reikia 3 km grįžti aukštyn.",
+"E": "KL ilgio žinoti nereikia – apatinė apvažiavimo dalis lygiai tokia pat ilga."
+},
+"M2004-4": {
+"B": "9 kregždės tupėjo, kai 5 jau buvo nuskridusios – dar reikia jas grąžinti.",
+"C": "12 − 5 + 3 = 10 – veiksmus atlikai pirmyn, o reikėjo juos atšaukti."
+},
+"M2004-5": {
+"A": "5 ir 11 nėra skritulyje.",
+"C": "13 yra ir trikampyje, o reikia skaičių, kurių trikampyje nėra.",
+"D": "9 nėra stačiakampyje – jis virš jo.",
+"E": "6, 7 ir 4 yra skritulyje, bet nė vienas nėra stačiakampyje."
+},
+"M2004-6": {
+"E": "24 dalijasi iš 3, todėl padalyti į vieną užtušuotą ir dvi baltas dalis galima."
+},
+"M2004-7": {
+"A": "Sudėjai 16 + 14 + 7, bet tie 7 mokiniai jau įskaičiuoti ir į 16, ir į 14.",
+"B": "16 + 14 = 30 – septynis mokinius, stovinčius tarp Marijos ir Petro, suskaičiavai du kartus."
+},
+"M2004-8": {
+"C": "Viršutinė eilutė tinka, bet kiti du užtušuoti kvadratėliai yra ne ten, kur dešiniojo lapo baltos vietos.",
+"E": "Čia užtušuoti 5 kvadratėliai, tačiau jie nepataiko į visas keturias baltas vietas."
+},
+"M2004-10": {
+"A": "4:45 rodo laikrodis, kuris vėluoja 20 minučių.",
+"C": "5:25 rodo laikrodis, kuris skuba 20 minučių.",
+"D": "5:40 nuo kitų laikų nesiskiria 20 minučių – tai sustojęs laikrodis."
+},
+"M2004-11": {
+"A": "Pusė liktų tik tada, jei ir apelsinų būtų suvalgyta pusė, o jų suvalgyta mažiau.",
+"D": "Trečdalis – tai suvalgyta apelsinų dalis, o ne likusių vaisių dalis."
+},
+"M2004-13": {
+"D": "20 – tai dingusių puslapių skaičius, o viename lape yra du puslapiai.",
+"E": "45 − 24 = 21, bet 45-tas puslapis knygoje liko, jis neišplėštas."
+},
+"M2004-14": {
+"B": "52 dienos nėra pilnos savaitės – po 49 dienų dar lieka 3 dienos.",
+"D": "Pradėjai skaičiuoti tris dienas nuo paties antradienio, o reikia nuo trečiadienio."
+},
+"M2004-16": {
+"E": "11 – tai visų keturių skaičių suma, iš jos dar reikia atimti pirmą stulpelį."
+},
+"M2004-17": {
+"A": "24 – tai vidutinio kvadrato kraštinė, o klausiama didžiausio.",
+"B": "40 + 16 = 56 – didžiausio kvadrato aukštį sudaro apatinis ir vidutinis kvadratai, ne mažasis."
+},
+"M2004-18": {
+"D": "Atidavus 45 litus abu turėtų po lygiai, o Tomui turi likti dukart daugiau.",
+"E": "147 : 3 = 49 – dalijai tik Tomo pinigus, o reikia dalyti bendrą abiejų sumą."
+},
+"M2004-19": {
+"A": "Mėlynas namas stovi iškart šalia kraštinio raudono, taigi jis antras nuo krašto, ne trečias.",
+"B": "Raudonas namas turi tik vieną kaimyną, todėl jis stovi eilės gale, ne viduryje."
+},
+"M2004-20": {
+"B": "Dešimties vienetų suma būtų 10, o ne 9, todėl vien iš vienetų skaičius sudarytas būti negali.",
+"E": "Skaičių yra įvairių, bet kiekviename iš jų būtinai yra nulis, tad sandauga visada ta pati."
+},
+"M2004-21": {
+"A": "62 – tiek yra baltų kubelių, o klausiama juodų.",
+"D": "5 · 13 = 65 – antrame ir ketvirtame sluoksniuose spalvos sukeistos, juodų ten tik po 12."
+},
+"M2004-22": {
+"D": "Dalijai iš 4 – vieno bilieto kainos, o vaikinai iš viso sudėjo 8 litus."
+},
+"M2004-23": {
+"A": "7 taškai įmanomi: dvi pergalės 1:0 ir lygiosios 1:1.",
+"C": "5 taškai įmanomi: pergalė 3:1 ir dvejos lygiosios 0:0."
+},
+"M2005-1": {
+"E": "1800 – tai kairės pusės rezultatas, iš jo dar reikia atimti 1300."
+},
+"M2005-2": {
+"D": "Į viršų rodyklė rodo po 16 ketvirčių – dar liko vienas ketvirtis.",
+"C": "Į kairę rodyklė rodytų po trijų ketvirčių, o po pilnų ratų lieka tik vienas."
+},
+"M2005-4": {
+"E": "Antroje eilutėje dabar yra trys kengūros, o ketvirtoje – tik viena, tad be šuolio neapsieisi.",
+"C": "Taisei atskirai eilutę ir atskirai stulpelį, nors vienas šuolis sutvarko abu iš karto."
+},
+"M2005-5": {
+"A": "Pamiršai pačią Helgą – ji irgi turi dvi kojas.",
+"B": "Žuvytėms priskyrei po 4 kojas, o jos kojų neturi.",
+"C": "Papūgoms priskyrei po 4 kojas, o paukštis turi tik dvi."
+},
+"M2005-6": {
+"A": "66 gabaliukai buvo visoje plytelėje – dar reikia atimti suvalgytą kampą."
+},
+"M2005-7": {
+"A": "Skaičiavai, lyg kaskart atneštų pilną kibirėlį, bet pusė išsilaisto."
+},
+"M2005-8": {
+"A": "Jei šeimoje tik brolis ir sesuo, tai brolis neturi brolio, o sesuo – sesers.",
+"B": "Kai vaikų trys, vienas berniukas lieka be brolio arba viena mergaitė be sesers."
+},
+"M2005-9": {
+"D": "4 beždžionės eilėje buvo po pirmojo švilpuko, o klausiama, kiek jų buvo po antrojo."
+},
+"M2005-10": {
+"D": "Šiame skaičiuje skaitmuo 4 parašytas du kartus, o visi skaitmenys turi būti skirtingi.",
+"E": "Čia dešimčių skaitmuo 6 yra mažesnis už tūkstančių skaitmenį 8, o turi būti didesnis.",
+"C": "Šis skaičius baigiasi skaitmeniu 3, taigi jis nelyginis."
+},
+"M2005-11": {
+"C": "Tuščio kampo plotis ir aukštis vienodi, todėl ta dalis nėra pailgas stačiakampis."
+},
+"M2005-12": {
+"B": "Skaičiavai, kad sukarpius lapelių padaugėja 3, bet vienas lapelis dingsta, tad padaugėja tik 2."
+},
+"M2005-13": {
+"C": "42 – tai Betos ir Alės pinigų skirtumas, o ne Dalios pinigai.",
+"A": "Padalijai pusiau Betos pinigus, o reikia rasti vidurį tarp 24 ir 66."
+},
+"M2005-14": {
+"B": "Padalijai 8 iš 4 kraštinių, bet kiekviena kraštinė pailgėja abiejuose galuose.",
+"E": "Skirtumas visada lygus aštuoniems juostelės pločiams, kad ir kokio dydžio būtų paveikslas."
+},
+"M2005-15": {
+"A": "Suskaičiavai tik dėžutes, bet prieš tai reikia atrakinti seifą ir stalčius.",
+"B": "Suskaičiavai seifą ir dėžutes, bet pamiršai stalčių užraktus.",
+"C": "Suskaičiavai stalčius ir dėžutes, bet pamiršai paties seifo užraktą."
+},
+"M2005-16": {
+"E": "Nežinome, kur skruzdėlė pasuka aukštyn, bet abu gulsti gabalai kartu vis tiek sudaro vieną briauną.",
+"C": "Suskaičiavai tik keturias briaunas – gulsti gabalai priekinėje sienoje sudaro dar vieną."
+},
+"M2005-17": {
+"B": "Du draugai po 80 kg kartu sveria 160 kg – liftas tiek nekelia.",
+"D": "Lengviausias draugas gali važiuoti kartu su vienu iš kitų: 60 + 80 = 140 kg."
+},
+"M2005-18": {
+"D": "Pasuktą stačiakampį, pavyzdžiui, 1 ir 6 bei 6 ir 1, suskaičiavai du kartus."
+},
+"M2005-19": {
+"E": "7 – tai mokinių skaičius, o ne vidurinis sumos skaitmuo."
+},
+"M2005-20": {
+"A": "Plotis tinka, bet 4 307 kg yra septyniais kilogramais daugiau, nei leidžiama.",
+"C": "Plotis lygiai toks, koks leidžiamas, bet masė per didelė.",
+"B": "Masė tinka, bet sunkvežimis penkiais centimetrais per platus."
+},
+"M2005-23": {
+"A": "Du ėjimai į vietą padeda daugiausia keturias korteles, o ne vietoje guli visos penkios.",
+"D": "Skaičiavai po vieną ėjimą kiekvienai kortelei, bet vienas keitimas gali sutvarkyti dvi korteles iš karto."
+},
+"M2005-24": {
+"A": "Juoda siena ir languota siena kube yra viena prieš kitą, todėl vienu metu jų nepamatysi.",
+"D": "Trys baltos sienos negali sueiti į vieną kampą – baltos sienos juosia kubą ratu.",
+"C": "Juodi kvadratėliai šeštoje sienoje liečiasi tik kampais, todėl pusiau juodos sienos nėra."
+},
+"M2006-1": {
+"A": "Žmogeliukas iškeltomis rankomis pradeda trijulę, o dabar eilė trečiajam.",
+"C": "Žmogeliukas ištiestomis į šonus rankomis ką tik buvo nupieštas – jis antras trijulėje."
+},
+"M2006-2": {
+"A": "Iš nulio padauginai viską, bet 2006 yra pridedamas, o ne dauginamas.",
+"C": "Skaičius 2, 0, 0 ir 6 sudėjai, o tarp jų parašyti daugybos ženklai.",
+"D": "Praleidai nulius ir skaičiavai 2 · 6 = 12, bet sandauga su nuliu lygi nuliui."
+},
+"M2006-3": {
+"E": "9 – tiek kubelių yra pilname sluoksnyje, bet du viršutiniai kubeliai dešinėje liko."
+},
+"M2006-4": {
+"B": "Trečiadienis yra šiandien, o gimtadienis buvo vakar.",
+"C": "Ketvirtadienis bus rytoj, o klausiama apie vakar dieną."
+},
+"M2006-5": {
+"C": "10 – tiek strėlyčių Jonas gavo papildomai, bet už vieną pataikymą duodamos dvi."
+},
+"M2006-6": {
+"E": "Skaičiavai 7 · 4, bet suglaustose staliukų pusėse niekas nebesėdi.",
+"A": "Suskaičiavai tik ilgąsias puses ir pamiršai du žmones stalo galuose."
+},
+"M2006-7": {
+"E": "8 litus galima užmokėti atidavus visas tris monetas: 5 + 2 + 1."
+},
+"M2006-8": {
+"D": "Kambarys prie durų d turi keturias sienas, todėl į jį eiti negalima."
+},
+"M2006-9": {
+"E": "Sudėjai didžiausius numerius 19 ir 14, bet numeris nėra namų skaičius vienoje pusėje."
+},
+"M2006-10": {
+"A": "Šiame stačiakampyje yra tik 5 eilutės, o figūra užima 6.",
+"C": "Šis stačiakampis ilgas, bet jame tik 2 eilutės, o figūra užima 6."
+},
+"M2006-11": {
+"B": "Iš vidurinio miestelio važiavai tiesiai į B už 70, o aplinkui per du miestelius išeina pigiau.",
+"C": "Iš viršutinio miestelio važiavai žemyn už 60, o per vidurinį miestelį išeina 10 + 30 = 40."
+},
+"M2006-12": {
+"E": "Kad gale būtų 78, reikėtų perkirpti kortelę 68, o to daryti negalima.",
+"B": "Skaitmenis dėliojai po vieną, bet 309, 41 ir 68 parašyti ant vienos kortelės ir neišskiriami.",
+"C": "Pradėjai nuo kortelės 309, bet kortelė 2 priekyje duoda mažesnį skaičių."
+},
+"M2006-14": {
+"D": "Šis kelias atrodo žemiausias, bet jame tiek pat langelių įstrižainių, kiek ir kituose.",
+"A": "Kelias su mažiausiai posūkių nėra trumpesnis – jame tiek pat įstrižainių."
+},
+"M2006-15": {
+"B": "Sudėjai 18 ir 48, bet šie skaičiai dalijasi iš 6 be liekanos.",
+"D": "Sudėjai 28 ir 58, bet juos dalijant iš 6 liekana yra 4."
+},
+"M2006-16": {
+"D": "Prie 4 m pridėjai dar 4 m, bet nuo Hanos iki Danos yra tik vienas tarpas, o 4 m – tai du tarpai."
+},
+"M2006-17": {
+"A": "Ši detalė dėlionėje yra, tik pastatyta stačiai – ieškok kairiau kryžiaus.",
+"E": "Ši detalė dėlionėje yra, tik apsukta aukštyn kojomis prie kairiojo krašto."
+},
+"M2006-18": {
+"A": "Pridėjai 8 kortas kaip praeitą kartą, bet kiekvienas naujas aukštas reikalauja trimis kortomis daugiau."
+},
+"M2006-19": {
+"C": "Pamiršai dugną – ten dar 6 kubelių sienos."
+},
+"M2006-20": {
+"A": "Kristina ir Elena tikrai gyvena kartu, bet su jomis gyvena ir Irena, tad jų trys.",
+"D": "Irena ir Kristina gyvena kartu, bet tame pačiame aukšte yra ir Elena, tad jų trys."
+},
+"M2006-22": {
+"A": "Jei kovo 1-oji yra šeštadienis, tai penkis kartus būna šeštadienis, sekmadienis ir pirmadienis."
+},
+"M2006-23": {
+"A": "Suskaičiavai tik pirmos eilutės būdus, bet ir pirmą stulpelį galima užpildyti dviem būdais."
+},
+"M2006-24": {
+"D": "40 g sveria širdelė, o klausiama, kiek sveria vienas kvadratukas.",
+"C": "Kvadratukas neprivalo sverti tiek pat kiek skrituliukas – tai skirtingos formos daiktai."
+},
+"M2007-1": {
+"A": "1 ir 2 yra prie tos pačios salelės – abiejų paimti negalima.",
+"B": "3 ir 4 yra prie tos pačios salelės – einant pro ją paimamas tik vienas.",
+"D": "5 ir 6 yra prie tos pačios salelės, be to, nepaimtas nei 3, nei 4.",
+"E": "1 ir 2 yra prie tos pačios salelės – abiejų paimti negalima."
+},
+"M2007-2": {
+"E": "E snukis toks pat ilgas kaip C, bet jos kūne vienu kvadratėliu mažiau."
+},
+"M2007-3": {
+"A": "5 – tiek raidžių turi žodis ŠOKLI, o klausiama tik apie tas, kurios yra abiejuose žodžiuose.",
+"C": "7 – tiek raidžių turi žodis KENGŪRA, o klausiama tik apie bendras abiem žodžiams."
+},
+"M2007-4": {
+"C": "2008 yra artimiausias didesnis skaičius, bet jo skaitmenų suma 10, ne 9.",
+"D": "1008 skaitmenų suma tinka, bet šis skaičius mažesnis už 2007.",
+"E": "2070 skaitmenų suma tinka, bet tarp 2007 ir 2070 yra mažesnis tinkamas skaičius."
+},
+"M2007-5": {
+"D": "Padauginai 9 · 8, bet tarp 9 žibintų tarpų yra vienu mažiau."
+},
+"M2007-6": {
+"B": "Suskaičiavai tik po vieną kodą kiekvienam pirmam skaitmeniui, o likusius du skaitmenis galima sukeisti."
+},
+"M2007-7": {
+"C": "C turi 9 langelius, su nuspalvintais būtų 17, o iš 17 langelių stačiakampio nesudėsi.",
+"A": "A ir nuspalvinta figūra kartu turi 16 langelių, bet 5 langelių ilgio figūra į kvadratą 4 × 4 netelpa."
+},
+"M2007-8": {
+"A": "1 – tai skaičius trečiame debesėlyje, o klausiama apie pirmąjį.",
+"B": "3 – tai skaičius antrame debesėlyje, dar reikia grąžinti atimtus 2."
+},
+"M2007-9": {
+"A": "Sudėjai tik abi sandaugas 16 + 16 ir praleidai keturis ketvertus viduryje.",
+"E": "Skaičiavai iš eilės iš kairės į dešinę, o daugybą reikia atlikti pirma."
+},
+"M2007-10": {
+"D": "Žiūrėjai tik į klaustuko eilutę ir stulpelį, bet trečias stulpelis parodo, kad 2 turi stovėti kitur."
+},
+"M2007-11": {
+"B": "Keturi pieštukai kainuoja 120 centų, o po sąsiuvinių lieka tik 100."
+},
+"M2007-12": {
+"D": "Suskaičiavai tik šešis matomus kubelius – po aukštesniais pasislėpę dar keturi.",
+"E": "27 – tiek kubelių telpa į tuščią akvariumą, o dalis vietos jau užimta."
+},
+"M2007-13": {
+"C": "Skaičiavai atgal, bet Petras jaunesnis – jis gimė vėliau už Joną.",
+"D": "Pridėjai metus, bet dieną atėmei – ją irgi reikia pridėti.",
+"B": "Metus atėmei, o Petras jaunesnis, todėl metus reikia pridėti."
+},
+"M2007-14": {
+"C": "400 · 15 yra 6000, ne 600 – pametei vieną nulį.",
+"D": "Skaičius 6000 teisingas, bet tai centimetrai, o ne milimetrai.",
+"A": "6000 gavai centimetrais, o kilometre yra 1000 metrų, ne 1000 centimetrų."
+},
+"M2007-15": {
+"D": "7 yra rezultato 72 skaitmuo, o pradinis skaičius – dviženklio skaičiaus 53 pirmas skaitmuo."
+},
+"M2007-16": {
+"B": "Po 6 h laikrodis rodys 02:07 – skaitmenys tie patys, bet yra ir ankstesnis tinkamas laikas.",
+"E": "Po 24 h laikrodis rodys tą patį laiką, bet tie patys skaitmenys pasirodo daug anksčiau.",
+"C": "Po 10 h 55 min bus 07:02 – tinka, bet tai ne pirmas toks laikas."
+},
+"M2007-17": {
+"C": "8 – tiek yra kampinių kubelių, bet jie turi po tris nudažytas sieneles.",
+"B": "6 – tiek kubelių yra sienų viduriuose, bet jie turi tik po vieną nudažytą sienelę."
+},
+"M2007-18": {
+"A": "Pridėjęs 100 gauni 16051, o perskaitytas atvirkščiai jis yra 15061 – ne palindromas.",
+"E": "Pridėjęs 1010 gauni palindromą 16961, bet yra artimesnis."
+},
+"M2007-19": {
+"E": "Pastatei Andrių į galą, bet tada Janina būtų pirma, o taip būti negali."
+},
+"M2007-20": {
+"B": "Pridėjai apie 20, bet prieaugiai didėja: 13, 19, o kitas dar didesnis."
+},
+"M2007-21": {
+"C": "Iš kiekvieno kampo atėmei du nukirptus gabaliukus po 2 cm, bet nepridėjai dviejų naujų kirpimo kraštinių.",
+"B": "Atėmei 8 cm, bet iškirpus kampą krašto ilgis nesutrumpėja.",
+"E": "Atėmei visų keturių kvadratų perimetrus, bet iškirpus kampą krašto ilgis nepasikeičia."
+},
+"M2007-22": {
+"E": "Padvigubinai Petro kėdės numerį, o dvigubinti reikia kėdžių skaičių tarp Petro ir Marytės."
+},
+"M2007-23": {
+"A": "100 – tiek yra skaičių, o klausiama, kiek skaitmenų.",
+"E": "Kiekvienam skaičiui skyrei po du skaitmenis, bet vienženkliai turi po vieną, o 100 – tris."
+},
+"M2007-24": {
+"C": "Skylė lapo viduryje gaunama, bet ji visada pasukta kampu į viršų – kaip tik tokia ir yra C."
+},
+"M2008-1": {
+"A": "7 – tiek dienų yra savaitėje, o kiekvieną dieną valgome po 3 kartus.",
+"B": "Skaičiavai 6 dienas, o savaitėje jų yra 7."
+},
+"M2008-2": {
+"C": "Suskaičiavai tėvo ir tik vieno vaiko bilietus, o vaikai du.",
+"E": "Visiems trims skaičiavai po 4 eurus, bet vaiko bilietas pigesnis.",
+"B": "Suskaičiavai tik dviejų vaikų bilietus – tėvui irgi reikia bilieto."
+},
+"M2008-3": {
+"D": "Pridėjai 4, bet padalytasis kvadratėlis pats dingsta, todėl dalių padaugėja tik 3."
+},
+"M2008-4": {
+"C": "Raudonus gvazdikus gavo močiutė, nes ji gavo ne rožes."
+},
+"M2008-5": {
+"D": "27 – tiek kiekviena turėtų po dovanos, o klausiama, kiek Klaudija turi dabar.",
+"A": "10 – tiek plokštelių Teresė atiduotų, o ne tiek, kiek turi Klaudija."
+},
+"M2008-6": {
+"A": "Suskaičiavai 20 eilučių, bet pastumtų eilučių yra viena mažiau – tik 9."
+},
+"M2008-7": {
+"A": "4 – tiek yra tiesių, o ne dalių: kiekviena tiesė nuo taško eina į abi puses.",
+"B": "6 dalis gauni nubrėžęs tris tieses – ketvirta prideda dar dvi."
+},
+"M2008-8": {
+"E": "Pridėjai šešias su puse valandos, o reikia grįžti atgal.",
+"B": "04:00 – tai laikas, kuris dar tik bus, o klausiama, kiek valandų dabar."
+},
+"M2008-9": {
+"E": "70 – tiek čerpių buvo prieš audrą, o klausiama, kiek liko."
+},
+"M2008-10": {
+"B": "Rombą gauti galima: suglausk du trikampius viena kraštine."
+},
+"M2008-11": {
+"A": "Šia tvarka gauni 3 · 3 = 9, 9 + 2 = 11, 11 − 1 = 10.",
+"E": "Šia tvarka gauni 3 + 2 = 5, 5 − 1 = 4, 4 · 3 = 12."
+},
+"M2008-12": {
+"A": "Gabrielius aukštesnis už tris vaikus, bet pasakyta, kad jis žemesnis už Tomą."
+},
+"M2008-13": {
+"B": "B gaunamas vienu perkėlimu: šoninį kubelį užkelk ant bokštelio viršaus."
+},
+"M2008-14": {
+"E": "Eilės gale paskutinė trijulė nepilna – joje trūksta kvadrato.",
+"A": "Kryželių tikrai daugiau nei kvadratų, bet trikampių yra tiek pat, kiek kryželių."
+},
+"M2008-15": {
+"E": "6 – tiek žmonių liko be vietos, o kiekviename kambaryje telpa po du.",
+"D": "5 – tiek yra triviečių kambarių, o klausiama apie dviviečius."
+},
+"M2008-18": {
+"D": "Suskaičiavai keturias vasaras, o tarp šių datų jų yra tik trys.",
+"B": "Skaičiavai tris žiemas ir dvi vasaras – iš tikrųjų žiemų buvo keturios, vasarų trys."
+},
+"M2008-19": {
+"D": "2 + 3 ir 3 + 2 duoda tą patį rezultatą, o tu tokias poras suskaičiavai po du kartus."
+},
+"M2008-20": {
+"B": "12 m – tai gėlyno perimetras, o baseinas už gėlyną ilgesnis."
+},
+"M2008-21": {
+"C": "Su 3 berniukais ir 2 mergaitėmis Agnė turėtų 3 brolius ir 1 seserį – tai trigubai, ne dvigubai."
+},
+"M2008-23": {
+"B": "1 išklotinė tinka: visi keturi trikampiai kabo toje pačioje pusėje, kur ir buvo perkirpta siena.",
+"C": "4 išklotinė tinka: sulenkus visi keturi trikampiai sueina į vieną sieną."
+},
+"M2008-24": {
+"E": "Jei pirmasis turėtų tris nelygines kortas, tarp likusių būtų ir lyginių, ir nelyginių – suma galėtų būti nelyginė."
+},
+"M2009-1": {
+"A": "Vietoj daugybos sudėjai: 200 + 9 + 200 + 9."
+},
+"M2009-2": {
+"A": "Trikampio kraštinė eina virš kengūrėlės – ji lieka trikampio išorėje."
+},
+"M2009-3": {
+"A": "Kiekvienam broliukui priskyrei atskirą sesutę, o sesutė visiems ta pati."
+},
+"M2009-5": {
+"C": "8 mandarinai liko po Karolio – dar reikia atimti du Ievos mandarinus."
+},
+"M2009-6": {
+"D": "Suskaičiavai 5 trumpas atkarpas, o jų tik 4 – iš viso atkarpų 9, ne 10.",
+"B": "Dešimt kartų po 4 dm – bet plytų vidurius jungia 9 atkarpos, ir penkios iš jų ilgesnės."
+},
+"M2009-7": {
+"E": "Keturi šešetai duotų 24, o gauta 23."
+},
+"M2009-8": {
+"B": "Pertraukų laiką atėmei iš filmo trukmės, o jį reikia pridėti."
+},
+"M2009-9": {
+"E": "Skirtumą 6 dalijai iš 3, bet per savaitę mergaitės priartėja tik viena, nes ateina ir 2 berniukai.",
+"D": "Skirtumą 6 dalijai iš 2, bet per savaitę jis sumažėja tik vienetu."
+},
+"M2009-10": {
+"C": "Sudauginai 5 ir 7, bet sesutės eilė laužta, kai broliuko eilės jau nebebuvo – eilių buvo viena daugiau.",
+"A": "28 gabaliukai liko Petrui, o klausiama, kiek jų buvo iš pradžių."
+},
+"M2009-11": {
+"C": "52 kg sveria baltoji kiaulė, o klausiama apie degląją.",
+"A": "Iš 139 atėmei 35, bet tai dviejų baltųjų kiaulių svoris, ne vienos deglosios."
+},
+"M2009-12": {
+"C": "Vienu ėjimu į vieną eilutę patenka tik du iš skaičių 5, 8, 2, o reikia visų trijų.",
+"A": "Sumos 10, 22 ir 10 atrodo beviltiškai, bet 5, 8 ir 2 suvedus į vieną eilutę visos trys sumos dalijasi iš 3."
+},
+"M2009-13": {
+"E": "24 cm – tai perimetras, o klausiama vienos kvadrato kraštinės.",
+"D": "12 cm – tai dviejų gretimų stačiakampio kraštinių suma, tik pusė perimetro.",
+"A": "4 cm – tai trumpesnioji stačiakampio kraštinė, ne kvadrato."
+},
+"M2009-14": {
+"B": "Suskaičiavai tik 4 stulpelius – kairėje jų trys vienas už kito, ne du."
+},
+"M2009-15": {
+"E": "Atrodo, kad variantų daug, bet 7 į tris skirtingus skaičius išsiskaido tik vienu būdu.",
+"A": "Vieną riešutą rado Agnė – ji rado mažiausiai."
+},
+"M2009-16": {
+"D": "Čia abi įstrižos taškų eilutės kyla – abu kauliukai tiesiog paguldyti."
+},
+"M2009-17": {
+"A": "60 – tai tik viščiukų skaičius, dar pridėk karvių galvas.",
+"C": "120 – tai karvių kojų skaičius, o klausiama galvų.",
+"E": "240 – tai visų kojų skaičius, o klausiama galvų."
+},
+"M2009-18": {
+"B": "Iš 21 atėmei 14 – tai žingsniai nuo vieno namo iki kito, o tarp jų namų vienu mažiau.",
+"D": "Iš 27 atėmei 13, bet šio skirtumo dar reikia pusės, ir pats Petro namas nesiskaičiuoja.",
+"E": "21 – tai Petro namo numeris nuo gatvės galo, ne namų tarp jų skaičius."
+},
+"M2009-19": {
+"B": "Atrodo arti, bet dvi žvaigždutės ir 2 duoda daugiausia 20, o trys septynetai – 21."
+},
+"M2009-20": {
+"C": "36 nuotraukos buvo 2007 metais – reikia žengti dar vienus metus atgal."
+},
+"M2009-21": {
+"E": "Išbraukei tik vieną eilę, o geltona prieš pat baltą pasitaiko dviejose.",
+"B": "Suskaičiavai uždraustas eiles, o klausiama, kiek yra leistinų."
+},
+"M2009-23": {
+"A": "Šioje figūroje paskutinis posūkis būtų į kairę, o ne į dešinę.",
+"C": "Čia nėra kvadratėlio, o trys posūkiai į kairę iš eilės jį būtinai uždaro.",
+"B": "Tai veidrodinis vaizdas – čia aplink kvadratėlį sukama į dešinę."
+},
+"M2009-24": {
+"E": "Devynių draugų reikėtų, jei kiekvieno kojos skirtųsi tik vienu dydžiu, bet gali skirtis ir dviem."
+},
+"M2010-1": {
+"D": "Kryžkelėje visi takai susijungia – katė pasiektų pelę.",
+"C": "Tiesus takas veda katę tiesiai pas pelę, o iki pieno ji nenueina.",
+"B": "Katė pieną pasiekia, bet pelės takas iš dešinės lieka aklinai uždarytas.",
+"A": "Šis takas jungia viršų su dešine: pas pieną patektų pelė, o katė liktų uždaryta."
+},
+"M2010-2": {
+"E": "12:30 – tai pamokos pabaiga, o klausiama apie jos vidurį.",
+"A": "20 minučių atėmei, o jas reikia pridėti prie pamokos pradžios."
+},
+"M2010-5": {
+"C": "Trijų per daug: keturios monetos gali likti savo vietose – dvi vidurinės eilės ir dvi apatinės kraštinės.",
+"A": "Paėmus tik vieną monetą, vis dar lieka trys viena kitą liečiančios monetos, o žiede tokių nėra."
+},
+"M2010-6": {
+"A": "Čia Jonas stovi prieš Tadą, o Jonas suvalgė mažiau nei Tadas."
+},
+"M2010-7": {
+"B": "Šis raštas tiesiog pasuktas: kiekviename iš keturių kvadratėlių stora linija jungia du priešingus kampus."
+},
+"M2010-8": {
+"D": "Atėmei 16, bet 16 porų – tai 32 batai."
+},
+"M2010-9": {
+"A": "Čia įkarpos tik dviejose kraštinėse, o jos atsiranda visose keturiose.",
+"B": "Trūksta įkarpų kraštinių viduryje – ten irgi buvo mažojo kvadrato kampai.",
+"C": "Servetėlės kampai čia liko sveiki, o jie taip pat nukerpami.",
+"D": "Trūksta skylutės viduryje – ten irgi buvo mažojo kvadrato kampas."
+},
+"M2010-10": {
+"D": "Prie 8 pridėjai visus 12 aukštų, o iki Klaros liko tik pusė kelio.",
+"C": "Padvigubinai 8, bet Tomas pradėjo lipti ne nuo nulinio aukšto."
+},
+"M2010-11": {
+"B": "Suskaičiavai visus 8 kampus, bet keturi iš jų liečia nenuspalvintą sieną."
+},
+"M2010-12": {
+"B": "Septyni reisai būtų vien su sunkvežimiais, o keltas kėlė ir lengvuosius automobilius."
+},
+"M2010-13": {
+"E": "9 gali būti tik kraštiniame skritulyje kartu su 2, o klaustukas – viduriniame."
+},
+"M2010-14": {
+"B": "16 – tai tik penktos dienos uždaviniai, o klausiama, kiek iš viso.",
+"A": "Sudėjai tik keturias dienas, o Jonas ruošėsi penkias.",
+"E": "Pridėjai ir šeštą dieną, o dienų buvo penkios."
+},
+"M2010-15": {
+"B": "Valė žengė daugiausia žingsnių, vadinasi, jos žingsnis trumpiausias."
+},
+"M2010-16": {
+"E": "Pridėjai 100, o apatinė eilutė jau ir taip 100 didesnė – reikia atimti.",
+"B": "100 – tai skirtumas tarp eilučių pirmųjų dešimties skaičių, o ne x."
+},
+"M2010-17": {
+"A": "7 čia reiškia septynias paras, tai yra vieną savaitę, o ne septynias savaites.",
+"C": "7 valandos sekundėmis būtų 60 · 60 · 7 – be daugiklio 24."
+},
+"M2010-18": {
+"A": "Vienas ėjimas paliečia daugiausia dvi eilutes, o pataisyti reikia tris.",
+"C": "Trys blogos eilutės nereiškia trijų ėjimų – vienas ėjimas gali pataisyti dvi iš karto."
+},
+"M2010-19": {
+"E": "Skaičiavai nuo Tinės amžiaus prieš dvejus metus, o ne nuo dabartinio.",
+"B": "Iš 15 atėmei 13, bet 15 – suma prieš dvejus metus, o 13 – dabartinis Tonės amžius."
+},
+"M2010-20": {
+"D": "81 ir 86 tikrai stovi vienas po kitu, bet abu turi būti pirmame stulpelyje, ne antrame.",
+"B": "Stulpeliai čia tinka, bet 52 lentelėje yra aukščiau už 60, ne žemiau."
+},
+"M2010-21": {
+"B": "Du skirtumai tinka (5 ir 7), bet trečias 2015 − 2005 = 10, o turi būti 12.",
+"E": "2022 − 2010 = 12 ir 2022 − 2015 = 7 tinka, bet 2022 − 1998 = 24, o ne 5."
+},
+"M2010-22": {
+"A": "Ties 1, 3, 5 ir 7 lakštas sulenktas, o ne įkirptas."
+},
+"M2010-23": {
+"A": "Sakinyje „Markui ir paryžiečiui“ kalbama apie du skirtingus žmones.",
+"E": "Londone tik vyko koncertas – iš ten niekas neatvyko."
+},
+"M2010-24": {
+"C": "Įskaičiavai balandžio 31 dieną, o balandis turi tik 30 dienų.",
+"E": "12 – tai mėnesių skaičius, bet sausiui, vasariui, kovui ir balandžiui tinkamos dienos nėra."
+},
+"M2011-1": {
+"D": "Pridėjai 8 dienas prie trečiadienio, bet pirmoji raidė parašoma jau patį trečiadienį.",
+"B": "Suskaičiavai 7 raides, o žodyje ŽALGIRIS jų 8."
+},
+"M2011-3": {
+"E": "Tai pradinė vieta – pamiršai paskutinį ėjimą į dešinę.",
+"A": "Čia žaisliukas būtų po dviejų ėjimų – į dešinę ir aukštyn."
+},
+"M2011-4": {
+"A": "Atėmei pusantros valandos iš trijų su puse, o šiuos laiko tarpus reikia sudėti.",
+"B": "Trys su puse valandos – tik laikas nuo dabar iki išvykimo, be jau praėjusio."
+},
+"M2011-5": {
+"D": "Skritulys D yra baltas, o Marytės figūra pilka.",
+"E": "E yra pilka ir ne kvadratas, bet ji nei apskrita, nei trikampė.",
+"A": "A yra pilka, bet tai kvadratas."
+},
+"M2011-6": {
+"E": "Sudėjai abu pirkinius: tai trijų porcijų ledų ir dviejų pyragaičių kaina.",
+"D": "Ledų kainos nepadalijai iš 3 – prie pyragaičio kainos pridėjai visų trijų porcijų kainą."
+},
+"M2011-7": {
+"C": "Suskaičiavai tik pilnų valandų dūžius ir pamiršai tris pusvalandžius.",
+"A": "6 – tiek kartų laikrodis pradeda mušti, bet pilnomis valandomis dūžių būna daug."
+},
+"M2011-8": {
+"B": "B atrodo plati, bet jos plotas 11 langelių – vienu mažiau nei didžiausios figūros.",
+"D": "Ilgas stačiakampis atrodo didelis, bet su smaigaliu jame tik 9 langeliai."
+},
+"M2011-9": {
+"D": "Ėmei tik mažas dėžutes: 66 : 6 = 11, o su didelėmis dėžučių reikia mažiau.",
+"A": "Penkiose didelėse dėžutėse telpa tik 60 kiaušinių – 6 lieka nesudėti."
+},
+"M2011-10": {
+"E": "17 – tai gyvūnėlių skaičius, o penki mokiniai turi po du gyvūnėlius."
+},
+"M2011-12": {
+"C": "C yra pačiame kampe, bet kitoje pusėje kampinis langelis taip pat pilkas."
+},
+"M2011-13": {
+"E": "6 atvirto Aliui – tik šis skaičius dalijasi ir iš 2, ir iš 3.",
+"C": "4 atvirto Danguolei – tai keturiskart daugiau nei Elenos 1."
+},
+"M2011-14": {
+"A": "7 – tai teisingų atsakymų skaičius, o klausiama apie klaidingus.",
+"B": "14 − 10 = 4 parodo, kiek teisingų atsakymų daugiau nei klaidingų, o ne klaidų skaičių.",
+"E": "Prarasta 6 taškai, bet kiekviena klaida nuima po 2 taškus."
+},
+"M2011-15": {
+"E": "49 – visi labirinto kvadratėliai, bet į aklavietes užsukti negalima."
+},
+"M2011-16": {
+"A": "24 – visi gabalai, bet trys iš jų liko nepaimti.",
+"D": "Tris likusius gabalus pridėjai, o juos reikia atimti."
+},
+"M2011-17": {
+"A": "Tai dabartinė tvarka, o klausiama, kaip mergaitės sėdėjo iš pradžių."
+},
+"M2011-18": {
+"A": "Radai tik vieną laiką, o tinka dar ir 00:00 bei 22:22.",
+"B": "Ne kiekvieną valandą taip nutinka – valandos pačios turi būti iš dviejų vienodų skaitmenų."
+},
+"M2011-19": {
+"E": "Priekinės sienos čia teisingos, bet viršutinio kauliuko šone turi būti 5 akutės, o ne 2."
+},
+"M2011-20": {
+"A": "Suskaičiavai tik skaičius, kuriuose 8 stovi viduryje, o jis gali būti ir pirmas ar paskutinis."
+},
+"M2011-21": {
+"C": "C atrodo netaisyklinga, bet išsikišęs trikampis kaip tik užpildo gretimos detalės skylę."
+},
+"M2011-22": {
+"E": "Suskaičiavai tris pilnus sluoksnius po 24, bet viršuje stovi tik 8 bokštelių kubai.",
+"C": "Kampinius kubus suskaičiavai du kartus: sluoksnyje 24 kubai, o ne 28."
+},
+"M2011-23": {
+"B": "13 – vienos kraštinės suma, o klausiama keturių kampinių skritulių sumos."
+},
+"M2011-24": {
+"A": "37 šešiakampiai sudaro ketvirtą figūrą, o klausiama apie penktą.",
+"B": "Penktoje figūroje prisideda 24 šešiakampių žiedas, o ne 12, kaip trečioje."
+},
+"M2012-2": {
+"B": "Juostos atrodo nevienodos, bet pilkas kampas ir pilka juosta kartu sudaro lygiai pusę kvadrato."
+},
+"M2012-3": {
+"A": "Pamiršai paskutinį spaustuką eilės gale – jų visada vienu daugiau nei rankšluosčių.",
+"C": "Rankšluosčių triskart daugiau, bet spaustukų ne triskart daugiau – kaimynai dalijasi spaustukais.",
+"E": "Po du spaustukus kiekvienam reikėtų tik tada, jei rankšluosčiai nesidalytų bendrais spaustukais."
+},
+"M2012-4": {
+"B": "Čia langelis B1 liko baltas, o visas stulpelis B turi būti pilkas.",
+"A": "Tai veidrodinis vaizdas – stulpelius skaičiavai iš dešinės."
+},
+"M2012-5": {
+"B": "13 − 9 = 4, bet vienas iš tų keturių yra ieškantis vaikas.",
+"D": "9 – tai jau rasti vaikai, o klausiama apie dar pasislėpusius.",
+"E": "Skaičius sudėjai, o rastus vaikus reikia atimti."
+},
+"M2012-6": {
+"B": "Skirtumas teisingas, bet daugiau taškų surinko Mikas: 67 prieš 63."
+},
+"M2012-7": {
+"C": "7 – tiek nukrito dryžuotų plytelių, o klausiama apie tamsias."
+},
+"M2012-8": {
+"C": "Skaičiavai, lyg vasaris turėtų 28 dienas, o 2012 metais jis turi 29."
+},
+"M2012-9": {
+"B": "Stačiakampis tikrai susideda, bet ir kitas tris figūras galima padalyti į dvi L raides."
+},
+"M2012-10": {
+"A": "12 padalijai iš 3, bet 12 centų – tai dviejų, o ne trijų balionų kaina.",
+"E": "12 centų – skirtumas, tai yra dviejų balionų kaina."
+},
+"M2012-11": {
+"B": "5 – tai keksai be razinų, o ne keksai su abiem priedais."
+},
+"M2012-12": {
+"E": "Trečioje eilutėje trūksta 1 ir 2, bet pilkas langelis yra ketvirtoje eilutėje."
+},
+"M2012-13": {
+"A": "30 dalijasi iš 3, bet tada pamiršai patį Miką – jis nėra savo bendraklasis.",
+"C": "24 – tai Miko bendraklasių skaičius, o klasėje dar yra pats Mikas."
+},
+"M2012-16": {
+"E": "Suskaičiavai dvi eilutes ir du stulpelius su perteklinėmis monetomis atskirai, bet viena moneta sutvarko ir eilutę, ir stulpelį."
+},
+"M2012-17": {
+"C": "10 – tik šuoliai aukštyn, dar reikia dviejų šuolių žemyn.",
+"A": "Septyni šuoliai aukštyn nuveda ant 21 laiptelio, o ne ant 22."
+},
+"M2012-19": {
+"A": "Sudėjai 654 + 321 – didelius skaitmenis reikia padalyti abiem skaičiams į šimtų vietas."
+},
+"M2012-20": {
+"D": "Suskaičiavai visus trijų draugių išsidėstymus, bet Laura privalo būti viduryje tarp Katrės ir Ingos."
+},
+"M2012-21": {
+"B": "Čia į 12 rodo ilgiausioji rodyklė, bet ji yra minučių, o ne sekundžių.",
+"C": "Čia į 8 rodo ilgiausioji rodyklė – sukeitei valandų ir minučių rodykles."
+},
+"M2012-24": {
+"A": "38 − 26 = 12 – pamiršai, kad dar 2 taškams reikia dvejų lygiųjų."
+},
+"K2000-1": {
+"C": "Valandų rodyklė dar tik artėja prie 10, taigi dešimtos valandos dar nėra."
+},
+"K2000-2": {
+"D": "20 padauginai iš 3, bet didėja ir visa nuotrauka, tad baltos spalvos dalis lieka ta pati."
+},
+"K2000-3": {
+"A": "Suskaičiavai tik valandas, o minutės irgi pasikeitė – nuo 11 iki 13.",
+"E": "Valandoje yra 60 minučių, ne 100 – 112 min tėra 1 h 52 min."
+},
+"K2000-4": {
+"D": "25 : 5 = 5 – langelių pakaktų, bet pačių figūrų taip sudėti nepavyksta."
+},
+"K2000-5": {
+"B": "Suskaičiavai centrą ir 6 žvaigždės taškus, bet ilgosios įstrižainės kerta trumpąsias dar keliose vietose.",
+"C": "Pamiršai centrą, kuriame susikerta trys ilgosios įstrižainės."
+},
+"K2000-6": {
+"E": "Trys vienodi brūkšneliai reiškia tris lygias kraštines – tai lygiakraštis trikampis.",
+"A": "Iš akies jis gal ir panašus į lygiašonį, bet be duomenų to tvirtinti negalima."
+},
+"K2000-7": {
+"D": "5 – tiek yra brūkšnelių, o klausiama, kiek skirtingų gabaliukų ilgių.",
+"E": "6 – tiek yra gabaliukų, bet kai kurių ilgiai vienodi."
+},
+"K2000-8": {
+"D": "17 – tai vidurinis skaičius, o klausiama mažiausio."
+},
+"K2000-9": {
+"C": "Sudėjai 75° ir 50°, bet šie kampai nėra kampo BAD dalys."
+},
+"K2000-10": {
+"A": "30 min jiedu kartu maudo vieną dramblį, o dramblių yra trys."
+},
+"K2000-12": {
+"D": "Atimamas 10 000 · KANG nedingsta be pėdsakų – jis panaikina žodžio KANGAROO pradžią KANG."
+},
+"K2000-14": {
+"A": "15 % nėra 15 laipsnių – procentus reikia skaičiuoti nuo 360°.",
+"B": "36° yra tik 10 % pilnojo kampo – dar trūksta 5 %."
+},
+"K2000-16": {
+"E": "Suskaičiavai 7 · 10 · 5 – pamiršai, kad nuvalgius šoninį sluoksnį 7 sumažėjo iki 6."
+},
+"K2000-18": {
+"E": "Pirmą taisyklę apvertei: kai šviečia saulė, būna šilta, bet iš 25° dar neseka, kad šviečia saulė.",
+"D": "Dieną saulė gali ir nešviesti, o tada taisyklės 24° nedraudžia.",
+"A": "Naktį gali būti ir 25° ar 26° – taisyklės to nedraudžia."
+},
+"K2000-20": {
+"B": "Tris kartus buvo su trejais metais – su ketveriais amžiai jau kiti."
+},
+"K2001-1": {
+"A": "Kraštinės yra 2 ir 1,5 – nelygios, todėl tai ne kvadratas."
+},
+"K2001-2": {
+"D": "178 + 121 = 299, tam užtektų 30 dėžučių, bet tada vienoje dėžutėje spalvos susimaišytų.",
+"B": "18 dėžučių reikia tik vienai spalvai – dar yra kita.",
+"A": "13 dėžučių reikia tik vienai spalvai – dar yra kita."
+},
+"K2001-3": {
+"E": "Atrodo, kad visi žiedai susipynę, bet A, B ir D tarpusavyje nesukabinti – juos laiko vienas žiedas."
+},
+"K2001-4": {
+"C": "8 – tiek mergaičių yra klasėje, bet pati Giedrė nėra savo klasės draugė.",
+"A": "Skirtumą tarp berniukų ir mergaičių palikai 7, nors Evaldas savęs neskaičiavo."
+},
+"K2001-5": {
+"E": "Laiptai atrodo arčiau lanko, bet jų ilgis nuo to nesutrumpėja – jis lygus kelio per A ilgiui.",
+"C": "215 padvigubinai, bet kelias per C nuo kelio per A visai nesiskiria."
+},
+"K2001-6": {
+"A": "−9 · (−7) = +63, nes dviejų neigiamų skaičių sandauga yra teigiama.",
+"E": "8 = 2 · 4 yra mažiausia teigiama sandauga, bet neigiamos sandaugos dar mažesnės.",
+"D": "−5 · 2 = −10 yra neigiama, bet galima gauti ir mažesnę sandaugą."
+},
+"K2001-8": {
+"D": "Per 5 h medį nuėda vienas tėtė arba viena mama, o ėda visi trys."
+},
+"K2001-11": {
+"B": "Suskaičiavai tik gretimų viršūnių apskritimų susikirtimus – priešingų viršūnių apskritimai irgi kertasi."
+},
+"K2001-14": {
+"B": "30° yra kampas BDC, o klausiama kampo BED."
+},
+"K2001-15": {
+"E": "Ne kiekviena valanda tinka: apvertus 06–09 ir 16–19 išeitų 60 ar daugiau minučių."
+},
+"K2001-16": {
+"A": "Suskaičiavai 84 % nuo 800 kg, bet 84 % yra ištroškusio, o ne atsigėrusio kupranugario dalis.",
+"B": "680 kg – tai vandens masė atsigėrusiame kupranugaryje, o ne ištroškusio Noro masė."
+},
+"K2001-17": {
+"C": "86 ratai – tai jau antras kartas, kai jie kartu kerta starto liniją."
+},
+"K2001-19": {
+"E": "4 · 5 · 6 = 120, bet 4 ir 5 yra priešingose sienose ir į vieną viršūnę nesueina."
+},
+"K2001-20": {
+"D": "Sudėjai 32 ir 28 – tai mazgai ir plūdės, o ne akutės."
+},
+"K2002-1": {
+"B": "Suskaičiavai tik skaičiaus 3 kartotinius, o dar reikia ploti ties 13, 23, 43 ir panašiais skaičiais.",
+"E": "Sudėjai 33 ir 10, bet 3, 33, 63 ir 93 taip suskaičiuoti du kartus."
+},
+"K2002-2": {
+"A": "Neatsižvelgei į dydį: mažesnio dantračio apskritimas trumpesnis, todėl jis sukasi dažniau.",
+"C": "Kartų skaičius geras, bet sukibę dantračiai sukasi į priešingas puses.",
+"D": "9 kartus skiriasi plotai, o apsisukimų skaičių lemia apskritimų ilgiai."
+},
+"K2002-3": {
+"A": "83 pakeliuose tėra 1992 sąsiuviniai, o 10 – tiek jų dar trūksta, ne lieka.",
+"B": "10 yra dalybos liekana – tiek trūksta nupirkus 83 pakelius, o ne lieka nupirkus 84.",
+"C": "83 pakelių neužtenka: juose tik 1992 sąsiuviniai."
+},
+"K2002-4": {
+"E": "Dideli skaitikliai ir vardikliai dar nereiškia didelės trupmenos: suprastinus lieka tik 3/4."
+},
+"K2002-5": {
+"A": "Vidurdienis pagal laikrodį čia nėra dienos vidurys – reikia skaičiuoti nuo saulėtekio iki saulėlydžio.",
+"D": "16 val. 32 min yra dienos trukmė, o klausiama, kada bus jos vidurys."
+},
+"K2002-7": {
+"C": "6 + 6 + 5 = 17, bet tada Andrius nesuvalgė daugiau už kiekvieną kitą vaiką.",
+"A": "Taip Andrius tikrai suvalgytų daugiausiai, bet klausiama mažiausio galimo skaičiaus."
+},
+"K2002-8": {
+"A": "Sudėjai tris didžiausius skaičius 6, 5 ir 4, bet 5 ir 4 yra priešingose sienelėse.",
+"B": "6 + 5 + 3 nepavyks: 3 ir 6 akutės yra priešingose sienelėse."
+},
+"K2002-9": {
+"A": "21 žuvį pagavo Jonas, o klausiama apie Petrą.",
+"B": "14 žuvų pagavo Petras ir Lukas kartu."
+},
+"K2002-10": {
+"D": "4 slyvų krepšeliai kainuoja 16 eurų, o likę 4 krepšeliai – ne mažiau kaip 8, taigi iš viso per daug.",
+"E": "23 : 4 yra beveik 6, bet krepšelių turi būti lygiai 8, ir kiti taip pat kainuoja."
+},
+"K2002-11": {
+"D": "Atėmei 9 − 4 ir 5 − 3, bet abiejuose santykiuose dalys skirtingo dydžio – pirma reikia suvienodinti b.",
+"E": "Pačių skaičių rasti negalima, bet jų santykis nustatomas vienareikšmiškai."
+},
+"K2002-16": {
+"B": "Jei dovaną būtų paslėpusi Birutė, meluotų ir ji pati, ir Celestina – dvi melagės.",
+"A": "Jei dovaną būtų paslėpusi Agnė, meluotų Agnė, Celestina ir Danutė – net trys."
+},
+"K2002-18": {
+"C": "25 % gyventojų nekalba prancūziškai – tai kalbantys tik angliškai.",
+"E": "40 % – tiek gyventojų kalba tik viena kalba (25 % + 15 %)."
+},
+"K2002-19": {
+"E": "Po monetą kiekviename stulpelyje tikrai užtenka, bet tai ne mažiausias skaičius – moneta aprūpina ir gretimus stulpelius."
+},
+"K2002-20": {
+"B": "Paėmei 90 ir 60 vidurkį, bet lipant ir važiuojant kartu turi išeiti greičiau negu kiekvienu būdu atskirai.",
+"D": "Laikų atimti negalima – sudedami greičiai, ne sekundės."
+},
+"K2003-1": {
+"A": "1 000 – tiek sumažėjo vidutinė kaina, o ne tiek kainavo papūga.",
+"D": "6 000 buvo vidutinė kaina, o brangiausia papūga kainavo daugiau už vidurkį."
+},
+"K2003-2": {
+"E": "Skylė viduryje atsirastų tik nukirpus sulenktą kampą, o jis paveikslėlyje sveikas.",
+"B": "Trikampė iškarpa lenkimo linijoje atsilenkia į rombą, kurio kampai guli ant tos linijos, o ne į tiesiai stovintį kvadratą."
+},
+"K2003-3": {
+"B": "Tiesė išilgai eilutės ar pačia įstrižaine dalija tik 4 kvadratėlius, bet šiek tiek pasvirusi tiesė užkabina daugiau.",
+"E": "8 kvadratėliams reikėtų kirsti 7 vidines linijas, o jų yra tik 6."
+},
+"K2003-4": {
+"D": "3a yra tik pačių skritulių plotas, o įtemptas siūlas apjuosia ir tarpelius tarp jų.",
+"A": "Trys kvadratai būtų stačiakampis su kampais, o siūlas galuose eina apvaliai ir kampų neapima."
+},
+"K2003-5": {
+"E": "Šeši statūs kampai duotų tik 540°, o šešiakampio kampų suma yra 720°.",
+"B": "Tiek stačių kampų daugiausiai turi iškilasis šešiakampis, o čia leidžiamas ir neiškilasis, pavyzdžiui, raidės L formos."
+},
+"K2003-7": {
+"A": "Sudėjai žiedų būdus (2 + 2 + 2 + 2), o juos reikia dauginti – žiedai dengiami nepriklausomai."
+},
+"K2003-8": {
+"B": "Lygiai 10 kartų sumažėja tik skaičiai, kurie baigiasi nuliu; su kitu paskutiniu skaitmeniu išeina daugiau.",
+"E": "20 kartų reikėtų, kad paskutinis skaitmuo būtų 10 kartų didesnis už likusį skaičių, o skaitmuo neviršija 9."
+},
+"K2003-9": {
+"D": "6 taškai galimi: kiekviena atkarpa gali kirsti visas tris kitas skirtinguose taškuose."
+},
+"K2003-10": {
+"E": "10 000 pats turi daugiausiai nulių, bet sandaugai prideda tik keturis: 7 680 000."
+},
+"K2003-11": {
+"D": "Taip raidė atrodo po pirmojo pasukimo – dar reikia lapą apversti ir pasukti 180°."
+},
+"K2003-14": {
+"D": "Iš 80 % atėmei ketvirtadalį (20 %), bet sumažėjo ir viso sunkvežimio masė, todėl procentus reikia skaičiuoti iš naujo.",
+"B": "25 % dabar sudaro tuščias sunkvežimis, o klausiama apie krovinį."
+},
+"K2003-15": {
+"C": "Baltojo kvadrato kraštinė nėra 5: jo įstrižainė lygi 6, todėl plotas 18, ne 25."
+},
+"K2003-16": {
+"A": "Radai tik trikampį iš trijų ilgųjų atkarpų, bet tinka ir dvi ilgos su viena trumpa.",
+"C": "Suskaičiavai trejetus su viena trumpa atkarpa, bet pamiršai trikampį iš trijų ilgųjų."
+},
+"K2003-17": {
+"B": "Radai tik vieną skaičių, bet mažiausias daliklis gali būti ir 2, ir 3.",
+"E": "Mažiausias daliklis negali būti didesnis už 3, nes n visada dalijasi iš 3."
+},
+"K2003-19": {
+"E": "6 parašyta penkiose kortelėse, bet tai didesnysis skaičius, o klausiama mažiausio."
+},
+"K2003-20": {
+"A": "Jei Paulius ir Bartas nestovėtų greta, jų bendras kaimynas turėtų ištarti du vardus, o kiekvienas sako tik vieną."
+},
+"K2004-1": {
+"A": "Pirma atėmei (2004 − 200 = 1804) ir tik tada dauginai iš 4, o daugyba atliekama pirmiau.",
+"E": "Pridėjai 800, o reikėjo atimti."
+},
+"K2004-2": {
+"A": "60° užtektų sukant pagal laikrodžio rodyklę, o čia sukama į priešingą pusę."
+},
+"K2004-4": {
+"C": "Pirmoje eilutėje matai tik 1, bet antro stulpelio viršuje turi būti 4, todėl 4 langeliui x nebetinka."
+},
+"K2004-5": {
+"A": "Sudėjai visus 50 skliaustų po −1, bet 49 iš jų atimami, todėl virsta +1.",
+"E": "Pirmieji skliaustai neatimami – jie duoda −1, o ne +1.",
+"B": "Suskaičiavai 49 atimamus skliaustus, bet pamiršai pirmuosius, kurie duoda −1."
+},
+"K2004-6": {
+"C": "Trikampio kraštinės – trys vienodos sienų įstrižainės, todėl visi jo kampai po 60°, stataus kampo nėra.",
+"D": "Perbrėžtos tik trys sienos, todėl pjūvis turi tris kraštines, ne keturias."
+},
+"K2004-7": {
+"A": "Padidinai tik vieną kraštinę – o pailgėjo ir ilgis, ir plotis.",
+"B": "Sudėjai 10 % ir 10 %, bet pamiršai mažą kampinį gabalėlį, kuris atsiranda pailgėjus abiem kraštinėms.",
+"E": "121 % – tiek naujas plotas sudaro senojo, o klausiama, kiek jis padidėjo."
+},
+"K2004-8": {
+"A": "Sudėjai 5 ir 4 ir padvigubinai – bet kraštinė 4 nėra spindulio dalis."
+},
+"K2004-9": {
+"C": "5 · 4 = 20 skaičiuoja kiekvieną porą du kartus: vanilė su šokoladu ir šokoladas su vanile yra ta pati pora.",
+"D": "5 · 5 = 25 įskaito ir dvi vienodas porcijas, o ledai poroje turi būti skirtingi."
+},
+"K2004-10": {
+"E": "Dalijai 170 iš 2, nors 2 cm yra tik vidinis spindulys, ne žiedo pridedamas ilgis."
+},
+"K2004-11": {
+"D": "2π – tai vieno pusskritulio plotas, o užtušuota sritis yra kitokia."
+},
+"K2004-12": {
+"A": "21 : 3 = 7 tiktų, jei visi skaičiai būtų vienodi, bet devintame langelyje yra 6.",
+"C": "6 yra trečiame langelyje (kaip ir devintame), o klausiama apie antrą."
+},
+"K2004-13": {
+"B": "Pasislinkai atgal, o kiti metai prasideda viena savaitės diena vėliau, ne anksčiau.",
+"D": "Pasislinkai dviem dienomis – taip būtų tik po keliamųjų metų."
+},
+"K2004-14": {
+"E": "Įskaitei ir BC = 5 arba BC = 10: su 5 kampas būtų lygiai 60°, o su 10 trikampio nebūtų."
+},
+"K2004-15": {
+"C": "Laiką suskaičiavai teisingai, bet 4 paros po pirmadienio yra ne ketvirtadienis.",
+"D": "Atėmei 2 h 56 min iš 8:15, o šį likutį reikia pridėti."
+},
+"K2004-16": {
+"A": "12 kaladėlių tūris yra 72, o tokio tūrio kubo su sveikąja briauna nėra.",
+"B": "18 kaladėlių tūris yra 108 – tai ne kubo tūris."
+},
+"K2004-17": {
+"E": "2048 sudarytas vien iš dvejetų, bet jam reikėtų daugiau nei penkių ketvertų.",
+"D": "768 = 256 · 3, o trejeto tarp pasirinktų skaičių nėra."
+},
+"K2004-18": {
+"B": "72 – tai senelės amžius, o klausiama, kiek metų seneliui."
+},
+"K2004-19": {
+"A": "Jei visos meluotų, tai antroji, sakydama, kad pirmoji melavo, būtų pasakiusi tiesą.",
+"C": "Dvi negali sakyti tiesos: vėlesnioji tvirtintų, kad ankstesnioji melavo."
+},
+"K2005-1": {
+"A": "Ne visur po dvi: antroje eilutėje yra trys kengūros, o ketvirtoje – tik viena.",
+"C": "Taisei eilutes ir stulpelius atskirai, bet vienas šuolis sutvarko abu iš karto."
+},
+"K2005-2": {
+"D": "Sustojai ties trečdaliu – dar reikia paimti jo pusę.",
+"E": "Paėmei pusę ketvirtadalio paros ir pamiršai trečdalį."
+},
+"K2005-3": {
+"A": "Atskirų gabalų apačioje ir viršuje ilgiai nežinomi, bet jų suma žinoma – 12 cm.",
+"C": "Suskaičiavai tik keturias pilnas briaunas ir praleidai du trumpus gabalus priekinėje sienoje."
+},
+"K2005-4": {
+"D": "Sukeitus stiklainių ir butelių skaičius talpa keičiasi, nes stiklainis didesnis už butelį."
+},
+"K2005-5": {
+"B": "Iš 50 atėmei 30, o reikia rasti 30 % nuo tų 50.",
+"E": "Sudėjai 50 % ir 30 %, nors 30 % skaičiuojami tik nuo turinčių dviračius."
+},
+"K2005-6": {
+"A": "Laikei kampą B triskart didesniu už A, o yra atvirkščiai: A triskart didesnis už B.",
+"D": "60° būtų, jei visi kampai būtų lygūs, bet čia jie skirtingi."
+},
+"K2005-7": {
+"A": "Atėmei išpjovą apačioje, bet nepridėjai išsikišusio kvadrato viršuje.",
+"C": "3a²b – tai trijų ilgių sandauga, o plotui reikia dviejų."
+},
+"K2005-8": {
+"B": "Kiekvieną kartą pridėjai po 10, bet sukarpytas lapelis pats išnyksta.",
+"D": "Suskaičiavai 4 · 10, pamiršai pirmus dešimt lapelių ir tai, kad sukarpytieji išnyksta."
+},
+"K2005-9": {
+"C": "4 – tai varnų skaičius, o klausiama, kiek medžių."
+},
+"K2005-10": {
+"A": "Čia devyni skirtingi skaitmenys, o žodyje raidės O ir U kartojasi.",
+"C": "Raidei K parinkai 4, nors ji gali būti ir didesnė – už ją didesnės tik keturios raidės.",
+"E": "Čia antra raidė A didesnė už K, o A turi būti mažiausias skaitmuo."
+},
+"K2005-11": {
+"B": "Šis skaičius apie šimtą tūkstančių, o vien 2000 · 5000 jau yra dešimt milijonų.",
+"D": "Prirašei per daug nulių – sandauga turi būti apie dešimt milijonų, ne milijardas."
+},
+"K2005-12": {
+"D": "15 yra vidurys tarp 14 ir 16, bet trūkumas 4 ir perteklius 6 nevienodi."
+},
+"K2005-13": {
+"A": "Suskaičiavai tik kampinių skritulių dalis ir pamiršai visą užtušuotą vidurinį skritulį.",
+"C": "Užtušuotą plotą palyginai su visų penkių skritulių plotu, o reikia – su neužtušuota dalimi."
+},
+"K2005-14": {
+"E": "Po 7 dienų vėl sekmadienis, bet poilsio diena tada neišpuola – ji būna kas penktą dieną.",
+"C": "Sudėjai 5 ir 7, o reikia rasti pirmą skaičių, kuris dalijasi ir iš 5, ir iš 7."
+},
+"K2005-15": {
+"A": "Čia juoda ir languota sienos yra greta, o kube jos atsiduria viena prieš kitą.",
+"D": "Trys baltos sienos prie vieno kampo nesueina – baltos yra tik keturios šoninės.",
+"E": "Mažieji juodi kvadratėliai nusilenkia į šeštą sieną ir neatsiduria ant baltų šoninių sienų.",
+"C": "Sienos, kurios pusė juoda, nėra: maži juodi kvadratėliai šeštoje sienoje liečiasi tik kampais."
+},
+"K2005-16": {
+"A": "6 valandas plakatas meluoja, o klausiama, kiek valandų jis sako teisybę.",
+"E": "Atėmei tik vieną pasikeitimą, o katinas per parą keičia užsiėmimą du kartus."
+},
+"K2005-18": {
+"C": "2005 per daug: triženklio ir dviženklio skaičių suma niekada neviršija 999 + 99 = 1098.",
+"B": "999 + 11 = 1010, bet tada skirtumas būtų 988, o ne 989."
+},
+"K2005-19": {
+"E": "−4 gaunama iš grupės 1 + 2 − 3 − 4, bet taip grupuojant gale lieka nesugrupuotas 2005.",
+"A": "Visos ketveriukės duoda 0, bet vienas skaičius lieka be grupės."
+},
+"K2005-20": {
+"D": "Įskaitei per dideles sandaugas, pavyzdžiui, 3 · 5 · 7 = 105 – ji jau ne mažesnė už 100."
+},
+"K2006-1": {
+"A": "Atėmei metus, bet neįskaitei paties pirmojo, 1991 metų, konkurso."
+},
+"K2006-2": {
+"C": "Paskutinį šešetą atėmei, o prieš jį parašytas pliusas.",
+"E": "Nepaisei pirmųjų skliaustų: skaičiavai 20 · 0 + 6, o reikia 20 dauginti iš visos sumos 0 + 6."
+},
+"K2006-3": {
+"B": "Suskaičiavai tik vieną visą trikampį ir praleidai apatinio trikampio pusę.",
+"E": "Apatinį trikampį įskaitei visą, o užtušuota tik jo pusė."
+},
+"K2006-5": {
+"D": "Čia stačiakampės skylės yra sienų viduryje, o dėžutės įpjovos – ant briaunų.",
+"A": "Čia abi įpjovos yra ant tos pačios sienos kraštų, o dėžutėje jos liečia keturias skirtingas sienas.",
+"C": "Suklijavus eilės galus įpjova atsidurtų ant tos pačios sienos, kur jau yra kita įpjova."
+},
+"K2006-6": {
+"A": "1500 − 1200 = 300 rodo tik tai, kiek vienų dalyvių daugiau nei kitų."
+},
+"K2006-7": {
+"D": "Sudėjai abiejų kubų paviršius 54 + 6, bet sulietos sienos į paviršių nebeįeina.",
+"C": "Atėmei tik vieną sulietą sieną, o pasislepia dvi: mažo kubo apačia ir po juo esantis didelio kubo plotelis."
+},
+"K2006-8": {
+"C": "Iš viso butelio talpos 1/3 atėmei 1/5, bet butelis nebuvo pilnas.",
+"E": "Butelyje buvo 1/4 litro – tai daugiau nei nupilta 1/5 litro, tad šiek tiek lieka."
+},
+"K2006-9": {
+"E": "Su 14 cm pagrindu trikampis susiplotų į atkarpą – tokio trikampio nėra.",
+"C": "21 cm – tai lygiakraščio trikampio perimetras, bet pagrindas gali būti ilgesnis už 7 cm."
+},
+"K2006-10": {
+"D": "6 – tai gabaliukų skaičius, o kirpimų visada vienu mažiau.",
+"E": "20 kirpimų duotų 21 gabaliuką po 1 dm, bet jų ilgiai turi būti skirtingi."
+},
+"K2006-11": {
+"A": "Raudonas jis būti negali – pasakyta, kad jis arba mėlynas, arba geltonas.",
+"C": "Kvadratinis daiktas turėtų būti raudonas, o ne mėlynas."
+},
+"K2006-12": {
+"B": "Skaičiavai nuo 23 dienos į priekį, o 21 diena yra dviem dienomis anksčiau už antradienį."
+},
+"K2006-13": {
+"A": "50 litų – tai tik likutis po Dominyko įnašo, o ne visa palapinės kaina."
+},
+"K2006-14": {
+"B": "20 – tai žaliųjų (ir raudonųjų) skaičius, o mėlynųjų yra dešimčia daugiau.",
+"C": "Padalijai 250 iš 10 neatėmęs dešimties papildomų mėlynųjų čiuptuvų."
+},
+"K2006-15": {
+"A": "140 šuolių po 7 m – tai tik 980 m; likusiems 20 m dar reikia šuolių."
+},
+"K2006-16": {
+"D": "24 – tai viso stačiakampio aukštis; didysis kvadratas žemesnis, nes po juo dar yra mažų kvadratėlių eilė.",
+"A": "Sudėjai du užbrūkšniuotus kvadratus, bet didysis kvadratas baigiasi ne ties jų riba, o šiek tiek žemiau."
+},
+"K2006-17": {
+"A": "5 · 5 = 25 yra 5 kartus didesnis už 5, bet tai tik 400 % daugiau."
+},
+"K2006-18": {
+"B": "Nagrinėjai tik atvejį, kai 2 yra pagrindas, o 2 gali būti ir šoninė kraštinė.",
+"C": "Kai 2 yra šoninė kraštinė, tinka du skirtingi trikampiai – smailusis ir bukasis, o tu radai tik vieną."
+},
+"K2007-1": {
+"D": "213 · 9 = 1917, ne 2007 – dalydamas pametei vieną dešimtį.",
+"A": "Dalijai tik iš pirmojo dėmens 2, o dalyti reikia iš visos sumos 2 + 0 + 0 + 7."
+},
+"K2007-2": {
+"C": "Laikei, kad abi pusės susodintos vienodai, bet vienoje gali būti 10, o kitoje 11 krūmų."
+},
+"K2007-3": {
+"E": "Robotas grįžta į A2, bet jau eidamas aukštyn, todėl ratu nesisuka ir kelias tęsiasi kitur.",
+"A": "Langelyje B2 pasisukus į dešinę langelis B1 laisvas, todėl robotas ten tik pasisuka.",
+"B": "Langelyje B1 pasisukus į dešinę langelis A1 laisvas – robotas eina toliau."
+},
+"K2007-4": {
+"A": "15 – tai matomų sienelių taškų suma, o klausiama apie nematomas."
+},
+"K2007-5": {
+"A": "AD galų vienodos pirmosios koordinatės (6), todėl ši atkarpa stati – lygiagreti y ašiai.",
+"B": "BE galų vienodos pirmosios koordinatės (7), todėl ši atkarpa lygiagreti y ašiai."
+},
+"K2007-7": {
+"A": "4 langelių reikia horizontaliai ašiai, bet viena įstriža ašis reikalauja mažiau.",
+"C": "5 langelių reikia vertikaliai ašiai, bet yra geresnė – įstriža – ašis."
+},
+"K2007-8": {
+"E": "Atėmei 11 – tai mažiausias dviženklis, o ne penkiaženklis palindromas.",
+"D": "Atėmei 101 – tai mažiausias triženklis, o ne penkiaženklis palindromas.",
+"C": "Atėmei 1001 – tai mažiausias keturženklis, o ne penkiaženklis palindromas."
+},
+"K2007-9": {
+"C": "Padvigubinai mažojo stačiakampio perimetrą, bet didysis nėra dvigubai didesnis – kiekviena kraštinė pailgėja tik dviem spinduliais."
+},
+"K2007-10": {
+"A": "x + 1 didesnis už patį x, bet jis niekada nebūna teigiamas.",
+"D": "6x + 2 atrodo didelis, bet kai x neigiamas, 6x yra labai mažas skaičius."
+},
+"K2007-11": {
+"C": "Skaičiavai visas keturias kvadratų kraštines, bet viena kiekvieno kvadrato kraštinė guli ant AB ir laužtei nepriklauso.",
+"A": "Skaičiavai tik po dvi kiekvieno kvadrato kraštines, o laužtė apeina tris."
+},
+"K2007-12": {
+"C": "Suskaičiavai tik trikampius su dviem viršūnėmis tiesėje a – dar yra tie, kurių dvi viršūnės tiesėje b.",
+"B": "Padauginai 4 iš 2 – taip suskaičiuojamos atkarpos tarp tiesių, o ne trikampiai."
+},
+"K2007-13": {
+"A": "Pridėjai 1/4 visų vartotojų, o perėjo tik ketvirtadalis tų, kurie pirko X."
+},
+"K2007-14": {
+"A": "8 dvigubai didesnis už 4, bet 4⁴ pakėlus kvadratu gaunama 4⁸, o ne 8⁸."
+},
+"K2007-15": {
+"B": "Laikei, kad BD dalija 60° kampą ABC pusiau, bet kampas CBD yra tik 20°."
+},
+"K2007-17": {
+"D": "9 ir 6 atkarpos duoda 40 langelių, bet padalijus atkarpas lygiau gaunama daugiau.",
+"C": "10 ir 5 atkarpos duoda 36 langelius, bet padalijus atkarpas lygiau gaunama daugiau."
+},
+"K2007-18": {
+"E": "X yra veidrodinis kūno atspindys – jokiu pasukimu jo nesutapdinsi su duotuoju.",
+"C": "W taip pat tinka – jis tik pasuktas kitaip nei Y."
+},
+"K2007-19": {
+"E": "7 + 8 + 9 = 24, bet šie skaičiai yra toje pačioje eilutėje.",
+"C": "3 + 6 + 9 = 18, bet šie skaičiai yra tame pačiame stulpelyje."
+},
+"K2007-20": {
+"E": "Stumdant taškus kinta dalių forma, bet kiekviena baltoji dalis lieka ketvirtadalis kvadrato.",
+"A": "1 – tai vienos baltosios dalies plotas, o klausiama apie abi užtušuotas dalis kartu."
+},
+"K2008-1": {
+"A": "Suskaičiavai tik gabalus su galais – uždaras žiedas galų neturi, bet irgi yra gabalas.",
+"D": "6 – tai galų skaičius, o vienas gabalas turi du galus."
+},
+"K2008-2": {
+"A": "Sergančių yra 11, o berniukų tik 9 – vien berniukų neužtenka.",
+"E": "13 − 9 = 4 rodo, keliomis mergaičių daugiau nei berniukų, o ne kiek jų susirgo."
+},
+"K2008-3": {
+"A": "Padidinai ir kengūrų skaičių iki 100, bet ilgesnis laikas jau pats leidžia suėsti daugiau maišų."
+},
+"K2008-4": {
+"A": "5 + 4 = 9 tiktų pirmai eilutei, bet tada antroje liktų 2 + 3 = 5, ne 6.",
+"C": "7 + 2 = 9 tiktų pirmai eilutei, bet tada antroje liktų 3 + 4 = 7, ne 6."
+},
+"K2008-5": {
+"D": "Sudėjai abu perimetrus, bet bendra 4 cm kraštinė yra figūros viduje.",
+"C": "Bendrą kraštinę atėmei tik vieną kartą, o ji įskaičiuota abiejuose perimetruose.",
+"E": "Kitų dviejų trikampio kraštinių suma visada 16 − 4 = 12 cm, todėl atsakymas nuo jų ilgių nepriklauso."
+},
+"K2008-6": {
+"E": "Iš 12 dalijasi 24 ir 36, bet 42 nesidalija – liktų raudonų rožių.",
+"A": "Iš 4 dalijasi 24 ir 36, bet 42 nesidalija – liktų raudonų rožių."
+},
+"K2008-8": {
+"E": "56° – tai kampas tarp vertikalės ir pasvirusios tiesės, o užtušuotas kampas yra likusi 108° kampo dalis."
+},
+"K2008-9": {
+"E": "Vien monetomis po 5 litus 11 litų neperduosi, bet Dana gali dalį grąžinti monetomis po 2."
+},
+"K2008-10": {
+"B": "Suskaičiavai tik tiesiai stovinčius kvadratus – dar yra vienas pasuktas, stovintis ant kampo.",
+"D": "Įskaičiavai didelį kvadratą per visą tinklelį, bet jam trūksta kairiojo apatinio kampo."
+},
+"K2008-12": {
+"C": "1849 – tai metai, kuriais jam buvo 43, o ne gimimo metai."
+},
+"K2008-13": {
+"B": "5 užtektų, jei kiekvienoje saloje būtum tik kartą, bet iš D grįžti galima tik atgal į A."
+},
+"K2008-14": {
+"E": "Sudėjai 40 ir 50, bet tai dviejų skirtingų dalių perimetrai, o ne viso lakšto.",
+"D": "80 cm – Tomo abiejų dalių perimetrų suma; joje kirpimo linija įskaičiuota du kartus."
+},
+"K2008-15": {
+"C": "Išklotinėje 4 trys trikampiai yra kvadratų dešinėje ir vienas eilės gale – sulenkus jie susitinka toje pačioje sienoje.",
+"B": "Išklotinėje 1 keturi trikampiai kabo po keturių iš eilės einančių sienų – sulenkus jie sudaro dugną."
+},
+"K2008-16": {
+"C": "Sudėjai visas keturias atkarpas, bet tiesėje jos dengia viena kitą.",
+"A": "14 yra ilgiausia iš duotų atkarpų, bet tolimiausių taškų poros tarp duotųjų nėra."
+},
+"K2008-17": {
+"C": "Aukštine paėmei spindulį 6 cm, o R yra apatinėje kraštinėje – per visą skersmenį nuo PQ."
+},
+"K2008-18": {
+"D": "1 + 3 + 5 = 9, bet tada tarp likusių kortų būtų ir lyginių, ir nelyginių – tikras būti negalėtum."
+},
+"K2008-19": {
+"A": "Pusiaukampinė nebūtinai statmena kraštinei – šiame trikampyje ji nėra aukštinė.",
+"E": "Lygybė CD = BC nustato visus trikampio kampus, todėl kampą rasti galima."
+},
+"K2008-20": {
+"A": "Sudėjai tris sienas po 25, bet kubeliai prie bendrų briaunų įskaičiuoti po kelis kartus.",
+"C": "Atėmei tris briaunas po 5 kubelius, bet taip kampinis kubelis dingo visai – jį reikia grąžinti."
+},
+"K2009-4": {
+"A": "19 – tai žingsnių tarp namų skaičius; pamiršai pridėti pirmąjį namą.",
+"D": "38 – tai numerių skirtumas, o nelyginiai namai eina kas antras."
+},
+"K2009-7": {
+"A": "Dukart daugiau yra letenėlių, ne kačių – viena katė turi 4 letenėles.",
+"D": "Padalijai iš 4 letenėlių, bet pamiršai, kad letenėlių yra dukart daugiau nei nosių."
+},
+"K2009-8": {
+"B": "42° – tai tik kampas SPR; prie jo dar reikia pridėti 12°.",
+"E": "84° – tai kampas PQS, o klausiama kampo QPR."
+},
+"K2009-9": {
+"A": "3 – tiek dar tilptų suaugusiųjų, o klausiama apie vaikus.",
+"E": "Iš 20 atėmei 12, bet vaikų ir suaugusiųjų skaičių taip atimti negalima – jie sveria nevienodai."
+},
+"K2009-12": {
+"B": "Pašalinus 2 taškus, viena eilė lieka nepaliesta – su visais trimis taškais."
+},
+"K2009-13": {
+"A": "5° būtų trečias bukojo trikampio kampas, jei jame būtų 55°, bet tada smailusis turėtų statų kampą.",
+"B": "Jei 10° būtų smailiojo trikampio kampas, kartu su 80° trečias kampas būtų 90° – trikampis nebūtų smailusis.",
+"D": "55° yra smailiojo trikampio kampas, bet ne mažiausias – trečiasis kampas dar mažesnis."
+},
+"K2009-15": {
+"B": "12 – tai teisuolių skaičius (lyginės vietos); melagių vienu daugiau.",
+"D": "Jei melagių būtų 24, pirmasis būtų teisuolis, bet tada trečiasis, melagis, pasakytų tiesą."
+},
+"K2009-18": {
+"A": "a ir b netinka: virš užtušuoto langelio trečioje eilutėje jau stovi a ir b.",
+"B": "Radai vieną tinkamą nuspalvinimą, bet ketvirtą eilutę galima pradėti ir kita spalva.",
+"C": "Radai vieną tinkamą nuspalvinimą, bet ketvirtą eilutę galima pradėti ir kita spalva."
+},
+"K2009-19": {
+"A": "40° – tai devynkampio išorinis kampas, ne kampas X."
+},
+"K2009-20": {
+"E": "Pridėjai 8 dešimt kartų, o nuo pirmos iki dešimtos figūros yra tik 9 žingsniai."
+},
+"K2010-2": {
+"D": "Įstrižainės nėra ašys: viršaus ir apačios linijos su smaigaliu, o šoninės – be jo."
+},
+"K2010-3": {
+"B": "2 – tiek dėžučių telpa išilgai vienos briaunos, o sluoksnyje yra dvi tokios eilės."
+},
+"K2010-4": {
+"A": "Sudėjai tik pažymėtas atkarpas – apatinė ir kairioji kraštinės liko nepriskaičiuotos.",
+"D": "Dešinėje vidurinė atkarpa yra 2b, ne b."
+},
+"K2010-5": {
+"B": "Statųjį trikampį gauni paėmęs dvi priešingas viršūnes ir dar vieną.",
+"E": "Trys viršūnės iš eilės sudaro trikampį su 120° kampu – jis bukasis."
+},
+"K2010-6": {
+"A": "39 – tai 12 + 13 + 14, trečio, ketvirto ir penkto skaičių suma.",
+"C": "42 – tai 13 + 14 + 15, o paskutinieji trys skaičiai yra kitas trejetas."
+},
+"K2010-8": {
+"A": "Pastūmus tik dvi plyteles, tuščios vietos lieka išsibarsčiusios – vientisos vietos plytelei dar nėra.",
+"E": "Tuščio ploto užtenka – jį tereikia sustumti į vieną vietą."
+},
+"K2010-9": {
+"A": "Dviem raudoniems kvadratėliams yra du būdai – greta ir įstrižai; vieną jų praleidai."
+},
+"K2010-10": {
+"D": "10 100 – tai pačių lyginių skaičių suma, o klausiama sumų skirtumo."
+},
+"K2010-11": {
+"B": "15 dalijasi iš 3 ir iš 5, bet šešiems anūkams po lygiai nepadalysi."
+},
+"K2010-12": {
+"A": "24 gaunamas: 9 + 8 + 7."
+},
+"K2010-13": {
+"C": "Padvigubinai laiką, nes žiedų dvigubai daugiau, bet sukabinimų skaičius padidėja ne dvigubai."
+},
+"K2010-14": {
+"D": "65° – tai kampas ADC, ne ABC."
+},
+"K2010-15": {
+"A": "Čia įstriža viela pasvirusi į kitą pusę, nei išeina jungiant įražas.",
+"C": "Kitoje pusėje yra tik viena įstriža viela, o čia jų dvi.",
+"D": "Kitoje pusėje turi būti trys vielos atkarpos, o čia tik dvi."
+},
+"K2010-16": {
+"B": "11 – tai raudonų ir mėlynų skirtumas (14 − 3), o klausiama apie baltas ir raudonas.",
+"E": "30 – tai baltų ir mėlynų skirtumas, o klausiama apie baltas ir raudonas."
+},
+"K2010-18": {
+"A": "Trys tiesės duoda 4, 6 arba 7 sritis – lygiai 5 nepavyksta."
+},
+"K2010-19": {
+"D": "Prie d pridedama daugiausia, vadinasi, pats d yra mažiausias."
+},
+"K2011-2": {
+"B": "Tetraedrui priskyrei 6 sienas kaip kubui, o jis turi mažiau."
+},
+"K2011-3": {
+"C": "Paėmei 8 baltas ir 8 juodas juostas, bet juodų yra viena mažiau."
+},
+"K2011-4": {
+"B": "Daugybą pakeitei dalyba, bet skliaustus vis tiek sudėjai: 4 + 2.",
+"D": "Sudėtį pakeitei atimtimi, bet daugybos dalyba nepakeitei: 36 − 8."
+},
+"K2011-5": {
+"E": "Po 60 minučių bus 21:11 – skaitmenys tinka, bet yra ir ankstesnis tinkamas laikas."
+},
+"K2011-6": {
+"A": "6 – tai vidutinio ir mažojo kvadratų plotų skirtumas, o klausiama apie didįjį ir vidutinį.",
+"E": "18 – tai didžiojo ir mažojo kvadratų plotų skirtumas."
+},
+"K2011-7": {
+"D": "17 – tai namų skaičius gatvėje, o ne paskutinio namo numeris.",
+"C": "13 būtų artimiausias numeris po 12, bet nelyginėje pusėje namų daugiau nei lyginėje.",
+"A": "17 − 12 = 5 nieko nereiškia: 12 yra numeris, o ne namų skaičius."
+},
+"K2011-8": {
+"B": "Su 6 žuvimis trečią dieną pirmoms dviem lieka irgi 6 – tai ne mažiau, o lygiai tiek pat."
+},
+"K2011-9": {
+"C": "Mažiausiu palaikei 116, bet 107 yra dar mažesnis – dešimčių skaitmuo gali būti 0."
+},
+"K2011-10": {
+"B": "Praleidai kampo formos figūrą – jos simetrijos ašis įstriža, todėl sunkiau pastebima.",
+"D": "Įskaičiavai laiptelio formos figūrą: ją galima apsukti, bet perlenkti pusiau – ne."
+},
+"K2011-11": {
+"E": "Abu skaitiklio daugiklius palaikei 10 kartų didesniais, bet 2,011 yra mažesnis už 20,11.",
+"D": "Palyginai tik 2011 su 201,1 ir pamiršai antrąją porą."
+},
+"K2011-13": {
+"E": "Agurkas kairėje apačioje guli aklavietėje – į ją užėjęs nebegalėtum grįžti.",
+"D": "Atmetei tik aklavietės agurką, bet viršutinėje eilėje irgi negalima paimti abiejų kraštinių agurkų."
+},
+"K2011-14": {
+"E": "Atrodo, kad duomenų per mažai, bet einant iš vidaus kiekvienai sričiai lieka tik viena spalva."
+},
+"K2011-15": {
+"D": "12 lygus vidurkiui, bet 10 už jį mažesnis – išbraukus šią porą vidurkis padidėtų."
+},
+"K2011-17": {
+"D": "Jei laimėta 2:1, praleistas įvartis jau išnaudotas, o pralaimėti nepraleidus įvarčio neįmanoma.",
+"E": "0:1 – tai pralaimėtų, o ne laimėtų rungtynių rezultatas.",
+"A": "Tada trečias įvartis būtų įmuštas lygiosiose arba pralaimėjime, o ten „Žalgiris“ įmušti negalėjo."
+},
+"K2011-18": {
+"B": "Pamiršai atvejį, kai status kampas yra prie paties taško P.",
+"A": "Radai tik du taškus prie vienos viršūnės, o status kampas gali būti trijose vietose."
+},
+"K2011-19": {
+"A": "Dauginant iš skaičiaus, mažesnio už 1, rezultatas ne didėja, o mažėja.",
+"D": "Pats b didelis, bet pridėjus teigiamą a gaunama dar daugiau."
+},
+"K2011-20": {
+"B": "Čia linija lūžta kiekvienoje briaunoje, o kube ji visose sienose kyla vienodai stačiai.",
+"D": "Čia linija prasideda apačioje, o baigiasi viršuje – suklijavus kubą jos galai nesusitiktų."
+},
+"K2012-1": {
+"E": "6 Lt padalijai iš 4, bet skirtumą sudaro tik trys šokoladukai."
+},
+"K2012-2": {
+"E": "Atėmei 1,11 vietoj 1,111 – pametei paskutinį skaitmenį.",
+"C": "Nesulyginai skaitmenų po kablelio skaičiaus – atsakyme turi būti trys skaitmenys po kablelio."
+},
+"K2012-3": {
+"E": "Pasukai rodyklę trumpiausiu keliu – prieš laikrodžio rodyklę, o ji taip nesisuka.",
+"C": "Po 30 min rodyklė rodys į priešingą pusę – į vakarus."
+},
+"K2012-4": {
+"C": "S perkirpta stačiai subyra į 4 dalis – daug, bet viena raidė duoda dar daugiau.",
+"D": "H kirpai tik per skersinį arba per dvi kojas, o tai daugiausia 3 dalys."
+},
+"K2012-5": {
+"E": "Pridėjai po 5 galvas šešis kartus, bet pamiršai, kad kaskart viena galva nukertama.",
+"D": "Padauginai 5 iš 6, tačiau po kirčio prisideda tik 4 galvos, o pradinės 5 lieka."
+},
+"K2012-6": {
+"A": "Čia nekinta tik pirmoji dalis (8 + 8) : 8 = 2, bet prie jos dar pridedamas pats skaičius."
+},
+"K2012-7": {
+"A": "Visų 9 takų nepraeisi: grįžusi į A arba iš anksto užėjusi į B, Onutė turėtų kartoti taką.",
+"E": "400 m – tai kelias aplink trikampio kraštą, bet vidiniais takais galima eiti ilgiau."
+},
+"K2012-8": {
+"B": "Radai tik tieses per abi viršutines ir abi apatines viršūnes, o dar dvi eina per dešiniojo trikampio smaigalį."
+},
+"K2012-9": {
+"B": "Skylei viduryje pakanka dviejų kirpimų, nes ji yra ant lenkimo linijos ir atsilenkia į rombą."
+},
+"K2012-10": {
+"E": "Kvadratui abu apatiniai balti kubeliai turėtų būti tiesiai po viršutiniais, bet viena iš tų vietų priklauso tamsiai detalei.",
+"C": "Ši detalė nėra plokščia, o balti kubeliai visi stovi vienoje galinėje sienoje."
+},
+"K2012-11": {
+"A": "2468 yra vienas iš dėmenų, o ne dviejų skaičių suma."
+},
+"K2012-12": {
+"A": "5 – tai sklypo plotis metrais, o ne pernykštis pupelių plotas.",
+"D": "15 m² – tai plotas, kuris prisidėjo šiemet, o klausiama apie pernykštį."
+},
+"K2012-14": {
+"B": "42° – tai kampas taške, kur susiliečia abu trikampiai; nuo jo dar reikia pereiti prie x."
+},
+"K2012-15": {
+"E": "Šiam teiginiui prieštarauja visi keturi skaičiai, bet kiti trys teiginiai savo skaičius pasiima vienareikšmiškai."
+},
+"K2012-16": {
+"E": "Su 2 cm šešiakampis būtų taisyklingas, bet trikampiukų perimetrų suma 18 cm, o šešiakampio – tik 12 cm."
+},
+"K2012-17": {
+"B": "Paėmei tik nelyginius 1, 3, 5, 7, 9, bet prie jų dar tinka 4.",
+"D": "Septyniems skaičiams tektų paimti du gretimus grandinės 1, 2, 4, 8 narius arba ir 3, ir 6."
+},
+"K2012-19": {
+"E": "120 cm – perimetras po trijų kalbėjimų; liko dar vienas kartas pasakyti tiesą.",
+"A": "28 cm – tai galutinio kvadrato kraštinės ilgis, o klausiama perimetro."
+},
+"K2012-20": {
+"C": "1 ir 3 langeliuose yra priešingos sienelės, o 5 langelyje – ta, kuri pradžioje buvo kairėje."
 }
 }

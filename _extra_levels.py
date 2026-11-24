@@ -331,6 +331,46 @@ KID = json.load(open(_kid_path, encoding='utf-8')) if os.path.exists(_kid_path) 
 # "Your mistake" notes per wrong option {"N2013-2": {"A": "4 - tiek knygu vaikai paeme, ..."}} (same day)
 _misc_path = os.path.join(HERE, '_levels_misc.json')
 MISC = json.load(open(_misc_path, encoding='utf-8')) if os.path.exists(_misc_path) else {}
+
+def old_papers(L, report):
+    """Papers of 2000-2012 (no solution booklets): figures + table keys from _old_levels.py
+    (_levels_old.json), prompts / options typed from the figures (_levels_old_text.json),
+    kid solutions and notes from the same files as the newer papers."""
+    f1, f2 = os.path.join(HERE, '_levels_old.json'), os.path.join(HERE, '_levels_old_text.json')
+    if not (os.path.exists(f1) and os.path.exists(f2)): return []
+    old = json.load(open(f1, encoding='utf-8'))['levels'].get(L, [])
+    text = json.load(open(f2, encoding='utf-8'))
+    cfg, papers = LEVELS[L], []
+    for p in old:
+        qs = []
+        for q in p['questions']:
+            qid = f"{p['year']}-{q['num']}"
+            t = text.get(qid)
+            if not t or not t.get('prompt'): report.append(f'{qid}: no typed text (old paper)'); continue
+            if not q.get('correct'): report.append(f'{qid}: no key'); continue
+            if not os.path.exists(os.path.join(HERE, q['figure'])): report.append(f'{qid}: figure NOT FOUND'); continue
+            opts = {k: str((t.get('options') or {}).get(k) or '').strip() for k in 'ABCDE'}
+            item = {'num': q['num'], 'prompt': t['prompt'].strip(), 'options': opts, 'points': q['points'], 'correct': q['correct'],
+                    'figure': q['figure'], 'level': L}
+            typed = t.get('options') or {}
+            if (typed and 'E' not in typed and len(typed) == 4) or p['year'] == 'N2011':     # Nykštukas 2011 prints four options
+                item['optionLetters'] = 'ABCD'; opts = {k: opts[k] for k in 'ABCD'}; item['options'] = opts
+            empty = [k for k, v in opts.items() if not v]
+            if len(empty) == len(opts): item['imageOnlyOptions'] = True
+            elif empty: item['hasMissingOptionText'] = True
+            kid = KID.get(qid)
+            if kid:
+                if not re.search(r'\sAtsakymas: ' + q['correct'] + r'\)', kid): report.append(f'{qid}: kid solution does not end with the key')
+                item['solutionKid'] = kid
+            else: report.append(f'{qid}: no kid solution')
+            mc = {k: v for k, v in (MISC.get(qid) or {}).items() if k in 'ABCDE' and k != q['correct'] and v}
+            if mc: item['misconceptions'] = mc
+            qs.append(item)
+        if len(qs) != len(cfg['nums']): report.append(f"{p['year']}: {len(qs)} questions, want {len(cfg['nums'])}")
+        papers.append({'year': p['year'], 'realYear': p['realYear'], 'level': L, 'test_pdf': p['test_pdf'], 'answers_pdf': p['answers_pdf'],
+                       'title': f"Kengūra {p['realYear']} · {cfg['name']} ({cfg['grades']}) · {cfg['band']} uždaviniai",
+                       'source': f"https://www.kengura.lt/uzduotys.html ({p['realYear']}, {cfg['name']})", 'count': len(qs), 'questions': qs})
+    return papers
 TEXT_FIX = json.load(open(os.path.join(HERE, '_levels_text_fix.json'), encoding='utf-8'))
 for _k, _v in TEXT_FIX.items():
     if 'prompt' in _v: PROMPT_FIX[(_k.split('-')[0], int(_k.split('-')[1]))] = _v['prompt']
@@ -828,7 +868,7 @@ def build(with_figs=True):
                            'title': f"Kengūra {year} · {cfg['name']} ({cfg['grades']}) · {band} uždaviniai",
                            'source': f"https://www.kengura.lt/uzduotys/ ({year}, {cfg['name']})",
                            'count': len(qs), 'questions': qs})
-        out['levels'][L] = {'name': cfg['name'], 'grades': cfg['grades'], 'papers': papers}
+        out['levels'][L] = {'name': cfg['name'], 'grades': cfg['grades'], 'papers': old_papers(L, report) + papers}
     return out, report
 
 if __name__ == '__main__':
