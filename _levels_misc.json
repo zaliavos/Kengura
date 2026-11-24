@@ -245,7 +245,7 @@
 "C": "6 – tiek buvo mergaičių, o klausiama, kiek berniukų."
 },
 "N2016-7": {
-"A": "Nesuskaičiavai nei 15-to, nei 37-to namo, o Matas buvo ir juose.",
+"A": "Nesuskaičiavai nei 15-ojo, nei 37-ojo namo, o Matas buvo ir juose.",
 "B": "Atėmei 37 − 15, bet taip nesuskaičiavai paties pirmo namo."
 },
 "N2016-8": {
@@ -371,9 +371,9 @@
 "E": "9 – tiek kengūrų turi būti kiekviename parke, o klausiama, kiek perkelti."
 },
 "N2018-7": {
-"A": "Toks yra pirmas bokštas, tad ir 5-tas, 9-tas, 13-tas – ne dvyliktas.",
-"B": "Toks yra antras bokštas, tad ir 6-tas, 10-tas – ne dvyliktas.",
-"C": "Toks yra trečias bokštas, tad ir 7-tas, 11-tas – ne dvyliktas.",
+"A": "Toks yra pirmas bokštas, tad ir penktas, devintas, tryliktas – ne dvyliktas.",
+"B": "Toks yra antras bokštas, tad ir šeštas, dešimtas – ne dvyliktas.",
+"C": "Toks yra trečias bokštas, tad ir septintas, vienuoliktas – ne dvyliktas.",
 "D": "Čia trinkelės sukeistos vietomis – tokio bokšto Emilija niekada negauna."
 },
 "N2018-8": {
@@ -548,8 +548,8 @@
 "E": "Skritulių jau yra tame pačiame stulpelyje."
 },
 "N2020-18": {
-"A": "7 – tiek vagonų yra nuo 19-tojo iki 12-tojo, o klausiama vagono numerio.",
-"B": "Vienodi numeriai susitinka tik prie 19-tojo – toliau vieno traukinio numeriai mažėja, kito didėja."
+"A": "7 – tiek vagonų yra nuo 19-ojo iki 12-ojo, o klausiama vagono numerio.",
+"B": "Vienodi numeriai susitinka tik prie 19-ojo – toliau vieno traukinio numeriai mažėja, kito didėja."
 },
 "N2021-1": {
 "A": "Panaši žvaigždė, bet čia kertasi 4 pagaliukai, o Nora turi mažiau.",
@@ -608,8 +608,8 @@
 "E": "Antrosios dalies apačioje kryželis tik vienas, o čia apatinėje eilėje du."
 },
 "N2021-14": {
-"A": "Šio namo takas eina pro Balio namus – čia gyvena Alė arba Lina.",
-"C": "Šio namo takas eina pro Balio namus – čia gyvena Alė arba Lina.",
+"A": "Šio namo takas eina pro Balio namą – čia gyvena Alė arba Lina.",
+"C": "Šio namo takas eina pro Balio namą – čia gyvena Alė arba Lina.",
 "D": "Pro šį namą eina du takai – tai Balio namas.",
 "E": "Tai Dariaus namas – pro jį Rokas tik praeina."
 },
@@ -893,7 +893,7 @@
 },
 "N2026-8": {
 "A": "Širdelė ir raidės liko ta pačia tvarka, o iš kitos pusės tvarka apsiverčia.",
-"B": "Čia raidė B liko neatsukta, o iš kitos pusės ji atrodo atsisukusi į kitą pusę.",
+"B": "Čia raidė B liko tokia pati, o iš kitos pusės ji atrodo atsisukusi į kitą pusę.",
 "C": "Perkėlei tik širdelę, o raidžių tvarka ir pačios raidės irgi turi apsiversti.",
 "D": "Raides apvertei, bet širdelė liko dešinėje, o ji turi atsidurti kitame gale."
 },
@@ -990,7 +990,7 @@
 "M2013-13": {
 "B": "Beta gimė vėliausiai, vadinasi, ji jauniausia – vyriausia ta, kuri gimė anksčiausiai.",
 "C": "Cilė gimė balandį, bet tarp keturių datų yra ir ankstesnė.",
-"E": "Nustatyti galima: tas pats mėnuo kartojasi tik vienas, ta pati diena – irgi tik viena."
+"E": "Nustatyti galima: kartojasi tik vienas mėnuo ir tik viena diena."
 },
 "M2013-14": {
 "B": "15 – tiek vaikų suposi tik supynėmis (30 − 15), o klausiama apie buvusius abiejose pramogose.",
@@ -1756,7 +1756,7 @@
 "A": "Spindulį nuleidai tiesiai žemyn per apatinį kairįjį veidrodį, o jis ten pasuka į dešinę.",
 "C": "Prie apatinio dešiniojo veidrodžio spindulį nuleidai tiesiai žemyn, o jis ten pasuka į kairę.",
 "D": "Apatinėje eilutėje spindulį vedei tiesiai į dešinę, o vidurinis veidrodis pasuka jį aukštyn.",
-"E": "Viršutinį dešinįjį veidrodį spindulys pas tave perėjo kiaurai, o jis ten pasuka žemyn."
+"E": "Pro viršutinį dešinįjį veidrodį spindulį praleidai kiaurai, o jis ten pasuka žemyn."
 },
 "M2022-3": {
 "A": "A stovi stulpelyje, kur trys skrituliukai, bet jo eilutėje jų lygiai du – iškėlus eilutėje liktų vienas.",
@@ -1796,7 +1796,7 @@
 "C": "Praleidai antrą lenkimą – 3-ias automobilis turėjo aplenkti 5-ą ir 2-ą."
 },
 "M2022-10": {
-"D": "6 + 8 = 14, tada kitoms keturioms kengūroms liktų 21 metai – vienais per mažai."
+"D": "6 + 8 = 14, tada kitoms keturioms kengūroms liktų 21 metai – vieneriais metais per mažai."
 },
 "M2022-11": {
 "B": "Čia triušio nėra, bet tai vienintelis paveikslėlis be gyvūnų – jis Kajaus.",
@@ -2658,7 +2658,7 @@
 "C": "Keturių užtenka, bet tai ne mažiausiai: briaunas galima parinkti taip, kad nė viena siena negautų dviejų mėlynų kraštinių."
 },
 "K2023-15": {
-"A": "Radai tik vienženklius skaičius, o degtukus galima padalyti ir keliems skaitmenims."
+"A": "Radai tik vienaženklius skaičius, o degtukus galima padalyti ir keliems skaitmenims."
 },
 "K2023-16": {
 "C": "Pamiršai pačias kvadrato viršūnes: kiekviena jų nutolusi per 1 nuo dviejų gretimų viršūnių.",
@@ -3066,7 +3066,7 @@
 "C": "Šunų nėra tiek pat, kiek kačių: lygios tik ausys ir kojos."
 },
 "N2011-8": {
-"B": "16 – tai visas skirtumas; tiek perpylus pirmame būtų daugiau."
+"B": "16 – tai visas skirtumas; tiek perpylus daugiau būtų kitame inde."
 },
 "N2011-10": {
 "D": "3 Lt 20 ct kainuoja du pieštukai, o klausiama apie vieną."
@@ -3361,7 +3361,7 @@
 "C": "Čia tik vienas šešiasdešimties ženklas – tai 60 + 20 + 4 = 84."
 },
 "M2002-13": {
-"D": "Šis sakinys teisingas, o ieškome neteisingo.",
+"D": "Šis sakinys teisingas, o reikia rasti neteisingą.",
 "E": "Šis sakinys teisingas – Matas kačių nemėgsta, todėl jo kailinis gyvūnas yra šuo."
 },
 "M2002-14": {
@@ -3610,7 +3610,7 @@
 "C": "Suskaičiavai stalčius ir dėžutes, bet pamiršai paties seifo užraktą."
 },
 "M2005-16": {
-"E": "Nežinome, kur skruzdėlė pasuka aukštyn, bet abu gulsti gabalai kartu vis tiek sudaro vieną briauną.",
+"E": "Nors nežinai, kur skruzdėlė pasuka aukštyn, abu gulsti gabalai kartu vis tiek sudaro vieną briauną.",
 "C": "Suskaičiavai tik keturias briaunas – gulsti gabalai priekinėje sienoje sudaro dar vieną."
 },
 "M2005-17": {
@@ -3715,7 +3715,7 @@
 },
 "M2006-24": {
 "D": "40 g sveria širdelė, o klausiama, kiek sveria vienas kvadratukas.",
-"C": "Kvadratukas neprivalo sverti tiek pat kiek skrituliukas – tai skirtingos formos daiktai."
+"C": "Kvadratukas neprivalo sverti tiek pat, kiek skrituliukas – tai skirtingos formos daiktai."
 },
 "M2007-1": {
 "A": "1 ir 2 yra prie tos pačios salelės – abiejų paimti negalima.",
@@ -3869,7 +3869,7 @@
 "B": "Skaičiavai tris žiemas ir dvi vasaras – iš tikrųjų žiemų buvo keturios, vasarų trys."
 },
 "M2008-19": {
-"D": "2 + 3 ir 3 + 2 duoda tą patį rezultatą, o tu tokias poras suskaičiavai po du kartus."
+"D": "2 + 3 ir 3 + 2 duoda tą patį rezultatą, o tu tokias poras suskaičiavai du kartus."
 },
 "M2008-20": {
 "B": "12 m – tai gėlyno perimetras, o baseinas už gėlyną ilgesnis."
@@ -3907,7 +3907,7 @@
 "B": "Pertraukų laiką atėmei iš filmo trukmės, o jį reikia pridėti."
 },
 "M2009-9": {
-"E": "Skirtumą 6 dalijai iš 3, bet per savaitę mergaitės priartėja tik viena, nes ateina ir 2 berniukai.",
+"E": "Skirtumą 6 dalijai iš 3, bet per savaitę skirtumas sumažėja tik vienu, nes ateina ir 2 berniukai.",
 "D": "Skirtumą 6 dalijai iš 2, bet per savaitę jis sumažėja tik vienetu."
 },
 "M2009-10": {
@@ -3944,7 +3944,7 @@
 },
 "M2009-18": {
 "B": "Iš 21 atėmei 14 – tai žingsniai nuo vieno namo iki kito, o tarp jų namų vienu mažiau.",
-"D": "Iš 27 atėmei 13, bet šio skirtumo dar reikia pusės, ir pats Petro namas nesiskaičiuoja.",
+"D": "Iš 27 atėmei 13, bet reikėjo dar imti pusę šio skirtumo ir neskaičiuoti paties Petro namo.",
 "E": "21 – tai Petro namo numeris nuo gatvės galo, ne namų tarp jų skaičius."
 },
 "M2009-19": {
@@ -4096,7 +4096,7 @@
 "M2011-14": {
 "A": "7 – tai teisingų atsakymų skaičius, o klausiama apie klaidingus.",
 "B": "14 − 10 = 4 parodo, kiek teisingų atsakymų daugiau nei klaidingų, o ne klaidų skaičių.",
-"E": "Prarasta 6 taškai, bet kiekviena klaida nuima po 2 taškus."
+"E": "Prarasti 6 taškai, bet kiekviena klaida nuima po 2 taškus."
 },
 "M2011-15": {
 "E": "49 – visi labirinto kvadratėliai, bet į aklavietes užsukti negalima."
@@ -4429,7 +4429,7 @@
 "D": "Perbrėžtos tik trys sienos, todėl pjūvis turi tris kraštines, ne keturias."
 },
 "K2004-7": {
-"A": "Padidinai tik vieną kraštinę – o pailgėjo ir ilgis, ir plotis.",
+"A": "Padidinai tik vieną kraštinę, o pailgėjo ir ilgis, ir plotis.",
 "B": "Sudėjai 10 % ir 10 %, bet pamiršai mažą kampinį gabalėlį, kuris atsiranda pailgėjus abiem kraštinėms.",
 "E": "121 % – tiek naujas plotas sudaro senojo, o klausiama, kiek jis padidėjo."
 },
@@ -4768,7 +4768,7 @@
 "B": "Pašalinus 2 taškus, viena eilė lieka nepaliesta – su visais trimis taškais."
 },
 "K2009-13": {
-"A": "5° būtų trečias bukojo trikampio kampas, jei jame būtų 55°, bet tada smailusis turėtų statų kampą.",
+"A": "5° būtų trečias bukojo trikampio kampas, jei jame būtų 55°, bet tada smailusis turėtų statųjį kampą.",
 "B": "Jei 10° būtų smailiojo trikampio kampas, kartu su 80° trečias kampas būtų 90° – trikampis nebūtų smailusis.",
 "D": "55° yra smailiojo trikampio kampas, bet ne mažiausias – trečiasis kampas dar mažesnis."
 },

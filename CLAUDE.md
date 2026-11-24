@@ -1494,3 +1494,24 @@ to be the 5-point block only) and 🚀 Kadetas (unchanged, 280). 844 level quest
   "skip it" advice meant nothing to a 7-year-old); a Kadetas child is timed against the Kadetas pace; contest
   history and weak-trick cards hidden in a young child's parent view. Not changed: the "Atsakymai ↗" link sits
   in the paper header, which focus mode hides on phones (list mode shows it).
+## Second check pass (2026-11-24, 250 checks)
+
+- **Language read of every child-facing extra-level text** (1 524 kid solutions + all notes, 5 proof-readers):
+  79 texts fixed – mostly "mes" verbs to "tu" ("gauname" → "gauni"), agreement ("nuimti 7 kubeliai"),
+  ordinals ("15-ojo", "11-ą"), "padalytas", calques ("Gaunasi", "tuo tarpu"), bare option letters used as nouns
+  in N texts ("C paveikslėlyje"). Answer lines untouched (merge script verifies). M2001-9: the Gudrybė line,
+  which is also the "Užstrigai?" hint, gave the answer away.
+- **27 more scripted data checks** (arithmetic inside texts, hint line vs answer, balanced quotes, readability,
+  duplicates, units, signs): only false alarms left.
+- **Code review 2 (offline, printing, profiles, keyboard, notebook, level pane), fixed:** a profile with a name
+  or a chosen level counted as "empty", so signing in could overwrite it (`profileIsEmpty`); a wrong retry of an
+  open level mistake paid a star again (farming); "Rodyti sprendimą" on a notebook question added a mistake;
+  focus is put on the verdict after the second-try reveal and the "why?" chips; the offline button checks that a
+  service worker controls the page and counts what is really in the cache; sw.js returns a figure only after
+  `c.put` settles (shell v8); the key hint says A–D on N2011; the paper-done grid has as many columns as blocks.
+- **Browser journeys:** keyboard only (letter, Enter, second try), notebook "Bandyti" → exact old-paper card,
+  a whole N paper answered → block summary, back button closes the zoom then goes to the own tab, fresh install
+  → welcome → Nykštukas pane. The welcome header no longer names "5–6 klasė" before a level is chosen.
+- **Browser-test pitfall:** `_storeFrozen` is a top-level `let` – set it with `frame.contentWindow.eval('_storeFrozen = true')`;
+  `frame.contentWindow._storeFrozen = true` does nothing. `_phone.html` and the app share one origin, so a backup
+  kept in localStorage is wiped together with the app's – keep it in a JS variable of the top page or a file.

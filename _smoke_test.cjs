@@ -75,7 +75,7 @@ const m = html.match(/<script>\s*("use strict";[\s\S]*?)<\/script>\s*<\/body>/);
 if(!m){ console.error("FAIL  could not extract inline script from kengura.html"); process.exit(1); }
 
 const EXPORTS = `
-return {isYoung, renderLevelPick, kidLevel, setKidLevel, homeTabs, GRADE_OPTS, kidSolutionParts, renderParent, storeWeight, topUpQueueFromNotebook, LEVEL_SETS, LEVEL_TABS, EXTRA_PAPERS, findPaper, paperYearText, levelEqBand, openArchiveYear, renderMistakeBook, renderHome, HOME_TABS, GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
+return {profileIsEmpty, isYoung, renderLevelPick, kidLevel, setKidLevel, homeTabs, GRADE_OPTS, kidSolutionParts, renderParent, storeWeight, topUpQueueFromNotebook, LEVEL_SETS, LEVEL_TABS, EXTRA_PAPERS, findPaper, paperYearText, levelEqBand, openArchiveYear, renderMistakeBook, renderHome, HOME_TABS, GENERATORS, GENERATOR_KEYS, buildQuestionFromKey, generateQuiz,
         generateKenguraQuiz, getGenDiff, ARCHIVE, aiBuildOpts,
         pickPracticeFor, findSimilarArchive, MECH_BAND_INDEX,
         MECHANIC_HINTS, MECHANIC_METHODOLOGY, MECHANIC_LABEL, GEN_MECHANIC,
@@ -1422,6 +1422,21 @@ section("neighbour levels: Mažylis 5 t., Kadetas 3–4 t.");
     check("parent advice for a younger child names no plan, date or trick", tips.length >= 1 && tips.every(t => !/konkurso dat|gudryb|kontrolin|sprint/i.test(t.text)), JSON.stringify(tips));
     st.view = "parent"; app.renderParent(); g = app.$app.innerHTML;
     check("parent view: grade select and a header without the contest line", g.includes('id="pGrade"') && /<option value="N" selected>/.test(g) && g.includes("1–2 klasė („Nykštukas“)") && !/undefined|NaN/.test(g));
+    { // level star farming via the notebook, "show solution" counting as one more mistake (2026-11-24)
+      const lq = app.findPaper("N2010").questions[4], key = "N2010-5", wrong = [..."ABCDE"].find(l => l !== lq.correct);
+      const stars = () => store.stars.total;
+      delete store.mistakes[key]; delete store.seenQ[key];
+      app.recordArchiveAnswer("N2010", lq, false, null);
+      const s1 = stars(), t1 = store.mistakes[key].times;
+      app.recordArchiveAnswer("N2010", lq, false, null);
+      check("a wrong retry of an open level mistake pays no star", stars() === s1 && store.mistakes[key].times === t1 + 1);
+      app.recordArchiveAnswer("N2010", lq, false, null, {gaveUp: true});
+      check("asking for the solution of a notebook question is not one more mistake", store.mistakes[key].times === t1 + 1);
+      app.recordArchiveAnswer("N2010", lq, true, null);
+      check("fixing it pays and closes it", stars() > s1 && store.mistakes[key].fixedAt);
+      delete store.mistakes[key]; delete store.seenQ[key];
+    }
+    check("a profile with a name or a chosen level is not empty (sign-in keeps it)", !app.profileIsEmpty({id: "zz", name: "Ona"}));
     check("…the header names the streak once and no trick mastery", (g.split('<p class="help-bar">')[1] || "").split("</p>")[0].split("serija").length === 2 && !/įvaldyta <b>/.test(g));
     const conf0 = store.settings.askConfidence; store.settings.askConfidence = true;
     st.view = "home"; app.openArchiveYear("N2011");

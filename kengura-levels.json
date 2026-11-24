@@ -1625,7 +1625,7 @@
        "optionLetters": "ABCD",
        "solutionKid": "Gudrybė: perpilti reikia tik pusę skirtumo, nes viename vandens mažėja, o kitame daugėja. Skirtumas: 42 − 26 = 16 litrų. Pusė: 16 : 2 = 8. Patikrink: 42 − 8 = 34 ir 26 + 8 = 34. Atsakymas: D) 8.",
        "misconceptions": {
-        "B": "16 – tai visas skirtumas; tiek perpylus pirmame būtų daugiau."
+        "B": "16 – tai visas skirtumas; tiek perpylus daugiau būtų kitame inde."
        }
       },
       {
@@ -3109,7 +3109,7 @@
        "figure": "figures/N2015-q4.png",
        "level": "N",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: sukant paveikslėlį kengūra negali apsigręžti į kitą pusę. Dešinėje kengūra stovi ant kojų ir žiūri į dešinę. Mintyse pasuk kiekvieną paveikslėlį taip, kad kengūra stovėtų ant kojų. Paveikslėliuose A, B, C ir D ji tada žiūri į kairę. Tik E kengūra žiūri į dešinę. Atsakymas: E).",
+       "solutionKid": "Gudrybė: sukant paveikslėlį kengūra negali apsigręžti į kitą pusę. Dešinėje kengūra stovi ant kojų ir žiūri į dešinę. Mintyse pasuk kiekvieną paveikslėlį taip, kad kengūra stovėtų ant kojų. Paveikslėliuose A, B, C ir D ji tada žiūri į kairę. Tik paveikslėlyje E kengūra žiūri į dešinę. Atsakymas: E).",
        "misconceptions": {
         "A": "Čia kengūra žiūri į kairę – tai veidrodinis vaizdas, sukdamas jo nepakeisi.",
         "C": "Apsuk paveikslėlį, kad kengūra stovėtų ant kojų, – ji žiūrės į kairę, o ne į dešinę."
@@ -3201,7 +3201,7 @@
        "solution": "40 metrų ! Panašų uždavinį gyvenime tenka spręsti vos ne kasdien: jei vėliavėlių 11, tai tarpų tarp jų 10. Kadangi tarpo ilgis 4 metrai, tai viso tako ilgis 4 · 10 = 40 metrų. Žinoma, sprendžiant tokius uždavinius reikia būti atsargiam. Pavyzdžiui, jei jūsų draugas keliavo nuo pirmadienio iki pirmadienio, tai nelabai ir aišku, kiek dienų jis keliavo – septynias dienas ar aštuonias. Taigi uždavinio sąlygą (šiuo atveju – klausimą, kiek laiko jis keliavo) reikia formuluoti labai tiksliai. Teisingas atsakymas D.",
        "figure": "figures/N2015-q8.png",
        "level": "N",
-       "solutionKid": "Gudrybė: skaičiuok ne vėliavėles, o tarpus tarp jų. Tarp 11 vėliavėlių yra 10 tarpų – tarpų visada vienu mažiau. Kiekvienas tarpas 4 metrų. Tako ilgis 10 · 4 = 40 metrų. Patikrink mažesniu pavyzdžiu: tarp 3 vėliavėlių yra tik 2 tarpai. Atsakymas: D) 40 metrų.",
+       "solutionKid": "Gudrybė: skaičiuok ne vėliavėles, o tarpus tarp jų. Tarp 11 vėliavėlių yra 10 tarpų – tarpų visada vienu mažiau. Kiekvienas tarpas – 4 metrai. Tako ilgis 10 · 4 = 40 metrų. Patikrink mažesniu pavyzdžiu: tarp 3 vėliavėlių yra tik 2 tarpai. Atsakymas: D) 40 metrų.",
        "misconceptions": {
         "C": "Paėmei 9 tarpus, bet tarpų yra tik vienu mažiau nei vėliavėlių.",
         "E": "Padauginai 11 · 4, bet reikia skaičiuoti tarpus, o ne vėliavėles."
@@ -3599,7 +3599,7 @@
        "level": "N",
        "solutionKid": "Gudrybė: skaičiuojami abu kraštiniai namai – ir 15, ir 37. Nuo 15 iki 24 yra 10 namų, nuo 25 iki 34 – dar 10. Lieka 35, 36 ir 37 – dar 3 namai. Iš viso 10 + 10 + 3 = 23. Atsakymas: C) 23.",
        "misconceptions": {
-        "A": "Nesuskaičiavai nei 15-to, nei 37-to namo, o Matas buvo ir juose.",
+        "A": "Nesuskaičiavai nei 15-ojo, nei 37-ojo namo, o Matas buvo ir juose.",
         "B": "Atėmei 37 − 15, bet taip nesuskaičiavai paties pirmo namo."
        },
        "solutionFigure": "figures/N2016-s7.png"
@@ -3773,7 +3773,7 @@
        "solution": "KNAO ! Čia svarbiausia nesupainioti kairės ir dešinės. Iš pradžių Marta prieina ženklą K – jis dešinėje. Po to eina ženklas A, bet jis kairėje jos kelio pusėje. Toliau dešinėje yra N, A ir O, taigi Marta perskaito žodį KNAO. Teisingas atsakymas A.",
        "figure": "figures/N2016-q15.png",
        "level": "N",
-       "solutionKid": "Gudrybė: pasuk lapą taip, kad visada žiūrėtum ten, kur eina Marta – tada matysi, kur jos dešinė. Eidama aukštyn ji dešinėje mato K. Viršuje raidė A lieka kairėje. Leidžiantis žemyn dešinėje yra N, apačioje G – kairėje. Toliau dešinėje A, o gale – O. Išeina KNAO. Atsakymas: A) KNAO.",
+       "solutionKid": "Gudrybė: pasuk lapą taip, kad visada žiūrėtum ten, kur eina Marta, – tada matysi, kur jos dešinė. Eidama aukštyn ji dešinėje mato K. Viršuje raidė A lieka kairėje. Leidžiantis žemyn dešinėje yra N, apačioje G – kairėje. Toliau dešinėje A, o gale – O. Išeina KNAO. Atsakymas: A) KNAO.",
        "misconceptions": {
         "B": "Eidama apačia, Marta raidę G mato kairėje, o ne dešinėje.",
         "C": "Leidžiantis prie 2 taško, raidė R lieka Martai iš kairės.",
@@ -3956,7 +3956,7 @@
        "figure": "figures/N2017-q5.png",
        "level": "N",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: ieškok peteliškės, kurioje yra tik Elenos lipdukai ir nieko daugiau. Elena turi 2 pilkus rombus, 2 juodus ovalus ir 2 pilkus skritulius. A skrituliuose yra baltos dėmės – tokių lipdukų nėra. B, C ir E turi juodus apskritus taškus – jų irgi nėra. D matai pilkus skritulius, o ant pilkų rombų – juodus ovalus. Atsakymas: D).",
+       "solutionKid": "Gudrybė: ieškok peteliškės, kurioje yra tik Elenos lipdukai ir nieko daugiau. Elena turi 2 pilkus rombus, 2 juodus ovalus ir 2 pilkus skritulius. A skrituliuose yra baltos dėmės – tokių lipdukų nėra. B, C ir E turi juodus apskritus taškus – jų irgi nėra. Paveikslėlyje D matai pilkus skritulius, o ant pilkų rombų – juodus ovalus. Atsakymas: D).",
        "misconceptions": {
         "A": "Čia skrituliai su balta dėme viduryje – tokių lipdukų Elena neturi.",
         "B": "Čia ant rombų juodi skrituliukai, o Elenos juodi lipdukai – ovalai.",
@@ -4071,7 +4071,7 @@
        "solution": "! Dvi lygias sumas sudaro tik poros (1, 7) ir (3, 5): 1 + 7 = 3 + 5. Vadinasi, lieka skaičius 4. !! Kadangi įrašytų skaičių sumos (po du) lygios, tai visų 4 įrašytų skaičių suma lyginė. Bet visų 5 skaičių suma yra 1 + +3 + 4 + 5 + 7 = 20, lyginė. Todėl neįrašytas skaičius – visų 5 skaičių suma minus 4 įrašytų skaičių suma – lyginis. Toks tėra skaičius 4. Vadinasi, teisingas atsakymas tegali būti C. Ir jis tikrai teisingas – tai rodo pavyzdys 1 + 7 = 3 + 5.",
        "figure": "figures/N2017-q10.png",
        "level": "N",
-       "solutionKid": "Gudrybė: ieškok dviejų porų, kurių sumos vienodos. Pabandyk: 1 + 7 = 8 ir 3 + 5 = 8. Lygybė teisinga: 1 + 7 = 3 + 5. Panaudoti 1, 7, 3 ir 5. Liko 4. Atsakymas: C) 4.",
+       "solutionKid": "Gudrybė: ieškok dviejų porų, kurių sumos vienodos. Pabandyk: 1 + 7 = 8 ir 3 + 5 = 8. Lygybė teisinga: 1 + 7 = 3 + 5. Panaudoti skaičiai 1, 7, 3 ir 5. Liko 4. Atsakymas: C) 4.",
        "solutionFigure": "figures/N2017-s10.png"
       },
       {
@@ -4411,9 +4411,9 @@
        "imageOnlyOptions": true,
        "solutionKid": "Gudrybė: bokšte 4 trinkelės, tad po 4 perkėlimų viskas grįžta į pradžią. Penktas bokštas toks pat kaip pirmas, devintas – irgi. Tada dešimtas kaip antras, vienuoliktas kaip trečias, dvyliktas kaip ketvirtas. Ketvirto bokšto apačioje – juoda trinkelė. Taip yra tik E. Atsakymas: E).",
        "misconceptions": {
-        "A": "Toks yra pirmas bokštas, tad ir 5-tas, 9-tas, 13-tas – ne dvyliktas.",
-        "B": "Toks yra antras bokštas, tad ir 6-tas, 10-tas – ne dvyliktas.",
-        "C": "Toks yra trečias bokštas, tad ir 7-tas, 11-tas – ne dvyliktas.",
+        "A": "Toks yra pirmas bokštas, tad ir penktas, devintas, tryliktas – ne dvyliktas.",
+        "B": "Toks yra antras bokštas, tad ir šeštas, dešimtas – ne dvyliktas.",
+        "C": "Toks yra trečias bokštas, tad ir septintas, vienuoliktas – ne dvyliktas.",
         "D": "Čia trinkelės sukeistos vietomis – tokio bokšto Emilija niekada negauna."
        },
        "solutionFigure": "figures/N2018-s7.png"
@@ -4795,7 +4795,7 @@
        "solution": "! Kadangi mūsų nedomina gėlės trikampio viduje, tai trikampį užtušuojame: Kadangi dabar likusios gėlės visur yra apskritimo viduje, tai jas ir suskaičiuokime. Skaičiuoti saugiau grupėmis: po trikampiu yra 4 gėlės, kvadrate yra 4 gėlės, į kairę nuo kvadrato – 2 gėlės, į dešinę nuo kvadrato – 5 gėlės, virš kvadrato – 5 gėlės, iš viso 4 + 4 + 2 + 5 + 5 = 20 gėlių.",
        "figure": "figures/N2019-q6.png",
        "level": "N",
-       "solutionKid": "Gudrybė: uždenk trikampį – jame esančios gėlės nesiskaito – ir skaičiuok grupėmis. Virš kvadrato 5 gėlės, kvadrate virš trikampio 4, kairėje nuo kvadrato 2, dešinėje 5, po trikampiu 4. Iš viso 5 + 4 + 2 + 5 + 4 = 20. Atsakymas: D) 20.",
+       "solutionKid": "Gudrybė: uždenk trikampį – jame esančių gėlių neskaičiuok – ir skaičiuok grupėmis. Virš kvadrato 5 gėlės, kvadrate virš trikampio 4, kairėje nuo kvadrato 2, dešinėje 5, po trikampiu 4. Iš viso 5 + 4 + 2 + 5 + 4 = 20. Atsakymas: D) 20.",
        "solutionFigure": "figures/N2019-s6.png"
       },
       {
@@ -5473,8 +5473,8 @@
        "level": "N",
        "solutionKid": "Gudrybė: traukiniai važiuoja priešingai, todėl kai vieno vagonų numeriai mažėja, kito – didėja. Prieš 19 vagoną yra 19. Prieš 18 – jau 20, prieš 17 – 21. Nuo 19 iki 12 nusileidi 7 vagonais. Kitame traukinyje tiek pat pakyli: 19 + 7 = 26. Atsakymas: D) 26.",
        "misconceptions": {
-        "A": "7 – tiek vagonų yra nuo 19-tojo iki 12-tojo, o klausiama vagono numerio.",
-        "B": "Vienodi numeriai susitinka tik prie 19-tojo – toliau vieno traukinio numeriai mažėja, kito didėja."
+        "A": "7 – tiek vagonų yra nuo 19-ojo iki 12-ojo, o klausiama vagono numerio.",
+        "B": "Vienodi numeriai susitinka tik prie 19-ojo – toliau vieno traukinio numeriai mažėja, kito didėja."
        },
        "solutionFigure": "figures/N2020-s18.png"
       }
@@ -5803,8 +5803,8 @@
        "imageOnlyOptions": true,
        "solutionKid": "Gudrybė: ieškok namo, pro kurį į mokyklą eina du vaikai. Dešinėje dviejų viršutinių namų takai susijungia ir eina pro namą šalia mokyklos. Tai Balio namas, o viršutiniai – Alės ir Linos. Kairėje lieka du namai. Kairiausio namo takas eina pro kitą namą – Dariaus. Vadinasi, kairiausias namas yra Roko. Atsakymas: B).",
        "misconceptions": {
-        "A": "Šio namo takas eina pro Balio namus – čia gyvena Alė arba Lina.",
-        "C": "Šio namo takas eina pro Balio namus – čia gyvena Alė arba Lina.",
+        "A": "Šio namo takas eina pro Balio namą – čia gyvena Alė arba Lina.",
+        "C": "Šio namo takas eina pro Balio namą – čia gyvena Alė arba Lina.",
         "D": "Pro šį namą eina du takai – tai Balio namas.",
         "E": "Tai Dariaus namas – pro jį Rokas tik praeina."
        },
@@ -5826,7 +5826,7 @@
        "figure": "figures/N2021-q15.png",
        "level": "N",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: suskaičiuok ženklus kvadrate ir visose penkiose figūrose – kas atlieka, tas nepanaudota. Kvadrate yra 5 žvaigždės ir 4 rombai. Penkiose figūrose – 6 žvaigždės ir 7 rombai. Atlieka 1 žvaigždė ir 3 rombai. Tokia yra figūra D. Atsakymas: D).",
+       "solutionKid": "Gudrybė: suskaičiuok ženklus kvadrate ir visose penkiose figūrose – tai, kas atlieka, ir yra nepanaudota. Kvadrate yra 5 žvaigždės ir 4 rombai. Penkiose figūrose – 6 žvaigždės ir 7 rombai. Atlieka 1 žvaigždė ir 3 rombai. Tokia yra figūra D. Atsakymas: D).",
        "solutionFigure": "figures/N2021-s15.png"
       },
       {
@@ -6542,7 +6542,7 @@
        "solution": "! Kairėje lygybės pusėje apskritimuose esančius skaičius sudedame, 10+2 = 12. Apskaičiuojame kituose dviejuose apskritimuose esančių skaičių sumą, ji lygi: 18 − 12 = 6. Kadangi abu tie skaičiai vienodi, tai kiekvienas jų lygus 6: 2 = 3. Teisingas atsakymas C.",
        "figure": "figures/N2023-q11.png",
        "level": "N",
-       "solutionKid": "Gudrybė: pirma sudėk skaičius, kuriuos matai. 10 + 2 = 12. Iki 18 trūksta 18 − 12 = 6. Tiek turi būti abiejuose klaustukuose kartu. Skaičiai vienodi, todėl 6 dalijame pusiau: 3 ir 3. Patikrink: 10 + 3 + 3 + 2 = 18. Atsakymas: C) 3.",
+       "solutionKid": "Gudrybė: pirma sudėk skaičius, kuriuos matai. 10 + 2 = 12. Iki 18 trūksta 18 − 12 = 6. Tiek turi būti abiejuose klaustukuose kartu. Skaičiai vienodi, todėl 6 padalyk pusiau: 3 ir 3. Patikrink: 10 + 3 + 3 + 2 = 18. Atsakymas: C) 3.",
        "misconceptions": {
         "D": "Iš 18 atėmei tik 10 – pamiršai atimti dvejetą dešinėje."
        },
@@ -6761,7 +6761,7 @@
        "figure": "figures/N2024-q2.png",
        "level": "N",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: plokštelės nesukamos, todėl kiekviena figūra lieka savo vietoje. Pirmoje plokštelėje trikampis smaigaliu aukštyn yra dešinėje viršuje, smaigaliu žemyn – kairėje apačioje. Antroje šešiakampiai – kairėje viršuje ir dešinėje apačioje. Taip yra B ir E, bet B vidurinė figūra apversta. Atsakymas: E).",
+       "solutionKid": "Gudrybė: plokštelės nesukamos, todėl kiekviena figūra lieka savo vietoje. Pirmoje plokštelėje trikampis smaigaliu aukštyn yra dešinėje viršuje, smaigaliu žemyn – kairėje apačioje. Antroje šešiakampiai – kairėje viršuje ir dešinėje apačioje. Taip yra B ir E, bet B paveikslėlyje vidurinė figūra apversta. Atsakymas: E).",
        "misconceptions": {
         "A": "Plokštelės nesukiotos, todėl šešiakampis lieka kairėje viršuje, o čia ten trikampis.",
         "B": "Vidurinė figūra čia apversta – siauresnė jos kraštinė turi būti viršuje.",
@@ -6887,7 +6887,7 @@
        "figure": "figures/N2024-q8.png",
        "level": "N",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: antspaudas atspaudžia kaip veidrodis – kairė ir dešinė susikeičia. Antspaude uodega kairėje, taigi atspaude ji dešinėje: A ir B netinka. Antspaude šviesi ausis yra uodegos pusėje. C abi ausys tamsios, D šviesi ausis kitoje pusėje nei uodega. Atsakymas: E).",
+       "solutionKid": "Gudrybė: antspaudas atspaudžia kaip veidrodis – kairė ir dešinė susikeičia. Antspaude uodega kairėje, taigi atspaude ji dešinėje: A ir B netinka. Antspaude šviesi ausis yra uodegos pusėje. C paveikslėlyje abi ausys tamsios, D – šviesi ausis kitoje pusėje nei uodega. Atsakymas: E).",
        "misconceptions": {
         "A": "Čia uodega toje pačioje pusėje kaip antspaude, o atspaude kairė ir dešinė susikeičia.",
         "B": "Čia uodega toje pačioje pusėje kaip antspaude, o atspaude kairė ir dešinė susikeičia.",
@@ -7262,7 +7262,7 @@
        "figure": "figures/N2025-q7.png",
        "level": "N",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: sagą galima sukti, bet figūrėlės viena kitos atžvilgiu nesikeičia. Tikroje sagoje širdelė ir skrituliukas yra vienas priešais kitą, o pusžiedis – šalia jų abiejų. Jis atsivėręs į sagos vidurį, o širdelės smaigalys rodo į jį. A ir D priešais širdelę yra pusžiedis. C pusžiedis atsivėręs į kraštą. B širdelės smaigalys rodo ne į pusžiedį. E viskas tinka. Atsakymas: E).",
+       "solutionKid": "Gudrybė: sagą galima sukti, bet figūrėlės viena kitos atžvilgiu nesikeičia. Tikroje sagoje širdelė ir skrituliukas yra vienas priešais kitą, o pusžiedis – šalia jų abiejų. Jis atsivėręs į sagos vidurį, o širdelės smaigalys rodo į jį. Sagose A ir D priešais širdelę yra pusžiedis. Sagos C pusžiedis atsivėręs į kraštą. Sagos B širdelės smaigalys rodo ne į pusžiedį. Sagoje E viskas tinka. Atsakymas: E).",
        "misconceptions": {
         "A": "Čia priešais širdelę yra pusžiedis, o tikroje sagoje – skrituliukas.",
         "B": "Širdelė čia pasukta – jos smaigalys neberodo į pusžiedį.",
@@ -7695,7 +7695,7 @@
        "solutionKid": "Gudrybė: iš kitos lango pusės kairė ir dešinė susikeičia vietomis. Širdelė buvo dešinėje, eilės gale – dabar ji bus kairėje, pradžioje. Raidės eis atvirkščia tvarka: C, B, A. Raidės C ir B bus atsisukusios į kitą pusę, o A atrodys taip pat. Atsakymas: E) širdelė, į kitą pusę atsukta C, į kitą pusę atsukta B, A.",
        "misconceptions": {
         "A": "Širdelė ir raidės liko ta pačia tvarka, o iš kitos pusės tvarka apsiverčia.",
-        "B": "Čia raidė B liko neatsukta, o iš kitos pusės ji atrodo atsisukusi į kitą pusę.",
+        "B": "Čia raidė B liko tokia pati, o iš kitos pusės ji atrodo atsisukusi į kitą pusę.",
         "C": "Perkėlei tik širdelę, o raidžių tvarka ir pačios raidės irgi turi apsiversti.",
         "D": "Raides apvertei, bet širdelė liko dešinėje, o ji turi atsidurti kitame gale."
        },
@@ -8564,7 +8564,7 @@
        "correct": "E",
        "figure": "figures/M2001-q8.png",
        "level": "M",
-       "solutionKid": "Gudrybė: eiti galima tik gatvėmis tarp kvartalų, todėl kelią skaičiuok kvartalų kraštinėmis ir jų pusėmis. Namas yra savo kvartalo kairiojo krašto viduryje, mokykla – savo kvartalo dešiniojo krašto viduryje. Iki kvartalo kampo – 50 m, palei kvartalą – 100 m, iki tarpo tarp vidurinių kvartalų – 50 m, tuo tarpu – 100 m. Tada aplink mokyklos kvartalą: 50 + 100 + 50 m. Iš viso 50 + 100 + 50 + 100 + 50 + 100 + 50 = 500 m. Atsakymas: E) 500 m.",
+       "solutionKid": "Gudrybė: eiti galima tik gatvėmis tarp kvartalų, todėl kelią skaičiuok kvartalų kraštinėmis ir jų pusėmis. Namas yra savo kvartalo kairiojo krašto viduryje, mokykla – savo kvartalo dešiniojo krašto viduryje. Iki kvartalo kampo – 50 m, palei kvartalą – 100 m, iki tarpo tarp vidurinių kvartalų – 50 m, per tą tarpą – 100 m. Tada aplink mokyklos kvartalą: 50 + 100 + 50 m. Iš viso 50 + 100 + 50 + 100 + 50 + 100 + 50 = 500 m. Atsakymas: E) 500 m.",
        "misconceptions": {
         "D": "Praleidai vieną 50 m gabaliuką – nuo durų iki kvartalo kampo."
        }
@@ -8583,7 +8583,7 @@
        "correct": "C",
        "figure": "figures/M2001-q9.png",
        "level": "M",
-       "solutionKid": "Gudrybė: Onutė visada vyresnė už Petriuką lygiai 3 metais. Kai Onutė dvigubai vyresnė, jos amžius – du Petriuko amžiai, taigi skirtumas lygus vienam Petriuko amžiui. Skirtumas yra 3 metai, todėl Petriukui tada 3 metai. Patikrink: Onutei 3 + 3 = 6, o 6 yra dvigubai daugiau už 3. Atsakymas: C) 3 metai.",
+       "solutionKid": "Gudrybė: amžių skirtumas niekada nesikeičia – Onutė visada vyresnė už Petriuką tiek pat metų. Kai Onutė dvigubai vyresnė, jos amžius – du Petriuko amžiai, taigi skirtumas lygus vienam Petriuko amžiui. Skirtumas yra 3 metai, todėl Petriukui tada 3 metai. Patikrink: Onutei 3 + 3 = 6, o 6 yra dvigubai daugiau už 3. Atsakymas: C) 3 metai.",
        "misconceptions": {
         "A": "Kai Petriukui 1 metai, Onutei 4 – ji vyresnė keturis kartus, ne du.",
         "B": "Kai Petriukui 2 metai, Onutei 5 – tai daugiau negu dvigubai."
@@ -8603,7 +8603,7 @@
        "correct": "D",
        "figure": "figures/M2001-q10.png",
        "level": "M",
-       "solutionKid": "Gudrybė: veidrodis sukeičia kairę ir dešinę, todėl kiekvieną paveikslėlį tikrink atskirai. Trečiame mergaitė žiūri tiesiai, kaspinas – mūsų dešinėje: veidrodyje taip ir yra. Ketvirtame ji pasisukusi į kairę ir kaspinas matomas visas – taip atrodo į veidrodį atsukta dešinė ausis. Antrame ji pasisukusi į dešinę, kaspinas kyšo iš kitos pusės – irgi tinka. Pirmame matome pakaušį, o kaspinas dešinėje: taip mergaitė atrodo iš nugaros be veidrodžio. Tinka 3 paveikslėliai. Atsakymas: D) 3.",
+       "solutionKid": "Gudrybė: veidrodis sukeičia kairę ir dešinę, todėl kiekvieną paveikslėlį tikrink atskirai. Trečiame mergaitė žiūri tiesiai, kaspinas – mūsų dešinėje: veidrodyje taip ir yra. Ketvirtame ji pasisukusi į kairę ir kaspinas matomas visas – taip atrodo į veidrodį atsukta dešinė ausis. Antrame ji pasisukusi į dešinę, kaspinas kyšo iš kitos pusės – irgi tinka. Pirmame matai pakaušį, o kaspinas dešinėje: taip mergaitė atrodo iš nugaros be veidrodžio. Tinka 3 paveikslėliai. Atsakymas: D) 3.",
        "misconceptions": {
         "E": "Pirmasis paveikslėlis – vaizdas iš nugaros be veidrodžio; veidrodyje kaspinas būtų kitoje pusėje.",
         "B": "Tinka ne tik vaizdas iš priekio – veidrodyje galima matyti ir pasuktą galvą."
@@ -8909,7 +8909,7 @@
        "correct": "C",
        "figure": "figures/M2002-q1.png",
        "level": "M",
-       "solutionKid": "Gudrybė: kiekviena pora „− 2 + 2“ nieko nekeičia, todėl ją gali išbraukti. Pradžioje yra 2 + 2 = 4. Toliau keturis kartus atimama 2 ir vėl pridedama 2, taigi skaičius lieka toks pat. Gauname 4. Atsakymas: C) 4.",
+       "solutionKid": "Gudrybė: kiekviena pora „− 2 + 2“ nieko nekeičia, todėl ją gali išbraukti. Pradžioje yra 2 + 2 = 4. Toliau keturis kartus atimama 2 ir vėl pridedama 2, taigi skaičius lieka toks pat. Gauni 4. Atsakymas: C) 4.",
        "misconceptions": {
         "E": "Sudėjai visus dešimt dvejetų, nors keturi iš jų atimami.",
         "B": "Poravai „2 − 2“ nuo antro dvejeto ir pametei vieną dvejetą."
@@ -9135,7 +9135,7 @@
        "level": "M",
        "solutionKid": "Gudrybė: pradėk nuo to, apie kurį žinai daugiausia. Vytas turi paukštį, tai yra kanarėlę. Matas turi gyvūną su kailiu – katę arba šunį, bet kačių jis nemėgsta, todėl turi šunį. Tadui reikia keturkojo, o šuo jau užimtas, todėl jis turi katę. Juliui lieka žuvytė. Neteisingas sakinys tas, kuris šunį priskiria Tadui. Atsakymas: A) Tadas turi šunį.",
        "misconceptions": {
-        "D": "Šis sakinys teisingas, o ieškome neteisingo.",
+        "D": "Šis sakinys teisingas, o reikia rasti neteisingą.",
         "E": "Šis sakinys teisingas – Matas kačių nemėgsta, todėl jo kailinis gyvūnas yra šuo."
        }
       },
@@ -9661,7 +9661,7 @@
        "correct": "D",
        "figure": "figures/M2003-q16.png",
        "level": "M",
-       "solutionKid": "Gudrybė: kas turi ir brolį, ir seserį, tas suskaičiuotas du kartus. Brolį arba seserį turi 29 − 3 = 26 mokiniai. Sudėjus turinčius seserį ir turinčius brolį gauname 12 + 18 = 30. Tai 4 daugiau negu 26. Šie 4 ir yra suskaičiuoti du kartus. Patikrink: tik seserį turi 8, tik brolį 14, abu 4, nieko 3, iš viso 29. Atsakymas: D) 4.",
+       "solutionKid": "Gudrybė: kas turi ir brolį, ir seserį, tas suskaičiuotas du kartus. Brolį arba seserį turi 29 − 3 = 26 mokiniai. Sudėjus turinčius seserį ir turinčius brolį gauni 12 + 18 = 30. Tai 4 daugiau negu 26. Šie 4 ir yra suskaičiuoti du kartus. Patikrink: tik seserį turi 8, tik brolį 14, abu 4, nieko 3, iš viso 29. Atsakymas: D) 4.",
        "misconceptions": {
         "B": "30 − 29 = 1 – pamiršai, kad trys mokiniai neturi nei brolio, nei sesers.",
         "C": "3 – tai mokiniai, kurie neturi nei brolio, nei sesers."
@@ -10504,7 +10504,7 @@
        "correct": "B",
        "figure": "figures/M2005-q10.png",
        "level": "M",
-       "solutionKid": "Gudrybė: tikrink sąlygas po vieną ir brauk netinkamus skaičius. Skaičius 4683 nelyginis – braukiame. Skaičiuje 4874 du kartus yra 4 – braukiame. Skaičiuje 1246 šimtų skaitmuo 2 nėra dvigubai didesnis už vienetų 6 – braukiame. Skaičiuje 8462 dešimčių skaitmuo 6 mažesnis už tūkstančių 8 – braukiame. Lieka 3874: jis lyginis, skaitmenys skirtingi, 8 = 2 · 4 ir 7 didesnis už 3. Atsakymas: B) 3874.",
+       "solutionKid": "Gudrybė: tikrink sąlygas po vieną ir brauk netinkamus skaičius. Skaičius 4683 nelyginis – brauk. Skaičiuje 4874 du kartus yra 4 – brauk. Skaičiuje 1246 šimtų skaitmuo 2 nėra dvigubai didesnis už vienetų 6 – brauk. Skaičiuje 8462 dešimčių skaitmuo 6 mažesnis už tūkstančių 8 – brauk. Lieka 3874: jis lyginis, skaitmenys skirtingi, 8 = 2 · 4 ir 7 didesnis už 3. Atsakymas: B) 3874.",
        "misconceptions": {
         "D": "Šiame skaičiuje skaitmuo 4 parašytas du kartus, o visi skaitmenys turi būti skirtingi.",
         "E": "Čia dešimčių skaitmuo 6 yra mažesnis už tūkstančių skaitmenį 8, o turi būti didesnis.",
@@ -10545,7 +10545,7 @@
        "correct": "C",
        "figure": "figures/M2005-q12.png",
        "level": "M",
-       "solutionKid": "Gudrybė: pagalvok, keliais lapeliais padaugėja sukarpius vieną lapelį. Vietoj vieno lapelio atsiranda trys, taigi lapelių padaugėja 2. Iš viso padaugėjo 15 − 9 = 6 lapeliais. Vadinasi, sukarpyta 6 : 2 = 3 lapeliai. Patikrink: 6 nesukarpyti ir 3 · 3 = 9 nauji, iš viso 15. Atsakymas: C) 3.",
+       "solutionKid": "Gudrybė: pagalvok, keliais lapeliais padaugėja sukarpius vieną lapelį. Vietoj vieno lapelio atsiranda trys, taigi lapelių padaugėja 2. Iš viso padaugėjo 15 − 9 = 6 lapeliais. Vadinasi, sukarpyti 6 : 2 = 3 lapeliai. Patikrink: 6 nesukarpyti ir 3 · 3 = 9 nauji, iš viso 15. Atsakymas: C) 3.",
        "misconceptions": {
         "B": "Skaičiavai, kad sukarpius lapelių padaugėja 3, bet vienas lapelis dingsta, tad padaugėja tik 2."
        }
@@ -10627,7 +10627,7 @@
        "level": "M",
        "solutionKid": "Gudrybė: du trumpi gulsti kelio gabalai priekinėje sienoje kartu sudaro lygiai vieną briauną. Skruzdėlė leidžiasi žemyn 12 cm, eina apačia į dešinę, kyla aukštyn 12 cm ir viršuje nueina likusį gabalą iki kampo. Abu gulsti gabalai kartu – 12 cm. Tada ji eina viršutine briauna gilyn 12 cm ir leidžiasi iki N dar 12 cm. Iš viso 12 · 5 = 60 cm. Atsakymas: A) 60.",
        "misconceptions": {
-        "E": "Nežinome, kur skruzdėlė pasuka aukštyn, bet abu gulsti gabalai kartu vis tiek sudaro vieną briauną.",
+        "E": "Nors nežinai, kur skruzdėlė pasuka aukštyn, abu gulsti gabalai kartu vis tiek sudaro vieną briauną.",
         "C": "Suskaičiavai tik keturias briaunas – gulsti gabalai priekinėje sienoje sudaro dar vieną."
        }
       },
@@ -10831,7 +10831,7 @@
        "correct": "B",
        "figure": "figures/M2006-q2.png",
        "level": "M",
-       "solutionKid": "Gudrybė: pastebėk, kad sandaugoje yra nulis. Kai dauginame iš nulio, visada gauname nulį, taigi 2 · 0 · 0 · 6 = 0. Daugyba atliekama pirmiau už sudėtį. Lieka 0 + 2006 = 2006. Atsakymas: B) 2006.",
+       "solutionKid": "Gudrybė: pastebėk, kad sandaugoje yra nulis. Kai daugini iš nulio, visada gauni nulį, taigi 2 · 0 · 0 · 6 = 0. Daugyba atliekama pirmiau už sudėtį. Lieka 0 + 2006 = 2006. Atsakymas: B) 2006.",
        "misconceptions": {
         "A": "Iš nulio padauginai viską, bet 2006 yra pridedamas, o ne dauginamas.",
         "C": "Skaičius 2, 0, 0 ir 6 sudėjai, o tarp jų parašyti daugybos ženklai.",
@@ -10852,7 +10852,7 @@
        "correct": "D",
        "figure": "figures/M2006-q3.png",
        "level": "M",
-       "solutionKid": "Gudrybė: skaičiuok kubelius sluoksniais – atskirai apatinį ir atskirai viršutinį. Kairėje abu sluoksniai pilni, kiekviename 3 · 3 = 9 kubeliai, iš viso 18. Dešinėje apatinis sluoksnis taip pat pilnas – 9 kubeliai. Viršutiniame sluoksnyje liko tik 2 kubeliai: vienas priekyje kairėje, kitas gale dešinėje. Vadinasi, iš viršaus nuimta 9 − 2 = 7 kubeliai. Atsakymas: D) 7.",
+       "solutionKid": "Gudrybė: skaičiuok kubelius sluoksniais – atskirai apatinį ir atskirai viršutinį. Kairėje abu sluoksniai pilni, kiekviename 3 · 3 = 9 kubeliai, iš viso 18. Dešinėje apatinis sluoksnis taip pat pilnas – 9 kubeliai. Viršutiniame sluoksnyje liko tik 2 kubeliai: vienas priekyje kairėje, kitas gale dešinėje. Vadinasi, iš viršaus nuimti 9 − 2 = 7 kubeliai. Atsakymas: D) 7.",
        "misconceptions": {
         "E": "9 – tiek kubelių yra pilname sluoksnyje, bet du viršutiniai kubeliai dešinėje liko."
        }
@@ -11028,7 +11028,7 @@
        "correct": "D",
        "figure": "figures/M2006-q12.png",
        "level": "M",
-       "solutionKid": "Gudrybė: dėk korteles iš eilės taip, kad kiekvienąkart priekyje atsidurtų kuo mažesnis skaitmuo. Kortelės prasideda skaitmenimis 3, 4, 5, 7, 6 ir 2. Mažiausias yra 2, todėl pirma kortelė – 2. Toliau pagal pirmą skaitmenį: 309, 41, 5, 68, 7. Gauname 2309415687. Kortelės karpyti negalima, todėl 68 lieka kartu ir skaitmuo 7 negali atsidurti prieš 8. Atsakymas: D) 2309415687.",
+       "solutionKid": "Gudrybė: dėk korteles iš eilės taip, kad kiekvienąkart priekyje atsidurtų kuo mažesnis skaitmuo. Kortelės prasideda skaitmenimis 3, 4, 5, 7, 6 ir 2. Mažiausias yra 2, todėl pirma kortelė – 2. Toliau pagal pirmą skaitmenį: 309, 41, 5, 68, 7. Gauni 2309415687. Kortelės karpyti negalima, todėl 68 lieka kartu ir skaitmuo 7 negali atsidurti prieš 8. Atsakymas: D) 2309415687.",
        "misconceptions": {
         "E": "Kad gale būtų 78, reikėtų perkirpti kortelę 68, o to daryti negalima.",
         "B": "Skaitmenis dėliojai po vieną, bet 309, 41 ir 68 parašyti ant vienos kortelės ir neišskiriami.",
@@ -11049,7 +11049,7 @@
        "correct": "C",
        "figure": "figures/M2006-q13.png",
        "level": "M",
-       "solutionKid": "Gudrybė: sužinok, kiek sveria trečia dėžutė, atėmęs iš visų svarelių masės pirmų dviejų dėžučių masę. Visi svareliai kartu sveria 1 + 2 + 3 + 4 + 5 + 6 = 21 g. Trečiai dėžutei lieka 21 − 9 − 8 = 4 g. Iš dviejų skirtingų svarelių 4 g gauname tik taip: 3 + 1. Patikrink: tada 9 = 5 + 4 ir 8 = 6 + 2. Atsakymas: C) 3 g ir 1 g."
+       "solutionKid": "Gudrybė: sužinok, kiek sveria trečia dėžutė, atėmęs iš visų svarelių masės pirmų dviejų dėžučių masę. Visi svareliai kartu sveria 1 + 2 + 3 + 4 + 5 + 6 = 21 g. Trečiai dėžutei lieka 21 − 9 − 8 = 4 g. Iš dviejų skirtingų svarelių 4 g gausi tik taip: 3 + 1. Patikrink: tada 9 = 5 + 4 ir 8 = 6 + 2. Atsakymas: C) 3 g ir 1 g."
       },
       {
        "num": 14,
@@ -11204,7 +11204,7 @@
        "correct": "B",
        "figure": "figures/M2006-q21.png",
        "level": "M",
-       "solutionKid": "Gudrybė: neskaičiuok visų variantų, o pažiūrėk, ar rezultatas lyginis, ar nelyginis. Reiškinyje yra du nelyginiai skaičiai – 2005 ir 2003, kiti lyginiai. Ar pridėsi, ar atimsi nelyginį skaičių, rezultatas pasikeičia iš lyginio į nelyginį arba atgal. Pradedame nuo lyginio 2006 ir tai nutinka du kartus, todėl rezultatas visada lyginis. Tarp atsakymų nelyginis tik vienas. Atsakymas: B) 2005."
+       "solutionKid": "Gudrybė: neskaičiuok visų variantų, o pažiūrėk, ar rezultatas lyginis, ar nelyginis. Reiškinyje yra du nelyginiai skaičiai – 2005 ir 2003, kiti lyginiai. Ar pridėsi, ar atimsi nelyginį skaičių, rezultatas pasikeičia iš lyginio į nelyginį arba atgal. Pradedi nuo lyginio 2006 ir tai nutinka du kartus, todėl rezultatas visada lyginis. Tarp atsakymų nelyginis tik vienas. Atsakymas: B) 2005."
       },
       {
        "num": 22,
@@ -11261,7 +11261,7 @@
        "solutionKid": "Gudrybė: pradėk nuo dešinės pusės, kur svoris žinomas, ir eik prie viršutinių svarstyklių. Dešinėje du skrituliukai sveria 60 g, tiek pat sveria indelis, taigi visa dešinė pusė – 120 g. Kairė pusė irgi sveria 120 g. Joje kraštuose kabo širdelė ir du kvadratukai, jie atsveria vienas kitą, taigi širdelė sveria kaip du kvadratukai. Viduryje kabo dar viena širdelė. Kairėje iš viso lyg 6 kvadratukai: 120 : 6 = 20 g. Atsakymas: B) 20.",
        "misconceptions": {
         "D": "40 g sveria širdelė, o klausiama, kiek sveria vienas kvadratukas.",
-        "C": "Kvadratukas neprivalo sverti tiek pat kiek skrituliukas – tai skirtingos formos daiktai."
+        "C": "Kvadratukas neprivalo sverti tiek pat, kiek skrituliukas – tai skirtingos formos daiktai."
        }
       }
      ]
@@ -11612,7 +11612,7 @@
        "correct": "E",
        "figure": "figures/M2007-q17.png",
        "level": "M",
-       "solutionKid": "Gudrybė: pagalvok, kurioje didžiojo kubo vietoje guli kubelis su dviem dažytomis sienelėmis. Kampiniai kubeliai turi tris dažytas sieneles. Sienos viduryje esantys – tik vieną. Dvi sieneles turi kubeliai, esantys briaunos viduryje, tarp dviejų kampinių. Kiekvienoje briaunoje toks kubelis vienas. Kubas turi 12 briaunų: 4 viršuje, 4 apačioje ir 4 stačias. Taigi tokių kubelių yra 12. Atsakymas: E) 12.",
+       "solutionKid": "Gudrybė: pagalvok, kurioje didžiojo kubo vietoje guli kubelis su dviem dažytomis sienelėmis. Kampiniai kubeliai turi tris dažytas sieneles. Sienos viduryje esantys – tik vieną. Dvi sieneles turi kubeliai, esantys briaunos viduryje, tarp dviejų kampinių. Kiekvienoje briaunoje toks kubelis vienas. Kubas turi 12 briaunų: 4 viršuje, 4 apačioje ir 4 stačios. Taigi tokių kubelių yra 12. Atsakymas: E) 12.",
        "misconceptions": {
         "C": "8 – tiek yra kampinių kubelių, bet jie turi po tris nudažytas sieneles.",
         "B": "6 – tiek kubelių yra sienų viduriuose, bet jie turi tik po vieną nudažytą sienelę."
@@ -11652,7 +11652,7 @@
        "correct": "A",
        "figure": "figures/M2007-q19.png",
        "level": "M",
-       "solutionKid": "Gudrybė: pirmiausia sustatyk tuos keturis, apie kuriuos kalbama, o Andriui paliks viena vieta. Janina stovi arčiau nei Lina, o Lina – arčiau nei Romas. Feliksas stovi iškart po Janinos, taigi tvarka tokia: Janina, Feliksas, Lina, Romas. Janina nėra pirma, vadinasi, kažkas stovi prieš ją. Tai gali būti tik Andrius. Jeigu Andrius stovėtų kur nors toliau, Janina būtų pirma. Atsakymas: A) Pirmoje.",
+       "solutionKid": "Gudrybė: pirmiausia sustatyk tuos keturis, apie kuriuos kalbama, o Andriui liks viena vieta. Janina stovi arčiau nei Lina, o Lina – arčiau nei Romas. Feliksas stovi iškart po Janinos, taigi tvarka tokia: Janina, Feliksas, Lina, Romas. Janina nėra pirma, vadinasi, kažkas stovi prieš ją. Tai gali būti tik Andrius. Jeigu Andrius stovėtų kur nors toliau, Janina būtų pirma. Atsakymas: A) Pirmoje.",
        "misconceptions": {
         "E": "Pastatei Andrių į galą, bet tada Janina būtų pirma, o taip būti negali."
        }
@@ -12133,7 +12133,7 @@
        "level": "M",
        "solutionKid": "Gudrybė: surašyk visas dviejų pataikymų poras tvarkingai ir patikrink, ar sumos nesikartoja. Taikinio žiedai verti 2, 3 ir 6 taškų. Abi strėlytės į tą patį žiedą: 2 + 2 = 4, 3 + 3 = 6, 6 + 6 = 12. Į skirtingus žiedus: 2 + 3 = 5, 2 + 6 = 8, 3 + 6 = 9. Sumos 4, 5, 6, 8, 9 ir 12 visos skirtingos. Rezultatų yra 6. Atsakymas: B) 6.",
        "misconceptions": {
-        "D": "2 + 3 ir 3 + 2 duoda tą patį rezultatą, o tu tokias poras suskaičiavai po du kartus."
+        "D": "2 + 3 ir 3 + 2 duoda tą patį rezultatą, o tu tokias poras suskaičiavai du kartus."
        }
       },
       {
@@ -12224,7 +12224,7 @@
        "correct": "B",
        "figure": "figures/M2008-q24.png",
        "level": "M",
-       "solutionKid": "Gudrybė: pirmasis nemato antrojo kortų, tad tikras jis gali būti tik tada, kai bet kurios dvi iš keturių jam nematomų kortų duoda lyginę sumą. Taip būna tik kai tos keturios kortos visos nelyginės arba visos lyginės. Nelyginių kortų yra lygiai keturios: 1, 3, 5, 7, o lyginių – tik trys. Vadinasi, pirmasis nemato kortų 1, 3, 5, 7, o pats turi 2, 4 ir 6. 2 + 4 + 6 = 12. Atsakymas: B) 12.",
+       "solutionKid": "Gudrybė: pirmasis nemato antrojo kortų, tad tikras jis gali būti tik tada, kai bet kurios dvi iš keturių jam nematomų kortų duoda lyginę sumą. Taip būna tik tada, kai tos keturios kortos visos nelyginės arba visos lyginės. Nelyginių kortų yra lygiai keturios: 1, 3, 5, 7, o lyginių – tik trys. Vadinasi, pirmasis nemato kortų 1, 3, 5, 7, o pats turi 2, 4 ir 6. 2 + 4 + 6 = 12. Atsakymas: B) 12.",
        "misconceptions": {
         "E": "Jei pirmasis turėtų tris nelygines kortas, tarp likusių būtų ir lyginių, ir nelyginių – suma galėtų būti nelyginė."
        }
@@ -12407,7 +12407,7 @@
        "level": "M",
        "solutionKid": "Gudrybė: stebėk ne pačius skaičius, o skirtumą tarp berniukų ir mergaičių. Iš pradžių berniukų yra 25 − 19 = 6 daugiau. Kas savaitę mergaičių ateina viena daugiau negu berniukų, tad skirtumas sumažėja 1. Skirtumas 6 išnyks po 6 savaičių. Patikrink: 25 + 12 = 37 ir 19 + 18 = 37. Atsakymas: A) 6.",
        "misconceptions": {
-        "E": "Skirtumą 6 dalijai iš 3, bet per savaitę mergaitės priartėja tik viena, nes ateina ir 2 berniukai.",
+        "E": "Skirtumą 6 dalijai iš 3, bet per savaitę skirtumas sumažėja tik vienu, nes ateina ir 2 berniukai.",
         "D": "Skirtumą 6 dalijai iš 2, bet per savaitę jis sumažėja tik vienetu."
        }
       },
@@ -12589,7 +12589,7 @@
        "solutionKid": "Gudrybė: pirmiausia suskaičiuok visus namus ir rask vidurinį. Namų yra 27 + 1 + 13 = 41. Vidurinis – dvidešimt pirmas: prieš jį 20 namų ir už jo 20. Onos namas, skaičiuojant nuo to galo, kur 13 namų, yra keturioliktas. Tarp keturiolikto ir dvidešimt pirmo yra 15, 16, 17, 18, 19 ir 20 namai – iš viso šeši. Atsakymas: A) 6.",
        "misconceptions": {
         "B": "Iš 21 atėmei 14 – tai žingsniai nuo vieno namo iki kito, o tarp jų namų vienu mažiau.",
-        "D": "Iš 27 atėmei 13, bet šio skirtumo dar reikia pusės, ir pats Petro namas nesiskaičiuoja.",
+        "D": "Iš 27 atėmei 13, bet reikėjo dar imti pusę šio skirtumo ir neskaičiuoti paties Petro namo.",
         "E": "21 – tai Petro namo numeris nuo gatvės galo, ne namų tarp jų skaičius."
        }
       },
@@ -13476,7 +13476,7 @@
        "misconceptions": {
         "A": "7 – tai teisingų atsakymų skaičius, o klausiama apie klaidingus.",
         "B": "14 − 10 = 4 parodo, kiek teisingų atsakymų daugiau nei klaidingų, o ne klaidų skaičių.",
-        "E": "Prarasta 6 taškai, bet kiekviena klaida nuima po 2 taškus."
+        "E": "Prarasti 6 taškai, bet kiekviena klaida nuima po 2 taškus."
        }
       },
       {
@@ -14005,7 +14005,7 @@
        "correct": "D",
        "figure": "figures/M2012-q17.png",
        "level": "M",
-       "solutionKid": "Gudrybė: skaičiuok, kiek šuolių aukštyn reikia, kad viršytą dalį būtų galima atimti šuoliais po 4. Vien šuoliais aukštyn 22 nepasieksi, nes 22 nesidalija iš 3. Aštuoni šuoliai aukštyn – 24, per daug 2, netinka. Devyni – 27, per daug 5, netinka. Dešimt – 30, per daug 8: tai kaip tik du šuoliai žemyn. Iš viso 10 + 2 = 12 šuolių. Patikrink: 30 − 8 = 22. Atsakymas: D) 12.",
+       "solutionKid": "Gudrybė: skaičiuok, kiek šuolių aukštyn reikia, kad tai, kas per daug, būtų galima atimti šuoliais po 4. Vien šuoliais aukštyn 22 nepasieksi, nes 22 nesidalija iš 3. Aštuoni šuoliai aukštyn – 24, per daug 2, netinka. Devyni – 27, per daug 5, netinka. Dešimt – 30, per daug 8: tai kaip tik du šuoliai žemyn. Iš viso 10 + 2 = 12 šuolių. Patikrink: 30 − 8 = 22. Atsakymas: D) 12.",
        "misconceptions": {
         "C": "10 – tik šuoliai aukštyn, dar reikia dviejų šuolių žemyn.",
         "A": "Septyni šuoliai aukštyn nuveda ant 21 laiptelio, o ne ant 22."
@@ -14441,11 +14441,11 @@
        "solution": "Dalė ! Kadangi Beta ir Alė gimė tą patį mėnesį, tai šis mėnuo yra gegužė (kitais mėnesiais gimtadienis tik vienas). Alė ir Cilė gimė tą pačią mėnesio dieną, todėl tai 12-oji (kitomis dienomis gimtadienių po vieną). Vadinasi, Alė gimė gegužės 12-ąją, todėl Beta kitą gegužės dieną – 25-ąją. Taigi Cilė gimė 12-ąją dieną ir ne gegužės mėnesį, – todėl balandžio 12-ąją. Dalei liko ketvirtoji data – vasario 20-oji. Kadangi ji ankstesnė už kitas, tai Dalė ir yra „vyriausia“.",
        "figure": "figures/M2013-q13.png",
        "level": "M",
-       "solutionKid": "Gudrybė: ieškok mėnesio ir dienos, kurie tarp keturių datų pasikartoja. Tas pats mėnuo kartojasi tik gegužė, todėl Beta ir Alė gimė gegužę. Ta pati diena kartojasi tik 12-oji, todėl Alė gimė gegužės 12-ąją, o Cilė – balandžio 12-ąją. Betai lieka gegužės 25-oji, Dalei – vasario 20-oji. Tai anksčiausia data, taigi Dalė vyriausia. Atsakymas: D) Dalė.",
+       "solutionKid": "Gudrybė: ieškok mėnesio ir dienos, kurie tarp keturių datų pasikartoja. Iš mėnesių kartojasi tik gegužė, todėl Beta ir Alė gimė gegužę. Iš dienų kartojasi tik 12-oji, todėl Alė gimė gegužės 12-ąją, o Cilė – balandžio 12-ąją. Betai lieka gegužės 25-oji, Dalei – vasario 20-oji. Tai anksčiausia data, taigi Dalė vyriausia. Atsakymas: D) Dalė.",
        "misconceptions": {
         "B": "Beta gimė vėliausiai, vadinasi, ji jauniausia – vyriausia ta, kuri gimė anksčiausiai.",
         "C": "Cilė gimė balandį, bet tarp keturių datų yra ir ankstesnė.",
-        "E": "Nustatyti galima: tas pats mėnuo kartojasi tik vienas, ta pati diena – irgi tik viena."
+        "E": "Nustatyti galima: kartojasi tik vienas mėnuo ir tik viena diena."
        },
        "solutionFigure": "figures/M2013-s13.png"
       },
@@ -16511,7 +16511,7 @@
        "figure": "figures/M2017-q9.png",
        "level": "M",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: vesk pirštu siūlu ratu ir iš eilės užsirašyk karoliukų spalvas. Siūlas susijungia į ratą, o spalvos eina taip: juodas, baltas, juodas, juodas, baltas, baltas. Trijų vienodų greta nėra, todėl B, D ir E netinka – juose yra trys vienodi greta. C spalvos keičiasi kas vieną, o mūsų vėrinyje yra du juodi greta. A eilė juodas, baltas, baltas, juodas, juodas, baltas – tai tas pats ratas, tik apeitas į kitą pusę. Atsakymas: A).",
+       "solutionKid": "Gudrybė: vesk pirštu siūlu ratu ir iš eilės užsirašyk karoliukų spalvas. Siūlas susijungia į ratą, o spalvos eina taip: juodas, baltas, juodas, juodas, baltas, baltas. Trijų vienodų greta nėra, todėl B, D ir E netinka – juose yra trys vienodi greta. C spalvos keičiasi kas vieną, o šiame vėrinyje yra du juodi greta. A eilė juodas, baltas, baltas, juodas, juodas, baltas – tai tas pats ratas, tik apeitas į kitą pusę. Atsakymas: A).",
        "solutionFigure": "figures/M2017-s9.png"
       },
       {
@@ -17131,7 +17131,7 @@
        "solution": "Penktadienį ! Galima eiti atgal. Antradienį Ušis sugraužė 10-tą (žinoma, ir 9-tą) morką, pirmadienį – 8-tą morką, sekmadienį – 6-tą morką, šeštadienį – 4-tą morką, penktadienį – 2-ą ir 1-ą morkas. !! Galima eiti ir pirmyn: ketvirtadienį Ušis sugraužė 13-tą ir 14-tą morkas. Kadangi per savaitę jis sugraužia 7 · 2 = 14 morkų, tai ketvirtadienį buvo septinta morkų graužimo diena. Vadinasi, morkas Ušis pradėjo graužti penktadienį.",
        "figure": "figures/M2018-q13.png",
        "level": "M",
-       "solutionKid": "Gudrybė: sužinok, kelinta graužimo diena buvo trečiadienis, ir skaičiuok dienas atgal. Per dieną Ušis sugraužia 2 morkas. Pirmą dieną – 1-ą ir 2-ą, antrą – 3-ią ir 4-ą, o 11-tą ir 12-tą sugraužia šeštą dieną. Šešta diena – trečiadienis. Eik atgal: penkta – antradienis, ketvirta – pirmadienis, trečia – sekmadienis, antra – šeštadienis, pirma – penktadienis. Atsakymas: E) Penktadienį.",
+       "solutionKid": "Gudrybė: sužinok, kelinta graužimo diena buvo trečiadienis, ir skaičiuok dienas atgal. Per dieną Ušis sugraužia 2 morkas. Pirmą dieną – 1-ą ir 2-ą morką, antrą – 3-ią ir 4-ą, o 11-ą ir 12-ą sugraužia šeštą dieną. Šešta diena – trečiadienis. Eik atgal: penkta – antradienis, ketvirta – pirmadienis, trečia – sekmadienis, antra – šeštadienis, pirma – penktadienis. Atsakymas: E) Penktadienį.",
        "misconceptions": {
         "A": "Skaičiavai dienas pirmyn nuo trečiadienio, o pirma morka sugraužta anksčiau – reikia eiti atgal.",
         "D": "Atskaitei 6 dienas atgal, bet trečiadienis pats yra viena iš tų šešių graužimo dienų."
@@ -18140,7 +18140,7 @@
        "solution": "? Nesugalvojus kitaip, galima tikrinti ir atsakymus. Kadangi galų gale jie turėjo po 4 saldainius, tai ir iš pradžių jie kartu turėjo 8 saldainius. Sakykime, kad Tomas turėjo 6 saldainius. Vadinasi, Adelė turėjo 2 saldainius. Todėl Tomas jai davė 2 saldainius, taigi jam liko 4 saldainiai, o Adelė turėjo 4 saldainius. O tada Adelė davė Tomui 4 saldainius, taigi Tomas turėjo 8 saldainius, o Adelei neliko nieko. Trumpai visa tai galima užrašyti tokia schema: T 6, A 2 → A 2 + 2 = 4, T 6 − 2 = 4 → T 4 + 4 = 8, A 4 − 4 = 0. Tikriname atsakymą B, – Tomas turėjo 5 saldainius: T 5, A 3 → A 3 + 3 = 6, T 5 − 3 = 2 → T 2 + 2 = 4, A 6 − 2 = 4. Abu turi po 4 saldainius, taigi manome, kad teisingas atsakymas yra B. Kadangi Kengūros konkurso taisyklės užtikrina, kad tik vienas atsakymas teisingas, tai pasirinkę B tikimės užsidirbti visus 4 taškus. ! Pasirodo, kad uždavinį net ir neturint pasirenkamųjų atsakymų, lengva spręsti „nuo galo“, kai Tomas ir Adelė turi po 4 saldainius. Kadangi Adelė davė jam tiek saldainių, kiek jis turėjo, tai jo saldainiai padvigubėjo, o prieš tai jis turėjo dukart mažiau, t. y. 4: 2 = 2 saldainius. Schemiškai rašant, T 4, A 4 ← T 4: 2 = 2, A 4 + 2 = 6 ← A 6: 2 = 3, T 2 + 3 = 5. Taigi Tomas iš pradžių turėjo 5 saldainius. !! Neinant iš galo, tenka įsivesti „nežinomąjį“. Sakykime, kad Tomas turėjo x saldainių, tada Adelė turėjo 8 − x. Tomas jai davė tiek, kiek Adelė jau turėjo, taigi Tomui liko x − (8 − x). Dabar Adelė davė Tomui tiek, kiek jis turėjo, taigi jis turės x − (8 − x) + x − (8 − x). Bet tai yra 4 saldainiai: x − (8 − x) + x − (8 − x) = 4; mažiname abi lygybės puses dvigubai, x − (8 − x) = 2; pridedame po 8 − x, x = 2 + 8 − x; pridedame po x, x + x = 10, x = 5. Taigi iš pradžių Tomas turėjo 5 saldainius. Pastaba: Primename, kad mokiniui dažniausiai visiškai užtenka pirmojo sprendimo. Tolimesni sprendimai labiau skirti mokytojui ar žingeidžiam skaitytojui.",
        "figure": "figures/M2020-q10.png",
        "level": "M",
-       "solutionKid": "Gudrybė: eik nuo galo – kas gavo „tiek, kiek turėjo“, tas prieš tai turėjo perpus mažiau. Pabaigoje abu turi po 4. Prieš antrą mainą Tomas turėjo 4 : 2 = 2, o Adelė 4 + 2 = 6. Prieš pirmą mainą Adelė turėjo 6 : 2 = 3, o Tomas 2 + 3 = 5. Patikrink: 5 ir 3, tada 2 ir 6, tada 4 ir 4. Atsakymas: B) 5.",
+       "solutionKid": "Gudrybė: eik nuo galo – kas gavo „tiek, kiek turėjo“, tas prieš tai turėjo perpus mažiau. Pabaigoje abu turi po 4. Prieš antruosius mainus Tomas turėjo 4 : 2 = 2, o Adelė 4 + 2 = 6. Prieš pirmuosius mainus Adelė turėjo 6 : 2 = 3, o Tomas 2 + 3 = 5. Patikrink: 5 ir 3, tada 2 ir 6, tada 4 ir 4. Atsakymas: B) 5.",
        "misconceptions": {
         "C": "4 – tiek Tomas turi pabaigoje, o klausiama, kiek jis turėjo iš pradžių.",
         "D": "3 – tiek iš pradžių turėjo Adelė, o klausiama apie Tomą.",
@@ -19055,7 +19055,7 @@
         "A": "Spindulį nuleidai tiesiai žemyn per apatinį kairįjį veidrodį, o jis ten pasuka į dešinę.",
         "C": "Prie apatinio dešiniojo veidrodžio spindulį nuleidai tiesiai žemyn, o jis ten pasuka į kairę.",
         "D": "Apatinėje eilutėje spindulį vedei tiesiai į dešinę, o vidurinis veidrodis pasuka jį aukštyn.",
-        "E": "Viršutinį dešinįjį veidrodį spindulys pas tave perėjo kiaurai, o jis ten pasuka žemyn."
+        "E": "Pro viršutinį dešinįjį veidrodį spindulį praleidai kiaurai, o jis ten pasuka žemyn."
        },
        "solutionFigure": "figures/M2022-s2.png"
       },
@@ -19241,7 +19241,7 @@
        "level": "M",
        "solutionKid": "Gudrybė: iš visų šešių kengūrų amžiaus atimk keturių amžių – liks dviejų kengūrų amžius. Visos kartu: 2 + 4 + 5 + 6 + 8 + 10 = 35 metai. Likusioms dviem: 35 − 22 = 13 metų. Kurios dvi kartu turi 13? Tik 5 + 8. Patikrink kitus atsakymus: 2 + 8 = 10, 4 + 5 = 9, 6 + 8 = 14, 6 + 10 = 16. Atsakymas: C) 5 ir 8.",
        "misconceptions": {
-        "D": "6 + 8 = 14, tada kitoms keturioms kengūroms liktų 21 metai – vienais per mažai."
+        "D": "6 + 8 = 14, tada kitoms keturioms kengūroms liktų 21 metai – vieneriais metais per mažai."
        },
        "solutionFigure": "figures/M2022-s10.png"
       },
@@ -21349,7 +21349,7 @@
        "figure": "figures/K2000-q6.png",
        "level": "K",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: trikampis lygiašonis, kai du jo kampai lygūs, todėl visur surask trečiąjį kampą. B trikampyje: 180° − 30° − 60° = 90°, visi kampai skirtingi. C trikampyje: 180° − 95° − 40° = 45°, vėl skirtingi. D trikampyje: 180° − 50° − 80° = 50°, du kampai po 50°, o trečias kitoks – lygiašonis, bet ne lygiakraštis. E trikampio trys kraštinės pažymėtos kaip lygios – jis lygiakraštis. Apie A nieko nežinome. Atsakymas: D) trikampis su 50° ir 80° kampais.",
+       "solutionKid": "Gudrybė: trikampis lygiašonis, kai du jo kampai lygūs, todėl visur surask trečiąjį kampą. B trikampyje: 180° − 30° − 60° = 90°, visi kampai skirtingi. C trikampyje: 180° − 95° − 40° = 45°, vėl skirtingi. D trikampyje: 180° − 50° − 80° = 50°, du kampai po 50°, o trečias kitoks – lygiašonis, bet ne lygiakraštis. E trikampio trys kraštinės pažymėtos kaip lygios – jis lygiakraštis. Apie A nieko nežinoma. Atsakymas: D) trikampis su 50° ir 80° kampais.",
        "misconceptions": {
         "E": "Trys vienodi brūkšneliai reiškia tris lygias kraštines – tai lygiakraštis trikampis.",
         "A": "Iš akies jis gal ir panašus į lygiašonį, bet be duomenų to tvirtinti negalima."
@@ -21462,7 +21462,7 @@
        "correct": "A",
        "figure": "figures/K2000-q12.png",
        "level": "K",
-       "solutionKid": "Gudrybė: aštuonženklį skaičių KANGAROO išskaidyk į dvi dalis: 10 000 · KANG + AROO. Tada reiškinyje yra ir −10 000 · KANG, ir +10 000 · KANG – jie vienas kitą panaikina. Lieka 10 000 · AROO + AROO. Padauginus AROO iš 10 000, jis pasislenka per keturias vietas į kairę, o pridėjus AROO užpildomi keturi paskutiniai skaitmenys. Gauname AROOAROO. Atsakymas: A) AROOAROO.",
+       "solutionKid": "Gudrybė: aštuonženklį skaičių KANGAROO išskaidyk į dvi dalis: 10 000 · KANG + AROO. Tada reiškinyje yra ir −10 000 · KANG, ir +10 000 · KANG – jie vienas kitą panaikina. Lieka 10 000 · AROO + AROO. Padauginus AROO iš 10 000, jis pasislenka per keturias vietas į kairę, o pridėjus AROO užpildomi keturi paskutiniai skaitmenys. Gauni AROOAROO. Atsakymas: A) AROOAROO.",
        "misconceptions": {
         "D": "Atimamas 10 000 · KANG nedingsta be pėdsakų – jis panaikina žodžio KANGAROO pradžią KANG."
        }
@@ -22871,7 +22871,7 @@
        "correct": "D",
        "figure": "figures/K2004-q5.png",
        "level": "K",
-       "solutionKid": "Gudrybė: kiekvienų skliaustų reikšmė yra −1, tad lieka suskaičiuoti skliaustus ir ženklus prieš juos. Skliaustų yra 50. Pirmieji duoda −1. Kiti 49 yra atimami, o atimti −1 – tas pats, kas pridėti 1. Gauname −1 + 49 = 48. Atsakymas: D) 48.",
+       "solutionKid": "Gudrybė: kiekvienų skliaustų reikšmė yra −1, tad lieka suskaičiuoti skliaustus ir ženklus prieš juos. Skliaustų yra 50. Pirmieji duoda −1. Kiti 49 yra atimami, o atimti −1 – tas pats, kas pridėti 1. Gauni −1 + 49 = 48. Atsakymas: D) 48.",
        "misconceptions": {
         "A": "Sudėjai visus 50 skliaustų po −1, bet 49 iš jų atimami, todėl virsta +1.",
         "E": "Pirmieji skliaustai neatimami – jie duoda −1, o ne +1.",
@@ -22914,7 +22914,7 @@
        "level": "K",
        "solutionKid": "Gudrybė: pasirink patogų stačiakampį – kvadratą 10 × 10 – ir pažiūrėk, kas nutinka jo plotui. Jo plotas lygus 100. Padidinus kraštines 10 %, jos tampa 11 ir 11. Naujas plotas 11 · 11 = 121. Plotas padidėjo 121 − 100 = 21, o tai yra 21 % nuo 100. Su kitais matmenimis išeitų tas pats, nes abu kartus dauginama iš 1,1. Atsakymas: C) 21 %.",
        "misconceptions": {
-        "A": "Padidinai tik vieną kraštinę – o pailgėjo ir ilgis, ir plotis.",
+        "A": "Padidinai tik vieną kraštinę, o pailgėjo ir ilgis, ir plotis.",
         "B": "Sudėjai 10 % ir 10 %, bet pamiršai mažą kampinį gabalėlį, kuris atsiranda pailgėjus abiem kraštinėms.",
         "E": "121 % – tiek naujas plotas sudaro senojo, o klausiama, kiek jis padidėjo."
        }
@@ -23129,7 +23129,7 @@
        "correct": "E",
        "figure": "figures/K2004-q18.png",
        "level": "K",
-       "solutionKid": "Gudrybė: vidurkį paversk suma – padaugink iš žmonių skaičiaus. Visų 9 žmonių amžiaus suma 9 · 28 = 252. Vaikaičių suma 7 · 15 = 105. Seneliams kartu lieka 252 − 105 = 147 metai. Senelis 3 metais vyresnis: jei senelei pridėtume 3 metus, abu būtų vienodo amžiaus ir kartu turėtų 150. Seneliui 150 : 2 = 75. Patikrink: 75 + 72 = 147. Atsakymas: E) 75.",
+       "solutionKid": "Gudrybė: vidurkį paversk suma – padaugink iš žmonių skaičiaus. Visų 9 žmonių amžiaus suma 9 · 28 = 252. Vaikaičių suma 7 · 15 = 105. Seneliams kartu lieka 252 − 105 = 147 metai. Senelis 3 metais vyresnis: jei senelei pridėtum 3 metus, abu būtų vienodo amžiaus ir kartu turėtų 150. Seneliui 150 : 2 = 75. Patikrink: 75 + 72 = 147. Atsakymas: E) 75.",
        "misconceptions": {
         "B": "72 – tai senelės amžius, o klausiama, kiek metų seneliui."
        }
@@ -23256,7 +23256,7 @@
        "correct": "C",
        "figure": "figures/K2005-q4.png",
        "level": "K",
-       "solutionKid": "Gudrybė: kiekvieną stiklainį pakeisk dviem buteliais – tada lieka vien buteliai. Trys stiklainiai yra tas pats, kas 6 buteliai. Kartu su dviem buteliais gauname 8 butelius, ir jų talpa 16 litrų. Vieno butelio talpa 16 : 8 = 2 litrai, stiklainio – 4 litrai. Du stiklainiai ir trys buteliai: 2 · 4 + 3 · 2 = 14 litrų. Atsakymas: C) 14.",
+       "solutionKid": "Gudrybė: kiekvieną stiklainį pakeisk dviem buteliais – tada lieka vien buteliai. Trys stiklainiai yra tas pats, kas 6 buteliai. Kartu su dviem buteliais gauni 8 butelius, ir jų talpa 16 litrų. Vieno butelio talpa 16 : 8 = 2 litrai, stiklainio – 4 litrai. Du stiklainiai ir trys buteliai: 2 · 4 + 3 · 2 = 14 litrų. Atsakymas: C) 14.",
        "misconceptions": {
         "D": "Sukeitus stiklainių ir butelių skaičius talpa keičiasi, nes stiklainis didesnis už butelį."
        }
@@ -23740,7 +23740,7 @@
        "correct": "A",
        "figure": "figures/K2006-q8.png",
        "level": "K",
-       "solutionKid": "Gudrybė: pirmiausia sužinok, kiek litrų sulčių yra butelyje. Trys ketvirtadaliai nuo trečdalio litro: 3/4 · 1/3 = 3/12 = 1/4 litro. Nupilame 1/5 litro. Atimk, subendravardiklinęs: 1/4 = 5/20, 1/5 = 4/20. Lieka 5/20 − 4/20 = 1/20 litro. Atsakymas: A) 1/20 litro.",
+       "solutionKid": "Gudrybė: pirmiausia sužinok, kiek litrų sulčių yra butelyje. Trys ketvirtadaliai nuo trečdalio litro: 3/4 · 1/3 = 3/12 = 1/4 litro. Nupili 1/5 litro. Atimk, subendravardiklinęs: 1/4 = 5/20, 1/5 = 4/20. Lieka 5/20 − 4/20 = 1/20 litro. Atsakymas: A) 1/20 litro.",
        "misconceptions": {
         "C": "Iš viso butelio talpos 1/3 atėmei 1/5, bet butelis nebuvo pilnas.",
         "E": "Butelyje buvo 1/4 litro – tai daugiau nei nupilta 1/5 litro, tad šiek tiek lieka."
@@ -23820,7 +23820,7 @@
        "correct": "E",
        "figure": "figures/K2006-q12.png",
        "level": "K",
-       "solutionKid": "Gudrybė: antradieniai eina kas 7 dienas, todėl jų datos pakaitomis būna lyginės ir nelyginės. Kad lyginių būtų trys, antradienių turi būti penki, o pirmas, trečias ir penktas – lyginiai. Nuo pirmo iki penkto antradienio praeina 28 dienos. Pirmas antradienis gali būti tik 2 diena, nes su 4 diena penktas būtų 32-ą. Taigi antradieniai yra 2, 9, 16, 23 ir 30 dienos. 23 diena – antradienis, 22 – pirmadienis, 21 – sekmadienis. Atsakymas: E) Sekmadienis.",
+       "solutionKid": "Gudrybė: antradieniai eina kas 7 dienas, todėl jų datos pakaitomis būna lyginės ir nelyginės. Kad lyginių būtų trys, antradienių turi būti penki, o pirmas, trečias ir penktas – lyginiai. Nuo pirmo iki penkto antradienio praeina 28 dienos. Pirmas antradienis gali būti tik 2-ą dieną, nes jei jis būtų 4-ą, penktas būtų 32-ą. Taigi antradieniai yra 2, 9, 16, 23 ir 30 dienos. 23 diena – antradienis, 22 – pirmadienis, 21 – sekmadienis. Atsakymas: E) Sekmadienis.",
        "misconceptions": {
         "B": "Skaičiavai nuo 23 dienos į priekį, o 21 diena yra dviem dienomis anksčiau už antradienį."
        }
@@ -23878,7 +23878,7 @@
        "correct": "B",
        "figure": "figures/K2006-q15.png",
        "level": "K",
-       "solutionKid": "Gudrybė: imk kuo daugiau ilgiausių šuolių po 7 metrus, bet likutį reikės sudėti iš 2 ir 4 metrų šuolių, todėl jis turi būti lyginis. 142 šuoliai po 7 m – tai 994 m, lieka 6 m = 4 + 2, dar du šuoliai: iš viso 144. Su 143 septynetais gautume 1001 m – per daug, o su 141 liktų 13 m – nelyginis skaičius, jo iš dvejetų ir ketvertų nesudėsi. Su 140 septynetų lieka 20 m, tam reikia bent 5 šuolių – jau 145. Mažinant septynetų toliau, šuolių tik daugėja. Atsakymas: B) 144.",
+       "solutionKid": "Gudrybė: imk kuo daugiau ilgiausių šuolių po 7 metrus, bet likutį reikės sudėti iš 2 ir 4 metrų šuolių, todėl jis turi būti lyginis. 142 šuoliai po 7 m – tai 994 m, lieka 6 m = 4 + 2, dar du šuoliai: iš viso 144. Su 143 septynetais gautum 1001 m – per daug, o su 141 liktų 13 m – nelyginis skaičius, jo iš dvejetų ir ketvertų nesudėsi. Su 140 septynetų lieka 20 m, tam reikia bent 5 šuolių – jau 145. Mažinant septynetų toliau, šuolių tik daugėja. Atsakymas: B) 144.",
        "misconceptions": {
         "A": "140 šuolių po 7 m – tai tik 980 m; likusiems 20 m dar reikia šuolių."
        }
@@ -24215,7 +24215,7 @@
        "correct": "D",
        "figure": "figures/K2007-q12.png",
        "level": "K",
-       "solutionKid": "Gudrybė: trys viršūnės negali būti vienoje tiesėje, todėl trikampis ima arba du taškus iš a ir vieną iš b, arba atvirkščiai. Du taškus iš keturių tiesėje a galima parinkti 6 būdais (4 · 3 : 2), o trečią viršūnę tiesėje b – 2 būdais: 6 · 2 = 12 trikampių. Jei imame abu tiesės b taškus, trečią viršūnę tiesėje a galima parinkti 4 būdais: dar 4 trikampiai. Iš viso 12 + 4 = 16. Atsakymas: D) 16.",
+       "solutionKid": "Gudrybė: trys viršūnės negali būti vienoje tiesėje, todėl trikampis ima arba du taškus iš a ir vieną iš b, arba atvirkščiai. Du taškus iš keturių tiesėje a galima parinkti 6 būdais (4 · 3 : 2), o trečią viršūnę tiesėje b – 2 būdais: 6 · 2 = 12 trikampių. Jei imi abu tiesės b taškus, trečią viršūnę tiesėje a galima parinkti 4 būdais: dar 4 trikampiai. Iš viso 12 + 4 = 16. Atsakymas: D) 16.",
        "misconceptions": {
         "C": "Suskaičiavai tik trikampius su dviem viršūnėmis tiesėje a – dar yra tie, kurių dvi viršūnės tiesėje b.",
         "B": "Padauginai 4 iš 2 – taip suskaičiuojamos atkarpos tarp tiesių, o ne trikampiai."
@@ -24348,7 +24348,7 @@
        "correct": "B",
        "figure": "figures/K2007-q19.png",
        "level": "K",
-       "solutionKid": "Gudrybė: kiekvieną lentelės skaičių išskaidyk į eilutės dalį ir stulpelio dalį. Pirmos eilutės skaičiai – tai 0 plius stulpelio numeris, antros – 3 plius stulpelio numeris, trečios – 6 plius stulpelio numeris. Imdami po vieną skaičių iš kiekvienos eilutės ir kiekvieno stulpelio, visada gauname (0 + 3 + 6) + (1 + 2 + 3) = 15. Taigi suma visada ta pati. Patikrink: 3 + 5 + 7 = 15 ir 1 + 6 + 8 = 15. Atsakymas: B) 15.",
+       "solutionKid": "Gudrybė: kiekvieną lentelės skaičių išskaidyk į eilutės dalį ir stulpelio dalį. Pirmos eilutės skaičiai – tai 0 plius stulpelio numeris, antros – 3 plius stulpelio numeris, trečios – 6 plius stulpelio numeris. Imdamas po vieną skaičių iš kiekvienos eilutės ir kiekvieno stulpelio, visada gauni (0 + 3 + 6) + (1 + 2 + 3) = 15. Taigi suma visada ta pati. Patikrink: 3 + 5 + 7 = 15 ir 1 + 6 + 8 = 15. Atsakymas: B) 15.",
        "misconceptions": {
         "E": "7 + 8 + 9 = 24, bet šie skaičiai yra toje pačioje eilutėje.",
         "C": "3 + 6 + 9 = 18, bet šie skaičiai yra tame pačiame stulpelyje."
@@ -24500,7 +24500,7 @@
        "correct": "B",
        "figure": "figures/K2008-q6.png",
        "level": "K",
-       "solutionKid": "Gudrybė: puokščių skaičius turi dalyti kiekvienos spalvos rožių skaičių be liekanos. Ieškome didžiausio skaičiaus, iš kurio dalijasi ir 24, ir 42, ir 36. Skaičius 42 dalijasi iš 1, 2, 3, 6, 7, 14, 21 ir 42. Iš jų 24 ir 36 abu dalijasi tik iš 1, 2, 3 ir 6. Didžiausias – 6. Kiekvienoje puokštėje bus 4 baltos, 7 raudonos ir 6 geltonos rožės. Atsakymas: B) 6.",
+       "solutionKid": "Gudrybė: puokščių skaičius turi dalyti kiekvienos spalvos rožių skaičių be liekanos. Ieškok didžiausio skaičiaus, iš kurio dalijasi ir 24, ir 42, ir 36. Skaičius 42 dalijasi iš 1, 2, 3, 6, 7, 14, 21 ir 42. Iš jų 24 ir 36 abu dalijasi tik iš 1, 2, 3 ir 6. Didžiausias – 6. Kiekvienoje puokštėje bus 4 baltos, 7 raudonos ir 6 geltonos rožės. Atsakymas: B) 6.",
        "misconceptions": {
         "E": "Iš 12 dalijasi 24 ir 36, bet 42 nesidalija – liktų raudonų rožių.",
         "A": "Iš 4 dalijasi 24 ir 36, bet 42 nesidalija – liktų raudonų rožių."
@@ -24610,7 +24610,7 @@
        "correct": "A",
        "figure": "figures/K2008-q12.png",
        "level": "K",
-       "solutionKid": "Gudrybė: ieškok metų, kurie yra sveikojo skaičiaus kvadratas ir patenka į jo gyvenimo laiką. 40 · 40 = 1600, 45 · 45 = 2025, taigi bandyk tarp jų: 42 · 42 = 1764, 43 · 43 = 1849, 44 · 44 = 1936. Tinka tik 1849 metai. Tada jam buvo 43 metai, vadinasi, gimė 1849 − 43 = 1806. Jei imtume 1764 metus, jis būtų gimęs 1722-aisiais ir gyvenęs 149 metus – taip nebūna, o 1936-ųjų jis nesulaukė. Atsakymas: A) 1806.",
+       "solutionKid": "Gudrybė: ieškok metų, kurie yra sveikojo skaičiaus kvadratas ir patenka į jo gyvenimo laiką. 40 · 40 = 1600, 45 · 45 = 2025, taigi bandyk tarp jų: 42 · 42 = 1764, 43 · 43 = 1849, 44 · 44 = 1936. Tinka tik 1849 metai. Tada jam buvo 43 metai, vadinasi, gimė 1849 − 43 = 1806. Jei imtum 1764 metus, jis būtų gimęs 1722-aisiais ir gyvenęs 149 metus – taip nebūna, o 1936-ųjų jis nesulaukė. Atsakymas: A) 1806.",
        "misconceptions": {
         "C": "1849 – tai metai, kuriais jam buvo 43, o ne gimimo metai."
        }
@@ -24629,7 +24629,7 @@
        "correct": "A",
        "figure": "figures/K2008-q13.png",
        "level": "K",
-       "solutionKid": "Gudrybė: sala D – aklavietė: į ją ir iš jos galima plaukti tik per A, todėl saloje A teks būti du kartus. Jei kiekvienoje saloje būtume po vieną kartą, užtektų 5 plaukimų: keturios salos ir grįžimas. Bet dėl D salą A aplankysime dukart, tad reikia bent 6. Šešių užtenka: žemynas → B → A → D → A → C → žemynas. Visi šie keltai yra. Atsakymas: A) 6.",
+       "solutionKid": "Gudrybė: sala D – aklavietė: į ją ir iš jos galima plaukti tik per A, todėl saloje A teks būti du kartus. Jei kiekvienoje saloje būtum po vieną kartą, užtektų 5 plaukimų: keturios salos ir grįžimas. Bet dėl D salą A aplankysi dukart, tad reikia bent 6. Šešių užtenka: žemynas → B → A → D → A → C → žemynas. Visi šie keltai yra. Atsakymas: A) 6.",
        "misconceptions": {
         "B": "5 užtektų, jei kiekvienoje saloje būtum tik kartą, bet iš D grįžti galima tik atgal į A."
        }
@@ -24688,7 +24688,7 @@
        "correct": "D",
        "figure": "figures/K2008-q16.png",
        "level": "K",
-       "solutionKid": "Gudrybė: eik tiese ratu A → B → C → D → A; grįžti į pradžią reiškia, kad žingsniai į vieną pusę lygūs žingsniams į kitą. Visų keturių žingsnių suma 13 + 11 + 14 + 12 = 50, todėl į kiekvieną pusę nueinama po 25. Sumą 25 duoda tik 13 + 12 ir 11 + 14. Taigi iš A einame 13 į dešinę iki B, 11 atgal iki C, dar 14 atgal iki D ir 12 pirmyn iki A. Taškų tvarka: D, A, C, B, o tolimiausi – D ir B: 12 + 13 = 25. Atsakymas: D) 25.",
+       "solutionKid": "Gudrybė: eik tiese ratu A → B → C → D → A; grįžti į pradžią reiškia, kad žingsniai į vieną pusę lygūs žingsniams į kitą. Visų keturių žingsnių suma 13 + 11 + 14 + 12 = 50, todėl į kiekvieną pusę nueinama po 25. Sumą 25 duoda tik 13 + 12 ir 11 + 14. Taigi iš A eini 13 į dešinę iki B, 11 atgal iki C, dar 14 atgal iki D ir 12 pirmyn iki A. Taškų tvarka: D, A, C, B, o tolimiausi – D ir B: 12 + 13 = 25. Atsakymas: D) 25.",
        "misconceptions": {
         "C": "Sudėjai visas keturias atkarpas, bet tiesėje jos dengia viena kitą.",
         "A": "14 yra ilgiausia iš duotų atkarpų, bet tolimiausių taškų poros tarp duotųjų nėra."
@@ -25011,7 +25011,7 @@
        "level": "K",
        "solutionKid": "Gudrybė: 120° gali būti tik bukojo trikampio kampas, todėl kiti du jo kampai kartu sudaro 60°. 80° į bukąjį trikampį netelpa, vadinasi, jis yra smailiojo. Jei bukajame būtų 55°, trečias jo kampas būtų 5°, o smailiajam liktų 80°, 10° ir 90° – tai jau ne smailusis trikampis. Abu 55° ir 10° smailiajame būti negali: 80° + 55° + 10° nėra 180°. Vadinasi, bukojo kampai yra 120°, 10° ir 50°, o smailiojo – 80°, 55° ir 180° − 80° − 55° = 45°. Atsakymas: C) 45.",
        "misconceptions": {
-        "A": "5° būtų trečias bukojo trikampio kampas, jei jame būtų 55°, bet tada smailusis turėtų statų kampą.",
+        "A": "5° būtų trečias bukojo trikampio kampas, jei jame būtų 55°, bet tada smailusis turėtų statųjį kampą.",
         "B": "Jei 10° būtų smailiojo trikampio kampas, kartu su 80° trečias kampas būtų 90° – trikampis nebūtų smailusis.",
         "D": "55° yra smailiojo trikampio kampas, bet ne mažiausias – trečiasis kampas dar mažesnis."
        }
@@ -26131,7 +26131,7 @@
        "figure": "figures/K2012-q10.png",
        "level": "K",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: suskaičiuok matomus kiekvienos spalvos kubelius – kur jų mažiau nei 4, likusieji pasislėpę galinėje apatinėje eilėje. Gretasienį sudaro 16 kubelių, nematomi tik trys – galiniai apatiniai kairėje ir viduryje. Šviesiai pilkų matyti 4, vidutiniškai pilkų 4, tamsių 3, baltų tik 2 – abu viršuje, galinės eilės viduryje. Ketvirtas tamsus kubelis turi liestis su kitais tamsiais, todėl jis yra paslėptas greta dešiniojo galo. Kiti du paslėpti kubeliai – balti: vienas po kairiuoju baltu, kitas dar kairiau. Gaunasi du kubeliai viršuje ir du apačioje, pastumti per vieną. Atsakymas: D) laiptelio forma vienoje plokštumoje.",
+       "solutionKid": "Gudrybė: suskaičiuok matomus kiekvienos spalvos kubelius – kur jų mažiau nei 4, likusieji pasislėpę galinėje apatinėje eilėje. Gretasienį sudaro 16 kubelių, nematomi tik trys – galiniai apatiniai kairėje ir viduryje. Šviesiai pilkų matyti 4, vidutiniškai pilkų 4, tamsių 3, baltų tik 2 – abu viršuje, galinės eilės viduryje. Ketvirtas tamsus kubelis turi liestis su kitais tamsiais, todėl jis yra paslėptas greta dešiniojo galo. Kiti du paslėpti kubeliai – balti: vienas po kairiuoju baltu, kitas dar kairiau. Išeina du kubeliai viršuje ir du apačioje, pastumti per vieną. Atsakymas: D) laiptelio forma vienoje plokštumoje.",
        "misconceptions": {
         "E": "Kvadratui abu apatiniai balti kubeliai turėtų būti tiesiai po viršutiniais, bet viena iš tų vietų priklauso tamsiai detalei.",
         "C": "Ši detalė nėra plokščia, o balti kubeliai visi stovi vienoje galinėje sienoje."
@@ -26654,7 +26654,7 @@
        "solution": "A ! Kiekvienos stačiakampio viršūnės abscisė yra teigiama, o jos ordinatė – neigiama, todėl jos koordinačių santykis y/x bus visada neigiamas. Taigi santykis y/x bus mažiausias, kai |y|/x bus didžiausias, t. y., kai | y | bus didžiausias, o x – mažiausias. Vadinasi, santykis y/x bus mažiausias viršūnei A.",
        "figure": "figures/K2013-q16.png",
        "level": "K",
-       "solutionKid": "Gudrybė: visi santykiai čia neigiami, todėl mažiausias yra tas, kuris toliausiai nuo nulio. Stačiakampis yra dešinėje ir apačioje, vadinasi, kiekvienos viršūnės x teigiamas, o y neigiamas. Neigiamas santykis mažiausias tada, kai taškas kuo žemiau, o jo x kuo mažesnis. Žemiausiai yra A ir B, mažiausią x turi A ir D. Abi sąlygas tenkina tik viršūnė A. Pavyzdys: jei A = (2; −5), o C = (6; −2), tai −5/2 yra mažiau už −2/6. Atsakymas: A) A.",
+       "solutionKid": "Gudrybė: visi santykiai čia neigiami, todėl mažiausias yra tas, kuris toliausiai nuo nulio. Stačiakampis yra dešinėje ir apačioje, vadinasi, kiekvienos viršūnės x teigiamas, o y neigiamas. Neigiamas santykis mažiausias tada, kai taškas kuo žemiau, o jo x kuo mažesnis. Žemiausiai yra A ir B, mažiausią x turi A ir D. Abi sąlygas tenkina tik viršūnė A. Pavyzdys: jei A = (2; −5), o C = (6; −2), tai −5/2 yra mažesnis už −2/6. Atsakymas: A) A.",
        "misconceptions": {
         "C": "Radai santykį, kuris arčiausiai nulio, bet neigiami skaičiai kuo arčiau nulio, tuo didesni."
        },
@@ -27105,7 +27105,7 @@
        "solution": "7:46 ! Atmetę vonios kambario „purslus“, turėtume tokį aritmetinio branduolio uždavinį: duoti šeši skaičiai 8, 10, 12, 17, 21 ir 22, kuriuos reikia taip suskirstyti į dvi grupes, kad tų grupių sumų skirtumas būtų kuo mažesnis. Suskirstykime skaičius 8, 10, 12, 17, 21 ir 22 į dvi grupes. Jei kurioje nors grupėje yra 1 arba du skaičiai, tai jos skaičių suma ne didesnė už 21 + 22 = 43. Tada kitos grupės skaičių suma yra ne mažesnė už 8 + 10 + 12 + 17 = 47. Tokiu atveju studentai baigtų praustis ne anksčiau kaip 7:47. Jei kiekvienoje grupėje yra lygiai trys skaičiai, tai iš skaičių 17, 21 ir 22 bent du pateks į tą pačią grupę. Šioje grupėje esančių skaičių suma bus ne mažesnė už 17 + 21 + 8 = 46. Tokiu atveju studentai baigtų praustis ne anksčiau kaip 7:46. Taigi bet kuriuo atveju studentai baigs praustis ne anksčiau kaip 7:46. Kita vertus, įmanoma pasiekti, kad šiuo laiku studentai baigtų praustis – pakanka skaičius 8, 10, 12, 17, 21 ir 22 suskirstyti į dvi grupes taip: 8, 17, 21 ir 10, 12, 22.",
        "figure": "figures/K2014-q17.png",
        "level": "K",
-       "solutionKid": "Gudrybė: tai dviejų eilių uždavinys – laikus reikia padalyti į dvi grupes kuo lygesnėmis sumomis. Visų laikų suma 8 + 10 + 12 + 17 + 21 + 22 = 90 minučių, tad geriausia būtų po 45. Pabandyk surinkti 45: prie 22 reikėtų dar 23, bet iš skaičių 8, 10, 12, 17, 21 lygiai 23 nesusideda. Vadinasi, viena eilė truks bent 46 minutes. Tiek pavyksta: 8 + 17 + 21 = 46 ir 10 + 12 + 22 = 44. Ilgesnė eilė baigia 7:46. Atsakymas: B) 7:46.",
+       "solutionKid": "Gudrybė: tai dviejų eilių uždavinys – laikus reikia padalyti į dvi grupes kuo lygesnėmis sumomis. Visų laikų suma 8 + 10 + 12 + 17 + 21 + 22 = 90 minučių, tad geriausia būtų po 45. Pabandyk surinkti 45: prie 22 reikėtų dar 23, bet iš skaičių 8, 10, 12, 17, 21 lygiai 23 nesusideda. Vadinasi, viena eilė truks bent 46 minutes. Tiek pavyksta: 8 + 17 + 21 = 46 ir 10 + 12 + 22 = 44. Ilgesnė eilė baigiasi 7:46. Atsakymas: B) 7:46.",
        "misconceptions": {
         "A": "Padalijai 90 minučių pusiau, bet lygiai po 45 minutes šių laikų suskirstyti neįmanoma."
        },
@@ -28131,7 +28131,7 @@
        "solution": "2468642 ! Kadangi 1111 × 2222 = 2 · (1111 × 1111), tai 1111 × 2222 = 2 · 1234321 = 2468642. Teisingas atsakymas D.",
        "figure": "figures/K2017-q5.png",
        "level": "K",
-       "solutionKid": "Gudrybė: 2222 yra dvigubai daugiau nei 1111, todėl ir sandauga bus dvigubai didesnė. Užrašyk: 1111 × 2222 = 1111 × 1111 × 2. Vadinasi, reikia padvigubinti 1234321. Visi skaitmenys maži, tad dvigubinant niekas nepersikelia į kitą skiltį: iš 1, 2, 3, 4, 3, 2, 1 gauni 2, 4, 6, 8, 6, 4, 2. Patikrink apytiksliai: 1000 × 2000 = 2 000 000, rezultatas turi būti šiek tiek didesnis. Atsakymas: D) 2468642.",
+       "solutionKid": "Gudrybė: 2222 yra dvigubai daugiau nei 1111, todėl ir sandauga bus dvigubai didesnė. Užrašyk: 1111 · 2222 = 1111 · 1111 · 2. Vadinasi, reikia padvigubinti 1234321. Visi skaitmenys maži, tad dvigubinant niekas nepersikelia į kitą skiltį: iš 1, 2, 3, 4, 3, 2, 1 gauni 2, 4, 6, 8, 6, 4, 2. Patikrink apytiksliai: 1000 · 2000 = 2 000 000, rezultatas turi būti šiek tiek didesnis. Atsakymas: D) 2468642.",
        "misconceptions": {
         "B": "Kiekvieną skaitmenį padidinai vienetu, o reikėjo kiekvieną padauginti iš 2.",
         "A": "Prie kiekvieno skaitmens pridėjai 2, o reikėjo kiekvieną padauginti iš 2."
@@ -28323,7 +28323,7 @@
        "solution": "! Kadangi Austėjos ir Sofijos amžių suma dalijasi iš 5 ir Evelinos bei Sofijos amžių suma dalijasi iš 5, tai Austėjos ir Evelinos amžių skirtumas dalijasi iš 5. Vadinasi, Austėjos ir Evelinos amžių dalybos iš 5 liekanos sutampa. Kita vertus, skaičių 3, 8, 12 ir 14 dalybos iš 5 liekanos atitinkamai yra 3, 3, 2 ir 4. Taigi Austėja yra 3 metų amžiaus, o Evelina – 8 metų amžiaus (Austėja yra jaunesnė už Eveliną). Be to, Austėjos ir Sofijos amžių suma dalijasi iš 5. Todėl Sofija yra 12 metų amžiaus. Taigi Elena yra 14 metų amžiaus. Teisingas atsakymas A. Pastaba. Sąlyga „Austėja yra jaunesnė už Eveliną“ atliekama.",
        "figure": "figures/K2017-q14.png",
        "level": "K",
-       "solutionKid": "Gudrybė: surask, kurios amžių poros duoda sumą, dalią iš 5, – tokių labai mažai. Visos poros: 3 + 8 = 11, 3 + 12 = 15, 3 + 14 = 17, 8 + 12 = 20, 8 + 14 = 22, 12 + 14 = 26. Iš 5 dalijasi tik 15 ir 20, ir abiejose porose yra 12. Sofija yra abiejose sąlygose, todėl jai 12 metų. Austėjai ir Evelinai lieka 3 ir 8 metai (Austėja jaunesnė, jai 3). Elenai lieka vienintelis nepanaudotas amžius. Atsakymas: A) 14.",
+       "solutionKid": "Gudrybė: surask, kurių amžių porų suma dalijasi iš 5, – tokių porų labai mažai. Visos poros: 3 + 8 = 11, 3 + 12 = 15, 3 + 14 = 17, 8 + 12 = 20, 8 + 14 = 22, 12 + 14 = 26. Iš 5 dalijasi tik 15 ir 20, ir abiejose porose yra 12. Sofija yra abiejose sąlygose, todėl jai 12 metų. Austėjai ir Evelinai lieka 3 ir 8 metai (Austėja jaunesnė, jai 3). Elenai lieka vienintelis nepanaudotas amžius. Atsakymas: A) 14.",
        "misconceptions": {
         "B": "12 metų yra Sofijai – būtent jos amžius su kitų amžiais duoda sumas 15 ir 20.",
         "C": "8 metai yra Evelinai: 8 + 12 = 20 dalijasi iš 5."
@@ -28675,7 +28675,7 @@
        "solution": "! Pažymėkime kuolelius, kaip parodyta paveikslėlyje. Patogu skaičiuoti trajektorijas, pradedant ne nuo kuolelio K, o nuo skyrelio B. Į B rutuliukas gali pakliūti, atsitrenkęs nuo P arba Q. Į P rutuliukas gali atsitrenkti tik nuo N, į N – tik nuo L, į L – tik nuo K. Gauname vienintelę trajektoriją K-L-N-P-B. Į Q rutuliukas gali atsitrenkti nuo N arba O. Į N – tik nuo L, o į L – tik nuo K. Gauname vieną trajektoriją K-L-N-Q-B. Į kuolelį O rutuliukas gali atsitrenkti nuo L arba M, o į šiuos kuolelius – tik nuo K. Gauname dar dvi trajektorijas K-L-O-Q-B ir K-M-O-Q-B. Iš viso gavome 4 trajektorijas. !! Kadangi atsitrenkęs į kuolelį rutuliukas krinta viena iš dviejų krypčių, tai iki kuolelių L ir M (žr. ! dalies pav.) jis gali kristi dviem trajektorijomis, iki žemesnių kuolelių jau yra 2 · 2 = 4 trajektorijos, o iki apatinių kuolelių – 2 · 2 · 2 = 8 trajektorijos. Dėl simetrijos lygiai pusė jų veda link P ir Q. Visos šios 4 trajektorijos gali vieninteliu būdu užsibaigti skyrelyje B, o likusios 4 trajektorijos tegali užsibaigti skyreliuose C, D ir E. Iš viso gavome 4 tinkamas trajektorijas.",
        "figure": "figures/K2018-q11.png",
        "level": "K",
-       "solutionKid": "Gudrybė: prie kiekvieno kuolelio užrašyk, keliais keliais rutuliukas gali iki jo atkristi – tai virš jo esančių kuolelių skaičių suma. Prie viršutinio kuolelio rašyk 1. Antroje eilėje: 1 ir 1. Trečioje: 1, 2, 1 (į vidurinį galima atkristi iš abiejų pusių). Apatinėje eilėje: 1, 3, 3, 1. Paveikslėlyje skyrelis B yra tarp pirmo ir antro apatinių kuolelių, todėl į jį krintama nuo vieno iš jų: 1 + 3 = 4 trajektorijos. Atsakymas: C) 4.",
+       "solutionKid": "Gudrybė: prie kiekvieno kuolelio užrašyk, kiek yra kelių, kuriais rutuliukas gali iki jo atkristi, – tai virš jo esančių kuolelių skaičių suma. Prie viršutinio kuolelio rašyk 1. Antroje eilėje: 1 ir 1. Trečioje: 1, 2, 1 (į vidurinį galima atkristi iš abiejų pusių). Apatinėje eilėje: 1, 3, 3, 1. Paveikslėlyje skyrelis B yra tarp pirmo ir antro apatinių kuolelių, todėl į jį krintama nuo vieno iš jų: 1 + 3 = 4 trajektorijos. Atsakymas: C) 4.",
        "misconceptions": {
         "B": "Suskaičiavai tik tris kelius per antrą apatinį kuolelį, o kelią pačiu kairiuoju kraštu praleidai."
        },
@@ -28738,7 +28738,7 @@
        "solution": "Trečiajame ! Kadangi 2 + 3 ≠ 2 × 3, tai lygiai vienas iš pirmųjų dviejų užrašų teisingas. Bet jei teisingas pirmasis užrašas (lobis yra pirmajame urve), tai teisingas ir antrasis (lobio antrajame urve nėra). Todėl teisingas turi būti antrasis užrašas (lobio antrajame urve nėra), o pirmasis tada klaidingas (lobio nėra ir pirmajame urve). Vadinasi, lobis turi būti trečiajame urve. Iš tiesų, jei taip yra, tai antrasis užrašas teisingas, o kiti du klaidingi.",
        "figure": "figures/K2018-q14.png",
        "level": "K",
-       "solutionKid": "Gudrybė: pirmiausia surask užrašą, apie kurį viską žinai, o tada bandyk lobį dėti į kiekvieną urvą. Trečiasis užrašas klaidingas, nes 2 + 3 = 5, o 2 × 3 = 6. Vadinasi, iš pirmųjų dviejų teisingas lygiai vienas. Jei lobis pirmajame urve, teisingi abu – netinka. Jei lobis antrajame, abu klaidingi – netinka. Jei lobis trečiajame, pirmasis užrašas klaidingas, o antrasis teisingas – lygiai vienas, kaip ir reikia. Atsakymas: C) Trečiajame.",
+       "solutionKid": "Gudrybė: pirmiausia surask užrašą, apie kurį viską žinai, o tada bandyk lobį dėti į kiekvieną urvą. Trečiasis užrašas klaidingas, nes 2 + 3 = 5, o 2 · 3 = 6. Vadinasi, iš pirmųjų dviejų teisingas lygiai vienas. Jei lobis pirmajame urve, teisingi abu – netinka. Jei lobis antrajame, abu klaidingi – netinka. Jei lobis trečiajame, pirmasis užrašas klaidingas, o antrasis teisingas – lygiai vienas, kaip ir reikia. Atsakymas: C) Trečiajame.",
        "misconceptions": {
         "A": "Nepatikrinai antrojo užrašo: jei lobis pirmajame urve, teisingi būtų du užrašai.",
         "B": "Jei lobis būtų antrajame urve, klaidingi būtų visi trys užrašai, o vienas turi būti teisingas."
@@ -28918,7 +28918,7 @@
        "solution": "2 su puse val ! Keturi ketvirčiai valandos yra lygiai viena valanda, o aštuoni ketvirčiai valandos yra lygiai dvi valandos. Panašiai, du ketvirčiai valandos yra lygiai pusė valandos. Vadinasi, dešimt ketvirčių valandos yra dvi su puse valandos. Teisingas atsakymas E.",
        "figure": "figures/K2019-q2.png",
        "level": "K",
-       "solutionKid": "Gudrybė: ketvirčius grupuok po keturis, nes keturi ketvirčiai sudaro visą valandą. Aštuoni ketvirčiai – tai dvi valandos. Lieka dar du ketvirčiai, o du ketvirčiai yra pusė valandos. Iš viso dvi valandos ir pusė. Patikrink minutėmis: ketvirtis valandos yra 15 min., 10 · 15 = 150 min., o tai 2 val. 30 min. Atsakymas: E) 2 su puse val.",
+       "solutionKid": "Gudrybė: ketvirčius grupuok po keturis, nes keturi ketvirčiai sudaro visą valandą. Aštuoni ketvirčiai – tai dvi valandos. Lieka dar du ketvirčiai, o du ketvirčiai yra pusė valandos. Iš viso dvi valandos ir pusė. Patikrink minutėmis: ketvirtis valandos yra 15 min, 10 · 15 = 150 min, o tai 2 val. 30 min. Atsakymas: E) 2 su puse val.",
        "misconceptions": {
         "A": "Padalijai 10 iš 2, lyg tai būtų pusvalandžiai, o ne ketvirčiai."
        },
@@ -29020,7 +29020,7 @@
        "solution": "Adomas ! Pagal uždavinio sąlygą Ignas finišavo anksčiau už Simoną, Simonas anksčiau už Romą, Romas anksčiau už Adomą. Be to, žinome, kad Jonas finišavo anksčiau už Adomą. Vadinasi, Adomas finišavo paskutinis. Teisingas atsakymas A.",
        "figure": "figures/K2019-q7.png",
        "level": "K",
-       "solutionKid": "Gudrybė: iš atskirų palyginimų sudėliok vieną grandinę. Ignas finišavo anksčiau už Simoną, Simonas – anksčiau už Romą, o Romas – anksčiau už Adomą (nes Adomas vėliau už Romą). Gauname eilę: Ignas, Simonas, Romas, Adomas. Jonas finišavo anksčiau už Adomą, todėl ir jis yra prieš Adomą, nors tikslios jo vietos nežinome. Visi keturi kiti draugai finišavo anksčiau už tą patį berniuką. Atsakymas: A) Adomas.",
+       "solutionKid": "Gudrybė: iš atskirų palyginimų sudėliok vieną grandinę. Ignas finišavo anksčiau už Simoną, Simonas – anksčiau už Romą, o Romas – anksčiau už Adomą (nes Adomas vėliau už Romą). Gauni eilę: Ignas, Simonas, Romas, Adomas. Jonas finišavo anksčiau už Adomą, todėl ir jis yra prieš Adomą, nors tikslios jo vietos nežinai. Visi keturi kiti draugai finišavo anksčiau už tą patį berniuką. Atsakymas: A) Adomas.",
        "misconceptions": {
         "D": "Romas finišavo vėliau už Simoną, bet po jo dar atbėgo Adomas."
        },
@@ -29064,7 +29064,7 @@
        "solution": "4/9 ! Didžiojo kvadrato užtušuotoji dalis sudaryta iš kvadrato ketvirčio ir 7 mažųjų kvadratėlių, kurių kiekvienas yra 1/9 · 1/4 = 1/36 didžiojo kvadrato dalis. Taigi lygiai 1/4 + 7/36 = 4/9 kvadrato yra užtušuota. Teisingas atsakymas D.",
        "figure": "figures/K2019-q9.png",
        "level": "K",
-       "solutionKid": "Gudrybė: viską matuok mažiausiais kvadratėliais. Didysis kvadratas padalintas į 4 ketvirčius, o kairysis viršutinis ketvirtis – dar į 9 mažus kvadratėlius. Todėl į visą didįjį kvadratą tilptų 4 · 9 = 36 maži kvadratėliai. Užtušuotas visas dešinysis apatinis ketvirtis – tai 9 kvadratėliai – ir dar 7 maži kvadratėliai kairiajame viršutiniame ketvirtyje. Iš viso 9 + 7 = 16 iš 36. Suprastink: 16/36 = 4/9. Atsakymas: D) 4/9.",
+       "solutionKid": "Gudrybė: viską matuok mažiausiais kvadratėliais. Didysis kvadratas padalytas į 4 ketvirčius, o kairysis viršutinis ketvirtis – dar į 9 mažus kvadratėlius. Todėl į visą didįjį kvadratą tilptų 4 · 9 = 36 maži kvadratėliai. Užtušuotas visas dešinysis apatinis ketvirtis – tai 9 kvadratėliai – ir dar 7 maži kvadratėliai kairiajame viršutiniame ketvirtyje. Iš viso 9 + 7 = 16 iš 36. Suprastink: 16/36 = 4/9. Atsakymas: D) 4/9.",
        "solutionFigure": "figures/K2019-s9.png"
       },
       {
@@ -29100,7 +29100,7 @@
        "solution": "",
        "figure": "figures/K2019-q11.png",
        "level": "K",
-       "solutionKid": "Gudrybė: sudėk stulpeliu ir ieškok uždengtų skaitmenų po vieną, nuo vienetų, nepamiršdamas perkėlimų. Juostelėse matyti 1243, 21■7 ir ■■26. Vienetai: 3 + 7 + 6 = 16, rašome 6, vienas mintyse. Dešimtys: 4 + 2 + 1 = 7, o reikia, kad baigtųsi 2, todėl uždengtas skaitmuo 5 (išeina 12). Šimtai: 2 + 1 + 1 = 4, reikia 1 gale, todėl uždengtas 7 (išeina 11). Tūkstančiai: 1 + 2 + 1 = 4, reikia 10, todėl uždengtas 6. Atsakymas: E) 5, 6 ir 7.",
+       "solutionKid": "Gudrybė: sudėk stulpeliu ir ieškok uždengtų skaitmenų po vieną, nuo vienetų, nepamiršdamas perkėlimų. Juostelėse matyti 1243, 21■7 ir ■■26. Vienetai: 3 + 7 + 6 = 16, rašai 6, vienas mintyse. Dešimtys: 4 + 2 + 1 = 7, o reikia, kad baigtųsi 2, todėl uždengtas skaitmuo 5 (išeina 12). Šimtai: 2 + 1 + 1 = 4, reikia 1 gale, todėl uždengtas 7 (išeina 11). Tūkstančiai: 1 + 2 + 1 = 4, reikia 10, todėl uždengtas 6. Atsakymas: E) 5, 6 ir 7.",
        "solutionFigure": "figures/K2019-s11.png"
       },
       {
@@ -29365,7 +29365,7 @@
        "figure": "figures/K2020-q4.png",
        "level": "K",
        "imageOnlyOptions": true,
-       "solutionKid": "Gudrybė: pirmiausia atlik sudėtį ir pažiūrėk, kurios trupmenos didesnės už 1. A: 8/8 = 1. B: 8/8 = 1. D: 3/13 – mažiau už 1. C: 13/3 – tai 4 sveiki ir 1/3. E: 11/5 – tai 2 sveiki ir 1/5. Už 1 didesnės tik C ir E, o iš jų didesnė ta, kurioje daugiau sveikųjų. Atsakymas: C).",
+       "solutionKid": "Gudrybė: pirmiausia atlik sudėtį ir pažiūrėk, kurios trupmenos didesnės už 1. A: 8/8 = 1. B: 8/8 = 1. D: 3/13 – mažesnė už 1. C: 13/3 – tai 4 sveiki ir 1/3. E: 11/5 – tai 2 sveiki ir 1/5. Už 1 didesnės tik C ir E, o iš jų didesnė ta, kurioje daugiau sveikųjų. Atsakymas: C).",
        "solutionFigure": "figures/K2020-s4.png"
       },
       {
@@ -29383,7 +29383,7 @@
        "solution": "1/2 ! Užtušuoto A kvadrato plotas lygus pusei stačiakampio ZQUV ploto. Kvadratų C ir D bendras plotas lygus pusei kvadrato PQRS ploto. Panašiai, lygiašonio stačiojo trikampio B plotas lygus pusei kvadrato PSTU ploto. Vadinasi, kvadrato RTV Z užtušuotos dalies plotas lygus pusei šio kvadrato ploto. Teisingas atsakymas D.",
        "figure": "figures/K2020-q5.png",
        "level": "K",
-       "solutionKid": "Gudrybė: didysis kvadratas padalintas į keturis ketvirčius – kiekviename atskirai pažiūrėk, kokia dalis užtušuota. Dešinysis apatinis ketvirtis užtušuotas visas. Kairysis apatinis – visai neužtušuotas. Dešiniajame viršutiniame įstrižainė atskiria lygiai pusę, ir ji užtušuota. Kairysis viršutinis padalintas į 4 kvadratėlius, iš jų užtušuoti 2 – vėl pusė. Iš viso: visas ketvirtis ir dar dvi ketvirčio pusės, t. y. du ketvirčiai iš keturių. Atsakymas: D) 1/2.",
+       "solutionKid": "Gudrybė: didysis kvadratas padalytas į keturis ketvirčius – kiekviename atskirai pažiūrėk, kokia dalis užtušuota. Dešinysis apatinis ketvirtis užtušuotas visas. Kairysis apatinis – visai neužtušuotas. Dešiniajame viršutiniame įstrižainė atskiria lygiai pusę, ir ji užtušuota. Kairysis viršutinis padalytas į 4 kvadratėlius, iš jų užtušuoti 2 – vėl pusė. Iš viso: visas ketvirtis ir dar dvi ketvirčio pusės, t. y. du ketvirčiai iš keturių. Atsakymas: D) 1/2.",
        "solutionFigure": "figures/K2020-s5.png"
       },
       {
@@ -30066,7 +30066,7 @@
        "solution": "! Perlenktoje juostoje ED = 4 (žr. pav.). Taigi, paveikslėlyje pavaizduoti stačiakampiai turi po vieną kraštinę, kurios ilgis lygus 4. Be to, P = 2 Q, todėl CD = x/2. Atkarpų AB, BC ir CD ilgių suma lygi pradinės juostos ilgesniosios kraštinės ilgiui. Taigi, AB + BC + CD = 13. Kadangi BC = ED = 4, tai x + 4 + x/2 = 13. Išsprendę šią lygtį, gauname, kad x = 6. Teisingas atsakymas C. 45° x x x",
        "figure": "figures/K2021-q18.png",
        "level": "K",
-       "solutionKid": "Gudrybė: abu stačiakampiai yra tos pačios 4 cm pločio juostos dalys, todėl jų plotai santykiauja kaip jų ilgiai. Lenkimo vietoje juosta sudaro kvadratą 4 × 4 (lenkiama 45° kampu) – jam sunaudojama 4 cm juostos ilgio. Stačiakampiams P ir Q lieka 13 − 4 = 9 cm. Kadangi P dvigubai didesnis už Q, jo ilgis irgi dvigubai didesnis: 9 cm dalijame į tris lygias dalis po 3 cm. Q ilgis 3 cm, o P ilgis x = 6 cm. Patikrink: 6 + 4 + 3 = 13. Atsakymas: C) 6 cm.",
+       "solutionKid": "Gudrybė: abu stačiakampiai yra tos pačios 4 cm pločio juostos dalys, todėl jų plotai santykiauja kaip jų ilgiai. Lenkimo vietoje juosta sudaro kvadratą 4 × 4 (lenkiama 45° kampu) – jam sunaudojama 4 cm juostos ilgio. Stačiakampiams P ir Q lieka 13 − 4 = 9 cm. Kadangi P dvigubai didesnis už Q, jo ilgis irgi dvigubai didesnis: 9 cm dalyk į tris lygias dalis po 3 cm. Q ilgis 3 cm, o P ilgis x = 6 cm. Patikrink: 6 + 4 + 3 = 13. Atsakymas: C) 6 cm.",
        "solutionFigure": "figures/K2021-s18.png"
       },
       {
@@ -30566,7 +30566,7 @@
        "solution": "! 2023: (2 + 0 + 2 + 3) = 2023: 7 = 289. Teisingas atsakymas D.",
        "figure": "figures/K2023-q2.png",
        "level": "K",
-       "solutionKid": "Gudrybė: pirma atlik veiksmą skliaustuose, o tada dalyk dalimis – šimtais, dešimtimis, vienetais. 2 + 0 + 2 + 3 = 7. Dalijame 2023 : 7: 7 · 200 = 1400, lieka 623; 7 · 80 = 560, lieka 63; 7 · 9 = 63. Iš viso 200 + 80 + 9 = 289. Patikrink: 289 · 7 = 2023. Atsakymas: D) 289.",
+       "solutionKid": "Gudrybė: pirma atlik veiksmą skliaustuose, o tada dalyk dalimis – šimtais, dešimtimis, vienetais. 2 + 0 + 2 + 3 = 7. Dalyk 2023 iš 7: 7 · 200 = 1400, lieka 623; 7 · 80 = 560, lieka 63; 7 · 9 = 63. Iš viso 200 + 80 + 9 = 289. Patikrink: 289 · 7 = 2023. Atsakymas: D) 289.",
        "solutionFigure": "figures/K2023-s2.png"
       },
       {
@@ -30843,7 +30843,7 @@
        "level": "K",
        "solutionKid": "Gudrybė: pirma suskaičiuok, kiek degtukų reikia kiekvienam skaitmeniui, tada skirstyk 6 degtukus skaitmenims. Skaitmeniui 1 reikia 2 degtukų, 7 – 3, 4 – 4, o po 6 degtukus turi skaitmenys 0, 6 ir 9. Vienas skaitmuo: 6 ir 9 (0 – ne natūralusis skaičius). Du skaitmenys: 2 + 4 degtukai – 14 ir 41, 3 + 3 – 77. Trys skaitmenys: 2 + 2 + 2 – 111. Daugiau skaitmenų neišeina, nes kiekvienam reikia bent 2 degtukų. Iš viso 6 skaičiai. Atsakymas: C) 6.",
        "misconceptions": {
-        "A": "Radai tik vienženklius skaičius, o degtukus galima padalyti ir keliems skaitmenims."
+        "A": "Radai tik vienaženklius skaičius, o degtukus galima padalyti ir keliems skaitmenims."
        },
        "solutionFigure": "figures/K2023-s15.png"
       },
@@ -31597,7 +31597,7 @@
        "solution": "! Kad ir kaip peliukas judėtų iki sūrio, jis būtinai pateks į langelį, pažymėtą žvaigždute (žr. pav. dešinėje). Į šį langelį peliukas gali patekti 2 būdais. Be to, iš šio langelio peliukas gali pasiekti sūrį lygiai 4 būdais. Taigi, peliukas sūrį gali pasiekti lygiai 2 · 4 = 8 būdais. Teisingas atsakymas C.",
        "figure": "figures/K2025-q11.png",
        "level": "K",
-       "solutionKid": "Gudrybė: rask langelį, per kurį eina visi keliai, ir padaugink kelius iki jo iš kelių nuo jo. Peliukas juda tik į dešinę arba žemyn. Visi keliai eina per antros eilutės antrą langelį: į jį galima patekti 2 būdais (dešinėn ir žemyn arba žemyn ir dešinėn). Iš jo: iki dešiniojo sūrio – 1 kelias (dešinėn, dešinėn), iki viduriniojo – 2 keliai, iki apatiniojo – 1 kelias (žemyn, žemyn). Iš viso 1 + 2 + 1 = 4. Visų kelių: 2 · 4 = 8. Atsakymas: C) 8.",
+       "solutionKid": "Gudrybė: rask langelį, per kurį eina visi keliai, ir padaugink kelius iki jo iš kelių nuo jo. Peliukas juda tik į dešinę arba žemyn. Visi keliai eina per antros eilutės antrą langelį: į jį galima patekti 2 būdais (dešinėn ir žemyn arba žemyn ir dešinėn). Iš jo: iki dešiniojo sūrio – 1 kelias (dešinėn, dešinėn), iki viduriniojo – 2 keliai, iki apatinio – 1 kelias (žemyn, žemyn). Iš viso 1 + 2 + 1 = 4. Visų kelių: 2 · 4 = 8. Atsakymas: C) 8.",
        "misconceptions": {
         "A": "3 – tiek yra sūrio gabalėlių, o klausiama, keliais keliais iki jų galima nueiti."
        },

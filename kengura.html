@@ -3288,7 +3288,7 @@ function storeWeight(s){
   const answered = Object.values(s.activity || {}).reduce((n, a) => n + ((a && a.answered) || 0), 0);
   return answered + 30 * (s.contests || []).length + (s.sessions || []).length + Object.keys(s.mistakes || {}).length;
 }
-function profileIsEmpty(p){ const s = readProfileStore(p); return storeWeight(s) === 0 && !(s && s.plan && s.plan.contestDate); }
+function profileIsEmpty(p){ const s = readProfileStore(p); return storeWeight(s) === 0 && !(s && s.plan && s.plan.contestDate) && !(p && p.name) && !(s && s.settings && s.settings.grade); }
 function storeHash(s){
   const t = JSON.stringify(s == null ? null : s);
   let h = 5381;
@@ -4212,7 +4212,7 @@ function recordArchiveAnswer(year, q, correct, confidence, opts){
     const openMiss = !!((store.mistakes || {})[key0] && !store.mistakes[key0].fixedAt);
     // neighbour level: stars and the streak, but not the Bičiulis block stats. No star for a
     // solution that was only asked for, none for re-solving what is already solved.
-    if(!(opts && opts.gaveUp) && (!met || openMiss)) logActivity(correct, levelEqBand(q), {noBand: true});
+    if(!(opts && opts.gaveUp) && (!met || (openMiss && correct))) logActivity(correct, levelEqBand(q), {noBand: true});
     if(!met){
       const ls = store.levelStats = store.levelStats || {};
       const slot = ls[q.level] = ls[q.level] || {a: 0, ok: 0};
@@ -4226,7 +4226,7 @@ function recordArchiveAnswer(year, q, correct, confidence, opts){
   } else logActivity(correct, q.points || 3);
   // Freshness marker – practice pickers avoid recently seen questions.
   store.seenQ[`${year}-${q.num}`] = Date.now();
-  noteMistake(year, q, correct);
+  if(!(opts && opts.gaveUp && (store.mistakes || {})[`${year}-${q.num}`] && !store.mistakes[`${year}-${q.num}`].fixedAt)) noteMistake(year, q, correct);
   // Confidence stats (independent of mechanic)
   if(!q.level && confidence && store.confStats[confidence]){      // Bičiulis only: it feeds the parent's calibration flag
     store.confStats[confidence].attempts++;
@@ -4651,7 +4651,8 @@ function kidLevel(){ return gradeOfStore(store); }
 function gradeChosen(){ return !!(store.settings && store.settings.grade); }
 function applyLevelTitle(){
   try {
-    const g = GRADE_OPTS.find(o => o.id === kidLevel());
+    // no level chosen yet on a fresh install: the welcome screen asks for it, so the header names no grade
+    const g = (store.settings.grade || !needsWelcome()) ? GRADE_OPTS.find(o => o.id === kidLevel()) : {grades: '1–8 klasė'};
     const h = document.querySelector("header.brand h1");
     if(h) h.textContent = `Kengūros treniruoklis · ${g.grades}`;
     document.title = `Kengūra ${g.grades} · treniruoklis`;
@@ -5164,7 +5165,7 @@ function renderArchiveYear(){
       const open = Object.values(store.mistakes || {}).filter(m => !m.fixedAt && String(m.year) === String(test.year)).length;
       return `<section class="card paper-done" style="border:1px solid var(--good);background:var(--good-soft)">
         <h3 style="margin-top:0">🏁 ${test.level ? `„${escapeHTML((LEVEL_TABS.find(l => l.id === test.level) || {}).gen || '')}“ ${escapeHTML(test.realYear)} m.` : `${escapeHTML(String(test.year))} m.`} uždaviniai išspręsti</h3>
-        <div class="grid two" style="grid-template-columns:repeat(3,1fr)">${[3, 4, 5].filter(b => by[b][1]).map(b => `<div class="stat"><b>${by[b][0]}/${by[b][1]}</b><span>${b} t. blokas</span></div>`).join('')}</div>
+        <div class="grid two" style="grid-template-columns:repeat(${[3, 4, 5].filter(b => by[b][1]).length},1fr)">${[3, 4, 5].filter(b => by[b][1]).map(b => `<div class="stat"><b>${by[b][0]}/${by[b][1]}</b><span>${b} t. blokas</span></div>`).join('')}</div>
         <p style="margin:10px 0 0">${open ? (test.level ? `Uždavinius, kuriuose suklydai (${open}), rasi 📒 Klaidų sąsiuvinyje – pabandyk juos dar kartą.` : `Suklysti uždaviniai (${open}) sugrįš pakartojimui – juos rasi ir 📒 Klaidų sąsiuvinyje.`) : (test.level ? 'Visi atsakymai teisingi – šių metų uždaviniuose klaidų nėra.' : 'Visi atsakymai teisingi – šiuose metuose klaidų nėra.')}</p>
         ${(() => {
           if(!test.level) return '';
@@ -5175,7 +5176,7 @@ function renderArchiveYear(){
     })()}
     ${focus ? `<nav class="arch-nav" aria-label="Uždavinių naršymas">
       <button class="btn" id="archPrev" ${pos > 0 ? '' : 'disabled'} aria-label="Ankstesnis uždavinys">←</button>
-      <span class="arch-pos">${pos + 1} / ${visible.length}<span class="wide-only kbd-hint"> · <kbd>A</kbd>–<kbd>E</kbd> atsakymas, <kbd>Enter</kbd> tikrinti, <kbd>←</kbd> <kbd>→</kbd></span></span>
+      <span class="arch-pos">${pos + 1} / ${visible.length}<span class="wide-only kbd-hint"> · <kbd>A</kbd>–<kbd>${test.questions.some(q => q.optionLetters) ? 'D' : 'E'}</kbd> atsakymas, <kbd>Enter</kbd> tikrinti, <kbd>←</kbd> <kbd>→</kbd></span></span>
       <button class="btn${(state.archiveAnswers[`${test.year}-${cur}`] || {}).submitted ? ' primary' : ''}" id="archNext" ${pos < visible.length - 1 ? '' : 'disabled'} aria-label="Kitas uždavinys"${pos === visible.length - 1 && test.questions.every(q => !q.correct || (state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted) ? ' hidden' : ''}>Kitas →</button>
       ${pos === visible.length - 1 && test.questions.every(q => !q.correct || (state.archiveAnswers[`${test.year}-${q.num}`] || {}).submitted) ? `<button class="btn primary" id="archEnd" aria-label="Pabaiga – į rinkinio suvestinę">🏁 Pabaiga ↓</button>` : ''}
     </nav>` : ''}
@@ -5247,6 +5248,7 @@ function renderArchiveYear(){
       const m = (store.mistakes || {})[key];
       if(m){ m.reason = b.dataset.why; m.reasons = m.reasons || {}; m.reasons[b.dataset.why] = (m.reasons[b.dataset.why] || 0) + 1; saveStore(store); }
       renderArchiveYear();
+      focusInCard(year, qnum, ".verdict");
     }));
 
     const hintBtn = card.querySelector("[data-action=hint]");
@@ -5318,6 +5320,7 @@ function renderArchiveYear(){
       state.archiveAnswers[key] = {...cur, submitted: true, chosen: cur.firstWrong, chosenLetter: cur.firstWrong};
       if(!q.level) noteSecondTry(false);
       renderArchiveYear();
+      focusInCard(year, qnum, ".verdict");
     });
 
     const submitBtn = card.querySelector("[data-action=submit]");
@@ -8555,7 +8558,16 @@ function renderParent(){
     // + the neighbour-level papers: their questions and the solution pictures
     const all = [...ARCHIVE.flatMap(t => t.questions), ...EXTRA_PAPERS.flatMap(t => t.questions),
                  ...EXTRA_PAPERS.flatMap(t => t.questions.filter(q => q.solutionFigure).map(q => ({figure: q.solutionFigure})))];
-    const done = await prefetchFigures(all, n => { if(status) status.textContent = `${n} / ${all.length}…`; });
+    if(!(navigator.serviceWorker && navigator.serviceWorker.controller)){
+      if(status) status.textContent = 'Neprisijungus veikiantis režimas dar neįsijungė – perkraukite puslapį ir bandykite dar kartą.';
+      offlineAllBtn.disabled = false; return;
+    }
+    let done = await prefetchFigures(all, n => { if(status) status.textContent = `${n} / ${all.length}…`; });
+    try {      // what the service worker really stored (a full disk / quota fails silently)
+      let stored = 0;
+      for(let i = 0; i < all.length; i += 50) stored += (await Promise.all(all.slice(i, i + 50).map(q => caches.match(encodeURI(q.figure)).then(r => r ? 1 : 0, () => 0)))).reduce((a, b) => a + b, 0);
+      done = Math.min(done, stored);
+    } catch(_){}
     if(status) status.textContent = done === all.length ? `✓ Visi ${all.length} paveikslėliai paruošti` : `Paruošta ${done} iš ${all.length} – patikrinkite ryšį ir bandykite dar kartą`;
     offlineAllBtn.disabled = false;
   });
